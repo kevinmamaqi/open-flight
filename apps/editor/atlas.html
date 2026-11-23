@@ -1,0 +1,362 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#f9f7ee" />
+    <meta
+      name="description"
+      content="A free paper flight workshop for kids and grown-ups. Make butterfly gliders and whole-sheet airplanes, follow visual folds and experiment with flight."
+    />
+    <meta
+      property="og:title"
+      content="Open Flight · The paper flight workshop"
+    />
+    <meta
+      property="og:description"
+      content="Seven original gliders. Change a wing, follow the folds and take a real flight experiment home. Free in English and Russian."
+    />
+    <meta property="og:type" content="website"><meta property="og:locale" content="en_US">
+    <meta property="og:image" content="https://kevinmamaqi.github.io/open-flight/assets/atlas/workshop-preview-en.png">
+    <meta property="og:image:alt" content="Open Flight workshop featuring the orange Monarch paper glider">
+    <meta name="twitter:card" content="summary_large_image"><link rel="canonical" href="https://kevinmamaqi.github.io/open-flight/">
+    <title>Open Flight · The paper flight workshop</title>
+    <link
+      rel="alternate"
+      hreflang="en"
+      href="https://kevinmamaqi.github.io/open-flight/?lang=en"
+    />
+    <link
+      rel="alternate"
+      hreflang="ru"
+      href="https://kevinmamaqi.github.io/open-flight/ru.html"
+    />
+    <link rel="icon" type="image/svg+xml" href="./assets/wing-mark.svg" />
+    <link rel="stylesheet" href="./atlas.css" />
+    <script type="module" src="./atlas.js"></script>
+  </head>
+  <body>
+    <a class="skip" href="#designs" data-t="skip">Skip to the designs</a>
+    <header class="mast">
+      <div class="mast-in">
+        <a class="wordmark" href="./"
+          ><img
+            src="./assets/wing-mark.svg"
+            width="40"
+            height="40"
+            alt=""
+          />Open Flight</a
+        >
+        <nav aria-label="Main">
+          <a href="#designs" data-t="navDesigns">Designs</a
+          ><a href="#learn" data-t="navLearn">Learning</a
+          ><a href="#library" data-t="navLibrary">Open library</a>
+        </nav>
+        <div class="lang">
+          <a
+            id="en"
+            lang="en"
+            hreflang="en"
+            href="?lang=en"
+            aria-label="English"
+            >EN</a
+          ><a
+            id="ru"
+            lang="ru"
+            hreflang="ru"
+            href="./ru.html"
+            aria-label="Русский"
+            >РУ</a
+          >
+        </div>
+      </div>
+    </header>
+    <main>
+      <section class="hero wrap" aria-labelledby="hero-title">
+        <div class="hero-copy">
+          <p class="over" data-t="eyebrow">The paper flight workshop</p>
+          <h1 id="hero-title">
+            <span data-t="headline1">Fold a glider.</span>
+            <em data-t="headline2">Change its flight.</em>
+          </h1>
+          <p class="lede" data-t="intro">
+            A free design-and-fly workshop for kids aged 5–12 and their
+            grown-ups. Turn one sheet into a butterfly or airplane, then change
+            a fold and see where it lands.
+          </p>
+          <div class="actions">
+            <a href="#designs" class="btn accent"
+              ><span data-t="choose">Choose a design</span
+              ><b aria-hidden="true">↓</b></a
+            ><a class="quiet" href="#library" data-t="getSheets"
+              >Get the print sheets</a
+            >
+          </div>
+        </div>
+        <div class="showcase">
+          <div class="board-corners" aria-hidden="true"></div>
+          <div class="board-header">
+            <span class="board-mark" aria-hidden="true">✣</span
+            ><span data-t="bench">On the worktable</span
+            ><span class="counter" id="specimen-count">01 / 07</span>
+          </div>
+          <svg
+            class="draft-lines"
+            viewBox="0 0 600 380"
+            preserveAspectRatio="none"
+            aria-hidden="true"
+          >
+            <path d="M-12 293 C95 323 112 147 258 166 S475 227 552 50" />
+            <path d="M-22 305 C95 337 125 159 252 178 S475 239 558 71" />
+            <circle cx="92" cy="270" r="9" />
+            <path d="M81 270h22m-11-11v22" />
+          </svg>
+          <a
+            id="hero-link"
+            class="specimen-art"
+            href="./studio.html#design=butterfly-monarch&amp;revision=w1"
+            ><img
+              id="specimen"
+              src="./assets/atlas/monarch.svg"
+              width="440"
+              height="245"
+              alt="Open the Monarch butterfly glider"
+              fetchpriority="high"
+          /></a>
+          <div class="board-footer">
+            <div>
+              <small id="specimen-family">Butterfly glider</small
+              ><a
+                id="specimen-name"
+                href="./studio.html#design=butterfly-monarch&amp;revision=w1"
+                >Monarch <span aria-hidden="true">↗</span></a
+              ><i id="specimen-detail">Danaus plexippus</i>
+            </div>
+            <div class="turn">
+              <button id="back" type="button" aria-label="Previous design">
+                ←</button
+              ><button id="next" type="button" aria-label="Next design">
+                →
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+      <section
+        class="collections wrap"
+        id="designs"
+        aria-labelledby="choose-title"
+      >
+        <div class="section-top">
+          <div>
+            <p class="over" data-t="collections">The collection</p>
+            <h2 id="choose-title" data-t="which">What will you make?</h2>
+          </div>
+          <p data-t="chooseHint">
+            Start with the materials you have. Every design opens at the
+            worktable.
+          </p>
+        </div>
+        <div class="families">
+          <article class="family butterflies">
+            <div class="family-main">
+              <div class="family-text">
+                <p class="kicker" data-t="butterTech">Cut + fold</p>
+                <h3>
+                  <a
+                    data-route="butterfly"
+                    data-t="butterflies"
+                    href="./studio.html"
+                    >Butterflies</a
+                  >
+                </h3>
+                <p data-t="butterDesc">
+                  Print patterned wings, trim the outline and tune two tiny
+                  tabs. Look closely at the real species behind each design.
+                </p>
+              </div>
+              <img
+                src="./assets/atlas/morpho.svg"
+                alt=""
+                width="180"
+                height="114"
+                loading="lazy"
+              />
+            </div>
+            <div class="family-links" id="butter-links"></div>
+            <a class="family-cta" href="./studio.html" data-route="butterfly"
+              ><span data-t="openButter">Enter the butterfly studio</span>
+              <span aria-hidden="true">↗</span></a
+            >
+          </article>
+          <article class="family airplanes">
+            <div class="family-main">
+              <div class="family-text">
+                <p class="kicker" data-t="planeTech">
+                  Whole sheet · folds only
+                </p>
+                <h3>
+                  <a data-route="airplane" data-t="planes" href="./planes.html"
+                    >Airplanes</a
+                  >
+                </h3>
+                <p data-t="planeDesc">
+                  Start with plain paper. Follow the creases, shape the wings
+                  and fly a design inspired by a real airliner.
+                </p>
+              </div>
+              <img
+                src="./assets/planes/tupolev-tu144.svg"
+                alt=""
+                width="180"
+                height="114"
+                loading="lazy"
+              />
+            </div>
+            <div class="family-links" id="plane-links"></div>
+            <a class="family-cta" href="./planes.html" data-route="airplane"
+              ><span data-t="openPlanes">Enter the airplane hangar</span>
+              <span aria-hidden="true">↗</span></a
+            >
+          </article>
+        </div>
+      </section>
+      <section class="learn wrap" id="learn">
+        <div class="learn-intro">
+          <p class="over" data-t="lessonTag">
+            At the kitchen table or in class
+          </p>
+          <h2 data-t="lessonTitle">One fold is an experiment.</h2>
+          <p data-t="lessonIntro">
+            Pick a landing spot. Predict what will happen. Try a gentle glide,
+            change one thing and launch again from the same place.
+          </p>
+          <a id="lesson-file" class="quiet" href="#library" data-t="lessonLink"
+            >Take the family lesson ↗</a
+          >
+        </div>
+        <div class="learning-notes" id="learning-notes">
+          <div>
+            <h3 data-t="young">Ages 5–7</h3>
+            <p data-t="youngPrompt">
+              Let a grown-up help with scissors or a tight crease. Point to
+              where you think the glider will land.
+            </p>
+          </div>
+          <div>
+            <h3 data-t="older">Ages 8–12</h3>
+            <p data-t="olderPrompt">
+              Draw your prediction and compare two settings. Which changed where
+              the glider landed?
+            </p>
+          </div>
+          <div>
+            <h3 data-t="adult">Grown-ups</h3>
+            <p data-t="adultPrompt">
+              Ask what the next flight could tell you. Let the builder choose
+              the next change.
+            </p>
+          </div>
+        </div>
+      </section>
+      <section class="library wrap" id="library">
+        <div class="section-top">
+          <div>
+            <p class="over" data-t="resources">Open library</p>
+            <h2 data-t="takeAway">Take it to the table.</h2>
+          </div>
+          <p data-t="resourceIntro">
+            Print at actual size. Check the ruler on the sheet: 50 mm for
+            butterflies, 20 mm for airplanes. Every design also opens in an
+            editable studio.
+          </p>
+        </div>
+        <div class="library-grid">
+          <article class="download-panel">
+            <div>
+              <h3 data-t="print">Print a starter sheet</h3>
+              <p data-t="printHint">
+                Choose the design and the paper in your printer.
+              </p>
+            </div>
+            <div class="download-fields">
+              <label
+                ><span data-t="designLabel">Design</span
+                ><select id="download-model"></select></label
+              ><label
+                ><span data-t="paperLabel">Paper</span
+                ><select id="download-paper">
+                  <option value="A4">A4</option>
+                  <option value="US_LETTER">US Letter</option>
+                </select></label
+              >
+            </div>
+            <a
+              id="download"
+              class="btn dark"
+              download
+              href="./library/monarch-A4-en.pdf"
+              ><span data-t="download">Download PDF</span
+              ><b aria-hidden="true">↓</b></a
+            >
+            <a class="all-sheets" data-t="allSheets" href="https://github.com/kevinmamaqi/open-flight/releases/download/v0.3.0/open-flight-print-library.zip">Get the complete print library (ZIP) ↓</a>
+          </article>
+          <div class="source-list">
+            <a href="https://github.com/kevinmamaqi/open-flight"
+              ><span
+                ><strong data-t="code">Source & editable files</strong
+                ><small data-t="codeInfo"
+                  >Build the workshop or remix the original designs.</small
+                ></span
+              ><b>↗</b></a
+            ><a id="references" href="./references.html"
+              ><span
+                ><strong data-t="sources">Field references & credits</strong
+                ><small data-t="sourceInfo"
+                  >Butterfly photographs, aircraft histories and flight
+                  science.</small
+                ></span
+              ><b>↗</b></a
+            ><a
+              id="feedback"
+              href="https://github.com/kevinmamaqi/open-flight/issues/new?template=flight-report.yml"
+              ><span
+                ><strong data-t="feedback">Share a flight observation</strong
+                ><small data-t="feedbackInfo"
+                  >Grown-ups can report a fold that worked or a step that was
+                  unclear.</small
+                ></span
+              ><b>↗</b></a
+            >
+          </div>
+        </div>
+      </section>
+      <section class="horizon wrap">
+        <div class="horizon-mark" aria-hidden="true">✺</div>
+        <div>
+          <p class="over" data-t="futureTag">On the drawing board</p>
+          <h2 data-t="future">From a glide to powered flight.</h2>
+          <p data-t="futureBody">
+            First we need repeatable paper flights. A future adult-led workshop
+            will explore a removable motor module and how it changes balance.
+            You can already follow the research.
+          </p>
+        </div>
+        <a
+          class="quiet"
+          id="roadmap-link"
+          href="./references.html#powered"
+          data-t="roadmap"
+          >Explore the roadmap ↗</a
+        >
+      </section>
+    </main>
+    <footer class="wrap">
+      <a class="wordmark" href="./"
+        ><img src="./assets/wing-mark.svg" width="32" height="32" alt="" />Open
+        Flight</a
+      ><span data-t="footer">An open workshop for paper flight.</span
+      ><a href="https://github.com/kevinmamaqi/open-flight">GitHub ↗</a>
+    </footer>
+  </body>
+</html>

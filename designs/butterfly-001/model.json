@@ -1,0 +1,36 @@
+{
+  "model": "butterfly-001",
+  "baseline_revision": "b1",
+  "name": "Butterfly Glider",
+  "units": "mm",
+  "parameters": { "span_mm": 172 },
+  "parameter_definitions": [
+    { "name": "span_mm", "unit": "mm", "minimum": 148, "maximum": 184, "step": 2, "description": "Width of the flat cut outline. These bounds fit both sheets. Flight performance is unmeasured." }
+  ],
+  "appearance_id": "blank",
+  "appearances": [
+    { "appearance_id": "blank", "title": "Drawing paper", "ink_usage": "low", "description": "White wings with construction marks." },
+    { "appearance_id": "meadow", "title": "Meadow", "ink_usage": "full", "description": "Mint and deep teal with original wing patches." },
+    { "appearance_id": "apricot", "title": "Apricot", "ink_usage": "full", "description": "Warm peach and brick with the same cut outline." }
+  ],
+  "half_span_mm": 86,
+  "half_outline_start": [0, 0],
+  "half_outline_segments": [
+    [2, 0, 4, 0, 6, 0], [6, 5, 6, 11, 6, 16],
+    [21, 13, 48, 0, 67, 3], [77, 4, 86, 13, 86, 24],
+    [86, 38, 70, 48, 48, 52], [59, 55, 69, 66, 66, 75],
+    [63, 89, 47, 96, 35, 91], [22, 86, 13, 77, 6, 76],
+    [6, 83, 5, 92, 3, 94], [2, 95, 1, 95, 0, 95]
+  ],
+  "root_x_mm": 6,
+  "root_fold_y_mm": [16, 76],
+  "clip_stations_mm_from_nose": { "A": 16, "B": 22 },
+  "trim_segment_mm": [[29, 83], [44, 88]],
+  "material_hypothesis": "One unlaminated sheet of plain copier paper, nominally 90 g/m² if available, and one small blunt paper clip. Record actual stock and clip.",
+  "rights": {
+    "license_expression": "CERN-OHL-W-2.0",
+    "license_url": "https://spdx.org/licenses/CERN-OHL-W-2.0.html",
+    "attribution": "Open Flight contributors, original Butterfly Glider b1. Wing artwork and learning text: CC BY-SA 4.0.",
+    "status": "original_with_license"
+  }
+}

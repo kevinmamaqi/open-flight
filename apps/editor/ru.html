@@ -1,0 +1,289 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#f9f7ee" />
+    <meta name="description" content="Бесплатная мастерская для детей 5–12 лет и взрослых. Сделайте из листа бумаги бабочку или самолёт, измените один сгиб и посмотрите, куда полетит планер." />
+    <meta property="og:title" content="Open Flight · Мастерская бумажных полётов" />
+    <meta property="og:description" content="Бесплатная мастерская для детей 5–12 лет и взрослых. Сделайте из листа бумаги бабочку или самолёт, измените один сгиб и посмотрите, куда полетит планер." />
+    <meta property="og:type" content="website"><meta property="og:locale" content="ru_RU">
+    <meta property="og:image" content="https://kevinmamaqi.github.io/open-flight/assets/atlas/workshop-preview-ru.png">
+    <meta property="og:image:alt" content="Бумажный монарх в мастерской Open Flight">
+    <meta name="twitter:card" content="summary_large_image"><link rel="canonical" href="https://kevinmamaqi.github.io/open-flight/ru.html">
+    <title>Open Flight · Мастерская бумажных полётов</title>
+    <link
+      rel="alternate"
+      hreflang="en"
+      href="https://kevinmamaqi.github.io/open-flight/?lang=en"
+    />
+    <link
+      rel="alternate"
+      hreflang="ru"
+      href="https://kevinmamaqi.github.io/open-flight/ru.html"
+    />
+    <link rel="icon" type="image/svg+xml" href="./assets/wing-mark.svg" />
+    <link rel="stylesheet" href="./atlas.css" />
+    <script type="module" src="./atlas.js"></script>
+  </head>
+  <body>
+    <a class="skip" href="#designs" data-t="skip">К выбору моделей</a>
+    <header class="mast">
+      <div class="mast-in">
+        <a class="wordmark" href="./"
+          ><img
+            src="./assets/wing-mark.svg"
+            width="40"
+            height="40"
+            alt=""
+          />Open Flight</a
+        >
+        <nav aria-label="Main">
+          <a href="#designs" data-t="navDesigns">Модели</a
+          ><a href="#learn" data-t="navLearn">Занятия</a
+          ><a href="#library" data-t="navLibrary">Библиотека</a>
+        </nav>
+        <div class="lang">
+          <a
+            id="en"
+            lang="en"
+            hreflang="en"
+            href="?lang=en"
+            aria-label="English"
+            >EN</a
+          ><a
+            id="ru"
+            lang="ru"
+            hreflang="ru"
+            href="./ru.html"
+            aria-label="Русский"
+            >РУ</a
+          >
+        </div>
+      </div>
+    </header>
+    <main>
+      <section class="hero wrap" aria-labelledby="hero-title">
+        <div class="hero-copy">
+          <p class="over" data-t="eyebrow">Мастерская бумажных полётов</p>
+          <h1 id="hero-title">
+            <span data-t="headline1">Сложите планер.</span>
+            <em data-t="headline2">Измените его полёт.</em>
+          </h1>
+          <p class="lede" data-t="intro">Бесплатная мастерская для детей 5–12 лет и взрослых. Сделайте из листа бумаги бабочку или самолёт, измените один сгиб и посмотрите, куда полетит планер.</p>
+          <div class="actions">
+            <a href="#designs" class="btn accent"
+              ><span data-t="choose">Выбрать модель</span
+              ><b aria-hidden="true">↓</b></a
+            ><a class="quiet" href="#library" data-t="getSheets"
+              >Листы для печати</a
+            >
+          </div>
+        </div>
+        <div class="showcase">
+          <div class="board-corners" aria-hidden="true"></div>
+          <div class="board-header">
+            <span class="board-mark" aria-hidden="true">✣</span
+            ><span data-t="bench">На рабочем столе</span
+            ><span class="counter" id="specimen-count">01 / 07</span>
+          </div>
+          <svg
+            class="draft-lines"
+            viewBox="0 0 600 380"
+            preserveAspectRatio="none"
+            aria-hidden="true"
+          >
+            <path d="M-12 293 C95 323 112 147 258 166 S475 227 552 50" />
+            <path d="M-22 305 C95 337 125 159 252 178 S475 239 558 71" />
+            <circle cx="92" cy="270" r="9" />
+            <path d="M81 270h22m-11-11v22" />
+          </svg>
+          <a id="hero-link" class="specimen-art" href="./studio.html?lang=ru#design=butterfly-monarch&revision=w1"><img
+              id="specimen"
+              src="./assets/atlas/monarch.svg"
+              width="440"
+              height="245"
+              alt="Open the Monarch butterfly glider"
+              fetchpriority="high"
+          /></a>
+          <div class="board-footer">
+            <div>
+              <small id="specimen-family">Планер-бабочка</small
+              ><a
+                id="specimen-name"
+                href="./studio.html#design=butterfly-monarch&amp;revision=w1"
+                >Монарх ↗</a
+              ><i id="specimen-detail">Danaus plexippus</i>
+            </div>
+            <div class="turn">
+              <button id="back" type="button" aria-label="Previous design">
+                ←</button
+              ><button id="next" type="button" aria-label="Next design">
+                →
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+      <section
+        class="collections wrap"
+        id="designs"
+        aria-labelledby="choose-title"
+      >
+        <div class="section-top">
+          <div>
+            <p class="over" data-t="collections">Коллекция</p>
+            <h2 id="choose-title" data-t="which">Что вы сделаете?</h2>
+          </div>
+          <p data-t="chooseHint">Выберите модель по материалам, которые есть под рукой. Каждую можно настроить в мастерской.</p>
+        </div>
+        <div class="families">
+          <article class="family butterflies">
+            <div class="family-main">
+              <div class="family-text">
+                <p class="kicker" data-t="butterTech">Вырезать и сложить</p>
+                <h3>
+                  <a data-route="butterfly" data-t="butterflies" href="./studio.html?lang=ru">Бабочки</a
+                  >
+                </h3>
+                <p data-t="butterDesc">Распечатайте узор, вырежьте крылья и настройте два язычка. Сравните бумажную бабочку с той, что живёт в природе.</p>
+              </div>
+              <img
+                src="./assets/atlas/morpho.svg"
+                alt=""
+                width="180"
+                height="114"
+                loading="lazy"
+              />
+            </div>
+            <div class="family-links" id="butter-links"></div>
+            <a class="family-cta" href="./studio.html?lang=ru" data-route="butterfly"><span data-t="openButter">В мастерскую бабочек</span>
+              <span aria-hidden="true">↗</span></a
+            >
+          </article>
+          <article class="family airplanes">
+            <div class="family-main">
+              <div class="family-text">
+                <p class="kicker" data-t="planeTech">Целый лист · только сгибы</p>
+                <h3>
+                  <a data-route="airplane" data-t="planes" href="./planes.html?lang=ru">Самолёты</a
+                  >
+                </h3>
+                <p data-t="planeDesc">Подойдёт обычный лист бумаги. Сложите крылья по схеме и запустите свою модель по мотивам настоящего лайнера.</p>
+              </div>
+              <img
+                src="./assets/planes/tupolev-tu144.svg"
+                alt=""
+                width="180"
+                height="114"
+                loading="lazy"
+              />
+            </div>
+            <div class="family-links" id="plane-links"></div>
+            <a class="family-cta" href="./planes.html?lang=ru" data-route="airplane"><span data-t="openPlanes">В ангар самолётов</span>
+              <span aria-hidden="true">↗</span></a
+            >
+          </article>
+        </div>
+      </section>
+      <section class="learn wrap" id="learn">
+        <div class="learn-intro">
+          <p class="over" data-t="lessonTag">Дома или в классе</p>
+          <h2 data-t="lessonTitle">Один сгиб — уже опыт.</h2>
+          <p data-t="lessonIntro">Выберите место для посадки. Предскажите, куда прилетит планер. Запустите его мягко, измените что-то одно и повторите запуск с того же места.</p>
+          <a id="lesson-file" class="quiet" href="./library/family-lesson-ru.html" data-t="lessonLink">Скачать семейное занятие ↗</a
+          >
+        </div>
+        <div class="learning-notes" id="learning-notes">
+          <div>
+            <h3 data-t="young">5–7 лет</h3>
+            <p data-t="youngPrompt">Попроси взрослого помочь с ножницами или тугим сгибом. Покажи, куда, по-твоему, прилетит планер.</p>
+          </div>
+          <div>
+            <h3 data-t="older">8–12 лет</h3>
+            <p data-t="olderPrompt">Нарисуй свой прогноз и сравни две настройки. Что изменило место посадки?</p>
+          </div>
+          <div>
+            <h3 data-t="adult">Взрослым</h3>
+            <p data-t="adultPrompt">Спросите, что может показать следующий полёт. Пусть ребёнок сам выберет, что изменить.</p>
+          </div>
+        </div>
+      </section>
+      <section class="library wrap" id="library">
+        <div class="section-top">
+          <div>
+            <p class="over" data-t="resources">Открытая библиотека</p>
+            <h2 data-t="takeAway">Возьмите с собой.</h2>
+          </div>
+          <p data-t="resourceIntro">Печатайте в натуральную величину. Проверьте отрезок на листе: 50 мм у бабочек, 20 мм у самолётов. Любую модель можно изменить в мастерской.</p>
+        </div>
+        <div class="library-grid">
+          <article class="download-panel">
+            <div>
+              <h3 data-t="print">Лист для первого полёта</h3>
+              <p data-t="printHint">Выберите модель и формат бумаги для принтера.</p>
+            </div>
+            <div class="download-fields">
+              <label
+                ><span data-t="designLabel">Модель</span
+                ><select id="download-model"></select></label
+              ><label
+                ><span data-t="paperLabel">Бумага</span
+                ><select id="download-paper">
+                  <option value="A4">A4</option>
+                  <option value="US_LETTER">US Letter</option>
+                </select></label
+              >
+            </div>
+            <a id="download" class="btn dark" download href="./library/monarch-A4-ru.pdf"><span data-t="download">Скачать PDF</span
+              ><b aria-hidden="true">↓</b></a
+            >
+            <a class="all-sheets" data-t="allSheets" href="https://github.com/kevinmamaqi/open-flight/releases/download/v0.3.0/open-flight-print-library.zip">Скачать все листы и занятия (ZIP) ↓</a>
+          </article>
+          <div class="source-list">
+            <a href="https://github.com/kevinmamaqi/open-flight"
+              ><span
+                ><strong data-t="code">Код и исходники моделей</strong
+                ><small data-t="codeInfo"
+                  >Запустите мастерскую у себя или измените оригинальные модели.</small
+                ></span
+              ><b>↗</b></a
+            ><a id="references" href="./references.html?lang=ru"><span
+                ><strong data-t="sources">Источники и авторы</strong
+                ><small data-t="sourceInfo"
+                  >Фотографии бабочек, история самолётов и физика полёта.</small
+                ></span
+              ><b>↗</b></a
+            ><a
+              id="feedback"
+              href="https://github.com/kevinmamaqi/open-flight/issues/new?template=flight-report.yml"
+              ><span
+                ><strong data-t="feedback">Рассказать о полёте</strong
+                ><small data-t="feedbackInfo"
+                  >Взрослые могут отметить удачный сгиб или непонятный шаг.</small
+                ></span
+              ><b>↗</b></a
+            >
+          </div>
+        </div>
+      </section>
+      <section class="horizon wrap">
+        <div class="horizon-mark" aria-hidden="true">✺</div>
+        <div>
+          <p class="over" data-t="futureTag">В разработке</p>
+          <h2 data-t="future">От планирования к моторному полёту.</h2>
+          <p data-t="futureBody">Сначала нужны повторяемые опыты с бумажными планерами. Затем мы хотим проверить, как съёмный мотор влияет на баланс. Это будет занятие под руководством взрослого. План исследований уже открыт.</p>
+        </div>
+        <a class="quiet" id="roadmap-link" href="./references.html?lang=ru#powered" data-t="roadmap">План исследований ↗</a
+        >
+      </section>
+    </main>
+    <footer class="wrap">
+      <a class="wordmark" href="./"
+        ><img src="./assets/wing-mark.svg" width="32" height="32" alt="" />Open
+        Flight</a
+      ><span data-t="footer">Открытая мастерская бумажных полётов.</span
+      ><a href="https://github.com/kevinmamaqi/open-flight">GitHub ↗</a>
+    </footer>
+  </body>
+</html>

@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 152" role="img" aria-labelledby="title">
+  <title id="title">The same trailing tab seen from the side, flat, bent up or bent down</title>
+  <rect width="300" height="152" rx="16" fill="#e9eee8"/>
+  <g stroke-linecap="round" stroke-linejoin="round">
+    <path d="M28 82q25-1 65-5l52-3v6l-61 3-56 1z" fill="#f3bc57" stroke="#403847" stroke-width="2.3"/>
+    <path d="M145 77h75" fill="none" stroke="#554965" stroke-width="2.5" stroke-dasharray="5 5"/>
+    <path d="m145 77 71-30 2 3-71 29z" fill="#7ec4ab" stroke="#286650" stroke-width="2"/>
+    <path d="m145 77 72 30-1 3-71-31z" fill="#ea9b83" stroke="#a0443f" stroke-width="2"/>
+    <circle cx="145" cy="77" r="5" fill="#fff8e7" stroke="#3c3445" stroke-width="2.2"/>
+    <path d="M197 72q-1-9-6-14m-2 6 2-6 6 2" fill="none" stroke="#31715d" stroke-width="2"/>
+    <path d="M198 82q-1 9-6 14m-2-6 2 6 6-2" fill="none" stroke="#a0443f" stroke-width="2"/>
+  </g>
+  <g font-family="system-ui, sans-serif" font-weight="700" text-anchor="middle">
+    <circle cx="242" cy="47" r="12" fill="#267158"/><text x="242" y="53" font-size="18" fill="#fff">+</text>
+    <text x="243" y="82" font-size="14" fill="#51445a">0°</text>
+    <circle cx="242" cy="109" r="12" fill="#a6463e"/><text x="242" y="115" font-size="18" fill="#fff">−</text>
+  </g>
+</svg>

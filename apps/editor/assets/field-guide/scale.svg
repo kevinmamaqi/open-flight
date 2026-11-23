@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 152" role="img" aria-labelledby="title">
+  <title id="title">A ruler aligned with the ends of a 50 millimetre print check</title>
+  <rect width="300" height="152" rx="16" fill="#f1ede2"/>
+  <path d="M48 12h169l20 20v103H48z" fill="#ded8c7" transform="translate(3 4)"/>
+  <path d="M48 12h169l20 20v103H48z" fill="#fffdf4" stroke="#303047" stroke-width="2"/>
+  <path d="M217 12v20h20" fill="#e9dec8" stroke="#303047" stroke-width="2"/>
+  <g font-family="system-ui, sans-serif" font-weight="700" text-anchor="middle">
+    <rect x="58" y="21" width="60" height="21" rx="7" fill="#e2f0d3"/>
+    <text x="88" y="36" font-size="13" fill="#263c30">100%</text>
+    <text x="151" y="61" font-size="17" fill="#29263b">50 mm</text>
+  </g>
+  <path d="M80 73h142m-142-6v12m142-12v12" fill="none" stroke="#343047" stroke-width="3.2" stroke-linecap="round"/>
+  <g fill="none" stroke="#bd5740" stroke-width="1.5" stroke-dasharray="2 3">
+    <path d="M80 80v17m142-17v17"/>
+  </g>
+  <rect x="58" y="97" width="184" height="29" rx="5" fill="#f7c965" stroke="#463b38" stroke-width="2.2"/>
+  <g fill="none" stroke="#594834" stroke-linecap="round">
+    <path stroke-width="2" d="M80 97v17m28.4-17v12m28.4-12v12m28.4-12v12m28.4-12v12m28.4-12v17"/>
+    <path d="M94.2 97v6m28.4-6v6m28.4-6v6m28.4-6v6m28.4-6v6"/>
+  </g>
+  <g fill="#45372c" font-family="system-ui, sans-serif" font-weight="700" font-size="9" text-anchor="middle">
+    <text x="80" y="122">0</text><text x="222" y="122">5 cm</text>
+  </g>
+</svg>

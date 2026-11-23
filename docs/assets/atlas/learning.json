@@ -1,0 +1,40 @@
+{
+  "en": {
+    "families": [
+      {
+        "label": "Ages 5–7 · make it together",
+        "prompt": "Pick a wing color. Ask a grown-up to help with the tricky folds or cuts. Point to where you think your glider will land."
+      },
+      {
+        "label": "Ages 8–12 · run a flight test",
+        "prompt": "Try a butterfly. Mark where three glides land. Raise one back tab a little and fly three more times from the same spot. What changed?"
+      },
+      {
+        "label": "For grown-ups and teachers",
+        "prompt": "Give one person the glider and another a pencil to mark each landing. Swap jobs, then ask which marks support their prediction."
+      }
+    ],
+    "adult_prompt": "Can one small fold change where a glider lands? Make a prediction you can test with a sheet of paper.",
+    "reflection": "Which flight surprised you? Point to its landing mark and describe what you saw.",
+    "feedback_prompt": "Grown-ups can share the model name, paper size, what you changed and where it landed. A note about a confusing fold helps too."
+  },
+  "ru": {
+    "families": [
+      {
+        "label": "5–7 лет · вместе со взрослым",
+        "prompt": "Выбери цвет крыльев. Попроси взрослого помочь со сложными сгибами или надрезами. Покажи, где, по-твоему, приземлится планер."
+      },
+      {
+        "label": "8–12 лет · лётный опыт",
+        "prompt": "Выбери бабочку. Трижды запусти её и отметь места посадки. Чуть подними один задний язычок и сделай ещё три запуска с того же места. Что изменилось?"
+      },
+      {
+        "label": "Взрослым и учителям",
+        "prompt": "Один участник запускает планер, другой карандашом отмечает места посадки. Поменяйтесь ролями и обсудите, какие отметки подтверждают вашу догадку."
+      }
+    ],
+    "adult_prompt": "Может ли один маленький сгиб изменить место посадки? Для проверки вашей догадки понадобится лист бумаги.",
+    "reflection": "Какой полёт тебя удивил? Покажи место посадки и расскажи, что ты заметил.",
+    "feedback_prompt": "Взрослые могут рассказать, какую модель и формат бумаги выбрали, что поменяли и куда приземлился планер. Если какой-то сгиб вызвал трудности, напишите, какой именно."
+  }
+}

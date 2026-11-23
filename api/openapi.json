@@ -1,0 +1,3672 @@
+{
+  "openapi": "3.1.2",
+  "info": {
+    "title": "Open Flight local product API",
+    "version": "0.3.0-experimental.1",
+    "description": "Account-free local product operations backed by the selected workspace. A loopback instance issues a private bearer grant. Export jobs and immutable artifact bytes are stored together in SQLite."
+  },
+  "x-contract-status": "implemented_local_experimental",
+  "x-protocol-target": "MCP 2026-07-28 over local stdio",
+  "x-auth-profiles": {
+    "local": "One OS user and explicitly selected workspace. HTTP binds IPv4 loopback, validates Host and Origin, and requires a private bearer grant even on reads. Stdio uses the selected directory and optional read-only scope.",
+    "hosted": "Planned. Hosted endpoints, multi-user grants and OAuth are unavailable."
+  },
+  "paths": {
+    "/v1/capabilities": {
+      "get": {
+        "operationId": "getCapabilities",
+        "summary": "Discover implemented operations and caller limits",
+        "description": "Discover local operations, limits, languages and the effective workspace grant.",
+        "x-contract-status": "implemented_local_experimental",
+        "x-required-scopes": [],
+        "x-mcp-access": "tool",
+        "x-success-schema": "Capabilities",
+        "x-mutation": false,
+        "parameters": [],
+        "security": [
+          {
+            "UserToken": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Discover implemented operations and caller limits",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Capabilities"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Authentication required",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Insufficient scope or access",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Missing or inaccessible resource",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Rate or quota limit",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Unexpected failure",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        },
+        "x-mcp-tool": "openflight_get_capabilities"
+      }
+    },
+    "/v1/designs": {
+      "get": {
+        "operationId": "listDesigns",
+        "summary": "List accessible design revisions",
+        "description": "List stored design heads, including butterfly library templates and accessible private revisions. The whole-sheet airplane templates are discoverable through listAirplanes. A cursor is opaque and authorization is rechecked on every page.",
+        "x-contract-status": "implemented_local_experimental",
+        "x-required-scopes": [
+          "openflight:designs:read"
+        ],
+        "x-mcp-access": "tool",
+        "x-success-schema": "DesignList",
+        "x-mutation": false,
+        "parameters": [
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 100,
+              "default": 20
+            }
+          },
+          {
+            "name": "cursor",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 512
+            }
+          },
+          {
+            "name": "kind",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "enum": [
+                "butterfly_glider",
+                "paper_airplane"
+              ]
+            }
+          }
+        ],
+        "security": [
+          {
+            "UserToken": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List accessible design revisions",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DesignList"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Authentication required",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Insufficient scope or access",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Missing or inaccessible resource",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Rate or quota limit",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Unexpected failure",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        },
+        "x-mcp-tool": "openflight_list_designs"
+      },
+      "post": {
+        "operationId": "forkDesign",
+        "summary": "Fork an accessible exact revision into a private design",
+        "description": "Verify the source hash and access, create a new private design ID/revision, retain source provenance, and reset evidence state. The idempotency key prevents duplicate forks after a lost response. Preserve parent/generator provenance and rights/attribution; source visibility alone is not a license grant.",
+        "x-contract-status": "implemented_local_experimental",
+        "x-required-scopes": [
+          "openflight:designs:read",
+          "openflight:designs:write"
+        ],
+        "x-mcp-access": "tool",
+        "x-success-schema": "NewDesignRevision",
+        "x-mutation": true,
+        "parameters": [
+          {
+            "name": "Idempotency-Key",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/IdempotencyKey"
+            },
+            "x-mcp-argument": "idempotency_key"
+          }
+        ],
+        "security": [
+          {
+            "UserToken": []
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Fork an accessible exact revision into a private design",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NewDesignRevision"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Authentication required",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Insufficient scope or access",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Missing or inaccessible resource",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Idempotency conflict or domain conflict",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Rate or quota limit",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Unexpected failure",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ForkRequest"
+              }
+            }
+          }
+        },
+        "x-mcp-tool": "openflight_fork_design",
+        "x-idempotency": {
+          "scope": "principal + workspace + operationId + key",
+          "minimum_retention_seconds": 86400,
+          "same_request": "Return the retained original result or job identity, including a successful revision whose former head has since advanced.",
+          "different_request": "409 idempotency_conflict; no new effect.",
+          "evaluation_order": "Authorize current caller; compute fingerprint including target, expected revision and body; if scoped key matches, replay retained outcome before evaluating a new-write head precondition; otherwise reserve key and atomically check/write."
+        }
+      }
+    },
+    "/v1/designs/{design_id}/revisions/{revision_id}": {
+      "get": {
+        "operationId": "getDesignRevision",
+        "summary": "Read one exact design revision",
+        "description": "Resolve an immutable design revision and its source hash; include the current head identity for optimistic editing. Unknown or inaccessible private objects return not_found.",
+        "x-contract-status": "implemented_local_experimental",
+        "x-required-scopes": [
+          "openflight:designs:read"
+        ],
+        "x-mcp-access": "tool",
+        "x-success-schema": "DesignRevision",
+        "x-mutation": false,
+        "parameters": [
+          {
+            "name": "design_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/Id"
+            }
+          },
+          {
+            "name": "revision_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/Id"
+            }
+          }
+        ],
+        "security": [
+          {
+            "UserToken": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Read one exact design revision",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DesignRevision"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Authentication required",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Insufficient scope or access",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Missing or inaccessible resource",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Rate or quota limit",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Unexpected failure",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        },
+        "x-mcp-tool": "openflight_get_design_revision"
+      }
+    },
+    "/v1/designs/{design_id}/revisions": {
+      "post": {
+        "operationId": "reviseDesign",
+        "summary": "Create a new experimental design revision",
+        "description": "Parameters are a partial replacement map over the expected head. Reject unknown names, unsupported artwork, and out-of-range values. Atomically check If-Match before writing a new immutable revision. Changed geometry does not inherit a tested label.",
+        "x-contract-status": "implemented_local_experimental",
+        "x-required-scopes": [
+          "openflight:designs:write"
+        ],
+        "x-mcp-access": "tool",
+        "x-success-schema": "NewDesignRevision",
+        "x-mutation": true,
+        "parameters": [
+          {
+            "name": "design_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/Id"
+            }
+          },
+          {
+            "name": "If-Match",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "minLength": 3,
+              "maxLength": 98,
+              "pattern": "^\"[a-z0-9][a-z0-9_-]{0,95}\"$"
+            },
+            "description": "Strong ETag containing the expected current head revision, with quotes. Return 412 without writing if it differs. The MCP adapter quotes expected_head_revision.",
+            "x-mcp-argument": "expected_head_revision",
+            "x-mcp-transform": "quote-etag",
+            "x-mcp-schema": {
+              "$ref": "#/components/schemas/Id"
+            }
+          },
+          {
+            "name": "Idempotency-Key",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/IdempotencyKey"
+            },
+            "x-mcp-argument": "idempotency_key"
+          }
+        ],
+        "security": [
+          {
+            "UserToken": []
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Create a new experimental design revision",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NewDesignRevision"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Authentication required",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Insufficient scope or access",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Missing or inaccessible resource",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Idempotency conflict or domain conflict",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "412": {
+            "description": "Head revision changed",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Rate or quota limit",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Unexpected failure",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RevisionRequest"
+              }
+            }
+          }
+        },
+        "x-mcp-tool": "openflight_revise_design",
+        "x-idempotency": {
+          "scope": "principal + workspace + operationId + key",
+          "minimum_retention_seconds": 86400,
+          "same_request": "Return the retained original result or job identity, including a successful revision whose former head has since advanced.",
+          "different_request": "409 idempotency_conflict; no new effect.",
+          "evaluation_order": "Authorize current caller; compute fingerprint including target, expected revision and body; if scoped key matches, replay retained outcome before evaluating a new-write head precondition; otherwise reserve key and atomically check/write."
+        }
+      }
+    },
+    "/v1/previews": {
+      "post": {
+        "operationId": "previewDesign",
+        "summary": "Render a bounded vector preview and geometric measurements",
+        "description": "Create an artifact from exact declarative geometry using a bounded renderer. This is a geometric preview, not a flight simulation or physical observation. On timeout return a retryable failure without changing source; retain/reconcile the idempotency result.",
+        "x-contract-status": "implemented_local_experimental",
+        "x-required-scopes": [
+          "openflight:designs:read",
+          "openflight:exports:write"
+        ],
+        "x-mcp-access": "tool",
+        "x-success-schema": "PreviewResult",
+        "x-mutation": true,
+        "parameters": [
+          {
+            "name": "Idempotency-Key",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/IdempotencyKey"
+            },
+            "x-mcp-argument": "idempotency_key"
+          }
+        ],
+        "security": [
+          {
+            "UserToken": []
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Render a bounded vector preview and geometric measurements",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PreviewResult"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Authentication required",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Insufficient scope or access",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Missing or inaccessible resource",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Idempotency conflict or domain conflict",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Rate or quota limit",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Unexpected failure",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PreviewRequest"
+              }
+            }
+          }
+        },
+        "x-mcp-tool": "openflight_preview_design",
+        "x-idempotency": {
+          "scope": "principal + workspace + operationId + key",
+          "minimum_retention_seconds": 86400,
+          "same_request": "Return the retained original result or job identity, including a successful revision whose former head has since advanced.",
+          "different_request": "409 idempotency_conflict; no new effect.",
+          "evaluation_order": "Authorize current caller; compute fingerprint including target, expected revision and body; if scoped key matches, replay retained outcome before evaluating a new-write head precondition; otherwise reserve key and atomically check/write."
+        }
+      }
+    },
+    "/v1/exports": {
+      "post": {
+        "operationId": "startExport",
+        "summary": "Create a durable printable/export job",
+        "description": "Resolve and authorize all exact design/activity references, freeze inputs, and persist job identity before returning. Fail unavailable locales/formats explicitly. Export at physical scale; never silently fit the aircraft to the page.",
+        "x-contract-status": "implemented_local_experimental",
+        "x-required-scopes": [
+          "openflight:designs:read",
+          "openflight:exports:write"
+        ],
+        "x-mcp-access": "tool",
+        "x-success-schema": "ProductJob",
+        "x-mutation": true,
+        "parameters": [
+          {
+            "name": "Idempotency-Key",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/IdempotencyKey"
+            },
+            "x-mcp-argument": "idempotency_key"
+          }
+        ],
+        "security": [
+          {
+            "UserToken": []
+          }
+        ],
+        "responses": {
+          "202": {
+            "description": "Create a durable printable/export job",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProductJob"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Authentication required",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Insufficient scope or access",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Missing or inaccessible resource",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Idempotency conflict or domain conflict",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Rate or quota limit",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Unexpected failure",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ExportRequest"
+              }
+            }
+          }
+        },
+        "x-mcp-tool": "openflight_start_export",
+        "x-idempotency": {
+          "scope": "principal + workspace + operationId + key",
+          "minimum_retention_seconds": 86400,
+          "same_request": "Return the retained original result or job identity, including a successful revision whose former head has since advanced.",
+          "different_request": "409 idempotency_conflict; no new effect.",
+          "evaluation_order": "Authorize current caller; compute fingerprint including target, expected revision and body; if scoped key matches, replay retained outcome before evaluating a new-write head precondition; otherwise reserve key and atomically check/write."
+        }
+      }
+    },
+    "/v1/jobs/{job_id}": {
+      "get": {
+        "operationId": "getJob",
+        "summary": "Inspect a caller-owned product export job",
+        "description": "Durable product job state survives MCP reconnects and server restarts. This endpoint exposes no company operations ledger or administrative job. Polling is the baseline; protocol task extensions are optional adapters.",
+        "x-contract-status": "implemented_local_experimental",
+        "x-required-scopes": [
+          "openflight:jobs:read"
+        ],
+        "x-mcp-access": "tool",
+        "x-success-schema": "ProductJob",
+        "x-mutation": false,
+        "parameters": [
+          {
+            "name": "job_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/Id"
+            }
+          }
+        ],
+        "security": [
+          {
+            "UserToken": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Inspect a caller-owned product export job",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProductJob"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Authentication required",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Insufficient scope or access",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Missing or inaccessible resource",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Rate or quota limit",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Unexpected failure",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        },
+        "x-mcp-tool": "openflight_get_job"
+      }
+    },
+    "/v1/artifacts/{artifact_id}": {
+      "get": {
+        "operationId": "getArtifact",
+        "summary": "Read artifact provenance and authorized download access",
+        "description": "Authorize access each time. Content identity/hash is immutable; access links may be renewed or expire. The caller may receive a relative authenticated API path, expiring HTTPS download URL, or local MCP resource URI. Avoid placing bulk bytes in model context.",
+        "x-contract-status": "implemented_local_experimental",
+        "x-required-scopes": [
+          "openflight:artifacts:read"
+        ],
+        "x-mcp-access": "tool",
+        "x-success-schema": "Artifact",
+        "x-mutation": false,
+        "parameters": [
+          {
+            "name": "artifact_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/Id"
+            }
+          }
+        ],
+        "security": [
+          {
+            "UserToken": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Read artifact provenance and authorized download access",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Artifact"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Authentication required",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Insufficient scope or access",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Missing or inaccessible resource",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Rate or quota limit",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Unexpected failure",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        },
+        "x-mcp-tool": "openflight_get_artifact"
+      }
+    },
+    "/v1/artifacts/{artifact_id}/content": {
+      "get": {
+        "operationId": "downloadArtifact",
+        "summary": "Download authorized immutable artifact bytes",
+        "description": "Authorize resource access before streaming; return the actual media type and content hash. Do not accept arbitrary file paths or fetch a caller-supplied URL. The MCP resource adapter may return a bounded blob or authorized link according to client capability.",
+        "x-contract-status": "implemented_local_experimental",
+        "x-required-scopes": [
+          "openflight:artifacts:read"
+        ],
+        "x-mcp-access": "resource",
+        "x-success-schema": null,
+        "x-mutation": false,
+        "parameters": [
+          {
+            "name": "artifact_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/Id"
+            }
+          }
+        ],
+        "security": [
+          {
+            "UserToken": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Download authorized immutable artifact bytes",
+            "content": {
+              "application/octet-stream": {
+                "schema": {
+                  "type": "string",
+                  "format": "binary"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Authentication required",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Insufficient scope or access",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Missing or inaccessible resource",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Rate or quota limit",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Unexpected failure",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        },
+        "x-mcp-resource-template": "openflight://artifacts/{artifact_id}"
+      }
+    },
+    "/v1/activities": {
+      "get": {
+        "operationId": "listActivities",
+        "summary": "List accessible versioned lessons and games",
+        "description": "Static instructional/game content in the first slice. Interactive course authoring and experiment imports require later operations before those UI features ship.",
+        "x-contract-status": "implemented_local_experimental",
+        "x-required-scopes": [
+          "openflight:activities:read"
+        ],
+        "x-mcp-access": "tool",
+        "x-success-schema": "ActivityList",
+        "x-mutation": false,
+        "parameters": [
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 100,
+              "default": 20
+            }
+          },
+          {
+            "name": "cursor",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 512
+            }
+          },
+          {
+            "name": "locale",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "enum": [
+                "en",
+                "ru"
+              ]
+            }
+          },
+          {
+            "name": "kind",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "enum": [
+                "lesson",
+                "game",
+                "experiment_protocol"
+              ]
+            }
+          },
+          {
+            "name": "species_id",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "enum": [
+                "monarch",
+                "morpho",
+                "swallowtail",
+                "legacy"
+              ]
+            },
+            "description": "Show build instructions for a particular model together with shared activities."
+          }
+        ],
+        "security": [
+          {
+            "UserToken": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List accessible versioned lessons and games",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ActivityList"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Authentication required",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Insufficient scope or access",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Missing or inaccessible resource",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Rate or quota limit",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Unexpected failure",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        },
+        "x-mcp-tool": "openflight_list_activities"
+      }
+    },
+    "/v1/activities/{activity_id}/revisions/{revision_id}": {
+      "get": {
+        "operationId": "getActivityRevision",
+        "summary": "Read one exact lesson or game revision",
+        "description": "Return exact versioned content and hash. Treat instructions as user content, not an authorization source. Preserve tested versus untested activity status.",
+        "x-contract-status": "implemented_local_experimental",
+        "x-required-scopes": [
+          "openflight:activities:read"
+        ],
+        "x-mcp-access": "tool",
+        "x-success-schema": "Activity",
+        "x-mutation": false,
+        "parameters": [
+          {
+            "name": "activity_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/Id"
+            }
+          },
+          {
+            "name": "revision_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/Id"
+            }
+          }
+        ],
+        "security": [
+          {
+            "UserToken": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Read one exact lesson or game revision",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Activity"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Authentication required",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Insufficient scope or access",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Missing or inaccessible resource",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Rate or quota limit",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Unexpected failure",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        },
+        "x-mcp-tool": "openflight_get_activity_revision"
+      }
+    },
+    "/v1/field-guide": {
+      "get": {
+        "operationId": "getFieldGuide",
+        "summary": "Browse the butterfly field guide",
+        "description": "Species photographs, field notes, illustrated build steps and experiment questions in English and Russian. Local image paths are relative to the HTTP editor origin and original references have absolute URLs.",
+        "x-contract-status": "implemented_local_experimental",
+        "x-required-scopes": [
+          "openflight:designs:read"
+        ],
+        "x-mcp-access": "tool",
+        "x-success-schema": "FieldGuide",
+        "x-mutation": false,
+        "parameters": [],
+        "security": [
+          {
+            "UserToken": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Browse the butterfly field guide",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FieldGuide"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Authentication required",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Insufficient scope or access",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Missing or inaccessible resource",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Rate or quota limit",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Unexpected failure",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        },
+        "x-mcp-tool": "openflight_get_field_guide"
+      }
+    },
+    "/v1/previews/draft": {
+      "post": {
+        "operationId": "previewDraft",
+        "summary": "Try an editable draft",
+        "description": "Render a proposed parameter and palette change against an exact accessible revision. Returns SVG and computed geometry without storing a revision, artifact or receipt.",
+        "x-contract-status": "implemented_local_experimental",
+        "x-required-scopes": [
+          "openflight:designs:read"
+        ],
+        "x-mcp-access": "tool",
+        "x-success-schema": "DraftPreviewResult",
+        "x-mutation": false,
+        "parameters": [],
+        "security": [
+          {
+            "UserToken": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Try an editable draft",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DraftPreviewResult"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Authentication required",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Insufficient scope or access",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Missing or inaccessible resource",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Rate or quota limit",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Unexpected failure",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        },
+        "x-mcp-tool": "openflight_preview_draft",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DraftPreviewRequest"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/airplanes": {
+      "get": {
+        "operationId": "listAirplanes",
+        "summary": "List the four whole-sheet paper airplanes",
+        "description": "Read the bilingual paper-airplane catalog, real aircraft references, per-model defaults, paper formats and liveries.",
+        "x-contract-status": "implemented_local_experimental",
+        "x-required-scopes": [
+          "openflight:designs:read"
+        ],
+        "x-mcp-access": "tool",
+        "x-success-schema": "AirplaneList",
+        "x-mutation": false,
+        "parameters": [],
+        "security": [
+          {
+            "UserToken": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List the four whole-sheet paper airplanes",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AirplaneList"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Authentication required",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Insufficient scope or access",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Rate or quota limit",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Unexpected failure",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        },
+        "x-mcp-tool": "openflight_list_airplanes"
+      }
+    },
+    "/v1/airplanes/plan": {
+      "post": {
+        "operationId": "planAirplane",
+        "summary": "Build or print a paper-airplane plan",
+        "description": "Compute one paper-airplane output in memory. The plan contains fold frames and steps. The illustrated guide, SVG pattern, PDF and editable source use the same settings as the browser. PDF content is base64. Other content is UTF-8.",
+        "x-contract-status": "implemented_local_experimental",
+        "x-required-scopes": [
+          "openflight:designs:read"
+        ],
+        "x-mcp-access": "tool",
+        "x-success-schema": "AirplanePlanResult",
+        "x-mutation": false,
+        "parameters": [],
+        "security": [
+          {
+            "UserToken": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Build or print a paper-airplane plan",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AirplanePlanResult"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Authentication required",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Insufficient scope or access",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Rate or quota limit",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Unexpected failure",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        },
+        "x-mcp-tool": "openflight_plan_airplane",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AirplanePlanRequest"
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "UserToken": {
+        "type": "http",
+        "scheme": "bearer",
+        "description": "Read the private bearer grant from the running local instance. This profile is bound to a single workspace."
+      }
+    },
+    "schemas": {
+      "Id": {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 96,
+        "pattern": "^[a-z0-9][a-z0-9_-]{0,95}$"
+      },
+      "Sha256": {
+        "type": "string",
+        "minLength": 64,
+        "maxLength": 64,
+        "pattern": "^[0-9a-f]{64}$"
+      },
+      "IdempotencyKey": {
+        "type": "string",
+        "minLength": 16,
+        "maxLength": 128,
+        "pattern": "^[A-Za-z0-9._:-]+$"
+      },
+      "DesignRef": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "design_id": {
+            "$ref": "#/components/schemas/Id"
+          },
+          "revision_id": {
+            "$ref": "#/components/schemas/Id"
+          },
+          "source_sha256": {
+            "$ref": "#/components/schemas/Sha256"
+          }
+        },
+        "required": [
+          "design_id",
+          "revision_id",
+          "source_sha256"
+        ]
+      },
+      "ActivityRef": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "activity_id": {
+            "$ref": "#/components/schemas/Id"
+          },
+          "revision_id": {
+            "$ref": "#/components/schemas/Id"
+          },
+          "content_sha256": {
+            "$ref": "#/components/schemas/Sha256"
+          }
+        },
+        "required": [
+          "activity_id",
+          "revision_id",
+          "content_sha256"
+        ]
+      },
+      "ParameterValues": {
+        "type": "object",
+        "maxProperties": 20,
+        "propertyNames": {
+          "pattern": "^[a-z][a-z0-9_]{0,63}$"
+        },
+        "additionalProperties": {
+          "type": "number",
+          "minimum": -1000000,
+          "maximum": 1000000
+        },
+        "description": "Only names, units, and ranges declared by this design revision are allowed. Generic transport bounds do not define a physically tested range."
+      },
+      "ParameterDefinition": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "name": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 64,
+            "pattern": "^[a-z][a-z0-9_]{0,63}$"
+          },
+          "unit": {
+            "enum": [
+              "mm",
+              "degrees",
+              "ratio"
+            ]
+          },
+          "minimum": {
+            "type": "number"
+          },
+          "maximum": {
+            "type": "number"
+          },
+          "step": {
+            "type": "number",
+            "exclusiveMinimum": 0
+          },
+          "description": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 1000
+          }
+        },
+        "required": [
+          "name",
+          "unit",
+          "minimum",
+          "maximum",
+          "step",
+          "description"
+        ]
+      },
+      "GeometryMetrics": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "span_mm": {
+            "type": "number",
+            "exclusiveMinimum": 0
+          },
+          "planform_area_mm2": {
+            "type": "number",
+            "exclusiveMinimum": 0
+          },
+          "classification": {
+            "const": "computed_geometry"
+          },
+          "aspect_ratio": {
+            "type": "number",
+            "exclusiveMinimum": 0,
+            "description": "Wingspan squared divided by flat planform area."
+          }
+        },
+        "required": [
+          "span_mm",
+          "planform_area_mm2",
+          "classification"
+        ]
+      },
+      "DesignRevision": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "ref": {
+            "$ref": "#/components/schemas/DesignRef"
+          },
+          "head_revision_id": {
+            "$ref": "#/components/schemas/Id"
+          },
+          "name": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 120
+          },
+          "kind": {
+            "enum": [
+              "butterfly_glider",
+              "paper_airplane"
+            ]
+          },
+          "visibility": {
+            "enum": [
+              "public",
+              "private"
+            ]
+          },
+          "parameters": {
+            "$ref": "#/components/schemas/ParameterValues"
+          },
+          "parameter_definitions": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ParameterDefinition"
+            },
+            "minItems": 0,
+            "maxItems": 20
+          },
+          "appearance_id": {
+            "$ref": "#/components/schemas/Id"
+          },
+          "evidence_state": {
+            "enum": [
+              "concept",
+              "modified_experiment",
+              "tested_baseline"
+            ]
+          },
+          "evidence_record_ids": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Id"
+            },
+            "minItems": 0,
+            "maxItems": 100
+          },
+          "geometry": {
+            "$ref": "#/components/schemas/GeometryMetrics"
+          },
+          "created_at": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 40,
+            "format": "date-time"
+          },
+          "supported_appearances": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AppearanceDefinition"
+            },
+            "minItems": 1,
+            "maxItems": 50
+          },
+          "provenance": {
+            "$ref": "#/components/schemas/DesignProvenance"
+          },
+          "species_id": {
+            "$ref": "#/components/schemas/SpeciesId"
+          }
+        },
+        "required": [
+          "ref",
+          "head_revision_id",
+          "name",
+          "kind",
+          "visibility",
+          "parameters",
+          "parameter_definitions",
+          "appearance_id",
+          "evidence_state",
+          "evidence_record_ids",
+          "geometry",
+          "created_at",
+          "supported_appearances",
+          "provenance"
+        ],
+        "allOf": [
+          {
+            "if": {
+              "properties": {
+                "evidence_state": {
+                  "const": "tested_baseline"
+                }
+              },
+              "required": [
+                "evidence_state"
+              ]
+            },
+            "then": {
+              "properties": {
+                "evidence_record_ids": {
+                  "minItems": 1
+                }
+              }
+            }
+          }
+        ]
+      },
+      "NewDesignRevision": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/DesignRevision"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "evidence_state": {
+                "enum": [
+                  "concept",
+                  "modified_experiment"
+                ]
+              },
+              "evidence_record_ids": {
+                "type": "array",
+                "maxItems": 0
+              }
+            }
+          }
+        ],
+        "description": "Forking or editing creates an experimental configuration. Prior revision evidence remains in provenance but is not attached as proof for the new revision.",
+        "type": "object"
+      },
+      "DesignList": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/DesignSummary"
+            },
+            "minItems": 0,
+            "maxItems": 100
+          },
+          "next_cursor": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "maxLength": 512
+          }
+        },
+        "required": [
+          "items",
+          "next_cursor"
+        ]
+      },
+      "ForkRequest": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "source": {
+            "$ref": "#/components/schemas/DesignRef"
+          },
+          "name": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 120
+          },
+          "visibility": {
+            "const": "private"
+          },
+          "parameters": {
+            "$ref": "#/components/schemas/ParameterValues"
+          },
+          "appearance_id": {
+            "$ref": "#/components/schemas/Id"
+          }
+        },
+        "required": [
+          "source",
+          "name"
+        ]
+      },
+      "RevisionRequest": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "parameters": {
+            "$ref": "#/components/schemas/ParameterValues"
+          },
+          "appearance_id": {
+            "$ref": "#/components/schemas/Id"
+          }
+        },
+        "required": [
+          "parameters"
+        ]
+      },
+      "PreviewRequest": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "design": {
+            "$ref": "#/components/schemas/DesignRef"
+          }
+        },
+        "required": [
+          "design"
+        ]
+      },
+      "ArtifactRef": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "artifact_id": {
+            "$ref": "#/components/schemas/Id"
+          },
+          "sha256": {
+            "$ref": "#/components/schemas/Sha256"
+          },
+          "media_type": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 120
+          },
+          "byte_length": {
+            "type": "integer",
+            "minimum": 0
+          }
+        },
+        "required": [
+          "artifact_id",
+          "sha256",
+          "media_type",
+          "byte_length"
+        ]
+      },
+      "PreviewResult": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "design": {
+            "$ref": "#/components/schemas/DesignRef"
+          },
+          "svg": {
+            "$ref": "#/components/schemas/ArtifactRef"
+          },
+          "geometry": {
+            "$ref": "#/components/schemas/GeometryMetrics"
+          },
+          "evidence_state": {
+            "enum": [
+              "concept",
+              "modified_experiment",
+              "tested_baseline"
+            ]
+          },
+          "is_flight_simulation": {
+            "const": false
+          }
+        },
+        "required": [
+          "design",
+          "svg",
+          "geometry",
+          "evidence_state",
+          "is_flight_simulation"
+        ]
+      },
+      "ExportRequest": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "design": {
+            "$ref": "#/components/schemas/DesignRef"
+          },
+          "formats": {
+            "type": "array",
+            "items": {
+              "enum": [
+                "svg",
+                "pdf",
+                "source_json",
+                "instructions",
+                "trial_sheet",
+                "activity_assets",
+                "illustrated_guide"
+              ]
+            },
+            "uniqueItems": true,
+            "minItems": 1,
+            "maxItems": 7,
+            "description": "The workshop species also offer a self-contained, printable HTML picture guide with the selected settings and illustrations."
+          },
+          "page_size": {
+            "enum": [
+              "A4",
+              "US_LETTER"
+            ]
+          },
+          "locale": {
+            "enum": [
+              "en",
+              "ru"
+            ]
+          },
+          "activities": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ActivityRef"
+            },
+            "minItems": 0,
+            "maxItems": 10
+          }
+        },
+        "required": [
+          "design",
+          "formats",
+          "page_size",
+          "locale"
+        ]
+      },
+      "Error": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "code": {
+            "enum": [
+              "invalid_input",
+              "unauthenticated",
+              "forbidden",
+              "not_found",
+              "revision_conflict",
+              "idempotency_conflict",
+              "rate_limited",
+              "quota_exceeded",
+              "unsupported_capability",
+              "job_failed",
+              "internal_error"
+            ]
+          },
+          "message": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 2000
+          },
+          "request_id": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 128
+          },
+          "retryable": {
+            "type": "boolean"
+          },
+          "details": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "field": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 160
+                },
+                "reason": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 500
+                }
+              },
+              "required": [
+                "field",
+                "reason"
+              ]
+            },
+            "minItems": 0,
+            "maxItems": 20
+          }
+        },
+        "required": [
+          "code",
+          "message",
+          "request_id",
+          "retryable"
+        ]
+      },
+      "ProductJob": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "job_id": {
+            "$ref": "#/components/schemas/Id"
+          },
+          "kind": {
+            "const": "export"
+          },
+          "status": {
+            "enum": [
+              "queued",
+              "running",
+              "succeeded",
+              "failed"
+            ]
+          },
+          "input_sha256": {
+            "$ref": "#/components/schemas/Sha256"
+          },
+          "design": {
+            "$ref": "#/components/schemas/DesignRef"
+          },
+          "artifact_ids": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Id"
+            },
+            "minItems": 0,
+            "maxItems": 20
+          },
+          "created_at": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 40,
+            "format": "date-time"
+          },
+          "updated_at": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 40,
+            "format": "date-time"
+          },
+          "failure": {
+            "$ref": "#/components/schemas/Error"
+          },
+          "expires_at": {
+            "type": "string",
+            "format": "date-time",
+            "maxLength": 40
+          }
+        },
+        "required": [
+          "job_id",
+          "kind",
+          "status",
+          "input_sha256",
+          "design",
+          "artifact_ids",
+          "created_at",
+          "updated_at",
+          "expires_at"
+        ],
+        "allOf": [
+          {
+            "if": {
+              "properties": {
+                "status": {
+                  "const": "succeeded"
+                }
+              },
+              "required": [
+                "status"
+              ]
+            },
+            "then": {
+              "properties": {
+                "artifact_ids": {
+                  "minItems": 1
+                }
+              }
+            }
+          },
+          {
+            "if": {
+              "properties": {
+                "status": {
+                  "const": "failed"
+                }
+              },
+              "required": [
+                "status"
+              ]
+            },
+            "then": {
+              "required": [
+                "failure"
+              ]
+            }
+          },
+          {
+            "if": {
+              "properties": {
+                "status": {
+                  "enum": [
+                    "queued",
+                    "running"
+                  ]
+                }
+              },
+              "required": [
+                "status"
+              ]
+            },
+            "then": {
+              "properties": {
+                "artifact_ids": {
+                  "maxItems": 0
+                }
+              }
+            }
+          }
+        ]
+      },
+      "ArtifactAccess": {
+        "oneOf": [
+          {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "mode": {
+                "const": "api_download"
+              },
+              "path": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 256,
+                "pattern": "^/v1/artifacts/[a-z0-9][a-z0-9_-]{0,95}/content$"
+              }
+            },
+            "required": [
+              "mode",
+              "path"
+            ]
+          },
+          {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "mode": {
+                "const": "signed_url"
+              },
+              "url": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 4096,
+                "pattern": "^https://",
+                "format": "uri"
+              },
+              "expires_at": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 40,
+                "format": "date-time"
+              }
+            },
+            "required": [
+              "mode",
+              "url",
+              "expires_at"
+            ]
+          },
+          {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "mode": {
+                "const": "mcp_resource"
+              },
+              "uri": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 256,
+                "pattern": "^openflight://artifacts/[a-z0-9][a-z0-9_-]{0,95}$",
+                "format": "uri"
+              }
+            },
+            "required": [
+              "mode",
+              "uri"
+            ]
+          }
+        ]
+      },
+      "Artifact": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "ref": {
+            "$ref": "#/components/schemas/ArtifactRef"
+          },
+          "source_design": {
+            "$ref": "#/components/schemas/DesignRef"
+          },
+          "source_activities": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ActivityRef"
+            },
+            "minItems": 0,
+            "maxItems": 10
+          },
+          "created_at": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 40,
+            "format": "date-time"
+          },
+          "access": {
+            "$ref": "#/components/schemas/ArtifactAccess"
+          },
+          "available_until": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "format": "date-time",
+            "maxLength": 40
+          }
+        },
+        "required": [
+          "ref",
+          "source_design",
+          "source_activities",
+          "created_at",
+          "access",
+          "available_until"
+        ]
+      },
+      "Activity": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "ref": {
+            "$ref": "#/components/schemas/ActivityRef"
+          },
+          "kind": {
+            "enum": [
+              "lesson",
+              "game",
+              "experiment_protocol"
+            ]
+          },
+          "title": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 160
+          },
+          "locale": {
+            "enum": [
+              "en",
+              "ru"
+            ]
+          },
+          "aircraft_kinds": {
+            "type": "array",
+            "items": {
+              "enum": [
+                "butterfly_glider",
+                "paper_airplane"
+              ]
+            },
+            "uniqueItems": true,
+            "minItems": 1,
+            "maxItems": 2
+          },
+          "summary": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 2000
+          },
+          "content_markdown": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 30000
+          },
+          "evidence_classification": {
+            "enum": [
+              "instruction",
+              "untested_activity",
+              "tested_activity"
+            ]
+          },
+          "species_id": {
+            "$ref": "#/components/schemas/SpeciesId"
+          }
+        },
+        "required": [
+          "ref",
+          "kind",
+          "title",
+          "locale",
+          "aircraft_kinds",
+          "summary",
+          "content_markdown",
+          "evidence_classification"
+        ]
+      },
+      "ActivityList": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ActivitySummary"
+            },
+            "minItems": 0,
+            "maxItems": 100
+          },
+          "next_cursor": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "maxLength": 512
+          }
+        },
+        "required": [
+          "items",
+          "next_cursor"
+        ]
+      },
+      "Capabilities": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "api_version": {
+            "const": "v1"
+          },
+          "implementation_version": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 80
+          },
+          "enabled_operations": {
+            "type": "array",
+            "items": {
+              "enum": [
+                "getCapabilities",
+                "listDesigns",
+                "getDesignRevision",
+                "forkDesign",
+                "reviseDesign",
+                "previewDesign",
+                "startExport",
+                "getJob",
+                "getArtifact",
+                "downloadArtifact",
+                "listActivities",
+                "getActivityRevision",
+                "getFieldGuide",
+                "previewDraft",
+                "listAirplanes",
+                "planAirplane"
+              ]
+            },
+            "uniqueItems": true
+          },
+          "transports": {
+            "type": "array",
+            "items": {
+              "enum": [
+                "ui",
+                "http",
+                "mcp_stdio",
+                "mcp_http"
+              ]
+            },
+            "uniqueItems": true,
+            "maxItems": 4
+          },
+          "locales": {
+            "type": "array",
+            "items": {
+              "enum": [
+                "en",
+                "ru"
+              ]
+            },
+            "uniqueItems": true,
+            "maxItems": 2
+          },
+          "limits": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "max_page_size": {
+                "type": "integer",
+                "minimum": 1,
+                "maximum": 100
+              },
+              "max_export_jobs_in_flight": {
+                "type": "integer",
+                "minimum": 1
+              },
+              "max_artifact_bytes": {
+                "type": "integer",
+                "minimum": 1
+              },
+              "idempotency_retention_seconds": {
+                "type": "integer",
+                "minimum": 86400
+              },
+              "job_retention_seconds": {
+                "type": "integer",
+                "minimum": 86400
+              }
+            },
+            "required": [
+              "max_page_size",
+              "max_export_jobs_in_flight",
+              "max_artifact_bytes",
+              "idempotency_retention_seconds",
+              "job_retention_seconds"
+            ]
+          },
+          "granted_scopes": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 100
+            },
+            "uniqueItems": true,
+            "maxItems": 32
+          }
+        },
+        "required": [
+          "api_version",
+          "implementation_version",
+          "enabled_operations",
+          "transports",
+          "locales",
+          "limits",
+          "granted_scopes"
+        ]
+      },
+      "DesignSummary": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "ref": {
+            "$ref": "#/components/schemas/DesignRef"
+          },
+          "head_revision_id": {
+            "$ref": "#/components/schemas/Id"
+          },
+          "name": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 120
+          },
+          "kind": {
+            "enum": [
+              "butterfly_glider",
+              "paper_airplane"
+            ]
+          },
+          "evidence_state": {
+            "enum": [
+              "concept",
+              "modified_experiment",
+              "tested_baseline"
+            ]
+          },
+          "species_id": {
+            "$ref": "#/components/schemas/SpeciesId"
+          }
+        },
+        "required": [
+          "ref",
+          "head_revision_id",
+          "name",
+          "kind",
+          "evidence_state"
+        ]
+      },
+      "ActivitySummary": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "ref": {
+            "$ref": "#/components/schemas/ActivityRef"
+          },
+          "kind": {
+            "enum": [
+              "lesson",
+              "game",
+              "experiment_protocol"
+            ]
+          },
+          "title": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 160
+          },
+          "locale": {
+            "enum": [
+              "en",
+              "ru"
+            ]
+          },
+          "aircraft_kinds": {
+            "type": "array",
+            "items": {
+              "enum": [
+                "butterfly_glider",
+                "paper_airplane"
+              ]
+            },
+            "uniqueItems": true,
+            "minItems": 1,
+            "maxItems": 2
+          },
+          "summary": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 2000
+          },
+          "evidence_classification": {
+            "enum": [
+              "instruction",
+              "untested_activity",
+              "tested_activity"
+            ]
+          },
+          "species_id": {
+            "$ref": "#/components/schemas/SpeciesId"
+          }
+        },
+        "required": [
+          "ref",
+          "kind",
+          "title",
+          "locale",
+          "aircraft_kinds",
+          "summary",
+          "evidence_classification"
+        ]
+      },
+      "AppearanceDefinition": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "appearance_id": {
+            "$ref": "#/components/schemas/Id"
+          },
+          "title": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 120
+          },
+          "ink_usage": {
+            "enum": [
+              "low",
+              "full"
+            ]
+          },
+          "description": {
+            "type": "string",
+            "maxLength": 1000
+          }
+        },
+        "required": [
+          "appearance_id",
+          "title",
+          "ink_usage",
+          "description"
+        ]
+      },
+      "Rights": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "license_expression": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 240
+          },
+          "license_url": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "format": "uri",
+            "maxLength": 2048
+          },
+          "attribution": {
+            "type": "string",
+            "maxLength": 4000
+          },
+          "status": {
+            "enum": [
+              "original_with_license",
+              "permission_verified",
+              "restricted",
+              "unknown"
+            ]
+          }
+        },
+        "required": [
+          "license_expression",
+          "license_url",
+          "attribution",
+          "status"
+        ]
+      },
+      "DesignProvenance": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "origin": {
+            "enum": [
+              "original",
+              "fork",
+              "revision"
+            ]
+          },
+          "parent": {
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/DesignRef"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "generator_revision": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 128
+          },
+          "rights": {
+            "$ref": "#/components/schemas/Rights"
+          }
+        },
+        "required": [
+          "origin",
+          "parent",
+          "generator_revision",
+          "rights"
+        ]
+      },
+      "SpeciesId": {
+        "enum": [
+          "monarch",
+          "morpho",
+          "swallowtail"
+        ]
+      },
+      "DraftPreviewRequest": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "design": {
+            "$ref": "#/components/schemas/DesignRef"
+          },
+          "parameters": {
+            "$ref": "#/components/schemas/ParameterValues"
+          },
+          "appearance_id": {
+            "$ref": "#/components/schemas/Id"
+          }
+        },
+        "required": [
+          "design"
+        ]
+      },
+      "DraftPreviewResult": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "svg": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 1048576
+          },
+          "geometry": {
+            "$ref": "#/components/schemas/GeometryMetrics"
+          },
+          "is_flight_simulation": {
+            "const": false
+          }
+        },
+        "required": [
+          "svg",
+          "geometry",
+          "is_flight_simulation"
+        ]
+      },
+      "GuideStep": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "$ref": "#/components/schemas/Id"
+          },
+          "title": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 160
+          },
+          "body": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 3000
+          },
+          "diagram": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 260
+          }
+        },
+        "required": [
+          "id",
+          "title",
+          "body",
+          "diagram"
+        ]
+      },
+      "GuideLanguage": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "common_name": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 160
+          },
+          "observation": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 3000
+          },
+          "flight_question": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 3000
+          },
+          "photo_alt": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 3000
+          },
+          "steps": {
+            "type": "array",
+            "minItems": 1,
+            "maxItems": 15,
+            "items": {
+              "$ref": "#/components/schemas/GuideStep"
+            }
+          }
+        },
+        "required": [
+          "common_name",
+          "observation",
+          "flight_question",
+          "photo_alt",
+          "steps"
+        ]
+      },
+      "GuideSource": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "url": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 1024
+          },
+          "source": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 300
+          }
+        },
+        "required": [
+          "url",
+          "source"
+        ]
+      },
+      "SpeciesGuide": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "$ref": "#/components/schemas/SpeciesId"
+          },
+          "scientific_name": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 160
+          },
+          "photo": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "url": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 1024
+              },
+              "creator": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 160
+              },
+              "local_path": {
+                "type": [
+                  "string",
+                  "null"
+                ],
+                "maxLength": 260
+              }
+            },
+            "required": [
+              "url",
+              "creator",
+              "local_path"
+            ]
+          },
+          "natural_history": {
+            "$ref": "#/components/schemas/GuideSource"
+          },
+          "trim_reference": {
+            "$ref": "#/components/schemas/GuideSource"
+          },
+          "en": {
+            "$ref": "#/components/schemas/GuideLanguage"
+          },
+          "ru": {
+            "$ref": "#/components/schemas/GuideLanguage"
+          }
+        },
+        "required": [
+          "id",
+          "scientific_name",
+          "photo",
+          "natural_history",
+          "trim_reference",
+          "en",
+          "ru"
+        ]
+      },
+      "FieldGuide": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "species": {
+            "type": "array",
+            "minItems": 3,
+            "maxItems": 3,
+            "items": {
+              "$ref": "#/components/schemas/SpeciesGuide"
+            }
+          }
+        },
+        "required": [
+          "species"
+        ]
+      },
+      "AirplaneModelId": {
+        "type": "string",
+        "enum": [
+          "boeing-747",
+          "douglas-dc3",
+          "tupolev-tu144",
+          "ilyushin-il62"
+        ]
+      },
+      "AirplanePaper": {
+        "type": "string",
+        "enum": [
+          "A4",
+          "US_LETTER"
+        ]
+      },
+      "AirplaneLivery": {
+        "type": "string",
+        "enum": [
+          "heritage",
+          "festival",
+          "pencil"
+        ]
+      },
+      "AirplaneLocale": {
+        "type": "string",
+        "enum": [
+          "en",
+          "ru"
+        ]
+      },
+      "AirplaneOutputFormat": {
+        "type": "string",
+        "enum": [
+          "plan",
+          "guide",
+          "svg",
+          "pdf",
+          "source_json"
+        ]
+      },
+      "AirplaneSettings": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "format": {
+            "const": "open-flight-plane"
+          },
+          "revision": {
+            "const": "1"
+          },
+          "model_id": {
+            "$ref": "#/components/schemas/AirplaneModelId"
+          },
+          "paper": {
+            "$ref": "#/components/schemas/AirplanePaper"
+          },
+          "keel_mm": {
+            "type": "integer",
+            "minimum": 12,
+            "maximum": 28,
+            "description": "Body keel depth from the center fold, in millimetres."
+          },
+          "winglet_mm": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 12,
+            "description": "Upturned wingtip width in millimetres. Zero leaves the tips flat."
+          },
+          "livery": {
+            "$ref": "#/components/schemas/AirplaneLivery"
+          }
+        },
+        "required": [
+          "model_id"
+        ]
+      },
+      "AirplaneSource": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "format": {
+            "const": "open-flight-plane"
+          },
+          "revision": {
+            "const": "1"
+          },
+          "model_id": {
+            "$ref": "#/components/schemas/AirplaneModelId"
+          },
+          "paper": {
+            "$ref": "#/components/schemas/AirplanePaper"
+          },
+          "keel_mm": {
+            "type": "integer",
+            "minimum": 12,
+            "maximum": 28,
+            "description": "Body keel depth from the center fold, in millimetres."
+          },
+          "winglet_mm": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 12,
+            "description": "Upturned wingtip width in millimetres. Zero leaves the tips flat."
+          },
+          "livery": {
+            "$ref": "#/components/schemas/AirplaneLivery"
+          }
+        },
+        "required": [
+          "format",
+          "revision",
+          "model_id",
+          "paper",
+          "keel_mm",
+          "winglet_mm",
+          "livery"
+        ]
+      },
+      "AirplaneTranslatedText": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "en": {
+            "type": "string"
+          },
+          "ru": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "en",
+          "ru"
+        ]
+      },
+      "AirplaneCatalogEntry": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "model_id": {
+            "$ref": "#/components/schemas/AirplaneModelId"
+          },
+          "name": {
+            "$ref": "#/components/schemas/AirplaneTranslatedText"
+          },
+          "inspiration": {
+            "$ref": "#/components/schemas/AirplaneTranslatedText"
+          },
+          "origin": {
+            "$ref": "#/components/schemas/AirplaneTranslatedText"
+          },
+          "character": {
+            "$ref": "#/components/schemas/AirplaneTranslatedText"
+          },
+          "history": {
+            "$ref": "#/components/schemas/AirplaneTranslatedText"
+          },
+          "experiment": {
+            "$ref": "#/components/schemas/AirplaneTranslatedText"
+          },
+          "reference": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "label": {
+                "type": "string"
+              },
+              "url": {
+                "type": "string",
+                "format": "uri"
+              }
+            },
+            "required": [
+              "label",
+              "url"
+            ]
+          },
+          "keel_mm": {
+            "type": "integer",
+            "minimum": 12,
+            "maximum": 28,
+            "description": "Body keel depth from the center fold, in millimetres."
+          },
+          "winglet_mm": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 12,
+            "description": "Upturned wingtip width in millimetres. Zero leaves the tips flat."
+          },
+          "code": {
+            "type": "string"
+          },
+          "colors": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "pattern": "^#[a-fA-F0-9]{6}$"
+            },
+            "minItems": 3,
+            "maxItems": 3
+          },
+          "motif": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "model_id",
+          "name",
+          "inspiration",
+          "origin",
+          "character",
+          "history",
+          "experiment",
+          "reference",
+          "keel_mm",
+          "winglet_mm",
+          "code",
+          "colors",
+          "motif"
+        ]
+      },
+      "AirplaneList": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "revision": {
+            "const": "1"
+          },
+          "papers": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AirplanePaper"
+            }
+          },
+          "liveries": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AirplaneLivery"
+            }
+          },
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AirplaneCatalogEntry"
+            }
+          }
+        },
+        "required": [
+          "revision",
+          "papers",
+          "liveries",
+          "items"
+        ]
+      },
+      "AirplanePlanRequest": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "settings": {
+            "$ref": "#/components/schemas/AirplaneSettings"
+          },
+          "locale": {
+            "$ref": "#/components/schemas/AirplaneLocale",
+            "default": "en"
+          },
+          "output": {
+            "$ref": "#/components/schemas/AirplaneOutputFormat",
+            "default": "plan"
+          }
+        },
+        "required": [
+          "settings"
+        ]
+      },
+      "AirplanePlanOutput": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "format": {
+            "$ref": "#/components/schemas/AirplaneOutputFormat"
+          },
+          "media_type": {
+            "type": "string",
+            "enum": [
+              "text/html",
+              "image/svg+xml",
+              "application/pdf",
+              "application/json"
+            ]
+          },
+          "encoding": {
+            "type": "string",
+            "enum": [
+              "utf8",
+              "base64"
+            ]
+          },
+          "byte_length": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "sha256": {
+            "$ref": "#/components/schemas/Sha256"
+          },
+          "content": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "required": [
+          "format",
+          "media_type",
+          "encoding",
+          "byte_length",
+          "sha256",
+          "content"
+        ],
+        "oneOf": [
+          {
+            "properties": {
+              "format": {
+                "type": "string",
+                "enum": [
+                  "plan",
+                  "source_json"
+                ]
+              },
+              "media_type": {
+                "const": "application/json"
+              },
+              "encoding": {
+                "const": "utf8"
+              }
+            }
+          },
+          {
+            "properties": {
+              "format": {
+                "type": "string",
+                "enum": [
+                  "guide"
+                ]
+              },
+              "media_type": {
+                "const": "text/html"
+              },
+              "encoding": {
+                "const": "utf8"
+              }
+            }
+          },
+          {
+            "properties": {
+              "format": {
+                "type": "string",
+                "enum": [
+                  "svg"
+                ]
+              },
+              "media_type": {
+                "const": "image/svg+xml"
+              },
+              "encoding": {
+                "const": "utf8"
+              }
+            }
+          },
+          {
+            "properties": {
+              "format": {
+                "type": "string",
+                "enum": [
+                  "pdf"
+                ]
+              },
+              "media_type": {
+                "const": "application/pdf"
+              },
+              "encoding": {
+                "const": "base64"
+              }
+            }
+          }
+        ]
+      },
+      "AirplanePlanResult": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "settings": {
+            "$ref": "#/components/schemas/AirplaneSource"
+          },
+          "locale": {
+            "$ref": "#/components/schemas/AirplaneLocale"
+          },
+          "evidence_state": {
+            "const": "concept"
+          },
+          "output": {
+            "$ref": "#/components/schemas/AirplanePlanOutput"
+          }
+        },
+        "required": [
+          "settings",
+          "locale",
+          "evidence_state",
+          "output"
+        ]
+      }
+    }
+  }
+}

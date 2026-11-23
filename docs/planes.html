@@ -1,0 +1,177 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta name="theme-color" content="#f8f5ed" />
+    <meta
+      name="description"
+      content="Build four original paper airplanes inspired by historic passenger aircraft. Adjust the folds, print one sheet, and explore flight."
+    />
+    <title>Paper airplane studio · Open Flight</title>
+    <link rel="icon" href="./assets/wing-mark.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="./planes.css" />
+    <link rel="stylesheet" href="./flight-viewer.css" />
+    <script type="module" src="./planes.js"></script>
+  </head>
+  <body>
+    <a class="skip" href="#main" data-copy="skip">Skip to design</a>
+    <header class="top">
+      <div class="bar">
+        <a class="brand" data-home href="./"
+          ><img src="./assets/wing-mark.svg" width="35" height="35" alt="" />Open Flight</a
+        >
+        <nav>
+          <a data-home href="./" data-copy="atlas">Flight atlas</a
+          ><a href="#fold" data-copy="foldGuide">Fold guide</a
+          ><a href="#collection" data-copy="myBuilds">My builds</a>
+        </nav>
+        <label class="language"
+          ><span class="sr" data-copy="language">Language</span
+          ><select id="language">
+            <option value="en" lang="en">EN</option>
+            <option value="ru" lang="ru">RU</option>
+          </select></label
+        >
+      </div>
+    </header>
+    <main id="main">
+      <section class="intro">
+        <div class="hero-copy">
+          <p class="eyebrow" data-copy="hangar">Paper airplane studio</p>
+          <h1 id="name">Upper Deck</h1>
+          <p class="inspiration" id="inspiration">Inspired by Boeing 747</p>
+          <p id="character"></p>
+          <div class="actions">
+            <a href="#fold" class="button primary" data-copy="start">Start folding</a
+            ><button type="button" class="button light pdf" data-copy="print">Download build PDF</button>
+          </div>
+        </div>
+        <div class="specimen">
+          <div class="format"><span data-copy="oneSheet">One whole sheet</span><b id="format"></b></div>
+          <div id="aircraft"></div>
+          <div class="plate-bottom">
+            <span id="sample-number"></span><span data-copy="paperModel">Folded paper model</span>
+          </div>
+        </div>
+      </section>
+      <section class="models" aria-labelledby="choose">
+        <h2 id="choose" data-copy="choose">Choose an aircraft</h2>
+        <div id="models" class="model-grid"></div>
+      </section>
+      <section class="workbench" id="fold" aria-labelledby="bench-title">
+        <div class="section-title">
+          <h2 id="bench-title" data-copy="workbench">Folding table</h2>
+          <p data-copy="benchIntro">Keep the short edge away from you. One sheet makes one plane.</p>
+        </div>
+        <div class="work-grid">
+          <div class="work-main">
+            <div class="view-tabs" role="group" aria-label="View" data-group="view">
+              <button type="button" data-mode="guide" aria-pressed="true" data-copy="diagrams">
+                Fold diagrams</button
+              ><button type="button" data-mode="fold" aria-pressed="false" data-copy="fold3d">3D folds</button
+              ><button type="button" data-mode="flight" aria-pressed="false" data-copy="flight">
+                Flight path
+              </button>
+            </div>
+            <div id="diagrams">
+              <div id="fold-figure"></div>
+              <p class="legend">
+                <span><i class="chip face"></i><span data-copy="printed">Print side</span></span
+                ><span><i class="chip reverse"></i><span data-copy="reverse">Reverse</span></span
+                ><span><i class="chip move"></i><span data-copy="moving">Moving flap</span></span
+                ><span><i class="dash"></i><span data-copy="crease">Crease</span></span>
+              </p>
+            </div>
+            <div id="three" hidden></div>
+            <div id="step-details">
+              <div class="step-progress" id="step-progress"></div>
+              <p class="eyebrow" id="step-count"></p>
+              <h3 id="step-title"></h3>
+              <p id="instruction"></p>
+              <div class="step-nav">
+                <button id="previous" class="button light" type="button" data-copy="previous">Previous</button
+                ><button id="next" class="button primary" type="button" data-copy="next">Next fold</button>
+              </div>
+            </div>
+            <div id="flight-note" hidden>
+              <h3 data-copy="experiment">Flight experiment</h3>
+              <p id="trial"></p>
+            </div>
+          </div>
+          <aside class="settings">
+            <h3 data-copy="settings">Your design</h3>
+            <label for="paper" data-copy="paper">Paper size</label
+            ><select id="paper">
+              <option value="A4">A4 · 210 × 297 mm</option>
+              <option value="US_LETTER">US Letter · 8½ × 11 in</option>
+            </select>
+            <label for="livery" data-copy="livery">Printed colors</label
+            ><select id="livery">
+              <option value="heritage" data-copy="heritage">Heritage stripes</option>
+              <option value="festival" data-copy="festival">Festival colors</option>
+              <option value="pencil" data-copy="pencil">Graphite</option>
+            </select>
+            <label for="keel"
+              ><span data-copy="keel">Body fold</span><output id="keel-value" for="keel"></output></label
+            ><input type="range" id="keel" min="12" max="28" step="1" />
+            <p class="hint" data-copy="keelHint">A deeper body leaves less paper in each wing.</p>
+            <label for="tips"
+              ><span data-copy="tips">Wing-tip height</span
+              ><output id="tips-value" for="tips"></output></label
+            ><input type="range" id="tips" min="0" max="12" step="1" />
+            <p class="hint" data-copy="tipHint">At zero, both outside edges stay flat.</p>
+            <button type="button" id="save" class="button light" data-copy="save">Save a copy</button>
+          </aside>
+        </div>
+      </section>
+      <section class="resource-grid">
+        <article id="files">
+          <p class="eyebrow" data-copy="build">Build at home</p>
+          <h2 data-copy="files">The print pack</h2>
+          <p data-copy="printHelp">
+            Print page 1 at 100%. The diagram pages can stay on screen. Check the 20 mm line with a ruler.
+          </p>
+          <div class="resource-actions">
+            <button type="button" class="button primary pdf" data-copy="print">Download build PDF</button
+            ><button type="button" class="text-button" id="svg" data-copy="svg">Full-size SVG sheet</button
+            ><button type="button" class="text-button" id="guide-file" data-copy="guideFile">
+              Offline illustrated guide</button
+            ><button type="button" class="text-button" id="source" data-copy="source">
+              Editable design JSON
+            </button>
+          </div>
+        </article>
+        <article>
+          <p class="eyebrow" data-copy="reference">Aircraft reference</p>
+          <h2 id="reference-name"></h2>
+          <p id="history"></p>
+          <a id="reference" class="source-link" target="_blank" rel="noopener"></a>
+        </article>
+      </section>
+      <section class="collection" id="collection">
+        <div>
+          <h2 data-copy="myBuilds">My builds</h2>
+          <p data-copy="local">
+            Copies stay in this browser. Export the design file to take a copy with you.
+          </p>
+        </div>
+        <div class="actions">
+          <button id="share" class="button light" type="button" data-copy="share">Copy design link</button
+          ><button id="import" class="button light" type="button" data-copy="import">Import design</button
+          ><input type="file" accept=".json,application/json" id="import-file" hidden />
+        </div>
+        <div id="saved-builds"></div>
+        <div id="share-fallback" hidden>
+          <label for="share-url" data-copy="designLink">Design link</label
+          ><input id="share-url" type="url" readonly />
+        </div>
+      </section>
+      <p id="notice" role="status" aria-live="polite"></p>
+    </main>
+    <footer>
+      <a class="brand" data-home href="./">Open Flight</a
+      ><a data-home href="./" data-copy="back">Back to the flight atlas</a>
+    </footer>
+  </body>
+</html>

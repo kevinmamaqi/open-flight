@@ -1,0 +1,317 @@
+[
+  {
+    "id": "monarch",
+    "scientific_name": "Danaus plexippus",
+    "photo": {
+      "url": "https://pixabay.com/photos/monarch-butterfly-pink-flowers-60824/",
+      "creator": "JamesDeMers",
+      "local_path": "/assets/field-guide/monarch.jpg"
+    },
+    "natural_history": {
+      "url": "https://www.fws.gov/species/monarch-danaus-plexippus",
+      "source": "U.S. Fish & Wildlife Service"
+    },
+    "en": {
+      "common_name": "Monarch",
+      "observation": "Follow a black vein through the orange wing all the way to the edge. The dark rim has two rows of tiny white spots. Look for both details on the paper wings.",
+      "flight_question": "Does this long-winged glider travel farther than the broad-winged morpho when you release both the same way?",
+      "photo_alt": "An orange and black monarch hangs from pink flowers with its spotted wing edges folded together.",
+      "steps": [
+        {
+          "id": "scale",
+          "title": "Check the print size",
+          "body": "Gather paper, scissors, a ruler and one small blunt paper clip. Print the flight sheet at 100% or Actual size. Measure the 50 mm bar. If it is longer or shorter, check the print setting.",
+          "diagram": "/assets/field-guide/scale.svg"
+        },
+        {
+          "id": "cut",
+          "title": "Cut the outline and tab slits",
+          "body": "Cut around the solid outside edge. Follow the tips of the long front wings around to the rounded back wings. Cut the two short solid lines beside each back tab. Stop at the dotted hinge so each tab stays attached. Ask for help with the small cuts.",
+          "diagram": "/assets/field-guide/cut-monarch.svg"
+        },
+        {
+          "id": "fold",
+          "title": "Lift both wings",
+          "body": "Put the colored side up and keep the middle strip flat on the table. Fold both wings up along the long dashed lines. Look from behind and match the two sides to 12° above the table.",
+          "diagram": "/assets/field-guide/fold-monarch.svg"
+        },
+        {
+          "id": "clip",
+          "title": "Balance the nose",
+          "body": "Slide one small paper clip over the front of the middle strip. Stop when the back end reaches the cross. Keep that clip in place while you compare wing settings.",
+          "diagram": "/assets/field-guide/clip.svg"
+        },
+        {
+          "id": "trim",
+          "title": "Set the little back tabs",
+          "body": "Point the nose away from you. Left and right are now your left and right. Bend each tab at its dotted line to match your sheet. Positive angles lift it above the wing, negative angles bend it below, and 0° leaves it flat.",
+          "diagram": "/assets/field-guide/trim.svg"
+        },
+        {
+          "id": "launch",
+          "title": "Try a gentle glide",
+          "body": "Stand in a clear space. Hold the middle strip, level the nose and give a gentle push. Try both tabs flat first. Then lift one tab and repeat from the same spot. Mark where each glide lands.",
+          "diagram": "/assets/field-guide/launch.svg"
+        }
+      ]
+    },
+    "ru": {
+      "common_name": "Монарх",
+      "observation": "Проследи за чёрной жилкой от середины оранжевого крыла до самого края. На тёмной кайме два ряда белых точек. Найди и жилки, и точки на бумажных крыльях.",
+      "flight_question": "Какая модель пролетит дальше при одинаковом запуске — длиннокрылый монарх или ширококрылый морфо?",
+      "photo_alt": "Оранжево-чёрный монарх сидит на розовых цветках. На сложенных крыльях видна кайма в белую крапинку.",
+      "steps": [
+        {
+          "id": "scale",
+          "title": "Проверь масштаб",
+          "body": "Приготовь бумагу, ножницы, линейку и одну небольшую скрепку с закруглёнными концами. Напечатай выкройку в масштабе 100%. Измерь отрезок 50 мм. Если длина другая, проверь настройки печати.",
+          "diagram": "/assets/field-guide/scale.svg"
+        },
+        {
+          "id": "cut",
+          "title": "Вырежи контур и надрежь язычки",
+          "body": "Вырежи бабочку по внешней сплошной линии. Обведи ножницами кончики длинных передних крыльев, затем округлые задние крылья. По бокам каждого заднего язычка сделай два коротких надреза по сплошным линиям. Остановись у линии из точек, чтобы язычок остался на крыле. Если трудно, позови взрослого.",
+          "diagram": "/assets/field-guide/cut-monarch.svg"
+        },
+        {
+          "id": "fold",
+          "title": "Приподними оба крыла",
+          "body": "Положи бабочку рисунком вверх и прижми среднюю полоску к столу. Отогни оба крыла вверх по длинным штриховым линиям. Посмотри сзади и выровняй крылья под углом 12° к столу.",
+          "diagram": "/assets/field-guide/fold-monarch.svg"
+        },
+        {
+          "id": "clip",
+          "title": "Надень скрепку на нос",
+          "body": "Надень небольшую скрепку спереди на среднюю полоску. Её задний конец должен дойти до крестика. Пока сравниваешь положения язычков, оставляй скрепку на месте.",
+          "diagram": "/assets/field-guide/clip.svg"
+        },
+        {
+          "id": "trim",
+          "title": "Настрой задние язычки",
+          "body": "Разверни бабочку носом от себя. Теперь слева и справа — как у тебя. Согни каждый язычок по линии из точек на угол, указанный на выкройке. Плюс означает вверх от крыла, минус — вниз, а 0° — вровень с крылом.",
+          "diagram": "/assets/field-guide/trim.svg"
+        },
+        {
+          "id": "launch",
+          "title": "Запусти планер",
+          "body": "Найди свободное место. Возьми модель за среднюю полоску, держи нос горизонтально и мягко толкни вперёд. Сначала оставь язычки ровными. Затем подними один и повтори запуск с того же места. Отметь места посадки.",
+          "diagram": "/assets/field-guide/launch.svg"
+        }
+      ]
+    },
+    "trim_reference": {
+      "url": "https://www.nasa.gov/pdf/205703main_Delta_Wing_Glider.pdf",
+      "source": "NASA · Delta Wing Glider"
+    }
+  },
+  {
+    "id": "morpho",
+    "scientific_name": "Morpho peleides",
+    "photo": {
+      "url": "https://pixabay.com/photos/blue-morpho-butterfly-morpho-peleides-947714/",
+      "creator": "Meli1670",
+      "local_path": "/assets/field-guide/morpho.jpg"
+    },
+    "natural_history": {
+      "url": "https://www.cambridgebutterfly.com/mpeleides/",
+      "source": "Cambridge Butterfly Conservatory"
+    },
+    "en": {
+      "common_name": "Blue morpho",
+      "observation": "See the dark rim around the blue? On a living morpho the blue flashes as the light changes. When its wings close, the brown undersides show a row of eyespots.",
+      "flight_question": "Try the broad wings with both tabs flat. If one wing starts just a little lower, does the butterfly rock back toward level?",
+      "photo_alt": "A blue morpho rests on a pale sign with its wings spread. Turquoise panels shine between dark veins and rims.",
+      "steps": [
+        {
+          "id": "scale",
+          "title": "Check the print size",
+          "body": "Gather paper, scissors, a ruler and one small blunt paper clip. Print the flight sheet at 100% or Actual size. Measure the 50 mm bar. If it is longer or shorter, check the print setting.",
+          "diagram": "/assets/field-guide/scale.svg"
+        },
+        {
+          "id": "cut",
+          "title": "Cut the outline and tab slits",
+          "body": "Cut around the solid outside edge. Turn the sheet as you cut around the broad, rounded wings. Cut the two short solid lines beside each back tab. Stop at the dotted hinge so each tab stays attached. Ask for help with the small cuts.",
+          "diagram": "/assets/field-guide/cut-morpho.svg"
+        },
+        {
+          "id": "fold",
+          "title": "Lift both wings",
+          "body": "Put the colored side up and keep the middle strip flat on the table. Fold both wings up along the long dashed lines. Look from behind and match the two sides to 16° above the table.",
+          "diagram": "/assets/field-guide/fold-morpho.svg"
+        },
+        {
+          "id": "clip",
+          "title": "Balance the nose",
+          "body": "Slide one small paper clip over the front of the middle strip. Stop when the back end reaches the cross. Keep that clip in place while you compare wing settings.",
+          "diagram": "/assets/field-guide/clip.svg"
+        },
+        {
+          "id": "trim",
+          "title": "Set the little back tabs",
+          "body": "Point the nose away from you. Left and right are now your left and right. Bend each tab at its dotted line to match your sheet. Positive angles lift it above the wing, negative angles bend it below, and 0° leaves it flat.",
+          "diagram": "/assets/field-guide/trim.svg"
+        },
+        {
+          "id": "launch",
+          "title": "Try a gentle glide",
+          "body": "Stand in a clear space. Hold the middle strip, level the nose and give a gentle push. Try both tabs flat first. Then lift one tab and repeat from the same spot. Mark where each glide lands.",
+          "diagram": "/assets/field-guide/launch.svg"
+        }
+      ]
+    },
+    "ru": {
+      "common_name": "Голубой морфо",
+      "observation": "Видишь тёмный край голубого крыла? У живого морфо синий цвет переливается на свету. Когда крылья складываются, видна коричневая изнанка с узором из глазков.",
+      "flight_question": "Оставь оба язычка на широких крыльях ровными. Если при запуске одно крыло чуть ниже другого, выровняется ли модель в воздухе?",
+      "photo_alt": "Голубой морфо раскрыл крылья на светлой табличке. Между тёмными жилками и каймой переливаются бирюзовые участки.",
+      "steps": [
+        {
+          "id": "scale",
+          "title": "Проверь масштаб",
+          "body": "Приготовь бумагу, ножницы, линейку и одну небольшую скрепку с закруглёнными концами. Напечатай выкройку в масштабе 100%. Измерь отрезок 50 мм. Если длина другая, проверь настройки печати.",
+          "diagram": "/assets/field-guide/scale.svg"
+        },
+        {
+          "id": "cut",
+          "title": "Вырежи контур и надрежь язычки",
+          "body": "Вырежи бабочку по внешней сплошной линии. Поворачивай лист, пока вырезаешь широкие округлые крылья. По бокам каждого заднего язычка сделай два коротких надреза по сплошным линиям. Остановись у линии из точек, чтобы язычок остался на крыле. Если трудно, позови взрослого.",
+          "diagram": "/assets/field-guide/cut-morpho.svg"
+        },
+        {
+          "id": "fold",
+          "title": "Приподними оба крыла",
+          "body": "Положи бабочку рисунком вверх и прижми среднюю полоску к столу. Отогни оба крыла вверх по длинным штриховым линиям. Посмотри сзади и выровняй крылья под углом 16° к столу.",
+          "diagram": "/assets/field-guide/fold-morpho.svg"
+        },
+        {
+          "id": "clip",
+          "title": "Надень скрепку на нос",
+          "body": "Надень небольшую скрепку спереди на среднюю полоску. Её задний конец должен дойти до крестика. Пока сравниваешь положения язычков, оставляй скрепку на месте.",
+          "diagram": "/assets/field-guide/clip.svg"
+        },
+        {
+          "id": "trim",
+          "title": "Настрой задние язычки",
+          "body": "Разверни бабочку носом от себя. Теперь слева и справа — как у тебя. Согни каждый язычок по линии из точек на угол, указанный на выкройке. Плюс означает вверх от крыла, минус — вниз, а 0° — вровень с крылом.",
+          "diagram": "/assets/field-guide/trim.svg"
+        },
+        {
+          "id": "launch",
+          "title": "Запусти планер",
+          "body": "Найди свободное место. Возьми модель за среднюю полоску, держи нос горизонтально и мягко толкни вперёд. Сначала оставь язычки ровными. Затем подними один и повтори запуск с того же места. Отметь места посадки.",
+          "diagram": "/assets/field-guide/launch.svg"
+        }
+      ]
+    },
+    "trim_reference": {
+      "url": "https://www.nasa.gov/pdf/205703main_Delta_Wing_Glider.pdf",
+      "source": "NASA · Delta Wing Glider"
+    }
+  },
+  {
+    "id": "swallowtail",
+    "scientific_name": "Papilio machaon",
+    "photo": {
+      "url": "https://pixabay.com/photos/macaon-papilio-machaon-butterfly-1710213/",
+      "creator": "makamuki0",
+      "local_path": "/assets/field-guide/swallowtail.jpg"
+    },
+    "natural_history": {
+      "url": "https://www.norfolkwildlifetrust.org.uk/wildlife-explorer/swallowtail",
+      "source": "Norfolk Wildlife Trust"
+    },
+    "en": {
+      "common_name": "Old World swallowtail",
+      "observation": "Find the little tail on each back wing. Follow the row of blue marks beside it to the red spot. The black lines split the yellow front wings into patches.",
+      "flight_question": "Which wing dips first when you lift one tab on this tapered glider? Flatten it and try the same bend on the other side.",
+      "photo_alt": "A yellow and black swallowtail rests among yellow flowers. The scalloped hindwings have blue marks, red accents and long tails.",
+      "steps": [
+        {
+          "id": "scale",
+          "title": "Check the print size",
+          "body": "Gather paper, scissors, a ruler and one small blunt paper clip. Print the flight sheet at 100% or Actual size. Measure the 50 mm bar. If it is longer or shorter, check the print setting.",
+          "diagram": "/assets/field-guide/scale.svg"
+        },
+        {
+          "id": "cut",
+          "title": "Cut the outline and tab slits",
+          "body": "Cut around the solid outside edge. Keep both narrow swallowtail tips attached as you cut. Cut the two short solid lines beside each back tab. Stop at the dotted hinge so each tab stays attached. Ask for help with the small cuts.",
+          "diagram": "/assets/field-guide/cut-swallowtail.svg"
+        },
+        {
+          "id": "fold",
+          "title": "Lift both wings",
+          "body": "Put the colored side up and keep the middle strip flat on the table. Fold both wings up along the long dashed lines. Look from behind and match the two sides to 10° above the table.",
+          "diagram": "/assets/field-guide/fold-swallowtail.svg"
+        },
+        {
+          "id": "clip",
+          "title": "Balance the nose",
+          "body": "Slide one small paper clip over the front of the middle strip. Stop when the back end reaches the cross. Keep that clip in place while you compare wing settings.",
+          "diagram": "/assets/field-guide/clip.svg"
+        },
+        {
+          "id": "trim",
+          "title": "Set the little back tabs",
+          "body": "Point the nose away from you. Left and right are now your left and right. Bend each tab at its dotted line to match your sheet. Positive angles lift it above the wing, negative angles bend it below, and 0° leaves it flat.",
+          "diagram": "/assets/field-guide/trim.svg"
+        },
+        {
+          "id": "launch",
+          "title": "Try a gentle glide",
+          "body": "Stand in a clear space. Hold the middle strip, level the nose and give a gentle push. Try both tabs flat first. Then lift one tab and repeat from the same spot. Mark where each glide lands.",
+          "diagram": "/assets/field-guide/launch.svg"
+        }
+      ]
+    },
+    "ru": {
+      "common_name": "Махаон",
+      "observation": "Найди хвостик на каждом заднем крыле. Рядом тянется ряд синих пятнышек и виднеется красное пятно. Чёрные линии делят жёлтые передние крылья на ячейки.",
+      "flight_question": "Какое крыло опустится первым, если отогнуть один язычок вверх? Расправь его и повтори опыт с другой стороны.",
+      "photo_alt": "Жёлто-чёрный махаон сидит среди жёлтых цветов. На фигурном крае задних крыльев видны хвостики, синие и красные пятнышки.",
+      "steps": [
+        {
+          "id": "scale",
+          "title": "Проверь масштаб",
+          "body": "Приготовь бумагу, ножницы, линейку и одну небольшую скрепку с закруглёнными концами. Напечатай выкройку в масштабе 100%. Измерь отрезок 50 мм. Если длина другая, проверь настройки печати.",
+          "diagram": "/assets/field-guide/scale.svg"
+        },
+        {
+          "id": "cut",
+          "title": "Вырежи контур и надрежь язычки",
+          "body": "Вырежи бабочку по внешней сплошной линии. Осторожно обойди ножницами оба узких хвостика махаона. По бокам каждого заднего язычка сделай два коротких надреза по сплошным линиям. Остановись у линии из точек, чтобы язычок остался на крыле. Если трудно, позови взрослого.",
+          "diagram": "/assets/field-guide/cut-swallowtail.svg"
+        },
+        {
+          "id": "fold",
+          "title": "Приподними оба крыла",
+          "body": "Положи бабочку рисунком вверх и прижми среднюю полоску к столу. Отогни оба крыла вверх по длинным штриховым линиям. Посмотри сзади и выровняй крылья под углом 10° к столу.",
+          "diagram": "/assets/field-guide/fold-swallowtail.svg"
+        },
+        {
+          "id": "clip",
+          "title": "Надень скрепку на нос",
+          "body": "Надень небольшую скрепку спереди на среднюю полоску. Её задний конец должен дойти до крестика. Пока сравниваешь положения язычков, оставляй скрепку на месте.",
+          "diagram": "/assets/field-guide/clip.svg"
+        },
+        {
+          "id": "trim",
+          "title": "Настрой задние язычки",
+          "body": "Разверни бабочку носом от себя. Теперь слева и справа — как у тебя. Согни каждый язычок по линии из точек на угол, указанный на выкройке. Плюс означает вверх от крыла, минус — вниз, а 0° — вровень с крылом.",
+          "diagram": "/assets/field-guide/trim.svg"
+        },
+        {
+          "id": "launch",
+          "title": "Запусти планер",
+          "body": "Найди свободное место. Возьми модель за среднюю полоску, держи нос горизонтально и мягко толкни вперёд. Сначала оставь язычки ровными. Затем подними один и повтори запуск с того же места. Отметь места посадки.",
+          "diagram": "/assets/field-guide/launch.svg"
+        }
+      ]
+    },
+    "trim_reference": {
+      "url": "https://www.nasa.gov/pdf/205703main_Delta_Wing_Glider.pdf",
+      "source": "NASA · Delta Wing Glider"
+    }
+  }
+]

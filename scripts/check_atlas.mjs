@@ -1,0 +1,163 @@
+import assert from 'node:assert/strict'
+import { createHash } from 'node:crypto'
+import { mkdirSync, readFileSync } from 'node:fs'
+import { join } from 'node:path'
+import { chromium } from 'playwright-core'
+import { sheetFor } from '../packages/product-core/aircraft.ts'
+import { pdf } from '../packages/print-export/sheets.ts'
+import { makePlane, planePdf } from '../packages/planes/index.ts'
+
+const base = new URL(process.argv[2] ?? 'http://127.0.0.1:4190/')
+if (!base.pathname.endsWith('/')) base.pathname += '/'
+const shots = process.argv[3]
+if (shots) mkdirSync(shots, { recursive: true })
+const hash = (data) => createHash('sha256').update(data).digest('hex')
+const browser = await chromium.launch()
+async function bytes(page, link) {
+  return Buffer.from(
+    await link.evaluate(async (a) => Array.from(new Uint8Array(await (await fetch(a.href)).arrayBuffer()))),
+  )
+}
+async function download(page, locator) {
+  const [out] = await Promise.all([page.waitForEvent('download'), locator.click()])
+  return readFileSync(await out.path())
+}
+async function setRange(locator, value) {
+  const { min, step } = await locator.evaluate((input) => ({
+    min: Number(input.min),
+    step: Number(input.step) || 1,
+  }))
+  await locator.focus()
+  await locator.press('Home')
+  for (let n = min; n < value; n += step) await locator.press('ArrowRight')
+  assert.equal(Number(await locator.inputValue()), value)
+}
+try {
+  for (const [width, lang] of [
+    [1440, 'en'],
+    [390, 'ru'],
+  ]) {
+    const ctx = await browser.newContext({
+      viewport: { width, height: width === 390 ? 844 : 900 },
+      reducedMotion: 'reduce',
+    })
+    const page = await ctx.newPage(),
+      errors = [],
+      bad = []
+    page.on('pageerror', (e) => errors.push(e.message))
+    page.on('response', (res) => {
+      if (res.url().startsWith(base.href) && res.status() >= 400)
+        bad.push([res.status(), res.url().split('?')[0]])
+    })
+    await page.goto(new URL('?lang=' + lang, base).href)
+    await page.locator('#plane-links a').first().waitFor()
+    assert.equal(await page.locator('html').getAttribute('lang'), lang)
+    assert.equal(await page.locator('.family-links a').count(), 7)
+    assert.equal(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1), true)
+    await page.locator('#next').click()
+    assert.match(await page.locator('#hero-link').getAttribute('href'), /boeing-747/)
+    await page.locator('#back').click()
+    if (shots) await page.screenshot({ path: join(shots, 'home-' + lang + '.png') })
+    const print = await download(page, page.locator('#download'))
+    assert.equal(print.subarray(0, 4).toString(), '%PDF')
+    await page.locator('#butter-links a').first().click()
+    await page.locator('.species-card[data-species=monarch]').waitFor()
+    assert.equal(await page.locator('html').getAttribute('lang'), lang)
+    await setRange(page.locator('#left-trim'), 8)
+    await setRange(page.locator('#right-trim'), -4)
+    await setRange(page.locator('#wing'), 176)
+    await page.locator('#spatial-step').click()
+    await page.locator('#spatial-dialog[open] .ofv').waitFor()
+    await page.locator('#spatial-flight').click()
+    await page.locator('#spatial-flight[aria-pressed="true"]').waitFor()
+    await page.locator('.ofv [data-v="progress"]').focus()
+    await page.locator('.ofv [data-v="progress"]').press('End')
+    if (shots)
+      await page.screenshot({
+        path: join(shots, 'butterfly-flight-' + lang + '.png'),
+      })
+    await page.keyboard.press('Escape')
+    await page.locator('#print-design').click()
+    await page.locator('#paper').selectOption('US_LETTER')
+    await page.locator('#prepare-print').click()
+    const srcLink = page.locator('#downloads [data-kind=source]')
+    await srcLink.waitFor({ timeout: 30000 })
+    const source = await bytes(page, srcLink),
+      data = JSON.parse(source)
+    assert.deepEqual(data.parameters, {
+      left_trim_deg: 8,
+      right_trim_deg: -4,
+      span_mm: 176,
+    })
+    const ref = {
+      design_id: data.design_id,
+      revision_id: data.revision_id,
+      source_sha256: hash(source),
+    }
+    const rawPdf = await bytes(page, page.locator('#downloads [data-kind=print-pdf]'))
+    const expected = pdf(
+      sheetFor(
+        {
+          ref,
+          name: '',
+          evidence_state: 'modified_experiment',
+          parameters: data.parameters,
+          species_id: 'monarch',
+          appearance_id: data.appearance_id,
+        },
+        'US_LETTER',
+        lang,
+      ),
+    )
+    assert.equal(
+      hash(rawPdf),
+      hash(expected),
+      'browser butterfly PDF matches the Node renderer byte for byte',
+    )
+    assert.match(
+      (await bytes(page, page.locator('#downloads [data-kind=guide]'))).toString(),
+      /data:image\/jpeg;base64/,
+    )
+    const address = page.url()
+    await page.reload()
+    await page.waitForFunction(() => document.querySelector('#wing')?.value === '176')
+    assert.equal(page.url(), address)
+    await page.goto(new URL('planes.html?model=tupolev-tu144&lang=' + lang, base).href)
+    await page.locator('[data-model=tupolev-tu144]').waitFor()
+    assert.equal(await page.locator('[data-model]').count(), 4)
+    await setRange(page.locator('#keel'), 26)
+    await setRange(page.locator('#tips'), 10)
+    await page.locator('#paper').selectOption('US_LETTER')
+    await page.locator('#next').click()
+    assert.match(await page.locator('#step-count').textContent(), /2/)
+    await page.locator('#save').click()
+    await page.locator('[data-copy-index]').first().waitFor()
+    const planeSource = JSON.parse(await download(page, page.locator('#source')))
+    assert.equal(planeSource.keel_mm, 26)
+    assert.equal(planeSource.winglet_mm, 10)
+    assert.equal(planeSource.model_id, 'tupolev-tu144')
+    const output = await download(page, page.locator('.pdf').first())
+    assert.equal(hash(output), hash(planePdf(makePlane(planeSource, lang))), 'airplane PDF parity')
+    if (shots)
+      await page.screenshot({
+        path: join(shots, 'airplanes-' + lang + '.png'),
+      })
+    await page.goto(new URL('references.html?lang=' + lang + '#powered', base).href)
+    await page.locator('#butter article').first().waitFor()
+    assert.equal(await page.locator('#planes article').count(), 4)
+    assert.equal(await page.locator('#butter article').count(), 3)
+    assert.equal(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1), true)
+    assert.deepEqual(errors, [])
+    assert.deepEqual(bad, [])
+    await ctx.close()
+    console.log(
+      'PASS ' +
+        width +
+        ' px ' +
+        lang +
+        ' · home, 7 designs, 3D, local save/reload, references and exact edited PDF exports for both families',
+    )
+  }
+} finally {
+  await browser.close()
+}

@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 152" role="img" aria-labelledby="title">
+  <title id="title">Blue Morpho seen from behind, each wing lifted 16 degrees above the flat middle strip</title>
+  <rect width="300" height="152" rx="16" fill="#eaf0e6"/>
+  <path d="M25 88h250" fill="none" stroke="#7d8176" stroke-width="1.6" stroke-dasharray="4 5"/>
+  <path d="M39.11 58.78 L141 88 H159 L260.89 58.78 L260.89 62.78 L159 93 H141 L39.11 62.78z" fill="#9bdcec" stroke="#3e3848" stroke-width="2.2" stroke-linejoin="round"/>
+  <path d="M159 88h45 A45 45 0 0 0 202.26 75.6z" fill="#d05b4b" fill-opacity=".4"/>
+  <path d="M204 88 A45 45 0 0 0 202.26 75.6" fill="none" stroke="#a34b3f" stroke-width="1.8"/>
+  <g fill="#fbf8e9" stroke="#514253" stroke-width="1.6">
+    <circle cx="141" cy="88" r="3.4"/><circle cx="159" cy="88" r="3.4"/>
+  </g>
+  <g fill="none" stroke="#33775e" stroke-width="2.7" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M55 110q-14-13-14-30m-5 6 5-6 5 5"/>
+    <path d="M245 110q14-13 14-30m5 6-5-6-5 5"/>
+  </g>
+  <rect x="193" y="100" width="45" height="23" rx="10" fill="#fbf8e9"/>
+  <text x="215.5" y="116" font-weight="700" text-anchor="middle" font-family="system-ui, sans-serif" font-size="15" fill="#783c36">16°</text>
+</svg>

@@ -1,0 +1,2 @@
+# Preserve upstream GLSL templates byte-for-byte in the generated Three.js bundle.
+three.js linguist-vendored -diff

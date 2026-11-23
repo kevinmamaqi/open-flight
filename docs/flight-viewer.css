@@ -1,0 +1,378 @@
+.ofv {
+  --v-ink: #223f3a;
+  --v-line: #d1dcd3;
+  --v-accent: #285f55;
+  --v-paper: #fffcf3;
+  width: 100%;
+  min-width: 0;
+  color: var(--v-ink);
+  text-align: left;
+  font:
+    400 0.94rem/1.45 system-ui,
+    sans-serif;
+}
+.ofv *,
+.ofv *::before,
+.ofv *::after {
+  box-sizing: border-box;
+}
+.ofv [hidden] {
+  display: none !important;
+}
+.ofv-panel {
+  overflow: hidden;
+  border: 1px solid var(--v-line);
+  border-radius: 16px;
+  background: var(--v-paper);
+}
+.ofv button,
+.ofv select {
+  min-height: 38px;
+  margin: 0;
+  border: 1px solid #b9c9be;
+  border-radius: 8px;
+  background: #fffff9;
+  color: var(--v-ink);
+  font:
+    650 0.82rem/1.15 system-ui,
+    sans-serif;
+  cursor: pointer;
+}
+.ofv button {
+  padding: 7px 12px;
+}
+.ofv button:hover:not(:disabled),
+.ofv select:hover {
+  border-color: var(--v-accent);
+  background: #edf4df;
+}
+.ofv button:focus-visible,
+.ofv select:focus-visible,
+.ofv summary:focus-visible,
+.ofv input:focus-visible,
+.ofv-stage:focus-visible {
+  outline: 3px solid #aa461b;
+  outline-offset: 2px;
+}
+.ofv button:disabled {
+  cursor: default;
+  opacity: 0.62;
+}
+.ofv-top {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 14px;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 14px;
+}
+.ofv-mode {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 750;
+  font-size: 0.9rem;
+}
+.ofv-mode::before {
+  content: '';
+  width: 9px;
+  height: 9px;
+  background: #f38c43;
+  border-radius: 2px;
+  transform: rotate(45deg);
+}
+.ofv[data-mode='flight'] .ofv-mode::before {
+  border-radius: 50%;
+  background: #51a7b0;
+}
+.ofv-camera-tools,
+.ofv-camera-tools label {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  align-items: center;
+  margin: 0;
+}
+.ofv-camera-tools label span {
+  font-size: 0.75rem;
+  font-weight: 650;
+}
+.ofv select {
+  appearance: auto;
+  width: auto;
+  padding: 4px 5px;
+}
+.ofv-stage {
+  position: relative;
+  aspect-ratio: 1.92;
+  min-height: 215px;
+  max-height: 355px;
+  isolation: isolate;
+  cursor: grab;
+  touch-action: pan-y;
+  background:
+    radial-gradient(ellipse at 51% 43%, #fcfae9 3%, transparent 69%),
+    linear-gradient(138deg, #d7e9d7, #eef3df 58%, #d1e5dd);
+  overflow: hidden;
+  outline-offset: -4px !important;
+}
+.ofv-stage:active {
+  cursor: grabbing;
+}
+.ofv[data-mode='flight'] .ofv-stage {
+  background:
+    radial-gradient(ellipse at 47% 50%, #fffce7 0%, transparent 62%),
+    linear-gradient(159deg, #c5e4df, #e9f3db 65%, #badbc4);
+}
+.ofv-canvas,
+.ofv-canvas canvas {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+.ofv-compass {
+  position: absolute;
+  left: 11px;
+  bottom: 10px;
+  padding: 3px 9px;
+  border: 1px solid #99bca9;
+  border-radius: 5px;
+  color: #24493e;
+  background: #f9fcf1ea;
+  pointer-events: none;
+  font:
+    650 0.69rem/1.45 system-ui,
+    sans-serif;
+}
+.ofv-controls {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 7px 14px;
+  padding: 10px 14px;
+  border-bottom: 1px solid var(--v-line);
+}
+.ofv .ofv-replay {
+  background: var(--v-accent);
+  color: #fff;
+  border-color: var(--v-accent);
+}
+.ofv .ofv-replay:hover:not(:disabled) {
+  background: #18473e;
+  color: #fff;
+}
+.ofv-progress {
+  flex: 1 1 155px;
+  display: grid;
+  grid-template-columns: minmax(58px, 1fr) auto;
+  align-items: center;
+  column-gap: 7px;
+  font-weight: 650;
+  font-size: 0.72rem;
+  margin: 0;
+}
+.ofv-progress span {
+  grid-column: 1;
+}
+.ofv-progress input {
+  grid-column: 1;
+  grid-row: 2;
+}
+.ofv-progress output {
+  grid-column: 2;
+  grid-row: 1/3;
+  font-variant-numeric: tabular-nums;
+  min-width: 3.3ch;
+  font-size: 0.74rem;
+}
+.ofv input[type='range'] {
+  appearance: auto;
+  -webkit-appearance: auto;
+  accent-color: #35756c;
+  background: transparent;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  height: 20px;
+  min-width: 0;
+  width: 100%;
+  display: block;
+}
+.ofv .ofv-marks {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  margin: 0;
+  font-size: 0.75rem;
+  cursor: pointer;
+}
+.ofv-marks input {
+  width: 16px;
+  height: 16px;
+  accent-color: var(--v-accent);
+  margin: 0;
+}
+.ofv-lesson {
+  padding: 12px 14px 10px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 15px;
+  align-items: flex-start;
+}
+.ofv-step-nav {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 1px 0;
+}
+.ofv-step-nav span {
+  font-weight: 700;
+  font-size: 0.73rem;
+}
+.ofv-step-nav button {
+  padding: 0;
+  min-width: 34px;
+  min-height: 34px;
+  font-size: 1.12rem;
+}
+.ofv-lesson-copy {
+  flex: 1 1 175px;
+}
+.ofv-lesson-copy strong {
+  font:
+    750 0.94rem/1.28 system-ui,
+    sans-serif;
+}
+.ofv-lesson-copy p,
+.ofv-adjust p {
+  margin: 4px 0;
+  color: #425850;
+  font:
+    0.86rem/1.45 system-ui,
+    sans-serif;
+}
+.ofv-lesson-copy small {
+  display: block;
+  color: #45574f;
+  font-size: 0.75rem;
+  margin: 6px 0 0;
+}
+.ofv-adjust {
+  padding: 0 14px;
+  border-top: 1px solid var(--v-line);
+}
+.ofv-adjust summary {
+  cursor: pointer;
+  width: fit-content;
+  padding: 9px 0;
+  font-size: 0.83rem;
+  font-weight: 700;
+}
+.ofv-sliders {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(100px, 1fr));
+  gap: 9px 22px;
+  margin: 10px 0;
+}
+.ofv-sliders label {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  gap: 2px 8px;
+  margin: 0;
+  font-weight: 600;
+  font-size: 0.78rem;
+}
+.ofv-sliders input {
+  grid-column: 1/3;
+}
+.ofv-sliders output {
+  font-variant-numeric: tabular-nums;
+}
+.ofv .ofv-reset {
+  margin-bottom: 12px;
+}
+.ofv-sr {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+@media (max-width: 520px) {
+  .ofv-top,
+  .ofv-controls,
+  .ofv-lesson {
+    padding: 9px 10px;
+  }
+  .ofv-stage {
+    min-height: 215px;
+    max-height: 290px;
+    aspect-ratio: 1.54;
+  }
+  .ofv-camera-tools label span {
+    display: none;
+  }
+  .ofv-camera-tools select,
+  .ofv-camera-tools button {
+    min-height: 36px;
+  }
+  .ofv .ofv-replay {
+    min-height: 40px;
+  }
+  .ofv-sliders {
+    gap: 8px 14px;
+  }
+  .ofv-lesson-copy {
+    flex-basis: 100%;
+  }
+}
+.ofv-key {
+  position: absolute;
+  right: 11px;
+  bottom: 10px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 4px 9px;
+  max-width: 70%;
+  padding: 3px 7px;
+  color: #264b40;
+  background: #f9fcf1e8;
+  border: 1px solid #a2b6a3;
+  border-radius: 5px;
+  font:
+    600 0.68rem/1.45 system-ui,
+    sans-serif;
+  pointer-events: none;
+}
+.ofv-key[data-flight='true'] span {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+.ofv-key[data-flight='true'] span::before {
+  content: '';
+  width: 8px;
+  height: 8px;
+  border: 2px solid #377e69;
+  border-radius: 50%;
+}
+.ofv-key[data-flight='true'] span + span::before {
+  background: #f0914f;
+  border-color: #bc5134;
+}
+@media (max-width: 520px) {
+  .ofv-key:not([data-flight='true']) {
+    flex-direction: column;
+    gap: 0;
+    right: 5px;
+    bottom: 6px;
+  }
+}

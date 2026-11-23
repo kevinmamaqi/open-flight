@@ -1,0 +1,23 @@
+name: Flight observation · Наблюдение за полётом
+description: An adult can share an observation or an unclear fold in English or Russian.
+title: "Flight note · "
+body:
+  - type: markdown
+    attributes:
+      value: |
+        English or Russian is welcome. Please describe the paper and the flight. Leave out names, faces and contacts of children.
+        Можно написать по-русски. Достаточно описать бумагу и полёт. Имена, лица и контакты детей не нужны.
+  - type: input
+    id: model
+    attributes:
+      label: Model and paper · Модель и бумага
+      placeholder: Monarch, A4
+    validations:
+      required: true
+  - type: textarea
+    id: observation
+    attributes:
+      label: What changed and what happened? · Что изменили и что получилось?
+      description: Include the fold or step, settings and landing marks if you have them.
+    validations:
+      required: true

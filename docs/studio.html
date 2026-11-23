@@ -1,0 +1,440 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta name="theme-color" content="#f9f7f1" />
+    <title>Butterfly studio · Open Flight</title>
+    <link rel="icon" href="./assets/wing-mark.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="./editor.css" />
+    <link rel="stylesheet" href="./flight-viewer.css" />
+    <script type="module" src="./editor.js"></script>
+  </head>
+  <body>
+    <a class="skip-link" href="#worktable" data-i18n="skip">Skip to the worktable</a>
+    <header class="topbar">
+      <div class="topbar-inner">
+        <a class="brand" id="atlas-home" href="./">
+          <img src="./assets/wing-mark.svg" width="40" height="40" alt="" />Open Flight
+        </a>
+        <nav class="navigation" aria-label="Workshop" data-aria="workshop">
+          <a href="#studio" class="active"
+            ><svg class="icon" aria-hidden="true"><use href="./editor-art.svg#studio" /></svg
+            ><span data-i18n="studio">Studio</span></a
+          >
+          <a href="#build-guide"
+            ><svg class="icon" aria-hidden="true"><use href="./editor-art.svg#book" /></svg
+            ><span data-i18n="buildGuide">Build guide</span></a
+          >
+        </nav>
+        <div class="top-actions">
+          <button type="button" class="library-btn" id="open-library">
+            <svg class="icon" aria-hidden="true"><use href="./editor-art.svg#folder" /></svg
+            ><span data-i18n="myDesigns">My designs</span>
+          </button>
+          <label class="language"
+            ><span class="sr-only" data-i18n="language">Language</span>
+            <svg class="icon" aria-hidden="true"><use href="./editor-art.svg#globe" /></svg>
+            <select id="locale">
+              <option value="en" lang="en">EN</option>
+              <option value="ru" lang="ru">RU</option>
+            </select>
+            <svg class="chevron" aria-hidden="true"><use href="./editor-art.svg#down" /></svg>
+          </label>
+        </div>
+      </div>
+    </header>
+    <main id="studio">
+      <div class="intro">
+        <div>
+          <h1 data-i18n="studioTitle">Butterfly studio</h1>
+          <p data-i18n="intro">Choose a butterfly, make its wings your own, and fold it for flight.</p>
+        </div>
+        <button class="button primary" type="button" id="print-design" disabled>
+          <svg class="icon" aria-hidden="true"><use href="./editor-art.svg#print" /></svg>
+          <span data-i18n="buildPrint">Build &amp; print</span>
+        </button>
+      </div>
+      <section
+        aria-label="Choose your butterfly"
+        data-aria="chooseButterfly"
+        id="species-picker"
+        class="species-picker"
+      ></section>
+      <p id="status" class="status" role="status" aria-live="polite"></p>
+      <div id="worktable" class="worktable" tabindex="-1">
+        <section class="preview-card panel" data-species="monarch" aria-labelledby="title">
+          <div class="preview-header">
+            <div class="model-title">
+              <h2 id="title">Monarch</h2>
+              <p id="scientific" lang="la"></p>
+            </div>
+            <div class="view-switch" role="group" aria-label="Preview view" data-aria="previewView">
+              <button type="button" id="wing-view" class="selected" aria-pressed="true">
+                <svg class="icon" aria-hidden="true"><use href="./editor-art.svg#wings" /></svg
+                ><span data-i18n="wings">Wings</span>
+              </button>
+              <button type="button" id="glide-view" aria-pressed="false">
+                <svg class="icon" aria-hidden="true"><use href="./editor-art.svg#flight" /></svg
+                ><span data-i18n="glideSketch">Glide sketch</span>
+              </button>
+            </div>
+          </div>
+          <div id="art-board" class="art-board">
+            <span class="orientation"
+              ><svg class="small-icon" aria-hidden="true"><use href="./editor-art.svg#north" /></svg
+              ><span data-i18n="nose">Nose</span></span
+            >
+            <button type="button" class="photo-peek" id="meet-butterfly" hidden>
+              <img id="peek-photo" alt="" /><span data-i18n="realButterfly">Real butterfly</span
+              ><svg class="small-icon" aria-hidden="true"><use href="./editor-art.svg#next" /></svg>
+            </button>
+            <div class="art-frame"><img id="preview" alt="" /></div>
+            <div class="span-rule"><i></i><span id="span">—</span><i></i></div>
+          </div>
+          <div id="glide-board" class="glide-board" hidden>
+            <svg
+              id="glide-map"
+              viewBox="0 0 500 270"
+              preserveAspectRatio="xMidYMid meet"
+              role="img"
+              aria-labelledby="glide-desc"
+            >
+              <title id="glide-desc"></title>
+              <defs>
+                <marker
+                  id="glide-arrow"
+                  viewBox="0 0 10 10"
+                  refX="7"
+                  refY="5"
+                  markerWidth="4"
+                  markerHeight="4"
+                  orient="auto-start-reverse"
+                >
+                  <path
+                    d="M1 1l7 4-7 4"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2.4"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                </marker>
+              </defs>
+              <g id="cue-monarch" class="experiment-cue" aria-hidden="true" hidden>
+                <g transform="translate(199 138)">
+                  <ellipse cx="0" cy="0" rx="22" ry="7" />
+                  <path d="M0 0v-29l17 6-17 7" class="flag coral" />
+                </g>
+                <g transform="translate(296 77)">
+                  <ellipse cx="0" cy="0" rx="22" ry="7" />
+                  <path d="M0 0v-29l17 6-17 7" class="flag yellow" />
+                </g>
+              </g>
+              <g
+                id="cue-morpho"
+                class="experiment-cue"
+                aria-hidden="true"
+                hidden
+                transform="translate(347 65)"
+              >
+                <rect x="-9" y="-17" width="103" height="51" rx="8" class="rear-card" />
+                <path d="M-2 17h87" class="level-line" />
+                <path d="m3 4 34 13 9 0L80 4" class="level-wing" />
+                <path d="m5 21 32-4 9 0 31-22" class="tilted-wing" />
+                <circle cx="42" cy="16" r="3.2" class="rear-body" />
+              </g>
+              <g id="cue-swallowtail" class="experiment-cue" aria-hidden="true" hidden>
+                <g transform="translate(118 95)">
+                  <path d="M0 18v-34h36v34" class="gate" />
+                  <path d="M0-16v-10l13 4-13 3" class="flag coral" />
+                  <ellipse cx="18" cy="20" rx="24" ry="5" />
+                </g>
+                <g transform="translate(346 95)">
+                  <path d="M0 18v-34h36v34" class="gate" />
+                  <path d="M36-16v-10l-13 4 13 3" class="flag yellow" />
+                  <ellipse cx="18" cy="20" rx="24" ry="5" />
+                </g>
+              </g>
+              <path class="glide-centerline" d="M250 245V25" />
+              <path id="glide-path" class="glide-path" marker-end="url(#glide-arrow)" />
+              <circle class="glide-source" cx="250" cy="232" r="5" />
+              <g id="glider-token"><image id="glider-image" x="-34" y="-21" width="68" height="42" /></g>
+            </svg>
+            <span class="challenge-label"
+              ><svg class="small-icon" aria-hidden="true"><use href="./editor-art.svg#target" /></svg
+              ><span id="challenge-label"></span
+            ></span>
+            <span class="sketch-scale" data-i18n="unscaled">Unscaled sketch</span>
+            <button type="button" class="play-btn" id="play-glide">
+              <svg class="small-icon" aria-hidden="true"><use href="./editor-art.svg#play" /></svg
+              ><span data-i18n="playSketch">Play sketch</span>
+            </button>
+            <span id="trim-prediction"></span>
+          </div>
+          <div class="preview-footer">
+            <div class="preview-note">
+              <svg class="icon" aria-hidden="true">
+                <use id="note-icon" href="./editor-art.svg#leaf" />
+              </svg>
+              <span id="board-note"></span>
+            </div>
+            <button type="button" id="spatial-open" class="spatial-entry" hidden>
+              <svg class="small-icon" aria-hidden="true"><use href="./editor-art.svg#fold" /></svg>
+              <span data-i18n="openSpatial">Explore in 3D</span>
+            </button>
+            <span class="evidence" id="evidence"></span>
+          </div>
+        </section>
+        <section class="controls panel" data-species="monarch" aria-labelledby="controls-title">
+          <div class="controls-heading">
+            <span class="tool-icon"
+              ><svg class="icon" aria-hidden="true"><use href="./editor-art.svg#sliders" /></svg
+            ></span>
+            <h2 id="controls-title" data-i18n="tuneWings">Tune your wings</h2>
+          </div>
+          <fieldset class="colors control-group">
+            <legend data-i18n="wingColors">Wing colors</legend>
+            <div id="palette-list" class="palette-list"></div>
+          </fieldset>
+          <fieldset class="span-control control-group">
+            <legend class="sr-only" data-i18n="wingspan">Wingspan</legend>
+            <div class="control-title">
+              <label for="wing" data-i18n="wingspan">Wingspan</label
+              ><output for="wing" class="value-chip" id="wing-value">—</output>
+            </div>
+            <input id="wing" type="range" />
+            <div class="range-endpoints" aria-hidden="true">
+              <span id="span-min"></span><span id="span-max"></span>
+            </div>
+          </fieldset>
+          <fieldset class="trim-controls control-group" id="trim-controls">
+            <legend data-i18n="flightTrim">Flight trim</legend>
+            <p class="control-hint" data-i18n="trimHint">Bend each back tab up (+) or down (−).</p>
+            <div class="turn-presets" role="group" aria-label="Try a trim setting" data-aria="tryTrim">
+              <button type="button" data-preset="left">
+                <svg class="small-icon" aria-hidden="true"><use href="./editor-art.svg#turn-left" /></svg
+                ><span data-i18n="tryLeft">Try left</span>
+              </button>
+              <button type="button" data-preset="neutral">
+                <svg class="small-icon" aria-hidden="true"><use href="./editor-art.svg#north" /></svg
+                ><span data-i18n="even">Level</span>
+              </button>
+              <button type="button" data-preset="right">
+                <svg class="small-icon" aria-hidden="true"><use href="./editor-art.svg#turn-right" /></svg
+                ><span data-i18n="tryRight">Try right</span>
+              </button>
+            </div>
+            <div class="trim-sliders">
+              <div>
+                <div class="trim-label">
+                  <label for="left-trim" data-i18n="leftTab">Left tab</label
+                  ><output for="left-trim" id="left-value">0°</output>
+                </div>
+                <input type="range" id="left-trim" />
+              </div>
+              <div>
+                <div class="trim-label">
+                  <label for="right-trim" data-i18n="rightTab">Right tab</label
+                  ><output for="right-trim" id="right-value">0°</output>
+                </div>
+                <input type="range" id="right-trim" />
+              </div>
+            </div>
+          </fieldset>
+          <p id="read-only-note" class="control-hint" hidden data-i18n="readOnly">
+            This workspace is read-only. You can try every setting here. Open an editable workspace to
+            save and print.
+          </p>
+          <div class="save-row">
+            <button type="button" class="button secondary" id="save-design" disabled>
+              <svg class="icon" aria-hidden="true"><use href="./editor-art.svg#save" /></svg
+              ><span id="save-label" data-i18n="saveDesign">Save design</span></button
+            ><button type="button" class="text-button" id="reset-design" disabled data-i18n="reset">
+              Reset edits
+            </button>
+          </div>
+        </section>
+      </div>
+      <div class="learning-grid">
+        <section id="build-guide" class="build-card panel" aria-labelledby="build-title">
+          <div class="section-heading">
+            <span class="section-icon fold-icon"
+              ><svg class="icon" aria-hidden="true"><use href="./editor-art.svg#fold" /></svg
+            ></span>
+            <h2 id="build-title" data-i18n="buildGuide">Build guide</h2>
+          </div>
+          <div class="step-content" id="step-content">
+            <div id="diagram-board" class="diagram-board"><img id="step-diagram" alt="" /></div>
+            <div class="step-instructions">
+              <span id="step-count" class="step-count" aria-live="polite"></span>
+              <h3 id="step-title"></h3>
+              <p id="step-body"></p>
+              <div class="step-navigation">
+                <button
+                  type="button"
+                  class="arrow-btn"
+                  id="prev-step"
+                  aria-label="Previous step"
+                  data-aria="previous"
+                >
+                  <svg class="icon" aria-hidden="true"><use href="./editor-art.svg#prev" /></svg>
+                </button>
+                <button type="button" class="button small" id="next-step">
+                  <span data-i18n="next">Next step</span
+                  ><svg class="small-icon" aria-hidden="true"><use href="./editor-art.svg#next" /></svg>
+                </button>
+                <button type="button" id="spatial-step" class="text-button" data-i18n="turnFold" hidden>See this fold in 3D</button>
+              </div>
+            </div>
+          </div>
+          <div id="activities" class="activities" aria-label="Activities" data-aria="activities"></div>
+        </section>
+        <section id="field-guide" class="field-card panel" aria-labelledby="field-title">
+          <div class="section-heading">
+            <span class="section-icon field-icon"
+              ><svg class="icon" aria-hidden="true"><use href="./editor-art.svg#leaf" /></svg
+            ></span>
+            <h2 id="field-title" data-i18n="inTheWild">In the wild</h2>
+          </div>
+          <div class="field-content">
+            <button
+              type="button"
+              id="photo-box"
+              class="photo-box"
+              aria-label="Enlarge the photo"
+              data-aria="enlarge"
+            >
+              <img id="reference-photo" alt="" loading="lazy" />
+            </button>
+            <div>
+              <h3 id="field-name"></h3>
+              <p id="observation"></p>
+            </div>
+          </div>
+          <div class="reference-links">
+            <a id="pixabay-link" target="_blank" rel="noopener noreferrer"
+              ><svg class="small-icon" aria-hidden="true"><use href="./editor-art.svg#camera" /></svg
+              ><span></span
+              ><svg class="small-icon" aria-hidden="true"><use href="./editor-art.svg#out" /></svg></a
+            ><a id="nature-link" target="_blank" rel="noopener noreferrer"></a>
+          </div>
+        </section>
+      </div>
+      <footer class="workspace-foot">
+        <span>Open Flight</span
+        ><span id="revision-info"
+          ><span data-i18n="revision">Revision</span> <span id="revision"></span
+          ><span class="foot-separator">·</span><span id="area"></span
+        ></span>
+      </footer>
+    </main>
+    <dialog id="library-dialog" aria-labelledby="library-title">
+      <div class="dialog-header">
+        <h2 id="library-title" data-i18n="myDesigns">My designs</h2>
+        <button type="button" class="close-dialog" data-close aria-label="Close" data-aria="close">
+          <svg class="icon" aria-hidden="true"><use href="./editor-art.svg#close" /></svg>
+        </button>
+      </div>
+      <label class="form-label" for="design-list" data-i18n="workspaceDesigns">Workspace designs</label
+      ><select id="design-list"></select>
+      <button type="button" class="button primary dialog-action" id="load-design" data-i18n="openDesign">
+        Open design
+      </button>
+    </dialog>
+    <dialog id="save-dialog" aria-labelledby="save-title">
+      <div class="dialog-header">
+        <h2 id="save-title" data-i18n="saveDesign">Save design</h2>
+        <button type="button" class="close-dialog" data-close aria-label="Close" data-aria="close">
+          <svg class="icon" aria-hidden="true"><use href="./editor-art.svg#close" /></svg>
+        </button>
+      </div>
+      <form id="save-form">
+        <label class="form-label" for="design-name" data-i18n="designName">Design name</label
+        ><input id="design-name" type="text" maxlength="120" required />
+        <button id="confirm-save" class="button primary dialog-action">
+          <svg class="icon" aria-hidden="true"><use href="./editor-art.svg#save" /></svg
+          ><span data-i18n="saveDesign">Save design</span>
+        </button>
+        <p id="save-status" class="dialog-status" role="status"></p>
+      </form>
+    </dialog>
+    <dialog id="print-dialog" aria-labelledby="print-title">
+      <div class="dialog-header">
+        <h2 id="print-title" data-i18n="buildPrint">Build &amp; print</h2>
+        <button type="button" class="close-dialog" data-close aria-label="Close" data-aria="close">
+          <svg class="icon" aria-hidden="true"><use href="./editor-art.svg#close" /></svg>
+        </button>
+      </div>
+      <p class="dialog-caption" id="print-summary"></p>
+      <form id="print-form">
+        <div class="print-options">
+          <div>
+            <label class="form-label" for="paper" data-i18n="paper">Paper size</label
+            ><select id="paper">
+              <option value="A4">A4</option>
+              <option value="US_LETTER">US Letter</option>
+            </select>
+          </div>
+          <div>
+            <label class="form-label" for="print-locale" data-i18n="sheetLanguage">Sheet language</label
+            ><select id="print-locale">
+              <option value="en">English</option>
+              <option value="ru">Русский</option>
+            </select>
+          </div>
+        </div>
+        <p class="print-hint" data-i18n="printHint">
+          Print at 100% and check the 50 mm line with a ruler before cutting.
+        </p>
+        <button id="prepare-print" class="button primary dialog-action">
+          <svg class="icon" aria-hidden="true"><use href="./editor-art.svg#print" /></svg
+          ><span data-i18n="prepareFiles">Prepare print files</span>
+        </button>
+      </form>
+      <p id="print-status" class="dialog-status" role="status"></p>
+      <div id="downloads"></div>
+      <button type="button" id="jump-guide" class="text-button jump-guide">
+        <svg class="small-icon" aria-hidden="true"><use href="./editor-art.svg#book" /></svg
+        ><span data-i18n="showSteps">See the build steps</span>
+      </button>
+    </dialog>
+    <dialog id="spatial-dialog" aria-labelledby="spatial-title">
+      <div class="dialog-header">
+        <h2 id="spatial-title" data-i18n="spatialTitle">Paper flight lab</h2>
+        <button type="button" class="close-dialog" data-close aria-label="Close" data-aria="close">
+          <svg class="icon" aria-hidden="true"><use href="./editor-art.svg#close" /></svg>
+        </button>
+      </div>
+      <div class="spatial-modes" role="group" data-aria="previewView" aria-label="Preview view">
+        <button type="button" id="spatial-fold" data-i18n="foldLesson">Fold lesson</button>
+        <button type="button" id="spatial-flight" data-i18n="flightLab">Flight experiment</button>
+      </div>
+      <div id="spatial-surface"></div>
+    </dialog>
+    <dialog id="nature-dialog" aria-labelledby="nature-title">
+      <div class="dialog-header">
+        <h2 id="nature-title"></h2>
+        <button type="button" class="close-dialog" data-close aria-label="Close" data-aria="close">
+          <svg class="icon" aria-hidden="true"><use href="./editor-art.svg#close" /></svg>
+        </button>
+      </div>
+      <img class="nature-large" id="nature-photo" alt="" />
+      <p id="nature-copy" class="dialog-caption"></p>
+      <div class="reference-links">
+        <a id="nature-credit" target="_blank" rel="noopener noreferrer"></a
+        ><a id="nature-more" target="_blank" rel="noopener noreferrer"></a>
+      </div>
+    </dialog>
+    <dialog id="lesson-dialog" aria-labelledby="lesson-title">
+      <div class="dialog-header">
+        <h2 id="lesson-title"></h2>
+        <button type="button" class="close-dialog" data-close aria-label="Close" data-aria="close">
+          <svg class="icon" aria-hidden="true"><use href="./editor-art.svg#close" /></svg>
+        </button>
+      </div>
+      <div id="lesson-body" class="lesson-body"></div>
+    </dialog>
+    <noscript>Enable JavaScript to edit wings and prepare print sheets.</noscript>
+  </body>
+</html>
