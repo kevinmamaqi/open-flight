@@ -1,6 +1,6 @@
 import { ru, es } from './atlas-copy.js'
 import { currentLocale, homeURL, localizedLinks } from './atlas-nav.js'
-import { fieldModel, studioLink } from './atlas-guide.js'
+import { fieldModel, studioLink, foldedLink } from './atlas-guide.js'
 
 const fragment = new URLSearchParams(location.hash.slice(1))
 if (fragment.has('grant') || (fragment.has('design') && fragment.has('revision'))) {
@@ -28,7 +28,8 @@ if (translation) {
 localizedLinks(lang)
 for (const a of document.querySelectorAll('.wordmark')) a.href = homeURL(lang)
 for (const a of document.querySelectorAll('[data-route]'))
-  a.href = studioLink(a.dataset.route === 'airplane' ? 'boeing-747' : 'monarch', lang)
+  a.href = a.dataset.route === 'airplane' ? studioLink('boeing-747',lang) : foldedLink('monarch',lang)
+$('classic-butterfly').href=studioLink('monarch',lang)
 $('compare-link').href = './compare.html?lang=' + lang
 $('flight-link').href = studioLink('boeing-747', lang, true)
 $('references').href = './references.html?lang=' + lang
@@ -54,7 +55,7 @@ for (const m of [...models].sort(
   (a, b) => Number(a.family === 'airplane') - Number(b.family === 'airplane'),
 )) {
   const a = document.createElement('a')
-  a.href = m.studio
+  a.href = m.family === 'butterfly' ? foldedLink(m.id,lang) : m.studio
   a.textContent = m.family === 'airplane' ? m.inspiration : m.name
   $(m.family === 'airplane' ? 'plane-links' : 'butter-links').append(a)
   select.add(new Option(m.family === 'airplane' ? m.name + ' · ' + m.inspiration : m.name, m.id))
@@ -65,7 +66,7 @@ function display() {
     name = m.family === 'airplane' ? m.inspiration : m.name
   $('specimen').src = m.image
   $('specimen').alt = t('Open design ', 'Abrir el diseño ', 'Открыть модель ') + name
-  $('hero-link').href = $('specimen-name').href = m.studio
+  $('hero-link').href = $('specimen-name').href = m.family === 'butterfly' ? foldedLink(m.id,lang) : m.studio
   $('specimen-name').textContent = name + ' ↗'
   $('specimen-family').textContent =
     m.family === 'airplane'
@@ -87,10 +88,14 @@ for (const [id, step, label] of [
 }
 display()
 function download() {
-  const file = select.value + '-' + $('download-paper').value + '-' + lang + '.pdf'
+  const butterfly = models.find(m=>m.id===select.value)?.family==='butterfly'
+  $('construction-field').hidden=!butterfly
+  const tag=butterfly && $('construction').value==='k1' ? '-k1' : ''
+  const file = select.value + tag + '-' + $('download-paper').value + '-' + lang + '.pdf'
   $('download').href = './library/' + file
   $('download').download = file
 }
+$('construction').onchange = download
 select.onchange = download
 $('download-paper').onchange = download
 download()

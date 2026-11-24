@@ -53,10 +53,11 @@ for (const [lang, copy, title, region, photoAlt, name, family] of [
     .on('#specimen-name', replaceText(name + ' ↗'))
     .on('#specimen-family', replaceText(family))
   for (const [selector, href] of Object.entries({
-    '#hero-link': 'studio.html?lang=' + lang + '#design=butterfly-monarch&revision=w1',
-    '#specimen-name': 'studio.html?lang=' + lang + '#design=butterfly-monarch&revision=w1',
-    '#download': 'library/monarch-A4-' + lang + '.pdf',
-    '[data-route=butterfly]': 'studio.html?lang=' + lang,
+    '#hero-link': 'keel.html?species=monarch&lang=' + lang,
+    '#specimen-name': 'keel.html?species=monarch&lang=' + lang,
+    '#classic-butterfly':'studio.html?lang='+lang+'#design=butterfly-monarch&revision=w1',
+    '#download': 'library/monarch-k1-A4-' + lang + '.pdf',
+    '[data-route=butterfly]': 'keel.html?lang=' + lang,
     '[data-route=airplane]': 'planes.html?lang=' + lang,
     '#lesson-file': 'library/family-lesson-' + lang + '.html',
     '#references': 'references.html?lang=' + lang,
@@ -94,7 +95,7 @@ writeFileSync(
 )
 writeFileSync(join(out, '.nojekyll'), '')
 const origin = 'https://kevinmamaqi.github.io/open-flight/'
-const pages = ['studio.html', 'planes.html', 'references.html', 'compare.html', 'next.html']
+const pages = ['keel.html','studio.html', 'planes.html', 'references.html', 'compare.html', 'next.html']
 writeFileSync(
   join(out, 'sitemap.xml'),
   '<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">' +
@@ -116,7 +117,7 @@ for (const path of [
   'index.html',
   'studio.html',
   'planes.html',
-  'flight-viewer.js',
+  'flight-viewer.js', 'keel.js','keel-guide.js','library/monarch-k1-US_LETTER-es.pdf',
   'browser-workshop.js',
   'references.html',
   'library/boeing-747-US_LETTER-ru.pdf',

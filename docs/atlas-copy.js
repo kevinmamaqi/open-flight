@@ -26,8 +26,9 @@ export const ru = {
   butterTech: 'Вырезать и сложить',
   butterflies: 'Бабочки',
   butterDesc:
-    'Распечатайте узор, вырежьте крылья и настройте два язычка. Сравните бумажную бабочку с той, что живёт в природе.',
-  openButter: 'В мастерскую бабочек',
+    'Вырежи контур, совмести кончики крыльев и сложи корпус. Положи крылья на стол, чтобы выровнять их. Каждая выкройка передаёт форму и окраску настоящей бабочки.',
+  openButter: 'Сделать бабочку со складным корпусом',
+  classicButter: 'Исходная бабочка с задними язычками ↗', bodyStyle:'Конструкция бабочки', keelBuild:'Складной корпус · K1', flatBuild:'Задние язычки · W1',
   planeTech: 'Целый лист · только сгибы',
   planes: 'Самолёты',
   planeDesc:
@@ -89,8 +90,9 @@ export const es = {
   butterTech: 'Recortar y plegar',
   butterflies: 'Mariposas',
   butterDesc:
-    'Imprime las alas, recorta el contorno y ajusta dos pequeñas aletas de cola. Descubre en qué mariposa real se inspira cada diseño.',
-  openButter: 'Entrar al taller de mariposas',
+    'Recorta un solo contorno, junta las puntas y pliega un cuerpo que puedas sujetar. Apoya las alas en la mesa para nivelarlas. Cada diseño conserva la forma y los colores de una mariposa real.',
+  openButter: 'Construir una mariposa con cuerpo plegado',
+  classicButter:'Mariposa original con aletas ajustables ↗',bodyStyle:'Construcción de la mariposa',keelBuild:'Cuerpo plegado · K1',flatBuild:'Aletas ajustables · W1',
   planeTech: 'Hoja entera · solo pliegues',
   planes: 'Aviones',
   planeDesc:

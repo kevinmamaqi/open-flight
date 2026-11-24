@@ -2,7 +2,7 @@
   "openapi": "3.1.2",
   "info": {
     "title": "Open Flight local product API",
-    "version": "0.4.0",
+    "version": "0.5.0",
     "description": "Account-free local product operations backed by the selected workspace. A loopback instance issues a private bearer grant. Export jobs and immutable artifact bytes are stored together in SQLite."
   },
   "x-contract-status": "implemented_local_experimental",
@@ -2216,6 +2216,99 @@
           }
         }
       }
+    },
+    "/v1/butterflies/folded/plan": {
+      "post": {
+        "operationId": "planFoldedButterfly",
+        "summary": "Build a butterfly with a folded center body",
+        "description": "Render the K1 one-piece folded-body butterfly with two level wings and a double paper keel. Return the localized plan, SVG, two-page PDF, editable source, or matching W1 comparison PDF. PDF content is base64. The source JSON can be passed back as settings.",
+        "x-contract-status": "implemented_local_experimental",
+        "x-required-scopes": [
+          "openflight:designs:read"
+        ],
+        "x-mcp-access": "tool",
+        "x-success-schema": "FoldedButterflyResult",
+        "x-mutation": false,
+        "parameters": [],
+        "security": [
+          {
+            "UserToken": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Build a butterfly with a folded center body",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FoldedButterflyResult"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Authentication required",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Insufficient scope or access",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Rate or quota limit",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Unexpected failure",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        },
+        "x-mcp-tool": "openflight_plan_folded_butterfly",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/FoldedButterflyRequest"
+              }
+            }
+          }
+        }
+      }
     }
   },
   "components": {
@@ -3136,11 +3229,12 @@
                 "compareModels",
                 "getMotorRoadmap",
                 "getFlightCircuit",
-                "simulateFlight"
+                "simulateFlight",
+                "planFoldedButterfly"
               ]
             },
             "uniqueItems": true,
-            "maxItems": 20
+            "maxItems": 21
           },
           "transports": {
             "type": "array",
@@ -4918,6 +5012,253 @@
           "duration",
           "landing",
           "samples"
+        ]
+      },
+      "FoldedButterflySettings": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "format": {
+            "const": "open-flight-folded-butterfly"
+          },
+          "revision": {
+            "const": "k1"
+          },
+          "species": {
+            "$ref": "#/components/schemas/SpeciesId"
+          },
+          "span_mm": {
+            "type": "integer",
+            "minimum": 148,
+            "maximum": 184,
+            "multipleOf": 2
+          },
+          "appearance_id": {
+            "type": "string",
+            "enum": [
+              "natural",
+              "carnival",
+              "twilight",
+              "coloring"
+            ]
+          },
+          "paper": {
+            "$ref": "#/components/schemas/AirplanePaper"
+          }
+        },
+        "required": []
+      },
+      "FoldedButterflyOutputFormat": {
+        "type": "string",
+        "enum": [
+          "plan",
+          "source_json",
+          "svg",
+          "pdf",
+          "classic_pdf"
+        ]
+      },
+      "FoldedButterflyRequest": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "settings": {
+            "$ref": "#/components/schemas/FoldedButterflySettings"
+          },
+          "locale": {
+            "$ref": "#/components/schemas/AirplaneLocale",
+            "default": "en"
+          },
+          "output": {
+            "$ref": "#/components/schemas/FoldedButterflyOutputFormat",
+            "default": "plan"
+          }
+        },
+        "required": []
+      },
+      "FoldedButterflyArtifact": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "format": {
+            "$ref": "#/components/schemas/FoldedButterflyOutputFormat"
+          },
+          "media_type": {
+            "type": "string",
+            "enum": [
+              "image/svg+xml",
+              "application/pdf",
+              "application/json"
+            ]
+          },
+          "encoding": {
+            "type": "string",
+            "enum": [
+              "utf8",
+              "base64"
+            ]
+          },
+          "byte_length": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "sha256": {
+            "$ref": "#/components/schemas/Sha256"
+          },
+          "content": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "required": [
+          "format",
+          "media_type",
+          "encoding",
+          "byte_length",
+          "sha256",
+          "content"
+        ],
+        "oneOf": [
+          {
+            "properties": {
+              "format": {
+                "type": "string",
+                "enum": [
+                  "plan",
+                  "source_json"
+                ]
+              },
+              "media_type": {
+                "const": "application/json"
+              },
+              "encoding": {
+                "const": "utf8"
+              }
+            }
+          },
+          {
+            "properties": {
+              "format": {
+                "type": "string",
+                "enum": [
+                  "guide"
+                ]
+              },
+              "media_type": {
+                "const": "text/html"
+              },
+              "encoding": {
+                "const": "utf8"
+              }
+            }
+          },
+          {
+            "properties": {
+              "format": {
+                "type": "string",
+                "enum": [
+                  "svg"
+                ]
+              },
+              "media_type": {
+                "const": "image/svg+xml"
+              },
+              "encoding": {
+                "const": "utf8"
+              }
+            }
+          },
+          {
+            "properties": {
+              "format": {
+                "enum": [
+                  "pdf",
+                  "classic_pdf"
+                ]
+              },
+              "media_type": {
+                "const": "application/pdf"
+              },
+              "encoding": {
+                "const": "base64"
+              }
+            }
+          }
+        ]
+      },
+      "FoldedButterflyResult": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "settings": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "species": {
+                "$ref": "#/components/schemas/SpeciesId"
+              },
+              "span_mm": {
+                "type": "integer",
+                "minimum": 148,
+                "maximum": 184,
+                "multipleOf": 2
+              },
+              "appearance_id": {
+                "type": "string",
+                "enum": [
+                  "natural",
+                  "carnival",
+                  "twilight",
+                  "coloring"
+                ]
+              },
+              "paper": {
+                "$ref": "#/components/schemas/AirplanePaper"
+              }
+            },
+            "required": [
+              "species",
+              "span_mm",
+              "appearance_id",
+              "paper"
+            ]
+          },
+          "revision": {
+            "const": "k1"
+          },
+          "locale": {
+            "$ref": "#/components/schemas/AirplaneLocale"
+          },
+          "evidence_state": {
+            "const": "concept"
+          },
+          "flat_span_mm": {
+            "type": "integer",
+            "minimum": 164,
+            "maximum": 200
+          },
+          "keel_depth_mm": {
+            "const": 8
+          },
+          "clip_station_mm": {
+            "enum": [
+              17,
+              18
+            ]
+          },
+          "output": {
+            "$ref": "#/components/schemas/FoldedButterflyArtifact"
+          }
+        },
+        "required": [
+          "settings",
+          "revision",
+          "locale",
+          "evidence_state",
+          "flat_span_mm",
+          "keel_depth_mm",
+          "clip_station_mm",
+          "output"
         ]
       }
     }

@@ -155,7 +155,7 @@ const fontNotice = readFileSync(
   'utf8',
 )
 let font64: string
-export function pdf(drawing: Drawing & { locale?: Locale }): Buffer {
+export function pdf(drawing: Drawing & { locale?: Locale }, extraPages: Drawing[] = []): Buffer {
   const doc = new jsPDF({
     unit: 'mm',
     format: [drawing.width, drawing.height],
@@ -164,7 +164,8 @@ export function pdf(drawing: Drawing & { locale?: Locale }): Buffer {
     precision: 5,
   })
   doc.setCreationDate("D:20000101000000+00'00'")
-  doc.setFileId(sha256(JSON.stringify(drawing)).slice(0, 32))
+  const source = extraPages.length ? [drawing, ...extraPages] : drawing
+  doc.setFileId(sha256(JSON.stringify(source)).slice(0, 32))
   if (drawing.locale) doc.setLanguage(drawing.locale)
   doc.setProperties({
     title: 'Open Flight - Butterfly Glider',
@@ -176,26 +177,29 @@ export function pdf(drawing: Drawing & { locale?: Locale }): Buffer {
   doc.addFileToVFS('DejaVuSans.ttf', font64)
   doc.addFont('DejaVuSans.ttf', 'DejaVu', 'normal')
   doc.setFont('DejaVu', 'normal')
-  doc.setLineJoin('round')
-  for (const line of drawing.lines) {
-    if (line.stroke) doc.setDrawColor(line.stroke)
-    if (line.fill) doc.setFillColor(line.fill)
-    doc.setLineWidth(line.weight ?? 0)
-    doc.setLineDashPattern(line.dash ?? [], 0)
-    const ops = line.points.map((p: Point, i: number) => ({
-      op: i ? 'l' : 'm',
-      c: p,
-    }))
-    doc.path(ops)
-    if (line.closed) doc.close()
-    if (line.fill && line.stroke) doc.fillStroke()
-    else if (line.fill) doc.fill()
-    else doc.stroke()
-  }
-  for (const l of drawing.labels) {
-    doc.setFontSize((l.size * 72) / 25.4)
-    doc.setTextColor(l.color ?? '#23362e')
-    doc.text(l.text, l.x, l.y)
+  for (const [index, page] of [drawing, ...extraPages].entries()) {
+    if (index) doc.addPage([page.width, page.height])
+    doc.setLineJoin('round')
+    for (const line of page.lines) {
+      if (line.stroke) doc.setDrawColor(line.stroke)
+      if (line.fill) doc.setFillColor(line.fill)
+      doc.setLineWidth(line.weight ?? 0)
+      doc.setLineDashPattern(line.dash ?? [], 0)
+      const ops = line.points.map((p: Point, i: number) => ({
+        op: i ? 'l' : 'm',
+        c: p,
+      }))
+      doc.path(ops)
+      if (line.closed) doc.close()
+      if (line.fill && line.stroke) doc.fillStroke()
+      else if (line.fill) doc.fill()
+      else doc.stroke()
+    }
+    for (const l of page.labels) {
+      doc.setFontSize((l.size * 72) / 25.4)
+      doc.setTextColor(l.color ?? '#23362e')
+      doc.text(l.text, l.x, l.y)
+    }
   }
   return Buffer.from(doc.output('arraybuffer'))
 }

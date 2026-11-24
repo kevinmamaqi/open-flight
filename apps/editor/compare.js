@@ -1,4 +1,4 @@
-import { compareModels, designIds, fieldModel } from './atlas-guide.js'
+import { compareModels, designIds, fieldModel, foldedLink } from './atlas-guide.js'
 import { currentLocale, homeURL, localizedLinks } from './atlas-nav.js'
 const lang = currentLocale(),
   i = { en: 0, es: 1, ru: 2 }[lang]
@@ -115,6 +115,10 @@ function card(model, index) {
     el('p', model.experiment),
     action,
   )
+  if(model.family==='butterfly'){
+    const choice=el('p'),link=el('a',t('Compare this tabbed build with a folded body ↗','Comparar estas aletas con el cuerpo plegado ↗','Сравнить эту модель с вариантом со складным корпусом ↗'),'quiet')
+    link.href=foldedLink(model.id,lang)+'#comparison';choice.append(link);detail.append(choice)
+  }
   a.append(header, detail)
   return a
 }

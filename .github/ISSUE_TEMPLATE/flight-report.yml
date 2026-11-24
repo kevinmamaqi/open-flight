@@ -1,23 +1,25 @@
-name: Flight observation · Наблюдение за полётом
-description: An adult can share an observation or an unclear fold in English or Russian.
+name: Flight note · Nota de vuelo · Наблюдение
+description: Share a paper build or launch in English, español o русский.
 title: "Flight note · "
 body:
   - type: markdown
     attributes:
       value: |
-        English or Russian is welcome. Please describe the paper and the flight. Leave out names, faces and contacts of children.
-        Можно написать по-русски. Достаточно описать бумагу и полёт. Имена, лица и контакты детей не нужны.
+        An adult can share a flight or a tricky fold. Describe the paper and what you saw. Leave out children's names, faces and contact details.
+        Una persona adulta puede describir un vuelo o un pliegue difícil. Basta con el papel y lo observado. Omite nombres, rostros y datos de contacto de menores.
+        Взрослый может описать запуск или трудный сгиб. Достаточно указать бумагу и свои наблюдения. Имена, лица и контакты детей не нужны.
   - type: input
     id: model
     attributes:
-      label: Model and paper · Модель и бумага
-      placeholder: Monarch, A4
+      label: Model and paper · Modelo y papel · Модель и бумага
+      placeholder: Monarch K1, 172 mm, A4, 80 g/m²
+      description: For butterflies include K1 (folded body) or W1 (adjustable tabs). Para las mariposas, indica K1 o W1. Для бабочки укажите K1 или W1.
     validations:
       required: true
   - type: textarea
     id: observation
     attributes:
-      label: What changed and what happened? · Что изменили и что получилось?
-      description: Include the fold or step, settings and landing marks if you have them.
+      label: What happened? · ¿Qué pasó? · Что получилось?
+      description: Describe the step, grip, condition of the creases or first landing. Describe el paso, el agarre, los pliegues o el primer contacto con el suelo. Опишите шаг, захват, состояние сгибов или первое касание пола.
     validations:
       required: true

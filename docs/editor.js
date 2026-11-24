@@ -1,3 +1,4 @@
+import { foldedLink } from './atlas-guide.js'
 import { flightPhysics,physicsTitle } from './atlas-physics.js'
 import { butterflies } from './flight-butterflies.js'
 import { words } from './editor-i18n.js'
@@ -297,6 +298,10 @@ function setRange(id, name) {
 function renderSettings() {
   if (!revision) return
   const p = draft.parameters
+  const folded = $('folded-edition')
+  folded.hidden = !revision.species_id
+  folded.textContent = {en:'Try the folded body with this wing pattern ↗',es:'Probar el cuerpo plegado con estas alas ↗',ru:'Сложить корпус для этих крыльев ↗'}[locale]
+  if (revision.species_id) folded.href = foldedLink(revision.species_id,locale,{span_mm:String(p.span_mm),appearance_id:draft.appearance_id})
   setRange('wing', 'span_mm')
   $('wing-value').textContent = mm(p.span_mm)
   $('wing').setAttribute('aria-valuetext', mm(p.span_mm))

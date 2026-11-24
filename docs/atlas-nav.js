@@ -79,11 +79,12 @@ if (markers.length) {
         hash = new URLSearchParams(page.hash.slice(1))
       const plane = page.pathname.endsWith('/planes.html')
       const butterfly = page.pathname.endsWith('/studio.html')
+      const folded = page.pathname.endsWith('/keel.html')
       const id = plane
         ? page.searchParams.get('model')
         : butterfly
           ? hash.get('design')?.replace(/^butterfly-/, '')
-          : null
+          : folded ? page.searchParams.get('species') || 'monarch' : null
       const compare =
         './compare.html?lang=' +
         lang +
@@ -96,7 +97,7 @@ if (markers.length) {
       }
       const urls = [
         home,
-        './studio.html?lang=' + lang,
+        './keel.html?lang=' + lang,
         './planes.html?lang=' + lang,
         compare,
         circuit,

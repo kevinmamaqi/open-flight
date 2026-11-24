@@ -143,6 +143,7 @@ h3 {
   border-bottom: 1px solid var(--border);
   background: var(--sheet);
 }
+.other-construction {display:inline-block;color:#1e584c;margin-top:7px;font-weight:600;text-decoration:underline;text-underline-offset:3px}.other-construction[hidden]{display:none}
 .topbar-inner,
 main {
   width: min(1280px, calc(100% - 96px));

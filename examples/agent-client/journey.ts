@@ -47,11 +47,28 @@ async function http(path: string, options: RequestInit = {}) {
 }
 try {
   const tools = (await client.listTools()).tools
-  assert.equal(tools.length, 19)
+  assert.equal(tools.length, 20)
   assert.equal((await client.listResourceTemplates()).resourceTemplates.length, 1)
   const caps = await call('get_capabilities')
-  assert.equal(caps.enabled_operations.length, 20)
+  assert.equal(caps.enabled_operations.length, 21)
   assert.deepEqual(caps.locales, ['en', 'ru', 'es'])
+  const k1 = {settings:{species:'morpho',span_mm:168,appearance_id:'twilight',paper:'US_LETTER'},locale:'es',output:'source_json'}
+  const folded = await call('plan_folded_butterfly', k1)
+  assert.equal(folded.flat_span_mm,184)
+  assert.equal(folded.keel_depth_mm,8)
+  assert.equal(folded.clip_station_mm,18)
+  const restored = JSON.parse(folded.output.content)
+  assert.equal(restored.revision,'k1')
+  assert.deepEqual(await call('plan_folded_butterfly',{...k1,settings:restored}),folded)
+  assert.equal((await invoke('plan_folded_butterfly',{settings:{span_mm:169}})).error.code,'invalid_input')
+  if(origin){
+    for(const output of ['plan','pdf','classic_pdf','svg']){
+      const args={...k1,output}
+      const expected=await call('plan_folded_butterfly',args)
+      const response=await http('/v1/butterflies/folded/plan',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(args)})
+      assert.deepEqual(await response.json(),expected)
+    }
+  }
   const comparison = await call('compare_models', { left: 'morpho', right: 'douglas-dc3', locale: 'es' })
   assert.deepEqual(comparison.models.map(({ family }: { family: string }) => family), ['butterfly', 'airplane'])
   assert.equal(comparison.locale, 'es')
@@ -248,6 +265,7 @@ try {
         artifacts: recovered.artifact_ids.length,
         checks: [
           'discovery',
+          'K1 folded body and matched W1 sheets, editable source and calibrated span',
           'Spanish airplane field guide, fold plan and download hashes',
           'comparison, motor roadmap, flight circuit and deterministic simulation',
           'Spanish butterfly print and offline guide',

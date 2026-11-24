@@ -13,13 +13,13 @@ destination.mkdir(parents=True, exist_ok=True)
 site = root / 'docs'
 intro = """OPEN FLIGHT · МАСТЕРСКАЯ БУМАЖНЫХ ПОЛЁТОВ · TALLER DE VUELO EN PAPEL
 
-Print a PDF from the library at actual size. Butterfly sheets carry a 50 mm ruler. Airplane sheets carry a 20 mm ruler. Print only the first airplane page for the aircraft. Keep the picture guide and notebook at hand.
+Print a PDF from the library at actual size. Butterfly sheets carry a 50 mm ruler. Airplane sheets carry a 20 mm ruler. For a folded-body K1 butterfly, cut the first page and follow the six pictures on page two. Print only the first airplane page for the aircraft. Keep the picture guide and notebook at hand.
 To use the complete website archive offline, open a terminal in its expanded folder, start python3 -m http.server 8000 and open http://localhost:8000 in a browser. The PDFs and standalone lesson HTML files open directly.
 
-Откройте нужный PDF и печатайте в натуральную величину. Проверьте контрольный отрезок: 50 мм у бабочки или 20 мм у самолёта. Для самого самолёта достаточно первой страницы. На остальных страницах — схемы и лётный дневник.
+Откройте нужный PDF и печатайте в натуральную величину. Проверьте контрольный отрезок: 50 мм у бабочки или 20 мм у самолёта. Для бабочки K1 вырежьте выкройку с первой страницы и следуйте шести рисункам на второй. Для самого самолёта достаточно первой страницы. На остальных страницах — схемы и лётный дневник.
 Чтобы открыть весь сайт без интернета, распакуйте архив, откройте терминал в этой папке, запустите python3 -m http.server 8000 и перейдите на http://localhost:8000. PDF и самостоятельные HTML-занятия открываются прямо из папки.
 
-Imprime el PDF a tamaño real. Comprueba con una regla la línea de 50 mm de la mariposa o de 20 mm del avión. Para armar el avión, imprime solo la primera página. Las siguientes traen los dibujos y el cuaderno de vuelo.
+Imprime el PDF a tamaño real. Comprueba con una regla la línea de 50 mm de la mariposa o de 20 mm del avión. Para la mariposa K1, recorta la primera página y sigue las seis imágenes de la segunda. Para armar el avión, imprime solo la primera página. Las siguientes traen los dibujos y el cuaderno de vuelo.
 Para usar el taller completo sin conexión, descomprime el archivo, abre una terminal en esa carpeta, ejecuta python3 -m http.server 8000 y visita http://localhost:8000/es.html en el navegador. Los PDF y las actividades HTML se abren directamente.
 
 Website / Мастерская     https://kevinmamaqi.github.io/open-flight/
@@ -33,9 +33,11 @@ model_ids = (
 locales = ('en', 'ru', 'es')
 papers = ('A4', 'US_LETTER')
 library_pdfs = {f'{model}-{paper}-{locale}.pdf' for model in model_ids for paper in papers for locale in locales}
+library_pdfs |= {f'{species}-k1-{paper}-{locale}.pdf' for species in model_ids[:3] for paper in papers for locale in locales}
 library_lessons = {f'family-lesson-{locale}.html' for locale in locales}
 workshop_files = {
     'index.html', 'ru.html', 'es.html', 'studio.html', 'planes.html', 'compare.html', 'next.html', 'references.html',
+    'keel.html','keel.js','keel.css','keel-guide.js',
     'atlas-nav.js', 'compare.js', 'next.js', 'browser-workshop.js', 'flight-viewer.js',
     'flight-model.js', 'flight-scorecard.js', 'atlas-physics.js', 'assets/planes/field-portraits.js', 'assets/atlas/baselines.js',
     'flight-circuit-copy.js', 'flight-words.js',

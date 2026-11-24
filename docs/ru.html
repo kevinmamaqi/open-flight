@@ -52,7 +52,7 @@
           </h1>
           <p class="lede" data-t="intro">Бесплатная мастерская для детей 5–12 лет и взрослых. Сделайте из листа бумаги бабочку или самолёт, измените один сгиб и посмотрите, куда полетит планер.</p>
           <div class="actions">
-            <a href="./studio.html?lang=ru" data-route="butterfly" class="btn accent"><span data-t="cutStart">Сделать бабочку</span><b aria-hidden="true">↗</b></a
+            <a href="./keel.html?lang=ru" data-route="butterfly" class="btn accent"><span data-t="cutStart">Сделать бабочку</span><b aria-hidden="true">↗</b></a
             ><a class="btn outline" data-route="airplane" href="./planes.html?lang=ru" data-t="foldStart">Сложить самолёт</a
             ><a class="quiet" href="#library" data-t="getSheets">Листы для печати</a>
           </div>
@@ -69,11 +69,11 @@
             <circle cx="92" cy="270" r="9" />
             <path d="M81 270h22m-11-11v22" />
           </svg>
-          <a id="hero-link" class="specimen-art" href="./studio.html?lang=ru#design=butterfly-monarch&revision=w1"><img id="specimen" src="./assets/atlas/monarch.svg" width="440" height="245" alt="Бумажный монарх в мастерской Open Flight" fetchpriority="high" /></a>
+          <a id="hero-link" class="specimen-art" href="./keel.html?species=monarch&lang=ru"><img id="specimen" src="./assets/atlas/monarch.svg" width="440" height="245" alt="Бумажный монарх в мастерской Open Flight" fetchpriority="high" /></a>
           <div class="board-footer">
             <div>
               <small id="specimen-family">Планер-бабочка</small
-              ><a id="specimen-name" href="./studio.html?lang=ru#design=butterfly-monarch&revision=w1">Монарх ↗</a
+              ><a id="specimen-name" href="./keel.html?species=monarch&lang=ru">Монарх ↗</a
               ><i id="specimen-detail">Danaus plexippus</i>
             </div>
             <div class="turn">
@@ -97,16 +97,17 @@
               <div class="family-text">
                 <p class="kicker" data-t="butterTech">Вырезать и сложить</p>
                 <h3>
-                  <a data-route="butterfly" data-t="butterflies" href="./studio.html?lang=ru">Бабочки</a>
+                  <a data-route="butterfly" data-t="butterflies" href="./keel.html?lang=ru">Бабочки</a>
                 </h3>
-                <p data-t="butterDesc">Распечатайте узор, вырежьте крылья и настройте два язычка. Сравните бумажную бабочку с той, что живёт в природе.</p>
+                <p data-t="butterDesc">Вырежи контур, совмести кончики крыльев и сложи корпус. Положи крылья на стол, чтобы выровнять их. Каждая выкройка передаёт форму и окраску настоящей бабочки.</p>
               </div>
               <img src="./assets/atlas/morpho.svg" alt="" width="180" height="114" loading="lazy" />
             </div>
             <div class="family-links" id="butter-links"></div>
-            <a class="family-cta" href="./studio.html?lang=ru" data-route="butterfly"><span data-t="openButter">В мастерскую бабочек</span>
+            <a class="family-cta" href="./keel.html?lang=ru" data-route="butterfly"><span data-t="openButter">Сделать бабочку со складным корпусом</span>
               <span aria-hidden="true">↗</span></a
             >
+            <a class="classic-family" id="classic-butterfly" href="./studio.html?lang=ru#design=butterfly-monarch&revision=w1" data-t="classicButter">Исходная бабочка с задними язычками ↗</a>
           </article>
           <article class="family airplanes">
             <div class="family-main">
@@ -177,7 +178,7 @@
             <div class="download-fields">
               <label
                 ><span data-t="designLabel">Модель</span
-                ><select id="download-model"></select></label
+                ><select id="download-model"></select></label><label id="construction-field"><span data-t="bodyStyle">Конструкция бабочки</span><select id="construction"><option value="k1" data-t="keelBuild">Складной корпус · K1</option><option value="w1" data-t="flatBuild">Задние язычки · W1</option></select></label
               ><label
                 ><span data-t="paperLabel">Бумага</span
                 ><select id="download-paper">
@@ -186,12 +187,12 @@
                 </select></label
               >
             </div>
-            <a id="download" class="btn dark" download href="./library/monarch-A4-ru.pdf"><span data-t="download">Скачать PDF</span><b aria-hidden="true">↓</b></a
+            <a id="download" class="btn dark" download href="./library/monarch-k1-A4-ru.pdf"><span data-t="download">Скачать PDF</span><b aria-hidden="true">↓</b></a
             >
             <a
               class="all-sheets"
               data-t="allSheets"
-              href="https://github.com/kevinmamaqi/open-flight/releases/download/v0.4.0/open-flight-print-library.zip"
+              href="https://github.com/kevinmamaqi/open-flight/releases/download/v0.5.0/open-flight-print-library.zip"
               >Скачать все листы и занятия (ZIP) ↓</a
             >
           </article>

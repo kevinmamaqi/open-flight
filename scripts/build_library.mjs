@@ -11,6 +11,7 @@ import { revision } from "../packages/product-core/edition.ts";
 import { sheetFor } from "../packages/product-core/aircraft.ts";
 import { pdf } from "../packages/print-export/sheets.ts";
 import { workshopModels } from "../packages/geometry/workshop.ts";
+import { makeFoldedButterfly, foldedPdf } from "../packages/folded-butterfly/index.ts";
 import { makePlane, planePdf, planeCatalog } from "../packages/planes/index.ts";
 
 const root = fileURLToPath(new URL("../", import.meta.url));
@@ -70,6 +71,8 @@ for (const locale of ["en", "ru", "es"]) {
   );
   for (const paper of ["A4", "US_LETTER"]) {
     for (const m of workshopModels) {
+      const folded = makeFoldedButterfly({species:m.species,paper}, locale);
+      writeFileSync(join(library,[m.species,"k1",paper,locale].join("-")+".pdf"), foldedPdf(folded));
       const seed = revision(
         m.model,
         m.baseline_revision,
@@ -95,4 +98,4 @@ for (const locale of ["en", "ru", "es"]) {
     }
   }
 }
-console.log("Built 42 calibrated starter PDFs and three offline family lessons.");
+console.log("Built 60 calibrated starter PDFs and three offline family lessons.");

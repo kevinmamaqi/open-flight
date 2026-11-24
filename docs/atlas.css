@@ -93,6 +93,8 @@ footer > a:last-child:hover {
   text-decoration: underline;
   text-underline-offset: 0.3em;
 }
+.classic-family { display:inline-block; margin:0 0 14px; font-size:14px; font-weight:500; text-decoration:underline; text-underline-offset:3px }
+.download-fields [hidden]{display:none}
 .lang {
   border: 1px solid #c5ccbf;
   border-radius: 30px;

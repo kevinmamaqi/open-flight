@@ -4,10 +4,11 @@ Make a paper glider with a child or a classroom, then change one fold and see wh
 
 | Make | Start with | What to change |
 | --- | --- | --- |
-| Monarch, blue morpho or swallowtail | A printed sheet, scissors and a small blunt paper clip | Wingspan, colors and two independent back tabs. Follow the cut outline, raise the wings and compare the landing marks. |
+| Folded-body Monarch, blue morpho or swallowtail | A color or low-ink K1 sheet, a ruler, scissors and a small rounded clip | Match the wingtips, pinch the double body and open the wings on a table. Change the span and palette. [Build K1](https://kevinmamaqi.github.io/open-flight/keel.html?lang=en) |
+| Original tabbed Monarch, blue morpho or swallowtail | A printed sheet, scissors and a small blunt paper clip | Wingspan, colors and two independent back tabs. Follow the cut outline, raise the wings and compare the landing marks. |
 | A Boeing 747, Douglas DC-3, Tupolev Tu-144 or Ilyushin Il-62 inspired airplane | One whole sheet of A4 or US Letter paper | Choose a body fold, wingtip height and livery. Follow the illustrated stages. A printer is optional. |
 
-The three butterflies draw on photographs of real species. The four airplane patterns are original interpretations of civil aircraft, with illustrated guides linking a full-size feature to the paper fold. The 3D flight view and three-gate circuit illustrate predictions you can compare with an actual launch. Each starter sheet includes a calibration ruler. Print at actual size and measure 50 mm on a butterfly or 20 mm on an airplane. [Field references](https://kevinmamaqi.github.io/open-flight/references.html?lang=en) · [42 PDF editions and three offline lessons](docs/library/) · [Family lesson](guides/paper-flight-lesson.md) · [Version 0.4.0](https://github.com/kevinmamaqi/open-flight/releases/tag/v0.4.0)
+The three butterflies draw on photographs of real species. The four airplane patterns are original interpretations of civil aircraft, with illustrated guides linking a full-size feature to the paper fold. The 3D flight view and three-gate circuit illustrate predictions you can compare with an actual launch. Each starter sheet includes a calibration ruler. Print at actual size and measure 50 mm on a butterfly or 20 mm on an airplane. [Field references](https://kevinmamaqi.github.io/open-flight/references.html?lang=en) · [60 PDF editions and three offline lessons](docs/library/) · [Family lesson](guides/paper-flight-lesson.md) · [Version 0.5.0](https://github.com/kevinmamaqi/open-flight/releases/tag/v0.5.0)
 
 [![The Open Flight paper workshop with an orange Monarch on the worktable](apps/editor/assets/atlas/workshop-preview-en.png)](https://kevinmamaqi.github.io/open-flight/)
 
@@ -19,6 +20,6 @@ For the local workspace with revision history shared across HTTP and MCP, instal
 
 ## Edit or contribute
 
-The butterfly curves, colors and measurements live in `packages/geometry`. The whole-sheet airplane models live in `apps/editor/assets/planes`. Run `npm test` and `npm run typecheck` to check your changes. With Bun installed, `npm run build:site` regenerates the browser engine, starter sheets and static site. [Geometry](packages/geometry/) · [Airplane models](apps/editor/assets/planes/) · [Terms and credits](NOTICES.md)
+The butterfly curves, colors and measurements live in `packages/geometry`. The whole-sheet airplane models live in `apps/editor/assets/planes`. Run `npm test` and `npm run typecheck` to check your changes. With Bun installed, `npm run build:site` regenerates the browser engine, starter sheets and static site. [Wing geometry](packages/geometry/) · [Folded body and print generator](packages/folded-butterfly/) · [Airplane models](apps/editor/assets/planes/) · [Terms and credits](NOTICES.md)
 
 Grown-ups can send a short flight observation or identify a confusing fold. Include the model, paper size, setting and what happened. Children’s names, faces and contact details are unnecessary. A powered version is a research direction. The current designs are hand-launched. [Send a flight note](https://github.com/kevinmamaqi/open-flight/issues/new?template=flight-report.yml) · [Powered roadmap](https://kevinmamaqi.github.io/open-flight/references.html?lang=en#powered)

@@ -43,6 +43,13 @@ const extra = {
     'Ли и коллеги исследовали планирующие пластины, в том числе в резервуаре с водой. Их результаты показывают связь между распределением массы и аэродинамическими силами. Измерь расстояние от носа готового планера до точки равновесия и понаблюдай за запуском и посадкой.',
   ],
 }[lang]
+const keelWords={
+  en:['Why fold the body?','A double-layer spine gives fingers a repeatable place to grip and adds depth along the body. A flat table sets the two wings level. The extra strip adds paper, so a real launch is needed to see how the landing changes. The Pacific Science Center guide shows a separate folded fuselage. Our version folds the body from the same sheet as the wings.','Build the folded butterfly ↗'],
+  es:['¿Para qué sirve el cuerpo plegado?','Un cuerpo de dos capas da a los dedos un punto de agarre y al papel una sección más profunda. La mesa permite nivelar las alas. La tira añade papel, por lo que hay que probar el aterrizaje. La guía del Pacific Science Center muestra un fuselaje plegado aparte. Aquí las alas y el cuerpo salen de la misma hoja.','Construir la mariposa de cuerpo plegado ↗'],
+  ru:['Зачем складывать корпус?','Двухслойный корпус удобно брать в одном и том же месте. Сгиб придаёт плоскому листу объём, а стол помогает выровнять крылья. Полоска добавляет бумагу, поэтому изменение посадки проверяют настоящими запусками. В пособии Pacific Science Center корпус складывают отдельно. Здесь он сделан из того же листа, что и крылья.','Сделать бабочку со складным корпусом ↗']
+}[lang]
+for(const [i,id] of ['folded-title','folded-text','folded-worktable'].entries())$(id).textContent=keelWords[i]
+$('folded-worktable').href='./keel.html?lang='+lang
 $('next-page').href = './next.html?lang=' + lang
 for (const [i, id] of ['next-page', 'ctitle', 'cg'].entries()) $(id).textContent = extra[i]
 const labels = {

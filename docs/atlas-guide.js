@@ -66,6 +66,9 @@ const copy = {
   ),
 }
 export const designIds = [...Object.keys(names), ...planeCatalog.map((p) => p.model_id)]
+export function foldedLink(species, locale, settings = {}) {
+  return './keel.html?' + new URLSearchParams({species,lang:locale,...settings})
+}
 export function studioLink(id, locale, flight = false) {
   const query = new URLSearchParams({ lang: locale })
   if (flight) query.set('view', 'flight')

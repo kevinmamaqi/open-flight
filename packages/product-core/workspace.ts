@@ -2,6 +2,7 @@ import { compareModels } from '../../apps/editor/atlas-guide.js'
 import { motorRoadmap } from '../../apps/editor/atlas-roadmap.js'
 import { flightCircuit, simulateFlight } from '../../apps/editor/flight-model.js'
 import { planeCatalog, sheetSizes, liveries, revision as planeRevision } from '../planes/index.ts'
+import { foldedButterflyPlan } from './folded-butterflies.ts'
 import { airplanePlan } from './airplanes.ts'
 import { DatabaseSync } from 'node:sqlite'
 import { mkdirSync } from 'node:fs'
@@ -225,6 +226,8 @@ export class Workspace {
         return simulateFlight(a)
       case 'listAirplanes':
         return { revision: planeRevision, papers: Object.keys(sheetSizes), liveries, items: planeCatalog }
+      case 'planFoldedButterfly':
+        return foldedButterflyPlan(a.settings, a.locale, a.output)
       case 'planAirplane':
         return airplanePlan(a.settings, a.locale, a.output)
       case 'getCapabilities':

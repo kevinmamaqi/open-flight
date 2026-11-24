@@ -1,0 +1,168 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#f9f7ee" />
+    <title>Folded-body butterfly · Open Flight</title>
+    <link rel="icon" href="./assets/wing-mark.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="./atlas-nav.css" />
+    <link rel="stylesheet" href="./atlas.css" />
+    <link rel="stylesheet" href="./keel.css" />
+    <script type="module" src="./keel.js"></script>
+  </head>
+  <body>
+    <a class="skip" href="#main" data-word="skip">Skip to the worktable</a>
+    <header class="mast">
+      <div class="mast-in">
+        <a class="wordmark" id="home" href="./">
+          <img src="./assets/wing-mark.svg" width="40" height="40" alt="" />Open
+          Flight
+        </a>
+        <span data-workshop-menu></span>
+        <div class="lang">
+          <a
+            id="en"
+            href="?lang=en"
+            lang="en"
+            hreflang="en"
+            aria-label="English"
+            >EN</a
+          >
+          <a
+            id="es"
+            href="?lang=es"
+            lang="es"
+            hreflang="es"
+            aria-label="Español"
+            >ES</a
+          >
+          <a
+            id="ru"
+            href="?lang=ru"
+            lang="ru"
+            hreflang="ru"
+            aria-label="Русский"
+            >РУ</a
+          >
+        </div>
+      </div>
+    </header>
+    <main id="main" class="wrap keel-main">
+      <h1 data-word="title">Fold a butterfly body</h1>
+      <p class="keel-intro" data-word="intro"></p>
+      <noscript
+        >This worktable needs JavaScript. · Esta mesa necesita JavaScript. · Для
+        мастерской нужен JavaScript.</noscript
+      >
+      <section
+        id="worktable"
+        class="keel-worktable"
+        aria-labelledby="design-title"
+      >
+        <div class="keel-tools">
+          <h2 id="design-title" data-word="design"></h2>
+          <label
+            ><span data-word="species"></span
+            ><select id="species"></select
+          ></label>
+          <label for="span_mm"
+            ><span data-word="span"></span>
+            <output id="span-value" for="span_mm"></output
+          ></label>
+          <input id="span_mm" type="range" min="148" max="184" step="2" />
+          <label
+            ><span data-word="appearance"></span
+            ><select id="appearance_id"></select
+          ></label>
+          <label
+            ><span data-word="paper"></span
+            ><select id="paper"></select
+          ></label>
+          <div class="keel-actions">
+            <button
+              type="button"
+              id="print"
+              class="keel-primary"
+              data-word="print"
+            ></button>
+            <button type="button" id="pdf">PDF</button>
+            <button type="button" id="svg">SVG</button>
+          </div>
+          <p class="keel-hint" data-word="scale"></p>
+        </div>
+        <div class="keel-visual">
+          <div class="keel-artwork">
+            <label class="keel-view">
+              <span data-word="previewView"></span>
+              <select id="view"></select>
+            </label>
+            <div id="preview" class="keel-preview" role="img"></div>
+            <p id="dimensions" class="keel-dimensions"></p>
+          </div>
+          <div class="keel-actions">
+            <button type="button" id="copy" data-word="copy"></button>
+            <button type="button" id="save" data-word="save"></button>
+            <button type="button" id="reopen" data-word="reopen"></button>
+          </div>
+          <label id="share-row" hidden
+            ><span data-word="share"></span
+            ><input id="share" type="url" readonly
+          /></label>
+          <p id="status" role="status" class="keel-hint"></p>
+        </div>
+      </section>
+      <section class="keel-guide" aria-labelledby="guide-title">
+        <h2 id="guide-title" data-word="guide"></h2>
+        <div class="keel-lesson" aria-live="polite">
+          <div id="diagram"></div>
+          <div class="keel-instructions">
+            <p id="progress"></p>
+            <h3 id="step-title"></h3>
+            <p id="action"></p>
+            <p class="keel-check">
+              <strong data-word="check"></strong> <span id="check"></span>
+            </p>
+          </div>
+        </div>
+        <div class="keel-actions">
+          <button type="button" id="prev" data-word="prev"></button>
+          <button
+            type="button"
+            id="next"
+            class="keel-primary"
+            data-word="next"
+          ></button>
+        </div>
+      </section>
+      <details class="keel-guide" id="comparison">
+        <summary data-word="compare"></summary>
+        <p data-word="whyFold"></p>
+        <p data-word="trial"></p>
+        <p><a id="fold-reference" data-word="foldReference"></a></p>
+        <button type="button" id="matching-original" data-word="match"></button>
+      </details>
+      <footer class="keel-footer">
+        <p data-word="evidence"></p>
+        <div class="keel-actions">
+          <a id="original" data-word="original"></a>
+          <a id="editor" data-word="editor"></a>
+          <button type="button" id="source" data-word="source"></button>
+          <button
+            type="button"
+            id="open-source"
+            data-word="openSource"
+          ></button>
+          <input
+            type="file"
+            id="source-file"
+            accept=".json,application/json"
+            hidden
+          />
+        </div>
+      </footer>
+    </main>
+    <div id="print-sheet" aria-hidden="true"></div>
+    <style id="print-page"></style>
+  </body>
+</html>
