@@ -1,10 +1,11 @@
-import { ru, es } from './atlas-copy.js?v=f4bb970c0b08'
-import { currentLocale, homeURL, localizedLinks } from './atlas-nav.js?v=f4bb970c0b08'
-import { fieldModel, studioLink, foldedLink } from './atlas-guide.js?v=f4bb970c0b08'
-import { sheetIdFor, sheetPath } from './family-sheets.js?v=f4bb970c0b08'
-import { normalizeBook } from './book-model.js?v=f4bb970c0b08'
-import { recordBookEvent } from './book-metrics.js?v=f4bb970c0b08'
+import { ru, es } from './atlas-copy.js?v=703c9111bd20'
+import { currentLocale, homeURL, localizedLinks } from './atlas-nav.js?v=703c9111bd20'
+import { fieldModel, studioLink, foldedLink } from './atlas-guide.js?v=703c9111bd20'
+import { sheetIdFor, sheetPath } from './family-sheets.js?v=703c9111bd20'
+import { normalizeBook } from './book-model.js?v=703c9111bd20'
+import { recordBookEvent } from './book-metrics.js?v=703c9111bd20'
 
+const assetVersion = new URL(import.meta.url).search
 const fragment = new URLSearchParams(location.hash.slice(1))
 if (fragment.has('grant') || (fragment.has('design') && fragment.has('revision'))) {
   location.replace(new URL('./studio.html' + location.search + location.hash, import.meta.url))
@@ -35,7 +36,7 @@ for (const a of document.querySelectorAll('[data-route]'))
 $('folded-butterfly').href = foldedLink('monarch', lang)
 const bookLink = './book.html?lang=' + lang
 $('hero-book').href = $('nav-book').href = bookLink
-$('book-cover-image').src = './assets/atlas/book-cover-' + lang + '.png' + new URL(import.meta.url).search
+$('book-cover-image').src = './assets/atlas/book-cover-' + lang + '.png' + assetVersion
 const pilot = $('home-pilot')
 function updateHomeBook() {
   const name = pilot.value.trim()
@@ -122,7 +123,7 @@ function download() {
   $('construction-field').hidden=!butterfly
   const id = sheetIdFor(select.value, $('construction').value)
   const path = sheetPath(id, $('download-paper').value, lang)
-  $('download').href = './' + path
+  $('download').href = './' + path + assetVersion
   $('download').download = path.split('/').pop()
 }
 $('construction').onchange = download

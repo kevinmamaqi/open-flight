@@ -29,7 +29,7 @@ function close(actual: number, expected: number, tolerance = 0.0001) {
 }
 function assertPrintReferences(svg: string, drawing: string, width: number, height: number) {
   const toMm = (value: string) => Number(value) * 25.4 / 72
-  const border = [[15, 15], [width - 15, 15], [width - 15, height - 15], [15, height - 15], [15, 15]]
+  const border = [[0, 0], [width, 0], [width, height], [0, height], [0, 0]]
   assert.ok(svg.includes('points="' + border.map((point) => point.join(',')).join(' ') + '"'))
   const paths = drawing.match(/^[\d.]+ [\d.]+ m(?:\n[\d.]+ [\d.]+ l){4}\nS$/gm) ?? []
   assert.ok(paths.some((path) => {
@@ -37,13 +37,13 @@ function assertPrintReferences(svg: string, drawing: string, width: number, heig
     return border.every(([x, y], i) =>
       Math.abs(coords[i * 2] - x) < 0.01 && Math.abs(coords[i * 2 + 1] - (height - y)) < 0.01,
     )
-  }), 'One continuous path connects all four corners')
+  }), 'One continuous path follows the physical paper edges')
   const elbows = Array.from(
     drawing.matchAll(/^([\d.]+) ([\d.]+) m\n([\d.]+) ([\d.]+) l\n([\d.]+) ([\d.]+) l\nS$/gm),
     (match) => match.slice(1).map(toMm),
   )
-  for (const x of [15, width - 15]) {
-    for (const y of [15, height - 15]) {
+  for (const x of [0, width]) {
+    for (const y of [0, height]) {
       // SVG has a top-left origin. PDF has a bottom-left origin.
       assert.ok(svg.includes(` ${x},${y} `))
       assert.ok(elbows.some(([leftX, leftY, elbowX, elbowY, endX, endY]) =>

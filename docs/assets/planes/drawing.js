@@ -1,5 +1,5 @@
-import { planeCredits, creditText } from './credits.js?v=f4bb970c0b08'
-import { flagDecals } from './country-markings.js?v=f4bb970c0b08'
+import { planeCredits, creditText } from './credits.js?v=703c9111bd20'
+import { flagDecals } from './country-markings.js?v=703c9111bd20'
 
 export const esc = (value) =>
   String(value).replace(
@@ -174,16 +174,14 @@ export function stripes(plan) {
 function creaseDash(kind) {
   return kind === 'mountain' ? [3.4, 1, 0.7, 1] : [2.3, 1.4]
 }
-// The line sits inside the paper edges so a desktop printer can show all four corners.
+// Page and SVG viewports clip the outer half of these strokes at the physical paper edge.
 function paperFrame(w, h) {
-  const inset = 15
-  const left = inset, right = w - inset, top = inset, bottom = h - inset
-  const outline = [[left, top], [right, top], [right, bottom], [left, bottom], [left, top]]
-  const parts = [line(outline, '#7c898b', 0.18)]
-  for (const [x, dx] of [[left, 1], [right, -1]]) {
-    for (const [y, dy] of [[top, 1], [bottom, -1]]) {
+  const outline = [[0, 0], [w, 0], [w, h], [0, h], [0, 0]]
+  const parts = [line(outline, '#7c898b', 0.36)]
+  for (const [x, dx] of [[0, 1], [w, -1]]) {
+    for (const [y, dy] of [[0, 1], [h, -1]]) {
       const corner = [[x + dx * 5.5, y], [x, y], [x, y + dy * 5.5]]
-      parts.push(line(corner, '#ffffff', 1.6), line(corner, '#233e46', 1))
+      parts.push(line(corner, '#233e46', 1.8))
     }
   }
   return parts
@@ -300,7 +298,7 @@ export function planeSvg(plan) {
     w +
     ' ' +
     h +
-    '" role="img" xml:lang="' +
+    '" overflow="hidden" role="img" xml:lang="' +
     plan.locale +
     '"><title>' +
     esc(plan.name) +

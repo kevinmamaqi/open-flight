@@ -2,7 +2,7 @@
 // U.S. flag proportions: https://www.archives.gov/federal-register/codification/executive-order/10834.html
 // Soviet flag description: USSR Presidium decree of 31 March 1980, reproduced in
 // https://www.marxists.org/history/ussr/government/1982/ussr-sixty-years-of-union-1922-1982.pdf
-import { aircraftHeritage } from './heritage.js?v=f4bb970c0b08'
+import { aircraftHeritage } from './heritage.js?v=703c9111bd20'
 
 const wingMarkPosition = { 'boeing-747': 0.54, 'douglas-dc3': 0.4 }
 const us = ['#B31942', '#FFFFFF', '#0A3161']

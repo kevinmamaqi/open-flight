@@ -1,5 +1,5 @@
-import { currentLocale, homeURL, localizedLinks } from "./atlas-nav.js?v=f4bb970c0b08";
-import { recordBookEvent } from "./book-metrics.js?v=f4bb970c0b08";
+import { currentLocale, homeURL, localizedLinks } from "./atlas-nav.js?v=703c9111bd20";
+import { recordBookEvent } from "./book-metrics.js?v=703c9111bd20";
 import {
   bookFilename,
   bookPlan,
@@ -11,25 +11,26 @@ import {
   normalizeBook,
   pilotLimit,
   readBookURL,
-} from "./book-model.js?v=f4bb970c0b08";
+} from "./book-model.js?v=703c9111bd20";
 import {
   loadBookServices,
   recoverBookCheckout,
   supportChoices,
-} from "./book-support.js?v=f4bb970c0b08";
-import { estimateBookBytes } from "./book-size.js?v=f4bb970c0b08";
-import { mountBookReader } from "./book-reader.js?v=f4bb970c0b08";
-import { applyStudioColors, studioForBookSheet } from "./model-studio.js?v=f4bb970c0b08";
-import { mountModelMap } from "./model-map.js?v=f4bb970c0b08";
-import { appearanceArtPath, appearanceChoices } from "./model-appearance.js?v=f4bb970c0b08";
-import { builderCopy } from "./book-ui-copy.js?v=f4bb970c0b08";
+} from "./book-support.js?v=703c9111bd20";
+import { estimateBookBytes } from "./book-size.js?v=703c9111bd20";
+import { mountBookReader } from "./book-reader.js?v=703c9111bd20";
+import { applyStudioColors, studioForBookSheet } from "./model-studio.js?v=703c9111bd20";
+import { mountModelMap } from "./model-map.js?v=703c9111bd20";
+import { appearanceArtPath, appearanceChoices } from "./model-appearance.js?v=703c9111bd20";
+import { builderCopy } from "./book-ui-copy.js?v=703c9111bd20";
 import {
   sheetCatalog,
   sheetIdFor,
   sheetName,
   sheetPath,
-} from "./family-sheets.js?v=f4bb970c0b08";
+} from "./family-sheets.js?v=703c9111bd20";
 
+const sheetVersion = new URL(import.meta.url).search;
 const byId = (id) => document.getElementById(id);
 const designs = byId("designs");
 const order = byId("order");
@@ -370,7 +371,7 @@ function previewOptions(book) {
     for (const { index, number } of entry.pages) {
       const sharedGuide = number === plan.guidePage;
       const label = sharedGuide ? t.foldGuide : namedSheet(entry.id);
-      const source = `./${sheetPath(entry.id, book.paper, book.lang)}#page=${index + 1}`;
+      const source = `./${sheetPath(entry.id, book.paper, book.lang)}${sheetVersion}#page=${index + 1}`;
       items.push({ label, number, source });
     }
   }
@@ -709,7 +710,9 @@ function loadAsset(path) {
   let bytes = recentAssets.get(path);
   recentAssets.delete(path);
   if (!bytes) {
-    bytes = fetch(new URL(path, import.meta.url)).then(async (response) => {
+    const url = new URL(path, import.meta.url);
+    if (path.startsWith("library/")) url.search = sheetVersion;
+    bytes = fetch(url).then(async (response) => {
       if (!response.ok) throw new Error("Unable to load " + path);
       return new Uint8Array(await response.arrayBuffer());
     });
@@ -726,8 +729,8 @@ function readyPDF(book) {
   const key = JSON.stringify(book);
   if (activePDF?.key === key) return activePDF.promise;
   const promise = Promise.all([
-    import("./book-engine.js?v=f4bb970c0b08"),
-    import("./assets/planes/vendor/jspdf.js?v=f4bb970c0b08"),
+    import("./book-engine.js?v=703c9111bd20"),
+    import("./assets/planes/vendor/jspdf.js?v=703c9111bd20"),
   ]).then(async ([{ createBook }]) => {
     const data = await createBook(book, { loadAsset });
     return new File([data], bookFilename(book), { type: "application/pdf" });

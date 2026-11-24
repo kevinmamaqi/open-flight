@@ -85,7 +85,7 @@ export function planePdfBytes(plan, JsPDF, fontBase64, fontNotice) {
     keywords: ['Open Flight', credit.geometry, credit.artwork].join(', '),
   })
   doc.setCreationDate("D:20260101000000+00'00'")
-  doc.setFileId(fixedId('airplane-print-frame/' + JSON.stringify(plan.source) + plan.locale + planeCredits.url))
+  doc.setFileId(fixedId('airplane-print-edge/' + JSON.stringify(plan.source) + plan.locale + planeCredits.url))
   draw(doc, sheetScene(plan))
   const write = (value, x, y, size, color = '#243f48') => {
     doc.setFontSize(size)

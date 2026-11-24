@@ -1,5 +1,5 @@
-import { bookPlan, bookURL, normalizeBook, starterModels } from './book-model.js?v=f4bb970c0b08'
-import { sheetIdFor } from './family-sheets.js?v=f4bb970c0b08'
+import { bookPlan, bookURL, normalizeBook, starterModels } from './book-model.js?v=703c9111bd20'
+import { sheetIdFor } from './family-sheets.js?v=703c9111bd20'
 
 const sheets = starterModels.map(model => sheetIdFor(model))
 

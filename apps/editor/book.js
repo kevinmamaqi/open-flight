@@ -30,6 +30,7 @@ import {
   sheetPath,
 } from "./family-sheets.js";
 
+const sheetVersion = new URL(import.meta.url).search;
 const byId = (id) => document.getElementById(id);
 const designs = byId("designs");
 const order = byId("order");
@@ -370,7 +371,7 @@ function previewOptions(book) {
     for (const { index, number } of entry.pages) {
       const sharedGuide = number === plan.guidePage;
       const label = sharedGuide ? t.foldGuide : namedSheet(entry.id);
-      const source = `./${sheetPath(entry.id, book.paper, book.lang)}#page=${index + 1}`;
+      const source = `./${sheetPath(entry.id, book.paper, book.lang)}${sheetVersion}#page=${index + 1}`;
       items.push({ label, number, source });
     }
   }
@@ -709,7 +710,9 @@ function loadAsset(path) {
   let bytes = recentAssets.get(path);
   recentAssets.delete(path);
   if (!bytes) {
-    bytes = fetch(new URL(path, import.meta.url)).then(async (response) => {
+    const url = new URL(path, import.meta.url);
+    if (path.startsWith("library/")) url.search = sheetVersion;
+    bytes = fetch(url).then(async (response) => {
       if (!response.ok) throw new Error("Unable to load " + path);
       return new Uint8Array(await response.arrayBuffer());
     });

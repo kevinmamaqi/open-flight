@@ -1,7 +1,7 @@
-import { butterflySwatches } from './assets/atlas/swatches.js?v=f4bb970c0b08'
-import { planeCatalog, planeColors, liveries } from './assets/planes/catalog.js?v=f4bb970c0b08'
-import { planeFlagCountry } from './assets/planes/country-markings.js?v=f4bb970c0b08'
-import { sheetCatalog, sheetLocales } from './family-sheets.js?v=f4bb970c0b08'
+import { butterflySwatches } from './assets/atlas/swatches.js?v=703c9111bd20'
+import { planeCatalog, planeColors, liveries } from './assets/planes/catalog.js?v=703c9111bd20'
+import { planeFlagCountry } from './assets/planes/country-markings.js?v=703c9111bd20'
+import { sheetCatalog, sheetLocales } from './family-sheets.js?v=703c9111bd20'
 
 const labels = {
   natural: { en: 'Field colors', es: 'Colores naturales', ru: 'Природная окраска' },
