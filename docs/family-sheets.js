@@ -1,5 +1,5 @@
-import { baselines } from './assets/atlas/baselines.js?v=3f377bf311aa'
-import { planeCatalog, sheetSizes } from './assets/planes/catalog.js?v=3f377bf311aa'
+import { baselines } from './assets/atlas/baselines.js?v=4042ad8d9b65'
+import { planeCatalog, sheetSizes } from './assets/planes/catalog.js?v=4042ad8d9b65'
 
 export const sheetLocales = Object.freeze(['en', 'es', 'ru'])
 export const paperSizes = Object.freeze(Object.keys(sheetSizes))

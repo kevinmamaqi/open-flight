@@ -61,7 +61,9 @@ try {
     for(const link of await page.locator('#phone-files a, #bench-files a, #files a').all()) {
       const href=await link.getAttribute('href'), result=await page.request.get(new URL(href,base).href)
       assert.equal(result.status(),200,href)
-      if(href.endsWith('.zip')) assert.equal((await result.body()).subarray(0,2).toString(),'PK')
+      const path = new URL(href,base).pathname
+      if(path.endsWith('.zip')) assert.equal((await result.body()).subarray(0,2).toString(),'PK')
+      if(path.endsWith('OF-M0-r1-bench.ino')) assert.equal(await result.text(), await readFile(join(publicAssets,'assets/motor/OF-M0-r1-bench.ino'),'utf8'))
     }
   }
   if(shots) {

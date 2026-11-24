@@ -12,7 +12,9 @@ const updateAttr = (name, value) => ({ element: (el) => el.setAttribute(name, va
 const replaceText = (value) => ({ element: (el) => el.setInnerContent(value) })
 // Pages caches files independently. Link each release's HTML and ES module graph
 // to the same asset generation, including dynamic imports in the worktables.
-const assets = readdirSync(editor, { recursive: true }).filter((name) => /\.(css|js)$/.test(name)).sort()
+const assets = readdirSync(editor, { recursive: true })
+  .filter(name => /\.(css|js|json)$/.test(name) || /^assets\/motor\/.*\.(csv|h|ino|md|pdf|svg|txt|zip)$/.test(name))
+  .sort()
 const hash = createHash('sha256').update(readFileSync(fileURLToPath(import.meta.url)))
 for (const name of assets) hash.update(name).update('\0').update(readFileSync(join(editor, name))).update('\0')
 const assetKey = '?v=' + hash.digest('hex').slice(0, 12)

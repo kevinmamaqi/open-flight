@@ -1,6 +1,7 @@
 import { currentLocale, homeURL, localizedLinks } from "./atlas-nav.js";
 
 const lang = currentLocale();
+const assetVersion = new URL(import.meta.url).search;
 document.documentElement.lang = lang;
 localizedLinks(lang);
 for (const id of ["home", "foot-home"])
@@ -39,7 +40,7 @@ function renderLab(lab) {
   for (const [id, group] of [["files", "fit"], ["bench-files", "bench"], ["phone-files", "phone"]]) {
     const files = lab.files.filter(file => file.group === group)
     document.getElementById(id).replaceChildren(...files.map(file =>
-      link(file.label[lang], "./" + file.path, !["application/pdf", "text/plain", "text/markdown"].includes(file.mediaType))
+      link(file.label[lang], "./" + file.path + assetVersion, !["application/pdf", "text/plain", "text/markdown"].includes(file.mediaType))
     ))
   }
   for (const [id, sources, labels] of [
@@ -78,9 +79,8 @@ function renderLab(lab) {
   );
 }
 try {
-  const script = new URL(import.meta.url);
-  const data = new URL("./assets/motor/lab.json", script);
-  data.search = script.search;
+  const data = new URL("./assets/motor/lab.json", import.meta.url);
+  data.search = assetVersion;
   const response = await fetch(data);
   if (!response.ok) throw new Error("Motor lab data unavailable");
   renderLab(await response.json());

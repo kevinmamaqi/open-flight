@@ -1,6 +1,10 @@
 // SPDX-License-Identifier: Apache-2.0
 // OF-M0-r1. LED-only bench demonstration for Seeed XIAO nRF52840.
 #include <Arduino.h>
+#if defined(ARDUINO_ARCH_NRF52)
+// The Seeed core uses TinyUSB for its USB serial runtime.
+#include <Adafruit_TinyUSB.h>
+#endif
 
 constexpr auto buttonPin = D1;
 constexpr auto enablePin = D2;

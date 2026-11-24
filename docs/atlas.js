@@ -1,7 +1,7 @@
-import { ru, es } from './atlas-copy.js?v=3f377bf311aa'
-import { currentLocale, homeURL, localizedLinks } from './atlas-nav.js?v=3f377bf311aa'
-import { fieldModel, studioLink, foldedLink } from './atlas-guide.js?v=3f377bf311aa'
-import { sheetIdFor, sheetPath } from './family-sheets.js?v=3f377bf311aa'
+import { ru, es } from './atlas-copy.js?v=4042ad8d9b65'
+import { currentLocale, homeURL, localizedLinks } from './atlas-nav.js?v=4042ad8d9b65'
+import { fieldModel, studioLink, foldedLink } from './atlas-guide.js?v=4042ad8d9b65'
+import { sheetIdFor, sheetPath } from './family-sheets.js?v=4042ad8d9b65'
 
 const fragment = new URLSearchParams(location.hash.slice(1))
 if (fragment.has('grant') || (fragment.has('design') && fragment.has('revision'))) {

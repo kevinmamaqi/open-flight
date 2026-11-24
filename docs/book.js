@@ -1,6 +1,6 @@
-import { currentLocale, homeURL, localizedLinks } from "./atlas-nav.js?v=3f377bf311aa";
-import { bookSupport } from "./book-support.js?v=3f377bf311aa";
-import { sheetCatalog } from "./family-sheets.js?v=3f377bf311aa";
+import { currentLocale, homeURL, localizedLinks } from "./atlas-nav.js?v=4042ad8d9b65";
+import { bookSupport } from "./book-support.js?v=4042ad8d9b65";
+import { sheetCatalog } from "./family-sheets.js?v=4042ad8d9b65";
 import {
   bookCopy,
   coverArt,
@@ -11,7 +11,7 @@ import {
   normalizeBook,
   sheetName,
   themes,
-} from "./book-engine.js?v=3f377bf311aa";
+} from "./book-engine.js?v=4042ad8d9b65";
 
 const copy = {
   en: {

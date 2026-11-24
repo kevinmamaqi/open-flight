@@ -1,10 +1,10 @@
-import { foldArtwork, showFoldStep } from './fold-lesson.js?v=3f377bf311aa'
-import { keelSteps } from './keel-guide.js?v=3f377bf311aa'
-import { foldedAddress, foldedExports, foldedSettings } from './studio-folded.js?v=3f377bf311aa'
-import { flightPhysics,physicsTitle } from './atlas-physics.js?v=3f377bf311aa'
-import { butterflies } from './flight-butterflies.js?v=3f377bf311aa'
-import { words } from './editor-i18n.js?v=3f377bf311aa'
-import { drawGlide, playGlide } from './editor-glide.js?v=3f377bf311aa'
+import { foldArtwork, showFoldStep } from './fold-lesson.js?v=4042ad8d9b65'
+import { keelSteps } from './keel-guide.js?v=4042ad8d9b65'
+import { foldedAddress, foldedExports, foldedSettings } from './studio-folded.js?v=4042ad8d9b65'
+import { flightPhysics,physicsTitle } from './atlas-physics.js?v=4042ad8d9b65'
+import { butterflies } from './flight-butterflies.js?v=4042ad8d9b65'
+import { words } from './editor-i18n.js?v=4042ad8d9b65'
+import { drawGlide, playGlide } from './editor-glide.js?v=4042ad8d9b65'
 
 const $ = (id) => document.getElementById(id)
 let spatial
@@ -23,7 +23,7 @@ if (initial.has('grant')) {
   )
 }
 const grant = loopback && sessionStorage.getItem('open-flight-grant')
-const portable = grant ? null : import('./browser-workshop.js?v=3f377bf311aa')
+const portable = grant ? null : import('./browser-workshop.js?v=4042ad8d9b65')
 const pageOptions = new URLSearchParams(location.search)
 let foldedDraft
 const foldedCache = new Map()
@@ -410,7 +410,7 @@ async function renderFoldedPreview() {
   $('art-board').setAttribute('aria-busy', 'true')
   foldedLesson = undefined
   try {
-    const api = await (portable ?? import('./browser-workshop.js?v=3f377bf311aa'))
+    const api = await (portable ?? import('./browser-workshop.js?v=4042ad8d9b65'))
     if (!foldedDraft || ticket !== foldedRender) return
     const plan = api.makeFoldedButterfly(foldedDraft, locale)
     foldedLesson = { api, plan }
@@ -883,7 +883,7 @@ async function exportFolded() {
   clearDownloads()
   const printLocale = $('print-locale').value
   const planInput = { ...foldedDraft, paper: $('paper').value }
-  const api = await (portable ?? import('./browser-workshop.js?v=3f377bf311aa'))
+  const api = await (portable ?? import('./browser-workshop.js?v=4042ad8d9b65'))
   const plan = api.makeFoldedButterfly(planInput, printLocale)
   message(t('preparing'), false, $('print-status'))
   await api.prepareFoldedPdf()
@@ -989,7 +989,7 @@ async function openSpatial(mode, start) {
     renderStep()
   }
   if (!$('spatial-dialog').open) $('spatial-dialog').showModal()
-  const { mountFlightViewer } = await import('./flight-viewer.js?v=3f377bf311aa')
+  const { mountFlightViewer } = await import('./flight-viewer.js?v=4042ad8d9b65')
   if (!$('spatial-dialog').open) return
   spatial ??= mountFlightViewer($('spatial-surface'))
   refreshSpatial()

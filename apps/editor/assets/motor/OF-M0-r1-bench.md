@@ -2,7 +2,7 @@
 
 This is an adult tabletop exercise. The LED stands in for the motor and makes the command visible. Use the USB-powered Seeed Studio XIAO nRF52840, a normally open momentary pushbutton, a red LED, and a 1 kΩ resistor. The optional driver exercise uses a TI DRV8837 on a suitable carrier with the required pins exposed, two bypass capacitors and a 10 kΩ pulldown. Leave motors, propellers, batteries and the paper airplane off the bench circuit.
 
-The host-side sketch test exercises button timing and GPIO outputs. Wiring, reset transients and power behavior still need a record from a real bench. Revision OF-M0-r1 uses Apache 2.0.
+The sketch compiled to ARM ELF and HEX for the stock XIAO nRF52840 with Seeed nRF52 Boards 1.1.13. A host-side test exercises button timing and GPIO outputs. Wiring, reset transients and power behavior still need a record from a real bench. Revision OF-M0-r1 uses Apache 2.0.
 
 ## Start with the LED
 
@@ -13,7 +13,7 @@ The host-side sketch test exercises button timing and GPIO outputs. Wiring, rese
 | D2 | 1 kΩ resistor in series with the red LED anode. |
 | USB | XIAO USB-C, with the wiring inspected before connecting. |
 
-Save `OF-M0-r1-bench.ino` inside a folder named `OF-M0-r1-bench`. Install the Seeed nRF52 Arduino board package using Seeed’s instructions and select the XIAO nRF52840 board. Build and upload over USB. Start with the button released. Press it briefly and expect one LED pulse. If held, the sketch stops the pulse at about 750 ms. Hold the button while connecting or resetting and expect the output to stay low until you release it for at least 30 ms and press it again. Opening the switch during a pulse turns the output off on the next loop iteration. Disconnect USB if the output behaves unexpectedly, the board heats up or the supply drops.
+Save `OF-M0-r1-bench.ino` inside a folder named `OF-M0-r1-bench`. Install Seeed nRF52 Boards 1.1.13 using Seeed’s instructions and select the XIAO nRF52840 board. Build and upload over USB. Start with the button released. Press it briefly and expect one LED pulse. If held, the sketch stops the pulse at about 750 ms. Hold the button while connecting or resetting and expect the output to stay low until you release it for at least 30 ms and press it again. Opening the switch during a pulse turns the output off on the next loop iteration. Disconnect USB if the output behaves unexpectedly, the board heats up or the supply drops.
 
 [Seeed documentation, Arduino board setup and pinout](https://wiki.seeedstudio.com/XIAO_BLE/)
 
