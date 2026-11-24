@@ -4,7 +4,7 @@ import { butterfly, type Drawing, type Point, sha256 } from '../geometry/butterf
 
 export const sizes = { A4: [210, 297], US_LETTER: [215.9, 279.4] } as const
 export type Paper = keyof typeof sizes
-export type Locale = 'en' | 'ru'
+export type Locale = 'en' | 'ru' | 'es'
 
 const copy = {
   en: [
@@ -30,6 +30,18 @@ const copy = {
     'Контроль масштаба',
     'Размах развёртки',
     'Исходник',
+  ],
+  es: [
+    'Planeador mariposa',
+    'Planeador de papel experimental',
+    'Imprime al 100 % en tamaño real. Mide la línea antes de recortar.',
+    'Recorta por el contorno continuo. Levanta ambas alas por las líneas de trazos.',
+    'Deja planas las aletas marcadas con puntos para la primera comparación.',
+    'Desliza el mismo clip por la punta. Alinea su extremo trasero con A o B.',
+    'Prueba con papel normal de impresora. Anota el papel y el clip que uses.',
+    'Control de escala',
+    'Envergadura en plano',
+    'Archivo fuente',
   ],
 }
 export function sheet(revision: any, paper: Paper, locale: Locale): Drawing {
@@ -143,7 +155,7 @@ const fontNotice = readFileSync(
   'utf8',
 )
 let font64: string
-export function pdf(drawing: Drawing): Buffer {
+export function pdf(drawing: Drawing & { locale?: Locale }): Buffer {
   const doc = new jsPDF({
     unit: 'mm',
     format: [drawing.width, drawing.height],
@@ -153,6 +165,7 @@ export function pdf(drawing: Drawing): Buffer {
   })
   doc.setCreationDate("D:20000101000000+00'00'")
   doc.setFileId(sha256(JSON.stringify(drawing)).slice(0, 32))
+  if (drawing.locale) doc.setLanguage(drawing.locale)
   doc.setProperties({
     title: 'Open Flight - Butterfly Glider',
     author: 'Open Flight contributors',
@@ -169,7 +182,10 @@ export function pdf(drawing: Drawing): Buffer {
     if (line.fill) doc.setFillColor(line.fill)
     doc.setLineWidth(line.weight ?? 0)
     doc.setLineDashPattern(line.dash ?? [], 0)
-    const ops = line.points.map((p: Point, i: number) => ({ op: i ? 'l' : 'm', c: p }))
+    const ops = line.points.map((p: Point, i: number) => ({
+      op: i ? 'l' : 'm',
+      c: p,
+    }))
     doc.path(ops)
     if (line.closed) doc.close()
     if (line.fill && line.stroke) doc.fillStroke()

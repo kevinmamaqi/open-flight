@@ -47,17 +47,46 @@ async function http(path: string, options: RequestInit = {}) {
 }
 try {
   const tools = (await client.listTools()).tools
-  assert.equal(tools.length, 15)
+  assert.equal(tools.length, 19)
   assert.equal((await client.listResourceTemplates()).resourceTemplates.length, 1)
   const caps = await call('get_capabilities')
-  assert.equal(caps.enabled_operations.length, 16)
+  assert.equal(caps.enabled_operations.length, 20)
+  assert.deepEqual(caps.locales, ['en', 'ru', 'es'])
+  const comparison = await call('compare_models', { left: 'morpho', right: 'douglas-dc3', locale: 'es' })
+  assert.deepEqual(comparison.models.map(({ family }: { family: string }) => family), ['butterfly', 'airplane'])
+  assert.equal(comparison.locale, 'es')
+  assert.equal((await invoke('compare_models', { left: 'morpho', right: 'morpho' })).error.code, 'invalid_input')
+  const roadmap = await call('get_motor_roadmap', { locale: 'es' })
+  assert.equal(roadmap.locale, 'es')
+  assert.ok(roadmap.stages.length)
+  const circuit = await call('get_flight_circuit', { locale: 'es' })
+  assert.equal(circuit.evidence, 'simulation')
+  assert.deepEqual(circuit.gates.map(({ id }: { id: string }) => id), ['level', 'dip', 'turn'])
+  const setup = { gate: 'dip', angleOfAttackDeg: 12 }
+  const flight = await call('simulate_flight', setup)
+  assert.equal(flight.evidence, 'simulation')
+  assert.equal(flight.gate, setup.gate)
+  assert.ok(flight.samples.length > 10)
+  assert.deepEqual(await call('simulate_flight', setup), flight)
+  assert.equal((await invoke('simulate_flight', { gate: 'unknown' })).error.code, 'invalid_input')
+  if (origin) {
+    for (const [route, expected] of [
+      ['/v1/model-comparison?left=morpho&right=douglas-dc3&locale=es', comparison],
+      ['/v1/motor-roadmap?locale=es', roadmap],
+      ['/v1/flight-circuit?locale=es', circuit],
+    ]) assert.deepEqual(await (await http(route)).json(), expected)
+    const simulated = await http('/v1/flight-simulation', {
+      method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(setup),
+    })
+    assert.deepEqual(await simulated.json(), flight)
+  }
   const airplanes = await call('list_airplanes')
   assert.deepEqual(airplanes.items.map((item: { model_id: string }) => item.model_id).sort(),
     ['boeing-747', 'douglas-dc3', 'ilyushin-il62', 'tupolev-tu144'])
   if (origin) assert.deepEqual(await (await http('/v1/airplanes')).json(), airplanes)
   const airplane = { model_id: 'ilyushin-il62', paper: 'US_LETTER', keel_mm: 24, winglet_mm: 0, livery: 'pencil' }
   for (const output of ['plan', 'guide', 'svg', 'pdf', 'source_json']) {
-    const body = { settings: airplane, locale: 'ru', output }
+    const body = { settings: airplane, locale: 'es', output }
     const result = await call('plan_airplane', body)
     const bytes = Buffer.from(result.output.content, result.output.encoding)
     assert.equal(result.evidence_state, 'concept')
@@ -66,7 +95,11 @@ try {
     assert.equal(result.settings.winglet_mm, 0)
     if (output === 'pdf') assert.equal(bytes.subarray(0, 5).toString(), '%PDF-')
     if (output === 'source_json') assert.deepEqual(JSON.parse(bytes.toString()), result.settings)
-    if (output === 'plan') assert.equal(JSON.parse(bytes.toString()).source.model_id, airplane.model_id)
+    if (output === 'plan') {
+      const plan = JSON.parse(bytes.toString())
+      assert.equal(plan.source.model_id, airplane.model_id)
+      assert.deepEqual(plan.field, result.field)
+    }
     if (origin) {
       const response = await http('/v1/airplanes/plan', {
         method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body),
@@ -131,7 +164,7 @@ try {
   const preview = await call('preview_design', { idempotency_key: randomUUID(), design: revised.ref })
   assert.deepEqual(preview.geometry, revised.geometry)
   assert.equal(preview.is_flight_simulation, false)
-  const activities = await call('list_activities', { locale: 'ru', species_id: 'morpho' })
+  const activities = await call('list_activities', { locale: 'es', species_id: 'morpho' })
   for (const a of activities.items) {
     const actual = await call('get_activity_revision', {
       activity_id: a.ref.activity_id,
@@ -142,9 +175,9 @@ try {
   const order = {
     idempotency_key: randomUUID(),
     design: revised.ref,
-    formats: ['pdf', 'svg', 'source_json', 'instructions', 'activity_assets', 'trial_sheet'],
+    formats: ['pdf', 'svg', 'source_json', 'instructions', 'activity_assets', 'trial_sheet', 'illustrated_guide'],
     page_size: 'US_LETTER',
-    locale: 'ru',
+    locale: 'es',
     activities: activities.items.map((a: { ref: object }) => a.ref),
   }
   const job = await call('start_export', order)
@@ -153,7 +186,7 @@ try {
   await client.listTools()
   const recovered = await call('get_job', { job_id: job.job_id })
   assert.equal(recovered.status, 'succeeded')
-  assert.equal(recovered.artifact_ids.length, 6)
+  assert.equal(recovered.artifact_ids.length, 7)
   assert.deepEqual(await call('start_export', order), job)
   if (origin) {
     const base = '/v1/designs/' + revised.ref.design_id + '/revisions/' + revised.ref.revision_id
@@ -215,7 +248,9 @@ try {
         artifacts: recovered.artifact_ids.length,
         checks: [
           'discovery',
-          'airplane fold plan, guide and download hashes',
+          'Spanish airplane field guide, fold plan and download hashes',
+          'comparison, motor roadmap, flight circuit and deterministic simulation',
+          'Spanish butterfly print and offline guide',
           'fork',
           'save',
           'replay',

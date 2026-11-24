@@ -7,7 +7,13 @@ export const esc = (value) =>
   )
 const n = (x) => (Math.abs(x) < 0.0005 ? '0' : Number(x.toFixed(3)).toString())
 const xy = (points) => points.map((p) => p.map(n).join(',')).join(' ')
-const poly = (points, fill, stroke = 'none', sw = 0) => ({ type: 'polygon', points, fill, stroke, sw })
+const poly = (points, fill, stroke = 'none', sw = 0) => ({
+  type: 'polygon',
+  points,
+  fill,
+  stroke,
+  sw,
+})
 const line = (points, stroke, sw = 0.4, dash) => ({
   type: 'polyline',
   points,
@@ -224,8 +230,14 @@ export function sheetScene(plan) {
     ),
     label([14, h - 19.4], plan.name, 3.2),
     label([14, h - 16], credit.creator, 2.3),
-    { ...label([14, h - 12.8], credit.geometry, 2.3), url: planeCredits.geometry.url },
-    { ...label([14, h - 9.6], credit.artwork, 2.3), url: planeCredits.artwork.url },
+    {
+      ...label([14, h - 12.8], credit.geometry, 2.3),
+      url: planeCredits.geometry.url,
+    },
+    {
+      ...label([14, h - 9.6], credit.artwork, 2.3),
+      url: planeCredits.artwork.url,
+    },
     { ...label([14, h - 6.5], credit.credits, 2.15), url: planeCredits.url },
     poly(
       [
@@ -276,13 +288,17 @@ export function planeSvg(plan) {
     w +
     ' ' +
     h +
-    '" role="img"><title>' +
+    '" role="img" xml:lang="' +
+    plan.locale +
+    '"><title>' +
     esc(plan.name) +
     '</title><desc>' +
     esc(
-      plan.locale === 'ru'
-        ? 'Лицевая сторона. Печатайте в масштабе 100%. Все линии предназначены для сгибания.'
-        : 'Printed face. Print at actual size. Every marked line is a fold.',
+      {
+        en: 'Printed face. Print at actual size. Every marked line is a fold.',
+        ru: 'Лицевая сторона. Печатайте в масштабе 100%. Все линии предназначены для сгибания.',
+        es: 'Cara impresa. Imprime a tamaño real. Cada línea marcada indica un doblez.',
+      }[plan.locale],
     ) +
     ' ' +
     esc([credit.creator, credit.geometry, credit.artwork, credit.credits].join('. ')) +

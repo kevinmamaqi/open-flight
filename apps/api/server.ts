@@ -41,6 +41,7 @@ const assets = new Map<string, [string, string]>([
   ['/', ['atlas.html', publicTypes['.html']]],
   ['/studio.html', ['index.html', publicTypes['.html']]],
   ['/ru.html', ['ru.html', publicTypes['.html']]],
+  ['/es.html', ['es.html', publicTypes['.html']]],
 ])
 for (const entry of readdirSync(editorRoot, {
   recursive: true,
@@ -50,7 +51,7 @@ for (const entry of readdirSync(editorRoot, {
   const path = relative(editorRoot, join(entry.parentPath, entry.name))
   const mime = publicTypes[extname(path)]
   const appFile =
-    /^(?:editor|atlas|planes|references|flight|browser-workshop)(?:-[a-z0-9-]+)?\.(js|css|html|svg)$/.test(
+    /^(?:editor|atlas|planes|references|flight|compare|next|browser-workshop)(?:-[a-z0-9-]+)?\.(js|css|html|svg)$/.test(
       path,
     )
   if (mime && (path.startsWith('assets/') || path.startsWith('library/') || appFile))
@@ -109,6 +110,12 @@ const server = http.createServer(async (req, res) => {
       '/studio/': '/studio.html',
       '/planes': '/planes.html',
       '/planes/': '/planes.html',
+      '/compare': '/compare.html',
+      '/compare/': '/compare.html',
+      '/next': '/next.html',
+      '/next/': '/next.html',
+      '/es': '/es.html',
+      '/es/': '/es.html',
       '/index.html': '/',
     }
     if (aliases[url.pathname] && req.method === 'GET') {

@@ -1,3 +1,4 @@
+import { sampleFlight, simulateFlight } from './flight-model.js'
 // Paper coordinates are millimetres. Scene Y points up; the nose points towards negative Z.
 import { butterflies } from './flight-butterflies.js'
 
@@ -375,31 +376,41 @@ function plane(world, state, pose, foldedForFlight) {
   }
 }
 
-const courses = {
-  monarch: { range: 1, drift: 0, sway: 0, glide: 0.26 },
-  morpho: { range: 0.83, drift: 0, sway: 6, glide: 0.44 },
-  swallowtail: { range: 0.91, drift: 0, sway: 0, glide: 0.34 },
-  'boeing-747': { range: 0.92, sway: 0, glide: 0.3 },
-  'douglas-dc3': { range: 0.85, sway: 2, glide: 0.45 },
-  'tupolev-tu144': { range: 1, sway: 0, glide: 0.19 },
-  'ilyushin-il62': { range: 0.95, sway: 1, glide: 0.32 },
-}
-export function trajectory(state, t) {
-  const c = courses[state.id] ?? courses.monarch
-  // A repeatable family of illustrative curves. These coefficients are scene units, never
-  // fitted performance data. Upturned right tab cues a right bank when viewed from behind.
-  const p = state.parameters ?? {},
-    bank = (state.releaseBank ?? 0) / 12
-  const turn = clamp(((p.right_trim_deg ?? 0) - (p.left_trim_deg ?? 0)) / 18 + bank, -1, 1)
-  const symmetric = clamp(((p.right_trim_deg ?? 0) + (p.left_trim_deg ?? 0)) / 24, -1, 1)
-  const tip = state.id === 'morpho' ? 0.2 * Math.exp(-5 * t) * Math.sin(3 * Math.PI * t) : 0
-  const x = turn * 81 * t * t + (c.sway ?? 0) * Math.sin(2 * Math.PI * t) * Math.sin(Math.PI * t)
-  const y = 39 * (1 - t) + 20 * (c.glide + symmetric * 0.17) * Math.sin(Math.PI * t)
+const sceneScale = 30
+const floorY = -2.4
+const scenePoint = ([x, y, z]) => [sceneScale * x, floorY + sceneScale * y, -sceneScale * z]
+
+export function practiceTabs({ trimDeg, trimDifferenceDeg }) {
   return {
-    point: [x, y, 116 - 236 * c.range * t],
-    bank: -0.27 * bank * Math.exp(-2.7 * t) - 0.34 * turn * Math.sin(Math.PI * t) + tip,
+    left: clamp(trimDeg - trimDifferenceDeg / 2, -12, 12),
+    right: clamp(trimDeg + trimDifferenceDeg / 2, -12, 12),
   }
 }
+export function flightRun(state) {
+  if (state.run) return state.run
+  const params = state.parameters ?? {}
+  const left = params.left_trim_deg ?? 0
+  const right = params.right_trim_deg ?? 0
+  return simulateFlight({
+    trimDeg: (left + right) / 2,
+    trimDifferenceDeg: right - left,
+    bankDeg: state.releaseBank,
+    ...state.launch,
+  })
+}
+
+export function trajectory(state, t) {
+  const sample = sampleFlight(flightRun(state), t)
+  return {
+    point: scenePoint(sample.point),
+    bank: -radians(sample.bankDeg),
+    yaw: radians(sample.headingDeg),
+    pitch: radians(sample.pitchDeg),
+    direction: radians(sample.directionDeg),
+    time: sample.time,
+  }
+}
+
 const scene = () => ({ faces: [], lines: [] })
 export function makeWorld(state, progress) {
   const world = scene(),
@@ -409,170 +420,119 @@ export function makeWorld(state, progress) {
     renderModel(world, state, progress, false)
     return world
   }
-  const t = clamp(progress, 0, 1),
-    dot = trajectory(state, t)
-  const before = trajectory(state, Math.max(0, t - 0.005)).point,
-    after = trajectory(state, Math.min(1, t + 0.005)).point
-  const yaw = Math.atan2(after[0] - before[0], -(after[2] - before[2]))
-  const desc = Math.atan2(after[1] - before[1], Math.hypot(after[2] - before[2], after[0] - before[0]))
-  renderModel(world, state, 1, true)
+  const run = flightRun(state)
+  const dot = trajectory({ run }, progress)
+  const { yaw, pitch } = dot
+  const tabs = practiceTabs(run.inputs)
+  renderModel(world, {
+    ...state,
+    parameters: { ...state.parameters, left_trim_deg: tabs.left, right_trim_deg: tabs.right },
+  }, 1, true)
   const width =
     state.family === 'airplane' ? (state.planes?.width ?? 210) : (state.parameters?.span_mm ?? 170)
-  const scale = (state.family === 'airplane' ? 47 : 43) / width
+  // Enlarge the paper relative to the practice mat so the release attitude stays visible.
+  const scale = 28 / width
   const transform = ([a, b, c]) => {
     const x = a * scale,
       y = b * scale,
       z = c * scale
     const bankedX = x * Math.cos(dot.bank) - y * Math.sin(dot.bank)
     const bankedY = y * Math.cos(dot.bank) + x * Math.sin(dot.bank)
-    const pitchedY = bankedY * Math.cos(desc) - z * Math.sin(desc)
-    const pitchedZ = bankedY * Math.sin(desc) + z * Math.cos(desc)
+    const pitchedY = bankedY * Math.cos(pitch) - z * Math.sin(pitch)
+    const pitchedZ = bankedY * Math.sin(pitch) + z * Math.cos(pitch)
     return [
       dot.point[0] + bankedX * Math.cos(yaw) - pitchedZ * Math.sin(yaw),
-      dot.point[1] + pitchedY,
+      pitchedY,
       dot.point[2] + bankedX * Math.sin(yaw) + pitchedZ * Math.cos(yaw),
     ]
   }
-  world.faces.forEach((face) => (face.points = face.points.map(transform)))
-  world.lines.forEach((line) => (line.points = line.points.map(transform)))
-  // The repeatable course is a miniature practice mat. Ground markers distinguish release,
-  // position directly below the aircraft, and first contact with the floor.
-  const landing = trajectory(state, 1).point
+  const parts = [...world.faces, ...world.lines]
+  parts.forEach((part) => (part.points = part.points.map(transform)))
+  // The solver follows one point, while the displayed glider is enlarged. Anchor its
+  // lowest point to the tracked height so its silhouette reaches the floor at the stop.
+  const lowest = Math.min(...parts.flatMap((part) => part.points.map((point) => point[1])))
+  for (const part of parts)
+    for (const point of part.points) point[1] = dot.point[1] + (point[1] - lowest)
+  const path = run.samples.map((sample) => scenePoint(sample.point))
+  const edge = 20
+  const minX = Math.min(-65, ...path.map(([x]) => x - edge))
+  const maxX = Math.max(65, ...path.map(([x]) => x + edge))
+  const minZ = Math.min(-140, ...path.map(([, , z]) => z - edge))
+  const maxZ = Math.max(24, ...path.map(([, , z]) => z + edge))
+  const maxY = Math.max(70, ...path.map(([, y]) => y + edge))
+  world.bounds = [minX, maxX].flatMap((x) =>
+    [minZ, maxZ].flatMap((z) => [-3, maxY].map((y) => [x, y, z])),
+  )
   const ground = (outline, y, color) => {
-    face(
-      world,
-      outline,
-      outline.map(([x, z]) => [x, y, z]),
-      color,
-    )
+    face(world, outline, outline.map(([x, z]) => [x, y, z]), color)
     world.faces.at(-1).ground = y
   }
-  const disk = (x, z, rx, rz, y, color) =>
+  const disk = (x, z, radius, y, color) =>
     ground(
-      Array.from({ length: 32 }, (_, i) => {
-        const a = (i * 2 * Math.PI) / 32
-        return [x + rx * Math.cos(a), z + rz * Math.sin(a)]
+      Array.from({ length: 24 }, (_, i) => {
+        const a = (i * 2 * Math.PI) / 24
+        return [x + radius * Math.cos(a), z + radius * Math.sin(a)]
       }),
       y,
       color,
     )
-  const mat = [
-    [-82, -135],
-    [82, -135],
-    [91, -126],
-    [91, 126],
-    [82, 135],
-    [-82, 135],
-    [-91, 126],
-    [-91, -126],
-  ]
-  ground(mat, -5, '#8baea3')
-  ground(mat, -3.7, '#dcebd4')
-  for (let i = -75; i <= 75; i += 25)
-    segment(
-      world,
-      [
-        [i, -3.55, -128],
-        [i, -3.55, 128],
-      ],
-      i === 0 ? '#75988b' : '#abc8b6',
-      i === 0,
-    )
-  for (let i = -125; i <= 125; i += 25)
-    segment(
-      world,
-      [
-        [-84, -3.55, i],
-        [84, -3.55, i],
-      ],
-      '#abc8b6',
-    )
-  disk(0, 116, 9, 9, -3.17, '#2e7663')
-  disk(0, 116, 5, 5, -3.05, '#daead9')
-  for (const [r, y, color] of [
-    [10, -3.2, '#d7633a'],
-    [6.6, -3.1, '#ffedbd'],
-    [3.1, -2.98, '#e96c40'],
-  ])
-    disk(landing[0], landing[2], r, r, y, color)
-  const shadowSize = 1 - clamp(dot.point[1] / 90, 0, 0.55)
-  disk(dot.point[0], dot.point[2], 9.5 * shadowSize, 4 * shadowSize, -2.82, '#93b3a0')
-  const ribbon = (fraction, width, yOffset, color) => {
-    if (fraction < 0.005) return
-    const centers = Array.from({ length: 30 }, (_, i) => trajectory(state, (fraction * i) / 29).point)
-    const left = centers.map(([x, y, z]) => [x - width, y + yOffset, z])
-    const right = centers.map(([x, y, z]) => [x + width, y + yOffset, z]).reverse()
-    const pts = [...left, ...right]
-    face(
-      world,
-      pts.map(([x, , z]) => [x, z]),
-      pts,
-      color,
-    )
+  ground([[minX, minZ], [maxX, minZ], [maxX, maxZ], [minX, maxZ]], floorY, '#dcebd4')
+  for (let x = Math.ceil(minX / 30) * 30; x < maxX; x += 30)
+    segment(world, [[x, -2, minZ], [x, -2, maxZ]], x === 0 ? '#64867a' : '#abc8b6', x === 0)
+  for (let z = Math.ceil(minZ / 30) * 30; z < maxZ; z += 30)
+    segment(world, [[minX, -2, z], [maxX, -2, z]], z === 0 ? '#64867a' : '#abc8b6', z === 0)
+  disk(0, 0, 7, -1.55, '#2e7663')
+  disk(0, 0, 3, -1.4, '#daead9')
+  if (run.landing) {
+    const [x, , z] = path.at(-1)
+    disk(x, z, 7, -1.55, '#a6452c')
+    disk(x, z, 3, -1.4, '#ffedbd')
   }
-  ribbon(1, 1.25, -0.12, '#98c7bd')
-  ribbon(t, 1.2, 0.13, '#2d7180')
-  segment(
-    world,
-    Array.from({ length: 65 }, (_, i) => trajectory(state, i / 64).point),
-    '#275d68',
-    true,
-  )
-  const flag = (x, z, h, color) => {
-    segment(
-      world,
-      [
-        [x, -2.7, z],
-        [x, h + 4, z],
-      ],
-      '#375b54',
-    )
-    face(
-      world,
-      [
-        [0, 0],
-        [1, 0],
-        [0, 1],
-      ],
-      [
-        [x, h + 4, z],
-        [x + 7, h + 2, z],
-        [x, h - 1, z],
-      ],
-      color,
-    )
-  }
-  if (state.id === 'swallowtail') {
-    for (const x of [-41, 41]) {
-      const z = -44,
-        color = x < 0 ? '#db5d3e' : '#d59a2c'
-      segment(
-        world,
-        [
-          [x - 9, -2.7, z],
-          [x - 9, 12, z],
-          [x + 9, 12, z],
-          [x + 9, -2.7, z],
-        ],
-        color,
-      )
-      flag(x - 9, z, 12, color)
-    }
-  } else if (state.id === 'morpho') {
-    for (const x of [-22, 22]) flag(x, 35, 13, '#3d97a5')
-  } else {
-    for (const [i, z] of [45, -12, -69].entries()) {
-      segment(
-        world,
-        [
-          [-14, -3.07, z],
-          [14, -3.07, z],
-        ],
-        '#718d80',
-      )
-      flag(i % 2 ? -18 : 18, z, 5, '#ef9e40')
+  disk(dot.point[0], dot.point[2], 5, -1.25, '#93b3a0')
+  segment(world, path, '#487581', true)
+  const next = run.samples.findIndex((sample) => sample.time > dot.time)
+  const travelled = next < 0 ? path : path.slice(0, next)
+  if (travelled.length) segment(world, [...travelled, dot.point], '#285964')
+  segment(world, [dot.point, [dot.point[0], -1, dot.point[2]]], '#618e84', true)
+
+  for (const { across, forward, width, bottom, top } of state.gateMarkers ?? []) {
+    const x1 = across - width / 2
+    const x2 = across + width / 2
+    const a = scenePoint([x1, bottom, forward])
+    const b = scenePoint([x1, top, forward])
+    const c = scenePoint([x2, top, forward])
+    const d = scenePoint([x2, bottom, forward])
+    segment(world, [a, b, c, d], '#823763')
+    segment(world, [scenePoint([x1, 0, forward]), b], '#823763', true)
+    segment(world, [scenePoint([x2, 0, forward]), c], '#823763', true)
+    segment(world, [scenePoint([x1, 0, forward]), scenePoint([x2, 0, forward])], '#823763')
+    if (state.camera === 'side') {
+      for (const y of new Set([bottom, top])) {
+        segment(
+          world,
+          [scenePoint([0, y, forward - 0.16]), scenePoint([0, y, forward + 0.16])],
+          '#823763',
+        )
+      }
     }
   }
-  segment(world, [dot.point, [dot.point[0], -2.7, dot.point[2]]], '#618e84', true)
+  const vector = (a, color, length) => {
+    const end = [
+      dot.point[0] + length * Math.cos(a) * Math.sin(yaw),
+      dot.point[1] + length * Math.sin(a),
+      dot.point[2] - length * Math.cos(a) * Math.cos(yaw),
+    ]
+    const tail = (delta) => [
+      end[0] - 5 * Math.cos(a + delta) * Math.sin(yaw),
+      end[1] - 5 * Math.sin(a + delta),
+      end[2] + 5 * Math.cos(a + delta) * Math.cos(yaw),
+    ]
+    segment(world, [dot.point, end], color)
+    segment(world, [tail(0.55), end, tail(-0.55)], color)
+  }
+  if (dot.point[1] > floorY && state.camera !== 'top' && state.camera !== 'rear') {
+    vector(dot.direction, '#172f33', 23)
+    vector(dot.pitch, '#ba4f14', 29)
+  }
   return world
 }

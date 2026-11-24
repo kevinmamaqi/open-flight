@@ -7,7 +7,7 @@
       },
       {
         "label": "Ages 8–12 · run a flight test",
-        "prompt": "Try a butterfly. Mark where three glides land. Raise one back tab a little and fly three more times from the same spot. What changed?"
+        "prompt": "Try a butterfly. Mark where five glides land. Raise one back tab a little and fly five more times from the same spot. What changed?"
       },
       {
         "label": "For grown-ups and teachers",
@@ -18,6 +18,16 @@
     "reflection": "Which flight surprised you? Point to its landing mark and describe what you saw.",
     "feedback_prompt": "Grown-ups can share the model name, paper size, what you changed and where it landed. A note about a confusing fold helps too."
   },
+  "es": {
+    "families": [
+      {"label":"De 5 a 7 años · construir en compañía","prompt":"Elige el color de las alas. Pide a un adulto que te ayude con los cortes o pliegues difíciles. Señala dónde crees que aterrizará tu planeador."},
+      {"label":"De 8 a 12 años · probar una idea","prompt":"Elige una mariposa. Marca cinco aterrizajes. Sube un poco una aleta de cola y haz cinco lanzamientos más desde el mismo sitio. ¿Qué cambió?"},
+      {"label":"Para familias y docentes","prompt":"Una persona lanza y otra marca cada primer contacto. Intercambiad las tareas y observad qué marcas coinciden con vuestra predicción."}
+    ],
+    "adult_prompt":"¿Puede un pequeño pliegue cambiar el aterrizaje? Haced una predicción que podáis poner a prueba con una hoja.",
+    "reflection":"¿Qué vuelo te sorprendió? Señala la marca y cuenta lo que viste.",
+    "feedback_prompt":"Las personas adultas pueden indicar el modelo, el formato de papel, qué cambiaron y dónde aterrizó. También pueden explicar qué pliegue resultó difícil."
+  },
   "ru": {
     "families": [
       {
@@ -26,7 +36,7 @@
       },
       {
         "label": "8–12 лет · лётный опыт",
-        "prompt": "Выбери бабочку. Трижды запусти её и отметь места посадки. Чуть подними один задний язычок и сделай ещё три запуска с того же места. Что изменилось?"
+        "prompt": "Выбери бабочку. Пять раз запусти её и отметь места посадки. Чуть подними один задний язычок и сделай ещё пять запусков с того же места. Что изменилось?"
       },
       {
         "label": "Взрослым и учителям",

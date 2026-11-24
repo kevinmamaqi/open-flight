@@ -17,29 +17,34 @@ type PrintRevision = {
 const words = {
   en: {
     lab: 'BUTTERFLY WORKSHOP',
-    names: { monarch: 'Monarch', morpho: 'Blue Morpho', swallowtail: 'Swallowtail' },
+    names: {
+      monarch: 'Monarch',
+      morpho: 'Blue Morpho',
+      swallowtail: 'Swallowtail',
+    },
     flatSpan: 'flat wingspan',
     scale: 'Measure this line',
     print: 'Print at 100% / actual size',
     legend: ['Cut', 'Wing fold', 'Tab fold'],
     heading: 'Build your butterfly',
-    step: ['Cut out the shape', 'Lift both wings', 'Set each tail tab', 'Clip and launch'],
+    step: ['Cut out the shape', 'Lift both wings', 'Clip the nose', 'Set each tail tab'],
     cut: [
       'Follow the outside edge and the',
       'two solid slits on each rear tab.',
-      'Keep the dotted hinges attached.',
+      'Stop at the dots. Keep the hinge.',
     ],
-    fold: ['Keep the middle strip flat. Raise', 'each tip the same distance above it.'],
+    fold: ['Print side up, nose away. Keep the', 'center flat. Measure both outer tips.'],
     clip: [
       'Slide one small, blunt paper clip',
       'onto the nose. Stop its back end',
-      'at the cross. Toss gently and level.',
+      'at the cross. Keep the clip in place.',
     ],
     tabs: ['Read left and right from behind.', 'Bend each tab from its own wing.'],
     side: ['Left', 'Right'],
     flat: 'flat',
     up: 'up',
     down: 'down',
+    launch: 'Launch gently and level in a clear space.',
     compare: 'Try five level glides with flat tabs. Change one tab, then compare five more.',
     materials:
       'Use one sheet of plain copier paper and one small paper clip. Record which ones you use.',
@@ -50,29 +55,34 @@ const words = {
   },
   ru: {
     lab: 'МАСТЕРСКАЯ БАБОЧЕК',
-    names: { monarch: 'Монарх', morpho: 'Голубой морфо', swallowtail: 'Махаон' },
+    names: {
+      monarch: 'Монарх',
+      morpho: 'Голубой морфо',
+      swallowtail: 'Махаон',
+    },
     flatSpan: 'размах развёртки',
     scale: 'Измерь эту линию',
     print: 'Печать в масштабе 100%',
     legend: ['Разрез', 'Сгиб крыла', 'Сгиб закрылка'],
     heading: 'Собери свою бабочку',
-    step: ['Вырежи контур', 'Подними крылья', 'Отогни закрылки', 'Закрепи и запусти'],
+    step: ['Вырежи контур', 'Подними крылья', 'Надень скрепку', 'Отогни язычки'],
     cut: [
       'Вырежи бабочку по контуру.',
       'Сделай по два надреза на закрылках.',
-      'Сохрани сгиб из мелких штрихов.',
+      'Остановись у точек. Сохрани сгиб.',
     ],
-    fold: ['Оставь центр плоским. Подними', 'обе законцовки на одну высоту.'],
+    fold: ['Рисунком вверх, носом от себя.', 'Измерь высоту краёв над столом.'],
     clip: [
       'Надень на нос небольшую скрепку',
       'с тупым концом. Совмести её задний',
-      'край с крестиком. Легко брось прямо.',
+      'край с крестиком. Оставь её на месте.',
     ],
     tabs: ['Смотри на бабочку сзади.', 'Отгибай закрылок от плоскости крыла.'],
     side: ['Левый', 'Правый'],
     flat: 'ровно',
     up: 'вверх',
     down: 'вниз',
+    launch: 'Запускай мягко и ровно на свободном месте.',
     compare: 'Сделай пять запусков с плоскими закрылками. Отогни один и сравни ещё пять полётов.',
     materials: 'Возьми лист обычной офисной бумаги и небольшую скрепку. Запиши, какие именно.',
     note: 'Экспериментальный планер',
@@ -80,8 +90,49 @@ const words = {
     mm: 'мм',
     sideMark: ['Л', 'П'],
   },
+  es: {
+    lab: 'TALLER DE MARIPOSAS',
+    names: {
+      monarch: 'Monarca',
+      morpho: 'Morfo azul',
+      swallowtail: 'Cola de golondrina',
+    },
+    flatSpan: 'de envergadura en plano',
+    scale: 'Mide esta línea',
+    print: 'Imprime al 100 %',
+    legend: ['Corte', 'Pliegue del ala', 'Pliegue de la aleta'],
+    heading: 'Construye tu mariposa',
+    step: ['Recorta la forma', 'Levanta las dos alas', 'Coloca el clip', 'Ajusta las aletas'],
+    cut: [
+      'Recorta el borde y los dos cortes',
+      'cortos de cada aleta de cola.',
+      'Para en los puntos. Deja el pliegue.',
+    ],
+    fold: ['Dibujo arriba, punta lejos de ti.', 'Mide los dos extremos desde la mesa.'],
+    clip: [
+      'Desliza un clip pequeño por la punta.',
+      'Alinea el extremo de atrás con la cruz.',
+      'Deja el clip en el mismo sitio.',
+    ],
+    tabs: ['Mira desde atrás para ver los lados.', 'Dobla cada aleta desde su ala.'],
+    side: ['Izquierda', 'Derecha'],
+    flat: 'plana',
+    up: 'arriba',
+    down: 'abajo',
+    launch: 'Lanza suave y a nivel en un espacio despejado.',
+    compare: 'Haz cinco planeos con las aletas planas. Cambia una aleta y compara otros cinco.',
+    materials: 'Usa papel normal de impresora y un clip pequeño. Anota cuáles usaste.',
+    note: 'Planeador de papel experimental',
+    source: 'Archivo fuente',
+    mm: 'mm',
+    sideMark: ['I', 'D'],
+  },
 }
-const latin = { monarch: 'Danaus plexippus', morpho: 'Morpho peleides', swallowtail: 'Papilio machaon' }
+const latin = {
+  monarch: 'Danaus plexippus',
+  morpho: 'Morpho peleides',
+  swallowtail: 'Papilio machaon',
+}
 const dark = '#252339',
   muted = '#525767',
   accent = '#345C58',
@@ -95,7 +146,7 @@ function oval(x: number, y: number, rx: number, ry: number): Point[] {
 }
 function measure(n: number, locale: Locale) {
   const value = String(Math.round(n * 10) / 10)
-  return locale === 'ru' ? value.replace('.', ',') : value
+  return locale === 'en' ? value : value.replace('.', ',')
 }
 
 export function workshopPreview(
@@ -107,7 +158,12 @@ export function workshopPreview(
   const margin = 1.75,
     width = parameters.span_mm + margin * 2,
     height = rounded(art.maxY - art.minY + margin * 2)
-  return svg({ width, height, lines: placeArt(art.lines, width / 2, margin - art.minY), labels: [] })
+  return svg({
+    width,
+    height,
+    lines: placeArt(art.lines, width / 2, margin - art.minY),
+    labels: [],
+  })
 }
 
 export function workshopSheet(
@@ -115,7 +171,7 @@ export function workshopSheet(
   revision: PrintRevision,
   paperSize: Paper,
   locale: Locale,
-): Drawing {
+): Drawing & { locale: Locale } {
   const [width, height] = sizes[paperSize],
     t = words[locale],
     g = model.geometry
@@ -260,6 +316,9 @@ export function workshopSheet(
     0.48,
     [0.55, 0.85],
   )
+  for (const [index, x] of [21, 39.5].entries())
+    body('diagram-slit-stop-' + index, oval(x, 192.2, 0.84, 0.84), paper, dark, 0.4)
+
   step(1, right, 172.4)
   const theta = (g.target_dihedral_deg * Math.PI) / 180
   const mx = right + 27,
@@ -296,6 +355,17 @@ export function workshopSheet(
     dark,
     0.32,
   )
+  line(
+    'front-view-rise-left',
+    [
+      [mx - 5.2 - arm, baseY - rise],
+      [mx - 5.2 - arm, baseY],
+    ],
+    dark,
+    0.32,
+  )
+  for (const [index, x] of [mx - 3.2 - arm, mx + 3.2 + arm].entries())
+    body('diagram-outer-tip-' + index, oval(x, baseY - rise, 0.75, 0.75), paper, dark, 0.35)
   label(mx + 8 + arm, baseY - 1.2, g.target_dihedral_deg + '°', 3.3)
   label(
     mx + 8 + arm,
@@ -315,9 +385,9 @@ export function workshopSheet(
     '#D1D7D1',
     0.27,
   )
-  step(2, 13, 208)
+  step(3, right, 208)
   for (const [i, angle] of [p.left_trim_deg, p.right_trim_deg].entries()) {
-    const x = 13 + i * 42,
+    const x = right + i * 42,
       y = 220,
       arm = 20,
       rad = (angle * Math.PI) / 180
@@ -340,11 +410,11 @@ export function workshopSheet(
       angle === 0 ? t.flat : measure(amount, locale) + ' ' + t.mm + ' ' + (angle > 0 ? t.up : t.down)
     label(x, 226, offset, 2.95, accent)
   }
-  copy(13, 232, t.tabs)
-  step(3, right, 208)
-  copy(right, 215, t.clip)
+  copy(right, 232, t.tabs)
+  step(2, 13, 208)
+  copy(13, 215, t.clip)
   // A top view of the flat nose shows which end of the paper clip reaches the mark.
-  const nx = right + 11,
+  const nx = 24,
     ny = 228.2
   line(
     'nose-schematic',
@@ -405,11 +475,12 @@ export function workshopSheet(
     '#B7C1BF',
     0.35,
   )
-  label(13, 248.2, t.compare, 3.1)
-  label(13, 253.7, t.materials, 2.85, muted)
+  label(13, 247.5, t.launch, 3.1)
+  label(13, 252, t.compare, 3.1)
+  label(13, 256.5, t.materials, 2.85, muted)
   const url = '/v1/designs/' + ref.design_id + '/revisions/' + ref.revision_id
   label(13, height - 17.7, t.source + '  ' + url, 2.6, muted)
   label(13, height - 12.8, 'SHA-256  ' + ref.source_sha256, 2.55, muted)
   label(13, height - 7.8, t.note + '   /   CERN-OHL-W-2.0   /   CC BY-SA 4.0', 2.55, muted)
-  return { width, height, lines, labels }
+  return { width, height, lines, labels, locale }
 }

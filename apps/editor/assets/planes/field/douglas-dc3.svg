@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 470 210" role="img">
+<title>Douglas DC-3</title>
+<metadata>Original Open Flight illustration · CC BY-SA 4.0 · https://creativecommons.org/licenses/by-sa/4.0/</metadata>
+<rect width="470" height="210" fill="#d9edcb"/>
+<circle cx="384" cy="70" r="44" fill="#fff"/><circle cx="384" cy="70" r="44" fill="#d9edcb" opacity=".5"/>
+<path fill="#fff" opacity=".45" d="M9 162q74-25 176 0t276-2v5q-167 24-276 4T9 169zM28 180q144-18 260 9H28zM26 64h61v2H26zm267-25h55v3h-55z"/>
+<path fill="#216752" opacity=".13" d="M18 191q197-25 435-3v22H18z"/>
+<g stroke="#28463d" stroke-width="2.2" stroke-linejoin="round">
+<path fill="#5eae85" d="M332 103l46-53h20l-8 52z"/>
+<path fill="#a6cbb6" d="M143 99l82-55 22 1-14 58z"/>
+<path fill="#e6ead0" d="M58 100q10-17 45-19 20-12 60-6l207 19 42-1 9 7-33 16L118 129q-48 3-59-15-6-7-1-14z"/>
+<path fill="#4e997a" stroke="none" d="M60 109q13 11 47 10l285-12-13 8-259 13q-48 2-60-19z"/>
+<path fill="#b6ccb0" d="M135 109q33-8 77-3l89 49-18 15-76-15z"/>
+<path fill="#79a992" d="M350 101l66 20-13 8-65-16z"/>
+<path fill="#346f62" d="M118 83q12-12 38-7l24 16-24 8-32-1q-13-5-6-16zm34 29q14-13 45-8l37 24-28 14-43-9q-17-5-11-21z"/>
+<path stroke="#41554b" stroke-width="3" d="m116 69 1 39m34-9 1 47"/>
+<path fill="none" stroke="#294c48" stroke-width="4" stroke-dasharray="3 6" d="M176 94l153 7"/>
+<path fill="none" stroke="#294c48" stroke-width="5" d="m73 96 17-6"/>
+</g>
+<path d="M152 120l13 -22" fill="none" stroke="#fff" stroke-width="2"/>
+<circle cx="152" cy="120" r="6" fill="#fff" stroke="#216752" stroke-width="2"/>
+</svg>

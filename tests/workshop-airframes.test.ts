@@ -6,11 +6,14 @@ import {
   workshopArt,
   workshopEditable,
   workshopMetrics,
+  wingtipHeight,
   workshopModels,
   type WorkshopModel,
   type WorkshopParameters,
 } from '../packages/geometry/workshop.ts'
 import { sizes, svg } from '../packages/print-export/sheets.ts'
+import { pictureGuide } from '../packages/print-export/build-guide.ts'
+import { activityRevision, fieldGuide } from '../packages/product-core/content.ts'
 import { workshopPreview, workshopSheet } from '../packages/print-export/workshop.ts'
 
 function source(model: WorkshopModel, parameters: WorkshopParameters, appearance_id: string) {
@@ -143,7 +146,7 @@ test('both paper sizes carry the actual cut span, 50 mm rule, source and selecte
       4,
     )
     for (const paper of ['A4', 'US_LETTER'] as const)
-      for (const locale of ['en', 'ru'] as const) {
+      for (const locale of ['en', 'ru', 'es'] as const) {
         const sheet = workshopSheet(model, rev, paper, locale)
         const cut = sheet.lines.find((l) => l.id === 'cut')!,
           ruler = sheet.lines.find((l) => l.id === 'ruler')!
@@ -156,10 +159,35 @@ test('both paper sizes carry the actual cut span, 50 mm rule, source and selecte
         assert.ok(sheet.labels.some((l) => l.text.includes(rev.ref.source_sha256)))
         assert.ok(
           sheet.labels.some((l) =>
-            l.text.includes(locale === 'en' ? 'five level glides' : 'пять запусков'),
+            l.text.includes({ en: 'five level glides', ru: 'пять запусков', es: 'cinco planeos' }[locale]),
           ),
         )
         assert.ok(svg(sheet).length < 1048576)
       }
+  }
+})
+
+test('Spanish picture guides and print sheets use the same edited wing-height target and step order', () => {
+  for (const model of workshopModels) {
+    const span = model.parameter_definitions.find((p) => p.name === 'span_mm')!.maximum
+    const revision = source(model, { ...model.parameters, span_mm: span }, 'coloring')
+    const entry = fieldGuide.find((guide) => guide.id === model.species)!
+    const expected = Math.round(wingtipHeight(model, span))
+    for (const paper of ['A4', 'US_LETTER'] as const) {
+      const drawing = workshopSheet(model, revision, paper, 'es')
+      const guide = pictureGuide(entry, revision, paper, 'es')
+      assert.match(guide, /<html lang="es"/)
+      assert.match(guide, new RegExp('Altura de cada extremo · ≈ ' + expected + ' mm'))
+      assert.ok(guide.indexOf('Coloca el clip en la punta') < guide.indexOf('Ajusta las aletas de cola'))
+      assert.ok(drawing.labels.some((label) => label.text === '≈ ' + expected + ' mm'))
+      const clip = drawing.labels.find((l) => l.text === 'Coloca el clip')!
+      const tabs = drawing.labels.find((l) => l.text === 'Ajusta las aletas')!
+      assert.equal(clip.y, tabs.y)
+      assert.ok(clip.x < tabs.x)
+      assert.ok(drawing.lines.some((l) => l.id === 'diagram-slit-stop-0'))
+    }
+    const lessonId = 'workshop-' + model.species
+    assert.ok(activityRevision(lessonId + '-en', 'w1'))
+    assert.equal(activityRevision(lessonId + '-es', 'w2')?.locale, 'es')
   }
 })

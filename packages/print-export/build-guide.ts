@@ -1,6 +1,6 @@
 import { readFileSync } from 'node:fs'
 import type { GuideEntry } from '../product-core/content.ts'
-import type { WorkshopParameters } from '../geometry/workshop-models.ts'
+import { workshopModels, wingtipHeight, type WorkshopParameters } from '../geometry/workshop.ts'
 import type { Paper, Locale } from './sheets.ts'
 
 const words = {
@@ -28,6 +28,9 @@ const words = {
     source: 'Source',
     photo: 'Photo',
     folds: 'Build steps',
+    tipHeight: 'Target height at each outer tip',
+    buildNote:
+      'Optional build note: write down which steps needed help and the two tip heights you measured.',
   },
   ru: {
     title: 'Инструкция с рисунками',
@@ -53,6 +56,36 @@ const words = {
     source: 'Исходник',
     photo: 'Фото',
     folds: 'Шаги сборки',
+    tipHeight: 'Высота края каждого крыла',
+    buildNote:
+      'По желанию запиши, на каких шагах понадобилась помощь и какой получилась высота с каждой стороны.',
+  },
+  es: {
+    title: 'Guía ilustrada',
+    span: 'Envergadura en plano',
+    left: 'Aleta izquierda',
+    right: 'Aleta derecha',
+    paint: 'Colores',
+    up: 'arriba',
+    down: 'abajo',
+    flat: 'plana',
+    palette: {
+      natural: 'Colores naturales',
+      carnival: 'Carnaval',
+      twilight: 'Atardecer',
+      coloring: 'Para colorear',
+    },
+    look: 'Mira desde la cola hacia la punta.',
+    page2: 'Coloca el clip, ajusta y planea',
+    question: 'Experimento de vuelo',
+    mm: 'mm',
+    reference: 'En la naturaleza',
+    model: 'Patrón',
+    source: 'Archivo fuente',
+    photo: 'Foto',
+    folds: 'Pasos de montaje',
+    tipHeight: 'Altura de cada extremo',
+    buildNote: 'Si quieres, anota en qué pasos necesitaste ayuda y cuánto medía cada extremo.',
   },
 }
 const escape = (value: string) =>
@@ -97,9 +130,11 @@ export function pictureGuide(entry: GuideEntry, revision: Revision, paper: Paper
     setting(t.right, angle(p.right_trim_deg)),
     setting(t.paint, palette),
   ].join('')
+  const modelSpec = workshopModels.find((item) => item.species === entry.id)!
+  const height = Math.round(wingtipHeight(modelSpec, p.span_mm))
   const steps = guide.steps.map(
     (step, i) => `<section class="step"><span class="number">${i + 1}</span>
-    <div><h3>${escape(step.title)}</h3><p>${escape(step.body)}</p></div>
+    <div><h3>${escape(step.title)}</h3><p>${escape(step.body)}</p>${step.id === 'fold' ? `<p><strong>${t.tipHeight} · ≈ ${height} ${t.mm}</strong></p>` : ''}</div>
     <img src="${embedded(step.diagram)}" alt=""></section>`,
   )
   const photo = entry.photo.local_path
@@ -127,6 +162,6 @@ footer{font-size:.74em;color:#50485b;margin-top:11px;overflow-wrap:anywhere} a{c
 <div class="nature">${photo}<div><h3>${t.reference}</h3><p>${escape(guide.observation)}</p><small>${t.photo} · <a href="${escape(entry.photo.url)}">${escape(entry.photo.creator)} · Pixabay</a></small></div></div>
 <footer>${t.model} · ${model}</footer></article>
 <article><header><b>Open Flight · ${title}</b><span>${t.title} · 2 / 2</span></header><h2>${t.page2}</h2>
-${steps.slice(3).join('')}<h2>${t.question}</h2><p>${escape(guide.flight_question)}</p>
+${steps.slice(3).join('')}<h2>${t.question}</h2><p>${escape(guide.flight_question)}</p><p>${t.buildNote}</p>
 <footer><a href="${escape(entry.trim_reference.url)}">${escape(entry.trim_reference.source)}</a> · <a href="${escape(entry.natural_history.url)}">${escape(entry.natural_history.source)}</a><br>${t.model} · ${model}<br>${t.source} SHA-256 · ${escape(revision.ref.source_sha256)}</footer></article></html>`
 }

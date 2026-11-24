@@ -11,7 +11,7 @@ import {
   emitPrintFiles,
 } from "../../packages/product-core/edition.ts";
 import {
-  activities,
+  activityRevision,
   forAircraft,
   fieldGuide,
 } from "../../packages/product-core/content.ts";
@@ -186,9 +186,7 @@ export async function publicRequest(path, options = {}) {
       case "activities": {
         if (id)
           return json(
-            activities.find(
-              (a) => a.ref.activity_id === id && a.ref.revision_id === rev,
-            ),
+            activityRevision(id, rev),
           );
         const species = url.searchParams.get("species_id");
         return json({

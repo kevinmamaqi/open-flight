@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 470 210" role="img">
+<title>Ilyushin Il-62</title>
+<metadata>Original Open Flight illustration · CC BY-SA 4.0 · https://creativecommons.org/licenses/by-sa/4.0/</metadata>
+<rect width="470" height="210" fill="#d8eced"/>
+<circle cx="384" cy="70" r="44" fill="#fff"/><circle cx="384" cy="70" r="44" fill="#d8eced" opacity=".5"/>
+<path fill="#fff" opacity=".45" d="M9 162q74-25 176 0t276-2v5q-167 24-276 4T9 169zM28 180q144-18 260 9H28zM26 64h61v2H26zm267-25h55v3h-55z"/>
+<path fill="#246584" opacity=".13" d="M18 191q197-25 435-3v22H18z"/>
+<g stroke="#264659" stroke-width="2.2" stroke-linejoin="round">
+<path fill="#93bfd0" d="M328 108l44-57h31l-13 58z"/>
+<path fill="#f4bf8b" d="M355 53l8-11h71l-13 10-43 9z"/>
+<path fill="#a4c9cf" d="M170 107l58-56h24l-16 55z"/>
+<path fill="#8cb5c7" d="M316 91q-4-7 8-13l61 2 12 7-12 9-57 2z"/>
+<path fill="#fff7e6" d="M50 112q10-17 51-21l259 2 37-9 13 8-38 20-279 13q-37 0-43-13z"/>
+<path fill="#276988" stroke="none" d="M53 112l337-19-20 17-278 14q-26-2-39-12z"/>
+<path fill="#b5d9d6" d="M150 111l57-8 95 55-18 11-57-14-23-16z"/>
+<path fill="#fff0d2" d="M317 105q-4-8 9-13h58l14 8-14 10h-52zm2 15q-4-7 8-11h58l13 7-13 10h-52z"/>
+<path fill="#456f7b" d="M332 92q-12 7 0 17h-7q-14-9 0-16zm1 17q-11 7 0 16h-8q-12-8 0-15z"/>
+<path fill="none" stroke="#3b6371" stroke-width="4" stroke-dasharray="2 5" d="M108 100h204"/>
+<path fill="none" stroke="#3b6371" stroke-width="4" d="m71 102 19-6"/>
+</g>
+<path d="M345 115l13 -22" fill="none" stroke="#fff" stroke-width="2"/>
+<circle cx="345" cy="115" r="6" fill="#fff" stroke="#246584" stroke-width="2"/>
+</svg>

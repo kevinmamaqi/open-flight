@@ -2,7 +2,7 @@
   "openapi": "3.1.2",
   "info": {
     "title": "Open Flight local product API",
-    "version": "0.3.0-experimental.1",
+    "version": "0.4.0",
     "description": "Account-free local product operations backed by the selected workspace. A loopback instance issues a private bearer grant. Export jobs and immutable artifact bytes are stored together in SQLite."
   },
   "x-contract-status": "implemented_local_experimental",
@@ -1243,7 +1243,8 @@
             "schema": {
               "enum": [
                 "en",
-                "ru"
+                "ru",
+                "es"
               ]
             }
           },
@@ -1664,7 +1665,7 @@
       "get": {
         "operationId": "listAirplanes",
         "summary": "List the four whole-sheet paper airplanes",
-        "description": "Read the bilingual paper-airplane catalog, real aircraft references, per-model defaults, paper formats and liveries.",
+        "description": "Read the English, Spanish and Russian paper-airplane catalog, real aircraft references, per-model defaults, paper formats and liveries.",
         "x-contract-status": "implemented_local_experimental",
         "x-required-scopes": [
           "openflight:designs:read"
@@ -1830,6 +1831,386 @@
             "application/json": {
               "schema": {
                 "$ref": "#/components/schemas/AirplanePlanRequest"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/model-comparison": {
+      "get": {
+        "operationId": "compareModels",
+        "summary": "Compare two paper aircraft",
+        "description": "Return the same localized model cards and comparison question as the workshop, with nominal construction settings.",
+        "x-contract-status": "implemented_local_experimental",
+        "x-required-scopes": [
+          "openflight:designs:read"
+        ],
+        "x-mcp-access": "tool",
+        "x-success-schema": "AtlasModelComparison",
+        "x-mutation": false,
+        "parameters": [
+          {
+            "name": "left",
+            "in": "query",
+            "schema": {
+              "$ref": "#/components/schemas/AtlasModelId"
+            }
+          },
+          {
+            "name": "right",
+            "in": "query",
+            "schema": {
+              "$ref": "#/components/schemas/AtlasModelId"
+            }
+          },
+          {
+            "name": "locale",
+            "in": "query",
+            "schema": {
+              "$ref": "#/components/schemas/AirplaneLocale"
+            }
+          }
+        ],
+        "security": [
+          {
+            "UserToken": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Compare two paper aircraft",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AtlasModelComparison"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Authentication required",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Insufficient scope or access",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Rate or quota limit",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Unexpected failure",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        },
+        "x-mcp-tool": "openflight_compare_models"
+      }
+    },
+    "/v1/motor-roadmap": {
+      "get": {
+        "operationId": "getMotorRoadmap",
+        "summary": "Read the motor research roadmap",
+        "description": "Return the localized research status and staged checks for a proposed removable power module.",
+        "x-contract-status": "implemented_local_experimental",
+        "x-required-scopes": [
+          "openflight:designs:read"
+        ],
+        "x-mcp-access": "tool",
+        "x-success-schema": "MotorRoadmap",
+        "x-mutation": false,
+        "parameters": [
+          {
+            "name": "locale",
+            "in": "query",
+            "schema": {
+              "$ref": "#/components/schemas/AirplaneLocale"
+            }
+          }
+        ],
+        "security": [
+          {
+            "UserToken": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Read the motor research roadmap",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MotorRoadmap"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Authentication required",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Insufficient scope or access",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Rate or quota limit",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Unexpected failure",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        },
+        "x-mcp-tool": "openflight_get_motor_roadmap"
+      }
+    },
+    "/v1/flight-circuit": {
+      "get": {
+        "operationId": "getFlightCircuit",
+        "summary": "Read the simulated flight circuit",
+        "description": "Return three virtual gates, starting conditions, controls and a localized scorecard for separate paper observations.",
+        "x-contract-status": "implemented_local_experimental",
+        "x-required-scopes": [
+          "openflight:designs:read"
+        ],
+        "x-mcp-access": "tool",
+        "x-success-schema": "FlightCircuit",
+        "x-mutation": false,
+        "parameters": [
+          {
+            "name": "locale",
+            "in": "query",
+            "schema": {
+              "$ref": "#/components/schemas/AirplaneLocale"
+            }
+          }
+        ],
+        "security": [
+          {
+            "UserToken": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Read the simulated flight circuit",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FlightCircuit"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Authentication required",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Insufficient scope or access",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Rate or quota limit",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Unexpected failure",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        },
+        "x-mcp-tool": "openflight_get_flight_circuit"
+      }
+    },
+    "/v1/flight-simulation": {
+      "post": {
+        "operationId": "simulateFlight",
+        "summary": "Simulate one teaching-model flight",
+        "description": "Compute one uncalibrated trajectory in memory. Coordinates are right, height and forward in metres. The result is labeled simulation and creates no physical test record.",
+        "x-contract-status": "implemented_local_experimental",
+        "x-required-scopes": [
+          "openflight:designs:read"
+        ],
+        "x-mcp-access": "tool",
+        "x-success-schema": "FlightSimulation",
+        "x-mutation": false,
+        "parameters": [],
+        "security": [
+          {
+            "UserToken": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Simulate one teaching-model flight",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FlightSimulation"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Authentication required",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Insufficient scope or access",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Rate or quota limit",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Unexpected failure",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        },
+        "x-mcp-tool": "openflight_simulate_flight",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/FlightSimulationRequest"
               }
             }
           }
@@ -2300,7 +2681,8 @@
           "locale": {
             "enum": [
               "en",
-              "ru"
+              "ru",
+              "es"
             ]
           },
           "activities": {
@@ -2646,7 +3028,8 @@
           "locale": {
             "enum": [
               "en",
-              "ru"
+              "ru",
+              "es"
             ]
           },
           "aircraft_kinds": {
@@ -2749,10 +3132,15 @@
                 "getFieldGuide",
                 "previewDraft",
                 "listAirplanes",
-                "planAirplane"
+                "planAirplane",
+                "compareModels",
+                "getMotorRoadmap",
+                "getFlightCircuit",
+                "simulateFlight"
               ]
             },
-            "uniqueItems": true
+            "uniqueItems": true,
+            "maxItems": 20
           },
           "transports": {
             "type": "array",
@@ -2772,11 +3160,12 @@
             "items": {
               "enum": [
                 "en",
-                "ru"
+                "ru",
+                "es"
               ]
             },
             "uniqueItems": true,
-            "maxItems": 2
+            "maxItems": 3
           },
           "limits": {
             "type": "object",
@@ -2895,7 +3284,8 @@
           "locale": {
             "enum": [
               "en",
-              "ru"
+              "ru",
+              "es"
             ]
           },
           "aircraft_kinds": {
@@ -3229,6 +3619,9 @@
           },
           "ru": {
             "$ref": "#/components/schemas/GuideLanguage"
+          },
+          "es": {
+            "$ref": "#/components/schemas/GuideLanguage"
           }
         },
         "required": [
@@ -3238,7 +3631,8 @@
           "natural_history",
           "trim_reference",
           "en",
-          "ru"
+          "ru",
+          "es"
         ]
       },
       "FieldGuide": {
@@ -3286,7 +3680,8 @@
         "type": "string",
         "enum": [
           "en",
-          "ru"
+          "ru",
+          "es"
         ]
       },
       "AirplaneOutputFormat": {
@@ -3386,11 +3781,15 @@
           },
           "ru": {
             "type": "string"
+          },
+          "es": {
+            "type": "string"
           }
         },
         "required": [
           "en",
-          "ru"
+          "ru",
+          "es"
         ]
       },
       "AirplaneCatalogEntry": {
@@ -3461,6 +3860,9 @@
           },
           "motif": {
             "type": "string"
+          },
+          "field": {
+            "$ref": "#/components/schemas/AirplaneCatalogField"
           }
         },
         "required": [
@@ -3476,7 +3878,8 @@
           "winglet_mm",
           "code",
           "colors",
-          "motif"
+          "motif",
+          "field"
         ]
       },
       "AirplaneList": {
@@ -3658,13 +4061,863 @@
           },
           "output": {
             "$ref": "#/components/schemas/AirplanePlanOutput"
+          },
+          "field": {
+            "$ref": "#/components/schemas/AirplaneRenderedField"
           }
         },
         "required": [
           "settings",
           "locale",
           "evidence_state",
-          "output"
+          "output",
+          "field"
+        ]
+      },
+      "PlaneMuseumReference": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "label": {
+            "type": "string"
+          },
+          "url": {
+            "type": "string",
+            "format": "uri"
+          }
+        },
+        "required": [
+          "label",
+          "url"
+        ]
+      },
+      "AirplaneCatalogField": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "step": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "variant": {
+            "type": "string"
+          },
+          "landmark": {
+            "$ref": "#/components/schemas/AirplaneTranslatedText"
+          },
+          "look": {
+            "$ref": "#/components/schemas/AirplaneTranslatedText"
+          },
+          "fold": {
+            "$ref": "#/components/schemas/AirplaneTranslatedText"
+          },
+          "finish": {
+            "$ref": "#/components/schemas/AirplaneTranslatedText"
+          },
+          "museum": {
+            "$ref": "#/components/schemas/PlaneMuseumReference"
+          }
+        },
+        "required": [
+          "step",
+          "variant",
+          "landmark",
+          "look",
+          "fold",
+          "finish"
+        ]
+      },
+      "AirplaneRenderedField": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "step": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "variant": {
+            "type": "string"
+          },
+          "landmark": {
+            "type": "string"
+          },
+          "look": {
+            "type": "string"
+          },
+          "fold": {
+            "type": "string"
+          },
+          "finish": {
+            "type": "string"
+          },
+          "museum": {
+            "$ref": "#/components/schemas/PlaneMuseumReference"
+          }
+        },
+        "required": [
+          "step",
+          "variant",
+          "landmark",
+          "look",
+          "fold",
+          "finish",
+          "museum"
+        ]
+      },
+      "AtlasModelId": {
+        "type": "string",
+        "enum": [
+          "monarch",
+          "morpho",
+          "swallowtail",
+          "boeing-747",
+          "douglas-dc3",
+          "tupolev-tu144",
+          "ilyushin-il62"
+        ]
+      },
+      "AtlasModelComparison": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "locale": {
+            "$ref": "#/components/schemas/AirplaneLocale"
+          },
+          "models": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "id": {
+                  "$ref": "#/components/schemas/AtlasModelId"
+                },
+                "name": {
+                  "type": "string"
+                },
+                "inspiration": {
+                  "type": "string"
+                },
+                "family": {
+                  "type": "string",
+                  "enum": [
+                    "butterfly",
+                    "airplane"
+                  ]
+                },
+                "technique": {
+                  "type": "string"
+                },
+                "materials": {
+                  "type": "string"
+                },
+                "shape": {
+                  "type": "string"
+                },
+                "experiment": {
+                  "type": "string"
+                },
+                "image": {
+                  "type": "string"
+                },
+                "studio": {
+                  "type": "string"
+                },
+                "settings": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                      "label": {
+                        "type": "string"
+                      },
+                      "value": {
+                        "type": "number"
+                      },
+                      "unit": {
+                        "type": "string",
+                        "enum": [
+                          "mm",
+                          "°"
+                        ]
+                      }
+                    },
+                    "required": [
+                      "label",
+                      "value",
+                      "unit"
+                    ]
+                  }
+                }
+              },
+              "required": [
+                "id",
+                "name",
+                "inspiration",
+                "family",
+                "technique",
+                "materials",
+                "shape",
+                "experiment",
+                "image",
+                "studio",
+                "settings"
+              ]
+            },
+            "minItems": 2,
+            "maxItems": 2
+          },
+          "question": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "locale",
+          "models",
+          "question"
+        ]
+      },
+      "MotorRoadmap": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "locale": {
+            "$ref": "#/components/schemas/AirplaneLocale"
+          },
+          "status": {
+            "type": "string"
+          },
+          "stages": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "title": {
+                  "type": "string"
+                },
+                "action": {
+                  "type": "string"
+                },
+                "record": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "title",
+                "action",
+                "record"
+              ]
+            }
+          },
+          "parts": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "part": {
+                  "type": "string"
+                },
+                "criterion": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "part",
+                "criterion"
+              ]
+            }
+          },
+          "sources": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "label": {
+                  "type": "string"
+                },
+                "url": {
+                  "type": "string",
+                  "format": "uri"
+                }
+              },
+              "required": [
+                "label",
+                "url"
+              ]
+            }
+          }
+        },
+        "required": [
+          "locale",
+          "status",
+          "stages",
+          "parts",
+          "sources"
+        ]
+      },
+      "FlightInputs": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "directionDeg": {
+            "type": "number"
+          },
+          "angleOfAttackDeg": {
+            "type": "number"
+          },
+          "speed": {
+            "type": "number"
+          },
+          "bankDeg": {
+            "type": "number"
+          },
+          "height": {
+            "type": "number"
+          },
+          "trimDeg": {
+            "type": "number"
+          },
+          "trimDifferenceDeg": {
+            "type": "number"
+          }
+        },
+        "required": [
+          "directionDeg",
+          "angleOfAttackDeg",
+          "speed",
+          "bankDeg",
+          "height",
+          "trimDeg",
+          "trimDifferenceDeg"
+        ]
+      },
+      "FlightCircuit": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "evidence": {
+            "const": "simulation"
+          },
+          "model": {
+            "const": "open-flight-teaching-model-1"
+          },
+          "intro": {
+            "type": "string"
+          },
+          "scorecard": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "title": {
+                "type": "string"
+              },
+              "setup": {
+                "type": "string"
+              },
+              "rules": {
+                "type": "string"
+              },
+              "repeat": {
+                "type": "string"
+              },
+              "design": {
+                "type": "string"
+              },
+              "material": {
+                "type": "string"
+              },
+              "balance": {
+                "type": "string"
+              },
+              "clip": {
+                "type": "string"
+              },
+              "height": {
+                "type": "string"
+              },
+              "launch": {
+                "type": "string"
+              },
+              "forward": {
+                "type": "string"
+              },
+              "across": {
+                "type": "string"
+              },
+              "note": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "title",
+              "setup",
+              "rules",
+              "repeat",
+              "design",
+              "material",
+              "balance",
+              "clip",
+              "height",
+              "launch",
+              "forward",
+              "across",
+              "note"
+            ]
+          },
+          "controls": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "directionDeg": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "min": {
+                    "type": "number"
+                  },
+                  "max": {
+                    "type": "number"
+                  },
+                  "step": {
+                    "type": "number"
+                  },
+                  "initial": {
+                    "type": "number"
+                  },
+                  "label": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "min",
+                  "max",
+                  "step",
+                  "initial",
+                  "label"
+                ]
+              },
+              "angleOfAttackDeg": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "min": {
+                    "type": "number"
+                  },
+                  "max": {
+                    "type": "number"
+                  },
+                  "step": {
+                    "type": "number"
+                  },
+                  "initial": {
+                    "type": "number"
+                  },
+                  "label": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "min",
+                  "max",
+                  "step",
+                  "initial",
+                  "label"
+                ]
+              },
+              "speed": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "min": {
+                    "type": "number"
+                  },
+                  "max": {
+                    "type": "number"
+                  },
+                  "step": {
+                    "type": "number"
+                  },
+                  "initial": {
+                    "type": "number"
+                  },
+                  "label": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "min",
+                  "max",
+                  "step",
+                  "initial",
+                  "label"
+                ]
+              },
+              "bankDeg": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "min": {
+                    "type": "number"
+                  },
+                  "max": {
+                    "type": "number"
+                  },
+                  "step": {
+                    "type": "number"
+                  },
+                  "initial": {
+                    "type": "number"
+                  },
+                  "label": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "min",
+                  "max",
+                  "step",
+                  "initial",
+                  "label"
+                ]
+              },
+              "height": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "min": {
+                    "type": "number"
+                  },
+                  "max": {
+                    "type": "number"
+                  },
+                  "step": {
+                    "type": "number"
+                  },
+                  "initial": {
+                    "type": "number"
+                  },
+                  "label": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "min",
+                  "max",
+                  "step",
+                  "initial",
+                  "label"
+                ]
+              },
+              "trimDeg": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "min": {
+                    "type": "number"
+                  },
+                  "max": {
+                    "type": "number"
+                  },
+                  "step": {
+                    "type": "number"
+                  },
+                  "initial": {
+                    "type": "number"
+                  },
+                  "label": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "min",
+                  "max",
+                  "step",
+                  "initial",
+                  "label"
+                ]
+              },
+              "trimDifferenceDeg": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "min": {
+                    "type": "number"
+                  },
+                  "max": {
+                    "type": "number"
+                  },
+                  "step": {
+                    "type": "number"
+                  },
+                  "initial": {
+                    "type": "number"
+                  },
+                  "label": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "min",
+                  "max",
+                  "step",
+                  "initial",
+                  "label"
+                ]
+              }
+            },
+            "required": [
+              "directionDeg",
+              "angleOfAttackDeg",
+              "speed",
+              "bankDeg",
+              "height",
+              "trimDeg",
+              "trimDifferenceDeg"
+            ]
+          },
+          "gates": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "id": {
+                  "type": "string",
+                  "enum": [
+                    "level",
+                    "dip",
+                    "turn"
+                  ]
+                },
+                "view": {
+                  "type": "string",
+                  "enum": [
+                    "top",
+                    "side"
+                  ]
+                },
+                "inputs": {
+                  "$ref": "#/components/schemas/FlightInputs"
+                },
+                "markers": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                      "forward": {
+                        "type": "number"
+                      },
+                      "across": {
+                        "type": "number"
+                      },
+                      "width": {
+                        "type": "number"
+                      },
+                      "bottom": {
+                        "type": "number"
+                      },
+                      "top": {
+                        "type": "number"
+                      }
+                    },
+                    "required": [
+                      "forward",
+                      "across",
+                      "width",
+                      "bottom",
+                      "top"
+                    ]
+                  }
+                },
+                "name": {
+                  "type": "string"
+                },
+                "hint": {
+                  "type": "string"
+                },
+                "real": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "id",
+                "view",
+                "inputs",
+                "markers",
+                "name",
+                "hint",
+                "real"
+              ]
+            },
+            "minItems": 3,
+            "maxItems": 3
+          }
+        },
+        "required": [
+          "evidence",
+          "model",
+          "intro",
+          "scorecard",
+          "controls",
+          "gates"
+        ]
+      },
+      "FlightSimulationRequest": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "gate": {
+            "type": "string",
+            "enum": [
+              "level",
+              "dip",
+              "turn"
+            ]
+          },
+          "directionDeg": {
+            "type": "number"
+          },
+          "angleOfAttackDeg": {
+            "type": "number"
+          },
+          "speed": {
+            "type": "number"
+          },
+          "bankDeg": {
+            "type": "number"
+          },
+          "height": {
+            "type": "number"
+          },
+          "trimDeg": {
+            "type": "number"
+          },
+          "trimDifferenceDeg": {
+            "type": "number"
+          }
+        },
+        "required": []
+      },
+      "FlightSimulation": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "evidence": {
+            "const": "simulation"
+          },
+          "model": {
+            "const": "open-flight-teaching-model-1"
+          },
+          "gate": {
+            "type": "string",
+            "enum": [
+              "level",
+              "dip",
+              "turn"
+            ]
+          },
+          "inputs": {
+            "$ref": "#/components/schemas/FlightInputs"
+          },
+          "outcome": {
+            "type": "string",
+            "enum": [
+              "recovery",
+              "steep",
+              "glide"
+            ]
+          },
+          "end": {
+            "type": "string",
+            "enum": [
+              "floor",
+              "time-limit"
+            ]
+          },
+          "duration": {
+            "type": "number"
+          },
+          "landing": {
+            "oneOf": [
+              {
+                "type": "array",
+                "items": {
+                  "type": "number"
+                },
+                "minItems": 3,
+                "maxItems": 3
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "samples": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "time": {
+                  "type": "number"
+                },
+                "point": {
+                  "type": "array",
+                  "items": {
+                    "type": "number"
+                  },
+                  "minItems": 3,
+                  "maxItems": 3
+                },
+                "directionDeg": {
+                  "type": "number"
+                },
+                "pitchDeg": {
+                  "type": "number"
+                },
+                "angleOfAttackDeg": {
+                  "type": "number"
+                },
+                "headingDeg": {
+                  "type": "number"
+                },
+                "bankDeg": {
+                  "type": "number"
+                },
+                "speed": {
+                  "type": "number"
+                }
+              },
+              "required": [
+                "time",
+                "point",
+                "directionDeg",
+                "pitchDeg",
+                "angleOfAttackDeg",
+                "headingDeg",
+                "bankDeg",
+                "speed"
+              ]
+            },
+            "minItems": 2,
+            "maxItems": 481
+          }
+        },
+        "required": [
+          "evidence",
+          "model",
+          "gate",
+          "inputs",
+          "outcome",
+          "end",
+          "duration",
+          "landing",
+          "samples"
         ]
       }
     }

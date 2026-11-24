@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta name="theme-color" content="#f9f7ee" />
+    <title>Compare designs · Open Flight</title>
+    <link rel="icon" href="./assets/wing-mark.svg" />
+    <link rel="stylesheet" href="./atlas.css" />
+    <link rel="stylesheet" href="./atlas-nav.css" />
+    <link rel="stylesheet" href="./atlas-lab.css" />
+    <script type="module" src="./compare.js"></script>
+  </head>
+  <body>
+    <a class="skip" href="#main" id="skip">Skip to content</a>
+    <header class="mast">
+      <div class="mast-in">
+        <a class="wordmark" id="home" href="./"
+          ><img src="./assets/wing-mark.svg" width="36" height="36" alt="" />Open Flight</a
+        ><span data-workshop-menu></span>
+        <div class="lang">
+          <a id="en" lang="en" hreflang="en" aria-label="English" href="?lang=en">EN</a
+          ><a id="es" lang="es" hreflang="es" aria-label="Español" href="?lang=es">ES</a
+          ><a id="ru" lang="ru" hreflang="ru" aria-label="Русский" href="?lang=ru">РУ</a>
+        </div>
+      </div>
+    </header>
+    <main id="main" class="wrap lab">
+      <header class="lab-head">
+        <p class="over" id="tag">The comparison table</p>
+        <h1 id="title">Which two will you fly?</h1>
+        <p id="intro">
+          Choose two designs and see what changes on paper. Then give each one the same launch.
+        </p>
+      </header>
+      <div class="pair-presets" id="presets"></div>
+      <div id="comparison" class="pair-grid"></div>
+      <section class="test-card" aria-labelledby="test-heading">
+        <p class="over" id="test-tag"></p>
+        <h2 id="test-heading" aria-live="polite"></h2>
+        <p id="method"></p>
+        <div class="trial-grid" id="trial-grid"></div>
+        <p id="evidence" class="lab-note"></p>
+        <button id="print" class="btn dark" type="button"></button>
+      </section>
+    </main>
+    <footer class="wrap">
+      <a href="./" id="foot-home">Open Flight</a
+      ><a href="https://github.com/kevinmamaqi/open-flight">GitHub ↗</a>
+    </footer>
+  </body>
+</html>

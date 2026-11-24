@@ -714,3 +714,81 @@ footer {
     transition-duration: 0.01ms !important;
   }
 }
+
+.aircraft-guide {
+  margin: 3.25rem 0;
+}
+
+.field-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.field-card {
+  margin: 0;
+  color: #213b44;
+  overflow: hidden;
+  background: #fffefa;
+  border: 1px solid #c5d1ce;
+  border-radius: 1rem;
+}
+
+.field-card > img,
+.field-paper,
+.field-diagram {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 470 / 245;
+  object-fit: contain;
+}
+
+.field-card > img,
+.field-paper {
+  background: var(--plate);
+}
+
+.field-diagram {
+  background: #e2eae5;
+}
+
+.field-card svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.field-card figcaption {
+  padding: 1rem;
+}
+
+.field-card figcaption h3 {
+  font-size: 1.15rem;
+  margin: 0 0 0.4rem;
+}
+
+.field-card figcaption p {
+  margin: 0 0 0.6rem;
+}
+
+.field-card a,
+.field-credit a {
+  color: #155767;
+  text-underline-offset: 0.2em;
+}
+
+.field-credit {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.25rem 0.6rem;
+  color: #455e66;
+  font-size: 0.88rem;
+}
+
+@media (max-width: 720px) {
+  .field-grid {
+    grid-template-columns: 1fr;
+  }
+}

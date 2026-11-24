@@ -4,100 +4,148 @@ import { foldSvg, planeGuide } from './assets/planes/guide.js'
 import { planePdfBytes } from './assets/planes/pdf.js'
 
 const words = {
-  skip: ['Skip to design', 'Перейти к модели'],
-  atlas: ['Flight atlas', 'Атлас полётов'],
-  foldGuide: ['Fold guide', 'Схема сборки'],
-  myBuilds: ['My builds', 'Мои модели'],
-  language: ['Language', 'Язык'],
-  hangar: ['Paper airplane studio', 'Мастерская бумажных самолётов'],
-  start: ['Start folding', 'Начать сборку'],
-  print: ['Download build PDF', 'Скачать PDF для сборки'],
-  oneSheet: ['One whole sheet', 'Один целый лист'],
-  paperModel: ['Folded paper model', 'Бумажная модель'],
-  choose: ['Choose an aircraft', 'Выберите самолёт'],
-  workbench: ['Folding table', 'Стол для сборки'],
+  fieldTitle: ['From aircraft to paper', 'От самолёта к бумаге', 'Del avión real al papel'],
+  fieldIntro: [
+    'Spot a detail on the real aircraft, then find it in your paper build.',
+    'Найдите особую деталь настоящего самолёта, а затем посмотрите, как она выглядит на бумаге.',
+    'Busca un detalle en el avión real y luego encuéntralo en tu modelo de papel.',
+  ],
+  fieldFold: ['Find the fold', 'Найдите сгиб', 'Encuentra el doblez'],
+  fieldPaper: ['Spot it on paper', 'Найдите деталь на модели', 'Búscalo en el papel'],
+  fieldJump: ['Try this fold', 'Попробовать этот сгиб', 'Prueba este doblez'],
+  fieldCredit: [
+    'Original Open Flight illustration · schematic ·',
+    'Рисунок Open Flight · схема ·',
+    'Ilustración original de Open Flight · dibujo esquemático ·',
+  ],
+  proposed: [
+    'Proposed trial. Record what your launches actually do.',
+    'План опыта. Запишите, что происходит во время ваших запусков.',
+    'Prueba propuesta. Anota qué ocurre en tus lanzamientos.',
+  ],
+  skip: ['Skip to design', 'Перейти к модели', 'Ir al diseño'],
+  atlas: ['Flight atlas', 'Атлас полётов', 'Atlas de vuelo'],
+  foldGuide: ['Fold guide', 'Схема сборки', 'Guía de dobleces'],
+  myBuilds: ['My builds', 'Мои модели', 'Mis modelos'],
+  language: ['Language', 'Язык', 'Idioma'],
+  hangar: ['Paper airplane studio', 'Мастерская бумажных самолётов', 'Taller de aviones de papel'],
+  start: ['Start folding', 'Начать сборку', 'Empezar a doblar'],
+  print: ['Download build PDF', 'Скачать PDF для сборки', 'Descargar PDF de montaje'],
+  oneSheet: ['One whole sheet', 'Один целый лист', 'Una hoja entera'],
+  paperModel: ['Folded paper model', 'Бумажная модель', 'Modelo de papel doblado'],
+  choose: ['Choose an aircraft', 'Выберите самолёт', 'Elige un avión'],
+  workbench: ['Folding table', 'Стол для сборки', 'Mesa de trabajo'],
   benchIntro: [
     'Keep the short edge away from you. One sheet makes one plane.',
     'Положите лист коротким краем от себя. Из одного листа получится один самолёт.',
+    'Coloca el lado corto de la hoja hacia el lado opuesto de la mesa. Con una hoja entera haces un avión. Para imprimir a tamaño real, ten una regla a mano.',
   ],
-  diagrams: ['Fold diagrams', 'Схемы сгибов'],
-  fold3d: ['3D folds', 'Сгибы в 3D'],
-  flight: ['Flight path', 'Траектория'],
-  view: ['Choose a view', 'Выберите вид'],
-  printed: ['Print side', 'Лицевая сторона'],
-  reverse: ['Reverse', 'Оборот'],
-  moving: ['Moving flap', 'Подвижный клапан'],
-  crease: ['Crease', 'Сгиб'],
-  previous: ['Previous', 'Назад'],
-  next: ['Next fold', 'Следующий сгиб'],
-  experiment: ['Flight experiment', 'Опыт с полётом'],
-  settings: ['Your design', 'Ваша модель'],
-  paper: ['Paper size', 'Формат листа'],
-  livery: ['Printed colors', 'Расцветка'],
-  heritage: ['Heritage stripes', 'Классические полосы'],
-  festival: ['Festival colors', 'Праздничные цвета'],
-  pencil: ['Graphite', 'Графит'],
-  keel: ['Body fold', 'Глубина корпуса'],
-  keelHint: ['A deeper body leaves less paper in each wing.', 'Чем глубже сгиб корпуса, тем уже крыло.'],
-  tips: ['Wing-tip height', 'Высота законцовок'],
-  tipHint: ['At zero, both outside edges stay flat.', 'При нуле внешние кромки остаются плоскими.'],
-  save: ['Save a copy', 'Сохранить копию'],
-  build: ['Build at home', 'Для сборки дома'],
-  files: ['The print pack', 'Файлы для печати'],
+  diagrams: ['Fold diagrams', 'Схемы сгибов', 'Dibujos de los dobleces'],
+  fold3d: ['3D folds', 'Сгибы в 3D', 'Doblez en 3D'],
+  flight: ['Flight path', 'Траектория', 'Trayectoria de vuelo'],
+  view: ['Choose a view', 'Выберите вид', 'Elige una vista'],
+  printed: ['Print side', 'Лицевая сторона', 'Cara impresa'],
+  reverse: ['Reverse', 'Оборот', 'Reverso'],
+  moving: ['Moving flap', 'Подвижный клапан', 'Parte que se dobla'],
+  crease: ['Crease', 'Сгиб', 'Línea de doblez'],
+  previous: ['Previous', 'Назад', 'Anterior'],
+  next: ['Next fold', 'Следующий сгиб', 'Siguiente doblez'],
+  experiment: ['Flight experiment', 'Опыт с полётом', 'Prueba de vuelo'],
+  settings: ['Your design', 'Ваша модель', 'Tu diseño'],
+  paper: ['Paper size', 'Формат листа', 'Tamaño de la hoja'],
+  livery: ['Printed colors', 'Расцветка', 'Colores del avión'],
+  heritage: ['Heritage stripes', 'Классические полосы', 'Franjas clásicas'],
+  festival: ['Festival colors', 'Праздничные цвета', 'Colores vivos'],
+  pencil: ['Graphite', 'Графит', 'Grafito'],
+  keel: ['Body fold', 'Глубина корпуса', 'Profundidad del cuerpo'],
+  keelHint: [
+    'A deeper body leaves less paper in each wing.',
+    'Чем глубже сгиб корпуса, тем уже крыло.',
+    'Cuanto más profundo sea el doblez del cuerpo, más estrechas serán las alas.',
+  ],
+  tips: ['Wing-tip height', 'Высота законцовок', 'Doblez en los extremos de las alas'],
+  tipHint: [
+    'At zero, both outside edges stay flat.',
+    'При нуле внешние кромки остаются плоскими.',
+    'Con 0 mm, los bordes exteriores de las alas quedan planos.',
+  ],
+  save: ['Save a copy', 'Сохранить копию', 'Guardar una copia'],
+  build: ['Build at home', 'Для сборки дома', 'Arma tu avión en casa'],
+  files: ['The print pack', 'Файлы для печати', 'Archivos para imprimir'],
   printHelp: [
     'Print page 1 at 100%. The diagram pages can stay on screen. Check the 20 mm line with a ruler.',
     'Печатайте страницу 1 в масштабе 100%. Схемы можно оставить на экране. Проверьте линейкой контрольные 20 мм.',
+    'Imprime la primera página al 100 % (tamaño real). Puedes consultar los dibujos en pantalla. Mide la línea de 20 mm con una regla.',
   ],
-  svg: ['Full-size SVG sheet', 'Полноразмерный лист SVG'],
-  guideFile: ['Offline illustrated guide', 'Схемы для работы офлайн'],
-  source: ['Editable design JSON', 'Файл модели JSON'],
-  reference: ['Aircraft reference', 'Настоящий самолёт'],
+  svg: ['Full-size SVG sheet', 'Полноразмерный лист SVG', 'Hoja SVG a tamaño real'],
+  guideFile: ['Offline illustrated guide', 'Схемы для работы офлайн', 'Guía ilustrada sin conexión'],
+  source: ['Editable design JSON', 'Файл модели JSON', 'Diseño editable en JSON'],
+  reference: ['Aircraft reference', 'Настоящий самолёт', 'Avión real'],
   local: [
     'Copies stay in this browser. Export the design file to take a copy with you.',
     'Копии хранятся в этом браузере. Скачайте файл модели, чтобы перенести её на другое устройство.',
+    'Las copias se guardan en este navegador. Descarga el archivo de diseño para llevarlo a otro dispositivo.',
   ],
-  share: ['Copy design link', 'Копировать ссылку'],
-  import: ['Import design', 'Импортировать модель'],
-  designLink: ['Design link', 'Ссылка на модель'],
-  back: ['Back to the flight atlas', 'Вернуться в атлас полётов'],
-  inspiration: ['Inspired by', 'По мотивам'],
-  step: ['Fold', 'Сгиб'],
-  of: ['of', 'из'],
+  share: ['Copy design link', 'Копировать ссылку', 'Copiar enlace al diseño'],
+  import: ['Import design', 'Импортировать модель', 'Importar diseño'],
+  designLink: ['Design link', 'Ссылка на модель', 'Enlace al diseño'],
+  back: ['Back to the flight atlas', 'Вернуться в атлас полётов', 'Volver al atlas de vuelo'],
+  inspiration: ['Inspired by', 'По мотивам', 'Inspirado en el'],
+  step: ['Fold', 'Сгиб', 'Doblez'],
+  of: ['of', 'из', 'de'],
   launch: [
     'Hold near the nose and launch gently, wings level, into clear space.',
     'Возьмитесь за корпус ближе к носу. Мягко запустите самолёт горизонтально в свободное пространство.',
+    'Sujeta el cuerpo cerca de la punta. Lanza suavemente, a nivel y hacia un espacio despejado.',
   ],
-  copied: ['Design link copied.', 'Ссылка скопирована.'],
-  copyManually: ['Select and copy the design link below.', 'Выделите и скопируйте ссылку ниже.'],
-  saved: ['Copy saved in this browser.', 'Копия сохранена в этом браузере.'],
-  load: ['Open', 'Открыть'],
-  imported: ['Design imported.', 'Модель импортирована.'],
+  copied: ['Design link copied.', 'Ссылка скопирована.', 'Enlace al diseño copiado.'],
+  copyManually: [
+    'Select and copy the design link below.',
+    'Выделите и скопируйте ссылку ниже.',
+    'Selecciona y copia el enlace de abajo.',
+  ],
+  saved: [
+    'Copy saved in this browser.',
+    'Копия сохранена в этом браузере.',
+    'Copia guardada en este navegador.',
+  ],
+  load: ['Open', 'Открыть', 'Abrir'],
+  imported: ['Design imported.', 'Модель импортирована.', 'Diseño importado.'],
   invalid: [
     'Choose a valid Open Flight airplane design JSON file.',
     'Выберите корректный JSON-файл бумажного самолёта Open Flight.',
+    'Elige un archivo JSON válido de un avión de Open Flight.',
   ],
   storage: [
     'The browser could not save this copy. Download the design JSON to keep it.',
     'Браузер не смог сохранить копию. Скачайте JSON-файл модели.',
+    'El navegador no pudo guardar la copia. Descarga el diseño en JSON para conservarlo.',
   ],
-  creating: ['Preparing your PDF…', 'Готовим PDF…'],
-  ready: ['Build PDF downloaded.', 'PDF для сборки скачан.'],
+  creating: ['Preparing your PDF…', 'Готовим PDF…', 'Preparando el PDF…'],
+  ready: ['Build PDF downloaded.', 'PDF для сборки скачан.', 'PDF de montaje descargado.'],
   pdfError: [
     'The PDF assets could not be loaded. The SVG sheet and illustrated guide are available below.',
     'Не удалось открыть ресурсы PDF. Ниже доступны лист SVG и схемы сборки.',
+    'No se pudo preparar el PDF. Abajo puedes descargar la hoja SVG y la guía ilustrada.',
   ],
   viewerError: [
     'The 3D view could not be loaded. Use the fold diagrams to keep building.',
     'Не удалось открыть трёхмерный вид. Для сборки используйте схемы сгибов.',
+    'No se pudo cargar la vista en 3D. Puedes seguir con los dibujos de los dobleces.',
   ],
-  savedAt: ['Saved', 'Сохранено'],
-  mm: ['mm', 'мм'],
-  airplane: ['Paper airplane studio', 'Мастерская бумажных самолётов'],
+  savedAt: ['Saved', 'Сохранено', 'Guardado'],
+  mm: ['mm', 'мм', 'mm'],
+  airplane: ['Paper airplane studio', 'Мастерская бумажных самолётов', 'Taller de aviones de papel'],
 }
+import { flightPhysics,physicsTitle } from './atlas-physics.js'
+import { currentLocale } from './atlas-nav.js'
 const $ = (id) => document.getElementById(id)
 const params = new URLSearchParams(location.search)
-let locale = params.get('lang') === 'ru' ? 'ru' : 'en'
-const tr = (key) => words[key][locale === 'ru' ? 1 : 0]
+const languages = ['en', 'ru', 'es']
+const requestedLanguage = currentLocale()
+let locale = languages.includes(requestedLanguage) ? requestedLanguage : 'en'
+const tr = (key) => words[key][languages.indexOf(locale)]
+const paperName = (paper) => (paper === 'US_LETTER' && locale === 'es' ? 'Carta' : paper.replace('_', ' '))
 const chooseModel = (id) => planeCatalog.find((m) => m.model_id === id) ?? planeCatalog[0]
 const selectInitial = () => {
   const model = chooseModel(params.get('model'))
@@ -118,7 +166,7 @@ const selectInitial = () => {
 }
 let plan = makePlane(selectInitial(), locale),
   stage = 0,
-  mode = 'guide',
+  mode = ['fold', 'flight'].includes(params.get('view')) ? params.get('view') : 'guide',
   viewer,
   loadingViewer,
   noticeTimer
@@ -140,6 +188,7 @@ function urlForPlan() {
     tips: plan.winglet_mm,
     livery: plan.livery,
   }
+  if (mode !== 'guide') fields.view = mode
   for (const [k, v] of Object.entries(fields)) url.searchParams.set(k, String(v))
   return url
 }
@@ -161,12 +210,15 @@ function translate() {
     el.setAttribute('aria-label', tr(el.dataset.group))
   })
   document.querySelectorAll('[data-home]').forEach((link) => {
-    link.href = './?lang=' + locale
+    link.href = { en: './', ru: './ru.html', es: './es.html' }[locale]
   })
   $('language').value = locale
   $('paper').options[0].textContent = 'A4 · 210 × 297 ' + tr('mm')
-  $('paper').options[1].textContent =
-    locale === 'ru' ? 'US Letter · 215,9 × 279,4 мм' : 'US Letter · 8½ × 11 in'
+  $('paper').options[1].textContent = {
+    en: 'US Letter · 8½ × 11 in',
+    ru: 'US Letter · 215,9 × 279,4 мм',
+    es: 'Carta · 215,9 × 279,4 mm',
+  }[locale]
 }
 function renderModels() {
   const current = document.activeElement?.dataset?.model
@@ -215,7 +267,7 @@ function renderCopies() {
       const title =
         p.name +
         ' · ' +
-        p.paper.replace('_', ' ') +
+        paperName(p.paper) +
         ' · ' +
         p.keel_mm +
         '/' +
@@ -236,6 +288,20 @@ function renderCopies() {
     })
     .join('')
 }
+function renderField() {
+  const { field } = plan
+  $('field-airframe').src = './assets/planes/field/' + plan.model_id + '.svg'
+  $('field-airframe').alt = field.variant + ' · ' + field.landmark
+  $('field-variant').textContent = field.variant
+  $('field-landmark').textContent = field.landmark
+  $('field-look').textContent = field.look
+  $('field-diagram').innerHTML = foldSvg(plan, plan.steps[field.step])
+  $('field-paper').innerHTML = planeSpecimen(plan)
+  $('field-fold').textContent = field.fold
+  $('field-finish').textContent = field.finish
+  $('field-museum').textContent = field.museum.label + ' ↗'
+  $('field-museum').href = field.museum.url
+}
 function renderPlan() {
   const plate = {
     'boeing-747': '#f8dfb1',
@@ -247,8 +313,10 @@ function renderPlan() {
   document.title = plan.name + ' · ' + tr('airplane') + ' · Open Flight'
   $('name').textContent = plan.name
   $('character').textContent = plan.character
+  $('plane-physics').querySelector('summary').textContent=physicsTitle(locale)
+  $('plane-physics').querySelector('p').textContent=flightPhysics(plan.model_id,locale)
   $('inspiration').textContent = tr('inspiration') + ' ' + plan.inspiration
-  $('format').textContent = plan.paper.replace('_', ' ')
+  $('format').textContent = paperName(plan.paper)
   $('sample-number').textContent = 'OF / ' + plan.code
   $('aircraft').innerHTML = planeSpecimen(plan)
   $('paper').value = plan.paper
@@ -266,6 +334,7 @@ function renderPlan() {
   $('trial').textContent = tr('launch') + ' ' + plan.experiment
   $('share-fallback').hidden = true
   syncAddress()
+  renderField()
   renderStep()
 }
 function renderStep() {
@@ -361,23 +430,39 @@ for (const [control, field] of [
 ]) {
   $(control).addEventListener(control === 'keel' || control === 'tips' ? 'input' : 'change', (e) => {
     const value = e.target.value
-    plan = makePlane({ ...plan.source, [field]: field.endsWith('_mm') ? Number(value) : value }, locale)
+    plan = makePlane(
+      {
+        ...plan.source,
+        [field]: field.endsWith('_mm') ? Number(value) : value,
+      },
+      locale,
+    )
     renderPlan()
   })
 }
 $('models').addEventListener('click', (e) => {
   const button = e.target.closest('[data-model]')
   if (button && button.dataset.model !== plan.model_id)
-    acceptDesign({ model_id: button.dataset.model, paper: plan.paper, livery: plan.livery }, true)
+    acceptDesign(
+      {
+        model_id: button.dataset.model,
+        paper: plan.paper,
+        livery: plan.livery,
+      },
+      true,
+    )
 })
 document.querySelectorAll('a[href="#fold"]').forEach((link) => {
   link.addEventListener('click', () => {
     mode = 'guide'
+    if (link.id === 'field-jump') stage = plan.field.step
+    syncAddress()
     renderStep()
   })
 })
 $('language').addEventListener('change', (e) => {
   locale = e.target.value
+  try { sessionStorage.setItem('open-flight-language',locale) } catch {}
   translate()
   acceptDesign(plan.source)
   renderCopies()
@@ -386,6 +471,7 @@ document.querySelector('.view-tabs').addEventListener('click', (e) => {
   const button = e.target.closest('[data-mode]')
   if (button) {
     mode = button.dataset.mode
+    syncAddress()
     renderStep()
   }
 })
@@ -407,7 +493,11 @@ $('step-progress').onclick = (e) => {
 $('save').onclick = () => {
   try {
     const list = savedList()
-    list.unshift({ id: crypto.randomUUID(), date: new Date().toISOString(), source: plan.source })
+    list.unshift({
+      id: crypto.randomUUID(),
+      date: new Date().toISOString(),
+      source: plan.source,
+    })
     localStorage.setItem(storageKey, JSON.stringify(list))
     renderCopies()
     announce(tr('saved'))
@@ -535,3 +625,5 @@ translate()
 renderModels()
 renderPlan()
 renderCopies()
+
+if (mode === 'flight') requestAnimationFrame(() => document.querySelector('.view-tabs').scrollIntoView())

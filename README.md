@@ -1,13 +1,13 @@
 # Open Flight
 
-Make a paper glider with a child or a classroom, then change one fold and see where it lands. The free workshop runs in your browser. You can save a butterfly design on your device, download its editable source, or start with plain paper and a folding guide. [Open the workshop](https://kevinmamaqi.github.io/open-flight/?lang=en) · [По-русски](README.ru.md)
+Make a paper glider with a child or a classroom, then change one fold and see where it lands. The free workshop runs in your browser. You can save a butterfly design on your device, download its editable source, or start with plain paper and a folding guide. [Open the workshop](https://kevinmamaqi.github.io/open-flight/?lang=en) · [По-русски](README.ru.md) · [Español](README.es.md)
 
 | Make | Start with | What to change |
 | --- | --- | --- |
 | Monarch, blue morpho or swallowtail | A printed sheet, scissors and a small blunt paper clip | Wingspan, colors and two independent back tabs. Follow the cut outline, raise the wings and compare the landing marks. |
 | A Boeing 747, Douglas DC-3, Tupolev Tu-144 or Ilyushin Il-62 inspired airplane | One whole sheet of A4 or US Letter paper | Choose a body fold, wingtip height and livery. Follow the illustrated stages. A printer is optional. |
 
-The three butterflies draw on photographs of real species. The four airplane patterns are original interpretations of civil aircraft. The 3D flight view illustrates a prediction you can compare with an actual launch. Each starter sheet includes a calibration ruler. Print at actual size and measure 50 mm on a butterfly or 20 mm on an airplane. [Field references](https://kevinmamaqi.github.io/open-flight/references.html?lang=en) · [28 PDF editions and offline lessons](docs/library/) · [Family lesson in both languages](guides/paper-flight-lesson.md)
+The three butterflies draw on photographs of real species. The four airplane patterns are original interpretations of civil aircraft, with illustrated guides linking a full-size feature to the paper fold. The 3D flight view and three-gate circuit illustrate predictions you can compare with an actual launch. Each starter sheet includes a calibration ruler. Print at actual size and measure 50 mm on a butterfly or 20 mm on an airplane. [Field references](https://kevinmamaqi.github.io/open-flight/references.html?lang=en) · [42 PDF editions and three offline lessons](docs/library/) · [Family lesson](guides/paper-flight-lesson.md) · [Version 0.4.0](https://github.com/kevinmamaqi/open-flight/releases/tag/v0.4.0)
 
 [![The Open Flight paper workshop with an orange Monarch on the worktable](apps/editor/assets/atlas/workshop-preview-en.png)](https://kevinmamaqi.github.io/open-flight/)
 

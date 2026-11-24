@@ -11,9 +11,7 @@ export function framing(world, state, width, height, angle) {
     eye = [sy * ce, se, cy * ce]
   const bounds = []
   if (state.mode === 'flight') {
-    const side = state.camera === 'rear' ? 101 : 77
-    for (const x of [-side, side])
-      for (const z of [-123, 127]) for (const y of [-4, 43]) bounds.push([x, y, z])
+    bounds.push(...world.bounds)
   } else {
     // Use the whole unfolded envelope while a fold is being scrubbed, so the camera holds still.
     // The first butterfly step shows the surrounding sheet and real 50 mm scale.

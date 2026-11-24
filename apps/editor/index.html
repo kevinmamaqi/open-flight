@@ -8,6 +8,7 @@
     <link rel="icon" href="./assets/wing-mark.svg" type="image/svg+xml" />
     <link rel="stylesheet" href="./editor.css" />
     <link rel="stylesheet" href="./flight-viewer.css" />
+    <link rel="stylesheet" href="./atlas-nav.css"><script type="module" src="./atlas-nav.js"></script>
     <script type="module" src="./editor.js"></script>
   </head>
   <body>
@@ -27,7 +28,7 @@
             ><span data-i18n="buildGuide">Build guide</span></a
           >
         </nav>
-        <div class="top-actions">
+        <div class="top-actions"><span data-workshop-menu></span>
           <button type="button" class="library-btn" id="open-library">
             <svg class="icon" aria-hidden="true"><use href="./editor-art.svg#folder" /></svg
             ><span data-i18n="myDesigns">My designs</span>
@@ -38,6 +39,7 @@
             <select id="locale">
               <option value="en" lang="en">EN</option>
               <option value="ru" lang="ru">RU</option>
+              <option value="es" lang="es">ES</option>
             </select>
             <svg class="chevron" aria-hidden="true"><use href="./editor-art.svg#down" /></svg>
           </label>
@@ -312,6 +314,7 @@
               <p id="observation"></p>
             </div>
           </div>
+          <details class="fold-physics" id="butter-physics"><summary></summary><p></p></details>
           <div class="reference-links">
             <a id="pixabay-link" target="_blank" rel="noopener noreferrer"
               ><svg class="small-icon" aria-hidden="true"><use href="./editor-art.svg#camera" /></svg
@@ -373,14 +376,15 @@
             <label class="form-label" for="paper" data-i18n="paper">Paper size</label
             ><select id="paper">
               <option value="A4">A4</option>
-              <option value="US_LETTER">US Letter</option>
+              <option value="US_LETTER" data-i18n="letter">US Letter</option>
             </select>
           </div>
           <div>
             <label class="form-label" for="print-locale" data-i18n="sheetLanguage">Sheet language</label
             ><select id="print-locale">
               <option value="en">English</option>
-              <option value="ru">Русский</option>
+              <option value="ru" lang="ru">Русский</option>
+              <option value="es" lang="es">Español</option>
             </select>
           </div>
         </div>

@@ -107,10 +107,10 @@ test('recipes have different real outlines, crease sets, printable source and li
     assert.ok(different.steps.at(-1)?.instruction.includes('flat'))
   }
 })
-test('a 100% physical sheet and bilingual illustrated guides export deterministically in both paper formats', () => {
+test('a 100% physical sheet and trilingual illustrated guides export deterministically in both paper formats', () => {
   for (const model of planeCatalog)
     for (const paper of papers)
-      for (const locale of ['en', 'ru'] as const) {
+      for (const locale of ['en', 'ru', 'es'] as const) {
         const plan = makePlane({ model_id: model.model_id, paper }, locale)
         const pdf = planePdf(plan),
           text = pdf.toString('latin1')
@@ -128,9 +128,26 @@ test('a 100% physical sheet and bilingual illustrated guides export deterministi
         assert.equal((guide.match(/<article>/g) || []).length, plan.steps.length)
         assert.equal((guide.match(/<svg\b/g) || []).length, plan.steps.length + 1)
         assert.ok(guide.includes(plan.reference.url))
+        assert.ok(guide.includes(plan.field.museum.url))
+        assert.ok(plan.steps[plan.field.step])
         assert.ok(!guide.includes('<script'))
-        assert.ok(!guide.includes('src='))
+        assert.match(guide, /<img[^>]+src="data:image\/jpeg;base64,/)
+        assert.doesNotMatch(guide, /src="https?:/)
+        assert.match(text, /\/Subtype \/Image/)
+        assert.ok(text.includes('/Lang (' + locale + ')'))
         if (locale === 'ru') assert.ok(guide.includes('Сгиб') || guide.includes('сгиб'))
+        if (locale === 'es') {
+          assert.match(guide, /DOBLA/)
+          assert.match(guide, /tamaño real/)
+          assert.match(planeSvg(plan), /xml:lang="es"/)
+          assert.match(planeSvg(plan), /Cara impresa/)
+          const english = makePlane(plan.source)
+          assert.notEqual(plan.steps[0].instruction, english.steps[0].instruction)
+          assert.deepEqual(
+            plan.steps.map(({ frame }) => frame),
+            english.steps.map(({ frame }) => frame),
+          )
+        }
       }
   const p = makePlane({ model_id: 'douglas-dc3' })
   assert.deepEqual(planePdf(p), planePdf(p))

@@ -6,22 +6,21 @@
     <title>Field references · Open Flight</title>
     <link rel="icon" href="./assets/wing-mark.svg" />
     <link rel="stylesheet" href="./atlas.css" />
+    <link rel="stylesheet" href="./atlas-nav.css" />
+    <link rel="stylesheet" href="./atlas-lab.css" />
     <script type="module" src="./references.js"></script>
   </head>
   <body>
     <header class="mast">
       <div class="mast-in">
         <a class="wordmark" href="./"
-          ><img
-            src="./assets/wing-mark.svg"
-            alt=""
-            width="40"
-            height="40"
-          />Open Flight</a
+          ><img src="./assets/wing-mark.svg" alt="" width="40" height="40" />Open Flight</a
         >
-        <nav aria-label="Workshop"><a id="home" href="./">Workshop</a></nav>
+        <nav class="primary-links" aria-label="Workshop"><a id="home" href="./">Workshop</a></nav>
+        <span data-workshop-menu></span>
         <div class="lang">
           <a href="?lang=en" id="en" lang="en">EN</a
+          ><a href="?lang=es" id="es" lang="es" aria-label="Español">ES</a
           ><a href="?lang=ru" id="ru" lang="ru">РУ</a>
         </div>
       </div>
@@ -31,8 +30,7 @@
         <p class="over" id="over">The open library</p>
         <h1 id="heading">Field references</h1>
         <p id="intro">
-          Look at the original butterfly or aircraft, then find the detail that
-          made its way onto the paper.
+          Look at the original butterfly or aircraft, then find the detail that made its way onto the paper.
         </p>
       </div>
       <section class="ref-block">
@@ -46,24 +44,28 @@
       <section class="ref-block" id="forces">
         <h2 id="ftitle">Why a glider flies</h2>
         <p id="forces-text"></p>
-        <a
-          href="https://www1.grc.nasa.gov/beginners-guide-to-aeronautics/gliders/"
+        <a href="https://www1.grc.nasa.gov/beginners-guide-to-aeronautics/gliders/"
           >NASA Glenn · Gliders ↗</a
+        ><span> · </span
+        ><a href="https://www1.grc.nasa.gov/beginners-guide-to-aeronautics/lift-equation/"
+          >NASA Glenn · Lift ↗</a
         >
+      </section>
+      <section class="ref-block" id="balance">
+        <h2 id="ctitle">Balance and recovery</h2>
+        <p id="cg"></p>
+        <a href="https://doi.org/10.1017/jfm.2022.89">Li et al. · Journal of Fluid Mechanics ↗</a>
       </section>
       <section class="ref-block" id="powered">
         <h2 id="rtitle">The powered workshop</h2>
         <p id="road"></p>
-        <a href="https://www.poweruptoys.com/products/powerup-4-0"
-          >POWERUP 4.0 ↗</a
-        >
+        <a id="next-page" href="./next.html">Next steps ↗</a> ·
+        <a href="https://www.poweruptoys.com/products/powerup-4-0">POWERUP 4.0 ↗</a>
       </section>
       <section class="ref-block">
         <h2 id="otitle">Make it your own</h2>
         <p id="licenses"></p>
-        <a
-          href="https://github.com/kevinmamaqi/open-flight/blob/main/NOTICES.md"
-          id="notices"
+        <a href="https://github.com/kevinmamaqi/open-flight/blob/main/NOTICES.md" id="notices"
           >Licenses & credits ↗</a
         >
       </section>

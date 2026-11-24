@@ -25,8 +25,10 @@ const resources = [
   "node_modules/dejavu-fonts-ttf/LICENSE",
   "content/en/butterfly-001/build.md",
   "content/ru/butterfly-001/build.md",
+  "content/es/butterfly-001/build.md",
   "games/garden-gate/en.md",
   "games/garden-gate/ru.md",
+  "games/garden-gate/es.md",
 ];
 const files = Object.fromEntries(
   resources.map((p) => ["/" + p, readFileSync(join(root, p), "utf8")]),

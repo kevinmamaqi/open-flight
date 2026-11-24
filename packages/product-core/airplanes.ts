@@ -22,6 +22,7 @@ export function airplanePlan(settings: PlaneOptions, locale: PlaneLocale = 'en',
     settings: plan.source,
     locale: plan.locale,
     evidence_state: 'concept',
+    field: plan.field,
     output: {
       format,
       media_type: mime,

@@ -17,6 +17,9 @@
   <g clip-path="url(#loupe)">
     <circle cx="228" cy="74" r="54" fill="#fffaf0"/>
     <use href="#planform" transform="translate(228 74) scale(3.38) translate(-33.97 -76.33)"/>
+    <g fill="#fffaf0" stroke="#382a37" stroke-width="1.6">
+      <circle cx="194.5718" cy="55.49787999999999" r="3"/><circle cx="261.4282" cy="58.67508000000003" r="3"/>
+    </g>
   </g>
   <circle cx="228" cy="74" r="54" fill="none" stroke="#53485c" stroke-width="2.2"/>
 </svg>

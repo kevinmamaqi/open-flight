@@ -1,3 +1,6 @@
+import { compareModels } from '../../apps/editor/atlas-guide.js'
+import { motorRoadmap } from '../../apps/editor/atlas-roadmap.js'
+import { flightCircuit, simulateFlight } from '../../apps/editor/flight-model.js'
 import { planeCatalog, sheetSizes, liveries, revision as planeRevision } from '../planes/index.ts'
 import { airplanePlan } from './airplanes.ts'
 import { DatabaseSync } from 'node:sqlite'
@@ -7,7 +10,7 @@ import { randomUUID } from 'node:crypto'
 import { canonical, sha256 } from '../geometry/butterfly.ts'
 import { type Paper, type Locale } from '../print-export/sheets.ts'
 import { revision, emitPrintFiles, type Ref, type ActivityRef } from './edition.ts'
-import { activities, forAircraft, fieldGuide } from './content.ts'
+import { activities, activityRevision, forAircraft, fieldGuide } from './content.ts'
 import { applyEdits, baselines, generatorId, geometryFor, previewFor, sourceFor } from './aircraft.ts'
 import {
   Fault,
@@ -211,6 +214,15 @@ export class Workspace {
   }
   private run(op: string, a: Record<string, any>): any {
     switch (op) {
+      case 'compareModels':
+        if ((a.left ?? 'monarch') === (a.right ?? 'morpho')) throw invalid('Choose two distinct designs.')
+        return compareModels(a.left, a.right, a.locale)
+      case 'getMotorRoadmap':
+        return motorRoadmap(a.locale)
+      case 'getFlightCircuit':
+        return flightCircuit(a.locale)
+      case 'simulateFlight':
+        return simulateFlight(a)
       case 'listAirplanes':
         return { revision: planeRevision, papers: Object.keys(sheetSizes), liveries, items: planeCatalog }
       case 'planAirplane':
@@ -221,7 +233,7 @@ export class Workspace {
           implementation_version: version,
           enabled_operations: [...scopesByOperation.keys()].filter((id) => this.can(id)),
           transports: ['ui', 'http', 'mcp_stdio'],
-          locales: ['en', 'ru'],
+          locales: ['en', 'ru', 'es'],
           limits,
           granted_scopes: this.scopes,
         }
@@ -364,9 +376,7 @@ export class Workspace {
         }
       }
       case 'getActivityRevision': {
-        const entry = activities.find(
-          (x) => x.ref.activity_id === a.activity_id && x.ref.revision_id === a.revision_id,
-        )
+        const entry = activityRevision(a.activity_id, a.revision_id)
         if (!entry) throw missing()
         return entry
       }

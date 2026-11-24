@@ -1,10 +1,5 @@
 export const viewerWords = {
   en: {
-    pathResult: [
-      'The illustrated landing is left of the center line',
-      'The illustrated landing is on the center line',
-      'The illustrated landing is right of the center line',
-    ],
     release: 'Release',
     landing: 'Landing',
     camera: 'Camera',
@@ -33,13 +28,9 @@ export const viewerWords = {
     rightWing: 'Right wing lift',
     leftTrim: 'Left tail tab',
     rightTrim: 'Right tail tab',
-    bank: 'Release bank',
     reset: 'Restore build angles',
     trimHelp:
       'Look forward from the tail. Positive angles lift an edge. Wing lift is a practice setting for this view.',
-    planeHelp: 'Tilt the model at release to explore a bank in the sketch.',
-    loop: 'Repeat from the same release',
-    flightNote: 'Illustrated path. Test a real paper model to measure where it lands.',
     folded: 'Fold lesson',
     flight: 'Flight experiment',
     flat: 'Flat',
@@ -64,40 +55,9 @@ export const viewerWords = {
       'Bend each tab from its own wing. Open the setup controls to try different left and right angles.',
       'Hold the body at the nose clip, wings evenly raised. Release gently and level into a clear space.',
     ],
-    experiments: {
-      monarch: ['Distance markers', 'Release from one spot. Compare five landing marks for each setup.'],
-      morpho: [
-        'Watch the wing tilt',
-        'The dashed guide shows a small settling motion. Observe whether your model levels after a gentle release.',
-      ],
-      swallowtail: [
-        'Choose a gate',
-        'Try a flat launch, then lift one tail tab. Observe which side your paper model reaches.',
-      ],
-      'boeing-747': [
-        'Compare the folded nose',
-        'Keep release height and direction steady. Compare where five flights first touch down.',
-      ],
-      'douglas-dc3': [
-        'Watch the wings level',
-        'Look from behind at release. Record which wing dips first.',
-      ],
-      'tupolev-tu144': [
-        'Follow the center line',
-        'Aim gently along a floor line. Mark how far to either side each landing falls.',
-      ],
-      'ilyushin-il62': [
-        'Compare a level release',
-        'Try a level release and a slight bank. Mark which way the first turn goes.',
-      ],
-    },
+
   },
   ru: {
-    pathResult: [
-      'На схеме посадка слева от средней линии',
-      'На схеме посадка на средней линии',
-      'На схеме посадка справа от средней линии',
-    ],
     release: 'Старт',
     landing: 'Посадка',
     camera: 'Ракурс',
@@ -126,14 +86,9 @@ export const viewerWords = {
     rightWing: 'Подъём правого крыла',
     leftTrim: 'Левый закрылок',
     rightTrim: 'Правый закрылок',
-    bank: 'Крен при запуске',
     reset: 'Вернуть исходные углы',
     trimHelp:
       'Смотрите от хвоста к носу. Положительный угол поднимает край. Подъём крыла можно примерить в этой модели.',
-    planeHelp: 'Наклоните самолёт при запуске и посмотрите, как крен меняет схему полёта.',
-    loop: 'Повторить с той же точки',
-    flightNote:
-      'Это схема траектории. Дальность и направление можно измерить при запуске бумажной модели.',
     folded: 'Урок складывания',
     flight: 'Опыт с полётом',
     flat: 'Ровно',
@@ -158,35 +113,56 @@ export const viewerWords = {
       'Отгибайте каждый закрылок от плоскости его крыла. В настройках можно менять углы слева и справа.',
       'Держите модель у скрепки. Поднимите крылья одинаково и мягко отпустите модель вперёд в свободном месте.',
     ],
-    experiments: {
-      monarch: [
-        'Отметки дальности',
-        'Запускайте из одной точки. Сравните по пять мест посадки для каждой настройки.',
-      ],
-      morpho: [
-        'Наклон крыла',
-        'Пунктир показывает пример выравнивания. Посмотрите, выравнивается ли ваша модель после лёгкого броска.',
-      ],
-      swallowtail: [
-        'Наметьте ворота',
-        'Сначала запустите с ровными закрылками, затем отогните один. В какую сторону полетит ваша модель?',
-      ],
-      'boeing-747': [
-        'Сравните сложенный нос',
-        'Сохраняйте высоту и направление броска. Отметьте места первых касаний за пять запусков.',
-      ],
-      'douglas-dc3': [
-        'Проверьте, как стоят крылья',
-        'Смотрите с хвоста при запуске. Запишите, какое крыло наклонится первым.',
-      ],
-      'tupolev-tu144': [
-        'По средней линии',
-        'Запускайте вдоль линии на полу. Отмечайте отклонение точек посадки от этой линии.',
-      ],
-      'ilyushin-il62': [
-        'Ровный запуск',
-        'Попробуйте запустить ровно, затем с небольшим креном. Отметьте сторону первого поворота.',
-      ],
-    },
+
+  },
+  es: {
+    release: 'Salida',
+    landing: 'Aterrizaje',
+    camera: 'Vista',
+    orbit: 'En perspectiva',
+    top: 'Desde arriba',
+    rear: 'Desde la cola',
+    side: 'De lado',
+    diagram: 'Vista 2D',
+    spatial: 'Vista 3D',
+    noGPU: 'Vista de esquema',
+    interaction: 'Arrastra o usa las teclas de flecha para girar.',
+    stage: 'Paso',
+    stageOf: 'de',
+    previous: 'Paso anterior',
+    next: 'Paso siguiente',
+    marks: 'Mostrar líneas de pliegue',
+    pose: 'Progreso del pliegue',
+    route: 'Progreso del vuelo',
+    replay: 'Repetir pliegue',
+    launch: 'Lanzar de nuevo',
+    pause: 'Pausar',
+    advance: 'Avanzar',
+    adjust: 'Probar otros ajustes',
+    leftWing: 'Ángulo del ala izquierda',
+    rightWing: 'Ángulo del ala derecha',
+    leftTrim: 'Aleta de cola izquierda',
+    rightTrim: 'Aleta de cola derecha',
+    reset: 'Restablecer ángulos',
+    trimHelp: 'Mira desde la cola hacia el morro. Un ángulo positivo levanta el borde. Puedes probar distintos ángulos de ala.',
+    folded: 'Lección de plegado',
+    flight: 'Experimento de vuelo',
+    noCanvas: 'Lee la descripción de los pliegues y usa los controles de progreso.',
+    phases: [
+      'Comprueba la escala',
+      'Recorta el contorno',
+      'Levanta las alas',
+      'Pon el clip en el morro',
+      'Ajusta las aletas de cola',
+      'Prepárate para lanzar',
+    ],
+    tips: [
+      'La guía muestra una barra de 50 mm junto al planeador. Mide la barra en tu hoja.',
+      'Sigue el borde y los dos cortes cortos de cada aleta de cola. Deja la línea de puntos sin cortar.',
+      'Deja plana la tira central. Levanta las alas por los pliegues largos. Mira desde la cola para comparar los ángulos.',
+      'Pon un clip pequeño de punta roma en el morro. Alinea su curva trasera con la cruz.',
+      'Dobla cada aleta de cola desde el plano de su ala. Prueba ángulos distintos a cada lado.',
+      'Sujeta el planeador junto al clip, con las dos alas a la misma altura. Suéltalo con suavidad en un espacio despejado.',
+    ],
   },
 }

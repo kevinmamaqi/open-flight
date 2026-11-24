@@ -376,3 +376,121 @@
     bottom: 6px;
   }
 }
+.ofv-circuit,
+.ofv-readings {
+  padding: 8px 14px;
+  border-top: 1px solid var(--v-line);
+}
+.ofv-circuit p,
+.ofv-readings p {
+  margin: 4px 0;
+}
+.ofv-circuit label {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 4px 9px;
+}
+.ofv-circuit select {
+  max-width: 100%;
+}
+.ofv-readings p:first-child {
+  font-variant-numeric: tabular-nums;
+  font-size: 0.8rem;
+  min-height: 3.45em;
+}
+.ofv-readings [data-v='result'] {
+  font-weight: 650;
+}
+.ofv[data-renderer='text'] .ofv-canvas {
+  padding: 18px;
+  max-height: calc(100% - 40px);
+  overflow: auto;
+}
+.ofv-scorecard {
+  display: none;
+}
+@media print {
+  body.ofv-printing {
+    background: white !important;
+    color: black;
+    display: block !important;
+    width: auto !important;
+    height: auto !important;
+    margin: 0 !important;
+    overflow: visible !important;
+  }
+  body.ofv-printing > :not(.ofv-scorecard) {
+    display: none !important;
+  }
+  body.ofv-printing > .ofv-scorecard {
+    display: block !important;
+    font: 10pt/1.3 system-ui, sans-serif;
+  }
+  .ofv-scorecard h1 {
+    margin: 0 0 0.5em;
+    font-size: 17pt;
+  }
+  .ofv-scorecard h2 {
+    font-size: 12pt;
+    margin: 0.5em 0 0;
+  }
+  .ofv-scorecard p {
+    margin: 0.25em 0 0.5em;
+  }
+  .ofv-scorecard ul {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    padding: 0;
+    list-style: none;
+  }
+  .ofv-scorecard section {
+    break-inside: avoid;
+  }
+  .ofv-scorecard table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  .ofv-scorecard th,
+  .ofv-scorecard td {
+    height: 1.6em;
+    padding: 0.1em 0.4em;
+    border: 1px solid black;
+    text-align: left;
+  }
+}
+.ofv .ofv-notes {
+  display: grid;
+  gap: 4px;
+  margin-top: 10px;
+  font-weight: 650;
+}
+.ofv-notes textarea {
+  width: 100%;
+  border: 1px solid #a2b6a3;
+  border-radius: 5px;
+  padding: 6px;
+  background: #fffff9;
+  color: var(--v-ink);
+  font: inherit;
+  font-weight: 400;
+}
+.ofv-notes textarea:focus-visible {
+  outline: 3px solid #aa461b;
+  outline-offset: 2px;
+}
+.ofv-circuit > small {
+  display: block;
+  margin: 3px 0 8px;
+}
+.ofv-gates {
+  margin-top: 6px;
+  font-size: 0.8rem;
+}
+.ofv-gates summary {
+  cursor: pointer;
+  font-weight: 650;
+}
+.ofv-gates li + li {
+  margin-top: 4px;
+}

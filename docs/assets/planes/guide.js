@@ -1,3 +1,4 @@
+import { aircraftPortrait } from './field-portraits.js'
 import { esc, svgParts, specimenScene } from './drawing.js'
 import { planeCredits, creditText } from './credits.js'
 const ink = '#244851',
@@ -13,7 +14,13 @@ const line = (points, stroke, sw = 1.5, dash) => ({
   dash,
   fill: 'none',
 })
-const poly = (points, fill, stroke = ink, sw = 1) => ({ type: 'polygon', points, stroke, sw, fill })
+const poly = (points, fill, stroke = ink, sw = 1) => ({
+  type: 'polygon',
+  points,
+  stroke,
+  sw,
+  fill,
+})
 const text = (pos, value, size, color = ink, anchor = 'start') => ({
   type: 'text',
   pos,
@@ -105,7 +112,13 @@ function rearSection(plan, end) {
   }
   const ru = plan.locale === 'ru'
   parts.push(
-    text([centre, 179], ru ? 'ВИД С ХВОСТА' : 'TAIL VIEW', 9.5, ink, 'middle'),
+    text(
+      [centre, 179],
+      { en: 'TAIL VIEW', ru: 'ВИД С ХВОСТА', es: 'VISTA DESDE LA COLA' }[plan.locale],
+      9.5,
+      ink,
+      'middle',
+    ),
     text([centre + 10, base + k - 2], plan.keel_mm + (ru ? ' мм' : ' mm'), 10),
   )
   if (end && tips)
@@ -134,8 +147,29 @@ export function foldScene(plan, step) {
       parts.push(line([map([x, Math.min(...crossings)]), map([x, height])], ink, 1.7, [4, 2.3]))
     addArrow(parts, map([spine * 0.45, height * 0.72]), map([spine + 18, height * 0.72]))
     parts.push(
-      text([93, 17], ru ? 'ПО ОДНОМУ КРЫЛУ' : 'ONE WING AT A TIME', 10, ink, 'middle'),
-      text([91, 185], plan.keel_mm + (ru ? ' мм от сгиба' : ' mm from spine'), 10, ink, 'middle'),
+      text(
+        [93, 17],
+        {
+          en: 'ONE WING AT A TIME',
+          ru: 'ПО ОДНОМУ КРЫЛУ',
+          es: 'UN ALA A LA VEZ',
+        }[plan.locale],
+        10,
+        ink,
+        'middle',
+      ),
+      text(
+        [91, 185],
+        plan.keel_mm +
+          {
+            en: ' mm from spine',
+            ru: ' мм от сгиба',
+            es: ' mm desde el centro',
+          }[plan.locale],
+        10,
+        ink,
+        'middle',
+      ),
     )
     addArrow(parts, [149, 104], [178, 104])
     const section = rearSection(plan, false).map((e) => {
@@ -150,7 +184,11 @@ export function foldScene(plan, step) {
     parts.push(
       text(
         [194, 18],
-        ru ? 'Высота законцовок должна совпадать' : 'Match the height of both tips',
+        {
+          en: 'Match the height of both tips',
+          ru: 'Высота законцовок должна совпадать',
+          es: 'Iguala la altura de los extremos',
+        }[plan.locale],
         12,
         ink,
         'middle',
@@ -159,10 +197,12 @@ export function foldScene(plan, step) {
     return [...parts, ...rearSection(plan, true)]
   }
   parts.push(
-    text([98, 17], ru ? 'СЛОЖИТЕ' : 'FOLD', 10, ink, 'middle'),
+    text([98, 17], { en: 'FOLD', ru: 'СЛОЖИТЕ', es: 'DOBLA' }[plan.locale], 10, ink, 'middle'),
     text(
       [291, 17],
-      frame.reopen ? (ru ? 'РАСКРОЙТЕ' : 'REOPEN') : ru ? 'ПРОВЕРЬТЕ' : 'CHECK',
+      frame.reopen
+        ? { en: 'REOPEN', ru: 'РАСКРОЙТЕ', es: 'ABRE' }[plan.locale]
+        : { en: 'CHECK', ru: 'ПРОВЕРЬТЕ', es: 'COMPRUEBA' }[plan.locale],
       10,
       ink,
       'middle',
@@ -198,8 +238,8 @@ export function foldSvg(plan, step) {
 }
 export function planeGuide(plan) {
   const credit = creditText(plan.locale)
-  const ru = plan.locale === 'ru',
-    t = (en, ruText) => (ru ? ruText : en)
+  const t = (en, ruText, es) => ({ en, ru: ruText, es })[plan.locale]
+  const { field } = plan
   const tiles = plan.steps
     .map(
       (s) =>
@@ -219,7 +259,7 @@ export function planeGuide(plan) {
     plan.locale +
     '"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>' +
     esc(plan.name) +
-    ' · Open Flight</title><style>*{box-sizing:border-box}body{background:#faf7ed;color:#213b44;font:16px/1.5 system-ui,sans-serif;max-width:1030px;margin:auto;padding:24px}header,article,footer{background:#fffefa;border:1px solid #b8c9c7;border-radius:14px;padding:18px}header{display:grid;grid-template-columns:1fr 30%;gap:12px;align-items:center}h1{margin:0;font-size:clamp(2rem,6vw,3.7rem);line-height:1}h2{font-size:1.1em;margin:0}h2 span{display:inline-block;text-align:center;background:#204650;border-radius:50%;color:white;width:1.65em}section{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,320px),1fr));gap:12px;margin:14px 0}article{break-inside:avoid}article p{margin:0}svg{display:block;width:100%}footer a{color:#18546b;overflow-wrap:anywhere}small{color:#475e64} @media print{body{padding:0;background:white;font-size:9pt}header,article,footer{padding:7px}section{grid-template-columns:1fr 1fr}h1{font-size:24pt}article svg{height:32mm}a{color:black}footer{break-inside:avoid}}</style><header><div><small>OPEN FLIGHT / ' +
+    ' · Open Flight</title><style>*{box-sizing:border-box}body{background:#faf7ed;color:#213b44;font:16px/1.5 system-ui,sans-serif;max-width:1030px;margin:auto;padding:24px}header,article,footer{background:#fffefa;border:1px solid #b8c9c7;border-radius:14px;padding:18px}header{display:grid;grid-template-columns:1fr 30%;gap:12px;align-items:center}h1{margin:0;font-size:clamp(2rem,6vw,3.7rem);line-height:1}h2{font-size:1.1em;margin:0}h2 span{display:inline-block;text-align:center;background:#204650;border-radius:50%;color:white;width:1.65em}section{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,320px),1fr));gap:12px;margin:14px 0}article{break-inside:avoid}article p{margin:0}svg{display:block;width:100%}.field{display:grid;grid-template-columns:34% 1fr;gap:16px;align-items:start;margin-top:20px}.field img{width:100%;height:auto;border-radius:6px}.field p{margin:.35em 0}@media(max-width:550px){.field{grid-template-columns:1fr}.field img{max-width:470px}}footer a{color:#18546b;overflow-wrap:anywhere}small{color:#475e64} @media print{body{padding:0;background:white;font-size:9pt}header,article,footer{padding:7px}section{grid-template-columns:1fr 1fr}h1{font-size:24pt}article svg{height:32mm}a{color:black}footer{break-inside:avoid}}</style><header><div><small>OPEN FLIGHT / ' +
     esc(plan.inspiration) +
     '</small><h1>' +
     esc(plan.name) +
@@ -228,6 +268,7 @@ export function planeGuide(plan) {
       t(
         'One full sheet. Print the matching template at actual size. Check its 20 mm line with a ruler.',
         'Один целый лист. Распечатайте шаблон в масштабе 100%. Измерьте линейкой контрольные 20 мм.',
+        'Una hoja entera. Imprime la plantilla correspondiente a tamaño real. Comprueba con una regla que la línea mide 20 mm.',
       ),
     ) +
     '</p><small>' +
@@ -235,6 +276,7 @@ export function planeGuide(plan) {
       t(
         'Cream = printed face · mint = reverse · orange = moving flap · dashed = crease.',
         'Кремовая сторона — печать, мятная — оборот, оранжевая — подвижный клапан, пунктир — сгиб.',
+        'Crema · cara impresa. Verde menta · reverso. Naranja · parte que se dobla. Línea de rayas · doblez.',
       ),
     ) +
     '</small></div><svg viewBox="0 0 420 222" role="img" aria-label="' +
@@ -244,23 +286,36 @@ export function planeGuide(plan) {
     '</svg></header><section>' +
     tiles +
     '</section><footer><h2>' +
-    esc(t('Try a flight', 'Пробный полёт')) +
+    esc(t('Try a flight', 'Пробный полёт', 'Prueba de vuelo')) +
     '</h2><p>' +
     esc(
       t(
         'Hold the body near the front and launch gently and level into clear space.',
         'Возьмитесь за корпус ближе к носу. Мягко запустите самолёт горизонтально в свободное пространство.',
+        'Sujeta el cuerpo cerca de la punta y lanza suavemente, a nivel y hacia un espacio despejado.',
       ),
     ) +
     '</p><p>' +
     esc(plan.experiment) +
     '</p><p>' +
     esc(plan.history) +
-    ' <a href="' +
-    esc(plan.reference.url) +
+    '</p><div class="field"><img width="470" height="210" src="' +
+    aircraftPortrait(plan.model_id) +
+    '" alt="' +
+    esc(field.variant + ' · ' + field.landmark) +
+    '"><div><h2>' +
+    esc(field.landmark) +
+    '</h2><p>' +
+    esc([field.look, field.fold, field.finish].join(' ')) +
+    '</p><p><a href="' +
+    esc(plan.field.museum.url) +
     '">' +
-    esc(plan.reference.label) +
-    '</a></p><p><small>' +
+    esc(plan.field.museum.label) +
+    '</a>' +
+    (plan.field.museum.url === plan.reference.url
+      ? ''
+      : ' · <a href="' + esc(plan.reference.url) + '">' + esc(plan.reference.label) + '</a>') +
+    '</p></div></div><p><small>' +
     esc(credit.creator) +
     ' · <a href="' +
     planeCredits.geometry.url +

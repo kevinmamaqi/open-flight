@@ -55,10 +55,15 @@
                         "getFieldGuide",
                         "previewDraft",
                         "listAirplanes",
-                        "planAirplane"
+                        "planAirplane",
+                        "compareModels",
+                        "getMotorRoadmap",
+                        "getFlightCircuit",
+                        "simulateFlight"
                       ]
                     },
-                    "uniqueItems": true
+                    "uniqueItems": true,
+                    "maxItems": 20
                   },
                   "transports": {
                     "type": "array",
@@ -78,11 +83,12 @@
                     "items": {
                       "enum": [
                         "en",
-                        "ru"
+                        "ru",
+                        "es"
                       ]
                     },
                     "uniqueItems": true,
-                    "maxItems": 2
+                    "maxItems": 3
                   },
                   "limits": {
                     "type": "object",
@@ -2523,7 +2529,8 @@
           "locale": {
             "enum": [
               "en",
-              "ru"
+              "ru",
+              "es"
             ]
           },
           "activities": {
@@ -3654,7 +3661,8 @@
           "locale": {
             "enum": [
               "en",
-              "ru"
+              "ru",
+              "es"
             ]
           },
           "kind": {
@@ -3739,7 +3747,8 @@
                         "locale": {
                           "enum": [
                             "en",
-                            "ru"
+                            "ru",
+                            "es"
                           ]
                         },
                         "aircraft_kinds": {
@@ -4012,7 +4021,8 @@
                   "locale": {
                     "enum": [
                       "en",
-                      "ru"
+                      "ru",
+                      "es"
                     ]
                   },
                   "aircraft_kinds": {
@@ -4432,6 +4442,77 @@
                             "photo_alt",
                             "steps"
                           ]
+                        },
+                        "es": {
+                          "type": "object",
+                          "additionalProperties": false,
+                          "properties": {
+                            "common_name": {
+                              "type": "string",
+                              "minLength": 1,
+                              "maxLength": 160
+                            },
+                            "observation": {
+                              "type": "string",
+                              "minLength": 1,
+                              "maxLength": 3000
+                            },
+                            "flight_question": {
+                              "type": "string",
+                              "minLength": 1,
+                              "maxLength": 3000
+                            },
+                            "photo_alt": {
+                              "type": "string",
+                              "minLength": 1,
+                              "maxLength": 3000
+                            },
+                            "steps": {
+                              "type": "array",
+                              "minItems": 1,
+                              "maxItems": 15,
+                              "items": {
+                                "type": "object",
+                                "additionalProperties": false,
+                                "properties": {
+                                  "id": {
+                                    "type": "string",
+                                    "minLength": 1,
+                                    "maxLength": 96,
+                                    "pattern": "^[a-z0-9][a-z0-9_-]{0,95}$"
+                                  },
+                                  "title": {
+                                    "type": "string",
+                                    "minLength": 1,
+                                    "maxLength": 160
+                                  },
+                                  "body": {
+                                    "type": "string",
+                                    "minLength": 1,
+                                    "maxLength": 3000
+                                  },
+                                  "diagram": {
+                                    "type": "string",
+                                    "minLength": 1,
+                                    "maxLength": 260
+                                  }
+                                },
+                                "required": [
+                                  "id",
+                                  "title",
+                                  "body",
+                                  "diagram"
+                                ]
+                              }
+                            }
+                          },
+                          "required": [
+                            "common_name",
+                            "observation",
+                            "flight_question",
+                            "photo_alt",
+                            "steps"
+                          ]
                         }
                       },
                       "required": [
@@ -4441,7 +4522,8 @@
                         "natural_history",
                         "trim_reference",
                         "en",
-                        "ru"
+                        "ru",
+                        "es"
                       ]
                     }
                   }
@@ -4797,7 +4879,7 @@
     {
       "name": "openflight_list_airplanes",
       "title": "List the four whole-sheet paper airplanes",
-      "description": "Read the bilingual paper-airplane catalog, real aircraft references, per-model defaults, paper formats and liveries.",
+      "description": "Read the English, Spanish and Russian paper-airplane catalog, real aircraft references, per-model defaults, paper formats and liveries.",
       "inputSchema": {
         "type": "object",
         "additionalProperties": false,
@@ -4866,11 +4948,15 @@
                             },
                             "ru": {
                               "type": "string"
+                            },
+                            "es": {
+                              "type": "string"
                             }
                           },
                           "required": [
                             "en",
-                            "ru"
+                            "ru",
+                            "es"
                           ]
                         },
                         "inspiration": {
@@ -4882,11 +4968,15 @@
                             },
                             "ru": {
                               "type": "string"
+                            },
+                            "es": {
+                              "type": "string"
                             }
                           },
                           "required": [
                             "en",
-                            "ru"
+                            "ru",
+                            "es"
                           ]
                         },
                         "origin": {
@@ -4898,11 +4988,15 @@
                             },
                             "ru": {
                               "type": "string"
+                            },
+                            "es": {
+                              "type": "string"
                             }
                           },
                           "required": [
                             "en",
-                            "ru"
+                            "ru",
+                            "es"
                           ]
                         },
                         "character": {
@@ -4914,11 +5008,15 @@
                             },
                             "ru": {
                               "type": "string"
+                            },
+                            "es": {
+                              "type": "string"
                             }
                           },
                           "required": [
                             "en",
-                            "ru"
+                            "ru",
+                            "es"
                           ]
                         },
                         "history": {
@@ -4930,11 +5028,15 @@
                             },
                             "ru": {
                               "type": "string"
+                            },
+                            "es": {
+                              "type": "string"
                             }
                           },
                           "required": [
                             "en",
-                            "ru"
+                            "ru",
+                            "es"
                           ]
                         },
                         "experiment": {
@@ -4946,11 +5048,15 @@
                             },
                             "ru": {
                               "type": "string"
+                            },
+                            "es": {
+                              "type": "string"
                             }
                           },
                           "required": [
                             "en",
-                            "ru"
+                            "ru",
+                            "es"
                           ]
                         },
                         "reference": {
@@ -4996,6 +5102,124 @@
                         },
                         "motif": {
                           "type": "string"
+                        },
+                        "field": {
+                          "type": "object",
+                          "additionalProperties": false,
+                          "properties": {
+                            "step": {
+                              "type": "integer",
+                              "minimum": 0
+                            },
+                            "variant": {
+                              "type": "string"
+                            },
+                            "landmark": {
+                              "type": "object",
+                              "additionalProperties": false,
+                              "properties": {
+                                "en": {
+                                  "type": "string"
+                                },
+                                "ru": {
+                                  "type": "string"
+                                },
+                                "es": {
+                                  "type": "string"
+                                }
+                              },
+                              "required": [
+                                "en",
+                                "ru",
+                                "es"
+                              ]
+                            },
+                            "look": {
+                              "type": "object",
+                              "additionalProperties": false,
+                              "properties": {
+                                "en": {
+                                  "type": "string"
+                                },
+                                "ru": {
+                                  "type": "string"
+                                },
+                                "es": {
+                                  "type": "string"
+                                }
+                              },
+                              "required": [
+                                "en",
+                                "ru",
+                                "es"
+                              ]
+                            },
+                            "fold": {
+                              "type": "object",
+                              "additionalProperties": false,
+                              "properties": {
+                                "en": {
+                                  "type": "string"
+                                },
+                                "ru": {
+                                  "type": "string"
+                                },
+                                "es": {
+                                  "type": "string"
+                                }
+                              },
+                              "required": [
+                                "en",
+                                "ru",
+                                "es"
+                              ]
+                            },
+                            "finish": {
+                              "type": "object",
+                              "additionalProperties": false,
+                              "properties": {
+                                "en": {
+                                  "type": "string"
+                                },
+                                "ru": {
+                                  "type": "string"
+                                },
+                                "es": {
+                                  "type": "string"
+                                }
+                              },
+                              "required": [
+                                "en",
+                                "ru",
+                                "es"
+                              ]
+                            },
+                            "museum": {
+                              "type": "object",
+                              "additionalProperties": false,
+                              "properties": {
+                                "label": {
+                                  "type": "string"
+                                },
+                                "url": {
+                                  "type": "string",
+                                  "format": "uri"
+                                }
+                              },
+                              "required": [
+                                "label",
+                                "url"
+                              ]
+                            }
+                          },
+                          "required": [
+                            "step",
+                            "variant",
+                            "landmark",
+                            "look",
+                            "fold",
+                            "finish"
+                          ]
                         }
                       },
                       "required": [
@@ -5011,7 +5235,8 @@
                         "winglet_mm",
                         "code",
                         "colors",
-                        "motif"
+                        "motif",
+                        "field"
                       ]
                     }
                   }
@@ -5193,7 +5418,8 @@
             "type": "string",
             "enum": [
               "en",
-              "ru"
+              "ru",
+              "es"
             ],
             "default": "en"
           },
@@ -5288,7 +5514,8 @@
                     "type": "string",
                     "enum": [
                       "en",
-                      "ru"
+                      "ru",
+                      "es"
                     ]
                   },
                   "evidence_state": {
@@ -5414,13 +5641,65 @@
                         }
                       }
                     ]
+                  },
+                  "field": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                      "step": {
+                        "type": "integer",
+                        "minimum": 0
+                      },
+                      "variant": {
+                        "type": "string"
+                      },
+                      "landmark": {
+                        "type": "string"
+                      },
+                      "look": {
+                        "type": "string"
+                      },
+                      "fold": {
+                        "type": "string"
+                      },
+                      "finish": {
+                        "type": "string"
+                      },
+                      "museum": {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "properties": {
+                          "label": {
+                            "type": "string"
+                          },
+                          "url": {
+                            "type": "string",
+                            "format": "uri"
+                          }
+                        },
+                        "required": [
+                          "label",
+                          "url"
+                        ]
+                      }
+                    },
+                    "required": [
+                      "step",
+                      "variant",
+                      "landmark",
+                      "look",
+                      "fold",
+                      "finish",
+                      "museum"
+                    ]
                   }
                 },
                 "required": [
                   "settings",
                   "locale",
                   "evidence_state",
-                  "output"
+                  "output",
+                  "field"
                 ]
               }
             },
@@ -5541,6 +5820,1384 @@
         "success": "structuredContent={ok:true,data:http_success_body}; isError=false",
         "domain_error": "structuredContent={ok:false,error:http_error_body}; isError=true",
         "protocol_error": "Use the negotiated MCP protocol error, not this domain envelope."
+      }
+    },
+    {
+      "name": "openflight_compare_models",
+      "title": "Compare two paper aircraft",
+      "description": "Return the same localized model cards and comparison question as the workshop, with nominal construction settings.",
+      "inputSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "left": {
+            "type": "string",
+            "enum": [
+              "monarch",
+              "morpho",
+              "swallowtail",
+              "boeing-747",
+              "douglas-dc3",
+              "tupolev-tu144",
+              "ilyushin-il62"
+            ]
+          },
+          "right": {
+            "type": "string",
+            "enum": [
+              "monarch",
+              "morpho",
+              "swallowtail",
+              "boeing-747",
+              "douglas-dc3",
+              "tupolev-tu144",
+              "ilyushin-il62"
+            ]
+          },
+          "locale": {
+            "type": "string",
+            "enum": [
+              "en",
+              "ru",
+              "es"
+            ]
+          }
+        },
+        "required": []
+      },
+      "outputSchema": {
+        "type": "object",
+        "oneOf": [
+          {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "ok": {
+                "const": true
+              },
+              "data": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "locale": {
+                    "type": "string",
+                    "enum": [
+                      "en",
+                      "ru",
+                      "es"
+                    ]
+                  },
+                  "models": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "properties": {
+                        "id": {
+                          "type": "string",
+                          "enum": [
+                            "monarch",
+                            "morpho",
+                            "swallowtail",
+                            "boeing-747",
+                            "douglas-dc3",
+                            "tupolev-tu144",
+                            "ilyushin-il62"
+                          ]
+                        },
+                        "name": {
+                          "type": "string"
+                        },
+                        "inspiration": {
+                          "type": "string"
+                        },
+                        "family": {
+                          "type": "string",
+                          "enum": [
+                            "butterfly",
+                            "airplane"
+                          ]
+                        },
+                        "technique": {
+                          "type": "string"
+                        },
+                        "materials": {
+                          "type": "string"
+                        },
+                        "shape": {
+                          "type": "string"
+                        },
+                        "experiment": {
+                          "type": "string"
+                        },
+                        "image": {
+                          "type": "string"
+                        },
+                        "studio": {
+                          "type": "string"
+                        },
+                        "settings": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "additionalProperties": false,
+                            "properties": {
+                              "label": {
+                                "type": "string"
+                              },
+                              "value": {
+                                "type": "number"
+                              },
+                              "unit": {
+                                "type": "string",
+                                "enum": [
+                                  "mm",
+                                  "°"
+                                ]
+                              }
+                            },
+                            "required": [
+                              "label",
+                              "value",
+                              "unit"
+                            ]
+                          }
+                        }
+                      },
+                      "required": [
+                        "id",
+                        "name",
+                        "inspiration",
+                        "family",
+                        "technique",
+                        "materials",
+                        "shape",
+                        "experiment",
+                        "image",
+                        "studio",
+                        "settings"
+                      ]
+                    },
+                    "minItems": 2,
+                    "maxItems": 2
+                  },
+                  "question": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "locale",
+                  "models",
+                  "question"
+                ]
+              }
+            },
+            "required": [
+              "ok",
+              "data"
+            ]
+          },
+          {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "ok": {
+                "const": false
+              },
+              "error": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "code": {
+                    "enum": [
+                      "invalid_input",
+                      "unauthenticated",
+                      "forbidden",
+                      "not_found",
+                      "revision_conflict",
+                      "idempotency_conflict",
+                      "rate_limited",
+                      "quota_exceeded",
+                      "unsupported_capability",
+                      "job_failed",
+                      "internal_error"
+                    ]
+                  },
+                  "message": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 2000
+                  },
+                  "request_id": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 128
+                  },
+                  "retryable": {
+                    "type": "boolean"
+                  },
+                  "details": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "properties": {
+                        "field": {
+                          "type": "string",
+                          "minLength": 1,
+                          "maxLength": 160
+                        },
+                        "reason": {
+                          "type": "string",
+                          "minLength": 1,
+                          "maxLength": 500
+                        }
+                      },
+                      "required": [
+                        "field",
+                        "reason"
+                      ]
+                    },
+                    "minItems": 0,
+                    "maxItems": 20
+                  }
+                },
+                "required": [
+                  "code",
+                  "message",
+                  "request_id",
+                  "retryable"
+                ]
+              }
+            },
+            "required": [
+              "ok",
+              "error"
+            ]
+          }
+        ]
+      },
+      "annotations": {
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": true
+      },
+      "x-operationId": "compareModels",
+      "x-required-scopes": [
+        "openflight:designs:read"
+      ],
+      "x-http": {
+        "method": "GET",
+        "path": "/v1/model-comparison",
+        "argumentBindings": {
+          "left": {
+            "in": "query",
+            "name": "left"
+          },
+          "right": {
+            "in": "query",
+            "name": "right"
+          },
+          "locale": {
+            "in": "query",
+            "name": "locale"
+          }
+        }
+      }
+    },
+    {
+      "name": "openflight_get_motor_roadmap",
+      "title": "Read the motor research roadmap",
+      "description": "Return the localized research status and staged checks for a proposed removable power module.",
+      "inputSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "locale": {
+            "type": "string",
+            "enum": [
+              "en",
+              "ru",
+              "es"
+            ]
+          }
+        },
+        "required": []
+      },
+      "outputSchema": {
+        "type": "object",
+        "oneOf": [
+          {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "ok": {
+                "const": true
+              },
+              "data": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "locale": {
+                    "type": "string",
+                    "enum": [
+                      "en",
+                      "ru",
+                      "es"
+                    ]
+                  },
+                  "status": {
+                    "type": "string"
+                  },
+                  "stages": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "properties": {
+                        "title": {
+                          "type": "string"
+                        },
+                        "action": {
+                          "type": "string"
+                        },
+                        "record": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "title",
+                        "action",
+                        "record"
+                      ]
+                    }
+                  },
+                  "parts": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "properties": {
+                        "part": {
+                          "type": "string"
+                        },
+                        "criterion": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "part",
+                        "criterion"
+                      ]
+                    }
+                  },
+                  "sources": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "properties": {
+                        "label": {
+                          "type": "string"
+                        },
+                        "url": {
+                          "type": "string",
+                          "format": "uri"
+                        }
+                      },
+                      "required": [
+                        "label",
+                        "url"
+                      ]
+                    }
+                  }
+                },
+                "required": [
+                  "locale",
+                  "status",
+                  "stages",
+                  "parts",
+                  "sources"
+                ]
+              }
+            },
+            "required": [
+              "ok",
+              "data"
+            ]
+          },
+          {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "ok": {
+                "const": false
+              },
+              "error": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "code": {
+                    "enum": [
+                      "invalid_input",
+                      "unauthenticated",
+                      "forbidden",
+                      "not_found",
+                      "revision_conflict",
+                      "idempotency_conflict",
+                      "rate_limited",
+                      "quota_exceeded",
+                      "unsupported_capability",
+                      "job_failed",
+                      "internal_error"
+                    ]
+                  },
+                  "message": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 2000
+                  },
+                  "request_id": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 128
+                  },
+                  "retryable": {
+                    "type": "boolean"
+                  },
+                  "details": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "properties": {
+                        "field": {
+                          "type": "string",
+                          "minLength": 1,
+                          "maxLength": 160
+                        },
+                        "reason": {
+                          "type": "string",
+                          "minLength": 1,
+                          "maxLength": 500
+                        }
+                      },
+                      "required": [
+                        "field",
+                        "reason"
+                      ]
+                    },
+                    "minItems": 0,
+                    "maxItems": 20
+                  }
+                },
+                "required": [
+                  "code",
+                  "message",
+                  "request_id",
+                  "retryable"
+                ]
+              }
+            },
+            "required": [
+              "ok",
+              "error"
+            ]
+          }
+        ]
+      },
+      "annotations": {
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": true
+      },
+      "x-operationId": "getMotorRoadmap",
+      "x-required-scopes": [
+        "openflight:designs:read"
+      ],
+      "x-http": {
+        "method": "GET",
+        "path": "/v1/motor-roadmap",
+        "argumentBindings": {
+          "locale": {
+            "in": "query",
+            "name": "locale"
+          }
+        }
+      }
+    },
+    {
+      "name": "openflight_get_flight_circuit",
+      "title": "Read the simulated flight circuit",
+      "description": "Return three virtual gates, starting conditions, controls and a localized scorecard for separate paper observations.",
+      "inputSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "locale": {
+            "type": "string",
+            "enum": [
+              "en",
+              "ru",
+              "es"
+            ]
+          }
+        },
+        "required": []
+      },
+      "outputSchema": {
+        "type": "object",
+        "oneOf": [
+          {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "ok": {
+                "const": true
+              },
+              "data": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "evidence": {
+                    "const": "simulation"
+                  },
+                  "model": {
+                    "const": "open-flight-teaching-model-1"
+                  },
+                  "intro": {
+                    "type": "string"
+                  },
+                  "scorecard": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                      "title": {
+                        "type": "string"
+                      },
+                      "setup": {
+                        "type": "string"
+                      },
+                      "rules": {
+                        "type": "string"
+                      },
+                      "repeat": {
+                        "type": "string"
+                      },
+                      "design": {
+                        "type": "string"
+                      },
+                      "material": {
+                        "type": "string"
+                      },
+                      "balance": {
+                        "type": "string"
+                      },
+                      "clip": {
+                        "type": "string"
+                      },
+                      "height": {
+                        "type": "string"
+                      },
+                      "launch": {
+                        "type": "string"
+                      },
+                      "forward": {
+                        "type": "string"
+                      },
+                      "across": {
+                        "type": "string"
+                      },
+                      "note": {
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "title",
+                      "setup",
+                      "rules",
+                      "repeat",
+                      "design",
+                      "material",
+                      "balance",
+                      "clip",
+                      "height",
+                      "launch",
+                      "forward",
+                      "across",
+                      "note"
+                    ]
+                  },
+                  "controls": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                      "directionDeg": {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "properties": {
+                          "min": {
+                            "type": "number"
+                          },
+                          "max": {
+                            "type": "number"
+                          },
+                          "step": {
+                            "type": "number"
+                          },
+                          "initial": {
+                            "type": "number"
+                          },
+                          "label": {
+                            "type": "string"
+                          }
+                        },
+                        "required": [
+                          "min",
+                          "max",
+                          "step",
+                          "initial",
+                          "label"
+                        ]
+                      },
+                      "angleOfAttackDeg": {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "properties": {
+                          "min": {
+                            "type": "number"
+                          },
+                          "max": {
+                            "type": "number"
+                          },
+                          "step": {
+                            "type": "number"
+                          },
+                          "initial": {
+                            "type": "number"
+                          },
+                          "label": {
+                            "type": "string"
+                          }
+                        },
+                        "required": [
+                          "min",
+                          "max",
+                          "step",
+                          "initial",
+                          "label"
+                        ]
+                      },
+                      "speed": {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "properties": {
+                          "min": {
+                            "type": "number"
+                          },
+                          "max": {
+                            "type": "number"
+                          },
+                          "step": {
+                            "type": "number"
+                          },
+                          "initial": {
+                            "type": "number"
+                          },
+                          "label": {
+                            "type": "string"
+                          }
+                        },
+                        "required": [
+                          "min",
+                          "max",
+                          "step",
+                          "initial",
+                          "label"
+                        ]
+                      },
+                      "bankDeg": {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "properties": {
+                          "min": {
+                            "type": "number"
+                          },
+                          "max": {
+                            "type": "number"
+                          },
+                          "step": {
+                            "type": "number"
+                          },
+                          "initial": {
+                            "type": "number"
+                          },
+                          "label": {
+                            "type": "string"
+                          }
+                        },
+                        "required": [
+                          "min",
+                          "max",
+                          "step",
+                          "initial",
+                          "label"
+                        ]
+                      },
+                      "height": {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "properties": {
+                          "min": {
+                            "type": "number"
+                          },
+                          "max": {
+                            "type": "number"
+                          },
+                          "step": {
+                            "type": "number"
+                          },
+                          "initial": {
+                            "type": "number"
+                          },
+                          "label": {
+                            "type": "string"
+                          }
+                        },
+                        "required": [
+                          "min",
+                          "max",
+                          "step",
+                          "initial",
+                          "label"
+                        ]
+                      },
+                      "trimDeg": {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "properties": {
+                          "min": {
+                            "type": "number"
+                          },
+                          "max": {
+                            "type": "number"
+                          },
+                          "step": {
+                            "type": "number"
+                          },
+                          "initial": {
+                            "type": "number"
+                          },
+                          "label": {
+                            "type": "string"
+                          }
+                        },
+                        "required": [
+                          "min",
+                          "max",
+                          "step",
+                          "initial",
+                          "label"
+                        ]
+                      },
+                      "trimDifferenceDeg": {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "properties": {
+                          "min": {
+                            "type": "number"
+                          },
+                          "max": {
+                            "type": "number"
+                          },
+                          "step": {
+                            "type": "number"
+                          },
+                          "initial": {
+                            "type": "number"
+                          },
+                          "label": {
+                            "type": "string"
+                          }
+                        },
+                        "required": [
+                          "min",
+                          "max",
+                          "step",
+                          "initial",
+                          "label"
+                        ]
+                      }
+                    },
+                    "required": [
+                      "directionDeg",
+                      "angleOfAttackDeg",
+                      "speed",
+                      "bankDeg",
+                      "height",
+                      "trimDeg",
+                      "trimDifferenceDeg"
+                    ]
+                  },
+                  "gates": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "properties": {
+                        "id": {
+                          "type": "string",
+                          "enum": [
+                            "level",
+                            "dip",
+                            "turn"
+                          ]
+                        },
+                        "view": {
+                          "type": "string",
+                          "enum": [
+                            "top",
+                            "side"
+                          ]
+                        },
+                        "inputs": {
+                          "type": "object",
+                          "additionalProperties": false,
+                          "properties": {
+                            "directionDeg": {
+                              "type": "number"
+                            },
+                            "angleOfAttackDeg": {
+                              "type": "number"
+                            },
+                            "speed": {
+                              "type": "number"
+                            },
+                            "bankDeg": {
+                              "type": "number"
+                            },
+                            "height": {
+                              "type": "number"
+                            },
+                            "trimDeg": {
+                              "type": "number"
+                            },
+                            "trimDifferenceDeg": {
+                              "type": "number"
+                            }
+                          },
+                          "required": [
+                            "directionDeg",
+                            "angleOfAttackDeg",
+                            "speed",
+                            "bankDeg",
+                            "height",
+                            "trimDeg",
+                            "trimDifferenceDeg"
+                          ]
+                        },
+                        "markers": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "additionalProperties": false,
+                            "properties": {
+                              "forward": {
+                                "type": "number"
+                              },
+                              "across": {
+                                "type": "number"
+                              },
+                              "width": {
+                                "type": "number"
+                              },
+                              "bottom": {
+                                "type": "number"
+                              },
+                              "top": {
+                                "type": "number"
+                              }
+                            },
+                            "required": [
+                              "forward",
+                              "across",
+                              "width",
+                              "bottom",
+                              "top"
+                            ]
+                          }
+                        },
+                        "name": {
+                          "type": "string"
+                        },
+                        "hint": {
+                          "type": "string"
+                        },
+                        "real": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "id",
+                        "view",
+                        "inputs",
+                        "markers",
+                        "name",
+                        "hint",
+                        "real"
+                      ]
+                    },
+                    "minItems": 3,
+                    "maxItems": 3
+                  }
+                },
+                "required": [
+                  "evidence",
+                  "model",
+                  "intro",
+                  "scorecard",
+                  "controls",
+                  "gates"
+                ]
+              }
+            },
+            "required": [
+              "ok",
+              "data"
+            ]
+          },
+          {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "ok": {
+                "const": false
+              },
+              "error": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "code": {
+                    "enum": [
+                      "invalid_input",
+                      "unauthenticated",
+                      "forbidden",
+                      "not_found",
+                      "revision_conflict",
+                      "idempotency_conflict",
+                      "rate_limited",
+                      "quota_exceeded",
+                      "unsupported_capability",
+                      "job_failed",
+                      "internal_error"
+                    ]
+                  },
+                  "message": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 2000
+                  },
+                  "request_id": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 128
+                  },
+                  "retryable": {
+                    "type": "boolean"
+                  },
+                  "details": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "properties": {
+                        "field": {
+                          "type": "string",
+                          "minLength": 1,
+                          "maxLength": 160
+                        },
+                        "reason": {
+                          "type": "string",
+                          "minLength": 1,
+                          "maxLength": 500
+                        }
+                      },
+                      "required": [
+                        "field",
+                        "reason"
+                      ]
+                    },
+                    "minItems": 0,
+                    "maxItems": 20
+                  }
+                },
+                "required": [
+                  "code",
+                  "message",
+                  "request_id",
+                  "retryable"
+                ]
+              }
+            },
+            "required": [
+              "ok",
+              "error"
+            ]
+          }
+        ]
+      },
+      "annotations": {
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": true
+      },
+      "x-operationId": "getFlightCircuit",
+      "x-required-scopes": [
+        "openflight:designs:read"
+      ],
+      "x-http": {
+        "method": "GET",
+        "path": "/v1/flight-circuit",
+        "argumentBindings": {
+          "locale": {
+            "in": "query",
+            "name": "locale"
+          }
+        }
+      }
+    },
+    {
+      "name": "openflight_simulate_flight",
+      "title": "Simulate one teaching-model flight",
+      "description": "Compute one uncalibrated trajectory in memory. Coordinates are right, height and forward in metres. The result is labeled simulation and creates no physical test record.",
+      "inputSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "gate": {
+            "type": "string",
+            "enum": [
+              "level",
+              "dip",
+              "turn"
+            ]
+          },
+          "directionDeg": {
+            "type": "number"
+          },
+          "angleOfAttackDeg": {
+            "type": "number"
+          },
+          "speed": {
+            "type": "number"
+          },
+          "bankDeg": {
+            "type": "number"
+          },
+          "height": {
+            "type": "number"
+          },
+          "trimDeg": {
+            "type": "number"
+          },
+          "trimDifferenceDeg": {
+            "type": "number"
+          }
+        },
+        "required": []
+      },
+      "outputSchema": {
+        "type": "object",
+        "oneOf": [
+          {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "ok": {
+                "const": true
+              },
+              "data": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "evidence": {
+                    "const": "simulation"
+                  },
+                  "model": {
+                    "const": "open-flight-teaching-model-1"
+                  },
+                  "gate": {
+                    "type": "string",
+                    "enum": [
+                      "level",
+                      "dip",
+                      "turn"
+                    ]
+                  },
+                  "inputs": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                      "directionDeg": {
+                        "type": "number"
+                      },
+                      "angleOfAttackDeg": {
+                        "type": "number"
+                      },
+                      "speed": {
+                        "type": "number"
+                      },
+                      "bankDeg": {
+                        "type": "number"
+                      },
+                      "height": {
+                        "type": "number"
+                      },
+                      "trimDeg": {
+                        "type": "number"
+                      },
+                      "trimDifferenceDeg": {
+                        "type": "number"
+                      }
+                    },
+                    "required": [
+                      "directionDeg",
+                      "angleOfAttackDeg",
+                      "speed",
+                      "bankDeg",
+                      "height",
+                      "trimDeg",
+                      "trimDifferenceDeg"
+                    ]
+                  },
+                  "outcome": {
+                    "type": "string",
+                    "enum": [
+                      "recovery",
+                      "steep",
+                      "glide"
+                    ]
+                  },
+                  "end": {
+                    "type": "string",
+                    "enum": [
+                      "floor",
+                      "time-limit"
+                    ]
+                  },
+                  "duration": {
+                    "type": "number"
+                  },
+                  "landing": {
+                    "oneOf": [
+                      {
+                        "type": "array",
+                        "items": {
+                          "type": "number"
+                        },
+                        "minItems": 3,
+                        "maxItems": 3
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ]
+                  },
+                  "samples": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "properties": {
+                        "time": {
+                          "type": "number"
+                        },
+                        "point": {
+                          "type": "array",
+                          "items": {
+                            "type": "number"
+                          },
+                          "minItems": 3,
+                          "maxItems": 3
+                        },
+                        "directionDeg": {
+                          "type": "number"
+                        },
+                        "pitchDeg": {
+                          "type": "number"
+                        },
+                        "angleOfAttackDeg": {
+                          "type": "number"
+                        },
+                        "headingDeg": {
+                          "type": "number"
+                        },
+                        "bankDeg": {
+                          "type": "number"
+                        },
+                        "speed": {
+                          "type": "number"
+                        }
+                      },
+                      "required": [
+                        "time",
+                        "point",
+                        "directionDeg",
+                        "pitchDeg",
+                        "angleOfAttackDeg",
+                        "headingDeg",
+                        "bankDeg",
+                        "speed"
+                      ]
+                    },
+                    "minItems": 2,
+                    "maxItems": 481
+                  }
+                },
+                "required": [
+                  "evidence",
+                  "model",
+                  "gate",
+                  "inputs",
+                  "outcome",
+                  "end",
+                  "duration",
+                  "landing",
+                  "samples"
+                ]
+              }
+            },
+            "required": [
+              "ok",
+              "data"
+            ]
+          },
+          {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "ok": {
+                "const": false
+              },
+              "error": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "code": {
+                    "enum": [
+                      "invalid_input",
+                      "unauthenticated",
+                      "forbidden",
+                      "not_found",
+                      "revision_conflict",
+                      "idempotency_conflict",
+                      "rate_limited",
+                      "quota_exceeded",
+                      "unsupported_capability",
+                      "job_failed",
+                      "internal_error"
+                    ]
+                  },
+                  "message": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 2000
+                  },
+                  "request_id": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 128
+                  },
+                  "retryable": {
+                    "type": "boolean"
+                  },
+                  "details": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "properties": {
+                        "field": {
+                          "type": "string",
+                          "minLength": 1,
+                          "maxLength": 160
+                        },
+                        "reason": {
+                          "type": "string",
+                          "minLength": 1,
+                          "maxLength": 500
+                        }
+                      },
+                      "required": [
+                        "field",
+                        "reason"
+                      ]
+                    },
+                    "minItems": 0,
+                    "maxItems": 20
+                  }
+                },
+                "required": [
+                  "code",
+                  "message",
+                  "request_id",
+                  "retryable"
+                ]
+              }
+            },
+            "required": [
+              "ok",
+              "error"
+            ]
+          }
+        ]
+      },
+      "annotations": {
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": true
+      },
+      "x-operationId": "simulateFlight",
+      "x-required-scopes": [
+        "openflight:designs:read"
+      ],
+      "x-http": {
+        "method": "POST",
+        "path": "/v1/flight-simulation",
+        "argumentBindings": {
+          "gate": {
+            "in": "body",
+            "name": "gate"
+          },
+          "directionDeg": {
+            "in": "body",
+            "name": "directionDeg"
+          },
+          "angleOfAttackDeg": {
+            "in": "body",
+            "name": "angleOfAttackDeg"
+          },
+          "speed": {
+            "in": "body",
+            "name": "speed"
+          },
+          "bankDeg": {
+            "in": "body",
+            "name": "bankDeg"
+          },
+          "height": {
+            "in": "body",
+            "name": "height"
+          },
+          "trimDeg": {
+            "in": "body",
+            "name": "trimDeg"
+          },
+          "trimDifferenceDeg": {
+            "in": "body",
+            "name": "trimDifferenceDeg"
+          }
+        }
       }
     }
   ],

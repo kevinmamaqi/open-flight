@@ -11,6 +11,7 @@ const base = new URL(process.argv[2] ?? 'http://127.0.0.1:4190/')
 if (!base.pathname.endsWith('/')) base.pathname += '/'
 const shots = process.argv[3]
 if (shots) mkdirSync(shots, { recursive: true })
+const social = process.argv[4]
 const hash = (data) => createHash('sha256').update(data).digest('hex')
 const browser = await chromium.launch()
 async function bytes(page, link) {
@@ -36,6 +37,7 @@ try {
   for (const [width, lang] of [
     [1440, 'en'],
     [390, 'ru'],
+    [390, 'es'],
   ]) {
     const ctx = await browser.newContext({
       viewport: { width, height: width === 390 ? 844 : 900 },
@@ -58,11 +60,54 @@ try {
     assert.match(await page.locator('#hero-link').getAttribute('href'), /boeing-747/)
     await page.locator('#back').click()
     if (shots) await page.screenshot({ path: join(shots, 'home-' + lang + '.png') })
+    if (social) {
+      const original = page.viewportSize()
+      await page.setViewportSize({ width: 1200, height: 630 })
+      await page.evaluate(() => document.fonts.ready)
+      await page.screenshot({ path: join(social, 'workshop-preview-' + lang + '.png') })
+      await page.setViewportSize(original)
+    }
+    // Every home route stays reachable on a phone, including the comparison and motor notebook.
+    await page.locator('.workshop-menu > summary').click()
+    assert.equal(await page.locator('.workshop-links a:visible').count(), 8)
+    await page.locator('.workshop-links a[href*="compare.html"]').click()
+    await page.locator('#left-model').selectOption('swallowtail')
+    await page.locator('#right-model').selectOption('douglas-dc3')
+    assert.equal(await page.locator('.compare-card').count(), 2)
+    assert.equal(await page.locator('.measure-list dd').first().textContent(), '180 mm')
+    assert.equal(await page.locator('.measure-list dd').last().textContent(), '8 mm')
+    assert.equal(await page.locator('.trial-line span').count(), 10)
+    assert.equal(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1), true)
+    const altLanguage = lang === 'es' ? 'ru' : 'es'
+    await page.locator('#' + altLanguage).click()
+    await page.locator('#right-model').waitFor()
+    assert.equal(await page.locator('#right-model').inputValue(), 'douglas-dc3')
+    await page.locator('#' + lang).click()
+    if (shots) await page.screenshot({ path: join(shots, 'compare-' + lang + '.png') })
+    await page.goto(new URL('next.html?lang=' + lang, base).href)
+    await page.locator('.stage').first().waitFor()
+    assert.equal(await page.locator('.stage').count(), 4)
+    assert.equal(await page.locator('#sources a').count(), 6)
+    await page.locator('#circuit').click()
+    await page.locator('.ofv [data-v=gate]:visible').waitFor()
+    await page.locator('[data-v=gate]').selectOption('turn')
+    assert.equal(await page.locator('[data-v=gate]').inputValue(), 'turn')
+    await page.goto(new URL(lang === 'en' ? '?lang=en' : lang + '.html', base).href)
+    await page.locator('#plane-links a').first().waitFor()
+    assert.match(
+      await page.locator('#lesson-file').getAttribute('href'),
+      new RegExp('family-lesson-' + lang + '\\.html$'),
+    )
+    const offline = await page.request.get(new URL('library/family-lesson-' + lang + '.html', base).href)
+    assert.equal(offline.status(), 200)
+    assert.match(await offline.text(), new RegExp('<html lang="' + lang + '"'))
     const print = await download(page, page.locator('#download'))
     assert.equal(print.subarray(0, 4).toString(), '%PDF')
     await page.locator('#butter-links a').first().click()
     await page.locator('.species-card[data-species=monarch]').waitFor()
     assert.equal(await page.locator('html').getAttribute('lang'), lang)
+    await page.locator('#butter-physics summary').click()
+    assert.ok((await page.locator('#butter-physics p').innerText()).length > 55)
     await setRange(page.locator('#left-trim'), 8)
     await setRange(page.locator('#right-trim'), -4)
     await setRange(page.locator('#wing'), 176)
@@ -125,6 +170,8 @@ try {
     await page.goto(new URL('planes.html?model=tupolev-tu144&lang=' + lang, base).href)
     await page.locator('[data-model=tupolev-tu144]').waitFor()
     assert.equal(await page.locator('[data-model]').count(), 4)
+    await page.locator('#plane-physics summary').click()
+    assert.ok((await page.locator('#plane-physics p').innerText()).length > 55)
     await setRange(page.locator('#keel'), 26)
     await setRange(page.locator('#tips'), 10)
     await page.locator('#paper').selectOption('US_LETTER')
@@ -145,6 +192,7 @@ try {
     await page.goto(new URL('references.html?lang=' + lang + '#powered', base).href)
     await page.locator('#butter article').first().waitFor()
     assert.equal(await page.locator('#planes article').count(), 4)
+    assert.equal(await page.locator('#planes article img').count(), 4)
     assert.equal(await page.locator('#butter article').count(), 3)
     assert.equal(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1), true)
     assert.deepEqual(errors, [])
@@ -158,6 +206,18 @@ try {
         ' · home, 7 designs, 3D, local save/reload, references and exact edited PDF exports for both families',
     )
   }
+  const narrow = await browser.newPage({viewport:{width:320,height:720},reducedMotion:'reduce'})
+  for (const path of ['es.html','compare.html?lang=es','next.html?lang=ru','studio.html?lang=es','planes.html?lang=ru','references.html?lang=es']) {
+    await narrow.goto(new URL(path,base).href)
+    const trigger=narrow.locator('.workshop-menu summary')
+    await trigger.click()
+    const bounds=await narrow.locator('.workshop-links').boundingBox()
+    assert.ok(bounds && bounds.x >= 0 && bounds.x+bounds.width <= 321,'Menu fits at 320 px on '+path)
+    const overflow=await narrow.evaluate(()=>document.documentElement.scrollWidth-innerWidth)
+    assert.ok(overflow<=1,'Page overflow at 320 px on '+path+' ('+overflow+' px)')
+    await trigger.press('Escape')
+  }
+  await narrow.close()
 } finally {
   await browser.close()
 }

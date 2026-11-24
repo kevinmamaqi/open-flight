@@ -88,4 +88,4 @@ export const limits = {
   idempotency_retention_seconds: 31536000,
   job_retention_seconds: 31536000,
 }
-export const version = '0.3.0-experimental.1'
+export const version = '0.4.0'

@@ -1,3 +1,5 @@
+import { flightPhysics,physicsTitle } from './atlas-physics.js'
+import { butterflies } from './flight-butterflies.js'
 import { words } from './editor-i18n.js'
 import { drawGlide, playGlide } from './editor-glide.js'
 
@@ -11,14 +13,20 @@ const initial = new URLSearchParams(location.hash.slice(1))
 if (initial.has('grant')) {
   if (loopback) sessionStorage.setItem('open-flight-grant', initial.get('grant'))
   initial.delete('grant')
-  history.replaceState(null, '', location.pathname + location.search + (initial.size ? '#' + initial : ''))
+  history.replaceState(
+    null,
+    '',
+    location.pathname + location.search + (initial.size ? '#' + initial : ''),
+  )
 }
 const grant = loopback && sessionStorage.getItem('open-flight-grant')
 const portable = grant ? null : import('./browser-workshop.js')
-const requestedLanguage = new URLSearchParams(location.search).get('lang')
-if (['en', 'ru'].includes(requestedLanguage))
+const pageOptions = new URLSearchParams(location.search)
+const requestedLanguage = pageOptions.get('lang')
+if (Object.hasOwn(words, requestedLanguage))
   sessionStorage.setItem('open-flight-language', requestedLanguage)
-let locale = sessionStorage.getItem('open-flight-language') === 'ru' ? 'ru' : 'en'
+const storedLanguage = sessionStorage.getItem('open-flight-language')
+let locale = Object.hasOwn(words, storedLanguage) ? storedLanguage : 'en'
 let revision,
   draft,
   stepIndex = 0,
@@ -45,6 +53,9 @@ function translateChrome() {
   document.documentElement.lang = locale
   document.title = t('studioTitle') + ' · Open Flight'
   $('locale').value = locale
+  const home = new URL('./', import.meta.url)
+  home.searchParams.set('lang', locale)
+  $('atlas-home').href = home
   document.querySelectorAll('[data-i18n]').forEach((node) => {
     node.textContent = t(node.dataset.i18n)
   })
@@ -83,9 +94,7 @@ async function request(path, options = {}) {
     try {
       detail = await response.json()
     } catch {}
-    throw new Error(
-      detail?.code === 'revision_conflict' ? t('conflict') : detail?.message || t('unavailable'),
-    )
+    throw new Error(detail?.code === 'revision_conflict' ? t('conflict') : t('unavailable'))
   }
   return response
 }
@@ -97,7 +106,10 @@ async function post(path, body, head) {
   const fingerprint = JSON.stringify([path, head, payload])
   const key = retryKeys.get(fingerprint) ?? crypto.randomUUID()
   retryKeys.set(fingerprint, key)
-  const headers = { 'Content-Type': 'application/json', 'Idempotency-Key': key }
+  const headers = {
+    'Content-Type': 'application/json',
+    'Idempotency-Key': key,
+  }
   if (head) headers['If-Match'] = '"' + head + '"'
   const result = await (await request(path, { method: 'POST', headers, body: payload })).json()
   retryKeys.delete(fingerprint)
@@ -124,7 +136,10 @@ function nameFor(item) {
       : item.name
 }
 function fresh(item) {
-  return { parameters: { ...item.parameters }, appearance_id: item.appearance_id }
+  return {
+    parameters: { ...item.parameters },
+    appearance_id: item.appearance_id,
+  }
 }
 function edited() {
   return (
@@ -153,7 +168,9 @@ async function listDesigns() {
   const items = []
   let cursor
   do {
-    const page = await get('/v1/designs?limit=100' + (cursor ? '&cursor=' + encodeURIComponent(cursor) : ''))
+    const page = await get(
+      '/v1/designs?limit=100' + (cursor ? '&cursor=' + encodeURIComponent(cursor) : ''),
+    )
     items.push(...page.items)
     cursor = page.next_cursor
   } while (cursor)
@@ -167,7 +184,9 @@ function renderLibrary() {
   original.label = t('original')
   saved.label = t('saves')
   for (const item of designIndex) {
-    const group = ['butterfly-001', ...modelIds.map((id) => 'butterfly-' + id)].includes(item.ref.design_id)
+    const group = ['butterfly-001', ...modelIds.map((id) => 'butterfly-' + id)].includes(
+      item.ref.design_id,
+    )
       ? original
       : saved
     group.append(new Option(nameFor(item), refKey(item.ref)))
@@ -363,7 +382,11 @@ function fitSpanRule() {
 }
 function changeDraft(change, delay) {
   if (!revision) return
-  draft = { ...draft, ...change, parameters: { ...draft.parameters, ...change.parameters } }
+  draft = {
+    ...draft,
+    ...change,
+    parameters: { ...draft.parameters, ...change.parameters },
+  }
   if (edited()) draftCache.set(refKey(revision.ref), draft)
   else draftCache.delete(refKey(revision.ref))
   message()
@@ -396,7 +419,11 @@ function show(data) {
   history.replaceState(
     null,
     '',
-    '#' + new URLSearchParams({ design: data.ref.design_id, revision: data.ref.revision_id }),
+    '#' +
+      new URLSearchParams({
+        design: data.ref.design_id,
+        revision: data.ref.revision_id,
+      }),
   )
   message(data.head_revision_id === data.ref.revision_id ? '' : t('preserved'))
   schedulePreview(0)
@@ -495,8 +522,14 @@ function renderGuide() {
   } else $('reference-photo').removeAttribute('src')
   $('field-name').textContent = content.common_name
   $('observation').textContent = content.observation
+  const explanation = flightPhysics(info.id,locale)
+  $('butter-physics').hidden=!explanation
+  $('butter-physics').querySelector('summary').textContent=physicsTitle(locale)
+  $('butter-physics').querySelector('p').textContent=explanation
   $('pixabay-link').href = photo.url
-  $('pixabay-link').querySelector('span').textContent = t('photoCredit', { name: photo.creator })
+  $('pixabay-link').querySelector('span').textContent = t('photoCredit', {
+    name: photo.creator,
+  })
   $('nature-link').href = info.natural_history.url
   $('nature-link').textContent = t('inNature')
   $('nature-link').title = info.natural_history.source
@@ -510,7 +543,9 @@ function openPhoto() {
   $('nature-photo').src = new URL('.' + info.photo.local_path, import.meta.url).pathname
   $('nature-photo').alt = entry.photo_alt
   $('nature-credit').href = info.photo.url
-  $('nature-credit').textContent = t('photoCredit', { name: info.photo.creator })
+  $('nature-credit').textContent = t('photoCredit', {
+    name: info.photo.creator,
+  })
   $('nature-more').href = info.natural_history.url
   $('nature-more').textContent = info.natural_history.source
   $('nature-dialog').showModal()
@@ -520,15 +555,25 @@ function renderStep() {
   if (!steps?.length) return
   stepIndex = Math.min(stepIndex, steps.length - 1)
   const step = steps[stepIndex]
-  $('step-count').textContent = t('step', { n: stepIndex + 1, total: steps.length })
+  $('step-count').textContent = t('step', {
+    n: stepIndex + 1,
+    total: steps.length,
+  })
   $('step-title').textContent = step.title
   $('step-body').textContent = step.body
+  if (step.id === 'fold') {
+    const { root, angle } = butterflies[revision.species_id]
+    const wing = (draft.parameters.span_mm * (100 - root)) / 200
+    const height = Math.round(wing * Math.sin((angle * Math.PI) / 180))
+    $('step-body').append(' ' + t('tipHeight', { height: mm(height) }))
+  }
+  if (step.id === 'launch') $('step-body').append(' ' + t('buildNote'))
   if (step.id === 'trim') {
     $('step-body').append(
       ' ' +
         t('currentTrim', {
-          left: degrees(draft.parameters.left_trim_deg),
-          right: degrees(draft.parameters.right_trim_deg),
+          left: localizedAngle(draft.parameters.left_trim_deg),
+          right: localizedAngle(draft.parameters.right_trim_deg),
         }),
     )
   }
@@ -553,14 +598,20 @@ async function listActivities() {
   if (!revision) return
   const token = ++activityGeneration
   $('activities').replaceChildren()
-  const params = new URLSearchParams({ locale, species_id: revision.species_id ?? 'legacy' })
+  const params = new URLSearchParams({
+    locale,
+    species_id: revision.species_id ?? 'legacy',
+  })
   const page = await get('/v1/activities?' + params)
   if (token !== activityGeneration) return
   $('activities').replaceChildren(
     ...page.items.map((item) => {
       const button = el('button')
       button.type = 'button'
-      button.append(icon(item.kind === 'game' ? 'target' : 'book', true), document.createTextNode(item.title))
+      button.append(
+        icon(item.kind === 'game' ? 'target' : 'book', true),
+        document.createTextNode(item.title),
+      )
       button.addEventListener('click', async () => {
         try {
           const detail = await get(
@@ -640,7 +691,10 @@ function lessonText(line) {
 }
 async function persist(name) {
   const oldKey = refKey(revision.ref),
-    settings = { parameters: { ...draft.parameters }, appearance_id: draft.appearance_id }
+    settings = {
+      parameters: { ...draft.parameters },
+      appearance_id: draft.appearance_id,
+    }
   const data = writableHead()
     ? await post(
         '/v1/designs/' + encodeURIComponent(revision.ref.design_id) + '/revisions',
@@ -676,7 +730,9 @@ async function mutation(run, errorNode) {
   }
 }
 function defaultName() {
-  return t('myName', { name: guide()?.[locale].common_name ?? nameFor(revision) })
+  return t('myName', {
+    name: guide()?.[locale].common_name ?? nameFor(revision),
+  })
 }
 function updatePrintSummary() {
   const parts = [nameFor(revision), mm(draft.parameters.span_mm)]
@@ -699,7 +755,12 @@ async function exportFiles() {
   message(t('preparing'), false, $('print-status'))
   const formats = ['pdf', 'svg', 'source_json', 'instructions', 'activity_assets', 'trial_sheet']
   if (revision.species_id) formats.push('illustrated_guide')
-  const job = await post('/v1/exports', { design: ref, formats, page_size: paper, locale: printLocale })
+  const job = await post('/v1/exports', {
+    design: ref,
+    formats,
+    page_size: paper,
+    locale: printLocale,
+  })
   const done = await get('/v1/jobs/' + encodeURIComponent(job.job_id))
   if (done.status !== 'succeeded') throw new Error(t('downloadsFailed'))
   const results = await Promise.all(
@@ -719,7 +780,8 @@ async function exportFiles() {
     downloads.push(url)
     link.href = url
     link.dataset.kind = result.kind
-    link.download = [ref.design_id, ref.revision_id, result.kind, paper, printLocale].join('-') + '.' + ext
+    link.download =
+      [ref.design_id, ref.revision_id, result.kind, paper, printLocale].join('-') + '.' + ext
     link.append(icon('download', true), document.createTextNode(t(label)))
     $('downloads').append(link)
   }
@@ -768,7 +830,6 @@ async function openSpatial(mode, start) {
   refreshSpatial()
 }
 function wireUI() {
-  $('atlas-home').href = new URL('./', import.meta.url).href
   $('spatial-open').addEventListener('click', () =>
     openSpatial(
       currentView === 'glide' ? 'flight' : 'fold',
@@ -983,6 +1044,12 @@ try {
       : first && refKey(first)
   if (!selected) throw new Error(t('selectFirst'))
   await openChoice(selected)
+  if (pageOptions.get('view') === 'flight' && revision?.species_id) {
+    currentView = 'glide'
+    renderBoardCopy()
+    $('glide-board').scrollIntoView({ block: 'nearest' })
+    await openSpatial('flight')
+  }
 } catch (error) {
   reportError(error)
 }

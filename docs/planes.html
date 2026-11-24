@@ -12,6 +12,7 @@
     <link rel="icon" href="./assets/wing-mark.svg" type="image/svg+xml" />
     <link rel="stylesheet" href="./planes.css" />
     <link rel="stylesheet" href="./flight-viewer.css" />
+    <link rel="stylesheet" href="./atlas-nav.css"><script type="module" src="./atlas-nav.js"></script>
     <script type="module" src="./planes.js"></script>
   </head>
   <body>
@@ -26,11 +27,12 @@
           ><a href="#fold" data-copy="foldGuide">Fold guide</a
           ><a href="#collection" data-copy="myBuilds">My builds</a>
         </nav>
-        <label class="language"
+        <span data-workshop-menu></span><label class="language"
           ><span class="sr" data-copy="language">Language</span
           ><select id="language">
             <option value="en" lang="en">EN</option>
             <option value="ru" lang="ru">RU</option>
+            <option value="es" lang="es">ES</option>
           </select></label
         >
       </div>
@@ -55,9 +57,46 @@
           </div>
         </div>
       </section>
+      <details class="fold-physics" id="plane-physics"><summary></summary><p></p></details>
       <section class="models" aria-labelledby="choose">
         <h2 id="choose" data-copy="choose">Choose an aircraft</h2>
         <div id="models" class="model-grid"></div>
+      </section>
+      <section class="aircraft-guide" aria-labelledby="field-title">
+        <div class="section-title">
+          <h2 id="field-title" data-copy="fieldTitle">From aircraft to paper</h2>
+          <p data-copy="fieldIntro">Spot a detail on the real aircraft, then find it in your paper build.</p>
+        </div>
+        <div class="field-grid">
+          <figure class="field-card">
+            <img id="field-airframe" width="470" height="210" alt="" />
+            <figcaption>
+              <p class="eyebrow" id="field-variant"></p>
+              <h3 id="field-landmark"></h3>
+              <p id="field-look"></p>
+            </figcaption>
+          </figure>
+          <figure class="field-card">
+            <div id="field-diagram" class="field-diagram"></div>
+            <figcaption>
+              <h3 data-copy="fieldFold">Find the fold</h3>
+              <p id="field-fold"></p>
+              <a href="#fold" id="field-jump" data-copy="fieldJump">Try this fold</a>
+            </figcaption>
+          </figure>
+          <figure class="field-card">
+            <div id="field-paper" class="field-paper"></div>
+            <figcaption>
+              <h3 data-copy="fieldPaper">Spot it on paper</h3>
+              <p id="field-finish"></p>
+            </figcaption>
+          </figure>
+        </div>
+        <p class="field-credit">
+          <a id="field-museum" target="_blank" rel="noopener"></a>
+          <span data-copy="fieldCredit">Original Open Flight illustration · schematic ·</span>
+          <a href="https://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a>
+        </p>
       </section>
       <section class="workbench" id="fold" aria-labelledby="bench-title">
         <div class="section-title">
@@ -96,6 +135,7 @@
             </div>
             <div id="flight-note" hidden>
               <h3 data-copy="experiment">Flight experiment</h3>
+              <p class="hint" data-copy="proposed">Proposed trial. Record what your launches actually do.</p>
               <p id="trial"></p>
             </div>
           </div>

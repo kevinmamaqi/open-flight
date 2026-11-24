@@ -32,7 +32,7 @@
         {
           "id": "fold",
           "title": "Lift both wings",
-          "body": "Put the colored side up and keep the middle strip flat on the table. Fold both wings up along the long dashed lines. Look from behind and match the two sides to 12° above the table.",
+          "body": "Point the nose away, printed side up. Keep the middle strip flat on the table and lift both wings along the long dashed lines. From behind, hold a ruler upright next to the outermost point of each wing. Match both heights to the millimetre target on your sheet (12°).",
           "diagram": "/assets/field-guide/fold-monarch.svg"
         },
         {
@@ -50,7 +50,7 @@
         {
           "id": "launch",
           "title": "Try a gentle glide",
-          "body": "Stand in a clear space. Hold the middle strip, level the nose and give a gentle push. Try both tabs flat first. Then lift one tab and repeat from the same spot. Mark where each glide lands.",
+          "body": "Find a clear space. Hold the middle strip, keep the nose level and give a gentle push. Try five glides with flat tabs. Change only one tab, then make five more from the same place and height. Mark the first landing each time.",
           "diagram": "/assets/field-guide/launch.svg"
         }
       ]
@@ -76,7 +76,7 @@
         {
           "id": "fold",
           "title": "Приподними оба крыла",
-          "body": "Положи бабочку рисунком вверх и прижми среднюю полоску к столу. Отогни оба крыла вверх по длинным штриховым линиям. Посмотри сзади и выровняй крылья под углом 12° к столу.",
+          "body": "Положи бабочку рисунком вверх, носом от себя. Прижми среднюю полоску к столу и подними оба крыла по длинным штриховым линиям. Смотри сзади: поставь линейку вертикально рядом с самым дальним краем каждого крыла. Сверь обе высоты с отметкой в миллиметрах на выкройке (12°).",
           "diagram": "/assets/field-guide/fold-monarch.svg"
         },
         {
@@ -94,7 +94,7 @@
         {
           "id": "launch",
           "title": "Запусти планер",
-          "body": "Найди свободное место. Возьми модель за среднюю полоску, держи нос горизонтально и мягко толкни вперёд. Сначала оставь язычки ровными. Затем подними один и повтори запуск с того же места. Отметь места посадки.",
+          "body": "Найди свободное место. Возьми планер за среднюю полоску, держи нос горизонтально и мягко толкни вперёд. Сделай пять запусков с ровными язычками. Отогни только один язычок и сделай ещё пять запусков с того же места и высоты. Каждый раз отмечай место первого касания.",
           "diagram": "/assets/field-guide/launch.svg"
         }
       ]
@@ -102,6 +102,50 @@
     "trim_reference": {
       "url": "https://www.nasa.gov/pdf/205703main_Delta_Wing_Glider.pdf",
       "source": "NASA · Delta Wing Glider"
+    },
+    "es": {
+      "common_name": "Monarca",
+      "observation": "Sigue una vena negra del ala naranja hasta el borde. En el borde oscuro hay dos filas de puntitos blancos. Busca estos detalles en las alas de papel.",
+      "flight_question": "Si los lanzas igual, ¿planea más lejos la monarca de alas largas o el morfo de alas anchas?",
+      "photo_alt": "Mariposa monarca naranja y negra sobre flores rosas, con puntitos blancos en los bordes de las alas.",
+      "steps": [
+        {
+          "id": "scale",
+          "title": "Comprueba el tamaño de impresión",
+          "body": "Prepara papel, tijeras, una regla y un clip pequeño con extremos redondeados. Imprime al 100 % o en «Tamaño real». La línea debe medir 50 mm. Si mide otra cosa, corrige el ajuste y vuelve a imprimir.",
+          "diagram": "/assets/field-guide/scale.svg"
+        },
+        {
+          "id": "cut",
+          "title": "Recorta el contorno y los cortes cortos",
+          "body": "Recorta por el borde continuo. Haz los dos cortes cortos de cada aleta de cola. Para al llegar a los puntos y deja esa línea unida al ala. Pide ayuda con los cortes pequeños.",
+          "diagram": "/assets/field-guide/cut-monarch.svg"
+        },
+        {
+          "id": "fold",
+          "title": "Levanta las dos alas",
+          "body": "Pon el lado impreso hacia arriba y la punta lejos de ti. Deja la franja central plana sobre la mesa y levanta ambas alas por las líneas largas de trazos. Desde atrás, pon la regla de pie junto al extremo de cada ala. Iguala las dos alturas con la medida en milímetros de la hoja (12°).",
+          "diagram": "/assets/field-guide/fold-monarch.svg"
+        },
+        {
+          "id": "clip",
+          "title": "Coloca el clip en la punta",
+          "body": "Desliza el clip por la punta de la franja central. Para cuando el extremo de atrás llegue a la cruz. Deja el mismo clip en su sitio durante las pruebas.",
+          "diagram": "/assets/field-guide/clip.svg"
+        },
+        {
+          "id": "trim",
+          "title": "Ajusta las aletas de cola",
+          "body": "Apunta la punta lejos de ti y mira desde atrás. Así encuentras tu izquierda y tu derecha. Dobla cada aleta por los puntos según tu hoja. El signo + indica arriba del ala, el signo − indica abajo y 0° indica que queda plana.",
+          "diagram": "/assets/field-guide/trim.svg"
+        },
+        {
+          "id": "launch",
+          "title": "Prueba un planeo suave",
+          "body": "Busca un espacio despejado. Sujeta la franja central, mantén la punta a nivel y empuja suavemente hacia delante. Haz cinco planeos con las aletas planas. Cambia solo una aleta y haz otros cinco desde el mismo sitio y a la misma altura. Marca dónde toca el suelo por primera vez.",
+          "diagram": "/assets/field-guide/launch.svg"
+        }
+      ]
     }
   },
   {
@@ -137,7 +181,7 @@
         {
           "id": "fold",
           "title": "Lift both wings",
-          "body": "Put the colored side up and keep the middle strip flat on the table. Fold both wings up along the long dashed lines. Look from behind and match the two sides to 16° above the table.",
+          "body": "Point the nose away, printed side up. Keep the middle strip flat on the table and lift both wings along the long dashed lines. From behind, hold a ruler upright next to the outermost point of each wing. Match both heights to the millimetre target on your sheet (16°).",
           "diagram": "/assets/field-guide/fold-morpho.svg"
         },
         {
@@ -155,7 +199,7 @@
         {
           "id": "launch",
           "title": "Try a gentle glide",
-          "body": "Stand in a clear space. Hold the middle strip, level the nose and give a gentle push. Try both tabs flat first. Then lift one tab and repeat from the same spot. Mark where each glide lands.",
+          "body": "Find a clear space. Hold the middle strip, keep the nose level and give a gentle push. Try five glides with flat tabs. Change only one tab, then make five more from the same place and height. Mark the first landing each time.",
           "diagram": "/assets/field-guide/launch.svg"
         }
       ]
@@ -181,7 +225,7 @@
         {
           "id": "fold",
           "title": "Приподними оба крыла",
-          "body": "Положи бабочку рисунком вверх и прижми среднюю полоску к столу. Отогни оба крыла вверх по длинным штриховым линиям. Посмотри сзади и выровняй крылья под углом 16° к столу.",
+          "body": "Положи бабочку рисунком вверх, носом от себя. Прижми среднюю полоску к столу и подними оба крыла по длинным штриховым линиям. Смотри сзади: поставь линейку вертикально рядом с самым дальним краем каждого крыла. Сверь обе высоты с отметкой в миллиметрах на выкройке (16°).",
           "diagram": "/assets/field-guide/fold-morpho.svg"
         },
         {
@@ -199,7 +243,7 @@
         {
           "id": "launch",
           "title": "Запусти планер",
-          "body": "Найди свободное место. Возьми модель за среднюю полоску, держи нос горизонтально и мягко толкни вперёд. Сначала оставь язычки ровными. Затем подними один и повтори запуск с того же места. Отметь места посадки.",
+          "body": "Найди свободное место. Возьми планер за среднюю полоску, держи нос горизонтально и мягко толкни вперёд. Сделай пять запусков с ровными язычками. Отогни только один язычок и сделай ещё пять запусков с того же места и высоты. Каждый раз отмечай место первого касания.",
           "diagram": "/assets/field-guide/launch.svg"
         }
       ]
@@ -207,6 +251,50 @@
     "trim_reference": {
       "url": "https://www.nasa.gov/pdf/205703main_Delta_Wing_Glider.pdf",
       "source": "NASA · Delta Wing Glider"
+    },
+    "es": {
+      "common_name": "Morfo azul",
+      "observation": "Fíjate en el borde oscuro alrededor del azul. En el morfo vivo el brillo azul cambia con la luz. Con las alas cerradas se ven manchas redondas en la cara marrón.",
+      "flight_question": "Si un ala baja al salir, ¿se endereza el morfo durante el planeo?",
+      "photo_alt": "Mariposa morfo con las alas azules abiertas y un borde oscuro.",
+      "steps": [
+        {
+          "id": "scale",
+          "title": "Comprueba el tamaño de impresión",
+          "body": "Prepara papel, tijeras, una regla y un clip pequeño con extremos redondeados. Imprime al 100 % o en «Tamaño real». La línea debe medir 50 mm. Si mide otra cosa, corrige el ajuste y vuelve a imprimir.",
+          "diagram": "/assets/field-guide/scale.svg"
+        },
+        {
+          "id": "cut",
+          "title": "Recorta el contorno y los cortes cortos",
+          "body": "Recorta por el borde continuo. Haz los dos cortes cortos de cada aleta de cola. Para al llegar a los puntos y deja esa línea unida al ala. Pide ayuda con los cortes pequeños.",
+          "diagram": "/assets/field-guide/cut-morpho.svg"
+        },
+        {
+          "id": "fold",
+          "title": "Levanta las dos alas",
+          "body": "Pon el lado impreso hacia arriba y la punta lejos de ti. Deja la franja central plana sobre la mesa y levanta ambas alas por las líneas largas de trazos. Desde atrás, pon la regla de pie junto al extremo de cada ala. Iguala las dos alturas con la medida en milímetros de la hoja (16°).",
+          "diagram": "/assets/field-guide/fold-morpho.svg"
+        },
+        {
+          "id": "clip",
+          "title": "Coloca el clip en la punta",
+          "body": "Desliza el clip por la punta de la franja central. Para cuando el extremo de atrás llegue a la cruz. Deja el mismo clip en su sitio durante las pruebas.",
+          "diagram": "/assets/field-guide/clip.svg"
+        },
+        {
+          "id": "trim",
+          "title": "Ajusta las aletas de cola",
+          "body": "Apunta la punta lejos de ti y mira desde atrás. Así encuentras tu izquierda y tu derecha. Dobla cada aleta por los puntos según tu hoja. El signo + indica arriba del ala, el signo − indica abajo y 0° indica que queda plana.",
+          "diagram": "/assets/field-guide/trim.svg"
+        },
+        {
+          "id": "launch",
+          "title": "Prueba un planeo suave",
+          "body": "Busca un espacio despejado. Sujeta la franja central, mantén la punta a nivel y empuja suavemente hacia delante. Haz cinco planeos con las aletas planas. Cambia solo una aleta y haz otros cinco desde el mismo sitio y a la misma altura. Marca dónde toca el suelo por primera vez.",
+          "diagram": "/assets/field-guide/launch.svg"
+        }
+      ]
     }
   },
   {
@@ -242,7 +330,7 @@
         {
           "id": "fold",
           "title": "Lift both wings",
-          "body": "Put the colored side up and keep the middle strip flat on the table. Fold both wings up along the long dashed lines. Look from behind and match the two sides to 10° above the table.",
+          "body": "Point the nose away, printed side up. Keep the middle strip flat on the table and lift both wings along the long dashed lines. From behind, hold a ruler upright next to the outermost point of each wing. Match both heights to the millimetre target on your sheet (10°).",
           "diagram": "/assets/field-guide/fold-swallowtail.svg"
         },
         {
@@ -260,7 +348,7 @@
         {
           "id": "launch",
           "title": "Try a gentle glide",
-          "body": "Stand in a clear space. Hold the middle strip, level the nose and give a gentle push. Try both tabs flat first. Then lift one tab and repeat from the same spot. Mark where each glide lands.",
+          "body": "Find a clear space. Hold the middle strip, keep the nose level and give a gentle push. Try five glides with flat tabs. Change only one tab, then make five more from the same place and height. Mark the first landing each time.",
           "diagram": "/assets/field-guide/launch.svg"
         }
       ]
@@ -286,7 +374,7 @@
         {
           "id": "fold",
           "title": "Приподними оба крыла",
-          "body": "Положи бабочку рисунком вверх и прижми среднюю полоску к столу. Отогни оба крыла вверх по длинным штриховым линиям. Посмотри сзади и выровняй крылья под углом 10° к столу.",
+          "body": "Положи бабочку рисунком вверх, носом от себя. Прижми среднюю полоску к столу и подними оба крыла по длинным штриховым линиям. Смотри сзади: поставь линейку вертикально рядом с самым дальним краем каждого крыла. Сверь обе высоты с отметкой в миллиметрах на выкройке (10°).",
           "diagram": "/assets/field-guide/fold-swallowtail.svg"
         },
         {
@@ -304,7 +392,7 @@
         {
           "id": "launch",
           "title": "Запусти планер",
-          "body": "Найди свободное место. Возьми модель за среднюю полоску, держи нос горизонтально и мягко толкни вперёд. Сначала оставь язычки ровными. Затем подними один и повтори запуск с того же места. Отметь места посадки.",
+          "body": "Найди свободное место. Возьми планер за среднюю полоску, держи нос горизонтально и мягко толкни вперёд. Сделай пять запусков с ровными язычками. Отогни только один язычок и сделай ещё пять запусков с того же места и высоты. Каждый раз отмечай место первого касания.",
           "diagram": "/assets/field-guide/launch.svg"
         }
       ]
@@ -312,6 +400,50 @@
     "trim_reference": {
       "url": "https://www.nasa.gov/pdf/205703main_Delta_Wing_Glider.pdf",
       "source": "NASA · Delta Wing Glider"
+    },
+    "es": {
+      "common_name": "Cola de golondrina",
+      "observation": "Busca las dos colas delgadas y las franjas oscuras sobre las alas amarillas. Busca los mismos detalles en la figura de papel.",
+      "flight_question": "Si levantas una sola aleta de cola, ¿qué ala baja primero?",
+      "photo_alt": "Mariposa amarilla con marcas negras y dos colas delgadas.",
+      "steps": [
+        {
+          "id": "scale",
+          "title": "Comprueba el tamaño de impresión",
+          "body": "Prepara papel, tijeras, una regla y un clip pequeño con extremos redondeados. Imprime al 100 % o en «Tamaño real». La línea debe medir 50 mm. Si mide otra cosa, corrige el ajuste y vuelve a imprimir.",
+          "diagram": "/assets/field-guide/scale.svg"
+        },
+        {
+          "id": "cut",
+          "title": "Recorta el contorno y los cortes cortos",
+          "body": "Recorta por el borde continuo. Haz los dos cortes cortos de cada aleta de cola. Para al llegar a los puntos y deja esa línea unida al ala. Pide ayuda con los cortes pequeños.",
+          "diagram": "/assets/field-guide/cut-swallowtail.svg"
+        },
+        {
+          "id": "fold",
+          "title": "Levanta las dos alas",
+          "body": "Pon el lado impreso hacia arriba y la punta lejos de ti. Deja la franja central plana sobre la mesa y levanta ambas alas por las líneas largas de trazos. Desde atrás, pon la regla de pie junto al extremo de cada ala. Iguala las dos alturas con la medida en milímetros de la hoja (10°).",
+          "diagram": "/assets/field-guide/fold-swallowtail.svg"
+        },
+        {
+          "id": "clip",
+          "title": "Coloca el clip en la punta",
+          "body": "Desliza el clip por la punta de la franja central. Para cuando el extremo de atrás llegue a la cruz. Deja el mismo clip en su sitio durante las pruebas.",
+          "diagram": "/assets/field-guide/clip.svg"
+        },
+        {
+          "id": "trim",
+          "title": "Ajusta las aletas de cola",
+          "body": "Apunta la punta lejos de ti y mira desde atrás. Así encuentras tu izquierda y tu derecha. Dobla cada aleta por los puntos según tu hoja. El signo + indica arriba del ala, el signo − indica abajo y 0° indica que queda plana.",
+          "diagram": "/assets/field-guide/trim.svg"
+        },
+        {
+          "id": "launch",
+          "title": "Prueba un planeo suave",
+          "body": "Busca un espacio despejado. Sujeta la franja central, mantén la punta a nivel y empuja suavemente hacia delante. Haz cinco planeos con las aletas planas. Cambia solo una aleta y haz otros cinco desde el mismo sitio y a la misma altura. Marca dónde toca el suelo por primera vez.",
+          "diagram": "/assets/field-guide/launch.svg"
+        }
+      ]
     }
   }
 ]

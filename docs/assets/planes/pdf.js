@@ -1,3 +1,4 @@
+import { aircraftPortrait } from './field-portraits.js'
 import { sheetScene, specimenScene } from './drawing.js'
 import { foldScene } from './guide.js'
 import { planeCredits, creditText } from './credits.js'
@@ -47,7 +48,7 @@ function fixedId(value) {
 export function planePdfBytes(plan, JsPDF, fontBase64, fontNotice) {
   const { width_mm: w, height_mm: h } = plan.dimensions
   const ru = plan.locale === 'ru',
-    t = (en, ruText) => (ru ? ruText : en)
+    t = (en, ruText, es) => ({ en, ru: ruText, es })[plan.locale]
   const credit = creditText(plan.locale)
   const doc = new JsPDF({
     orientation: 'portrait',
@@ -60,6 +61,7 @@ export function planePdfBytes(plan, JsPDF, fontBase64, fontNotice) {
   doc.addFileToVFS('DejaVuSans.ttf', fontBase64)
   doc.addFont('DejaVuSans.ttf', 'Flight', 'normal')
   doc.setFont('Flight', 'normal')
+  doc.setLanguage(plan.locale)
   doc.setProperties({
     title: plan.name + ' · Open Flight',
     author: planeCredits.creator,
@@ -67,12 +69,19 @@ export function planePdfBytes(plan, JsPDF, fontBase64, fontNotice) {
       t(
         'Whole-sheet paper airplane and illustrated fold guide',
         'Бумажный самолёт из целого листа и схемы сборки',
+        'Avión de papel de una hoja entera y guía ilustrada de dobleces',
       ) +
       '. ' +
       [credit.creator, credit.geometry, credit.artwork, planeCredits.url].join('. ') +
-      '\nEmbedded DejaVu Sans font notices:\n' +
+      '\n' +
+      t(
+        'Embedded DejaVu Sans font notices:',
+        'Лицензия встроенного шрифта DejaVu Sans:',
+        'Avisos de licencia de la fuente DejaVu Sans incrustada:',
+      ) +
+      '\n' +
       fontNotice,
-    keywords: 'Open Flight, original geometry, CERN-OHL-W-2.0, original artwork and lessons, CC BY-SA 4.0',
+    keywords: ['Open Flight', credit.geometry, credit.artwork].join(', '),
   })
   doc.setCreationDate("D:20260101000000+00'00'")
   doc.setFileId(fixedId(JSON.stringify(plan.source) + plan.locale + planeCredits.url))
@@ -91,11 +100,12 @@ export function planePdfBytes(plan, JsPDF, fontBase64, fontNotice) {
   const notebook = (y) => {
     const x = w * 0.44
     draw(doc, specimenScene(plan), [12, y + 4], (w * 0.36) / 420)
-    write(t('Flight notebook', 'Лётный дневник'), x, y + 8, 14)
+    write(t('Flight notebook', 'Лётный дневник', 'Cuaderno de vuelo'), x, y + 8, 14)
     block(
       t(
         'Hold the body near the front. Launch gently and level into clear space.',
         'Возьмитесь за корпус ближе к носу. Мягко запустите самолёт горизонтально в свободное пространство.',
+        'Sujeta el cuerpo cerca de la punta. Lanza suavemente, a nivel y hacia un espacio despejado.',
       ) +
         ' ' +
         plan.experiment,
@@ -103,25 +113,48 @@ export function planePdfBytes(plan, JsPDF, fontBase64, fontNotice) {
       y + 17,
       w - x - 12,
     )
-    write(t('Launch', 'Запуск'), 13, y + 57, 9)
-    write(t('Where did it land?  What changed?', 'Где сел самолёт? Что изменилось?'), 36, y + 57, 9)
-    for (let trial = 1; trial <= 3; trial++) {
-      const lineY = y + 59 + trial * 8
+    write(t('Launch', 'Запуск', 'Lanzamiento'), 13, y + 57, 9)
+    write(
+      t(
+        'Where did it land?  What changed?',
+        'Где сел самолёт? Что изменилось?',
+        '¿Dónde aterrizó? ¿Qué cambió?',
+      ),
+      36,
+      y + 57,
+      9,
+    )
+    for (let trial = 1; trial <= 5; trial++) {
+      const lineY = y + 59 + trial * 6
       write(String(trial), 15, lineY - 1, 8)
       doc.setDrawColor('#c3d1cb')
       doc.line(35, lineY, w - 12, lineY)
     }
-    write(plan.inspiration, 12, y + 95, 11)
-    block(plan.history, 12, y + 102, w - 24, 8.5)
+    const { field } = plan
+    const portraitWidth = w * 0.34
+    doc.addImage(
+      aircraftPortrait(plan.model_id),
+      'JPEG',
+      12,
+      y + 94,
+      portraitWidth,
+      (portraitWidth * 210) / 470,
+    )
+    write(field.landmark, x, y + 98, 11)
+    block([field.fold, field.finish].join(' '), x, y + 104, w - x - 12, 8.3)
+    doc.setFontSize(7.4)
+    doc.setTextColor('#165765')
+    doc.textWithLink(field.museum.label, x, y + 122, { url: field.museum.url })
+    write(credit.creator, 12, y + 130, 8)
     doc.setFontSize(8)
     doc.setTextColor('#165765')
-    doc.textWithLink(plan.reference.label, 12, y + 118, { url: plan.reference.url })
-    write(credit.creator, 12, y + 125, 8)
-    doc.setFontSize(8)
-    doc.setTextColor('#165765')
-    doc.textWithLink(credit.geometry, 12, y + 130, { url: planeCredits.geometry.url })
-    doc.textWithLink(credit.artwork, w * 0.5, y + 130, { url: planeCredits.artwork.url })
-    doc.textWithLink(credit.credits, 12, y + 135, { url: planeCredits.url })
+    doc.textWithLink(credit.geometry, 12, y + 135, {
+      url: planeCredits.geometry.url,
+    })
+    doc.textWithLink(credit.artwork, w * 0.5, y + 135, {
+      url: planeCredits.artwork.url,
+    })
+    doc.textWithLink(credit.credits, 12, y + 140, { url: planeCredits.url })
   }
   const perPage = 3,
     count = Math.ceil(plan.steps.length / perPage)
@@ -129,9 +162,14 @@ export function planePdfBytes(plan, JsPDF, fontBase64, fontNotice) {
     doc.addPage([w, h], 'portrait')
     write('OPEN FLIGHT   /   ' + plan.inspiration, 12, 13, 8.4)
     write(plan.name, 12, 24, 23)
-    write(t('Folding guide', 'Как сложить') + '  ' + (page + 1) + ' / ' + count, 12, 32, 10)
+    write(
+      t('Folding guide', 'Как сложить', 'Guía de dobleces') + '  ' + (page + 1) + ' / ' + count,
+      12,
+      32,
+      10,
+    )
     const label =
-      (plan.paper === 'A4' ? 'A4' : 'US Letter') +
+      (plan.paper === 'A4' ? 'A4' : t('US Letter', 'US Letter', 'Carta')) +
       '   •   ' +
       plan.keel_mm +
       ' / ' +
@@ -143,6 +181,7 @@ export function planePdfBytes(plan, JsPDF, fontBase64, fontNotice) {
       t(
         'Print page 1 only at actual size for the model. Its scale line should measure 20 mm.',
         'Для самолёта распечатайте только страницу 1 в масштабе 100%. Контрольная линия должна быть ровно 20 мм.',
+        'Para armar el avión, imprime solo la primera página a tamaño real. La línea de escala debe medir 20 mm.',
       ),
       12,
       40,
@@ -170,6 +209,7 @@ export function planePdfBytes(plan, JsPDF, fontBase64, fontNotice) {
     const footer = t(
       'Cream: print side  •  Mint: reverse  •  Orange: moving flap  •  Dashes: crease',
       'Кремовый: печать  •  Мятный: оборот  •  Оранжевый: клапан  •  Пунктир: сгиб',
+      'Crema · cara impresa   /   Verde menta · reverso   /   Naranja · parte que se dobla   /   Rayas · doblez',
     )
     write(footer, 12, h - 12, 7.8)
     write('Open Flight  /  ' + plan.code + '  /  r' + plan.revision, 12, h - 7, 7.4, '#586e72')
