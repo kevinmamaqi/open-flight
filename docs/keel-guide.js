@@ -1,4 +1,4 @@
-import { butterflies } from './flight-butterflies.js';
+import { butterflies } from './flight-butterflies.js?v=50000cb495d7';
 
 const ids = ['cut', 'center', 'wings', 'table', 'clip', 'launch'];
 const copy = {

@@ -43,6 +43,12 @@ try {
       viewport: { width, height: width === 390 ? 844 : 900 },
       reducedMotion: 'reduce',
     })
+    if (lang === 'en') {
+      // Returning visitors can have the 0.4 modules in cache while already reading a new HTML page.
+      await ctx.route(/\/(?:atlas-guide|browser-workshop)\.js$/, route =>
+        route.fulfill({ contentType: 'text/javascript', body: 'export const previousRelease = true' }),
+      )
+    }
     const page = await ctx.newPage(),
       errors = [],
       bad = []

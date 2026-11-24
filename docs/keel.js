@@ -1,5 +1,5 @@
-import { currentLocale, homeURL, localizedLinks } from "./atlas-nav.js";
-import { keelSteps, keelDiagram } from "./keel-guide.js";
+import { currentLocale, homeURL, localizedLinks } from "./atlas-nav.js?v=50000cb495d7";
+import { keelSteps, keelDiagram } from "./keel-guide.js?v=50000cb495d7";
 
 const copy = {
   skip: [
@@ -170,7 +170,7 @@ const appearances = ["natural", "carnival", "twilight", "coloring"];
 const papers = ["A4", "US_LETTER"];
 const steps = keelSteps(lang);
 const storageKey = "open-flight-folded-butterfly-k1";
-const engine = import("./browser-workshop.js");
+const engine = import("./browser-workshop.js?v=50000cb495d7");
 if (location.hash === '#comparison') get('comparison').open=true;
 let state = readState(new URLSearchParams(location.search));
 let plan;

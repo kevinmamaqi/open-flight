@@ -1,7 +1,7 @@
-import { makePlane, planeCatalog, planeSource, sheetSizes, liveries } from './assets/planes/core.js'
-import { planeSvg, planeSpecimen, esc, stripes } from './assets/planes/drawing.js'
-import { foldSvg, planeGuide } from './assets/planes/guide.js'
-import { planePdfBytes } from './assets/planes/pdf.js'
+import { makePlane, planeCatalog, planeSource, sheetSizes, liveries } from './assets/planes/core.js?v=50000cb495d7'
+import { planeSvg, planeSpecimen, esc, stripes } from './assets/planes/drawing.js?v=50000cb495d7'
+import { foldSvg, planeGuide } from './assets/planes/guide.js?v=50000cb495d7'
+import { planePdfBytes } from './assets/planes/pdf.js?v=50000cb495d7'
 
 const words = {
   fieldTitle: ['From aircraft to paper', 'От самолёта к бумаге', 'Del avión real al papel'],
@@ -137,8 +137,8 @@ const words = {
   mm: ['mm', 'мм', 'mm'],
   airplane: ['Paper airplane studio', 'Мастерская бумажных самолётов', 'Taller de aviones de papel'],
 }
-import { flightPhysics,physicsTitle } from './atlas-physics.js'
-import { currentLocale } from './atlas-nav.js'
+import { flightPhysics,physicsTitle } from './atlas-physics.js?v=50000cb495d7'
+import { currentLocale } from './atlas-nav.js?v=50000cb495d7'
 const $ = (id) => document.getElementById(id)
 const params = new URLSearchParams(location.search)
 const languages = ['en', 'ru', 'es']
@@ -376,7 +376,7 @@ function renderStep() {
 }
 async function updateViewer() {
   try {
-    loadingViewer ??= import('./flight-viewer.js')
+    loadingViewer ??= import('./flight-viewer.js?v=50000cb495d7')
       .then(({ mountFlightViewer }) => mountFlightViewer($('three')))
       .catch((error) => {
         loadingViewer = undefined

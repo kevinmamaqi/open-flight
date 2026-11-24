@@ -1,3 +1,4 @@
+import { createHash } from 'node:crypto'
 import { ru, es } from '../apps/editor/atlas-copy.js'
 import { cpSync, existsSync, mkdirSync, readdirSync, readFileSync, writeFileSync } from 'node:fs'
 import { join, resolve } from 'node:path'
@@ -9,6 +10,26 @@ mkdirSync(out, { recursive: true })
 const domain = 'https://kevinmamaqi.github.io/open-flight/'
 const updateAttr = (name, value) => ({ element: (el) => el.setAttribute(name, value) })
 const replaceText = (value) => ({ element: (el) => el.setInnerContent(value) })
+// Pages caches files independently. Link each release's HTML and ES module graph
+// to the same asset generation, including dynamic imports in the worktables.
+const assets = readdirSync(editor, { recursive: true }).filter((name) => /\.(css|js)$/.test(name)).sort()
+const hash = createHash('sha256').update(readFileSync(fileURLToPath(import.meta.url)))
+for (const name of assets) hash.update(name).update('\0').update(readFileSync(join(editor, name))).update('\0')
+const assetKey = '?v=' + hash.digest('hex').slice(0, 12)
+function versionAttribute(attr) {
+  return {
+    element(el) {
+      const href = el.getAttribute(attr)
+      if (/^(?:\.{1,2}\/)?[\w./-]+\.(?:js|css)$/.test(href)) el.setAttribute(attr, href + assetKey)
+    },
+  }
+}
+function versionHtml(source) {
+  return new HTMLRewriter()
+    .on('script[src]', versionAttribute('src'))
+    .on('link[rel="stylesheet"]', versionAttribute('href'))
+    .transform(source)
+}
 const template = readFileSync(join(editor, 'atlas.html'), 'utf8')
 for (const [lang, copy, title, region, photoAlt, name, family] of [
   [
@@ -77,7 +98,17 @@ for (const entry of readdirSync(editor, { withFileTypes: true })) {
       recursive: true,
       filter: (p) => !p.endsWith('.d.ts'),
     })
-  if (entry.isFile() && /\.(html|js|css|svg)$/.test(entry.name)) cpSync(source, join(out, dest))
+  if (entry.isFile() && entry.name.endsWith('.html'))
+    writeFileSync(join(out, dest), versionHtml(readFileSync(source, 'utf8')))
+  else if (entry.isFile() && /\.(js|css|svg)$/.test(entry.name)) cpSync(source, join(out, dest))
+}
+// The bundled workshop has no ES imports. Third-party modules keep their published contents.
+const localModule = /(\b(?:from\s*|import\s*\(\s*|import\s+))(["'])(\.{1,2}\/[\w./-]+\.js)\2/g
+for (const name of assets) {
+  if (!name.endsWith('.js') || name === 'browser-workshop.js' || name.includes('/vendor/')) continue
+  const source = readFileSync(join(editor, name), 'utf8')
+  const result = source.replace(localModule, (_all, keyword, quote, url) => keyword + quote + url + assetKey + quote)
+  if (result !== source) writeFileSync(join(out, name), result)
 }
 for (const alias of ['studio', 'planes']) {
   const dir = join(out, alias)

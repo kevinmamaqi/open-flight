@@ -1,6 +1,6 @@
-import { ru, es } from './atlas-copy.js'
-import { currentLocale, homeURL, localizedLinks } from './atlas-nav.js'
-import { fieldModel, studioLink, foldedLink } from './atlas-guide.js'
+import { ru, es } from './atlas-copy.js?v=50000cb495d7'
+import { currentLocale, homeURL, localizedLinks } from './atlas-nav.js?v=50000cb495d7'
+import { fieldModel, studioLink, foldedLink } from './atlas-guide.js?v=50000cb495d7'
 
 const fragment = new URLSearchParams(location.hash.slice(1))
 if (fragment.has('grant') || (fragment.has('design') && fragment.has('revision'))) {

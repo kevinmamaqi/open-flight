@@ -1,8 +1,8 @@
-import { foldedLink } from './atlas-guide.js'
-import { flightPhysics,physicsTitle } from './atlas-physics.js'
-import { butterflies } from './flight-butterflies.js'
-import { words } from './editor-i18n.js'
-import { drawGlide, playGlide } from './editor-glide.js'
+import { foldedLink } from './atlas-guide.js?v=50000cb495d7'
+import { flightPhysics,physicsTitle } from './atlas-physics.js?v=50000cb495d7'
+import { butterflies } from './flight-butterflies.js?v=50000cb495d7'
+import { words } from './editor-i18n.js?v=50000cb495d7'
+import { drawGlide, playGlide } from './editor-glide.js?v=50000cb495d7'
 
 const $ = (id) => document.getElementById(id)
 let spatial
@@ -21,7 +21,7 @@ if (initial.has('grant')) {
   )
 }
 const grant = loopback && sessionStorage.getItem('open-flight-grant')
-const portable = grant ? null : import('./browser-workshop.js')
+const portable = grant ? null : import('./browser-workshop.js?v=50000cb495d7')
 const pageOptions = new URLSearchParams(location.search)
 const requestedLanguage = pageOptions.get('lang')
 if (Object.hasOwn(words, requestedLanguage))
@@ -829,7 +829,7 @@ async function openSpatial(mode, start) {
     renderStep()
   }
   if (!$('spatial-dialog').open) $('spatial-dialog').showModal()
-  const { mountFlightViewer } = await import('./flight-viewer.js')
+  const { mountFlightViewer } = await import('./flight-viewer.js?v=50000cb495d7')
   if (!$('spatial-dialog').open) return
   spatial ??= mountFlightViewer($('spatial-surface'))
   refreshSpatial()
