@@ -1,6 +1,7 @@
 import assert from 'node:assert/strict'
 import test from 'node:test'
 import { readFileSync } from 'node:fs'
+import { PDFDocument, PDFRawStream, decodePDFRawStream } from 'pdf-lib'
 import {
   makePlane,
   planeCatalog,
@@ -26,6 +27,41 @@ function polygonArea(polygon: Point[]): number {
 function close(actual: number, expected: number, tolerance = 0.0001) {
   assert.ok(Math.abs(actual - expected) < tolerance, `${actual} differs from ${expected}`)
 }
+function assertPrintReferences(svg: string, drawing: string, width: number, height: number) {
+  const toMm = (value: string) => Number(value) * 25.4 / 72
+  const border = [[15, 15], [width - 15, 15], [width - 15, height - 15], [15, height - 15], [15, 15]]
+  assert.ok(svg.includes('points="' + border.map((point) => point.join(',')).join(' ') + '"'))
+  const paths = drawing.match(/^[\d.]+ [\d.]+ m(?:\n[\d.]+ [\d.]+ l){4}\nS$/gm) ?? []
+  assert.ok(paths.some((path) => {
+    const coords = (path.match(/[\d.]+/g) ?? []).map(toMm)
+    return border.every(([x, y], i) =>
+      Math.abs(coords[i * 2] - x) < 0.01 && Math.abs(coords[i * 2 + 1] - (height - y)) < 0.01,
+    )
+  }), 'One continuous path connects all four corners')
+  const elbows = Array.from(
+    drawing.matchAll(/^([\d.]+) ([\d.]+) m\n([\d.]+) ([\d.]+) l\n([\d.]+) ([\d.]+) l\nS$/gm),
+    (match) => match.slice(1).map(toMm),
+  )
+  for (const x of [15, width - 15]) {
+    for (const y of [15, height - 15]) {
+      // SVG has a top-left origin. PDF has a bottom-left origin.
+      assert.ok(svg.includes(` ${x},${y} `))
+      assert.ok(elbows.some(([leftX, leftY, elbowX, elbowY, endX, endY]) =>
+        Math.abs(elbowX - x) < 0.01 && Math.abs(elbowY - (height - y)) < 0.01 &&
+        leftY === elbowY && endX === elbowX && leftX !== elbowX && endY !== elbowY,
+      ), `Missing corner mark at ${x}, ${y} mm`)
+    }
+  }
+  const lines = Array.from(
+    drawing.matchAll(/^([\d.]+) ([\d.]+) m\n([\d.]+) ([\d.]+) l\nS$/gm),
+    (match) => match.slice(1).map(toMm),
+  )
+  assert.ok(lines.some(([x1, y1, x2, y2]) =>
+    Math.abs(x2 - x1 - 20) < 0.01 && y1 === y2 &&
+    y1 >= 15 && y1 < height / 2 && x1 > width / 2 && x2 <= width - 15,
+  ), 'The 20 mm scale bar must fit inside the lower-right printable area')
+}
+
 const papers: PlanePaper[] = ['A4', 'US_LETTER']
 test('every fold preserves every square millimetre and maps its vertices back to the full printable sheet', () => {
   for (const model of planeCatalog)
@@ -107,7 +143,7 @@ test('recipes have different real outlines, crease sets, printable source and li
     assert.ok(different.steps.at(-1)?.instruction.includes('flat'))
   }
 })
-test('a 100% physical sheet and trilingual illustrated guides export deterministically in both paper formats', () => {
+test('a 100% physical sheet and trilingual illustrated guides export deterministically in both paper formats', async () => {
   for (const model of planeCatalog)
     for (const paper of papers)
       for (const locale of ['en', 'ru', 'es'] as const) {
@@ -123,6 +159,13 @@ test('a 100% physical sheet and trilingual illustrated guides export determinist
           (text.match(/\/Type \/Page\b/g) || []).length,
           1 + Math.ceil(plan.steps.length / 3) + (plan.steps.length % 3 === 1 ? 0 : 1),
         )
+        const page = (await PDFDocument.load(pdf)).getPage(0)
+        const content = page.node.Contents()
+        assert.ok(content instanceof PDFRawStream)
+        const drawing = Buffer.from(decodePDFRawStream(content).decode()).toString('latin1')
+        assertPrintReferences(planeSvg(plan), drawing, plan.dimensions.width_mm, plan.dimensions.height_mm)
+        assert.match(text, /\/PrintScaling \/None/)
+        assert.match(text, /\/Duplex \/Simplex/)
         const guide = planeGuide(plan)
         assert.match(guide, new RegExp('<html lang="' + locale + '">'))
         assert.equal((guide.match(/<article>/g) || []).length, plan.steps.length)

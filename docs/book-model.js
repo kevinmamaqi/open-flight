@@ -1,5 +1,5 @@
-import { appearanceChoices, appearanceArtPath, appearanceArtStyles } from './model-appearance.js?v=674464fb115d'
-import { paperSizes, sheetCatalog, sheetIdFor, sheetLocales } from './family-sheets.js?v=674464fb115d'
+import { appearanceChoices, appearanceArtPath, appearanceArtStyles } from './model-appearance.js?v=f4bb970c0b08'
+import { paperSizes, sheetCatalog, sheetIdFor, sheetLocales } from './family-sheets.js?v=f4bb970c0b08'
 
 const entries = new Map(sheetCatalog.map(item => [item.id, item]))
 const titles = { en: 'Flight Book', es: 'Libro de vuelo', ru: 'Книга полётов' }

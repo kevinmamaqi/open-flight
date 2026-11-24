@@ -1,5 +1,5 @@
-import { currentLocale, homeURL, localizedLinks } from "./atlas-nav.js?v=674464fb115d";
-import { recordBookEvent } from "./book-metrics.js?v=674464fb115d";
+import { currentLocale, homeURL, localizedLinks } from "./atlas-nav.js?v=f4bb970c0b08";
+import { recordBookEvent } from "./book-metrics.js?v=f4bb970c0b08";
 import {
   bookFilename,
   bookPlan,
@@ -11,24 +11,24 @@ import {
   normalizeBook,
   pilotLimit,
   readBookURL,
-} from "./book-model.js?v=674464fb115d";
+} from "./book-model.js?v=f4bb970c0b08";
 import {
   loadBookServices,
   recoverBookCheckout,
   supportChoices,
-} from "./book-support.js?v=674464fb115d";
-import { estimateBookBytes } from "./book-size.js?v=674464fb115d";
-import { mountBookReader } from "./book-reader.js?v=674464fb115d";
-import { applyStudioColors, studioForBookSheet } from "./model-studio.js?v=674464fb115d";
-import { mountModelMap } from "./model-map.js?v=674464fb115d";
-import { appearanceArtPath, appearanceChoices } from "./model-appearance.js?v=674464fb115d";
-import { builderCopy } from "./book-ui-copy.js?v=674464fb115d";
+} from "./book-support.js?v=f4bb970c0b08";
+import { estimateBookBytes } from "./book-size.js?v=f4bb970c0b08";
+import { mountBookReader } from "./book-reader.js?v=f4bb970c0b08";
+import { applyStudioColors, studioForBookSheet } from "./model-studio.js?v=f4bb970c0b08";
+import { mountModelMap } from "./model-map.js?v=f4bb970c0b08";
+import { appearanceArtPath, appearanceChoices } from "./model-appearance.js?v=f4bb970c0b08";
+import { builderCopy } from "./book-ui-copy.js?v=f4bb970c0b08";
 import {
   sheetCatalog,
   sheetIdFor,
   sheetName,
   sheetPath,
-} from "./family-sheets.js?v=674464fb115d";
+} from "./family-sheets.js?v=f4bb970c0b08";
 
 const byId = (id) => document.getElementById(id);
 const designs = byId("designs");
@@ -726,8 +726,8 @@ function readyPDF(book) {
   const key = JSON.stringify(book);
   if (activePDF?.key === key) return activePDF.promise;
   const promise = Promise.all([
-    import("./book-engine.js?v=674464fb115d"),
-    import("./assets/planes/vendor/jspdf.js?v=674464fb115d"),
+    import("./book-engine.js?v=f4bb970c0b08"),
+    import("./assets/planes/vendor/jspdf.js?v=f4bb970c0b08"),
   ]).then(async ([{ createBook }]) => {
     const data = await createBook(book, { loadAsset });
     return new File([data], bookFilename(book), { type: "application/pdf" });

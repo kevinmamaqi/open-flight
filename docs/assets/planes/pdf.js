@@ -1,7 +1,7 @@
-import { aircraftPortrait } from './field-portraits.js?v=674464fb115d'
-import { sheetScene, specimenScene } from './drawing.js?v=674464fb115d'
-import { foldScene } from './guide.js?v=674464fb115d'
-import { planeCredits, creditText } from './credits.js?v=674464fb115d'
+import { aircraftPortrait } from './field-portraits.js?v=f4bb970c0b08'
+import { sheetScene, specimenScene } from './drawing.js?v=f4bb970c0b08'
+import { foldScene } from './guide.js?v=f4bb970c0b08'
+import { planeCredits, creditText } from './credits.js?v=f4bb970c0b08'
 
 function draw(doc, parts, offset = [0, 0], scale = 1) {
   const pt = ([x, y]) => [offset[0] + x * scale, offset[1] + y * scale]
@@ -62,6 +62,7 @@ export function planePdfBytes(plan, JsPDF, fontBase64, fontNotice) {
   doc.addFont('DejaVuSans.ttf', 'Flight', 'normal')
   doc.setFont('Flight', 'normal')
   doc.setLanguage(plan.locale)
+  doc.viewerPreferences({ PrintScaling: 'None', Duplex: 'Simplex' })
   doc.setProperties({
     title: plan.name + ' · Open Flight',
     author: planeCredits.creator,
@@ -84,7 +85,7 @@ export function planePdfBytes(plan, JsPDF, fontBase64, fontNotice) {
     keywords: ['Open Flight', credit.geometry, credit.artwork].join(', '),
   })
   doc.setCreationDate("D:20260101000000+00'00'")
-  doc.setFileId(fixedId(JSON.stringify(plan.source) + plan.locale + planeCredits.url))
+  doc.setFileId(fixedId('airplane-print-frame/' + JSON.stringify(plan.source) + plan.locale + planeCredits.url))
   draw(doc, sheetScene(plan))
   const write = (value, x, y, size, color = '#243f48') => {
     doc.setFontSize(size)

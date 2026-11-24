@@ -174,10 +174,25 @@ export function stripes(plan) {
 function creaseDash(kind) {
   return kind === 'mountain' ? [3.4, 1, 0.7, 1] : [2.3, 1.4]
 }
+// The line sits inside the paper edges so a desktop printer can show all four corners.
+function paperFrame(w, h) {
+  const inset = 15
+  const left = inset, right = w - inset, top = inset, bottom = h - inset
+  const outline = [[left, top], [right, top], [right, bottom], [left, bottom], [left, top]]
+  const parts = [line(outline, '#7c898b', 0.18)]
+  for (const [x, dx] of [[left, 1], [right, -1]]) {
+    for (const [y, dy] of [[top, 1], [bottom, -1]]) {
+      const corner = [[x + dx * 5.5, y], [x, y], [x, y + dy * 5.5]]
+      parts.push(line(corner, '#ffffff', 1.6), line(corner, '#233e46', 1))
+    }
+  }
+  return parts
+}
+
 export function sheetScene(plan) {
   const { width_mm: w, height_mm: h } = plan.dimensions,
     ru = plan.locale === 'ru'
-  const parts = [...stripes(plan)]
+  const parts = [...stripes(plan), ...paperFrame(w, h)]
   const ink = '#233e46'
   const credit = creditText(plan.locale)
   for (const crease of plan.creases) parts.push(line(crease.line, ink, 0.32, creaseDash(crease.kind)))
@@ -218,36 +233,31 @@ export function sheetScene(plan) {
       }
     }
   }
-  const scaleX = w - 36,
-    scaleY = h - 10
+  const scaleX = w - 49,
+    scaleY = h - 18.5
   parts.push(
     poly(
       [
-        [13, h - 23],
-        [w / 2 - 31, h - 23],
-        [w / 2 - 31, h - 5],
-        [13, h - 5],
+        [21, h - 32],
+        [w / 2 - 29, h - 32],
+        [w / 2 - 29, h - 15.7],
+        [21, h - 15.7],
       ],
       '#ffffff',
     ),
-    label([14, h - 19.4], plan.name, 3.2),
-    label([14, h - 16], credit.creator, 2.3),
+    label([22, h - 29], plan.name, 3.2),
+    label([22, h - 25.6], credit.creator, 2.3),
     {
-      ...label([14, h - 12.8], credit.geometry, 2.3),
+      ...label([22, h - 22.4], credit.geometry, 2.3),
       url: planeCredits.geometry.url,
     },
     {
-      ...label([14, h - 9.6], credit.artwork, 2.3),
+      ...label([22, h - 19.2], credit.artwork, 2.3),
       url: planeCredits.artwork.url,
     },
-    { ...label([14, h - 6.5], credit.credits, 2.15), url: planeCredits.url },
+    { ...label([22, h - 16.1], credit.credits, 2.05), url: planeCredits.url },
     poly(
-      [
-        [scaleX - 3, h - 19],
-        [w - 7, h - 19],
-        [w - 7, h - 5],
-        [scaleX - 3, h - 5],
-      ],
+      [[scaleX - 2, h - 26], [w - 18, h - 26], [w - 18, h - 15.7], [scaleX - 2, h - 15.7]],
       '#ffffff',
     ),
     label([scaleX + 10, scaleY - 3], ru ? '20 мм' : '20 mm', 2.8, ink, 'middle'),
@@ -297,9 +307,9 @@ export function planeSvg(plan) {
     '</title><desc>' +
     esc(
       {
-        en: 'Printed face. Print at actual size. Every marked line is a fold.',
-        ru: 'Лицевая сторона. Печатайте в масштабе 100%. Все линии предназначены для сгибания.',
-        es: 'Cara impresa. Imprime a tamaño real. Cada línea marcada indica un doblez.',
+        en: 'Printed face. Print at actual size. A fine border connects four bold corners. Fold along the numbered dashed lines.',
+        ru: 'Лицевая сторона. Печатайте в масштабе 100%. Тонкая рамка соединяет четыре жирных уголка. Сгибайте по пронумерованным пунктирным линиям.',
+        es: 'Cara impresa. Imprime a tamaño real. Una línea fina une las cuatro esquinas gruesas. Dobla por las líneas discontinuas numeradas.',
       }[plan.locale],
     ) +
     ' ' +

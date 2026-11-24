@@ -399,6 +399,7 @@ export async function createBook(input, { loadAsset }) {
   const stampFont = await output.embedFont(StandardFonts.Helvetica);
   for (const [entryIndex, original] of sheetDocuments.entries()) {
     const entry = plan.entries[entryIndex];
+    const airplane = sheetCatalog.find((sheet) => sheet.id === entry.id).family === "airplane";
     for (const page of original.getPages()) {
       const size = page.getSize();
       if (
@@ -416,13 +417,14 @@ export async function createBook(input, { loadAsset }) {
       output.insertPage(entry.pages[index].number - 1, page);
       const number = String(entry.pages[index].number).padStart(2, "0");
       const stamp = `${number} / ${plan.pageCount}`;
-      // The lower-right 27 × 10 pt rectangle is clear on every released source sheet.
+      // The first airplane page leaves room beside its calibration bar for the folio.
+      const airplaneTemplate = airplane && entry.pages[index].index === 0;
       const size = 7;
       page.drawText(stamp, {
         font: stampFont,
         size,
-        x: page.getWidth() - 31 - stampFont.widthOfTextAtSize(stamp, size),
-        y: 38,
+        x: page.getWidth() - (airplaneTemplate ? 54 : 31) - stampFont.widthOfTextAtSize(stamp, size),
+        y: airplaneTemplate ? 52 : 38,
         color: rgb(0.19, 0.24, 0.27),
       });
     }

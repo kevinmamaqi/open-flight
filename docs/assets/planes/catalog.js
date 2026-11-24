@@ -1,5 +1,5 @@
-import { originCountryName } from './heritage.js?v=674464fb115d'
-import { planeFlagColors } from './country-markings.js?v=674464fb115d'
+import { originCountryName } from './heritage.js?v=f4bb970c0b08'
+import { planeFlagColors } from './country-markings.js?v=f4bb970c0b08'
 
 const local = (en, ru, es) => ({ en, ru, es })
 

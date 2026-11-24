@@ -62,6 +62,7 @@ export function planePdfBytes(plan, JsPDF, fontBase64, fontNotice) {
   doc.addFont('DejaVuSans.ttf', 'Flight', 'normal')
   doc.setFont('Flight', 'normal')
   doc.setLanguage(plan.locale)
+  doc.viewerPreferences({ PrintScaling: 'None', Duplex: 'Simplex' })
   doc.setProperties({
     title: plan.name + ' · Open Flight',
     author: planeCredits.creator,
@@ -84,7 +85,7 @@ export function planePdfBytes(plan, JsPDF, fontBase64, fontNotice) {
     keywords: ['Open Flight', credit.geometry, credit.artwork].join(', '),
   })
   doc.setCreationDate("D:20260101000000+00'00'")
-  doc.setFileId(fixedId(JSON.stringify(plan.source) + plan.locale + planeCredits.url))
+  doc.setFileId(fixedId('airplane-print-frame/' + JSON.stringify(plan.source) + plan.locale + planeCredits.url))
   draw(doc, sheetScene(plan))
   const write = (value, x, y, size, color = '#243f48') => {
     doc.setFontSize(size)

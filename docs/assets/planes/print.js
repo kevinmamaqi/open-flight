@@ -1,4 +1,4 @@
-import { planePdfBytes } from './pdf.js?v=674464fb115d'
+import { planePdfBytes } from './pdf.js?v=f4bb970c0b08'
 
 let pdfLibrary, typeface
 
