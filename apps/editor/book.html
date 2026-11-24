@@ -2,182 +2,218 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
+    <meta name="referrer" content="no-referrer" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta
       name="description"
-      content="Choose your paper butterflies and airplanes and make a printable family flight book."
+      content="Choose paper butterflies and airplanes for a printable Flight Book with build sheets, a flight log and a pilot certificate."
     />
-    <title>Family Flight Book · Open Flight</title>
+    <title>Flight Book · Open Flight</title>
     <link rel="icon" type="image/svg+xml" href="./assets/wing-mark.svg" />
     <link rel="stylesheet" href="./atlas-nav.css" />
     <link rel="stylesheet" href="./book.css" />
-    <script defer src="./assets/planes/vendor/jspdf.js"></script>
     <script type="module" src="./book.js"></script>
   </head>
   <body>
-    <header class="masthead">
-      <a class="brand" id="home" href="./"
-        ><img src="./assets/wing-mark.svg" alt="" /> Open Flight</a
-      >
-      <span data-workshop-menu></span>
-      <nav class="locales" aria-label="Language">
-        <a id="en" lang="en" hreflang="en" href="?lang=en">EN</a
-        ><a id="es" lang="es" hreflang="es" href="?lang=es">ES</a
-        ><a id="ru" lang="ru" hreflang="ru" href="?lang=ru">RU</a>
-      </nav>
-    </header>
-    <main>
-      <section class="intro">
-        <h1 data-book="heading">Make a flight book</h1>
-        <p data-book="intro">
-          Pick the wings you want to build together. Give your book a cover,
-          then download one PDF to print at home.
-        </p>
-      </section>
-      <div class="workbench">
-        <section class="stage" aria-labelledby="preview-label">
-          <div class="stage-top">
-            <h2 id="preview-label" data-book="preview">Cover preview</h2>
-            <span id="preview-paper">A4</span
-            ><button type="button" id="fullscreen" hidden>Full screen</button>
-          </div>
-          <div class="paper-stack">
-            <div class="book-cover" id="book-cover">
-              <div class="cover-brand">OPEN FLIGHT</div>
-              <div class="cover-title" id="cover-title">
-                Our family flight book
-              </div>
-              <p class="cover-subtitle" id="cover-subtitle">
-                Choose a wing. Make it together. See where it lands.
-              </p>
-              <div class="cover-art" aria-hidden="true">
-                <svg viewBox="0 0 260 236">
-                  <circle class="orbit" cx="130" cy="115" r="101" />
-                  <circle class="orbit" cx="130" cy="115" r="84" />
-                  <defs>
-                    <path
-                      id="book-wing"
-                      d="M130 129 C170 37 258 20 237 70 C232 94 204 111 195 119 C242 119 208 171 181 171 C164 171 145 153 130 129 Z M133 129 L222 69 M136 133 L188 157 M172 102 L192 58"
-                    />
-                  </defs>
-                  <g class="butterfly-art">
-                    <use class="wing" href="#book-wing" />
-                    <use
-                      class="wing"
-                      href="#book-wing"
-                      transform="translate(260 0) scale(-1 1)"
-                    />
-                    <rect
-                      class="body"
-                      x="127"
-                      y="109"
-                      width="6"
-                      height="38"
-                      rx="3"
-                    />
-                    <path
-                      class="antennae"
-                      d="M130 111 L121 96 M130 111 L139 96"
-                    />
-                  </g>
-                  <g class="plane-art wing">
-                    <path
-                      d="M23 111 L235 48 L191 177 L132 143 L105 178 L98 130 Z"
-                    />
-                    <path d="M98 130 L235 48 L132 143 L105 178" fill="none" />
-                  </g>
-                </svg>
-              </div>
-              <div class="cover-footer">
-                <span id="cover-edition">Family workshop</span
-                ><span id="cover-count">07</span>
-              </div>
-            </div>
-          </div>
-          <p id="book-summary">7 designs</p>
-        </section>
-        <section class="controls" aria-labelledby="setup-label">
-          <h2 id="setup-label" data-book="setup">Make it yours</h2>
-          <div class="cover-settings">
-            <label for="cover-input" data-book="titleLabel">Cover title</label>
-            <input
-              id="cover-input"
-              type="text"
-              maxlength="64"
-              spellcheck="false"
-              autocomplete="off"
-              aria-describedby="title-hint"
-            />
-            <p class="hint" id="title-hint" data-book="titleHint">
-              Try “Sunday Flight Club”. Your title stays on this device and in
-              the PDF.
-            </p>
-            <div class="setting-row">
-              <fieldset>
-                <legend data-book="themeLabel">Cover colour</legend>
-                <div class="swatches" id="themes"></div>
-              </fieldset>
-              <fieldset>
-                <legend data-book="paperLabel">Printer paper</legend>
-                <div class="paper-choices">
-                  <label
-                    ><input type="radio" name="paper" value="A4" checked /><span
-                      >A4</span
-                    ></label
-                  >
-                  <label
-                    ><input type="radio" name="paper" value="US_LETTER" /><span
-                      data-book="letter"
-                      >US Letter</span
-                    ></label
-                  >
-                </div>
-              </fieldset>
-            </div>
-          </div>
-          <h3 data-book="models">Choose your models</h3>
-          <p class="hint model-hint" data-book="versions">
-            K1 has a folded body. W1 is the classic butterfly. Airplanes fold
-            from a whole sheet.
-          </p>
-          <div id="designs" class="designs"></div>
-          <section class="selected" aria-labelledby="order-title">
-            <h3 id="order-title" data-book="order">Print order</h3>
-            <ol id="order"></ol>
-          </section>
-        </section>
-      </div>
-      <section class="download-panel" aria-labelledby="takeaway">
-        <div>
-          <h2 id="takeaway" data-book="takeaway">Take your book flying</h2>
-          <p data-book="printHint">
-            Print one-sided at Actual size (100%). Check the ruler before making
-            a model.
-          </p>
-          <p id="support-copy" data-book="free">
-            Download your book for free. Individual sheets are free too.
-          </p>
-        </div>
-        <div class="download-actions">
-          <button
-            type="button"
-            id="download-book"
-            disabled
-            data-book="download"
-          >
-            Download PDF
-          </button>
-          <a id="support" class="secondary" target="_blank" rel="noopener noreferrer" hidden></a>
+    <header class="mast">
+      <div class="mast-in">
+        <a class="wordmark" id="home" href="./"
+          ><img src="./assets/wing-mark.svg" alt="" />Open Flight</a
+        >
+        <nav class="primary-links" aria-label="Workshop">
+          <a id="workshop" href="./" data-book="workshop">Workshop</a>
           <a
-            id="individual"
-            class="secondary"
-            href="./#library"
-            data-book="individual"
+            class="current"
+            href="#book-heading"
+            aria-current="page"
+            data-book="title"
+            >Flight Book</a
+          >
+          <a id="library" href="./#library" data-book="library"
+            >Print library</a
+          >
+        </nav>
+        <span data-workshop-menu></span>
+        <nav class="lang" aria-label="Language">
+          <a id="en" lang="en" hreflang="en" href="?lang=en">EN</a>
+          <a id="es" lang="es" hreflang="es" href="?lang=es">ES</a>
+          <a id="ru" lang="ru" hreflang="ru" href="?lang=ru">RU</a>
+        </nav>
+      </div>
+    </header>
+    <main class="workbench">
+      <header class="intro">
+        <h1 id="book-heading" data-book="title">Flight Book</h1>
+        <p data-book="intro">
+          Choose your paper flyers. Print the book, build together and see where
+          they land.
+        </p>
+      </header>
+      <section class="stage" aria-labelledby="preview-label">
+        <div class="stage-top">
+          <h2 id="preview-label" data-book="preview">Book preview</h2>
+          <span id="preview-paper">A4</span>
+        </div>
+        <div class="paper-stack">
+          <div class="book-cover" id="book-cover">
+            <span class="cover-brand">Open Flight</span>
+            <h3 id="cover-title">Flight Book</h3>
+            <p id="cover-pilot" hidden></p>
+            <img id="cover-hero" class="cover-hero" alt="" />
+            <div class="cover-footer">
+              <span id="cover-edition">Edition 01</span>
+              <div
+                id="cover-fleet"
+                class="cover-fleet"
+                aria-hidden="true"
+              ></div>
+            </div>
+          </div>
+        </div>
+        <button
+          type="button"
+          id="peek-page"
+          class="peek-button"
+          data-book="inside"
+        >
+          Look inside
+        </button>
+      </section>
+      <div class="controls">
+        <section class="control-panel" aria-labelledby="fleet-heading">
+          <h2 id="fleet-heading" data-book="fleet">Pick your fleet</h2>
+          <p class="hint" data-book="fleetHint">
+            Butterflies need scissors and a paper clip. Airplanes fold from one
+            sheet.
+          </p>
+          <div id="presets" class="choices">
+            <button type="button" data-preset="starter" data-book="starter">
+              Starter 3
+            </button>
+            <button
+              type="button"
+              data-preset="butterflies"
+              data-book="butterflies"
+            >
+              Butterflies
+            </button>
+            <button type="button" data-preset="planes" data-book="planes">
+              Airplanes
+            </button>
+            <button type="button" data-preset="all" data-book="all">
+              All 7
+            </button>
+          </div>
+          <div id="designs" class="designs"></div>
+          <fieldset id="construction" aria-describedby="mixed-builds">
+            <legend data-book="construction">Butterfly build</legend>
+            <div class="choices">
+              <label
+                ><input
+                  type="radio"
+                  name="construction"
+                  value="k1"
+                  checked
+                /><span data-book="folded">Folded body</span></label
+              >
+              <label
+                ><input type="radio" name="construction" value="w1" /><span
+                  data-book="tabs"
+                  >Tabs</span
+                ></label
+              >
+            </div>
+            <p id="mixed-builds" class="hint" data-book="mixed" hidden>
+              This book uses both builds. Change print order to remove an
+              individual edition.
+            </p>
+          </fieldset>
+          <details class="order-panel">
+            <summary id="order-summary" data-book="order">
+              Change print order
+            </summary>
+            <p class="hint" data-book="orderHint">
+              Drag a model or move it with the arrow buttons.
+            </p>
+            <ol id="order"></ol>
+          </details>
+        </section>
+        <section
+          class="control-panel settings"
+          aria-labelledby="settings-heading"
+        >
+          <h2 id="settings-heading" data-book="settings">Make it yours</h2>
+          <label for="pilot-input" data-book="pilotLabel"
+            >Pilot name (optional)</label
+          >
+          <input
+            id="pilot-input"
+            type="text"
+            maxlength="40"
+            autocomplete="off"
+            spellcheck="false"
+            aria-describedby="pilot-hint"
+          />
+          <p class="hint" id="pilot-hint" data-book="pilotHint">
+            The name appears on your cover, certificate and any link you share.
+          </p>
+          <fieldset>
+            <legend data-book="style">Cover style</legend>
+            <div class="choices">
+              <label
+                ><input name="style" type="radio" value="studio" checked /><span
+                  data-book="studio"
+                  >Studio model</span
+                ></label
+              >
+              <label
+                ><input name="style" type="radio" value="illustrated" /><span
+                  data-book="illustrated"
+                  >Drawn</span
+                ></label
+              >
+              <label
+                ><input name="style" type="radio" value="ink" /><span
+                  data-book="ink"
+                  >Ink saver</span
+                ></label
+              >
+            </div>
+          </fieldset>
+          <fieldset>
+            <legend data-book="paperLabel">Printer paper</legend>
+            <div class="choices">
+              <label
+                ><input name="paper" type="radio" value="A4" checked /><span
+                  >A4</span
+                ></label
+              >
+              <label
+                ><input name="paper" type="radio" value="US_LETTER" /><span
+                  data-book="letter"
+                  >US Letter</span
+                ></label
+              >
+            </div>
+          </fieldset>
+        </section>
+        <section class="print-note" aria-labelledby="print-title">
+          <h2 id="print-title" data-book="printTitle">Before you print</h2>
+          <p data-book="printHint">
+            Print on one side at actual size (100%). Check the scale mark with a
+            ruler before building.
+          </p>
+          <a id="individual" href="./#library" data-book="individual"
             >Get individual sheets</a
           >
-        </div>
-        <p id="book-status" class="status" role="status" aria-live="polite"></p>
-      </section>
+          <a
+            id="classroom"
+            href="./classroom.html?lang=en"
+            data-book="classroom"
+            >Classroom and print-shop guide</a
+          >
+        </section>
+      </div>
       <noscript
         ><p>
           Enable JavaScript to make a book, or
@@ -185,5 +221,78 @@
         </p></noscript
       >
     </main>
+    <div class="action-bar">
+      <div class="bar-in">
+        <div id="support-choices" class="support-choices" hidden>
+          <p data-book="support">Pay what you want. €0 is welcome.</p>
+          <div id="amounts" class="choices"></div>
+        </div>
+        <div class="bar-main">
+          <div>
+            <p class="book-meta" aria-live="polite">
+              <span id="book-summary"></span>
+              <span id="book-size" hidden></span>
+            </p>
+            <button
+              id="share-link"
+              type="button"
+              class="text-action"
+              data-book="shareLink"
+            >
+              Share link
+            </button>
+          </div>
+          <div class="download-actions">
+            <button
+              id="free-download"
+              type="button"
+              class="text-action"
+              hidden
+              data-book="free"
+            >
+              Download free
+            </button>
+            <button
+              id="share-pdf"
+              type="button"
+              class="text-action"
+              hidden
+              data-book="sharePDF"
+            >
+              Share PDF
+            </button>
+            <button
+              id="download-book"
+              type="button"
+              disabled
+              data-book="download"
+            >
+              Get my Flight Book
+            </button>
+          </div>
+        </div>
+        <p id="book-status" role="status"></p>
+      </div>
+    </div>
+    <dialog id="peek-dialog" aria-labelledby="peek-heading">
+      <div class="dialog-top">
+        <h2 id="peek-heading" data-book="inside">Look inside</h2>
+        <form method="dialog">
+          <button class="text-action" data-book="close">Close</button>
+        </form>
+      </div>
+      <label for="preview-select" data-book="page">Preview page</label>
+      <select id="preview-select"></select>
+      <p id="peek-status" role="status"></p>
+      <canvas id="peek-canvas" role="img" hidden></canvas>
+      <a
+        id="peek-source"
+        target="_blank"
+        rel="noopener"
+        hidden
+        data-book="openSheet"
+        >Open original sheet PDF</a
+      >
+    </dialog>
   </body>
 </html>

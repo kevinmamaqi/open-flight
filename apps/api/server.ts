@@ -24,6 +24,7 @@ const token = randomBytes(32).toString('hex')
 const editorRoot = fileURLToPath(new URL('../editor/', import.meta.url))
 const publicTypes: Record<string, string> = {
   '.js': 'text/javascript',
+  '.mjs': 'text/javascript',
   '.css': 'text/css',
   '.svg': 'image/svg+xml',
   '.woff2': 'font/woff2',
@@ -56,7 +57,7 @@ for (const entry of readdirSync(editorRoot, {
   const path = relative(editorRoot, join(entry.parentPath, entry.name))
   const mime = publicTypes[extname(path)]
   const appFile =
-    /^(?:editor|atlas|planes|references|flight|keel|compare|next|browser-workshop|studio-folded|fold|family|book|motor)(?:-[a-z0-9-]+)?\.(js|css|html|svg)$/.test(
+    /^(?:editor|atlas|planes|references|flight|keel|compare|next|browser-workshop|studio-folded|fold|family|book|classroom|motor)(?:-[a-z0-9-]+)?\.(js|css|html|svg)$/.test(
       path,
     )
   if (mime && (path.startsWith('assets/') || path.startsWith('library/') || appFile))
@@ -100,7 +101,7 @@ const server = http.createServer(async (req, res) => {
   res.setHeader('X-Content-Type-Options', 'nosniff')
   res.setHeader(
     'Content-Security-Policy',
-    "default-src 'none'; script-src 'self'; style-src 'self'; font-src 'self'; img-src 'self' blob:; connect-src 'self'; frame-ancestors 'none'; base-uri 'none'; form-action 'none'",
+    "default-src 'none'; script-src 'self'; style-src 'self'; font-src 'self' blob:; worker-src 'self'; img-src 'self' blob:; connect-src 'self'; frame-ancestors 'none'; base-uri 'none'; form-action 'none'",
   )
   const json = (status: number, value: unknown) => {
     res.writeHead(status, { 'Content-Type': 'application/json' })
@@ -117,6 +118,8 @@ const server = http.createServer(async (req, res) => {
       '/planes/': '/planes.html',
       '/compare': '/compare.html',
       '/compare/': '/compare.html',
+      '/classroom': '/classroom.html',
+      '/classroom/': '/classroom.html',
       '/book': '/book.html',
       '/book/': '/book.html',
       '/motor': '/motor.html',

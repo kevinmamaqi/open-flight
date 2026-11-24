@@ -1,27 +1,45 @@
 import { readFile } from 'node:fs/promises'
 import { readFileSync } from 'node:fs'
-import { createBook, normalizeBook, sheetPath, type BookOptions } from '../print-export/family-book.js'
+import { classroomPlan, type ClassroomOptions } from '../../apps/editor/classroom-plan.js'
+import { bookPlan, createBook, normalizeBook, sheetPath, type BookOptions } from '../print-export/family-book.js'
 import { sha256 } from '../geometry/butterfly.ts'
 import { invalid } from './contracts.ts'
 
 const editorAssets = new URL('../../apps/editor/', import.meta.url)
 const chunkBytes = 192 * 1024
 
-export async function renderFamilyBook(settings: BookOptions = {}, output = 'manifest', offset = 0) {
+export async function renderFamilyBook(settings: BookOptions = {}, output = 'manifest', offset = 0, classroom?: ClassroomOptions) {
   let book
+  let printPlan
   try {
-    book = normalizeBook(settings)
+    if (classroom) {
+      if (output !== 'manifest' || Object.keys(settings).some(key => key !== 'lang' && key !== 'paper'))
+        throw new RangeError('Classroom planning uses manifest output and accepts only language and paper settings.')
+      const { settings: starter, ...counts } = classroomPlan({
+        lang: settings.lang, paper: settings.paper, ...classroom,
+      })
+      book = starter
+      printPlan = counts
+    } else {
+      book = normalizeBook(settings)
+    }
   } catch (error) {
     throw invalid(error instanceof Error ? error.message : 'Invalid book settings.')
   }
+  const plan = bookPlan(book)
   const manifest = {
-    edition: 'family-book-1',
+    edition: 'flight-book-2',
     settings: book,
-    sheets: book.sheets.map(id => ({ id, path: sheetPath(id, book.paper, book.lang) })),
+    page_count: plan.pageCount,
+    model_count: plan.modelCount,
+    shared_guide_page: plan.guidePage,
+    sheets: plan.entries.map(({ id, start, end, guidePage }) => ({
+      id, path: sheetPath(id, book.paper, book.lang), first_page: start, last_page: end, guide_page: guidePage,
+    })),
   }
   if (output === 'manifest') {
     if (offset !== 0) throw invalid('An offset applies to a PDF download.')
-    return manifest
+    return printPlan ? { ...manifest, classroom: printPlan } : manifest
   }
   const bytes = Buffer.from(await createBook(book, {
     loadAsset: path => readFile(new URL(path, editorAssets)),

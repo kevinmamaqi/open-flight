@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="Plan a paper-flight lesson for your class and prepare exact Flight Book page ranges for your printer or print shop." />
+    <title>Classroom flight guide · Open Flight</title>
+    <link rel="icon" type="image/svg+xml" href="./assets/wing-mark.svg" />
+    <link rel="stylesheet" href="./atlas-nav.css?v=788c398039bb" />
+    <link rel="stylesheet" href="./book.css?v=788c398039bb" />
+    <link rel="stylesheet" href="./classroom.css?v=788c398039bb" />
+    <script type="module" src="./classroom.js?v=788c398039bb"></script>
+  </head>
+  <body class="classroom">
+    <header class="mast">
+      <div class="mast-in">
+        <a class="wordmark" id="home" href="./"><img src="./assets/wing-mark.svg" alt="" />Open Flight</a>
+        <nav class="primary-links" aria-label="Workshop" data-aria="workshop">
+          <a id="book-link" href="./book.html" data-text="book">Flight Book</a>
+          <a id="library-link" href="./#library" data-text="library">Print library</a>
+          <a class="current" aria-current="page" href="#classroom-heading" data-text="classroom">Classroom</a>
+        </nav>
+        <span data-workshop-menu></span>
+        <nav class="lang" aria-label="Language" data-aria="language">
+          <a id="en" lang="en" hreflang="en" href="?lang=en" aria-label="English">EN</a>
+          <a id="es" lang="es" hreflang="es" href="?lang=es" aria-label="Español">ES</a>
+          <a id="ru" lang="ru" hreflang="ru" href="?lang=ru" aria-label="Русский">RU</a>
+        </nav>
+      </div>
+    </header>
+    <main class="classroom-main">
+      <header class="classroom-intro">
+        <h1 id="classroom-heading" data-text="title">Classroom flight guide</h1>
+        <p data-text="intro">Can the same flyer land closer to a target when you change the way you release it? Fold a plane or make a paper butterfly and find out together.</p>
+        <div class="classroom-actions screen-only">
+          <a class="action-primary" id="starter" href="./book.html" data-text="starter">Open the free Starter 3 book</a>
+          <button type="button" id="print-guide" data-text="printGuide">Print this guide</button>
+        </div>
+        <noscript><p>Enable JavaScript to calculate the page ranges and copy counts.</p></noscript>
+      </header>
+      <section class="copy-plan" aria-labelledby="copy-heading">
+        <h2 id="copy-heading" data-text="plan">Plan your copies</h2>
+        <p data-text="planHint">The Starter 3 book includes two folded-body butterflies and a whole-sheet plane. Print one set of model sheets and one shared set of instructions per team.</p>
+        <div class="copy-controls screen-only">
+          <label><span data-text="learners">Learners</span>
+            <input id="learners" type="number" min="1" max="300" step="1" value="30" inputmode="numeric" />
+          </label>
+          <label><span data-text="team">Learners per team</span>
+            <select id="team">
+              <option value="2" data-text="pairs">2 · Pairs</option>
+              <option value="3" data-text="trios">3 · Trios</option>
+              <option value="4" data-text="fours">4 · Groups of four</option>
+            </select>
+          </label>
+          <label><span data-text="paper">Paper size</span>
+            <select id="paper">
+              <option value="A4">A4</option>
+              <option value="US_LETTER" data-text="letter">US Letter</option>
+            </select>
+          </label>
+        </div>
+        <p id="copy-summary" role="status" aria-atomic="true"></p>
+        <table>
+          <thead><tr>
+            <th scope="col" data-text="material">What to print</th>
+            <th scope="col" data-text="pdfPages">PDF pages</th>
+            <th scope="col" data-text="copies">Copies</th>
+          </tr></thead>
+          <tbody id="page-ranges"></tbody>
+        </table>
+        <p class="fine-print" data-text="planNote">Copy counts cover the Starter 3 PDF. Print one copy of this classroom guide separately for the facilitator.</p>
+      </section>
+      <div class="lesson-layout">
+        <section aria-labelledby="lesson-heading">
+          <h2 id="lesson-heading" data-text="lesson">Run a fair test</h2>
+          <p data-text="supplies">Use ordinary printer paper, two small rounded paper clips and one pair of scissors per team. Share tape and a ruler. The plane starts from one whole sheet.</p>
+          <ol>
+            <li data-text="build">Build one model together. An adult helps with tight cuts and small clips. Let younger learners point to a crease or predict a landing spot with a finger.</li>
+            <li data-text="test">Mark a launch line and a target in a clear lane. Take turns flying, marking the first point of contact and recording the result. Use the same flyer and launcher in both sets.</li>
+            <li data-text="reflect">Try five level launches. Change only the release angle for the next five, pointing the nose a little down. Keep release height and push similar. Record misses too. Did the marks move closer to the target?</li>
+          </ol>
+        </section>
+        <section id="print-shop" aria-labelledby="shop-heading">
+          <h2 id="shop-heading" data-text="shop">From phone to printer</h2>
+          <p data-text="phone">Open the Starter 3 book and download the PDF. Use Share to print if your device offers it, or save the PDF to Files or Downloads. For a print shop, send the PDF and the copy instructions together.</p>
+          <p class="shop-proof" data-text="proof">Choose matching paper, Actual size or 100%, one PDF page per sheet and single-sided printing. Turn off Fit to page. Print page 2 first and measure the 50 mm line with a ruler before printing the rest.</p>
+          <button type="button" class="screen-only" id="copy-shop" data-text="copyShop">Copy print-shop instructions</button>
+          <label class="screen-only" id="brief-label" for="shop-brief" data-text="selectNote" hidden>Print-shop instructions</label>
+          <textarea class="screen-only" id="shop-brief" rows="7" readonly hidden></textarea>
+          <p class="screen-only" id="copy-status" role="status" aria-atomic="true"></p>
+        </section>
+      </div>
+      <footer class="classroom-credit">
+        <p><span data-text="credits">Lesson and original artwork by Open Flight contributors, shared under CC BY-SA 4.0. Editable aircraft geometry and software have separate terms.</span> <a href="https://github.com/kevinmamaqi/open-flight/blob/main/NOTICES.md" data-text="notices">Licenses and credits</a></p>
+      </footer>
+    </main>
+  </body>
+</html>

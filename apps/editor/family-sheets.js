@@ -10,9 +10,12 @@ export const sheetCatalog = Object.freeze([
   ...['k1', 'w1'].flatMap(construction => butterflies.map(model => ({
     id: construction === 'k1' ? model + '-k1' : model,
     model, family: 'butterfly', construction,
+    pages: construction === 'k1' ? 2 : 1,
+    sharedGuide: construction === 'k1' ? { key: 'folded-butterfly', index: 1 } : null,
   }))),
   ...planeCatalog.map(({ model_id: model }) => ({
     id: model, model, family: 'airplane', construction: 'whole-sheet',
+    pages: 4, sharedGuide: null,
   })),
 ].map(entry => Object.freeze(entry)))
 export const sheetIds = Object.freeze(sheetCatalog.map(entry => entry.id))

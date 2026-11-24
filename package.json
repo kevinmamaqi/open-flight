@@ -1,6 +1,6 @@
 {
   "name": "open-flight",
-  "version": "0.6.0",
+  "version": "0.7.0",
   "private": true,
   "type": "module",
   "engines": {
@@ -14,7 +14,9 @@
     "typecheck": "tsc --noEmit",
     "check:editor": "node scripts/check_editor.ts",
     "journey": "node examples/agent-client/journey.ts",
-    "build:site": "bun scripts/build_library.mjs && bun scripts/build_browser.mjs && bun scripts/build_book.mjs && bun scripts/build_site.mjs docs"
+    "build:workshop": "bun scripts/build_library.mjs && bun scripts/build_browser.mjs && bun scripts/build_book.mjs && node scripts/build_book_sizes.mjs && node scripts/build_book_covers.mjs",
+    "build:site": "npm run build:workshop && bun scripts/build_site.mjs docs",
+    "build:cloudflare": "npm run build:workshop && bun scripts/build_site.mjs dist/cloudflare --cloudflare"
   },
   "dependencies": {
     "@modelcontextprotocol/client": "2.4.0",
@@ -22,9 +24,12 @@
     "ajv": "8.20.0",
     "dejavu-fonts-ttf": "2.37.3",
     "jspdf": "4.2.1",
-    "pdf-lib": "1.17.1"
+    "pdf-lib": "1.17.1",
+    "pdfjs-dist": "5.4.624",
+    "qrcode-generator": "2.0.4"
   },
   "devDependencies": {
+    "@napi-rs/canvas": "0.1.100",
     "@noble/hashes": "2.4.0",
     "@types/node": "24.19.2",
     "buffer": "6.0.3",

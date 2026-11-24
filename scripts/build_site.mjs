@@ -13,7 +13,7 @@ const replaceText = (value) => ({ element: (el) => el.setInnerContent(value) })
 // Pages caches files independently. Link each release's HTML and ES module graph
 // to the same asset generation, including dynamic imports in the worktables.
 const assets = readdirSync(editor, { recursive: true })
-  .filter(name => /\.(css|js|json)$/.test(name) || /^assets\/motor\/.*\.(csv|h|ino|md|pdf|svg|txt|zip)$/.test(name))
+  .filter(name => /\.(css|js|mjs|json)$/.test(name) || /^assets\/motor\/.*\.(csv|h|ino|md|pdf|svg|txt|zip)$/.test(name))
   .sort()
 const hash = createHash('sha256').update(readFileSync(fileURLToPath(import.meta.url)))
 for (const name of assets) hash.update(name).update('\0').update(readFileSync(join(editor, name))).update('\0')
@@ -81,6 +81,9 @@ for (const [lang, copy, title, region, photoAlt, name, family] of [
     '#specimen-name': 'studio.html?lang=' + lang + '#design=butterfly-monarch&revision=w1',
     '#folded-butterfly': 'studio.html?construction=k1&species=monarch&lang=' + lang,
     '#book-link': 'book.html?lang=' + lang,
+    '#nav-book': 'book.html?lang=' + lang,
+    '#hero-book': 'book.html?lang=' + lang,
+    '#classroom-link': 'classroom.html?lang=' + lang,
     '#download': 'library/monarch-k1-A4-' + lang + '.pdf',
     '[data-route=butterfly]': 'studio.html?lang=' + lang + '#design=butterfly-monarch&revision=w1',
     '[data-route=airplane]': 'planes.html?lang=' + lang,
@@ -114,7 +117,7 @@ for (const name of assets) {
   const result = source.replace(localModule, (_all, keyword, quote, url) => keyword + quote + url + assetKey + quote)
   if (result !== source) writeFileSync(join(out, name), result)
 }
-for (const alias of ['studio', 'planes', 'book', 'motor']) {
+for (const alias of ['studio', 'planes', 'book', 'classroom', 'motor']) {
   const dir = join(out, alias)
   mkdirSync(dir, { recursive: true })
   writeFileSync(
@@ -130,7 +133,7 @@ writeFileSync(
 )
 writeFileSync(join(out, '.nojekyll'), '')
 const origin = 'https://kevinmamaqi.github.io/open-flight/'
-const pages = ['book.html','motor.html','keel.html','studio.html', 'planes.html', 'references.html', 'compare.html', 'next.html']
+const pages = ['book.html','classroom.html','motor.html','keel.html','studio.html', 'planes.html', 'references.html', 'compare.html', 'next.html']
 writeFileSync(
   join(out, 'sitemap.xml'),
   '<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">' +
@@ -150,6 +153,7 @@ writeFileSync(
 )
 for (const path of [
   'index.html',
+  'classroom.html', 'classroom.js', 'book-size.js', 'assets/book/pdf.worker.min.mjs',
   'book.html', 'book.js', 'book-engine.js', 'motor.html', 'assets/motor/lab.json', 'fold-lesson.js',
   'assets/atlas/book-cover-en.png', 'assets/atlas/book-cover-es.png', 'assets/atlas/book-cover-ru.png',
   'studio.html',
@@ -165,5 +169,8 @@ for (const path of [
   'es.html',
 ]) {
   if (!existsSync(join(out, path))) throw Error('Missing public file ' + path)
+}
+if (process.argv.includes('--cloudflare')) {
+  cpSync(join(root, 'public-release/flight-book-routes.json'), join(out, '_routes.json'))
 }
 console.log('Static workshop ready in ' + out)

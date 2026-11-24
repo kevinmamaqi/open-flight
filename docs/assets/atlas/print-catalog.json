@@ -4,61 +4,90 @@
       "id": "monarch-k1",
       "model": "monarch",
       "family": "butterfly",
-      "construction": "k1"
+      "construction": "k1",
+      "pages": 2,
+      "sharedGuide": {
+        "key": "folded-butterfly",
+        "index": 1
+      }
     },
     {
       "id": "morpho-k1",
       "model": "morpho",
       "family": "butterfly",
-      "construction": "k1"
+      "construction": "k1",
+      "pages": 2,
+      "sharedGuide": {
+        "key": "folded-butterfly",
+        "index": 1
+      }
     },
     {
       "id": "swallowtail-k1",
       "model": "swallowtail",
       "family": "butterfly",
-      "construction": "k1"
+      "construction": "k1",
+      "pages": 2,
+      "sharedGuide": {
+        "key": "folded-butterfly",
+        "index": 1
+      }
     },
     {
       "id": "monarch",
       "model": "monarch",
       "family": "butterfly",
-      "construction": "w1"
+      "construction": "w1",
+      "pages": 1,
+      "sharedGuide": null
     },
     {
       "id": "morpho",
       "model": "morpho",
       "family": "butterfly",
-      "construction": "w1"
+      "construction": "w1",
+      "pages": 1,
+      "sharedGuide": null
     },
     {
       "id": "swallowtail",
       "model": "swallowtail",
       "family": "butterfly",
-      "construction": "w1"
+      "construction": "w1",
+      "pages": 1,
+      "sharedGuide": null
     },
     {
       "id": "boeing-747",
       "model": "boeing-747",
       "family": "airplane",
-      "construction": "whole-sheet"
+      "construction": "whole-sheet",
+      "pages": 4,
+      "sharedGuide": null
     },
     {
       "id": "douglas-dc3",
       "model": "douglas-dc3",
       "family": "airplane",
-      "construction": "whole-sheet"
+      "construction": "whole-sheet",
+      "pages": 4,
+      "sharedGuide": null
     },
     {
       "id": "tupolev-tu144",
       "model": "tupolev-tu144",
       "family": "airplane",
-      "construction": "whole-sheet"
+      "construction": "whole-sheet",
+      "pages": 4,
+      "sharedGuide": null
     },
     {
       "id": "ilyushin-il62",
       "model": "ilyushin-il62",
       "family": "airplane",
-      "construction": "whole-sheet"
+      "construction": "whole-sheet",
+      "pages": 4,
+      "sharedGuide": null
     }
   ],
   "papers": [

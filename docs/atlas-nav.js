@@ -37,7 +37,7 @@ const menuCopy = {
     'Print library',
     'Field references',
     'Next steps',
-    'Make a family book',
+    'Flight Book',
     'Motor lab',
   ],
   es: [
@@ -50,7 +50,7 @@ const menuCopy = {
     'Biblioteca para imprimir',
     'Fuentes y créditos',
     'Próximos pasos',
-    'Hacer un libro en familia',
+    'Libro de vuelo',
     'Laboratorio de motores',
   ],
   ru: [
@@ -63,7 +63,7 @@ const menuCopy = {
     'Для печати',
     'Источники',
     'Следующие шаги',
-    'Собрать семейную книгу',
+    'Книга полётов',
     'Лаборатория мотора',
   ],
 }

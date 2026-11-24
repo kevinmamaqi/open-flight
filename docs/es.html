@@ -17,11 +17,11 @@
     <link rel="alternate" hreflang="en" href="https://kevinmamaqi.github.io/open-flight/?lang=en" />
     <link rel="alternate" hreflang="ru" href="https://kevinmamaqi.github.io/open-flight/ru.html" />
     <link rel="alternate" hreflang="es" href="https://kevinmamaqi.github.io/open-flight/es.html" />
-    <link rel="stylesheet" href="./atlas-nav.css?v=4042ad8d9b65" />
-    <link rel="stylesheet" href="./atlas-lab.css?v=4042ad8d9b65" />
+    <link rel="stylesheet" href="./atlas-nav.css?v=788c398039bb" />
+    <link rel="stylesheet" href="./atlas-lab.css?v=788c398039bb" />
     <link rel="icon" type="image/svg+xml" href="./assets/wing-mark.svg" />
-    <link rel="stylesheet" href="./atlas.css?v=4042ad8d9b65" />
-    <script type="module" src="./atlas.js?v=4042ad8d9b65"></script>
+    <link rel="stylesheet" href="./atlas.css?v=788c398039bb" />
+    <script type="module" src="./atlas.js?v=788c398039bb"></script>
   </head>
   <body>
     <a class="skip" href="#designs" data-t="skip">Ir a los diseños</a>
@@ -31,7 +31,7 @@
           ><img src="./assets/wing-mark.svg" width="40" height="40" alt="" />Open Flight</a
         >
         <nav class="primary-links" aria-label="Main">
-          <a href="#designs" data-t="navDesigns">Diseños</a><a href="#family-book" data-t="bookNav">Libro familiar</a
+          <a href="#designs" data-t="navDesigns">Diseños</a><a id="nav-book" href="./book.html?lang=es" data-t="bookNav">Libro de vuelo</a
           ><a href="#library" data-t="navLibrary">Biblioteca</a>
         </nav>
         <span data-workshop-menu></span>
@@ -52,9 +52,9 @@
           </h1>
           <p class="lede" data-t="intro">Un taller gratuito para niñas y niños de 5 a 12 años y quienes los acompañan. Convierte una hoja en una mariposa o un avión. Cambia un pliegue y descubre dónde aterriza.</p>
           <div class="actions">
-            <a href="./studio.html?lang=es#design=butterfly-monarch&revision=w1" data-route="butterfly" class="btn accent"><span data-t="cutStart">Hacer una mariposa</span><b aria-hidden="true">↗</b></a
-            ><a class="btn outline" data-route="airplane" href="./planes.html?lang=es" data-t="foldStart">Plegar un avión</a
-            ><a class="quiet" href="#family-book" data-t="bookQuick">Crear un libro en familia ↗</a>
+            <a class="btn accent" id="hero-book" href="./book.html?lang=es" data-t="bookQuick">Crear mi Libro de vuelo ↗</a>
+            <a href="./studio.html?lang=es#design=butterfly-monarch&revision=w1" data-route="butterfly" class="btn outline"><span data-t="cutStart">Hacer una mariposa</span><b aria-hidden="true">↗</b></a
+            ><a class="quiet" data-route="airplane" href="./planes.html?lang=es" data-t="foldStart">Plegar un avión</a>
           </div>
         </div>
         <div class="showcase">
@@ -86,13 +86,14 @@
       <section class="home-book wrap" id="family-book" aria-labelledby="book-heading">
         <div class="book-display" aria-hidden="true">
           <div class="book-underlay"></div>
-          <img class="book-cover-image" id="book-cover-image" src="./assets/atlas/book-cover-es.png" alt="" width="395" height="559" loading="lazy" />
+          <div class="book-jacket"><img class="book-cover-image" id="book-cover-image" src="./assets/atlas/book-cover-es.png" alt="" width="395" height="559" loading="lazy" /><span id="home-cover-pilot" hidden></span></div>
         </div>
         <div class="home-book-copy">
-          <p class="over" data-t="bookFormat">Libro familiar para imprimir</p>
-          <h2 id="book-heading" data-t="bookHeadline">Tus diseños favoritos en un libro.</h2>
-          <p data-t="bookPitch">En familia, elige las mariposas y los aviones, personaliza la portada y descarga un PDF con plantillas a tamaño real y una guía de impresión. Imprime solo las páginas que quieras construir hoy.</p>
-          <div class="actions"><a class="btn accent" id="book-link" href="./book.html?lang=es" data-t="bookAction">Personalizar mi libro ↗</a><a class="quiet" href="#library" data-t="bookSheets">Descargar hojas individuales gratis</a></div>
+          <p class="over" data-t="bookFormat">Para casa o el aula</p>
+          <h2 id="book-heading" data-t="bookHeadline">Tu Libro de vuelo</h2>
+          <p data-t="bookPitch">Elige mariposas y aviones, firma la portada e imprime las plantillas a tamaño real. Anota los aterrizajes en tu diario y vuelve a la misma selección con el código QR.</p>
+          <form id="home-book-form" action="./book.html"><label class="home-pilot"><span data-t="bookPilot">Nombre del piloto (opcional)</span><input id="home-pilot" maxlength="40" autocomplete="off" dir="auto" /></label>
+          <div class="actions"><a class="btn accent" id="book-link" href="./book.html?lang=es" data-t="bookAction">Crear mi libro ↗</a><a class="quiet" href="#library" data-t="bookSheets">Descargar hojas individuales gratis</a></div></form>
         </div>
       </section>
       <section class="collections wrap" id="designs" aria-labelledby="choose-title">
@@ -204,11 +205,12 @@
             <a
               class="all-sheets"
               data-t="allSheets"
-              href="https://github.com/kevinmamaqi/open-flight/releases/download/v0.6.0/open-flight-print-library.zip"
+              href="https://github.com/kevinmamaqi/open-flight/releases/download/v0.7.0/open-flight-print-library.zip"
               >Descargar todas las plantillas y actividades (ZIP) ↓</a
             >
           </article>
           <div class="source-list">
+            <a id="classroom-link" href="./classroom.html?lang=es"><span><strong data-t="classTitle">Imprimir para una clase</strong><small data-t="classIntro">Calcula las copias por equipo y lleva las instrucciones a la copistería.</small></span><b>↗</b></a>
             <a href="https://github.com/kevinmamaqi/open-flight"
               ><span
                 ><strong data-t="code">Código y archivos editables</strong

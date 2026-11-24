@@ -1,4 +1,4 @@
-import { mkdirSync, readFileSync, writeFileSync } from "node:fs";
+import { copyFileSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 
 const root = new URL("../", import.meta.url);
@@ -36,8 +36,12 @@ const source = (await bundle.outputs[0].text()).replaceAll("` \n", "`\\x20\n");
 writeFileSync(new URL("apps/editor/book-engine.js", root), source);
 const notices = new URL("apps/editor/assets/book/", root);
 mkdirSync(notices, { recursive: true });
+for (const file of ['pdf.min.mjs','pdf.worker.min.mjs']) {
+  copyFileSync(new URL('node_modules/pdfjs-dist/build/' + file, root), new URL(file, notices))
+}
 for (const [dependency, license] of [
   ["pdf-lib", "LICENSE.md"],
+  ["pdfjs-dist", "LICENSE"],
   ["@pdf-lib/standard-fonts", "LICENSE.md"],
   ["@pdf-lib/upng", "LICENSE"],
   ["pako", "LICENSE"],

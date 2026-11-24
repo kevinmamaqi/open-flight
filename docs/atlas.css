@@ -850,13 +850,18 @@ footer .wordmark {
   background-color: #b8d8cf;
   background-image: repeating-linear-gradient(-35deg, transparent 0 18px, #91bbad5c 18px 19px);
 }
-.book-cover-image, .book-underlay {
+.book-jacket, .book-underlay {
   grid-area: 1 / 1;
-  width: clamp(135px, 13.5vw, 200px);
+  width: clamp(164px, 15.6vw, 238px);
   aspect-ratio: 210 / 297;
   border-radius: 1px 4px 4px 1px;
 }
-.book-cover-image {height: auto; transform: rotate(-8deg); box-shadow: 4px 5px 0 #e0dccd, 6px 7px 0 #64796c, 12px 16px 25px #244b3f4a;}
+.book-jacket {position:relative; container-type:inline-size; transform:rotate(-7deg); box-shadow:4px 5px 0 #e0dccd, 6px 7px 0 #64796c, 12px 16px 25px #244b3f4a;}
+.book-cover-image {display:block; width:100%; height:auto;}
+#home-cover-pilot {position:absolute; inset:20.1% 15% auto 21%; min-height:3%; background:#e2f1f6; color:#143446; font:700 2.55cqw/1.1 Rubik,sans-serif; overflow:hidden; white-space:nowrap; text-overflow:ellipsis;}
+.home-pilot {display:grid; gap:5px; max-width:30ch; margin:0 0 16px; color:#264a3c; font-size:.86rem; font-weight:650;}
+.home-pilot input {box-sizing:border-box; min-height:42px; border:1px solid #597765; border-radius:6px; padding:7px 12px; background:#fffdf5; color:#18382c; font:inherit; font-size:1rem;}
+.home-pilot input:focus-visible {outline:3px solid #2b6651; outline-offset:2px;}
 .book-underlay {transform: rotate(7deg) translate(15px, 0); background: #fffaf1; box-shadow: 2px 3px 0 #a8b7a4;}
 .home-book-copy {padding: clamp(25px, 4vw, 60px);}
 .home-book-copy h2 {max-width: 16ch; margin: 10px 0 14px; font-size: clamp(32px, 3.85vw, 55px); line-height: 1.02; letter-spacing: -.045em;}
@@ -866,7 +871,7 @@ footer .wordmark {
 @media (max-width: 640px) {
   .home-book {grid-template-columns: 1fr; border-radius: 22px;}
   .book-display {min-height: 200px; padding: 18px;}
-  .book-cover-image, .book-underlay {width: 118px;}
+  .book-jacket, .book-underlay {width: 148px;}
   .home-book-copy {padding: 22px;}
 }
 

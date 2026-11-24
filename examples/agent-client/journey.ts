@@ -77,9 +77,25 @@ try {
   assert.equal(lab.evidenceState, 'concept')
   assert.equal(lab.locale, 'es')
   assert.ok(lab.bom.length && lab.files.some((f: { id: string }) => f.id === 'source'))
-  const bookSettings = { lang: 'es', paper: 'US_LETTER', cover: 'Alas de papel', theme: 'meadow', sheets: ['morpho-k1', 'boeing-747'] }
+  const bookSettings = { lang: 'es', paper: 'US_LETTER', cover: 'Alas de papel', pilot: 'Lucía', style: 'ink', theme: 'meadow', sheets: ['morpho-k1', 'swallowtail-k1', 'boeing-747'] }
   const manifest = await call('render_family_book', { settings: bookSettings })
   assert.deepEqual(manifest.settings, bookSettings)
+  assert.equal(manifest.page_count, 12)
+  assert.equal(manifest.shared_guide_page, 7)
+  assert.equal(manifest.sheets[1].guide_page, 7)
+  const classroomArgs = { settings: { lang: 'es', paper: 'US_LETTER' }, classroom: { learners: 31, team_size: 3 } }
+  const classroom = await call('render_family_book', classroomArgs)
+  assert.equal(classroom.settings.style, 'ink')
+  assert.equal(classroom.page_count, 12)
+  assert.equal(classroom.classroom.teams, 11)
+  assert.equal(classroom.classroom.total_sheets, 89)
+  assert.deepEqual(classroom.classroom.rows.find(({ kind }: { kind: string }) => kind === 'shared_guide'),
+    { kind: 'shared_guide', pages: [7], copies: 11 })
+  assert.equal((await invoke('render_family_book', { ...classroomArgs, output: 'pdf' })).error.code, 'invalid_input')
+  if (origin) {
+    const response = await http('/v1/books/render', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(classroomArgs) })
+    assert.deepEqual(await response.json(), classroom)
+  }
   const bookParts: Buffer[] = []
   let bookOffset: number | null = 0
   let bookHash = ''
@@ -298,7 +314,7 @@ try {
         artifacts: recovered.artifact_ids.length,
         checks: [
           'discovery',
-          'custom family book reassembled across read grants and the open motor lab',
+          'custom family book reassembled across read grants, classroom copy plan and the open motor lab',
           'K1 folded body and matched W1 sheets, editable source and calibrated span',
           'Spanish airplane field guide, fold plan and download hashes',
           'comparison, motor roadmap, flight circuit and deterministic simulation',

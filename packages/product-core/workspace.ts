@@ -222,7 +222,7 @@ export class Workspace {
       case 'getMotorLab':
         return motorLab(a.locale)
       case 'renderFamilyBook':
-        return renderFamilyBook(a.settings, a.output, a.offset)
+        return renderFamilyBook(a.settings, a.output, a.offset, a.classroom)
       case 'getMotorRoadmap':
         return motorRoadmap(a.locale)
       case 'getFlightCircuit':

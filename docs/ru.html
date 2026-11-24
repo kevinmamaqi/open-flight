@@ -17,11 +17,11 @@
     <link rel="alternate" hreflang="en" href="https://kevinmamaqi.github.io/open-flight/?lang=en" />
     <link rel="alternate" hreflang="ru" href="https://kevinmamaqi.github.io/open-flight/ru.html" />
     <link rel="alternate" hreflang="es" href="https://kevinmamaqi.github.io/open-flight/es.html" />
-    <link rel="stylesheet" href="./atlas-nav.css?v=4042ad8d9b65" />
-    <link rel="stylesheet" href="./atlas-lab.css?v=4042ad8d9b65" />
+    <link rel="stylesheet" href="./atlas-nav.css?v=788c398039bb" />
+    <link rel="stylesheet" href="./atlas-lab.css?v=788c398039bb" />
     <link rel="icon" type="image/svg+xml" href="./assets/wing-mark.svg" />
-    <link rel="stylesheet" href="./atlas.css?v=4042ad8d9b65" />
-    <script type="module" src="./atlas.js?v=4042ad8d9b65"></script>
+    <link rel="stylesheet" href="./atlas.css?v=788c398039bb" />
+    <script type="module" src="./atlas.js?v=788c398039bb"></script>
   </head>
   <body>
     <a class="skip" href="#designs" data-t="skip">К выбору моделей</a>
@@ -31,7 +31,7 @@
           ><img src="./assets/wing-mark.svg" width="40" height="40" alt="" />Open Flight</a
         >
         <nav class="primary-links" aria-label="Main">
-          <a href="#designs" data-t="navDesigns">Модели</a><a href="#family-book" data-t="bookNav">Семейная книга</a
+          <a href="#designs" data-t="navDesigns">Модели</a><a id="nav-book" href="./book.html?lang=ru" data-t="bookNav">Книга полётов</a
           ><a href="#library" data-t="navLibrary">Библиотека</a>
         </nav>
         <span data-workshop-menu></span>
@@ -52,9 +52,9 @@
           </h1>
           <p class="lede" data-t="intro">Бесплатная мастерская для детей 5–12 лет и взрослых. Сделайте из листа бумаги бабочку или самолёт, измените один сгиб и посмотрите, куда полетит планер.</p>
           <div class="actions">
-            <a href="./studio.html?lang=ru#design=butterfly-monarch&revision=w1" data-route="butterfly" class="btn accent"><span data-t="cutStart">Сделать бабочку</span><b aria-hidden="true">↗</b></a
-            ><a class="btn outline" data-route="airplane" href="./planes.html?lang=ru" data-t="foldStart">Сложить самолёт</a
-            ><a class="quiet" href="#family-book" data-t="bookQuick">Собрать семейную книгу ↗</a>
+            <a class="btn accent" id="hero-book" href="./book.html?lang=ru" data-t="bookQuick">Собрать Книгу полётов ↗</a>
+            <a href="./studio.html?lang=ru#design=butterfly-monarch&revision=w1" data-route="butterfly" class="btn outline"><span data-t="cutStart">Сделать бабочку</span><b aria-hidden="true">↗</b></a
+            ><a class="quiet" data-route="airplane" href="./planes.html?lang=ru" data-t="foldStart">Сложить самолёт</a>
           </div>
         </div>
         <div class="showcase">
@@ -86,13 +86,14 @@
       <section class="home-book wrap" id="family-book" aria-labelledby="book-heading">
         <div class="book-display" aria-hidden="true">
           <div class="book-underlay"></div>
-          <img class="book-cover-image" id="book-cover-image" src="./assets/atlas/book-cover-ru.png" alt="" width="395" height="559" loading="lazy" />
+          <div class="book-jacket"><img class="book-cover-image" id="book-cover-image" src="./assets/atlas/book-cover-ru.png" alt="" width="395" height="559" loading="lazy" /><span id="home-cover-pilot" hidden></span></div>
         </div>
         <div class="home-book-copy">
-          <p class="over" data-t="bookFormat">Семейная книга для печати</p>
-          <h2 id="book-heading" data-t="bookHeadline">Любимые модели в одной книге.</h2>
-          <p data-t="bookPitch">Выберите вместе бабочек и самолёты, оформите обложку и скачайте один PDF с полноразмерными выкройками и памяткой по печати. Сегодня можно распечатать только те страницы, по которым хочется строить.</p>
-          <div class="actions"><a class="btn accent" id="book-link" href="./book.html?lang=ru" data-t="bookAction">Оформить свою книгу ↗</a><a class="quiet" href="#library" data-t="bookSheets">Взять отдельные листы бесплатно</a></div>
+          <p class="over" data-t="bookFormat">Бумажная мастерская для дома и класса</p>
+          <h2 id="book-heading" data-t="bookHeadline">Твоя Книга полётов</h2>
+          <p data-t="bookPitch">Выбери бабочек и самолёты, подпиши обложку и распечатай выкройки. Отмечай посадки в журнале и возвращайся к своим моделям по QR-коду.</p>
+          <form id="home-book-form" action="./book.html"><label class="home-pilot"><span data-t="bookPilot">Имя пилота (по желанию)</span><input id="home-pilot" maxlength="40" autocomplete="off" dir="auto" /></label>
+          <div class="actions"><a class="btn accent" id="book-link" href="./book.html?lang=ru" data-t="bookAction">Собрать книгу ↗</a><a class="quiet" href="#library" data-t="bookSheets">Взять отдельные листы бесплатно</a></div></form>
         </div>
       </section>
       <section class="collections wrap" id="designs" aria-labelledby="choose-title">
@@ -204,11 +205,12 @@
             <a
               class="all-sheets"
               data-t="allSheets"
-              href="https://github.com/kevinmamaqi/open-flight/releases/download/v0.6.0/open-flight-print-library.zip"
+              href="https://github.com/kevinmamaqi/open-flight/releases/download/v0.7.0/open-flight-print-library.zip"
               >Скачать все листы и занятия (ZIP) ↓</a
             >
           </article>
           <div class="source-list">
+            <a id="classroom-link" href="./classroom.html?lang=ru"><span><strong data-t="classTitle">Распечатать для класса</strong><small data-t="classIntro">Рассчитайте число копий для каждой команды и возьмите инструкцию в копицентр.</small></span><b>↗</b></a>
             <a href="https://github.com/kevinmamaqi/open-flight"
               ><span
                 ><strong data-t="code">Код и исходники моделей</strong

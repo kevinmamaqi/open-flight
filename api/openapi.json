@@ -2,7 +2,7 @@
   "openapi": "3.1.2",
   "info": {
     "title": "Open Flight local product API",
-    "version": "0.6.0",
+    "version": "0.7.0",
     "description": "Account-free local product operations backed by the selected workspace. A loopback instance issues a private bearer grant. Export jobs and immutable artifact bytes are stored together in SQLite."
   },
   "x-contract-status": "implemented_local_experimental",
@@ -2313,8 +2313,8 @@
     "/v1/books/render": {
       "post": {
         "operationId": "renderFamilyBook",
-        "summary": "Make a custom full-size family flight book",
-        "description": "Return a localized selection manifest or a bounded base64 part of the deterministic book PDF. Use next_offset to obtain all parts. The PDF preserves the pages of the published workshop sheets.",
+        "summary": "Make a personalized full-size Flight Book",
+        "description": "Return the page map, an optional classroom copy plan, or a bounded base64 part of the deterministic print-ready Flight Book. Keep the same settings and follow next_offset to reassemble the PDF.",
         "x-contract-status": "implemented_local_experimental",
         "x-required-scopes": [
           "openflight:designs:read"
@@ -2330,7 +2330,7 @@
         ],
         "responses": {
           "200": {
-            "description": "Make a custom full-size family flight book",
+            "description": "Make a personalized full-size Flight Book",
             "content": {
               "application/json": {
                 "schema": {
@@ -5494,6 +5494,17 @@
             "uniqueItems": true,
             "minItems": 1,
             "maxItems": 10
+          },
+          "pilot": {
+            "type": "string",
+            "maxLength": 40
+          },
+          "style": {
+            "enum": [
+              "studio",
+              "illustrated",
+              "ink"
+            ]
           }
         },
         "required": []
@@ -5514,6 +5525,30 @@
           "offset": {
             "type": "integer",
             "minimum": 0
+          },
+          "classroom": {
+            "description": "Optional Starter 3 ink copy plan. Use manifest output and specify only lang and paper in settings.",
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "learners": {
+                "type": "integer",
+                "minimum": 1,
+                "maximum": 300
+              },
+              "team_size": {
+                "type": "integer",
+                "enum": [
+                  2,
+                  3,
+                  4
+                ]
+              }
+            },
+            "required": [
+              "learners",
+              "team_size"
+            ]
           }
         },
         "required": []
@@ -5523,7 +5558,7 @@
         "additionalProperties": false,
         "properties": {
           "edition": {
-            "const": "family-book-1"
+            "const": "flight-book-2"
           },
           "settings": {
             "type": "object",
@@ -5572,6 +5607,17 @@
                 "uniqueItems": true,
                 "minItems": 1,
                 "maxItems": 10
+              },
+              "pilot": {
+                "type": "string",
+                "maxLength": 40
+              },
+              "style": {
+                "enum": [
+                  "studio",
+                  "illustrated",
+                  "ink"
+                ]
               }
             },
             "required": [
@@ -5579,7 +5625,9 @@
               "paper",
               "theme",
               "cover",
-              "sheets"
+              "sheets",
+              "pilot",
+              "style"
             ]
           },
           "sheets": {
@@ -5604,11 +5652,29 @@
                 },
                 "path": {
                   "type": "string"
+                },
+                "first_page": {
+                  "type": "integer",
+                  "minimum": 1
+                },
+                "last_page": {
+                  "type": "integer",
+                  "minimum": 1
+                },
+                "guide_page": {
+                  "type": [
+                    "integer",
+                    "null"
+                  ],
+                  "minimum": 1
                 }
               },
               "required": [
                 "id",
-                "path"
+                "path",
+                "first_page",
+                "last_page",
+                "guide_page"
               ]
             },
             "minItems": 1,
@@ -5657,12 +5723,33 @@
               "next_offset",
               "content"
             ]
+          },
+          "page_count": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "model_count": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "shared_guide_page": {
+            "type": [
+              "integer",
+              "null"
+            ],
+            "minimum": 1
+          },
+          "classroom": {
+            "$ref": "#/components/schemas/ClassroomPrintPlan"
           }
         },
         "required": [
           "edition",
           "settings",
-          "sheets"
+          "sheets",
+          "page_count",
+          "model_count",
+          "shared_guide_page"
         ]
       },
       "MotorLabResult": {
@@ -5763,6 +5850,141 @@
           "bom",
           "files",
           "bench"
+        ]
+      },
+      "ClassroomPrintPlan": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "learners": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 300
+          },
+          "team_size": {
+            "type": "integer",
+            "enum": [
+              2,
+              3,
+              4
+            ]
+          },
+          "teams": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "rows": {
+            "type": "array",
+            "items": {
+              "oneOf": [
+                {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "kind": {
+                      "enum": [
+                        "scale_check",
+                        "shared_guide",
+                        "flight_log"
+                      ]
+                    },
+                    "pages": {
+                      "type": "array",
+                      "items": {
+                        "type": "integer",
+                        "minimum": 1
+                      },
+                      "minItems": 1,
+                      "uniqueItems": true
+                    },
+                    "copies": {
+                      "type": "integer",
+                      "minimum": 1
+                    }
+                  },
+                  "required": [
+                    "kind",
+                    "pages",
+                    "copies"
+                  ]
+                },
+                {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "kind": {
+                      "const": "model"
+                    },
+                    "sheet_id": {
+                      "enum": [
+                        "monarch-k1",
+                        "morpho-k1",
+                        "swallowtail-k1",
+                        "monarch",
+                        "morpho",
+                        "swallowtail",
+                        "boeing-747",
+                        "douglas-dc3",
+                        "tupolev-tu144",
+                        "ilyushin-il62"
+                      ]
+                    },
+                    "pages": {
+                      "type": "array",
+                      "items": {
+                        "type": "integer",
+                        "minimum": 1
+                      },
+                      "minItems": 1,
+                      "uniqueItems": true
+                    },
+                    "copies": {
+                      "type": "integer",
+                      "minimum": 1
+                    }
+                  },
+                  "required": [
+                    "kind",
+                    "sheet_id",
+                    "pages",
+                    "copies"
+                  ]
+                }
+              ]
+            },
+            "minItems": 1
+          },
+          "total_sheets": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "optional_pages": {
+            "type": "array",
+            "items": {
+              "type": "integer",
+              "minimum": 1
+            },
+            "minItems": 1,
+            "uniqueItems": true
+          },
+          "book_url": {
+            "type": "string",
+            "format": "uri"
+          },
+          "guide_url": {
+            "type": "string",
+            "format": "uri"
+          }
+        },
+        "required": [
+          "learners",
+          "team_size",
+          "teams",
+          "rows",
+          "total_sheets",
+          "optional_pages",
+          "book_url",
+          "guide_url"
         ]
       }
     }

@@ -1,7 +1,9 @@
-import { ru, es } from './atlas-copy.js?v=4042ad8d9b65'
-import { currentLocale, homeURL, localizedLinks } from './atlas-nav.js?v=4042ad8d9b65'
-import { fieldModel, studioLink, foldedLink } from './atlas-guide.js?v=4042ad8d9b65'
-import { sheetIdFor, sheetPath } from './family-sheets.js?v=4042ad8d9b65'
+import { ru, es } from './atlas-copy.js?v=788c398039bb'
+import { currentLocale, homeURL, localizedLinks } from './atlas-nav.js?v=788c398039bb'
+import { fieldModel, studioLink, foldedLink } from './atlas-guide.js?v=788c398039bb'
+import { sheetIdFor, sheetPath } from './family-sheets.js?v=788c398039bb'
+import { normalizeBook } from './book-model.js?v=788c398039bb'
+import { recordBookEvent } from './book-metrics.js?v=788c398039bb'
 
 const fragment = new URLSearchParams(location.hash.slice(1))
 if (fragment.has('grant') || (fragment.has('design') && fragment.has('revision'))) {
@@ -31,12 +33,37 @@ for (const a of document.querySelectorAll('.wordmark')) a.href = homeURL(lang)
 for (const a of document.querySelectorAll('[data-route]'))
   a.href = a.dataset.route === 'airplane' ? studioLink('boeing-747', lang) : studioLink('monarch', lang)
 $('folded-butterfly').href = foldedLink('monarch', lang)
-$('book-link').href = './book.html?lang=' + lang
-$('book-cover-image').src = './assets/atlas/book-cover-' + lang + '.png'
+const bookLink = './book.html?lang=' + lang
+$('hero-book').href = $('nav-book').href = bookLink
+$('book-cover-image').src = './assets/atlas/book-cover-' + lang + '.png' + new URL(import.meta.url).search
+const pilot = $('home-pilot')
+function updateHomeBook() {
+  const name = pilot.value.trim()
+  try {
+    normalizeBook({pilot:name})
+    pilot.setCustomValidity('')
+  } catch {
+    pilot.setCustomValidity(t('Use up to 40 Latin or Cyrillic characters.', 'Escribe hasta 40 caracteres en alfabeto latino o cirílico.', 'Введите до 40 символов латиницей или кириллицей.'))
+  }
+  $('home-cover-pilot').textContent = name
+  $('home-cover-pilot').hidden = !name
+  $('book-link').href = bookLink + (name ? '#' + new URLSearchParams({pilot:name}) : '')
+}
+pilot.addEventListener('input',updateHomeBook)
+$('book-link').addEventListener('click',event => {
+  if (!pilot.reportValidity()) event.preventDefault()
+})
+$('home-book-form').addEventListener('submit',event => {
+  event.preventDefault()
+  if (pilot.reportValidity()) location.assign($('book-link').href)
+})
+updateHomeBook()
+recordBookEvent('home')
 $('compare-link').href = './compare.html?lang=' + lang
 $('flight-link').href = studioLink('boeing-747', lang, true)
 $('references').href = './references.html?lang=' + lang
 $('motor-link').href = './motor.html?lang=' + lang
+$('classroom-link').href = './classroom.html?lang=' + lang
 $('lesson-file').href = './library/family-lesson-' + lang + '.html'
 const order = [
   'monarch',

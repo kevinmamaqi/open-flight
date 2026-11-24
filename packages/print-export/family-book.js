@@ -1,85 +1,30 @@
-import { PDFDocument } from "pdf-lib";
+import { Duplex, PDFDocument, PrintScaling, StandardFonts, rgb } from "pdf-lib";
 import { jsPDF } from "jspdf";
+import qrcode from "qrcode-generator";
 import {
-  paperSizes,
-  sheetCatalog,
-  sheetIds,
-  sheetLocales,
-  sheetPath,
-} from "../../apps/editor/family-sheets.js";
-import { bookCopy, edition, sheetName, themes } from "./family-book-copy.js";
+  artPath,
+  bookEdition,
+  bookPlan,
+  bookURL,
+  modelDetails,
+  normalizeBook,
+} from "../../apps/editor/book-model.js";
+import { sheetCatalog, sheetPath } from "../../apps/editor/family-sheets.js";
+import {
+  bookCopy,
+  flightBookCopy,
+  sheetName,
+  themes,
+} from "./family-book-copy.js";
 
-export { bookCopy, edition, sheetName, themes };
-export { sheetIds, sheetPath };
-export const defaultSheets = Object.freeze(sheetCatalog.filter(item => item.construction !== 'w1').map(item => item.id))
-export const coverLimit = 64;
-
-export function normalizeBook(input = {}) {
-  if (!input || typeof input !== "object" || Array.isArray(input))
-    throw new TypeError("Expected book options.");
-  const {
-    lang = "en",
-    paper = "A4",
-    theme = "sky",
-    cover = "",
-    sheets = defaultSheets,
-  } = input;
-  if (!sheetLocales.includes(lang))
-    throw new TypeError("Invalid book language.");
-  if (!paperSizes.includes(paper))
-    throw new TypeError("Invalid book paper size.");
-  if (!Object.hasOwn(themes, theme)) throw new TypeError("Invalid book theme.");
-  if (
-    !Array.isArray(sheets) ||
-    !sheets.length ||
-    !Array.from(sheets).every((id) => sheetIds.includes(id)) ||
-    new Set(sheets).size !== sheets.length
-  )
-    throw new TypeError("Select 1 to 10 distinct sheets.");
-  if (typeof cover !== "string") throw new TypeError("Invalid cover title.");
-  const title = cover.trim().normalize("NFC");
-  if (
-    Array.from(title).length > coverLimit ||
-    !/^[\p{Script=Latin}\p{Script=Cyrillic}\d .,!?'’“”«»()&+\-–#№:]*$/u.test(
-      title,
-    )
-  )
-    throw new TypeError(
-      "The cover title must be at most 64 characters in Latin or Cyrillic.",
-    );
-  return {
-    lang,
-    paper,
-    theme,
-    cover: title || bookCopy[lang].title,
-    sheets: [...sheets],
-  };
-}
-
-function base64(data) {
-  let binary = "";
-  for (let i = 0; i < data.length; i += 8192)
-    binary += String.fromCharCode(...data.subarray(i, i + 8192));
-  return btoa(binary);
-}
-
-function drawWing(doc, x, y, side, fill, ink) {
-  const point = (dx, dy) => [x + dx * side, y + dy];
-  doc.setFillColor(fill).setDrawColor(ink).setLineWidth(0.55);
-  doc
-    .path([
-      { op: "m", c: point(0, 0) },
-      { op: "c", c: [...point(24, -55), ...point(77, -65), ...point(64, -35)] },
-      { op: "c", c: [...point(61, -21), ...point(45, -11), ...point(38, -6)] },
-      { op: "c", c: [...point(66, -6), ...point(46, 25), ...point(30, 25)] },
-      { op: "c", c: [...point(20, 25), ...point(9, 14), ...point(0, 0)] },
-      { op: "h" },
-    ])
-    .fillStroke();
-  doc.line(...point(2, 0), ...point(55, -36));
-  doc.line(...point(4, 2), ...point(34, 17));
-  doc.line(...point(25, -16), ...point(37, -42));
-}
+export { bookCopy, edition, sheetName, themes } from "./family-book-copy.js";
+export { sheetIds, sheetPath } from "../../apps/editor/family-sheets.js";
+export {
+  bookPlan,
+  coverLimit,
+  defaultSheets,
+  normalizeBook,
+} from "../../apps/editor/book-model.js";
 
 export function coverArt(sheets) {
   const families = new Set(
@@ -87,194 +32,398 @@ export function coverArt(sheets) {
       .filter(({ id }) => sheets.includes(id))
       .map(({ family }) => family),
   );
-  return families.size === 2
-    ? "mixed"
-    : families.has("airplane")
-      ? "plane"
-      : "butterfly";
+  if (families.size === 2) return "mixed";
+  return families.has("airplane") ? "plane" : "butterfly";
 }
 
-function drawPlane(doc, x, y, scale, fill, ink) {
-  const point = (dx, dy) => [x + dx * scale, y + dy * scale];
-  doc.setFillColor(fill).setDrawColor(ink).setLineWidth(0.55);
-  doc
-    .path([
-      { op: "m", c: point(-64, -5) },
-      { op: "l", c: point(63, -43) },
-      { op: "l", c: point(37, 34) },
-      { op: "l", c: point(1, 14) },
-      { op: "l", c: point(-15, 35) },
-      { op: "l", c: point(-19, 6) },
-      { op: "h" },
-    ])
-    .fillStroke();
-  doc.line(...point(-19, 6), ...point(63, -43));
-  doc.line(...point(1, 14), ...point(63, -43));
-  doc.line(...point(-15, 35), ...point(1, 14));
+function base64(data) {
+  let binary = "";
+  for (let i = 0; i < data.length; i += 8192) {
+    binary += String.fromCharCode(...data.subarray(i, i + 8192));
+  }
+  return btoa(binary);
 }
 
-function frontMatter(
-  { lang, paper, theme, cover, sheets },
-  font,
-  sheetDocuments,
-) {
-  const copy = bookCopy[lang],
-    { ink, wash, accent, wing } = themes[theme];
+function drawQR(doc, url, center, y) {
+  const code = qrcode(0, "M");
+  code.addData(url);
+  code.make();
+  const modules = code.getModuleCount();
+  const quietZone = 4;
+  const size = Math.min(75, Math.max(58, (modules + quietZone * 2) * 0.65));
+  const x = center - size / 2;
+  const step = size / (modules + quietZone * 2);
+  doc.setFillColor("#ffffff").rect(x, y, size, size, "F");
+  doc.setFillColor("#111111");
+  for (let row = 0; row < modules; row++) {
+    let start = 0;
+    while (start < modules) {
+      if (!code.isDark(row, start)) {
+        start++;
+        continue;
+      }
+      let end = start + 1;
+      while (end < modules && code.isDark(row, end)) end++;
+      doc.rect(
+        x + (start + quietZone) * step,
+        y + (row + quietZone) * step,
+        (end - start) * step,
+        step,
+        "F",
+      );
+      start = end;
+    }
+  }
+  return y + size;
+}
+
+function frontMatter(book, plan, regular, bold, art, artPaths) {
+  const { lang, paper, theme, cover, sheets, pilot, style } = book;
+  const instructions = bookCopy[lang];
+  const copy = flightBookCopy[lang];
+  const palette = themes[theme];
+  const { ink, wash, accent } =
+    style === "ink"
+      ? { ink: "#202020", wash: "#fafafa", accent: "#464646" }
+      : palette;
+  const hairline = style === "ink" ? "#777777" : accent;
   const doc = new jsPDF({
     format: paper === "A4" ? "a4" : "letter",
     compress: true,
     putOnlyUsedFonts: true,
   });
-  const w = doc.internal.pageSize.getWidth(),
-    h = doc.internal.pageSize.getHeight();
-  const left = 19,
-    right = w - left;
-  doc.addFileToVFS("Book.ttf", base64(font));
-  doc.addFont("Book.ttf", "Book", "normal");
-  doc.setFont("Book");
-  doc.setFileId("6f70656e666c69676874626f6f6b3036");
+  doc.setFileId("6f70656e666c69676874626f6f6b3037");
   doc.setCreationDate("D:20000101000000+00'00'");
-  doc.setProperties({
-    title: cover,
-    author: "Open Flight",
-    subject: copy.edition,
-  });
-  const text = (value, x, y, size, color = ink, options) =>
-    doc.setFontSize(size).setTextColor(color).text(value, x, y, options);
-  const line = (y) =>
-    doc.setDrawColor(accent).setLineWidth(0.35).line(left, y, right, y);
-  doc.setFillColor(wash).roundedRect(11, 11, w - 22, h - 22, 3, 3, "F");
-  text("OPEN FLIGHT", left, 25, 12, accent);
-  text(paper === "A4" ? "A4" : "US Letter", right, 25, 11, accent, {
-    align: "right",
-  });
-  line(30);
-  let headingSize = 34;
-  let heading = doc
-    .setFontSize(headingSize)
-    .splitTextToSize(cover, w - 2 * left);
-  while (heading.length > 3 && headingSize > 18) {
-    headingSize -= 2;
-    heading = doc.setFontSize(headingSize).splitTextToSize(cover, w - 2 * left);
+  for (const [name, data] of [
+    ["normal", regular],
+    ["bold", bold],
+  ]) {
+    const file = `Rubik-${name}.ttf`;
+    doc.addFileToVFS(file, base64(data));
+    doc.addFont(file, "Rubik", name);
   }
-  text(heading, left, 51, headingSize);
-  const headingBottom =
-    51 + ((heading.length - 1) * headingSize * 1.15 * 25.4) / 72;
-  text(
-    doc.setFontSize(13).splitTextToSize(copy.subtitle, w - 2 * left),
-    left,
-    headingBottom + 12,
-    13,
+
+  const w = doc.internal.pageSize.getWidth();
+  const h = doc.internal.pageSize.getHeight();
+  const left = 14;
+  const right = w - left;
+  const width = right - left;
+  const text = (
+    value,
+    x,
+    y,
+    size,
+    { color = ink, weight = "normal", align = "left" } = {},
+  ) =>
+    doc
+      .setFont("Rubik", weight)
+      .setFontSize(size)
+      .setTextColor(color)
+      .text(value, x, y, { align });
+  const wrap = (value, size, maxWidth, weight = "normal") =>
+    doc
+      .setFont("Rubik", weight)
+      .setFontSize(size)
+      .splitTextToSize(value, maxWidth);
+  const rule = (x1, y1, x2, y2, weight = 0.2) =>
+    doc.setDrawColor(hairline).setLineWidth(weight).line(x1, y1, x2, y2);
+  function fit(value, size, maxWidth, lines) {
+    let fitted = wrap(value, size, maxWidth, "bold");
+    while (fitted.length > lines)
+      fitted = wrap(value, --size, maxWidth, "bold");
+    return [fitted, size];
+  }
+  const paperLabel = paper === "A4" ? "A4" : "US Letter";
+  const byline = (value, x, y, align = "left") =>
+    text(value, x, y, 9, { weight: "bold", color: accent, align });
+  const image = (id, x, y, imageWidth) =>
+    doc.addImage(
+      art.get(id),
+      "JPEG",
+      x,
+      y,
+      imageWidth,
+      (imageWidth * 5) / 8,
+      artPaths.get(id),
+    );
+  const folio = (page, label) => {
+    rule(left, h - 20, right, h - 20);
+    byline(label, left, h - 14);
+    byline(String(page).padStart(2, "0"), right, h - 14, "right");
+  };
+  const heading = (title, number) => {
+    byline("OPEN FLIGHT", left, 19);
+    byline(paperLabel, right, 19, "right");
+    rule(left, 24, right, 24);
+    text(title, left, 41, 31, { weight: "bold" });
+    folio(number, instructions.title);
+  };
+
+  // A consistent 10 mm blank border fits the home-print page.
+  doc.setFillColor(wash).rect(10, 10, w - 20, h - 20, "F");
+  byline("OPEN FLIGHT", left + 3, 21);
+  byline(paperLabel, right - 3, 21, "right");
+  rule(left + 3, 26, right - 3, 26);
+  const [title, titleSize] = fit(cover, 37, width - 6, 2);
+  const titleTop = title.length === 1 ? 49 : 42;
+  text(title, left + 3, titleTop, titleSize, { weight: "bold" });
+  byline(copy.pilot.toUpperCase(), left + 3, 66);
+  if (pilot) {
+    const [name, nameSize] = fit(pilot, 15, width - 38, 2);
+    text(name, left + 28, name.length > 1 ? 63 : 66, nameSize, {
+      weight: "bold",
+    });
+  } else {
+    rule(left + 28, 66.5, left + 107, 66.5);
+  }
+  const heroWidth = width - 6;
+  image(sheets[0], left + 3, 76, heroWidth);
+  const heroBottom = 76 + (heroWidth * 5) / 8;
+  byline(sheetName(sheets[0], lang), left + 3, heroBottom + 8);
+  if (style === "studio") {
+    text(copy.studio, right - 3, heroBottom + 8, 8, { align: "right" });
+  }
+  const fleet = sheets.slice(1);
+  const tileWidth = Math.min(
+    31,
+    (heroWidth - 2 * Math.max(0, fleet.length - 1)) / Math.max(1, fleet.length),
   );
-  const cx = w / 2,
-    cy = h - 90;
-  doc.setDrawColor(accent).setLineWidth(0.22);
-  doc.circle(cx, cy - 10, 60, "S").circle(cx, cy - 10, 49, "S");
-  const artwork = coverArt(sheets);
-  if (artwork !== "plane") {
-    const x = artwork === "mixed" ? cx - 12 : cx;
-    const y = artwork === "mixed" ? cy - 7 : cy;
-    drawWing(doc, x, y, 1, wing, ink);
-    drawWing(doc, x, y, -1, wing, ink);
-    doc.setFillColor(ink).roundedRect(x - 1.7, y - 12, 3.4, 23, 1.7, 1.7, "F");
-    doc.line(x, y - 10, x - 5, y - 19).line(x, y - 10, x + 5, y - 19);
+  fleet.forEach((id, index) =>
+    image(id, left + 3 + index * (tileWidth + 2), heroBottom + 14, tileWidth),
+  );
+  const taglineY = heroBottom + (fleet.length ? 22 + (tileWidth * 5) / 8 : 19);
+  text(wrap(instructions.subtitle, 11, heroWidth), left + 3, taglineY, 11);
+  folio(1, bookEdition(lang, plan.modelCount, paper));
+
+  doc.addPage();
+  heading(instructions.print, 2);
+  let y = 59;
+  for (const [index, [title, body]] of instructions.notes.entries()) {
+    doc.setFillColor(wash).roundedRect(left, y - 6, 12, 12, 2, 2, "F");
+    text(String(index + 1), left + 6, y + 2, 12, {
+      align: "center",
+      weight: "bold",
+    });
+    text(title, left + 18, y, 15, { weight: "bold" });
+    const paragraphs = wrap(body, 12, width - 18);
+    text(paragraphs, left + 18, y + 8, 12);
+    y += 20 + paragraphs.length * 5;
   }
-  if (artwork === "plane") drawPlane(doc, cx, cy - 6, 1, wing, ink);
-  if (artwork === "mixed")
-    drawPlane(doc, cx + 29, cy + 24, 0.57, "#ffffff", ink);
-  line(h - 36);
-  text(copy.edition, left, h - 26, 11, accent);
-  text(String(sheets.length).padStart(2, "0"), right, h - 26, 15, ink, {
-    align: "right",
+  y += 8;
+  doc.setFillColor(wash).rect(left, y, width, 32, "F");
+  text(instructions.ruler, left + 9, y + 10, 11, { weight: "bold" });
+  const ruleX = left + 9;
+  const ruleY = y + 23;
+  rule(ruleX, ruleY, ruleX + 50, ruleY, 0.35);
+  for (let mm = 0; mm <= 50; mm += 5) {
+    rule(
+      ruleX + mm,
+      ruleY - (mm % 10 === 0 ? 3 : 1.5),
+      ruleX + mm,
+      ruleY,
+      0.35,
+    );
+  }
+
+  doc.addPage();
+  heading(copy.models, 3);
+  text(copy.fleetIntro, left, 51, 11);
+  if (plan.guidePage)
+    text(wrap(copy.fleetGuide(plan.guidePage), 9.5, width), left, 59, 9.5);
+  byline(copy.pages, right, 69, "right");
+  const rowHeight = 17.8;
+  plan.entries.forEach(({ id, start, end, guidePage }, index) => {
+    const entry = sheetCatalog.find((item) => item.id === id);
+    const details = modelDetails(id);
+    const y = 72 + index * rowHeight;
+    if (index % 2 === 0)
+      doc.setFillColor(wash).rect(left, y, width, rowHeight, "F");
+    image(id, left + 3, y + 2.25, 21);
+    text(sheetName(id, lang), left + 29, y + 7, 13, { weight: "bold" });
+    const minutes = details.minutes
+      ? ` · ${details.minutes.join("–")} ${lang === "ru" ? "мин" : "min"}`
+      : "";
+    const meta = `${copy.construction[entry.construction]} · ${copy.difficulty[details.level - 1]}${minutes} · ${copy.tools[entry.family]}`;
+    text(meta, left + 29, y + 13.2, 8.7);
+    for (let dot = 0; dot < 3; dot++) {
+      doc
+        .setDrawColor(accent)
+        .setFillColor(accent)
+        .setLineWidth(0.17)
+        .circle(
+          right - 39 + dot * 3,
+          y + 5.6,
+          0.75,
+          dot < details.level ? "F" : "S",
+        );
+    }
+    const range = start === end ? String(start) : `${start}–${end}`;
+    text(
+      guidePage && (guidePage < start || guidePage > end)
+        ? `${range} + ${guidePage}`
+        : range,
+      right - 2.5,
+      y + 10.5,
+      11,
+      { weight: "bold", align: "right" },
+    );
+  });
+  text(copy.estimate, left, 78 + plan.entries.length * rowHeight, 8, {
+    color: accent,
   });
 
   doc.addPage();
-  text("OPEN FLIGHT", left, 21, 11, accent);
-  line(26);
-  text(copy.print, left, 41, 28);
-  let y = 55;
-  for (const [i, [title, body]] of copy.notes.entries()) {
-    doc.setFillColor(wash).roundedRect(left, y - 4, 9, 9, 2, 2, "F");
-    text(String(i + 1), left + 4.5, y + 2, 11, ink, { align: "center" });
-    text(title, left + 13, y + 2, 12, accent);
-    const paragraphs = doc
-      .setFontSize(10.5)
-      .splitTextToSize(body, w - 2 * left - 13);
-    text(paragraphs, left + 13, y + 8, 10.5);
-    y += 16 + paragraphs.length * 4.4;
+  heading(copy.log, 4);
+  text(wrap(copy.logIntro, 12, width), left, 52, 12);
+  const half = (width - 9) / 2;
+  const rightCol = left + half + 9;
+  function field(label, x, y, fieldWidth) {
+    byline(label, x, y);
+    rule(x, y + 10, x + fieldWidth, y + 10);
   }
+  field(copy.model, left, 69, half);
+  field(copy.date, rightCol, 69, half);
+  field(copy.predict, left, 90, half);
+  field(copy.change, rightCol, 90, half);
+  const tableTop = 116;
+  const row = 14;
+  const launchWidth = 34;
+  const resultWidth = (width - launchWidth) / 2;
+  doc.setFillColor(wash).rect(left, tableTop, width, row, "F");
+  byline(copy.launch, left + 4, tableTop + 8.5);
+  byline(copy.baseline, left + launchWidth + 4, tableTop + 8.5);
+  byline(copy.changed, left + launchWidth + resultWidth + 4, tableTop + 8.5);
+  text(copy.land, left, tableTop - 4, 12, { weight: "bold" });
+  for (let n = 1; n <= 5; n++)
+    text(String(n), left + 5, tableTop + n * row + 9, 12);
+  for (let n = 1; n <= 6; n++)
+    rule(left, tableTop + n * row, right, tableTop + n * row);
+  for (const x of [left + launchWidth, right - resultWidth])
+    rule(x, tableTop, x, tableTop + 6 * row);
+  field(copy.noticed, left, 211, width);
+  text(wrap(copy.example, 9.5, width), left, 232, 9.5);
+  byline(copy.next, left, 246);
+
+  doc.addPage();
+  const center = w / 2;
   doc
-    .setDrawColor(ink)
-    .setLineWidth(0.3)
-    .line(left, y, left + 50, y);
-  doc.line(left, y - 2, left, y + 2).line(left + 50, y - 2, left + 50, y + 2);
-  text(copy.ruler, left + 55, y + 1.3, 9);
-  y += 16;
-  line(y);
-  text(copy.contents, left, y + 9, 14);
-  let start = 3;
-  sheets.forEach((id, i) => {
-    const column = i < 5 ? 0 : 1;
-    const width = (w - 2 * left) / 2;
-    const x = left + column * width;
-    const row = y + 19 + (i % 5) * 6.2;
-    const last = start + sheetDocuments[i].getPageCount() - 1;
-    const range = start === last ? String(start) : start + "-" + last;
-    text(String(i + 1).padStart(2, "0"), x, row, 8, accent);
-    text(
-      [sheetName(id, lang), edition(id)].filter(Boolean).join("  "),
-      x + 8,
-      row,
-      8.5,
-    );
-    text(copy.pageAbbr + " " + range, x + width - 5, row, 8, accent, {
-      align: "right",
-    });
-    start = last + 1;
+    .setDrawColor(accent)
+    .setLineWidth(0.55)
+    .rect(10.4, 10.4, w - 20.8, h - 20.8);
+  rule(left, 30, right, 30, 0.3);
+  byline("OPEN FLIGHT", left, 23);
+  byline(instructions.title, right, 23, "right");
+  image(sheets[0], center - 29, 37, 58);
+  text(copy.certificate, center, 91, 29, { weight: "bold", align: "center" });
+  text(wrap(copy.award, 12, width - 24), center, 103, 12, { align: "center" });
+  byline(copy.pilot, left + 7, 121);
+  if (pilot) {
+    const [name, nameSize] = fit(pilot, 23, width - 14, 2);
+    text(name, left + 7, 132, nameSize, { weight: "bold" });
+  }
+  rule(left + 7, 145, right - 7, 145);
+  field(copy.date, left + 7, 154, half - 14);
+  field(copy.signature, rightCol, 154, half - 7);
+
+  const url = bookURL(book);
+  const qrBottom = drawQR(doc, url, center, 165);
+  text(copy.reopen, center, qrBottom + 4, 11, {
+    align: "center",
+    weight: "bold",
   });
-  const credits = {
-    en: "Art and guides · CC BY-SA 4.0   |   Aircraft patterns · CERN-OHL-W-2.0",
-    es: "Arte y guías · CC BY-SA 4.0   |   Plantillas · CERN-OHL-W-2.0",
-    ru: "Рисунки и инструкции · CC BY-SA 4.0   |   Выкройки · CERN-OHL-W-2.0",
-  };
-  text("Open Flight contributors · github.com/kevinmamaqi/open-flight", left, h - 20, 8, accent);
-  doc.link(left, h - 24, 105, 6, { url: "https://github.com/kevinmamaqi/open-flight/blob/main/NOTICES.md" });
-  text(credits[lang], left, h - 15, 7.4, ink);
+  const address = new URL(url);
+  const visibleLink = address.host + address.pathname;
+  text(visibleLink, center, qrBottom + 10, 8.5, {
+    align: "center",
+    color: accent,
+  });
+  doc.link(center - 53, qrBottom + 5.5, 106, 7, { url });
+  text(
+    "Open Flight contributors · github.com/kevinmamaqi/open-flight",
+    center,
+    h - 24,
+    8,
+    { align: "center", color: accent },
+  );
+  doc.link(center - 53, h - 28, 106, 5, {
+    url: "https://github.com/kevinmamaqi/open-flight/blob/main/NOTICES.md",
+  });
+  text(copy.credits, center, h - 18, 7.5, { align: "center" });
+  byline("05", right, h - 16, "right");
+
   return doc.output("arraybuffer");
 }
 
 export async function createBook(input, { loadAsset }) {
   const book = normalizeBook(input);
-  const [font, ...originals] = await Promise.all([
-    loadAsset("assets/planes/vendor/DejaVuSans.ttf"),
-    ...book.sheets.map((id) => loadAsset(sheetPath(id, book.paper, book.lang))),
-  ]);
-  const sheetDocuments = await Promise.all(
-    originals.map((bytes) =>
-      PDFDocument.load(bytes, { updateMetadata: false }),
+  const plan = bookPlan(book);
+  const artPaths = new Map(
+    book.sheets.map((id) => [id, artPath(id, book.style)]),
+  );
+  const [regular, bold, sheetDocuments, images] = await Promise.all([
+    loadAsset("assets/book/Rubik-Regular.ttf"),
+    loadAsset("assets/book/Rubik-Bold.ttf"),
+    Promise.all(
+      book.sheets.map(async (id) =>
+        PDFDocument.load(
+          await loadAsset(sheetPath(id, book.paper, book.lang)),
+          { updateMetadata: false },
+        ),
+      ),
     ),
+    Promise.all(
+      [...new Set(artPaths.values())].map(async (path) => [
+        path,
+        await loadAsset(path),
+      ]),
+    ),
+  ]);
+  const imageBytes = new Map(images);
+  const art = new Map(
+    Array.from(artPaths, ([id, path]) => [id, imageBytes.get(path)]),
   );
   const output = await PDFDocument.load(
-    frontMatter(book, font, sheetDocuments),
+    frontMatter(book, plan, regular, bold, art, artPaths),
     { updateMetadata: false },
   );
   const { width, height } = output.getPage(0).getSize();
-  for (const original of sheetDocuments) {
-    // Copy complete page objects, preserving page boxes, resources and scale.
+  const stampFont = await output.embedFont(StandardFonts.Helvetica);
+  for (const [entryIndex, original] of sheetDocuments.entries()) {
+    const entry = plan.entries[entryIndex];
     for (const page of original.getPages()) {
       const size = page.getSize();
       if (
         Math.abs(size.width - width) > 1 ||
         Math.abs(size.height - height) > 1
-      )
+      ) {
         throw new Error("A sheet does not match the selected book paper size.");
+      }
     }
-    const pages = await output.copyPages(original, original.getPageIndices());
-    for (const page of pages) output.addPage(page);
+    const pages = await output.copyPages(
+      original,
+      entry.pages.map(({ index }) => index),
+    );
+    for (const [index, page] of pages.entries()) {
+      output.addPage(page);
+      const number = String(entry.pages[index].number).padStart(2, "0");
+      const stamp = `${number} / ${plan.pageCount}`;
+      // The lower-right 27 × 10 pt rectangle is clear on every released source sheet.
+      const size = 7;
+      page.drawText(stamp, {
+        font: stampFont,
+        size,
+        x: page.getWidth() - 31 - stampFont.widthOfTextAtSize(stamp, size),
+        y: 38,
+        color: rgb(0.19, 0.24, 0.27),
+      });
+    }
   }
   output.setTitle(book.cover);
   output.setAuthor("Open Flight");
   output.setCreator("Open Flight");
   output.setLanguage(book.lang);
+  const print = output.catalog.getOrCreateViewerPreferences();
+  print.setDuplex(Duplex.Simplex);
+  print.setPrintScaling(PrintScaling.None);
   return output.save({ useObjectStreams: false });
 }

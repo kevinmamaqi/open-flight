@@ -43,7 +43,7 @@
           ><img src="./assets/wing-mark.svg" width="40" height="40" alt="" />Open Flight</a
         >
         <nav class="primary-links" aria-label="Main">
-          <a href="#designs" data-t="navDesigns">Designs</a><a href="#family-book" data-t="bookNav">Family book</a
+          <a href="#designs" data-t="navDesigns">Designs</a><a id="nav-book" href="./book.html?lang=en" data-t="bookNav">Flight Book</a
           ><a href="#library" data-t="navLibrary">Open library</a>
         </nav>
         <span data-workshop-menu></span>
@@ -67,11 +67,11 @@
             butterfly or airplane, then change a fold and see where it lands.
           </p>
           <div class="actions">
-            <a href="./studio.html?lang=en#design=butterfly-monarch&amp;revision=w1" data-route="butterfly" class="btn accent"
+            <a class="btn accent" id="hero-book" href="./book.html?lang=en" data-t="bookQuick">Get your Flight Book ↗</a>
+            <a href="./studio.html?lang=en#design=butterfly-monarch&amp;revision=w1" data-route="butterfly" class="btn outline"
               ><span data-t="cutStart">Make a butterfly</span><b aria-hidden="true">↗</b></a
-            ><a class="btn outline" data-route="airplane" href="./planes.html" data-t="foldStart"
-              >Fold an airplane</a
-            ><a class="quiet" href="#family-book" data-t="bookQuick">Make a family book ↗</a>
+            ><a class="quiet" data-route="airplane" href="./planes.html" data-t="foldStart"
+              >Fold an airplane</a>
           </div>
         </div>
         <div class="showcase">
@@ -115,13 +115,14 @@
       <section class="home-book wrap" id="family-book" aria-labelledby="book-heading">
         <div class="book-display" aria-hidden="true">
           <div class="book-underlay"></div>
-          <img class="book-cover-image" id="book-cover-image" src="./assets/atlas/book-cover-en.png" alt="" width="395" height="559" loading="lazy" />
+          <div class="book-jacket"><img class="book-cover-image" id="book-cover-image" src="./assets/atlas/book-cover-en.png" alt="" width="395" height="559" loading="lazy" /><span id="home-cover-pilot" hidden></span></div>
         </div>
         <div class="home-book-copy">
-          <p class="over" data-t="bookFormat">Printable family book</p>
-          <h2 id="book-heading" data-t="bookHeadline">Put your favorite flyers in one book.</h2>
-          <p data-t="bookPitch">Pick the butterflies and airplanes together, give your book a cover, and download one PDF with full-size sheets and a printing guide. Print only the pages you want to build today.</p>
-          <div class="actions"><a class="btn accent" id="book-link" href="./book.html?lang=en" data-t="bookAction">Customize my book ↗</a><a class="quiet" href="#library" data-t="bookSheets">Get individual sheets free</a></div>
+          <p class="over" data-t="bookFormat">For families and classrooms</p>
+          <h2 id="book-heading" data-t="bookHeadline">Your Flight Book</h2>
+          <p data-t="bookPitch">Choose butterflies and airplanes, sign the cover, and print the full-size patterns. Keep a flight log and scan the QR code to make the same book again.</p>
+          <form id="home-book-form" action="./book.html"><label class="home-pilot"><span data-t="bookPilot">Pilot name (optional)</span><input id="home-pilot" maxlength="40" autocomplete="off" dir="auto" /></label>
+          <div class="actions"><a class="btn accent" id="book-link" href="./book.html?lang=en" data-t="bookAction">Make my book ↗</a><a class="quiet" href="#library" data-t="bookSheets">Get individual sheets free</a></div></form>
         </div>
       </section>
       <section class="collections wrap" id="designs" aria-labelledby="choose-title">
@@ -259,11 +260,12 @@
             <a
               class="all-sheets"
               data-t="allSheets"
-              href="https://github.com/kevinmamaqi/open-flight/releases/download/v0.6.0/open-flight-print-library.zip"
+              href="https://github.com/kevinmamaqi/open-flight/releases/download/v0.7.0/open-flight-print-library.zip"
               >Get the complete print library (ZIP) ↓</a
             >
           </article>
           <div class="source-list">
+            <a id="classroom-link" href="./classroom.html?lang=en"><span><strong data-t="classTitle">Print for a class</strong><small data-t="classIntro">Plan copies for each team and take the instructions to a print shop.</small></span><b>↗</b></a>
             <a href="https://github.com/kevinmamaqi/open-flight"
               ><span
                 ><strong data-t="code">Source & editable files</strong

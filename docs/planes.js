@@ -1,8 +1,8 @@
-import { foldArtwork, showFoldStep } from './fold-lesson.js?v=4042ad8d9b65'
-import { makePlane, planeCatalog, planeSource, sheetSizes, liveries } from './assets/planes/core.js?v=4042ad8d9b65'
-import { planeSvg, planeSpecimen, esc, stripes } from './assets/planes/drawing.js?v=4042ad8d9b65'
-import { foldSvg, planeGuide } from './assets/planes/guide.js?v=4042ad8d9b65'
-import { planePdfBytes } from './assets/planes/pdf.js?v=4042ad8d9b65'
+import { foldArtwork, showFoldStep } from './fold-lesson.js?v=788c398039bb'
+import { makePlane, planeCatalog, planeSource, sheetSizes, liveries } from './assets/planes/core.js?v=788c398039bb'
+import { planeSvg, planeSpecimen, esc, stripes } from './assets/planes/drawing.js?v=788c398039bb'
+import { foldSvg, planeGuide } from './assets/planes/guide.js?v=788c398039bb'
+import { planePdfBytes } from './assets/planes/pdf.js?v=788c398039bb'
 
 const words = {
   fieldTitle: ['From aircraft to paper', 'От самолёта к бумаге', 'Del avión real al papel'],
@@ -138,8 +138,8 @@ const words = {
   mm: ['mm', 'мм', 'mm'],
   airplane: ['Paper airplane studio', 'Мастерская бумажных самолётов', 'Taller de aviones de papel'],
 }
-import { flightPhysics,physicsTitle } from './atlas-physics.js?v=4042ad8d9b65'
-import { currentLocale } from './atlas-nav.js?v=4042ad8d9b65'
+import { flightPhysics,physicsTitle } from './atlas-physics.js?v=788c398039bb'
+import { currentLocale } from './atlas-nav.js?v=788c398039bb'
 const $ = (id) => document.getElementById(id)
 const params = new URLSearchParams(location.search)
 const languages = ['en', 'ru', 'es']
@@ -379,7 +379,7 @@ function renderStep() {
 }
 async function updateViewer() {
   try {
-    loadingViewer ??= import('./flight-viewer.js?v=4042ad8d9b65')
+    loadingViewer ??= import('./flight-viewer.js?v=788c398039bb')
       .then(({ mountFlightViewer }) => mountFlightViewer($('three')))
       .catch((error) => {
         loadingViewer = undefined
