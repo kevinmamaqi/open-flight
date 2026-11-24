@@ -1,6 +1,6 @@
-import { aircraftPortrait } from './field-portraits.js?v=788c398039bb'
-import { esc, svgParts, specimenScene } from './drawing.js?v=788c398039bb'
-import { planeCredits, creditText } from './credits.js?v=788c398039bb'
+import { aircraftPortrait } from './field-portraits.js?v=674464fb115d'
+import { esc, svgParts, specimenScene } from './drawing.js?v=674464fb115d'
+import { planeCredits, creditText } from './credits.js?v=674464fb115d'
 const ink = '#244851',
   printed = '#faecc7',
   back = '#dceae7',

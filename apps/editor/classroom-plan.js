@@ -2,7 +2,6 @@ import { bookPlan, bookURL, normalizeBook, starterModels } from './book-model.js
 import { sheetIdFor } from './family-sheets.js'
 
 const sheets = starterModels.map(model => sheetIdFor(model))
-const optionalPages = [1, 3, 5]
 
 export function classroomPlan({ lang, paper, learners, team_size }, bookBase) {
   if (!Number.isInteger(learners) || learners < 1 || learners > 300)
@@ -11,7 +10,7 @@ export function classroomPlan({ lang, paper, learners, team_size }, bookBase) {
     throw new RangeError('Choose 2, 3 or 4 learners per team.')
 
   const settings = normalizeBook({ lang, paper, sheets, style: 'ink' })
-  const { entries, guidePage } = bookPlan(settings)
+  const { entries, guidePage, originPages } = bookPlan(settings)
   const teams = Math.ceil(learners / team_size)
   const rows = [
     { kind: 'scale_check', pages: [2], copies: 1 },
@@ -34,7 +33,7 @@ export function classroomPlan({ lang, paper, learners, team_size }, bookBase) {
     settings,
     learners, team_size, teams, rows,
     total_sheets: rows.reduce((total, { pages, copies }) => total + pages.length * copies, 0),
-    optional_pages: [...optionalPages],
+    optional_pages: [1, 3, 5, ...originPages.map(page => page.number)],
     book_url,
     guide_url: guide.href,
   }

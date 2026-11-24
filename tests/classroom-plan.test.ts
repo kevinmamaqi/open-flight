@@ -12,7 +12,7 @@ test('the classroom manifest matches the browser copy plan for the Starter 3 ink
   assert.ok('classroom' in result)
   assert.deepEqual(result.classroom, plan)
   assert.deepEqual(result.settings, settings)
-  assert.equal(result.page_count, 12)
+  assert.equal(result.page_count, 15)
   assert.deepEqual(result.settings.sheets, ['monarch-k1', 'boeing-747', 'morpho-k1'])
   assert.equal(result.settings.style, 'ink')
   assert.equal(plan.teams, 11)
@@ -25,7 +25,7 @@ test('the classroom manifest matches the browser copy plan for the Starter 3 ink
     { kind: 'shared_guide', pages: [7], copies: 11 },
     { kind: 'flight_log', pages: [4], copies: 11 },
   ])
-  assert.deepEqual(plan.optional_pages, [1, 3, 5])
+  assert.deepEqual(plan.optional_pages, [1, 3, 5, 13, 14, 15])
   assert.equal(new URL(plan.book_url).searchParams.get('lang'), 'es')
   assert.equal(new URLSearchParams(new URL(plan.book_url).hash.slice(1)).get('paper'), 'letter')
   assert.equal(new URL(plan.guide_url).pathname, '/open-flight/classroom.html')

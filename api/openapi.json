@@ -2,7 +2,7 @@
   "openapi": "3.1.2",
   "info": {
     "title": "Open Flight local product API",
-    "version": "0.7.0",
+    "version": "0.8.0",
     "description": "Account-free local product operations backed by the selected workspace. A loopback instance issues a private bearer grant. Export jobs and immutable artifact bytes are stored together in SQLite."
   },
   "x-contract-status": "implemented_local_experimental",
@@ -3953,7 +3953,8 @@
         "enum": [
           "heritage",
           "festival",
-          "pencil"
+          "pencil",
+          "flag"
         ]
       },
       "AirplaneLocale": {
@@ -5505,6 +5506,82 @@
               "illustrated",
               "ink"
             ]
+          },
+          "coverModel": {
+            "enum": [
+              "monarch-k1",
+              "morpho-k1",
+              "swallowtail-k1",
+              "monarch",
+              "morpho",
+              "swallowtail",
+              "boeing-747",
+              "douglas-dc3",
+              "tupolev-tu144",
+              "ilyushin-il62"
+            ]
+          },
+          "appearances": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "monarch": {
+                "enum": [
+                  "natural",
+                  "carnival",
+                  "twilight",
+                  "coloring"
+                ]
+              },
+              "morpho": {
+                "enum": [
+                  "natural",
+                  "carnival",
+                  "twilight",
+                  "coloring"
+                ]
+              },
+              "swallowtail": {
+                "enum": [
+                  "natural",
+                  "carnival",
+                  "twilight",
+                  "coloring"
+                ]
+              },
+              "boeing-747": {
+                "enum": [
+                  "heritage",
+                  "festival",
+                  "pencil",
+                  "flag"
+                ]
+              },
+              "douglas-dc3": {
+                "enum": [
+                  "heritage",
+                  "festival",
+                  "pencil",
+                  "flag"
+                ]
+              },
+              "tupolev-tu144": {
+                "enum": [
+                  "heritage",
+                  "festival",
+                  "pencil",
+                  "flag"
+                ]
+              },
+              "ilyushin-il62": {
+                "enum": [
+                  "heritage",
+                  "festival",
+                  "pencil",
+                  "flag"
+                ]
+              }
+            }
           }
         },
         "required": []
@@ -5558,7 +5635,7 @@
         "additionalProperties": false,
         "properties": {
           "edition": {
-            "const": "flight-book-2"
+            "const": "flight-book-3"
           },
           "settings": {
             "type": "object",
@@ -5618,6 +5695,82 @@
                   "illustrated",
                   "ink"
                 ]
+              },
+              "coverModel": {
+                "enum": [
+                  "monarch-k1",
+                  "morpho-k1",
+                  "swallowtail-k1",
+                  "monarch",
+                  "morpho",
+                  "swallowtail",
+                  "boeing-747",
+                  "douglas-dc3",
+                  "tupolev-tu144",
+                  "ilyushin-il62"
+                ]
+              },
+              "appearances": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "monarch": {
+                    "enum": [
+                      "natural",
+                      "carnival",
+                      "twilight",
+                      "coloring"
+                    ]
+                  },
+                  "morpho": {
+                    "enum": [
+                      "natural",
+                      "carnival",
+                      "twilight",
+                      "coloring"
+                    ]
+                  },
+                  "swallowtail": {
+                    "enum": [
+                      "natural",
+                      "carnival",
+                      "twilight",
+                      "coloring"
+                    ]
+                  },
+                  "boeing-747": {
+                    "enum": [
+                      "heritage",
+                      "festival",
+                      "pencil",
+                      "flag"
+                    ]
+                  },
+                  "douglas-dc3": {
+                    "enum": [
+                      "heritage",
+                      "festival",
+                      "pencil",
+                      "flag"
+                    ]
+                  },
+                  "tupolev-tu144": {
+                    "enum": [
+                      "heritage",
+                      "festival",
+                      "pencil",
+                      "flag"
+                    ]
+                  },
+                  "ilyushin-il62": {
+                    "enum": [
+                      "heritage",
+                      "festival",
+                      "pencil",
+                      "flag"
+                    ]
+                  }
+                }
               }
             },
             "required": [
@@ -5627,7 +5780,9 @@
               "cover",
               "sheets",
               "pilot",
-              "style"
+              "style",
+              "coverModel",
+              "appearances"
             ]
           },
           "sheets": {
@@ -5667,6 +5822,9 @@
                     "null"
                   ],
                   "minimum": 1
+                },
+                "studio_url": {
+                  "type": "string"
                 }
               },
               "required": [
@@ -5674,7 +5832,8 @@
                 "path",
                 "first_page",
                 "last_page",
-                "guide_page"
+                "guide_page",
+                "studio_url"
               ]
             },
             "minItems": 1,
@@ -5741,6 +5900,75 @@
           },
           "classroom": {
             "$ref": "#/components/schemas/ClassroomPrintPlan"
+          },
+          "atlas": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "page": {
+                  "type": "integer",
+                  "minimum": 1
+                },
+                "sheet_id": {
+                  "enum": [
+                    "monarch-k1",
+                    "morpho-k1",
+                    "swallowtail-k1",
+                    "monarch",
+                    "morpho",
+                    "swallowtail",
+                    "boeing-747",
+                    "douglas-dc3",
+                    "tupolev-tu144",
+                    "ilyushin-il62"
+                  ]
+                },
+                "field_note": {
+                  "$ref": "#/components/schemas/FlightAtlasNote"
+                },
+                "appearances": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                      "id": {
+                        "type": "string"
+                      },
+                      "label": {
+                        "type": "string"
+                      },
+                      "colors": {
+                        "type": "array",
+                        "items": {
+                          "type": "string"
+                        }
+                      }
+                    },
+                    "required": [
+                      "id",
+                      "label",
+                      "colors"
+                    ]
+                  }
+                },
+                "pilot_stories": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/FlightAtlasNote"
+                  }
+                }
+              },
+              "required": [
+                "page",
+                "sheet_id",
+                "field_note",
+                "appearances",
+                "pilot_stories"
+              ]
+            }
           }
         },
         "required": [
@@ -5749,7 +5977,8 @@
           "sheets",
           "page_count",
           "model_count",
-          "shared_guide_page"
+          "shared_guide_page",
+          "atlas"
         ]
       },
       "MotorLabResult": {
@@ -5985,6 +6214,168 @@
           "optional_pages",
           "book_url",
           "guide_url"
+        ]
+      },
+      "FlightAtlasNote": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "model": {
+            "type": "string"
+          },
+          "place": {
+            "type": "string"
+          },
+          "date": {
+            "type": "string"
+          },
+          "story": {
+            "type": "string"
+          },
+          "discovery": {
+            "type": "string"
+          },
+          "kind": {
+            "type": "string"
+          },
+          "people": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "name": {
+                  "type": "string"
+                },
+                "role": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "name",
+                "role"
+              ]
+            }
+          },
+          "sources": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "label": {
+                  "type": "string"
+                },
+                "url": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "label",
+                "url"
+              ]
+            }
+          },
+          "locations": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "id": {
+                  "type": "string"
+                },
+                "label": {
+                  "type": "string"
+                },
+                "place": {
+                  "type": "string"
+                },
+                "kind": {
+                  "type": "string"
+                },
+                "lat": {
+                  "type": "number",
+                  "minimum": -90,
+                  "maximum": 90
+                },
+                "lon": {
+                  "type": "number",
+                  "minimum": -180,
+                  "maximum": 180
+                },
+                "date": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "id",
+                "label",
+                "place",
+                "kind",
+                "lat",
+                "lon"
+              ]
+            }
+          },
+          "era": {
+            "type": "string"
+          },
+          "first_flight": {
+            "type": "string"
+          },
+          "scientific_name": {
+            "type": "string"
+          },
+          "specimen": {
+            "type": "string"
+          },
+          "country": {
+            "type": "string",
+            "enum": [
+              "US",
+              "USSR"
+            ]
+          },
+          "illustration": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "file": {
+                "type": "string"
+              },
+              "credit": {
+                "type": "string"
+              },
+              "caption": {
+                "type": "string"
+              },
+              "url": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "file",
+              "credit",
+              "caption",
+              "url"
+            ]
+          }
+        },
+        "required": [
+          "id",
+          "model",
+          "place",
+          "date",
+          "story",
+          "discovery",
+          "kind",
+          "people",
+          "sources",
+          "locations"
         ]
       }
     }

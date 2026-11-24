@@ -11,6 +11,17 @@ const bundle = await Bun.build({
   minify: true,
   plugins: [
     {
+      name: "browser-appearance-sheet",
+      setup(build) {
+        // book-engine.js is written beside the browser adapter. Keep it external
+        // so the private Node renderer and the butterfly bundle stay out of this engine.
+        build.onResolve({ filter: /^\.\/appearance-sheet\.js$/ }, () => ({
+          path: "./appearance-sheet-browser.js",
+          external: true,
+        }));
+      },
+    },
+    {
       name: "browser-jsPDF",
       setup(build) {
         build.onResolve({ filter: /^jspdf$/ }, () => ({

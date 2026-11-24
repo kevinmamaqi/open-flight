@@ -1,15 +1,17 @@
 import { Duplex, PDFDocument, PrintScaling, StandardFonts, rgb } from "pdf-lib";
 import { jsPDF } from "jspdf";
 import qrcode from "qrcode-generator";
+import { appearanceArtPath } from "../../apps/editor/model-appearance.js";
+import { loadAppearanceSheet } from "./appearance-sheet.js";
+import { drawOriginPages, loadOriginArt } from "./model-origin-pages.js";
 import {
-  artPath,
   bookEdition,
   bookPlan,
   bookURL,
   modelDetails,
   normalizeBook,
 } from "../../apps/editor/book-model.js";
-import { sheetCatalog, sheetPath } from "../../apps/editor/family-sheets.js";
+import { sheetCatalog } from "../../apps/editor/family-sheets.js";
 import {
   bookCopy,
   flightBookCopy,
@@ -77,7 +79,7 @@ function drawQR(doc, url, center, y) {
   return y + size;
 }
 
-function frontMatter(book, plan, regular, bold, art, artPaths) {
+function frontMatter(book, plan, regular, bold, art, artPaths, originArt) {
   const { lang, paper, theme, cover, sheets, pilot, style } = book;
   const instructions = bookCopy[lang];
   const copy = flightBookCopy[lang];
@@ -177,13 +179,13 @@ function frontMatter(book, plan, regular, bold, art, artPaths) {
     rule(left + 28, 66.5, left + 107, 66.5);
   }
   const heroWidth = width - 6;
-  image(sheets[0], left + 3, 76, heroWidth);
+  image(book.coverModel, left + 3, 76, heroWidth);
   const heroBottom = 76 + (heroWidth * 5) / 8;
-  byline(sheetName(sheets[0], lang), left + 3, heroBottom + 8);
+  byline(sheetName(book.coverModel, lang), left + 3, heroBottom + 8);
   if (style === "studio") {
     text(copy.studio, right - 3, heroBottom + 8, 8, { align: "right" });
   }
-  const fleet = sheets.slice(1);
+  const fleet = sheets.filter(id => id !== book.coverModel);
   const tileWidth = Math.min(
     31,
     (heroWidth - 2 * Math.max(0, fleet.length - 1)) / Math.max(1, fleet.length),
@@ -268,6 +270,8 @@ function frontMatter(book, plan, regular, bold, art, artPaths) {
       { weight: "bold", align: "right" },
     );
   });
+  const atlasLabel = {en:"Flight atlas", es:"Atlas de vuelo", ru:"Атлас полётов"}[lang];
+  byline(atlasLabel + " · " + plan.originPages[0].number + (plan.originPages.length > 1 ? "–" + plan.pageCount : ""), right, 78 + plan.entries.length * rowHeight, "right");
   text(copy.estimate, left, 78 + plan.entries.length * rowHeight, 8, {
     color: accent,
   });
@@ -313,7 +317,7 @@ function frontMatter(book, plan, regular, bold, art, artPaths) {
   rule(left, 30, right, 30, 0.3);
   byline("OPEN FLIGHT", left, 23);
   byline(instructions.title, right, 23, "right");
-  image(sheets[0], center - 29, 37, 58);
+  image(book.coverModel, center - 29, 37, 58);
   text(copy.certificate, center, 91, 29, { weight: "bold", align: "center" });
   text(wrap(copy.award, 12, width - 24), center, 103, 12, { align: "center" });
   byline(copy.pilot, left + 7, 121);
@@ -351,6 +355,7 @@ function frontMatter(book, plan, regular, bold, art, artPaths) {
   text(copy.credits, center, h - 18, 7.5, { align: "center" });
   byline("05", right, h - 16, "right");
 
+  drawOriginPages(doc, book, plan, { w, h, left, right, width, ink, accent, wash, image, folio, text, wrap }, originArt);
   return doc.output("arraybuffer");
 }
 
@@ -358,15 +363,19 @@ export async function createBook(input, { loadAsset }) {
   const book = normalizeBook(input);
   const plan = bookPlan(book);
   const artPaths = new Map(
-    book.sheets.map((id) => [id, artPath(id, book.style)]),
+    book.sheets.map((id) => {
+      const { model } = sheetCatalog.find(sheet => sheet.id === id);
+      return [id, appearanceArtPath(id, book.style, book.appearances[model])];
+    }),
   );
-  const [regular, bold, sheetDocuments, images] = await Promise.all([
+  const [regular, bold, originArt, sheetDocuments, images] = await Promise.all([
     loadAsset("assets/book/Rubik-Regular.ttf"),
     loadAsset("assets/book/Rubik-Bold.ttf"),
+    loadOriginArt(plan, book.lang, loadAsset),
     Promise.all(
       book.sheets.map(async (id) =>
         PDFDocument.load(
-          await loadAsset(sheetPath(id, book.paper, book.lang)),
+          await loadAppearanceSheet(id, book.paper, book.lang, book.appearances[sheetCatalog.find(sheet => sheet.id === id).model], loadAsset),
           { updateMetadata: false },
         ),
       ),
@@ -383,7 +392,7 @@ export async function createBook(input, { loadAsset }) {
     Array.from(artPaths, ([id, path]) => [id, imageBytes.get(path)]),
   );
   const output = await PDFDocument.load(
-    frontMatter(book, plan, regular, bold, art, artPaths),
+    frontMatter(book, plan, regular, bold, art, artPaths, originArt),
     { updateMetadata: false },
   );
   const { width, height } = output.getPage(0).getSize();
@@ -404,7 +413,7 @@ export async function createBook(input, { loadAsset }) {
       entry.pages.map(({ index }) => index),
     );
     for (const [index, page] of pages.entries()) {
-      output.addPage(page);
+      output.insertPage(entry.pages[index].number - 1, page);
       const number = String(entry.pages[index].number).padStart(2, "0");
       const stamp = `${number} / ${plan.pageCount}`;
       // The lower-right 27 × 10 pt rectangle is clear on every released source sheet.

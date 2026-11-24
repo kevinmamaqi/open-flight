@@ -1,11 +1,13 @@
 # Flight Book model artwork
 
-The 30 JPEGs in [the book art directory](../apps/editor/assets/book/models/) cover all ten sheet IDs and three cover styles at 960 × 600 pixels. They are model artwork rendered from the workshop’s printable geometry. The poses and lighting illustrate construction. A4 defaults provide the paper dimensions for the airplane renders, which also represent their US Letter counterparts.
+The [book artwork](../apps/editor/assets/book/models/) covers all ten sheet IDs, three drawing styles and the selectable flyer colors at 960 × 600 pixels. The models are rendered from the workshop’s printable geometry. The poses and lighting illustrate construction. A4 defaults provide the paper dimensions for the airplane renders, which also represent their US Letter counterparts.
 
 - The folded-body butterflies use the [folded print outline and texture](../packages/folded-butterfly/index.ts). The wings are level, the two paper walls touch below the center crease, and the clip sits on the vertical strip at the stop on the folded sheet. A 0.24 mm render separation makes the two paper surfaces visible.
 - The tab butterflies use the [flight viewer’s cut and hinged panels](../apps/editor/flight-geometry.js) and its [original printed artwork](../apps/editor/assets/viewer/README.md). They show the baseline wing angles, neutral tabs, and the clip on the nose.
-- The airplanes use the [whole-sheet fold sequence](../apps/editor/assets/planes/core.js) and its [heritage stripe patterns](../apps/editor/assets/planes/drawing.js). Paper layers retain their source print coordinates through folding.
-- Studio uses warm directional light and a soft shadow. Illustrated uses stronger panel edges, a cool shadow and a restrained color treatment. Ink saver uses white stock, coloring artwork for the butterflies, and unfilled stripe outlines for the airplanes.
+- The airplanes use the [whole-sheet fold sequence](../apps/editor/assets/planes/core.js) and its [printed decorations](../apps/editor/assets/planes/drawing.js). Paper layers retain their source print coordinates through folding. The optional flags mark the country where each passenger aircraft was designed. The DC-3 uses the 48-star U.S. flag from its era, the 747 uses the 50-star version, and the Soviet airplanes use the red USSR flag with the gold hammer and sickle and gold-edged star. [U.S. flag order](https://www.archives.gov/federal-register/codification/executive-order/10834.html) · [USSR flag decree reproduced in a contemporary state publication](https://www.marxists.org/history/ussr/government/1982/ussr-sixty-years-of-union-1922-1982.pdf)
+- Studio uses warm directional light and a soft shadow. Drawn uses flat color, a visible ink outline and a hatched paper shadow. Ink saver uses white stock, coloring artwork for the butterflies, and unfilled markings for the airplanes. Recolorings with the same markings share Ink saver artwork. The cover treatment and the colors of the full-size pattern are independent choices.
+
+Families can choose the colors inspired by a living butterfly or try a creative palette. The historical aircraft markings and living species have individual field records. [Atlas sources](flight-book-origins.md)
 
 With Node.js 24 or later and this repository’s dependencies installed, point `CHROMIUM_PATH` to a Chrome or Chromium executable and run:
 
@@ -13,7 +15,7 @@ With Node.js 24 or later and this repository’s dependencies installed, point `
 node scripts/build_book_art.mjs
 ```
 
-The generator uses the local Three.js bundle and software WebGL through Chromium. It does not fetch images or fonts. For byte-for-byte reproduction, use the same Chromium build. The script writes all three styles using the sheet catalog as the source of filenames.
+The generator uses the local Three.js bundle and software WebGL through Chromium. All images and fonts are local. For byte-for-byte reproduction, use the same Chromium build. The script derives filenames from the sheet catalog and [shared appearance choices](../apps/editor/model-appearance.js). The site build generates corresponding thumbnails and lists every render in `assets/book/art-catalog.json`.
 
 ## Rubik fonts
 

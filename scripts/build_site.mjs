@@ -112,7 +112,7 @@ for (const entry of readdirSync(editor, { withFileTypes: true })) {
 // The bundled workshop has no ES imports. Third-party modules keep their published contents.
 const localModule = /(\b(?:from\s*|import\s*\(\s*|import\s+))(["'])(\.{1,2}\/[\w./-]+\.js)\2/g
 for (const name of assets) {
-  if (!name.endsWith('.js') || (name === 'browser-workshop.js' || name === 'book-engine.js') || name.includes('/vendor/')) continue
+  if (!name.endsWith('.js') || name === 'browser-workshop.js' || name.includes('/vendor/')) continue
   const source = readFileSync(join(editor, name), 'utf8')
   const result = source.replace(localModule, (_all, keyword, quote, url) => keyword + quote + url + assetKey + quote)
   if (result !== source) writeFileSync(join(out, name), result)
@@ -153,7 +153,7 @@ writeFileSync(
 )
 for (const path of [
   'index.html',
-  'classroom.html', 'classroom.js', 'book-size.js', 'assets/book/pdf.worker.min.mjs',
+  'classroom.html', 'classroom.js', 'book-size.js', 'book-reader.js', 'model-origins.js', 'model-map.js', 'model-appearance.js', 'assets/origins/world-land.png', 'assets/book/pdf.worker.min.mjs',
   'book.html', 'book.js', 'book-engine.js', 'motor.html', 'assets/motor/lab.json', 'fold-lesson.js',
   'assets/atlas/book-cover-en.png', 'assets/atlas/book-cover-es.png', 'assets/atlas/book-cover-ru.png',
   'studio.html',

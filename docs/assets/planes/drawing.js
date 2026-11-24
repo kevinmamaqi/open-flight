@@ -1,4 +1,5 @@
-import { planeCredits, creditText } from './credits.js?v=788c398039bb'
+import { planeCredits, creditText } from './credits.js?v=674464fb115d'
+import { flagDecals } from './country-markings.js?v=674464fb115d'
 
 export const esc = (value) =>
   String(value).replace(
@@ -126,6 +127,7 @@ function cropConvex(subject, shape) {
   return points
 }
 export function stripes(plan) {
+  if (plan.livery === 'flag') return flagDecals(plan)
   const { width_mm: w, height_mm: h } = plan.dimensions
   const [a, b, c] = plan.colors
   const shapes = []

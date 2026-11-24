@@ -6,11 +6,11 @@
     <meta name="theme-color" content="#f9f7f1" />
     <title>Butterfly studio · Open Flight</title>
     <link rel="icon" href="./assets/wing-mark.svg" type="image/svg+xml" />
-    <link rel="stylesheet" href="./editor.css?v=788c398039bb" />
-    <link rel="stylesheet" href="./flight-viewer.css?v=788c398039bb" />
-    <link rel="stylesheet" href="./atlas-nav.css?v=788c398039bb"><script type="module" src="./atlas-nav.js?v=788c398039bb"></script>
-    <script type="module" src="./editor.js?v=788c398039bb"></script>
-    <link rel="stylesheet" href="./fold-lesson.css?v=788c398039bb" />
+    <link rel="stylesheet" href="./editor.css?v=674464fb115d" />
+    <link rel="stylesheet" href="./flight-viewer.css?v=674464fb115d" />
+    <link rel="stylesheet" href="./atlas-nav.css?v=674464fb115d"><script type="module" src="./atlas-nav.js?v=674464fb115d"></script>
+    <script type="module" src="./editor.js?v=674464fb115d"></script>
+    <link rel="stylesheet" href="./fold-lesson.css?v=674464fb115d" />
   </head>
   <body>
     <a class="skip-link" href="#worktable" data-i18n="skip">Skip to the worktable</a>
@@ -204,6 +204,7 @@
             <legend data-i18n="wingColors">Wing colors</legend>
             <div id="palette-list" class="palette-list"></div>
           </fieldset>
+          <a id="book-colors" class="button secondary" href="./book.html">Use these colors in my Flight Book</a>
           <fieldset class="span-control control-group">
             <legend class="sr-only" data-i18n="wingspan">Wingspan</legend>
             <div class="control-title">
@@ -321,6 +322,7 @@
               <p id="observation"></p>
             </div>
           </div>
+          <details class="fold-physics" id="origin-atlas"><summary>Explore the world map</summary><div data-map></div></details>
           <details class="fold-physics" id="butter-physics"><summary></summary><p></p></details>
           <div class="reference-links">
             <a id="pixabay-link" target="_blank" rel="noopener noreferrer"

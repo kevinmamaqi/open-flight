@@ -3,10 +3,26 @@ import { readFileSync } from 'node:fs'
 import { classroomPlan, type ClassroomOptions } from '../../apps/editor/classroom-plan.js'
 import { bookPlan, createBook, normalizeBook, sheetPath, type BookOptions } from '../print-export/family-book.js'
 import { sha256 } from '../geometry/butterfly.ts'
+import { appearanceChoices } from '../../apps/editor/model-appearance.js'
+import { modelOrigin, relatedPilotStories } from '../../apps/editor/model-origins.js'
+import { studioForBookSheet } from '../../apps/editor/model-studio.js'
 import { invalid } from './contracts.ts'
 
 const editorAssets = new URL('../../apps/editor/', import.meta.url)
 const chunkBytes = 192 * 1024
+
+function fieldNote(entry: NonNullable<ReturnType<typeof modelOrigin>> | ReturnType<typeof relatedPilotStories>[number]) {
+  const { id, kind, model, place, date, story, discovery } = entry
+  return { id, kind, model, place, date, story, discovery,
+    people: entry.people.map(({ name, role }) => ({ name, role })),
+    sources: entry.sources.map(({ label, url }) => ({ label, url })),
+    locations: entry.locations.map(point => ({ ...point })),
+    ...(entry.country && { country: entry.country, era: entry.era }),
+    ...('firstFlight' in entry && entry.firstFlight && { first_flight: entry.firstFlight }),
+    ...('scientificName' in entry && entry.scientificName && { scientific_name: entry.scientificName, specimen: entry.specimen }),
+    ...(entry.illustration && { illustration: { ...entry.illustration } }),
+  }
+}
 
 export async function renderFamilyBook(settings: BookOptions = {}, output = 'manifest', offset = 0, classroom?: ClassroomOptions) {
   let book
@@ -28,13 +44,18 @@ export async function renderFamilyBook(settings: BookOptions = {}, output = 'man
   }
   const plan = bookPlan(book)
   const manifest = {
-    edition: 'flight-book-2',
+    edition: 'flight-book-3',
     settings: book,
     page_count: plan.pageCount,
     model_count: plan.modelCount,
     shared_guide_page: plan.guidePage,
+    atlas: plan.originPages.map(({model, id, number}) => ({
+      page: number, sheet_id: id, field_note: fieldNote(modelOrigin(model, book.lang)!),
+      appearances: appearanceChoices(model, book.lang),
+      pilot_stories: relatedPilotStories(model, book.lang).map(fieldNote),
+    })),
     sheets: plan.entries.map(({ id, start, end, guidePage }) => ({
-      id, path: sheetPath(id, book.paper, book.lang), first_page: start, last_page: end, guide_page: guidePage,
+      id, path: sheetPath(id, book.paper, book.lang), studio_url: studioForBookSheet(book, id), first_page: start, last_page: end, guide_page: guidePage,
     })),
   }
   if (output === 'manifest') {

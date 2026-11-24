@@ -48,6 +48,7 @@
           <div class="actions">
             <a href="#fold" class="button primary" data-copy="start">Start folding</a
             ><button type="button" class="button light pdf" data-copy="print">Download build PDF</button>
+            <a id="book-colors" class="source-link" href="./book.html">Use these colors in my Flight Book</a>
           </div>
         </div>
         <div class="specimen">
@@ -93,6 +94,7 @@
             </figcaption>
           </figure>
         </div>
+        <details class="fold-physics" id="origin-atlas"><summary>Explore the world map</summary><div data-map></div></details>
         <p class="field-credit">
           <a id="field-museum" target="_blank" rel="noopener"></a>
           <span data-copy="fieldCredit">Original Open Flight illustration · schematic ·</span>
@@ -148,11 +150,10 @@
               <option value="US_LETTER">US Letter · 8½ × 11 in</option>
             </select>
             <label for="livery" data-copy="livery">Printed colors</label
-            ><select id="livery">
-              <option value="heritage" data-copy="heritage">Heritage stripes</option>
-              <option value="festival" data-copy="festival">Festival colors</option>
-              <option value="pencil" data-copy="pencil">Graphite</option>
-            </select>
+            ><select id="livery"></select>
+            <p id="flag-help" class="hint" data-copy="flagHelp" hidden>
+              These wing markings show where the passenger airplane was designed.
+            </p>
             <label for="keel"
               ><span data-copy="keel">Body fold</span><output id="keel-value" for="keel"></output></label
             ><input type="range" id="keel" min="12" max="28" step="1" />

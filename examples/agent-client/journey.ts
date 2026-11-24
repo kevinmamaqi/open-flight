@@ -77,16 +77,23 @@ try {
   assert.equal(lab.evidenceState, 'concept')
   assert.equal(lab.locale, 'es')
   assert.ok(lab.bom.length && lab.files.some((f: { id: string }) => f.id === 'source'))
-  const bookSettings = { lang: 'es', paper: 'US_LETTER', cover: 'Alas de papel', pilot: 'Lucía', style: 'ink', theme: 'meadow', sheets: ['morpho-k1', 'swallowtail-k1', 'boeing-747'] }
+  const bookSettings = { lang: 'es', paper: 'US_LETTER', cover: 'Alas de papel', pilot: 'Lucía', style: 'studio', theme: 'meadow', coverModel: 'boeing-747', appearances: { morpho: 'twilight', 'boeing-747': 'flag' }, sheets: ['morpho-k1', 'swallowtail-k1', 'boeing-747'] }
   const manifest = await call('render_family_book', { settings: bookSettings })
   assert.deepEqual(manifest.settings, bookSettings)
-  assert.equal(manifest.page_count, 12)
+  assert.equal(manifest.page_count, 15)
+  assert.equal(manifest.atlas.length, 3)
+  assert.ok(manifest.atlas.every((entry: { field_note: { sources: unknown[] } }) => entry.field_note.sources.length))
+  assert.equal(manifest.atlas[2].pilot_stories[0].id, 'john-glenn')
+  assert.equal(manifest.atlas[2].field_note.first_flight, '1969-02-09')
+  assert.equal(manifest.atlas[0].field_note.scientific_name, 'Morpho peleides')
+  assert.ok(manifest.atlas[0].field_note.illustration.credit)
+  assert.match(manifest.sheets[2].studio_url, /livery=flag/)
   assert.equal(manifest.shared_guide_page, 7)
   assert.equal(manifest.sheets[1].guide_page, 7)
   const classroomArgs = { settings: { lang: 'es', paper: 'US_LETTER' }, classroom: { learners: 31, team_size: 3 } }
   const classroom = await call('render_family_book', classroomArgs)
   assert.equal(classroom.settings.style, 'ink')
-  assert.equal(classroom.page_count, 12)
+  assert.equal(classroom.page_count, 15)
   assert.equal(classroom.classroom.teams, 11)
   assert.equal(classroom.classroom.total_sheets, 89)
   assert.deepEqual(classroom.classroom.rows.find(({ kind }: { kind: string }) => kind === 'shared_guide'),

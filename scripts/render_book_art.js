@@ -7,7 +7,7 @@ const height = 600
 const supersample = 1.5
 const variants = {
   studio: { light: ['#fffef9', '#e9e3d6'], shadow: true, edge: '#473e33' },
-  illustrated: { light: ['#f6fbfa', '#dcece7'], shadow: true, edge: '#29484a' },
+  illustrated: { light: ['#fff9eb', '#f0e2c8'], shadow: false, edge: '#483141' },
   ink: { light: ['#ffffff', '#ffffff'], shadow: false, edge: '#343638' },
 }
 
@@ -62,7 +62,7 @@ async function textureFor(model, style) {
   if (style === 'illustrated') {
     const wash = canvas(surface.width, surface.height)
     const brush = wash.getContext('2d')
-    brush.filter = 'saturate(0.82) contrast(1.12)'
+    brush.filter = 'saturate(0.94) contrast(1.03)'
     brush.drawImage(surface, 0, 0)
     surface = wash
   }
@@ -85,12 +85,12 @@ function makeScene(world, style, eye, texture) {
   const scene = new THREE.Scene()
   const ink = style === 'ink'
   const drawn = style === 'illustrated'
-  scene.add(new THREE.AmbientLight(0xffffff, ink ? Math.PI : drawn ? 2.03 : 1.65))
+  scene.add(new THREE.AmbientLight(0xffffff, ink || drawn ? Math.PI : 1.65))
   const lights = [
-    [0xfff3d8, drawn ? 0.4 : 1.18, [-180, 300, -160]],
-    [0xe3efff, drawn ? 0.3 : 0.44, [160, 40, 130]],
+    [0xfff3d8, 1.18, [-180, 300, -160]],
+    [0xe3efff, 0.44, [160, 40, 130]],
   ]
-  for (const [color, energy, position] of ink ? [] : lights) {
+  for (const [color, energy, position] of ink || drawn ? [] : lights) {
     const source = new THREE.DirectionalLight(color, energy)
     source.position.set(...position)
     scene.add(source)
@@ -107,7 +107,7 @@ function makeScene(world, style, eye, texture) {
     if (face.uv) geometry.setAttribute('uv', new THREE.Float32BufferAttribute(face.uv.flat(), 2))
     const map = face.uv && printedSide(face, eye, triples) ? texture : null
     const params = {
-      color: map || ink ? '#ffffff' : '#f7ebd5',
+      color: map || ink ? '#ffffff' : drawn ? '#ddcbb1' : '#f7ebd5',
       side: THREE.DoubleSide,
       map,
       polygonOffset: true,
@@ -120,11 +120,11 @@ function makeScene(world, style, eye, texture) {
     scene.add(new THREE.Line(edgeGeometry, new THREE.LineBasicMaterial({
       color: variants[style].edge,
       transparent: !ink,
-      opacity: ink ? 1 : drawn ? 0.66 : 0.23,
+      opacity: ink ? 1 : drawn ? 0.89 : 0.23,
     })))
   }
   for (const wire of world.lines) {
-    const radius = ink ? 0.31 : 0.46
+    const radius = ink ? 0.31 : drawn ? 0.54 : 0.46
     const points = wire.points.map((point) => new Vector3(...point))
     const vertices = points.flatMap((point, i) => {
       const next = points[Math.min(i + 1, points.length - 1)]
@@ -146,7 +146,7 @@ function makeScene(world, style, eye, texture) {
     geometry.setIndex(indices)
     geometry.computeVertexNormals()
     scene.add(new THREE.Mesh(geometry, new THREE.MeshLambertMaterial({
-      color: ink ? '#393a3d' : '#b4bac0',
+      color: ink ? '#393a3d' : drawn ? '#6c5360' : '#b4bac0',
       side: THREE.DoubleSide,
     })))
   }
@@ -189,7 +189,7 @@ function background(ctx, style, world, camera) {
   const floor = Math.min(...world.faces.flatMap((face) => face.points.map((p) => p[1]))) - 7
   const silhouette = canvas(width, height)
   const shadow = silhouette.getContext('2d')
-  shadow.fillStyle = style === 'studio' ? '#3c342e' : '#346961'
+  shadow.fillStyle = '#3c342e'
   for (const face of world.faces) {
     shape(shadow, face.points.map(([x, y, z]) => {
       const lift = y - floor
@@ -199,10 +199,38 @@ function background(ctx, style, world, camera) {
     shadow.fill()
   }
   ctx.save()
-  ctx.globalAlpha = style === 'studio' ? 0.22 : 0.15
-  ctx.filter = style === 'studio' ? 'blur(14px)' : 'blur(1.5px)'
+  ctx.globalAlpha = 0.22
+  ctx.filter = 'blur(14px)'
   ctx.drawImage(silhouette, 0, 0)
   ctx.restore()
+}
+
+function drawnEdges(ctx, rendered) {
+  // Use the visible, depth-tested silhouette for a felt-tip outline and a hatched
+  // offset shadow. The underlying vector decorations remain in their real positions.
+  const mask = canvas(width, height)
+  const brush = mask.getContext('2d')
+  brush.drawImage(rendered, 0, 0, width, height)
+  brush.globalCompositeOperation = 'source-in'
+  brush.fillStyle = variants.illustrated.edge
+  brush.fillRect(0, 0, width, height)
+
+  const hatching = canvas(width, height)
+  const pencil = hatching.getContext('2d')
+  pencil.drawImage(mask, 9, 14)
+  pencil.globalCompositeOperation = 'source-in'
+  pencil.strokeStyle = '#a48a72'
+  pencil.lineWidth = 1.8
+  pencil.beginPath()
+  for (let x = -height; x < width; x += 7) {
+    pencil.moveTo(x, height)
+    pencil.lineTo(x + height, 0)
+  }
+  pencil.stroke()
+  ctx.drawImage(hatching, 0, 0)
+  for (const [x, y] of [[-2, 0.7], [1.7, -1.15], [-0.35, -1.55], [1.5, 1.9]]) {
+    ctx.drawImage(mask, x, y)
+  }
 }
 
 let renderer
@@ -215,18 +243,19 @@ function renderScene(scene, camera, style, world) {
   const ctx = output.getContext('2d')
   ctx.imageSmoothingQuality = 'high'
   background(ctx, style, world, camera)
+  if (style === 'illustrated') drawnEdges(ctx, renderer.domElement)
   ctx.drawImage(renderer.domElement, 0, 0, width, height)
   return output.toDataURL('image/jpeg', 0.9)
 }
 
-export async function renderBookArt(entry, model) {
+export async function renderBookArt(entry, model, styles) {
   const { world } = model
-  const eye = new Vector3(
-    ...(entry.family === 'airplane' ? [0.9, 1.08, -1.08] : [0.57, 1.4, -1.02]),
-  ).normalize()
-  const camera = makeCamera(world, eye)
   const result = {}
-  for (const style of Object.keys(variants)) {
+  for (const style of styles) {
+    const studioEye = entry.family === 'airplane' ? [0.9, 1.08, -1.08] : [0.57, 1.4, -1.02]
+    const drawnEye = entry.family === 'airplane' ? [0.73, 1.64, -0.86] : [0.38, 2.03, -0.72]
+    const eye = new Vector3(...(style === 'illustrated' ? drawnEye : studioEye)).normalize()
+    const camera = makeCamera(world, eye)
     const texture = await textureFor(model, style)
     const scene = makeScene(world, style, eye, texture)
     result[style] = renderScene(scene, camera, style, world)

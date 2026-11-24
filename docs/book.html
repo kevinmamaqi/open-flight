@@ -10,9 +10,9 @@
     />
     <title>Flight Book · Open Flight</title>
     <link rel="icon" type="image/svg+xml" href="./assets/wing-mark.svg" />
-    <link rel="stylesheet" href="./atlas-nav.css?v=788c398039bb" />
-    <link rel="stylesheet" href="./book.css?v=788c398039bb" />
-    <script type="module" src="./book.js?v=788c398039bb"></script>
+    <link rel="stylesheet" href="./atlas-nav.css?v=674464fb115d" />
+    <link rel="stylesheet" href="./book.css?v=674464fb115d" />
+    <script type="module" src="./book.js?v=674464fb115d"></script>
   </head>
   <body>
     <header class="mast">
@@ -24,7 +24,7 @@
           <a id="workshop" href="./" data-book="workshop">Workshop</a>
           <a
             class="current"
-            href="#book-heading"
+            href="#reader"
             aria-current="page"
             data-book="title"
             >Flight Book</a
@@ -45,158 +45,275 @@
       <header class="intro">
         <h1 id="book-heading" data-book="title">Flight Book</h1>
         <p data-book="intro">
-          Choose your paper flyers. Print the book, build together and see where
-          they land.
+          Read the book, make it yours and print the flyers you want to build.
         </p>
+        <div class="entry-links">
+          <a href="#reader" class="button primary" data-book="read"
+            >Read the book</a
+          >
+          <a href="#customize" class="button secondary" data-book="customize"
+            >Customize</a
+          >
+        </div>
       </header>
-      <section class="stage" aria-labelledby="preview-label">
-        <div class="stage-top">
-          <h2 id="preview-label" data-book="preview">Book preview</h2>
-          <span id="preview-paper">A4</span>
+
+      <section
+        class="reader"
+        id="reader"
+        aria-labelledby="reader-label"
+        tabindex="-1"
+      >
+        <div class="reader-tools">
+          <h2 id="reader-label" class="sr-only" data-book="reader">
+            Read the Flight Book
+          </h2>
+          <label class="page-picker">
+            <span data-book="page">Jump to page</span>
+            <select id="reader-select" disabled>
+              <option data-book="coverPage">1 · Cover</option>
+            </select>
+          </label>
+          <button id="wide-reading" type="button" aria-pressed="false" aria-controls="reader-pages customize" data-book="wideReading">Read at full width</button>
+          <a
+            id="reader-pdf"
+            class="reader-link"
+            target="_blank"
+            rel="noopener"
+            hidden
+            data-book="openPDF"
+            >Open PDF at this page</a
+          >
         </div>
-        <div class="paper-stack">
-          <div class="book-cover" id="book-cover">
-            <span class="cover-brand">Open Flight</span>
-            <h3 id="cover-title">Flight Book</h3>
-            <p id="cover-pilot" hidden></p>
-            <img id="cover-hero" class="cover-hero" alt="" />
-            <div class="cover-footer">
-              <span id="cover-edition">Edition 01</span>
-              <div
-                id="cover-fleet"
-                class="cover-fleet"
-                aria-hidden="true"
-              ></div>
-            </div>
-          </div>
+        <div id="book-cover" class="paper" style="--page-ratio: 210 / 297">
+          <img
+            id="cover-poster"
+            src="./assets/atlas/book-cover-en.png"
+            alt=""
+            fetchpriority="high"
+            width="530"
+            height="750"
+          />
+          <canvas id="cover-canvas" hidden></canvas>
         </div>
-        <button
-          type="button"
-          id="peek-page"
-          class="peek-button"
-          data-book="inside"
-        >
-          Look inside
-        </button>
+        <div class="cover-caption">
+          <p id="cover-title">Flight Book</p>
+          <p id="cover-pilot" hidden></p>
+          <p id="preview-paper">A4</p>
+        </div>
+        <div class="cover-links">
+          <a
+            class="turn-page"
+            id="read-next"
+            href="#reader-pages"
+            data-book="turnPage"
+            >Turn to page 2 ↓</a
+          >
+          <a href="#customize" data-book="customize">Customize</a>
+        </div>
+        <p id="reader-status" role="status" hidden></p>
       </section>
-      <div class="controls">
-        <section class="control-panel" aria-labelledby="fleet-heading">
-          <h2 id="fleet-heading" data-book="fleet">Pick your fleet</h2>
-          <p class="hint" data-book="fleetHint">
-            Butterflies need scissors and a paper clip. Airplanes fold from one
-            sheet.
-          </p>
-          <div id="presets" class="choices">
-            <button type="button" data-preset="starter" data-book="starter">
-              Starter 3
-            </button>
-            <button
-              type="button"
-              data-preset="butterflies"
-              data-book="butterflies"
+
+      <section
+        class="reader-pages"
+        id="reader-pages"
+        aria-labelledby="pages-heading"
+        tabindex="-1"
+      >
+        <h2 class="sr-only" id="pages-heading" data-book="pages">Pages</h2>
+        <div id="reader-stack"></div>
+      </section>
+
+      <aside
+        class="controls"
+        aria-label="Customize your book"
+        id="customize"
+        tabindex="-1"
+      >
+        <section class="flyer-panel" aria-labelledby="fleet-heading">
+          <div class="fleet-heading">
+            <h2 id="fleet-heading" data-book="fleet">Choose a flyer</h2>
+            <a href="#reader" data-book="read" class="return-link"
+              >Read the book</a
             >
-              Butterflies
-            </button>
-            <button type="button" data-preset="planes" data-book="planes">
-              Airplanes
-            </button>
-            <button type="button" data-preset="all" data-book="all">
-              All 7
-            </button>
           </div>
           <div id="designs" class="designs"></div>
-          <fieldset id="construction" aria-describedby="mixed-builds">
-            <legend data-book="construction">Butterfly build</legend>
-            <div class="choices">
-              <label
-                ><input
-                  type="radio"
-                  name="construction"
-                  value="k1"
-                  checked
-                /><span data-book="folded">Folded body</span></label
-              >
-              <label
-                ><input type="radio" name="construction" value="w1" /><span
-                  data-book="tabs"
-                  >Tabs</span
-                ></label
+          <section id="flyer" class="flyer" aria-labelledby="flyer-name">
+            <div class="flyer-photo">
+              <img id="flyer-image" alt="" width="640" height="400" />
+            </div>
+            <div class="flyer-content">
+              <div class="flyer-heading">
+                <h3 id="flyer-name"></h3>
+                <small id="flyer-tools"></small>
+              </div>
+              <div class="flyer-actions">
+                <button
+                  type="button"
+                  class="button primary"
+                  id="include-model"
+                  data-book="include"
+                >
+                  Add to book
+                </button>
+                <button
+                  type="button"
+                  class="button secondary"
+                  id="cover-model"
+                  data-book="feature"
+                >
+                  Put on cover
+                </button>
+              </div>
+              <p id="flyer-status" class="hint" role="status"></p>
+              <fieldset id="palette">
+                <legend data-book="colors">Colors</legend>
+                <div id="swatches" class="swatches"></div>
+              </fieldset>
+              <fieldset id="construction">
+                <legend data-book="construction">Butterfly fold</legend>
+                <div class="fold-options">
+                  <label>
+                    <input
+                      type="radio"
+                      name="construction"
+                      value="k1"
+                      checked
+                      aria-describedby="spine-hint"
+                    />
+                    <span
+                      ><img
+                        id="spine-example"
+                        alt=""
+                        width="288"
+                        height="180"
+                      /><strong data-book="folded">Pinched spine</strong></span
+                    >
+                  </label>
+                  <label>
+                    <input
+                      type="radio"
+                      name="construction"
+                      value="w1"
+                      aria-describedby="tabs-hint"
+                    />
+                    <span
+                      ><img
+                        src="./assets/field-guide/trim.svg"
+                        alt=""
+                        width="300"
+                        height="152"
+                      /><strong data-book="tabs">Rear wing tabs</strong></span
+                    >
+                  </label>
+                </div>
+                <p id="spine-hint" class="hint" data-book="spineHint">
+                  Pinch the center crease to make a stiff spine to hold.
+                </p>
+                <p id="tabs-hint" class="hint" data-book="tabsHint">
+                  Bend the small tabs at the back of the wings up or down to
+                  adjust the glide.
+                </p>
+                <p id="mixed-builds" class="hint" data-book="mixed" hidden>
+                  This book has both folds. Open print order to remove an
+                  individual sheet.
+                </p>
+              </fieldset>
+              <a
+                id="flyer-studio"
+                href="./studio.html"
+                class="flyer-studio"
+                data-book="openStudio"
+                >Open in the workshop</a
               >
             </div>
-            <p id="mixed-builds" class="hint" data-book="mixed" hidden>
-              This book uses both builds. Change print order to remove an
-              individual edition.
-            </p>
-          </fieldset>
-          <details class="order-panel">
-            <summary id="order-summary" data-book="order">
-              Change print order
-            </summary>
-            <p class="hint" data-book="orderHint">
-              Drag a model or move it with the arrow buttons.
-            </p>
-            <ol id="order"></ol>
-          </details>
+          </section>
         </section>
-        <section
-          class="control-panel settings"
-          aria-labelledby="settings-heading"
-        >
-          <h2 id="settings-heading" data-book="settings">Make it yours</h2>
-          <label for="pilot-input" data-book="pilotLabel"
-            >Pilot name (optional)</label
-          >
-          <input
-            id="pilot-input"
-            type="text"
-            maxlength="40"
-            autocomplete="off"
-            spellcheck="false"
-            aria-describedby="pilot-hint"
-          />
-          <p class="hint" id="pilot-hint" data-book="pilotHint">
-            The name appears on your cover, certificate and any link you share.
-          </p>
-          <fieldset>
-            <legend data-book="style">Cover style</legend>
-            <div class="choices">
-              <label
-                ><input name="style" type="radio" value="studio" checked /><span
-                  data-book="studio"
-                  >Studio model</span
-                ></label
-              >
-              <label
-                ><input name="style" type="radio" value="illustrated" /><span
-                  data-book="illustrated"
-                  >Drawn</span
-                ></label
-              >
-              <label
-                ><input name="style" type="radio" value="ink" /><span
-                  data-book="ink"
-                  >Ink saver</span
-                ></label
-              >
-            </div>
-          </fieldset>
-          <fieldset>
-            <legend data-book="paperLabel">Printer paper</legend>
-            <div class="choices">
-              <label
-                ><input name="paper" type="radio" value="A4" checked /><span
-                  >A4</span
-                ></label
-              >
-              <label
-                ><input name="paper" type="radio" value="US_LETTER" /><span
-                  data-book="letter"
-                  >US Letter</span
-                ></label
-              >
-            </div>
-          </fieldset>
-        </section>
+
+        <details class="control-details history-panel">
+          <summary data-book="history">
+            Explore where the flyers come from
+          </summary>
+          <div id="model-map"></div>
+        </details>
+
+        <details class="control-details settings">
+          <summary data-book="settings">Title, pilot and paper</summary>
+          <div class="settings-content">
+            <label for="title-input" data-book="titleLabel"
+              >Book title (optional)</label
+            >
+            <input
+              id="title-input"
+              type="text"
+              maxlength="64"
+              autocomplete="off"
+              spellcheck="false"
+              aria-describedby="title-hint"
+            />
+            <p class="hint" id="title-hint" hidden></p>
+            <label for="pilot-input" data-book="pilotLabel"
+              >Pilot name (optional)</label
+            >
+            <input
+              id="pilot-input"
+              type="text"
+              maxlength="40"
+              autocomplete="off"
+              spellcheck="false"
+              aria-describedby="pilot-hint"
+            />
+            <p class="hint" id="pilot-hint" data-book="pilotHint">
+              The name appears on your cover, certificate and any link you
+              share.
+            </p>
+            <fieldset>
+              <legend data-book="paperLabel">Printer paper</legend>
+              <div class="choices">
+                <label
+                  ><input name="paper" type="radio" value="A4" checked />
+                  A4</label
+                >
+                <label
+                  ><input name="paper" type="radio" value="US_LETTER" />
+                  <span data-book="letter">US Letter</span></label
+                >
+              </div>
+            </fieldset>
+            <details class="advanced">
+              <summary data-book="advanced">Artwork and print order</summary>
+              <fieldset>
+                <legend data-book="style">Cover and index artwork</legend>
+                <div class="choices">
+                  <label
+                    ><input name="style" type="radio" value="studio" checked />
+                    <span data-book="studio">Studio</span></label
+                  >
+                  <label
+                    ><input name="style" type="radio" value="illustrated" />
+                    <span data-book="illustrated">Drawn</span></label
+                  >
+                  <label
+                    ><input name="style" type="radio" value="ink" />
+                    <span data-book="ink">Ink saver</span></label
+                  >
+                </div>
+                <p class="hint" data-book="inkHint">
+                  Ink saver makes the cover and index grayscale. The folding
+                  sheets keep their chosen colors.
+                </p>
+              </fieldset>
+              <details class="order-panel">
+                <summary id="order-summary" data-book="order">
+                  Change print order
+                </summary>
+                <p class="hint" data-book="orderHint">
+                  Drag a sheet or move it with the arrow buttons.
+                </p>
+                <ol id="order"></ol>
+              </details>
+            </details>
+          </div>
+        </details>
         <section class="print-note" aria-labelledby="print-title">
           <h2 id="print-title" data-book="printTitle">Before you print</h2>
           <p data-book="printHint">
@@ -213,13 +330,14 @@
             >Classroom and print-shop guide</a
           >
         </section>
-      </div>
-      <noscript
-        ><p>
-          Enable JavaScript to make a book, or
+      </aside>
+
+      <noscript>
+        <p>
+          Enable JavaScript to read and customize the book, or
           <a href="./#library">get free individual sheets</a>.
-        </p></noscript
-      >
+        </p>
+      </noscript>
     </main>
     <div class="action-bar">
       <div class="bar-in">
@@ -274,25 +392,5 @@
         <p id="book-status" role="status"></p>
       </div>
     </div>
-    <dialog id="peek-dialog" aria-labelledby="peek-heading">
-      <div class="dialog-top">
-        <h2 id="peek-heading" data-book="inside">Look inside</h2>
-        <form method="dialog">
-          <button class="text-action" data-book="close">Close</button>
-        </form>
-      </div>
-      <label for="preview-select" data-book="page">Preview page</label>
-      <select id="preview-select"></select>
-      <p id="peek-status" role="status"></p>
-      <canvas id="peek-canvas" role="img" hidden></canvas>
-      <a
-        id="peek-source"
-        target="_blank"
-        rel="noopener"
-        hidden
-        data-book="openSheet"
-        >Open original sheet PDF</a
-      >
-    </dialog>
   </body>
 </html>

@@ -1,8 +1,9 @@
-import { foldArtwork, showFoldStep } from './fold-lesson.js?v=788c398039bb'
-import { makePlane, planeCatalog, planeSource, sheetSizes, liveries } from './assets/planes/core.js?v=788c398039bb'
-import { planeSvg, planeSpecimen, esc, stripes } from './assets/planes/drawing.js?v=788c398039bb'
-import { foldSvg, planeGuide } from './assets/planes/guide.js?v=788c398039bb'
-import { planePdfBytes } from './assets/planes/pdf.js?v=788c398039bb'
+import { foldArtwork, showFoldStep } from './fold-lesson.js?v=674464fb115d'
+import { makePlane, planeCatalog, planeSource, sheetSizes, liveries } from './assets/planes/core.js?v=674464fb115d'
+import { planeSvg, planeSpecimen, esc, stripes } from './assets/planes/drawing.js?v=674464fb115d'
+import { foldSvg, planeGuide } from './assets/planes/guide.js?v=674464fb115d'
+import { planeBrowserPdf } from './assets/planes/print.js?v=674464fb115d'
+import { appearanceChoices } from './model-appearance.js?v=674464fb115d'
 
 const words = {
   fieldTitle: ['From aircraft to paper', 'От самолёта к бумаге', 'Del avión real al papel'],
@@ -55,9 +56,11 @@ const words = {
   settings: ['Your design', 'Ваша модель', 'Tu diseño'],
   paper: ['Paper size', 'Формат листа', 'Tamaño de la hoja'],
   livery: ['Printed colors', 'Расцветка', 'Colores del avión'],
-  heritage: ['Heritage stripes', 'Классические полосы', 'Franjas clásicas'],
-  festival: ['Festival colors', 'Праздничные цвета', 'Colores vivos'],
-  pencil: ['Graphite', 'Графит', 'Grafito'],
+  flagHelp: [
+    'These wing markings show where the passenger airplane was designed.',
+    'Флаги на крыльях показывают, где спроектировали пассажирский самолёт.',
+    'Las banderas de las alas indican dónde se diseñó el avión de pasajeros.',
+  ],
   keel: ['Body fold', 'Глубина корпуса', 'Profundidad del cuerpo'],
   keelHint: [
     'A deeper body leaves less paper in each wing.',
@@ -138,9 +141,12 @@ const words = {
   mm: ['mm', 'мм', 'mm'],
   airplane: ['Paper airplane studio', 'Мастерская бумажных самолётов', 'Taller de aviones de papel'],
 }
-import { flightPhysics,physicsTitle } from './atlas-physics.js?v=788c398039bb'
-import { currentLocale } from './atlas-nav.js?v=788c398039bb'
+import { flightPhysics,physicsTitle } from './atlas-physics.js?v=674464fb115d'
+import { currentLocale } from './atlas-nav.js?v=674464fb115d'
+import { studioOrigins, bookColorAction } from './studio-origins.js?v=674464fb115d'
+import { bookFromStudio } from './model-studio.js?v=674464fb115d'
 const $ = (id) => document.getElementById(id)
+const updateAtlas = studioOrigins($('origin-atlas'))
 const params = new URLSearchParams(location.search)
 const languages = ['en', 'ru', 'es']
 const requestedLanguage = currentLocale()
@@ -276,7 +282,7 @@ function renderCopies() {
         ' ' +
         tr('mm') +
         ' · ' +
-        tr(p.livery)
+        appearanceChoices(p.model_id, locale).find(choice => choice.id === p.livery).label
       return (
         '<button type="button" data-copy-index="' +
         i +
@@ -291,6 +297,9 @@ function renderCopies() {
 }
 function renderField() {
   const { field } = plan
+  updateAtlas(plan.model_id, locale)
+  $('book-colors').textContent = bookColorAction(locale)
+  $('book-colors').href = bookFromStudio(plan.model_id, plan.livery, locale, plan.paper)
   $('field-airframe').src = './assets/planes/field/' + plan.model_id + '.svg'
   $('field-airframe').alt = field.variant + ' · ' + field.landmark
   $('field-variant').textContent = field.variant
@@ -321,7 +330,14 @@ function renderPlan() {
   $('sample-number').textContent = 'OF / ' + plan.code
   $('aircraft').innerHTML = planeSpecimen(plan)
   $('paper').value = plan.paper
+  if ($('livery').dataset.model !== plan.model_id) {
+    $('livery').replaceChildren(...appearanceChoices(plan.model_id, locale).map(
+      ({ id, label }) => new Option(label, id),
+    ))
+    $('livery').dataset.model = plan.model_id
+  }
   $('livery').value = plan.livery
+  $('flag-help').hidden = plan.livery !== 'flag'
   $('keel').value = plan.keel_mm
   $('tips').value = plan.winglet_mm
   $('keel-value').value = plan.keel_mm + ' ' + tr('mm')
@@ -379,7 +395,7 @@ function renderStep() {
 }
 async function updateViewer() {
   try {
-    loadingViewer ??= import('./flight-viewer.js?v=788c398039bb')
+    loadingViewer ??= import('./flight-viewer.js?v=674464fb115d')
       .then(({ mountFlightViewer }) => mountFlightViewer($('three')))
       .catch((error) => {
         loadingViewer = undefined
@@ -563,43 +579,6 @@ function download(content, type, ext, suffix = '', copy = plan) {
 $('svg').onclick = () => download(planeSvg(plan), 'image/svg+xml', 'svg')
 $('guide-file').onclick = () => download(planeGuide(plan), 'text/html;charset=utf-8', 'html', '-guide')
 $('source').onclick = () => download(planeSource(plan), 'application/json', 'json')
-let pdfLibrary, typeface
-function pdfScripts() {
-  if (globalThis.jspdf) return Promise.resolve(globalThis.jspdf.jsPDF)
-  pdfLibrary ??= new Promise((resolve, reject) => {
-    const script = document.createElement('script')
-    script.src = new URL('./assets/planes/vendor/jspdf.js', import.meta.url).href
-    script.onload = () => resolve(globalThis.jspdf.jsPDF)
-    script.onerror = () => {
-      script.remove()
-      pdfLibrary = undefined
-      reject(Error('PDF renderer'))
-    }
-    document.head.append(script)
-  })
-  return pdfLibrary
-}
-function fontData() {
-  typeface ??= Promise.all([
-    fetch(new URL('./assets/planes/vendor/DejaVuSans.ttf', import.meta.url)),
-    fetch(new URL('./assets/planes/vendor/DejaVu-LICENSE.txt', import.meta.url)),
-  ])
-    .then(([font, notice]) => {
-      if (!font.ok || !notice.ok) throw Error('PDF typeface')
-      return Promise.all([font.arrayBuffer(), notice.text()])
-    })
-    .then(([bytes, notice]) => {
-      const raw = new Uint8Array(bytes)
-      let binary = ''
-      for (let i = 0; i < raw.length; i += 16384) binary += String.fromCharCode(...raw.subarray(i, i + 16384))
-      return { base64: btoa(binary), notice }
-    })
-    .catch((error) => {
-      typeface = undefined
-      throw error
-    })
-  return typeface
-}
 document.querySelectorAll('.pdf').forEach((el) => {
   el.onclick = async () => {
     const buttons = document.querySelectorAll('.pdf')
@@ -609,8 +588,7 @@ document.querySelectorAll('.pdf').forEach((el) => {
     })
     announce(tr('creating'))
     try {
-      const [JsPDF, font] = await Promise.all([pdfScripts(), fontData()])
-      download(planePdfBytes(copy, JsPDF, font.base64, font.notice), 'application/pdf', 'pdf', '', copy)
+      download(await planeBrowserPdf(copy), 'application/pdf', 'pdf', '', copy)
       announce(tr('ready'))
     } catch {
       announce(tr('pdfError'))

@@ -12,6 +12,9 @@ let spatialMode = 'fold'
 const svgNS = 'http://www.w3.org/2000/svg'
 const modelIds = ['monarch', 'morpho', 'swallowtail']
 const loopback = location.hostname === '127.0.0.1'
+import { studioOrigins, bookColorAction } from './studio-origins.js'
+import { bookFromStudio } from './model-studio.js'
+const updateAtlas = studioOrigins(document.getElementById('origin-atlas'))
 const initial = new URLSearchParams(location.hash.slice(1))
 if (initial.has('grant')) {
   if (loopback) sessionStorage.setItem('open-flight-grant', initial.get('grant'))
@@ -308,6 +311,13 @@ function setRange(id, name, value = draft.parameters[name]) {
 }
 function renderSettings() {
   if (!revision) return
+  const bookLink = $('book-colors')
+  bookLink.hidden = !revision.species_id
+  if (revision.species_id) {
+    const id = revision.species_id + (foldedDraft ? '-k1' : '')
+    bookLink.href = bookFromStudio(id, foldedDraft?.appearance_id ?? draft.appearance_id, locale, foldedDraft?.paper ?? $('paper').value)
+    bookLink.textContent = bookColorAction(locale)
+  }
   $('construction').hidden = !revision.species_id
   $('tabbed-body').setAttribute('aria-pressed', String(!foldedDraft))
   $('folded-body').setAttribute('aria-pressed', String(!!foldedDraft))
@@ -625,6 +635,7 @@ function renderGuide() {
   $('meet-butterfly').hidden = !info?.photo?.local_path
   if (!content) return
   renderStep()
+  updateAtlas(info.id, locale)
   const photo = info.photo
   $('photo-box').hidden = !photo.local_path
   if (photo.local_path) {
@@ -1181,7 +1192,10 @@ function wireUI() {
   })
   $('paper').addEventListener('change', () => {
     if (foldedDraft) updateFolded({ paper: $('paper').value })
-    else clearDownloads()
+    else {
+      clearDownloads()
+      renderSettings()
+    }
   })
   $('print-locale').addEventListener('change', clearDownloads)
   $('prev-step').addEventListener('click', () => {
@@ -1243,6 +1257,10 @@ try {
       : first && refKey(foldedSeed?.ref ?? first)
   if (!selected) throw new Error(t('selectFirst'))
   await openChoice(selected)
+  if (['A4','US_LETTER'].includes(pageOptions.get('paper'))) $('paper').value = pageOptions.get('paper')
+  const appearance = pageOptions.get('appearance_id')
+  if (!foldedStart && appearance && revision.supported_appearances.some(choice => choice.appearance_id === appearance))
+    changeDraft({ appearance_id: appearance }, 0)
   if (foldedStart && revision?.species_id) {
     const step = Number(pageOptions.get('step'))
     const total = keelSteps(locale).length

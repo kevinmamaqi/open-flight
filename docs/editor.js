@@ -1,10 +1,10 @@
-import { foldArtwork, showFoldStep } from './fold-lesson.js?v=788c398039bb'
-import { keelSteps } from './keel-guide.js?v=788c398039bb'
-import { foldedAddress, foldedExports, foldedSettings } from './studio-folded.js?v=788c398039bb'
-import { flightPhysics,physicsTitle } from './atlas-physics.js?v=788c398039bb'
-import { butterflies } from './flight-butterflies.js?v=788c398039bb'
-import { words } from './editor-i18n.js?v=788c398039bb'
-import { drawGlide, playGlide } from './editor-glide.js?v=788c398039bb'
+import { foldArtwork, showFoldStep } from './fold-lesson.js?v=674464fb115d'
+import { keelSteps } from './keel-guide.js?v=674464fb115d'
+import { foldedAddress, foldedExports, foldedSettings } from './studio-folded.js?v=674464fb115d'
+import { flightPhysics,physicsTitle } from './atlas-physics.js?v=674464fb115d'
+import { butterflies } from './flight-butterflies.js?v=674464fb115d'
+import { words } from './editor-i18n.js?v=674464fb115d'
+import { drawGlide, playGlide } from './editor-glide.js?v=674464fb115d'
 
 const $ = (id) => document.getElementById(id)
 let spatial
@@ -12,6 +12,9 @@ let spatialMode = 'fold'
 const svgNS = 'http://www.w3.org/2000/svg'
 const modelIds = ['monarch', 'morpho', 'swallowtail']
 const loopback = location.hostname === '127.0.0.1'
+import { studioOrigins, bookColorAction } from './studio-origins.js?v=674464fb115d'
+import { bookFromStudio } from './model-studio.js?v=674464fb115d'
+const updateAtlas = studioOrigins(document.getElementById('origin-atlas'))
 const initial = new URLSearchParams(location.hash.slice(1))
 if (initial.has('grant')) {
   if (loopback) sessionStorage.setItem('open-flight-grant', initial.get('grant'))
@@ -23,7 +26,7 @@ if (initial.has('grant')) {
   )
 }
 const grant = loopback && sessionStorage.getItem('open-flight-grant')
-const portable = grant ? null : import('./browser-workshop.js?v=788c398039bb')
+const portable = grant ? null : import('./browser-workshop.js?v=674464fb115d')
 const pageOptions = new URLSearchParams(location.search)
 let foldedDraft
 const foldedCache = new Map()
@@ -308,6 +311,13 @@ function setRange(id, name, value = draft.parameters[name]) {
 }
 function renderSettings() {
   if (!revision) return
+  const bookLink = $('book-colors')
+  bookLink.hidden = !revision.species_id
+  if (revision.species_id) {
+    const id = revision.species_id + (foldedDraft ? '-k1' : '')
+    bookLink.href = bookFromStudio(id, foldedDraft?.appearance_id ?? draft.appearance_id, locale, foldedDraft?.paper ?? $('paper').value)
+    bookLink.textContent = bookColorAction(locale)
+  }
   $('construction').hidden = !revision.species_id
   $('tabbed-body').setAttribute('aria-pressed', String(!foldedDraft))
   $('folded-body').setAttribute('aria-pressed', String(!!foldedDraft))
@@ -410,7 +420,7 @@ async function renderFoldedPreview() {
   $('art-board').setAttribute('aria-busy', 'true')
   foldedLesson = undefined
   try {
-    const api = await (portable ?? import('./browser-workshop.js?v=788c398039bb'))
+    const api = await (portable ?? import('./browser-workshop.js?v=674464fb115d'))
     if (!foldedDraft || ticket !== foldedRender) return
     const plan = api.makeFoldedButterfly(foldedDraft, locale)
     foldedLesson = { api, plan }
@@ -625,6 +635,7 @@ function renderGuide() {
   $('meet-butterfly').hidden = !info?.photo?.local_path
   if (!content) return
   renderStep()
+  updateAtlas(info.id, locale)
   const photo = info.photo
   $('photo-box').hidden = !photo.local_path
   if (photo.local_path) {
@@ -883,7 +894,7 @@ async function exportFolded() {
   clearDownloads()
   const printLocale = $('print-locale').value
   const planInput = { ...foldedDraft, paper: $('paper').value }
-  const api = await (portable ?? import('./browser-workshop.js?v=788c398039bb'))
+  const api = await (portable ?? import('./browser-workshop.js?v=674464fb115d'))
   const plan = api.makeFoldedButterfly(planInput, printLocale)
   message(t('preparing'), false, $('print-status'))
   await api.prepareFoldedPdf()
@@ -989,7 +1000,7 @@ async function openSpatial(mode, start) {
     renderStep()
   }
   if (!$('spatial-dialog').open) $('spatial-dialog').showModal()
-  const { mountFlightViewer } = await import('./flight-viewer.js?v=788c398039bb')
+  const { mountFlightViewer } = await import('./flight-viewer.js?v=674464fb115d')
   if (!$('spatial-dialog').open) return
   spatial ??= mountFlightViewer($('spatial-surface'))
   refreshSpatial()
@@ -1181,7 +1192,10 @@ function wireUI() {
   })
   $('paper').addEventListener('change', () => {
     if (foldedDraft) updateFolded({ paper: $('paper').value })
-    else clearDownloads()
+    else {
+      clearDownloads()
+      renderSettings()
+    }
   })
   $('print-locale').addEventListener('change', clearDownloads)
   $('prev-step').addEventListener('click', () => {
@@ -1243,6 +1257,10 @@ try {
       : first && refKey(foldedSeed?.ref ?? first)
   if (!selected) throw new Error(t('selectFirst'))
   await openChoice(selected)
+  if (['A4','US_LETTER'].includes(pageOptions.get('paper'))) $('paper').value = pageOptions.get('paper')
+  const appearance = pageOptions.get('appearance_id')
+  if (!foldedStart && appearance && revision.supported_appearances.some(choice => choice.appearance_id === appearance))
+    changeDraft({ appearance_id: appearance }, 0)
   if (foldedStart && revision?.species_id) {
     const step = Number(pageOptions.get('step'))
     const total = keelSteps(locale).length

@@ -1,4 +1,4 @@
-import { currentLocale, homeURL, localizedLinks } from "./atlas-nav.js?v=788c398039bb";
+import { currentLocale, homeURL, localizedLinks } from "./atlas-nav.js?v=674464fb115d";
 
 const lang = currentLocale();
 const assetVersion = new URL(import.meta.url).search;

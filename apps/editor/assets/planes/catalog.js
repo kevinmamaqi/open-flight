@@ -1,3 +1,6 @@
+import { originCountryName } from './heritage.js'
+import { planeFlagColors } from './country-markings.js'
+
 const local = (en, ru, es) => ({ en, ru, es })
 
 export const planeCatalog = [
@@ -5,7 +8,7 @@ export const planeCatalog = [
     model_id: 'boeing-747',
     name: local('Upper Deck', 'Две палубы', 'Dos pisos'),
     inspiration: local('Boeing 747', 'Boeing 747', 'Boeing 747'),
-    origin: local('United States', 'США', 'Estados Unidos'),
+    origin: originCountryName('boeing-747'),
     character: local(
       'Pleated nose · broad wings',
       'Нос со складкой · широкие крылья',
@@ -55,7 +58,7 @@ export const planeCatalog = [
     model_id: 'douglas-dc3',
     name: local('Prairie Skipper', 'Луговой планёр', 'Planeador de la pradera'),
     inspiration: local('Douglas DC-3', 'Douglas DC-3', 'Douglas DC-3'),
-    origin: local('United States', 'США', 'Estados Unidos'),
+    origin: originCountryName('douglas-dc3'),
     character: local(
       'Rolled leading edge · wide nose',
       'Двойной подгиб · широкий нос',
@@ -109,7 +112,7 @@ export const planeCatalog = [
     model_id: 'tupolev-tu144',
     name: local('Delta Comet', 'Дельта-комета', 'Cometa delta'),
     inspiration: local('Tupolev Tu-144', 'Туполев Ту-144', 'Tupolev Tu-144'),
-    origin: local('Soviet Union', 'СССР', 'Unión Soviética'),
+    origin: originCountryName('tupolev-tu144'),
     character: local(
       'Double sweep · narrow delta',
       'Два косых сгиба · узкое крыло',
@@ -163,7 +166,7 @@ export const planeCatalog = [
     model_id: 'ilyushin-il62',
     name: local('Tailwind', 'Попутный ветер', 'Viento de cola'),
     inspiration: local('Ilyushin Il-62', 'Ильюшин Ил-62', 'Ilyushin Il-62'),
-    origin: local('Soviet Union', 'СССР', 'Unión Soviética'),
+    origin: originCountryName('ilyushin-il62'),
     character: local(
       'Swept shoulders · striped tail',
       'Стреловидные крылья · полосатый хвост',
@@ -229,10 +232,11 @@ export function referenceForLocale(reference, locale) {
 }
 
 export const sheetSizes = { A4: [210, 297], US_LETTER: [215.9, 279.4] }
-export const liveries = ['heritage', 'festival', 'pencil']
+export const liveries = ['heritage', 'festival', 'pencil', 'flag']
 export const revision = '1'
 export function planeColors(model, livery) {
   if (livery === 'pencil') return ['#687481', '#a3a9ad', '#6c7d84']
   if (livery === 'festival') return ['#e44f75', '#148d89', '#e8a323']
+  if (livery === 'flag') return planeFlagColors(model.model_id)
   return model.colors
 }

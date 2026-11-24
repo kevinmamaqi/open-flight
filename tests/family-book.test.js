@@ -152,7 +152,8 @@ for (const [lang, paper] of editions) {
         pageNumber++;
       }
     }
-    assert.equal(document.getPageCount(), pageNumber - 1);
+    assert.equal(document.getPageCount(), pageNumber - 1 + plan.originPages.length);
+    assert.deepEqual(plan.originPages.map(page => page.number), plan.originPages.map((_, i) => pageNumber + i));
     assert.equal(document.getPageCount(), plan.pageCount);
     if (lang === "ru" && paper === "A4")
       assert.deepEqual(await createBook(input, { loadAsset }), bytes);

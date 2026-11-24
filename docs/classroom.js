@@ -1,7 +1,7 @@
-import { currentLocale, homeURL, localizedLinks } from './atlas-nav.js?v=788c398039bb'
-import { bookFilename, bookTitle, localePaper } from './book-model.js?v=788c398039bb'
-import { classroomPlan } from './classroom-plan.js?v=788c398039bb'
-import { sheetName } from './family-sheets.js?v=788c398039bb'
+import { currentLocale, homeURL, localizedLinks } from './atlas-nav.js?v=674464fb115d'
+import { bookFilename, bookTitle, localePaper } from './book-model.js?v=674464fb115d'
+import { classroomPlan } from './classroom-plan.js?v=674464fb115d'
+import { sheetName } from './family-sheets.js?v=674464fb115d'
 
 const translations = {
   en: {
@@ -18,7 +18,7 @@ const translations = {
     copied: 'Print-shop instructions copied.',
     selectBrief: 'Select and copy the instructions below.',
     noteLine: (name, range, copies) => `${name} · page(s) ${range} · ${copies} copies`,
-    omitted: 'The cover, fleet index and certificate are optional and are excluded from these counts.',
+    omitted: 'Print the cover, fleet index, certificate and field notes separately if your class wants them.',
   },
   es: {
     workshop: 'Taller',
@@ -64,7 +64,7 @@ const translations = {
     copied: 'Instrucciones de impresión copiadas.',
     selectBrief: 'Selecciona y copia las instrucciones de abajo.',
     noteLine: (name, range, copies) => `${name} · pág. ${range} · ${copies} copias`,
-    omitted: 'La portada, el índice de modelos y el certificado son opcionales y quedan fuera de este cálculo.',
+    omitted: 'Si la clase quiere la portada, el índice, el certificado y las fichas de campo, imprímelos aparte.',
   },
   ru: {
     workshop: 'Мастерская',
@@ -110,7 +110,7 @@ const translations = {
     copied: 'Указания для печати скопированы.',
     selectBrief: 'Выделите и скопируйте указания ниже.',
     noteLine: (name, range, copies) => `${name} · с. ${range} · ${copies} экз.`,
-    omitted: 'Обложка, указатель моделей и сертификат в расчёт не входят. Их можно напечатать отдельно.',
+    omitted: 'При желании распечатайте отдельно обложку, список моделей, сертификат и страницы атласа.',
   },
 }
 

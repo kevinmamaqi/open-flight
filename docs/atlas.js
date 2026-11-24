@@ -1,9 +1,9 @@
-import { ru, es } from './atlas-copy.js?v=788c398039bb'
-import { currentLocale, homeURL, localizedLinks } from './atlas-nav.js?v=788c398039bb'
-import { fieldModel, studioLink, foldedLink } from './atlas-guide.js?v=788c398039bb'
-import { sheetIdFor, sheetPath } from './family-sheets.js?v=788c398039bb'
-import { normalizeBook } from './book-model.js?v=788c398039bb'
-import { recordBookEvent } from './book-metrics.js?v=788c398039bb'
+import { ru, es } from './atlas-copy.js?v=674464fb115d'
+import { currentLocale, homeURL, localizedLinks } from './atlas-nav.js?v=674464fb115d'
+import { fieldModel, studioLink, foldedLink } from './atlas-guide.js?v=674464fb115d'
+import { sheetIdFor, sheetPath } from './family-sheets.js?v=674464fb115d'
+import { normalizeBook } from './book-model.js?v=674464fb115d'
+import { recordBookEvent } from './book-metrics.js?v=674464fb115d'
 
 const fragment = new URLSearchParams(location.hash.slice(1))
 if (fragment.has('grant') || (fragment.has('design') && fragment.has('revision'))) {

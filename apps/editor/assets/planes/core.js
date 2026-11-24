@@ -290,7 +290,13 @@ export function makePlane(input, locale = 'en') {
       landmark: model.field.landmark[locale],
       look: model.field.look[locale],
       fold: model.field.fold[locale],
-      finish: model.field.finish[locale],
+      finish: livery === 'flag'
+        ? t(
+            'Find the country flags on the wings. These are classroom markings for the paper model.',
+            'Найдите флаги страны на крыльях. Эти флаги добавлены для занятий с бумажной моделью.',
+            'Busca las banderas en las alas. Estas marcas se añadieron al modelo de papel para el taller.',
+          )
+        : model.field.finish[locale],
       museum: referenceForLocale(model.field.museum ?? model.reference, locale),
     },
     dimensions: { width_mm: w, height_mm: h },

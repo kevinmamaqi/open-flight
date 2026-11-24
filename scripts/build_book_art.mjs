@@ -4,6 +4,7 @@ import { join } from 'node:path'
 import { pathToFileURL } from 'node:url'
 import { chromium } from 'playwright-core'
 import { sheetCatalog } from '../apps/editor/family-sheets.js'
+import { appearanceArtPath, appearanceArtStyles, appearanceChoices } from '../apps/editor/model-appearance.js'
 import { makePlane } from '../apps/editor/assets/planes/core.js'
 import { stripes } from '../apps/editor/assets/planes/drawing.js'
 import { makeWorld } from '../apps/editor/flight-geometry.js'
@@ -13,8 +14,8 @@ import {
   makeFoldedButterfly,
 } from '../packages/folded-butterfly/index.ts'
 
-function keel(model) {
-  const plan = makeFoldedButterfly({ species: model })
+function keel(model, appearance) {
+  const plan = makeFoldedButterfly({ species: model, appearance_id: appearance })
   const { left, right, outline } = foldedGeometry(plan)
   const { keel_depth_mm: depth, nose_y_mm: nose, abdomen_y_mm: tail } = plan
   const top = Math.min(...outline.map(([, y]) => y))
@@ -60,13 +61,13 @@ function keel(model) {
   return { world: { faces, lines: [{ points: clip }] }, svg, inkSvg }
 }
 
-function modelFor(entry) {
-  if (entry.construction === 'k1') return keel(entry.model)
+function modelFor(entry, appearance) {
+  if (entry.construction === 'k1') return keel(entry.model, appearance)
   if (entry.construction === 'w1') {
     const world = makeWorld({
       family: entry.family,
       id: entry.model,
-      appearance: 'natural',
+      appearance,
       stage: 5,
     }, 1)
     // The viewer represents the wire as an outline and a highlight. Use one solid wire here.
@@ -79,7 +80,7 @@ function modelFor(entry) {
     }, 1).faces[0].image
     return { world, coloring }
   }
-  const plan = makePlane({ model_id: entry.model })
+  const plan = makePlane({ model_id: entry.model, livery: appearance })
   const frame = plan.steps.at(-1).frame
   const world = makeWorld({
     family: entry.family,
@@ -91,7 +92,8 @@ function modelFor(entry) {
   return { world, decoration: stripes(plan), stock: [frame.width, frame.height] }
 }
 
-const output = new URL('../apps/editor/assets/book/models/', import.meta.url)
+const editor = new URL('../apps/editor/', import.meta.url)
+const output = new URL('assets/book/models/', editor)
 const renderUrl = new URL('./render_book_art.js', import.meta.url).href
 const browser = await chromium.launch({
   executablePath: process.env.CHROMIUM_PATH || process.env.OPENFLIGHT_CHROME || undefined,
@@ -107,11 +109,17 @@ try {
   await page.evaluate(async (url) => { window.renderBookArt = (await import(url)).renderBookArt }, renderUrl)
   await mkdir(output, { recursive: true })
   for (const entry of sheetCatalog) {
-    const model = modelFor(entry)
-    const files = await page.evaluate(({ entry, model }) => window.renderBookArt(entry, model), { entry, model })
-    for (const [style, data] of Object.entries(files)) {
-      const path = new URL(`${entry.id}-${style}.jpg`, output)
-      await writeFile(path, Buffer.from(data.split(',')[1], 'base64'))
+    for (const [index, { id: appearance }] of appearanceChoices(entry.model).entries()) {
+      const model = modelFor(entry, appearance)
+      const styles = appearanceArtStyles.filter((style) =>
+        index === 0 || appearanceArtPath(entry.id, style, appearance) !== appearanceArtPath(entry.id, style),
+      )
+      const files = await page.evaluate(({ entry, model, styles }) =>
+        window.renderBookArt(entry, model, styles), { entry, model, styles })
+      for (const [style, data] of Object.entries(files)) {
+        const path = new URL(appearanceArtPath(entry.id, style, appearance), editor)
+        await writeFile(path, Buffer.from(data.split(',')[1], 'base64'))
+      }
     }
     console.log(entry.id)
   }

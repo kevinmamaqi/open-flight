@@ -1,3 +1,4 @@
+import { appearanceChoices, appearanceArtPath, appearanceArtStyles } from './model-appearance.js'
 import { paperSizes, sheetCatalog, sheetIdFor, sheetLocales } from './family-sheets.js'
 
 const entries = new Map(sheetCatalog.map(item => [item.id, item]))
@@ -7,13 +8,13 @@ export const bookTitle = lang => titles[lang] || titles.en
 export function bookEdition(lang, count, paper) {
   const plural = new Intl.PluralRules(lang).select(count)
   const format = paper === 'A4' ? 'A4' : ({en:'US Letter',es:'Carta',ru:'US Letter'}[lang])
-  const labels = {en:['Edition 01','model','models','models'],es:['Edición 01','modelo','modelos','modelos'],ru:['Выпуск 01','модель','модели','моделей']}[lang]
+  const labels = {en:['Edition 02','model','models','models'],es:['Edición 02','modelo','modelos','modelos'],ru:['Выпуск 02','модель','модели','моделей']}[lang]
   const noun = labels[plural === 'one' ? 1 : plural === 'few' ? 2 : 3]
   return labels[0] + ' · ' + count + ' ' + noun + ' · ' + format
 }
 export const coverLimit = 64
 export const pilotLimit = 40
-export const bookStyles = Object.freeze(['studio', 'illustrated', 'ink'])
+export const bookStyles = appearanceArtStyles
 
 // Editorial teaching sequence. Time ranges are planning allowances for a first build.
 const levels = Object.freeze({
@@ -31,6 +32,17 @@ function label(value, limit, field) {
     throw new RangeError('Invalid ' + field + '.')
   return clean
 }
+function bookAppearances(choices = {}) {
+  if (!choices || typeof choices !== 'object' || Array.isArray(choices)) throw new RangeError('Invalid model colors.')
+  const colors = {}
+  for (const model of Object.keys(choices)) {
+    if (!modelOrder.includes(model)) throw new RangeError('Invalid model for colors.')
+    const available = appearanceChoices(model, 'en')
+    if (!available.some(choice => choice.id === choices[model])) throw new RangeError('Invalid colors for ' + model + '.')
+    if (choices[model] !== available[0].id) colors[model] = choices[model]
+  }
+  return Object.fromEntries(modelOrder.filter(id => Object.hasOwn(colors, id)).map(id => [id, colors[id]]))
+}
 export function normalizeBook(input = {}) {
   if (!input || typeof input !== 'object' || Array.isArray(input)) throw new TypeError('Expected book options.')
   const { lang = 'en', paper = 'A4', sheets = defaultSheets, pilot = '', style = 'studio',
@@ -39,7 +51,9 @@ export function normalizeBook(input = {}) {
   if (!bookStyles.includes(style) || !['sky', 'sunset', 'meadow'].includes(theme)) throw new RangeError('Invalid cover style or theme.')
   if (!Array.isArray(sheets) || !sheets.length || !Array.from(sheets).every(id => entries.has(id))
       || new Set(sheets).size !== sheets.length) throw new RangeError('Select 1 to 10 distinct sheets.')
-  return { lang, paper, sheets: [...sheets], pilot: label(pilot,pilotLimit,'pilot name'), style,
+  const coverModel = input.coverModel === undefined || input.coverModel === '' ? sheets[0] : input.coverModel
+  if (!sheets.includes(coverModel)) throw new RangeError('Select a cover model included in the book.')
+  return { lang, paper, sheets: [...sheets], coverModel, appearances: bookAppearances(input.appearances), pilot: label(pilot,pilotLimit,'pilot name'), style,
     theme, cover: label(cover,coverLimit,'cover title') || bookTitle(lang) }
 }
 
@@ -51,8 +65,7 @@ export function modelDetails(id) {
     tools: item.family === 'butterfly' ? 'scissors-clip' : 'paper' }
 }
 export function artPath(id, style = 'studio') {
-  if (!entries.has(id) || !bookStyles.includes(style)) throw new RangeError('Unknown book artwork.')
-  return 'assets/book/models/' + id + '-' + style + '.jpg'
+  return appearanceArtPath(id, style)
 }
 export function bookPlan(input = {}) {
   const { sheets } = normalizeBook(input)
@@ -71,7 +84,16 @@ export function bookPlan(input = {}) {
     return { id, start: pages[0].number, end: number, pages,
       guidePage: sharedGuide ? shared.get(sharedGuide.key) : null }
   })
-  return { pageCount: number, modelCount: new Set(sheets.map(id => entries.get(id).model)).size,
+  const originPages = []
+  const seen = new Set()
+  for (const id of sheets) {
+    const { model } = entries.get(id)
+    if (!seen.has(model)) {
+      seen.add(model)
+      originPages.push({ model, id, number: ++number })
+    }
+  }
+  return { pageCount: number, modelCount: originPages.length, originPages,
     guidePage: shared.get('folded-butterfly') ?? null, entries: items, keeps }
 }
 export function localePaper(languages = []) {
@@ -88,6 +110,9 @@ export function bookURL(input, base = canonicalBook) {
   url.search = ''
   url.searchParams.set('lang',book.lang)
   const fields = new URLSearchParams({ m: book.sheets.join(','), paper: book.paper === 'A4' ? 'a4' : 'letter', style: book.style })
+  if (book.coverModel !== book.sheets[0]) fields.set('hero', book.coverModel)
+  const colors = Object.entries(book.appearances).map(([id, color]) => id + ':' + color)
+  if (colors.length) fields.set('a', colors.join(','))
   if (book.pilot) fields.set('pilot',book.pilot)
   if (book.cover !== bookTitle(book.lang)) fields.set('title',book.cover)
   if (book.theme !== 'sky') fields.set('theme',book.theme)
@@ -102,6 +127,17 @@ export function readBookURL(address) {
   if (selection) {
     const ids = selection.split(',')
     if (ids.every(id=>entries.has(id)) && new Set(ids).size === ids.length) partial.sheets = ids
+  }
+  const hero = fields.get('hero')
+  if (hero && (partial.sheets || defaultSheets).includes(hero)) partial.coverModel = hero
+  if (fields.has('a')) {
+    const pairs = []
+    for (const token of fields.get('a').split(',').slice(0, modelOrder.length)) {
+      const [model, color, extra] = token.split(':')
+      if (!extra && modelOrder.includes(model) && appearanceChoices(model,'en').some(choice => choice.id === color))
+        pairs.push([model, color])
+    }
+    partial.appearances = bookAppearances(Object.fromEntries(pairs))
   }
   const paper = { a4:'A4',letter:'US_LETTER',us_letter:'US_LETTER' }[(fields.get('paper') || '').toLowerCase()]
   if (paper && paperSizes.includes(paper)) partial.paper = paper

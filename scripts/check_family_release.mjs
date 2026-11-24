@@ -90,7 +90,7 @@ async function measureBuilder(page) {
     await document.fonts.ready;
     await Promise.all(
       [...document.querySelectorAll("main img")]
-        .filter((img) => !img.hidden)
+        .filter((img) => img.currentSrc && img.checkVisibility())
         .map((img) => img.decode()),
     );
   });
@@ -155,10 +155,7 @@ async function checkStickyButton(page) {
 
 async function inspectBook(page, config) {
   const { lang, title, paper, pilot = "" } = config;
-  const sheets = pilot
-    ? starterModels.map((model) => sheetIdFor(model))
-    : [...defaultSheets];
-  if (pilot) await page.locator('[data-preset="starter"]').click();
+  const sheets = [...defaultSheets];
   const book = normalizeBook({ lang, paper, pilot, sheets });
   const plan = bookPlan(book);
   const summary = await page.locator("#book-summary").textContent();
@@ -198,7 +195,7 @@ async function inspectBook(page, config) {
   const folded = sheets.filter((id) => id.endsWith("-k1"));
   assert.equal(
     pdf.getPageCount(),
-    plan.keeps +
+    plan.keeps + plan.originPages.length +
       sourcePageCounts.reduce((a, b) => a + b, 0) -
       Math.max(folded.length - 1, 0),
   );
@@ -206,7 +203,7 @@ async function inspectBook(page, config) {
     new Set(
       plan.entries.flatMap((entry) => entry.pages.map(({ number }) => number)),
     ).size,
-    plan.pageCount - plan.keeps,
+    plan.pageCount - plan.keeps - plan.originPages.length,
   );
   if (folded.length)
     assert.ok(
@@ -313,13 +310,9 @@ try {
     assert.equal(await page.locator("#support-choices").isVisible(), false);
     assert.equal(await page.locator("#fullscreen").count(), 0);
     const cold = await measureBuilder(page);
-    assert.deepEqual(
-      cold.deferred,
-      [],
-      "Render and preview libraries should load on demand",
-    );
+    await page.locator("#reader-select").waitFor({ state: "visible" });
     const controls = {
-      modelCards: await page.locator("#designs input").count(),
+      modelCards: await page.locator("#designs [data-edit]").count(),
       presets: await page.locator("#presets button").count(),
       constructionChoices: await page.locator("[name='construction']").count(),
       coverStyles: await page.locator("[name='style']").count(),
@@ -328,18 +321,18 @@ try {
     };
     assert.deepEqual(controls, {
       modelCards: 7,
-      presets: 4,
+      presets: 0,
       constructionChoices: 2,
       coverStyles: 3,
       paperChoices: 2,
       nameFields: 1,
     });
-    assert.equal(await page.locator(".order-panel").getAttribute("open"), null);
+    assert.equal(await page.locator("#reader-stack").count(), 1);
     const stickyDownload = await checkStickyButton(page);
     const file = await inspectBook(page, config);
     observations.push({
       lang,
-      clickActions: pilot ? 3 : 2,
+      clickActions: 2,
       pilotField: Boolean(pilot),
       coldBuilderBytes: cold.bytes,
       coldBuilderRequests: cold.requests,
@@ -370,7 +363,7 @@ try {
   console.log(
     JSON.stringify(
       {
-        measurement: `Fresh ${view.width}×${view.height} Chromium context per locale. HTTP cache off, service worker and external requests blocked. Builder navigation and resource transferSize after fonts and artwork, before PDF generation. Clicks exclude typing and scroll. Timings are single local samples.`,
+        measurement: `Fresh ${view.width}×${view.height} Chromium context per locale. HTTP cache off, service worker and external requests blocked. Builder navigation and resource transferSize after fonts and artwork. The live reader can start rendering in the background. Clicks exclude typing and scroll. Timings are single local samples.`,
         observations,
       },
       null,

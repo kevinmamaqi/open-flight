@@ -1,6 +1,6 @@
 export type PlaneModelId = 'boeing-747' | 'douglas-dc3' | 'tupolev-tu144' | 'ilyushin-il62'
 export type PlanePaper = 'A4' | 'US_LETTER'
-export type PlaneLivery = 'heritage' | 'festival' | 'pencil'
+export type PlaneLivery = 'heritage' | 'festival' | 'pencil' | 'flag'
 export type PlaneLocale = 'en' | 'ru' | 'es'
 export type Point = [number, number]
 export interface PlaneOptions {

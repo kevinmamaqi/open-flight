@@ -2,15 +2,22 @@ import {mkdir, readFile, writeFile} from 'node:fs/promises'
 import {createCanvas, loadImage} from '@napi-rs/canvas'
 import {getDocument} from 'pdfjs-dist/legacy/build/pdf.mjs'
 import {createBook} from '../packages/print-export/family-book.js'
-import {sheetLocales, sheetIds} from '../apps/editor/family-sheets.js'
-import {artPath, bookStyles} from '../apps/editor/book-model.js'
+import {sheetLocales, sheetCatalog} from '../apps/editor/family-sheets.js'
+import {appearanceArtPath, appearanceArtStyles, appearanceChoices} from '../apps/editor/model-appearance.js'
 
 // The storefront shows the cover that the book renderer actually prints.
 const editor = new URL('../apps/editor/', import.meta.url)
 await mkdir(new URL('assets/book/thumbs/',editor),{recursive:true})
 const thumbnail = createCanvas(192,120)
-for (const id of sheetIds) for (const style of bookStyles) {
-  const path = artPath(id,style)
+const artwork = new Set()
+for (const {id,model} of sheetCatalog) {
+  for (const choice of appearanceChoices(model)) {
+    for (const style of appearanceArtStyles) artwork.add(appearanceArtPath(id,style,choice.id))
+  }
+}
+const paths = [...artwork].sort()
+await writeFile(new URL('assets/book/art-catalog.json', editor), JSON.stringify(paths, null, 2) + '\n')
+for (const path of paths) {
   const image = await loadImage(await readFile(new URL(path,editor)))
   thumbnail.getContext('2d').drawImage(image,0,0,thumbnail.width,thumbnail.height)
   const destination = new URL(path.replace('/models/','/thumbs/'),editor)

@@ -1,7 +1,7 @@
-import { aircraftPortrait } from './field-portraits.js?v=788c398039bb'
-import { sheetScene, specimenScene } from './drawing.js?v=788c398039bb'
-import { foldScene } from './guide.js?v=788c398039bb'
-import { planeCredits, creditText } from './credits.js?v=788c398039bb'
+import { aircraftPortrait } from './field-portraits.js?v=674464fb115d'
+import { sheetScene, specimenScene } from './drawing.js?v=674464fb115d'
+import { foldScene } from './guide.js?v=674464fb115d'
+import { planeCredits, creditText } from './credits.js?v=674464fb115d'
 
 function draw(doc, parts, offset = [0, 0], scale = 1) {
   const pt = ([x, y]) => [offset[0] + x * scale, offset[1] + y * scale]

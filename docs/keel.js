@@ -1,7 +1,7 @@
-import { foldArtwork, showFoldStep } from './fold-lesson.js?v=788c398039bb';
-import { currentLocale, homeURL, localizedLinks } from "./atlas-nav.js?v=788c398039bb";
-import { keelSteps } from "./keel-guide.js?v=788c398039bb";
-import * as api from "./browser-workshop.js?v=788c398039bb";
+import { foldArtwork, showFoldStep } from './fold-lesson.js?v=674464fb115d';
+import { currentLocale, homeURL, localizedLinks } from "./atlas-nav.js?v=674464fb115d";
+import { keelSteps } from "./keel-guide.js?v=674464fb115d";
+import * as api from "./browser-workshop.js?v=674464fb115d";
 
 const copy = {
   skip: [
