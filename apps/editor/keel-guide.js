@@ -1,5 +1,3 @@
-import { butterflies } from './flight-butterflies.js';
-
 const ids = ['cut', 'center', 'wings', 'table', 'clip', 'launch'];
 const copy = {
   en: [
@@ -45,12 +43,6 @@ const motion = '#963512';
 const centerDash = '1 5';
 const wingDash = '8 4 1 4';
 const stripFill = '#eadac4';
-const palettes = {
-  monarch: ['#e67b32', '#ffd593', '#51312a'],
-  morpho: ['#41a5c6', '#bdeafa', '#263f67'],
-  swallowtail: ['#f7cf55', '#fff0a2', '#443448'],
-};
-
 const escapeXml = (text) => text.replaceAll('&', '&amp;').replaceAll('<', '&lt;').replaceAll('"', '&quot;');
 const point = ([x, y]) => `${x.toFixed(2)},${y.toFixed(2)}`;
 const path = (points) => `M ${points.map(point).join(' L ')}`;
@@ -68,47 +60,12 @@ function arrow(start, control, end) {
   return `<path d="M ${point(start)} Q ${point(control)} ${point(end)} M ${point(head[0])} L ${point(end)} L ${point(head[1])}" fill="none" stroke="${motion}" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>`;
 }
 
-function pattern(g, palette, span, words) {
-  const [color, accent, dark] = palette;
-  const scale = Math.min(348 / (span + 16), 174 / (g.range[1] - g.range[0]));
-  const xScale = span / 200;
-  const planPoint = ([x, y], side = 1) => [200 + side * (8 + x * xScale) * scale, 26 + (y - g.range[0]) * scale];
-  const stripPoint = (x, y) => [200 + x * scale, 26 + (y - g.range[0]) * scale];
-
-  // Restore the common outside edge across the old trim-tab cut stops.
-  const firstStop = g.wing.findIndex(([x, y]) => x === g.hinges[0][0] && y === g.hinges[0][1]);
-  const wing = [...g.wing.slice(0, firstStop), ...g.tab.slice(2, -2), ...g.wing.slice(firstStop + 2)];
-  const body = g.body.slice(0, g.body.findIndex(([x, y]) => x === 0 && y > g.nose) + 1);
-  const wingStart = body.findIndex(([x, y]) => x === g.root && y === g.fore);
-  const wingEnd = body.findIndex(([x, y]) => x === g.root && y === g.hind);
-  const half = [...body.slice(0, wingStart), ...wing, ...body.slice(wingEnd + 1)];
-  const outline = [...half.map((p) => planPoint(p)), ...half.toReversed().map((p) => planPoint(p, -1))];
-  const tip = wing.findIndex(([x]) => x === 100);
-  const dot = (sample, radius, side) => {
-    const [x, y] = planPoint(sample, side);
-    return `<circle cx="${x}" cy="${y}" r="${radius}" fill="${accent}"/>`;
-  };
-  const art = [-1, 1].map((side) => {
-    const [tx, ty] = planPoint(wing[tip], side);
-    const [sx, sy] = planPoint([17, 39], side);
-    const [hx, hy] = planPoint([32, 64], side);
-    return `<path d="M ${sx},${sy} Q ${tx},${ty + 14} ${tx - side * 5},${ty + 9} M ${sx},${sy} Q ${hx},${hy - 18} ${hx},${hy}" fill="none" stroke="${dark}" stroke-width="1.6"/>
-      ${dot([60, 28], 4, side)}${dot([69, 24], 3, side)}${dot([46, 58], 3.5, side)}`;
-  }).join('');
-  const rear = g.nose + g.clip;
-  const stop = (side) => {
-    const [x, y] = stripPoint(10.3 * side, rear);
-    return `<path d="${path([stripPoint(side, rear), stripPoint(7 * side, rear)])}" stroke="${ink}" stroke-width="1.5"/>
-      <circle cx="${x}" cy="${y}" r="1.8" fill="${alignment}" stroke="#fffdf7" stroke-width="0.8"/>`;
-  };
+function pattern(flatSvg, words) {
+  const figure = flatSvg
+    .replace('<svg ', '<svg x="20" y="25" width="360" height="184" aria-hidden="true" ')
+    .replaceAll(' id="', ' id="lesson-');
   return `${label(200, 17, words.pattern)}
-    <path d="${path(outline)} Z" fill="${color}" stroke="${ink}" stroke-width="2.4" stroke-linejoin="round"/>
-    ${art}
-    <path d="${path([stripPoint(-8, g.nose), stripPoint(8, g.nose), stripPoint(8, body.at(-1)[1]), stripPoint(-8, body.at(-1)[1])])} Z" fill="${stripFill}"/>
-    <path d="${path([stripPoint(-8, g.nose), stripPoint(8, g.nose)])} M ${point(stripPoint(-8, body.at(-1)[1]))} L ${point(stripPoint(8, body.at(-1)[1]))}" stroke="${ink}" stroke-width="2.4"/>
-    ${crease([stripPoint(0, g.nose), stripPoint(0, body.at(-1)[1])], centerDash)}
-    ${[-8, 8].map((x) => crease([stripPoint(x, g.nose), stripPoint(x, body.at(-1)[1])], wingDash)).join('')}
-    ${stop(-1)}${stop(1)}
+    ${figure}
     ${crease([[20, 223], [46, 223]], centerDash)}${label(53, 228, words.center, 'start')}
     ${crease([[211, 223], [237, 223]], wingDash)}${label(244, 228, words.wings, 'start')}`;
 }
@@ -116,10 +73,10 @@ function pattern(g, palette, span, words) {
 // The rear section keeps its original three hinge axes. The wing and each half of
 // the strip rotate independently around the center valley and wing mountains.
 // The paper thickness is exaggerated so the two layers can be distinguished.
-function rearSection(x, y, halfWidth, stripAngle, wingAngle, inverted, color) {
+function rearSection(x, y, halfWidth, stripAngle, wingAngle, inverted, color, stripDepth) {
   const direction = inverted ? 1 : -1;
-  const creaseY = y + direction * 15 * Math.sin(stripAngle);
-  const rootDistance = Math.max(2, 15 * Math.cos(stripAngle));
+  const creaseY = y + direction * stripDepth * Math.sin(stripAngle);
+  const rootDistance = Math.max(2, stripDepth * Math.cos(stripAngle));
   return [-1, 1].map((side) => {
     const root = [x + side * rootDistance, creaseY];
     const tip = [root[0] + side * halfWidth * Math.cos(wingAngle), creaseY + direction * halfWidth * Math.sin(wingAngle)];
@@ -134,14 +91,14 @@ function rearSection(x, y, halfWidth, stripAngle, wingAngle, inverted, color) {
   }).join('');
 }
 
-function foldDiagram(step, words, color) {
+function foldDiagram(step, words, color, stripDepth) {
   const half = Math.PI / 2;
   const center = step === 1;
   return `${label(200, 30, words.rear)}
     ${label(100, 69, words.start)}${label(300, 69, words.finish)}
     <path d="M200 55v145" stroke="#ddd2c1"/>
-    ${rearSection(100, 174, 62, center ? 0 : half, center ? 0 : half, false, color)}
-    ${rearSection(300, 174, 62, half, center ? half : 0, false, color)}
+    ${rearSection(100, 174, 62, center ? 0 : half, center ? 0 : half, false, color, stripDepth)}
+    ${rearSection(300, 174, 62, half, center ? half : 0, false, color, stripDepth)}
     ${center ? `
       ${arrow([31, 162], [31, 129], [64, 113])}${arrow([169, 162], [169, 129], [136, 113])}
       ${crease([[100, 182], [100, 200]], centerDash)}${label(100, 219, words.center)}
@@ -152,52 +109,50 @@ function foldDiagram(step, words, color) {
     `}`;
 }
 
-function tableDiagram(words, color) {
+function tableDiagram(words, color, stripDepth) {
   return `${label(200, 30, words.rear)}
     <path d="M28 145 H372 V186 H28 Z" fill="#eadac4"/>
     <path d="M28 145 H372" stroke="${ink}" stroke-width="2"/>
-    ${rearSection(200, 127, 121, Math.PI / 2, 0, true, color)}
+    ${rearSection(200, 145 - stripDepth, 121, Math.PI / 2, 0, true, color, stripDepth)}
     ${arrow([75, 83], [75, 102], [75, 125])}${arrow([325, 83], [325, 102], [325, 125])}
     <path d="M200 117V89" fill="none" stroke="${ink}" stroke-width="1.4"/>
     ${label(200, 82, words.strip)}${label(200, 173, words.table)}`;
 }
 
-function finishedDiagram(step, words, g, color) {
+function finishedDiagram(step, words, plan, color, stripDepth) {
   const launch = step === 5;
   const x = 82;
   const y = 143;
-  const scale = 3.15;
-  const stop = x + g.clip * scale;
-  const tail = x + (g.body.find(([bx, by]) => bx === 0 && by > g.nose)[1] - g.nose) * scale;
+  const scale = Math.min(3.15, 280 / plan.body_length_mm);
+  const stop = x + plan.clip_station_mm * scale;
+  const tail = x + plan.body_length_mm * scale;
+  const depth = plan.keel_depth_mm * scale;
   const focus = launch ? stop + 32 : stop;
   return `${label(200, 27, words.rear)}
-    ${rearSection(200, 86, 110, Math.PI / 2, 0, false, color)}
+    ${rearSection(200, 86, 110, Math.PI / 2, 0, false, color, stripDepth)}
     <path d="M196 75v10q4 10 8 0v-10" fill="none" stroke="${motion}" stroke-width="2.4"/>
     ${label(200, 121, words.side)}
-    <path d="${path([[x, y], [tail, y], [tail, y + 25], [x, y + 25]])} Z" fill="${stripFill}" stroke="${ink}" stroke-width="1.8"/>
+    <path d="${path([[x, y], [tail, y], [tail, y + depth], [x, y + depth]])} Z" fill="${stripFill}" stroke="${ink}" stroke-width="1.8"/>
     <path d="M${x} ${y}H${tail}" stroke="${color}" stroke-width="4"/>
     ${launch ? '' : `<circle cx="${stop}" cy="${y}" r="3" fill="${alignment}"/><path d="M${stop} ${y + 4}v15" stroke="${alignment}" stroke-dasharray="2 2"/>`}
     <path d="M${stop} ${y + 18}H${x + 3}a6 6 0 0 1 0 -12h${stop - x - 10}a3 3 0 0 1 0 6h-${stop - x - 17}" fill="none" stroke="${ink}" stroke-width="2.5" stroke-linecap="round"/>
     ${launch ? `<circle cx="${focus}" cy="${y + 13}" r="7" fill="${motion}"/>${arrow([74, 155], [56, 155], [34, 155])}` : `${arrow([31, 155], [52, 155], [74, 155])}`}
     <path d="M${focus} 171v18h9" fill="none" stroke="${ink}" stroke-width="1.4"/>
     ${label(focus + 13, 194, launch ? words.grip : words.mark, 'start')}
-    ${launch ? label(x - 3, 124, words.nose) : `<path d="M${x} 209v8m0-4h${stop - x}m0-4v8" stroke="${ink}"/>${label(stop + 10, 218, `${g.clip} ${words.mm}`, 'start')}`}`;
+    ${launch ? label(x - 3, 124, words.nose) : `<path d="M${x} 209v8m0-4h${stop - x}m0-4v8" stroke="${ink}"/>${label(stop + 10, 218, `${plan.clip_station_mm} ${words.mm}`, 'start')}`}`;
 }
 
-export function keelDiagram(stepIndex = 0, species = 'monarch', locale = 'en', spanMm) {
-  const language = Object.hasOwn(labels, locale) ? locale : 'en';
-  const kind = Object.hasOwn(butterflies, species) ? species : 'monarch';
+export function keelDiagram(plan, stepIndex, color, flatSvg) {
+  const language = plan.locale;
   const step = Number.isInteger(stepIndex) && stepIndex >= 0 && stepIndex < ids.length ? stepIndex : 0;
-  const g = butterflies[kind];
-  const span = Number.isFinite(spanMm) && spanMm > 0 ? spanMm : g.span;
-  const palette = palettes[kind];
   const words = labels[language];
-  const { title, action, check } = keelSteps(language)[step];
+  const { title, action, check } = plan.steps[step];
+  const stripDepth = 1.875 * plan.keel_depth_mm;
   let drawing;
-  if (step === 0) drawing = pattern(g, palette, span, words);
-  else if (step < 3) drawing = foldDiagram(step, words, palette[0]);
-  else if (step === 3) drawing = tableDiagram(words, palette[0]);
-  else drawing = finishedDiagram(step, words, g, palette[0]);
+  if (step === 0) drawing = pattern(flatSvg(), words);
+  else if (step < 3) drawing = foldDiagram(step, words, color, stripDepth);
+  else if (step === 3) drawing = tableDiagram(words, color, stripDepth);
+  else drawing = finishedDiagram(step, words, plan, color, stripDepth);
   return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 240" role="img" lang="${language}" aria-label="${escapeXml(`${title}. ${action} ${check}`)}" font-family="system-ui, sans-serif" font-size="14" fill="${ink}">
     <title>${escapeXml(title)}</title>
     <rect width="400" height="240" rx="12" fill="#fffdf7"/>

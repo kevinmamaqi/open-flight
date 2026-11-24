@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="./flight-viewer.css" />
     <link rel="stylesheet" href="./atlas-nav.css"><script type="module" src="./atlas-nav.js"></script>
     <script type="module" src="./editor.js"></script>
+    <link rel="stylesheet" href="./fold-lesson.css" />
   </head>
   <body>
     <a class="skip-link" href="#worktable" data-i18n="skip">Skip to the worktable</a>
@@ -51,7 +52,10 @@
         <div>
           <h1 data-i18n="studioTitle">Butterfly studio</h1>
           <p data-i18n="intro">Choose a butterfly, make its wings your own, and fold it for flight.</p>
-          <a id="folded-edition" class="other-construction" href="./keel.html">Try the folded body with this wing pattern ↗</a>
+          <div id="construction" class="view-switch construction-switch" role="group" data-aria="construction" aria-label="Construction" hidden>
+            <button type="button" id="tabbed-body" data-i18n="tabbedBody" aria-pressed="true">Tabbed wings</button>
+            <button type="button" id="folded-body" data-i18n="foldedBody" aria-pressed="false">Folded body</button>
+          </div>
         </div>
         <button class="button primary" type="button" id="print-design" disabled>
           <svg class="icon" aria-hidden="true"><use href="./editor-art.svg#print" /></svg>
@@ -92,7 +96,7 @@
               <img id="peek-photo" alt="" /><span data-i18n="realButterfly">Real butterfly</span
               ><svg class="small-icon" aria-hidden="true"><use href="./editor-art.svg#next" /></svg>
             </button>
-            <div class="art-frame"><img id="preview" alt="" /></div>
+            <div class="art-frame"><img id="preview" alt="" /><div id="folded-preview" role="img" hidden></div></div>
             <div class="span-rule"><i></i><span id="span">—</span><i></i></div>
           </div>
           <div id="glide-board" class="glide-board" hidden>
@@ -268,12 +272,13 @@
             <h2 id="build-title" data-i18n="buildGuide">Build guide</h2>
           </div>
           <div class="step-content" id="step-content">
-            <div id="diagram-board" class="diagram-board"><img id="step-diagram" alt="" /></div>
+            <div id="diagram-board" class="diagram-board fold-lesson-figure"></div>
             <div class="step-instructions">
               <span id="step-count" class="step-count" aria-live="polite"></span>
               <h3 id="step-title"></h3>
               <p id="step-body"></p>
-              <div class="step-navigation">
+              <p id="folded-check" hidden><strong data-i18n="checkFold">Check</strong> <span id="step-check"></span></p>
+              <div class="step-navigation fold-lesson-actions">
                 <button
                   type="button"
                   class="arrow-btn"
@@ -291,6 +296,7 @@
               </div>
             </div>
           </div>
+          <p id="folded-options" hidden><a class="other-construction" id="folded-edition" data-i18n="foldedFiles" href="./keel.html">Folded body files and matching original</a></p>
           <div id="activities" class="activities" aria-label="Activities" data-aria="activities"></div>
         </section>
         <section id="field-guide" class="field-card panel" aria-labelledby="field-title">

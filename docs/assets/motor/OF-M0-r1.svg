@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="210mm" height="297mm" viewBox="0 0 210 297">
+  <title>OF-M0-r1 — Open Flight</title>
+  <desc>Unpowered paper saddle with cut outline, fold lines and a 50 mm calibration bar. Apache-2.0.</desc>
+  <g fill="#202b25" font-family="DejaVu Sans, sans-serif">
+    <text x="16" y="24" font-size="8" font-weight="bold">Open Flight</text>
+    <text x="16" y="34" font-size="4.5">OF-M0-r1 · Fit check / Prueba de ajuste / Примерка</text>
+    <text x="16" y="43" font-size="3.4">Print at 100% / Imprime al 100% / Печатай в масштабе 100%</text>
+    <text x="16" y="52" font-size="3.4">Paper and low-tack tape / Papel y cinta removible / Бумага и малярная лента</text>
+    <text x="16" y="97" font-size="3.3">45 × 34 mm · 15 / 4 / 15 mm</text>
+    <text x="83" y="65" font-size="3.3">Cut / Recorta / Вырежи</text>
+    <text x="83" y="74" font-size="3.3">Fold down / Dobla hacia abajo / Согни вниз</text>
+    <text x="83" y="83" font-size="3.3">Keel / Quilla / Киль</text>
+    <text x="83" y="95" font-size="3.3">Soft ballast / Lastre blando / Мягкий груз</text>
+    <text x="16" y="108" font-size="3.3">Check / Comprueba / Проверь · 50 mm</text>
+    <g font-size="2.7"><text x="16" y="121" text-anchor="middle">0</text><text x="26" y="121" text-anchor="middle">10</text><text x="36" y="121" text-anchor="middle">20</text><text x="46" y="121" text-anchor="middle">30</text><text x="56" y="121" text-anchor="middle">40</text><text x="66" y="121" text-anchor="middle">50</text></g>
+    <text x="105" y="128" font-size="3.3">Rear / Desde atrás / Вид сзади</text>
+    <text x="16" y="141" font-size="4">Balance from nose / Desde la punta / Равновесие от носа</text>
+    <text x="16" y="153" font-size="3.4">Before / Antes / До __________________ mm</text>
+    <text x="16" y="165" font-size="3.4">With ballast / Con lastre / С грузом __________________ mm</text>
+    <text x="16" y="177" font-size="3.4">Added mass / Masa añadida / Добавленная масса __________________ g</text>
+    <text x="16" y="194" font-size="4">First contact / Primer contacto / Первое касание</text>
+    <text x="16" y="205" font-size="3.2">1 ____________  2 ____________  3 ____________  4 ____________  5 ____________</text>
+    <text x="16" y="228" font-size="3">https://kevinmamaqi.github.io/open-flight/motor.html · Apache-2.0</text>
+  </g>
+  <g fill="none" stroke="#202b25" stroke-width=".35">
+    <rect id="cut-outline" x="16" y="57" width="45" height="34"/>
+    <path id="fold-lines" d="M16 72h45M16 76h45" stroke-dasharray="2 1.3"/>
+    <path d="M72 64h8"/>
+    <path d="M72 73h8" stroke-dasharray="2 1.3"/>
+    <path d="M76 79v6M73 85h6"/>
+    <path d="M73 92h6v3h-6z"/>
+    <path d="M98 105l29 12h7l33-12" stroke="#68796d"/>
+    <path d="M130.5 108v15M127.5 123h6"/>
+    <path d="M117 113l10 3v-7h7v7l10-3" stroke-width=".55"/>
+    <rect x="128" y="105.5" width="5" height="3.5" fill="#e4e9df"/>
+    <path id="calibration-bar" d="M16 112h50"/>
+    <path d="M16 112v4"/><path d="M17 112v1"/><path d="M18 112v1"/><path d="M19 112v1"/><path d="M20 112v1"/><path d="M21 112v2"/><path d="M22 112v1"/><path d="M23 112v1"/><path d="M24 112v1"/><path d="M25 112v1"/><path d="M26 112v4"/><path d="M27 112v1"/><path d="M28 112v1"/><path d="M29 112v1"/><path d="M30 112v1"/><path d="M31 112v2"/><path d="M32 112v1"/><path d="M33 112v1"/><path d="M34 112v1"/><path d="M35 112v1"/><path d="M36 112v4"/><path d="M37 112v1"/><path d="M38 112v1"/><path d="M39 112v1"/><path d="M40 112v1"/><path d="M41 112v2"/><path d="M42 112v1"/><path d="M43 112v1"/><path d="M44 112v1"/><path d="M45 112v1"/><path d="M46 112v4"/><path d="M47 112v1"/><path d="M48 112v1"/><path d="M49 112v1"/><path d="M50 112v1"/><path d="M51 112v2"/><path d="M52 112v1"/><path d="M53 112v1"/><path d="M54 112v1"/><path d="M55 112v1"/><path d="M56 112v4"/><path d="M57 112v1"/><path d="M58 112v1"/><path d="M59 112v1"/><path d="M60 112v1"/><path d="M61 112v2"/><path d="M62 112v1"/><path d="M63 112v1"/><path d="M64 112v1"/><path d="M65 112v1"/><path d="M66 112v4"/>
+  </g>
+</svg>

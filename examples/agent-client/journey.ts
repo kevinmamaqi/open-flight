@@ -47,10 +47,10 @@ async function http(path: string, options: RequestInit = {}) {
 }
 try {
   const tools = (await client.listTools()).tools
-  assert.equal(tools.length, 20)
+  assert.equal(tools.length, 22)
   assert.equal((await client.listResourceTemplates()).resourceTemplates.length, 1)
   const caps = await call('get_capabilities')
-  assert.equal(caps.enabled_operations.length, 21)
+  assert.equal(caps.enabled_operations.length, 23)
   assert.deepEqual(caps.locales, ['en', 'ru', 'es'])
   const k1 = {settings:{species:'morpho',span_mm:168,appearance_id:'twilight',paper:'US_LETTER'},locale:'es',output:'source_json'}
   const folded = await call('plan_folded_butterfly', k1)
@@ -73,6 +73,38 @@ try {
   assert.deepEqual(comparison.models.map(({ family }: { family: string }) => family), ['butterfly', 'airplane'])
   assert.equal(comparison.locale, 'es')
   assert.equal((await invoke('compare_models', { left: 'morpho', right: 'morpho' })).error.code, 'invalid_input')
+  const lab = await call('get_motor_lab', { locale: 'es' })
+  assert.equal(lab.evidenceState, 'concept')
+  assert.equal(lab.locale, 'es')
+  assert.ok(lab.bom.length && lab.files.some((f: { id: string }) => f.id === 'source'))
+  const bookSettings = { lang: 'es', paper: 'US_LETTER', cover: 'Alas de papel', theme: 'meadow', sheets: ['morpho-k1', 'boeing-747'] }
+  const manifest = await call('render_family_book', { settings: bookSettings })
+  assert.deepEqual(manifest.settings, bookSettings)
+  const bookParts: Buffer[] = []
+  let bookOffset: number | null = 0
+  let bookHash = ''
+  let bookLength = 0
+  while (bookOffset !== null) {
+    const args: Record<string, unknown> = { settings: bookSettings, output: 'pdf', offset: bookOffset }
+    const part: { offset: number; next_offset: number | null; sha256: string; byte_length: number; content: string } = (await call('render_family_book', args)).pdf
+    assert.equal(part.offset, bookOffset)
+    assert.ok(part.next_offset === null || part.next_offset > bookOffset)
+    if (bookHash) assert.equal(part.sha256, bookHash)
+    bookHash = part.sha256
+    bookLength = part.byte_length
+    bookParts.push(Buffer.from(part.content, 'base64'))
+    if (origin) {
+      const res = await http('/v1/books/render', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(args) })
+      assert.deepEqual((await res.json()).pdf, part)
+    }
+    bookOffset = part.next_offset
+  }
+  const book = Buffer.concat(bookParts)
+  assert.equal(book.length, bookLength)
+  assert.equal(hash(book), bookHash)
+  assert.equal(book.subarray(0, 5).toString(), '%PDF-')
+  assert.equal((await invoke('render_family_book', { settings: { sheets: [] } })).error.code, 'invalid_input')
+  assert.equal((await invoke('render_family_book', { settings: bookSettings, output: 'pdf', offset: bookLength })).error.code, 'invalid_input')
   const roadmap = await call('get_motor_roadmap', { locale: 'es' })
   assert.equal(roadmap.locale, 'es')
   assert.ok(roadmap.stages.length)
@@ -90,6 +122,7 @@ try {
     for (const [route, expected] of [
       ['/v1/model-comparison?left=morpho&right=douglas-dc3&locale=es', comparison],
       ['/v1/motor-roadmap?locale=es', roadmap],
+      ['/v1/motor-lab?locale=es', lab],
       ['/v1/flight-circuit?locale=es', circuit],
     ]) assert.deepEqual(await (await http(route)).json(), expected)
     const simulated = await http('/v1/flight-simulation', {
@@ -265,6 +298,7 @@ try {
         artifacts: recovered.artifact_ids.length,
         checks: [
           'discovery',
+          'custom family book reassembled across read grants and the open motor lab',
           'K1 folded body and matched W1 sheets, editable source and calibrated span',
           'Spanish airplane field guide, fold plan and download hashes',
           'comparison, motor roadmap, flight circuit and deterministic simulation',

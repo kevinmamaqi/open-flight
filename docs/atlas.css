@@ -828,4 +828,46 @@ footer .wordmark {
   }
 }
 
+/* The preview is the actual printable cover, rendered in the selected language. */
+.home-book {
+  display: grid;
+  grid-template-columns: minmax(200px, 0.73fr) minmax(0, 1.27fr);
+  align-items: center;
+  overflow: hidden;
+  background: #f4e7c9;
+  border: 1px solid #d5c8a5;
+  border-radius: 28px;
+  margin-block: 12px 38px;
+}
+.book-display {
+  position: relative;
+  display: grid;
+  place-items: center;
+  align-self: stretch;
+  isolation: isolate;
+  min-height: 310px;
+  padding: 26px 18px;
+  background-color: #b8d8cf;
+  background-image: repeating-linear-gradient(-35deg, transparent 0 18px, #91bbad5c 18px 19px);
+}
+.book-cover-image, .book-underlay {
+  grid-area: 1 / 1;
+  width: clamp(135px, 13.5vw, 200px);
+  aspect-ratio: 210 / 297;
+  border-radius: 1px 4px 4px 1px;
+}
+.book-cover-image {height: auto; transform: rotate(-8deg); box-shadow: 4px 5px 0 #e0dccd, 6px 7px 0 #64796c, 12px 16px 25px #244b3f4a;}
+.book-underlay {transform: rotate(7deg) translate(15px, 0); background: #fffaf1; box-shadow: 2px 3px 0 #a8b7a4;}
+.home-book-copy {padding: clamp(25px, 4vw, 60px);}
+.home-book-copy h2 {max-width: 16ch; margin: 10px 0 14px; font-size: clamp(32px, 3.85vw, 55px); line-height: 1.02; letter-spacing: -.045em;}
+.home-book-copy > p:not(.over) {max-width: 55ch; color: #304f44; font-size: 17px; line-height: 1.5; margin-block: 0 18px;}
+.home-book-copy .actions {gap: 14px; flex-wrap: wrap;}
+.home-book-copy .btn {min-height: 48px;}
+@media (max-width: 640px) {
+  .home-book {grid-template-columns: 1fr; border-radius: 22px;}
+  .book-display {min-height: 200px; padding: 18px;}
+  .book-cover-image, .book-underlay {width: 118px;}
+  .home-book-copy {padding: 22px;}
+}
+
 .all-sheets {justify-self:start;color:var(--muted);font-size:13px;text-decoration:underline;text-underline-offset:3px}

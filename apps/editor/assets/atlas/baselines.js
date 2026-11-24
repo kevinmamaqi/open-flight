@@ -4,18 +4,36 @@ export const baselines = {
     "span": 172,
     "rootAngle": 12,
     "tab": 10,
-    "clip": 17
+    "clip": 17,
+    "names": {
+      "en": "Monarch",
+      "es": "Monarca",
+      "ru": "Монарх"
+    },
+    "scientific": "Danaus plexippus"
   },
   "morpho": {
     "span": 160,
     "rootAngle": 16,
     "tab": 12,
-    "clip": 18
+    "clip": 18,
+    "names": {
+      "en": "Blue morpho",
+      "es": "Morfo azul",
+      "ru": "Голубой морфо"
+    },
+    "scientific": "Morpho peleides"
   },
   "swallowtail": {
     "span": 180,
     "rootAngle": 10,
     "tab": 9,
-    "clip": 17
+    "clip": 17,
+    "names": {
+      "en": "Old World swallowtail",
+      "es": "Cola de golondrina",
+      "ru": "Махаон"
+    },
+    "scientific": "Papilio machaon"
   }
 }

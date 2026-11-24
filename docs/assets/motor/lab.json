@@ -1,0 +1,394 @@
+{
+  "revision": "OF-M0-r1",
+  "evidenceState": "concept",
+  "links": {
+    "history": "https://www.poweruptoys.com/blogs/news/7315340-tailor-toys-to-unveil-iphone-controlled-paper-airplane",
+    "original": "https://www.poweruptoys.com/pages/documentation",
+    "manual": "https://cdn.shopify.com/s/files/1/0165/4322/files/PowerUp_3.0_booklet_V1.pdf?12561=",
+    "manufacturer": "https://www.poweruptoys.com/pages/shipping-and-return-policies",
+    "current": "https://www.poweruptoys.com/products/powerup-4-0",
+    "early": "https://www.poweruptoys.com/collections/shop-all-products/products/powerup-2-0-airplane",
+    "commercialApp": "https://github.com/TailorToys/app-powerup-android",
+    "upstream": "https://github.com/bitcraze/crazyflie-firmware",
+    "upstreamHardware": "https://www.bitcraze.io/documentation/hardware/crazyflie_2_1/crazyflie_2.1_schematics_rev.b.pdf",
+    "upstreamLicense": "https://www.bitcraze.io/license/",
+    "nearby": "https://www.youtube.com/watch?v=hDjBi0ErDdw",
+    "motorA": "https://www.bitcraze.io/documentation/hardware/motor_7mm/motor_7mm-datasheet.pdf",
+    "motorB": "https://nfpmotor.com/products/xz-coreless-dc-motor/7mm-dc-motor-16mm-type-driving-motor-model-nfp-d0716.html",
+    "controllerA": "https://wiki.seeedstudio.com/XIAO_BLE/",
+    "controllerB": "https://wiki.seeedstudio.com/XIAO_ESP32C3_Getting_Started/",
+    "driver": "https://www.ti.com/lit/ds/symlink/drv8837.pdf",
+    "cell": "https://www.adafruit.com/product/1570",
+    "propeller": "https://www.bitcraze.io/documentation/hardware/propellers/propellers-datasheet.pdf",
+    "cellDatasheet": "https://cdn-shop.adafruit.com/product-files/1570/1570datasheet.pdf",
+    "driverCarrier": "https://www.ti.com/lit/ug/slvu749a/slvu749a.pdf"
+  },
+  "files": [
+    {
+      "id": "a4",
+      "path": "assets/motor/OF-M0-r1-A4.pdf",
+      "mediaType": "application/pdf",
+      "group": "fit",
+      "label": {
+        "en": "Fit sheet · A4 PDF",
+        "es": "Plantilla A4 (PDF)",
+        "ru": "Выкройка A4 (PDF)"
+      }
+    },
+    {
+      "id": "letter",
+      "path": "assets/motor/OF-M0-r1-Letter.pdf",
+      "mediaType": "application/pdf",
+      "group": "fit",
+      "label": {
+        "en": "Fit sheet · US Letter PDF",
+        "es": "Plantilla Carta (PDF)",
+        "ru": "Выкройка US Letter (PDF)"
+      }
+    },
+    {
+      "id": "source",
+      "path": "assets/motor/OF-M0-r1.svg",
+      "mediaType": "image/svg+xml",
+      "group": "fit",
+      "label": {
+        "en": "Editable SVG",
+        "es": "SVG editable",
+        "ru": "Редактируемый SVG"
+      }
+    },
+    {
+      "id": "record",
+      "path": "assets/motor/OF-M0-r1-observation.csv",
+      "mediaType": "text/csv",
+      "group": "fit",
+      "label": {
+        "en": "Blank observation CSV",
+        "es": "Registro vacío (CSV)",
+        "ru": "Пустой журнал (CSV)"
+      }
+    },
+    {
+      "id": "license",
+      "path": "assets/motor/LICENSE.txt",
+      "mediaType": "text/plain",
+      "group": "fit",
+      "label": {
+        "en": "Apache 2.0 license",
+        "es": "Licencia Apache 2.0",
+        "ru": "Лицензия Apache 2.0"
+      }
+    },
+    {
+      "id": "bench",
+      "path": "assets/motor/OF-M0-r1-bench.md",
+      "mediaType": "text/markdown",
+      "group": "bench",
+      "label": {
+        "en": "Wiring and bench log",
+        "es": "Cableado y registro de banco",
+        "ru": "Схема соединений и журнал"
+      }
+    },
+    {
+      "id": "firmware",
+      "path": "assets/motor/OF-M0-r1-bench.ino",
+      "mediaType": "text/plain",
+      "group": "bench",
+      "label": {
+        "en": "Arduino sketch",
+        "es": "Programa Arduino",
+        "ru": "Скетч Arduino"
+      }
+    },
+    {
+      "id": "characterization",
+      "path": "assets/motor/OF-M0-r1-characterization.csv",
+      "mediaType": "text/csv",
+      "group": "bench",
+      "label": {
+        "en": "Blank motor test CSV",
+        "es": "Registro vacío de motor (CSV)",
+        "ru": "Пустой журнал испытаний мотора (CSV)"
+      }
+    },
+    {
+      "id": "phone-guide",
+      "path": "assets/motor/phone-bench/guide.txt",
+      "mediaType": "text/plain",
+      "group": "phone",
+      "label": {
+        "en": "Phone instructions · EN / ES / RU",
+        "es": "Instrucciones para el móvil · EN / ES / RU",
+        "ru": "Инструкция для телефона · EN / ES / RU"
+      }
+    },
+    {
+      "id": "phone-source",
+      "path": "assets/motor/phone-bench/OpenFlightPhoneBlink-source.zip",
+      "mediaType": "application/zip",
+      "group": "phone",
+      "label": {
+        "en": "Arduino source and license (ZIP)",
+        "es": "Código Arduino y licencia (ZIP)",
+        "ru": "Код Arduino и лицензия (ZIP)"
+      }
+    }
+  ],
+  "dimensions": {
+    "units": "mm",
+    "saddleLength": 45,
+    "saddleWing": 15,
+    "saddleBridge": 4,
+    "rulerLength": 50,
+    "trialAddedMassG": [
+      2,
+      5,
+      10,
+      15
+    ]
+  },
+  "bom": [
+    {
+      "id": "M1",
+      "part": "Bitcraze 316030060",
+      "link": "motorA",
+      "spec": "7 × 16 mm · Ø0.8 mm · 2.7 g · 4.2 V / 1 A rated",
+      "check": {
+        "en": "Obtain start and stall current data for the exact motor and propeller pair. Bitcraze provides rated current. Match shaft, propeller and guard clearance before choosing the load.",
+        "es": "Consigue los datos de arranque y bloqueo para el motor y la hélice exactos. Bitcraze indica la corriente nominal. Comprueba el eje y la holgura entre la hélice y el protector.",
+        "ru": "Уточните пусковой ток и ток блокировки для конкретного мотора и винта. Bitcraze приводит номинальный ток. Проверьте вал, размеры винта и зазор до защиты."
+      }
+    },
+    {
+      "id": "M2",
+      "part": "NFP-D0716-3-3.7",
+      "link": "motorB",
+      "spec": "7 × 16 mm · 2.9 g · 3.7 V · 4 A stall",
+      "check": {
+        "en": "Same-size motor alternate. Its stated 4 A stall exceeds the DRV8837’s 1.8 A maximum. Keep this pairing out of an unrestricted build.",
+        "es": "Alternativa del mismo tamaño. En bloqueo se indican 4 A, por encima de los 1,8 A máximos del DRV8837. Esta combinación queda descartada para un montaje sin limitación de corriente.",
+        "ru": "Альтернатива того же размера. Заявленные 4 А при блокировке превышают максимум DRV8837 в 1,8 А. Для этой пары обязательно ограничение тока."
+      }
+    },
+    {
+      "id": "C1",
+      "part": "Seeed XIAO nRF52840",
+      "link": "controllerA",
+      "spec": "21 × 17.8 mm · BLE",
+      "check": {
+        "en": "Start with wired USB and a simulated load on the bench. Test that a dropped phone connection, stale command, reset or low voltage leaves the output off and requires explicit rearming.",
+        "es": "Empieza en banco con USB y una carga simulada. Verifica que perder la conexión, recibir una orden caducada, reiniciar o sufrir una caída de tensión deje la salida apagada y exija una reactivación explícita.",
+        "ru": "Начните со стенда с проводным USB и имитацией нагрузки. Проверьте, что потеря связи, устаревшая команда, перезапуск или падение напряжения отключают выход до явного повторного включения."
+      }
+    },
+    {
+      "id": "C2",
+      "part": "Seeed XIAO ESP32C3",
+      "link": "controllerB",
+      "spec": "21 × 17.8 mm · BLE / Wi-Fi",
+      "check": {
+        "en": "A second board for comparison. Verify Android and iOS control on the intended phone clients and compare actual current draw and board mass.",
+        "es": "Segunda placa para comparar. Comprueba el control desde Android e iOS en las aplicaciones previstas. Compara el consumo y el peso reales.",
+        "ru": "Вторая плата для сравнения. Проверьте управление через выбранные приложения на Android и iOS. Сравните реальную массу и ток потребления."
+      }
+    },
+    {
+      "id": "D1",
+      "part": "TI DRV8837",
+      "link": "driver",
+      "spec": "0–11 V VM · 1.8 A max.",
+      "check": {
+        "en": "One driver candidate per motor. Check loaded startup current, heat and current limiting. A datasheet maximum is a limit, not a target.",
+        "es": "Una etapa candidata por motor. Comprueba el arranque bajo carga, el calentamiento y el límite de corriente.",
+        "ru": "Возможный драйвер для одного мотора. Проверьте пуск под нагрузкой, нагрев и ограничение тока."
+      }
+    },
+    {
+      "id": "B1",
+      "part": "Adafruit 1570",
+      "link": "cell",
+      "spec": "3.7 V nominal · 100 mAh · 3 g · 11.5 × 31 × 3.8 mm",
+      "check": {
+        "en": "Envelope and mass reference only. Check the exact cell’s discharge and charge limits, connector polarity and matched charger before any battery work.",
+        "es": "Referencia de tamaño y peso. Antes de trabajar con baterías, verifica los límites de carga y descarga de la celda exacta, la polaridad del conector y el cargador adecuado.",
+        "ru": "Пример размеров и массы. До работы с аккумулятором проверьте ограничения по заряду и разряду конкретной ячейки, полярность разъёма и подходящее зарядное устройство."
+      }
+    },
+    {
+      "id": "P1",
+      "part": "Bitcraze 110990162",
+      "link": "propeller",
+      "spec": "45 mm · Ø0.8 mm shaft · CW + CCW",
+      "check": {
+        "en": "A 45 mm matching-shaft reference for the Bitcraze motor. Check rotation and guard fit before choosing a propeller.",
+        "es": "Hélice de 45 mm para el eje del motor Bitcraze. Comprueba el sentido de giro y el ajuste del protector antes de elegir.",
+        "ru": "Винт диаметром 45 мм подходит по диаметру вала мотора Bitcraze. До выбора винта проверьте направление вращения и зазор до защиты."
+      }
+    }
+  ],
+  "content": {
+    "en": {
+      "title": "Motor lab",
+      "heading": "From paper airplane to phone control.",
+      "intro": "Explore the POWERUP motor attachments that inspired this project. At the workbench, test how a driver switches a light, try a phone command, and fit a paper mount to an airplane before adding power.",
+      "primary": "Start the electrical bench",
+      "secondary": "See the original kit",
+      "artAlt": "Original Open Flight illustration of a cut paper saddle and its two fold lines, followed by a sample saddle over a paper keel.",
+      "status": "OF-M0-r1 · unpowered concept · physical trials pending",
+      "activity": "Make an unpowered saddle",
+      "steps": [
+        "Print on A4 or US Letter at actual size (100%). Check the 50 mm ruler before cutting. Cut out the 45 × 34 mm saddle on the solid outline.",
+        "Turn the plane nose away. Fold the two long dashed lines down. Slip the 4 mm bridge over the long center fold, with one 15 mm wing on each side. The adult can secure both wings with low-tack tape. Check that the paper plane stays symmetrical.",
+        "For a tabletop fit check, mark where the bare plane balances, measured back from its nose. Attach a weighed, soft packet of folded paper or poster putty to the bridge with tape. Count the saddle, tape and packet together as the added mass. Predict which end will dip, then measure the balance point again.",
+        "The adult starts with the bare plane, then the empty saddle. Try a 2 g total added load only after the saddle stays secure during a gentle glide into a clear, low landing area. Keep the plane, launch spot and saddle position fixed. After five glides at each setting, compare first-contact distance and landing direction. Stop if the saddle moves, the paper tears or the plane repeatedly drops sharply. Consider 5 g, 10 g and 15 g only after a lower load stays secure and glides repeatably."
+      ],
+      "models": "Choose a plane",
+      "upper": "Fold the Upper Deck",
+      "prairie": "Fold the Prairie Skipper",
+      "commercial": "The original phone-controlled kit",
+      "commercialBody": "Tailor Toys L.L.C. launched POWERUP 3.0 as a smartphone-controlled conversion kit. The manual shows a nose pod on a narrow spine, a single rear propeller and a rudder. The earlier 2.0 offered powered free flight. The 4.0 product gallery shows a crossbar with two rear motors, and POWERUP lists a 220 mm module weighing 19 g. Those figures describe the commercial kit.",
+      "maker": "The maker names Tailor Toys L.L.C. in its warranty. The 3.0 manual says Made in China. The assembly factory and actual motor, controller, driver and cell suppliers remain unverified. The old Android app source documents the 3.0 controller side.",
+      "commercialLinks": [
+        "3.0 manual and diagrams",
+        "4.0 official photo gallery",
+        "2.0 product",
+        "Tailor Toys warranty",
+        "3.0 app source"
+      ],
+      "upstream": "Open references for the next prototype",
+      "upstreamBody": "Bitcraze’s Crazyflie 2.1 is a small quadcopter reference for brushed motors and Bluetooth Low Energy phone control. Its firmware source and board schematic are available. Bitcraze describes the hardware as semi-open. The aircraft and control software would need redesign for a paper glider. A separate clip-on paper-plane demonstration by Max Imagination is useful for observing the layout. Its published files have no verified open-hardware license for reuse here.",
+      "upstreamLinks": [
+        "Crazyflie firmware source",
+        "Crazyflie board schematic",
+        "Bitcraze license",
+        "Independent paper-plane demo"
+      ],
+      "parts": "Candidate parts for adult review",
+      "partsBody": "These are independent options with manufacturer data. In the 4.0, the exact parts are still unknown. No powered Open Flight assembly has been built or validated.",
+      "next": "Before a powered prototype",
+      "nextBody": "Publish the fit and glide observations first. An adult-only bench milestone would need a dated schematic, exact part variants, guarded fixture, current and temperature records, and reproducible stop tests. Publish editable CAD, firmware source, build instructions and licenses with any future powered revision. Today’s saddle only carries soft inert ballast.",
+      "skip": "Skip to content",
+      "benchTitle": "Adult bench starter",
+      "benchBody": "Start with a button and an LED. The LED shows when the motor-driver output would turn on. Build the USB-powered board test or add the optional DRV8837 driver with the same LED load. The switch logic passed a host-side check. Physical wiring and on-board behavior still need a bench record.",
+      "referenceDiagram": "Functional layout of POWERUP 3.0 with one propeller and a rudder and POWERUP 4.0 with two rear propellers.",
+      "fitAction": "Print the paper mount",
+      "heroCaption": "Open Flight diagrams of the commercial references. 3.0 uses one propeller and a rudder. 4.0 uses two propellers.",
+      "phoneTitle": "Try a command from a phone",
+      "phoneBody": "On a USB-powered board, send a short Bluetooth command to blink its own LED. The guide gives the phone steps, the source and the checks you can record on a real board."
+    },
+    "es": {
+      "title": "Laboratorio de motores",
+      "heading": "Del avión de papel al control por móvil.",
+      "intro": "Descubre los módulos POWERUP que inspiraron el proyecto. En la mesa puedes probar cómo un controlador enciende una luz, enviar una orden desde el móvil y comprobar el ajuste de una montura de papel.",
+      "primary": "Abrir la prueba eléctrica",
+      "secondary": "Ver el kit original",
+      "artAlt": "Ilustración de Open Flight con el contorno y los dos pliegues de la montura, seguida de una vista sobre la quilla del avión de papel.",
+      "status": "OF-M0-r1 · prototipo sin motor · pruebas físicas pendientes",
+      "activity": "Prepara una montura sin motor",
+      "steps": [
+        "Imprime en A4 o Carta a tamaño real (100 %). Comprueba la regla de 50 mm antes de recortar. Recorta la montura de 45 × 34 mm por el contorno continuo.",
+        "Pon la punta del avión mirando hacia delante. Dobla hacia abajo por las dos líneas largas discontinuas. Coloca el puente de 4 mm sobre el pliegue central, con una solapa de 15 mm a cada lado. Una persona adulta puede fijar ambas solapas con cinta removible. Comprueba que el avión sigue siendo simétrico.",
+        "En la mesa, marca dónde se equilibra el avión vacío y mide la distancia desde la punta. Fija con cinta al puente un paquete pesado previamente, de papel doblado o masilla adhesiva. Pesa juntos la montura, la cinta y el paquete. Predice qué extremo bajará y mide otra vez el punto de equilibrio.",
+        "La persona adulta empieza con el avión vacío y luego prueba la montura vacía. Prueba una carga total de 2 g cuando la montura quede firme tras un planeo suave hacia una zona despejada y baja. Mantén el mismo avión, el punto de partida y la posición de la montura. Tras cinco planeos por configuración, compara la distancia hasta el primer contacto y la dirección. Detente si la montura se mueve, el papel se rasga o el avión cae en picado varias veces. Considera 5 g, 10 g y 15 g solo si la carga anterior quedó firme y permitió planeos repetibles."
+      ],
+      "models": "Elige un avión",
+      "upper": "Doblar el Upper Deck",
+      "prairie": "Doblar el Prairie Skipper",
+      "commercial": "El kit original para controlar con el móvil",
+      "commercialBody": "Tailor Toys L.L.C. presentó POWERUP 3.0 como un kit de conversión controlado con el móvil. En el manual se ven un módulo delantero sobre una varilla estrecha, una sola hélice trasera y un timón. El modelo 2.0 anterior volaba con motor y en vuelo libre. En la galería del 4.0 se ve un travesaño con dos motores traseros. POWERUP indica que el módulo comercial mide 220 mm y pesa 19 g.",
+      "maker": "Tailor Toys L.L.C. figura en la garantía del fabricante. El manual del 3.0 indica que se fabricó en China. Siguen sin confirmarse la fábrica y los proveedores del motor, el controlador, la etapa de potencia y la batería. El código Android antiguo corresponde al mando del 3.0.",
+      "commercialLinks": [
+        "Manual y esquemas del 3.0",
+        "Galería oficial del 4.0",
+        "Producto 2.0",
+        "Garantía de Tailor Toys",
+        "Código de la app 3.0"
+      ],
+      "upstream": "Referencias abiertas para el próximo prototipo",
+      "upstreamBody": "El Crazyflie 2.1 de Bitcraze es un cuadricóptero pequeño que sirve de referencia para motores con escobillas y control por móvil mediante Bluetooth de bajo consumo. Están disponibles el código del firmware y el esquema de la placa. Bitcraze describe su hardware como semiabierto. La aeronave y el software de control tendrían que adaptarse al planeador de papel. La demostración de Max Imagination ayuda a observar la distribución de las piezas en otro avión de papel. La licencia de hardware abierto de sus archivos sigue sin verificarse.",
+      "upstreamLinks": [
+        "Código del firmware de Crazyflie",
+        "Esquema de la placa de Crazyflie",
+        "Licencia de Bitcraze",
+        "Demostración independiente"
+      ],
+      "parts": "Componentes para que revise una persona adulta",
+      "partsBody": "Son alternativas con documentación de los fabricantes. Los componentes exactos del 4.0 aún se desconocen. El montaje con motor de Open Flight está pendiente de construcción y pruebas.",
+      "next": "Antes del prototipo con motor",
+      "nextBody": "Primero se publicarán las observaciones de ajuste y planeo. La fase de banco, a cargo de personas adultas, requiere un esquema fechado, las variantes exactas, una bancada protegida, un registro de corriente y temperatura y pruebas de parada reproducibles. Una futura revisión con motor incluiría CAD editable, código del firmware, instrucciones y licencias. La montura actual solo admite lastre blando e inerte.",
+      "skip": "Saltar al contenido",
+      "benchTitle": "Primera prueba en banco para adultos",
+      "benchBody": "Empieza con un botón y un LED. El LED indica cuándo se activaría la salida del controlador. Prueba la placa alimentada por USB o añade el DRV8837 opcional con la misma carga LED. La lógica del botón pasó la prueba en ordenador. Faltan verificar el cableado y el comportamiento de la placa en el banco.",
+      "referenceDiagram": "Disposición del POWERUP 3.0 con una hélice y un timón, y del POWERUP 4.0 con dos hélices traseras.",
+      "fitAction": "Imprimir la montura",
+      "heroCaption": "Esquemas de Open Flight a partir de los productos comerciales. El 3.0 lleva una hélice y un timón. El 4.0 lleva dos hélices.",
+      "phoneTitle": "Enviar una orden desde el móvil",
+      "phoneBody": "Con una placa alimentada por USB, envía una orden breve por Bluetooth para que parpadee su propio LED. La guía incluye los pasos para el móvil, el código y las comprobaciones en una placa real."
+    },
+    "ru": {
+      "title": "Моторная лаборатория",
+      "heading": "От бумажного самолёта к управлению с телефона.",
+      "intro": "Посмотрите на моторные модули POWERUP, которые вдохновили проект. На стенде можно проверить, как драйвер включает светодиод, отправить команду с телефона и примерить бумажное крепление к самолёту.",
+      "primary": "Открыть электрический стенд",
+      "secondary": "Посмотреть оригинальный набор",
+      "artAlt": "Рисунок Open Flight. Показаны контур и две линии сгиба крепления, затем вид крепления на киле бумажного самолёта.",
+      "status": "OF-M0-r1 · макет без двигателя · испытания ещё впереди",
+      "activity": "Сделай крепление без двигателя",
+      "steps": [
+        "Распечатай выкройку на листе A4 или US Letter в масштабе 100 %. Проверь линейку длиной 50 мм. Вырежи крепление размером 45 × 34 мм по сплошному контуру.",
+        "Поверни самолёт носом от себя. Согни крепление вниз по двум длинным пунктирным линиям. Надень перемычку шириной 4 мм на продольный сгиб самолёта. По бокам останется по одному клапану шириной 15 мм. Взрослый может закрепить оба клапана малярной лентой. Проверь симметрию самолёта.",
+        "Отметь точку равновесия пустого самолёта и измерь расстояние от носа. Взвесь мягкий пакетик из сложенной бумаги или клейкой массы, затем прикрепи его лентой к перемычке. В добавленную массу входят крепление, лента и пакетик. Предскажи, какой конец опустится, и снова измерь точку равновесия.",
+        "Взрослый сначала запускает пустой самолёт, потом самолёт с пустым креплением. Добавьте груз до общей массы 2 г только после мягкого планирования с креплением в свободную зону с невысоким приземлением. Сохраняйте самолёт, точку запуска и положение крепления. После пяти запусков сравните направление и расстояние до первого касания. Остановитесь, если крепление сдвигается, бумага рвётся или самолёт несколько раз резко пикирует. К 5 г, 10 г и 15 г переходите только после устойчивых повторных полётов с меньшей нагрузкой."
+      ],
+      "models": "Выбери самолёт",
+      "upper": "Сложить Upper Deck",
+      "prairie": "Сложить Prairie Skipper",
+      "commercial": "Оригинальный набор с управлением со смартфона",
+      "commercialBody": "Tailor Toys L.L.C. представила POWERUP 3.0 как набор для управления бумажным самолётом со смартфона. В инструкции видны носовой блок на тонкой штанге, один задний винт и руль направления. У более ранней версии 2.0 был мотор для свободного полёта. На фотографиях 4.0 видна поперечина с двумя задними моторами. По данным POWERUP длина коммерческого модуля 220 мм, а масса 19 г.",
+      "maker": "Tailor Toys L.L.C. указана в гарантии производителя. На инструкции 3.0 стоит отметка о производстве в Китае. Сборочный завод и поставщики мотора, контроллера, драйвера и аккумулятора пока неизвестны. Старый исходный код Android относится к управлению версией 3.0.",
+      "commercialLinks": [
+        "Инструкция и рисунки 3.0",
+        "Официальные фотографии 4.0",
+        "Модель 2.0",
+        "Гарантия Tailor Toys",
+        "Исходный код приложения 3.0"
+      ],
+      "upstream": "Открытые материалы для следующего прототипа",
+      "upstreamBody": "Crazyflie 2.1 от Bitcraze — небольшой квадрокоптер, который можно изучить как пример управления коллекторными моторами со смартфона по Bluetooth Low Energy. Доступны исходный код прошивки и схема платы. Bitcraze называет аппаратную часть частично открытой. Конструкцию и программу управления потребуется разработать для бумажного планера. В демонстрации Max Imagination можно посмотреть компоновку другого бумажного самолёта. Открытая лицензия на его аппаратную часть пока не подтверждена.",
+      "upstreamLinks": [
+        "Исходный код прошивки Crazyflie",
+        "Схема платы Crazyflie",
+        "Лицензия Bitcraze",
+        "Независимая демонстрация"
+      ],
+      "parts": "Компоненты для изучения взрослыми",
+      "partsBody": "У этих альтернатив есть документация поставщиков. Точные компоненты POWERUP 4.0 пока неизвестны. Сборка и испытания моторного модуля Open Flight ещё впереди.",
+      "next": "До моторного прототипа",
+      "nextBody": "Сначала нужны результаты примерки и планирования. На стендовом этапе взрослым понадобятся датированная схема, точные варианты деталей, стенд с защитой, журнал тока и температуры и воспроизводимая проверка остановки. Для будущей моторной версии понадобятся редактируемая CAD-модель, код прошивки, инструкции и лицензии. Нынешнее крепление рассчитано только на мягкий инертный груз.",
+      "skip": "Перейти к содержанию",
+      "benchTitle": "Первая стендовая проба для взрослых",
+      "benchBody": "Начните с кнопки и светодиода. Светодиод показывает, когда включился бы выход драйвера. Можно испытать плату с питанием от USB или добавить драйвер DRV8837 с той же светодиодной нагрузкой. Логика кнопки прошла проверку на компьютере. Соединения и работу платы ещё нужно проверить на стенде.",
+      "referenceDiagram": "Схема компоновки POWERUP 3.0 с одним винтом и рулём и POWERUP 4.0 с двумя задними винтами.",
+      "fitAction": "Распечатать крепление",
+      "heroCaption": "Схемы Open Flight по коммерческим моделям. У версии 3.0 один винт и руль направления, у 4.0 два винта.",
+      "phoneTitle": "Подать команду с телефона",
+      "phoneBody": "Подайте питание по USB и отправьте короткую команду по Bluetooth, чтобы на плате мигнул светодиод. В инструкции есть шаги для телефона, исходный код и список наблюдений для проверки на плате."
+    }
+  },
+  "bench": {
+    "revision": "OF-M0-r1",
+    "evidenceState": "host_logic_checked",
+    "physicalEvidenceState": "pending",
+    "load": "led_only",
+    "controller": "Seeed XIAO nRF52840",
+    "driver": "TI DRV8837",
+    "boardPins": {
+      "button": "D1",
+      "enable": "D2",
+      "drive": "D3"
+    },
+    "pulseLimitMs": 750,
+    "releaseDebounceMs": 30
+  }
+}

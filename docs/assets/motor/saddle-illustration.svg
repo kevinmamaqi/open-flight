@@ -1,0 +1,34 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 460" role="img">
+  <title>Open Flight paper saddle</title>
+  <desc>An illustrated paper saddle with two dashed fold lines sits above a folded paper glider. The assembled form spans the central crease.</desc>
+  <defs>
+    <pattern id="grid" width="24" height="24" patternUnits="userSpaceOnUse"><path d="M24 0H0V24" fill="none" stroke="#416157"/></pattern>
+    <linearGradient id="wing" x2="0.3" y2="1" gradientUnits="objectBoundingBox"><stop stop-color="#e8efcb"/><stop offset="1" stop-color="#b9cea3"/></linearGradient>
+    <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M1 1l7 4-7 4" fill="none" stroke="#f6a470" stroke-width="1.2"/></marker>
+  </defs>
+  <path fill="#173c36" d="M0 0h680v460H0z"/>
+  <path fill="url(#grid)" d="M24 24h632v412H24z"/>
+  <circle cx="358" cy="262" r="139" fill="none" stroke="#739489" stroke-dasharray="4 8"/>
+  <circle cx="358" cy="262" r="113" fill="none" stroke="#416157"/>
+  <path d="M91 370 587 310 472 404l-75-27L325 411z" fill="#0b2e28" opacity=".75"/>
+  <g stroke="#295048" stroke-width="2.5" stroke-linejoin="round">
+    <path d="M96 344 363 141 574 311 402 280 325 302z" fill="#f4f2d9"/>
+    <path d="m96 344 248-131 58 67-77 22z" fill="url(#wing)"/>
+    <path d="m363 141 39 139 172 31-172-87z" fill="#accdbc"/>
+    <path d="m363 141 39 139-58-67z" fill="#e5f2e0"/>
+    <path d="m344 213 58 67-77 22 33-56z" fill="#819b88"/>
+    <path d="m354 203 22 20 12 42-30-20-25 15z" fill="#f6a470" stroke="#542e20"/>
+    <path d="m354 203 6-8 22 19-6 9z" fill="#ffd9a1" stroke="#542e20"/>
+    <path d="m382 214 17 27-11 24-12-42z" fill="#d47756" stroke="#542e20"/>
+  </g>
+  <g transform="translate(97,73) rotate(-9)">
+    <rect x="5" y="9" width="166" height="104" rx="4" fill="#092922" opacity=".7"/>
+    <rect width="166" height="104" rx="4" fill="#f6a470" stroke="#ffe2ab" stroke-width="2"/>
+    <rect y="45" width="166" height="14" fill="#ffd9a1"/>
+    <path d="M0 45h166M0 59h166" fill="none" stroke="#662e23" stroke-width="2" stroke-dasharray="5 5"/>
+    <path d="M0 124h166" fill="none" stroke="#f6a470" stroke-width="1.5" marker-start="url(#arrow)" marker-end="url(#arrow)"/>
+    <text x="83" y="148" fill="#ffd9a1" font-family="monospace" font-size="17" text-anchor="middle">45 mm</text>
+  </g>
+  <path d="M269 162q48 0 67 39" fill="none" stroke="#f6a470" stroke-width="2" stroke-dasharray="5 5" marker-end="url(#arrow)"/>
+  <path d="M40 45h21m-11-11v22m568 357h21m-11-11v22M562 52h67m-67 0v12m17-12v8m17-8v12m17-12v8m16-8v12" stroke="#83a193" stroke-width="2" fill="none"/>
+</svg>

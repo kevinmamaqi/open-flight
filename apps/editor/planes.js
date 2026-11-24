@@ -1,3 +1,4 @@
+import { foldArtwork, showFoldStep } from './fold-lesson.js'
 import { makePlane, planeCatalog, planeSource, sheetSizes, liveries } from './assets/planes/core.js'
 import { planeSvg, planeSpecimen, esc, stripes } from './assets/planes/drawing.js'
 import { foldSvg, planeGuide } from './assets/planes/guide.js'
@@ -340,12 +341,14 @@ function renderPlan() {
 function renderStep() {
   stage = Math.min(Math.max(stage, 0), plan.steps.length - 1)
   const step = plan.steps[stage]
-  $('fold-figure').innerHTML = foldSvg(plan, step)
-  $('step-count').textContent = tr('step') + ' ' + (stage + 1) + ' ' + tr('of') + ' ' + plan.steps.length
-  $('step-title').textContent = step.title
-  $('instruction').textContent = step.instruction
-  $('previous').disabled = stage === 0
-  $('next').disabled = stage === plan.steps.length - 1
+  showFoldStep({
+    figure: $('fold-figure'), progress: $('step-count'), title: $('step-title'),
+    action: $('instruction'), previous: $('previous'), next: $('next'),
+  }, {
+    index: stage, total: plan.steps.length, step: { ...step, action: step.instruction },
+    count: (n, total) => tr('step') + ' ' + n + ' ' + tr('of') + ' ' + total,
+    artwork: foldArtwork(foldSvg(plan, step)),
+  })
   const focusStep = document.activeElement?.dataset?.stage
   $('step-progress').innerHTML = plan.steps
     .map(

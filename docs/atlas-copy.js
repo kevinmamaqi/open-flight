@@ -1,4 +1,13 @@
 export const ru = {
+  bookNav: 'Семейная книга',
+  bookQuick: 'Собрать семейную книгу ↗',
+  bookFormat: 'Семейная книга для печати',
+  bookHeadline: 'Любимые модели в одной книге.',
+  bookPitch: 'Выберите вместе бабочек и самолёты, оформите обложку и скачайте один PDF с полноразмерными выкройками и памяткой по печати. Сегодня можно распечатать только те страницы, по которым хочется строить.',
+  bookAction: 'Оформить свою книгу ↗',
+  bookSheets: 'Взять отдельные листы бесплатно',
+  foldedShortcut: 'Попробовать складной корпус ↗',
+  motorAction: 'Открыть лабораторию мотора ↗',
   compareTag: 'Сравнить модели',
   compareTitle: 'Два планера. Один опыт.',
   compareBody:
@@ -26,9 +35,9 @@ export const ru = {
   butterTech: 'Вырезать и сложить',
   butterflies: 'Бабочки',
   butterDesc:
-    'Вырежи контур, совмести кончики крыльев и сложи корпус. Положи крылья на стол, чтобы выровнять их. Каждая выкройка передаёт форму и окраску настоящей бабочки.',
-  openButter: 'Сделать бабочку со складным корпусом',
-  classicButter: 'Исходная бабочка с задними язычками ↗', bodyStyle:'Конструкция бабочки', keelBuild:'Складной корпус · K1', flatBuild:'Задние язычки · W1',
+    'Выбери настоящую бабочку, раскрась крылья и следуй рисункам. В одной мастерской можно выбрать задние язычки или сложить корпус, за который удобно взяться при запуске.',
+  openButter: 'Открыть мастерскую бабочек',
+  bodyStyle:'Конструкция бабочки', keelBuild:'Складной корпус · K1', flatBuild:'Задние язычки · W1',
   planeTech: 'Целый лист · только сгибы',
   planes: 'Самолёты',
   planeDesc:
@@ -61,14 +70,21 @@ export const ru = {
   sourceInfo: 'Фотографии бабочек, история самолётов и физика полёта.',
   feedback: 'Рассказать о полёте',
   feedbackInfo: 'Взрослые могут отметить удачный сгиб или непонятный шаг.',
-  futureTag: 'В разработке',
-  future: 'От планирования к моторному полёту.',
-  futureBody:
-    'Сначала нужны повторяемые опыты с бумажными планерами. Затем мы хотим проверить, как съёмный мотор влияет на баланс. Это будет занятие под руководством взрослого. План исследований уже открыт.',
-  roadmap: 'План исследований ↗',
+  futureTag: 'Лаборатория мотора',
+  future: 'Что изменит мотор?',
+  futureBody: 'Посмотри, как выглядит модуль с управлением со смартфона, изучи детали открытого варианта и распечатай макет, чтобы примерить его к бумажному самолёту.',
   footer: 'Открытая мастерская бумажных полётов.',
 }
 export const es = {
+  bookNav: 'Libro familiar',
+  bookQuick: 'Crear un libro en familia ↗',
+  bookFormat: 'Libro familiar para imprimir',
+  bookHeadline: 'Tus diseños favoritos en un libro.',
+  bookPitch: 'En familia, elige las mariposas y los aviones, personaliza la portada y descarga un PDF con plantillas a tamaño real y una guía de impresión. Imprime solo las páginas que quieras construir hoy.',
+  bookAction: 'Personalizar mi libro ↗',
+  bookSheets: 'Descargar hojas individuales gratis',
+  foldedShortcut: 'Probar el cuerpo plegado ↗',
+  motorAction: 'Abrir el laboratorio de motores ↗',
   skip: 'Ir a los diseños',
   navDesigns: 'Diseños',
   navLearn: 'Aprender',
@@ -90,9 +106,9 @@ export const es = {
   butterTech: 'Recortar y plegar',
   butterflies: 'Mariposas',
   butterDesc:
-    'Recorta un solo contorno, junta las puntas y pliega un cuerpo que puedas sujetar. Apoya las alas en la mesa para nivelarlas. Cada diseño conserva la forma y los colores de una mariposa real.',
-  openButter: 'Construir una mariposa con cuerpo plegado',
-  classicButter:'Mariposa original con aletas ajustables ↗',bodyStyle:'Construcción de la mariposa',keelBuild:'Cuerpo plegado · K1',flatBuild:'Aletas ajustables · W1',
+    'Elige una mariposa real, dale color a las alas y sigue las imágenes. En el mismo taller puedes elegir aletas traseras ajustables o un cuerpo plegado que puedes sujetar para lanzarla.',
+  openButter: 'Abrir el taller de mariposas',
+  bodyStyle:'Construcción de la mariposa',keelBuild:'Cuerpo plegado · K1',flatBuild:'Aletas ajustables · W1',
   planeTech: 'Hoja entera · solo pliegues',
   planes: 'Aviones',
   planeDesc:
@@ -132,10 +148,8 @@ export const es = {
   sourceInfo: 'Fotografías de mariposas, historia de los aviones y física del vuelo.',
   feedback: 'Compartir una observación',
   feedbackInfo: 'Las personas adultas pueden contar qué pliegue funcionó o qué paso resultó difícil.',
-  futureTag: 'En desarrollo',
-  future: 'Del planeo al vuelo con motor.',
-  futureBody:
-    'Primero necesitamos vuelos de papel repetibles. Después podremos investigar con adultos cómo afecta al equilibrio un motor desmontable.',
-  roadmap: 'Ver los próximos pasos ↗',
+  futureTag: 'Laboratorio de motores',
+  future: '¿Qué cambia al añadir un motor?',
+  futureBody: 'Descubre el módulo original que se maneja desde el móvil, explora los componentes de una alternativa abierta e imprime una maqueta para probar el encaje en un avión de papel.',
   footer: 'Un taller abierto de vuelo en papel.',
 }

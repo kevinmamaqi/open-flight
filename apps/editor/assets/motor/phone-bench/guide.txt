@@ -1,0 +1,115 @@
+OPEN FLIGHT · PHONE-TO-LED BENCH
+Hardware observations pending
+
+ENGLISH
+1. An adult puts a stock Seeed Studio XIAO nRF52840 on the table and
+   connects it to a computer with a USB-C data cable. Leave all pads
+   empty. The board's built-in red RGB LED is the only output.
+2. Extract OpenFlightPhoneBlink-source.zip. In Arduino IDE Preferences,
+   add the Boards Manager URL below. Install Seeed nRF52 Boards 1.1.13.
+   Select Seeed XIAO nRF52840 and its USB port. Open
+   OpenFlightPhoneBlink/OpenFlightPhoneBlink.ino and click Upload.
+3. In Nordic nRF Connect for Mobile (Android or iPhone), allow Bluetooth,
+   scan and connect to OpenFlight LED. Expand the service below and use
+   the write arrow on the command characteristic. Choose Hex or Byte
+   Array, select Write Request (with response) if offered, and send 01
+   once. Ask your helper to predict when the red LED will go dark.
+4. Try 02 while the LED is off, then try 01 followed by Disconnect as
+   quickly as you can. Reconnect and look before sending any new command.
+   Note the phone OS and app version, what you saw, and what was unclear.
+
+ESPAÑOL
+1. Con ayuda de una persona adulta, pon una Seeed Studio XIAO nRF52840
+   en la mesa y conéctala al ordenador con un cable USB-C de datos.
+   Deja libres todos los contactos. Solo se usa el LED rojo integrado.
+2. Descomprime OpenFlightPhoneBlink-source.zip. Añade la URL de abajo
+   en Preferencias de Arduino IDE. Instala Seeed nRF52 Boards 1.1.13.
+   Elige Seeed XIAO nRF52840 y su puerto USB. Abre
+   OpenFlightPhoneBlink/OpenFlightPhoneBlink.ino y pulsa Subir.
+3. En Nordic nRF Connect for Mobile (Android o iPhone), permite el acceso
+   a Bluetooth, busca OpenFlight LED y conéctate. Abre el servicio
+   indicado abajo. En la característica de comando toca la flecha de
+   escritura. Elige Hex o Byte Array y, si aparece, Write Request
+   (con respuesta). Envía 01 una vez. Adivina cuándo se apagará el LED.
+4. Con el LED apagado, prueba 02. Luego envía 01 y desconecta enseguida.
+   Vuelve a conectarte y mira el LED antes de enviar otro comando.
+   Apunta las versiones del sistema y la app, y lo que observaste.
+
+РУССКИЙ
+1. Вместе со взрослым положи плату Seeed Studio XIAO nRF52840 на стол
+   и подключи её к компьютеру кабелем USB-C для передачи данных.
+   Оставь контакты свободными. Используется встроенный красный светодиод.
+2. Распакуй OpenFlightPhoneBlink-source.zip. Добавь адрес ниже в
+   настройках Arduino IDE. Установи Seeed nRF52 Boards 1.1.13.
+   Выбери Seeed XIAO nRF52840 и её порт USB. Открой
+   OpenFlightPhoneBlink/OpenFlightPhoneBlink.ino и нажми «Загрузить».
+3. Разреши доступ к Bluetooth в Nordic nRF Connect for Mobile
+   (Android или iPhone). Найди OpenFlight LED и подключись. Открой
+   сервис из списка ниже и нажми стрелку записи у характеристики
+   команд. Выбери Hex или Byte Array и, если есть выбор, Write Request
+   (с ответом). Отправь 01 один раз. Угадай, когда погаснет светодиод.
+4. Пока светодиод выключен, отправь 02. Затем отправь 01 и сразу
+   отключись. Подключись снова и посмотри на светодиод, прежде чем
+   отправить команду. Запиши версии системы и приложения и то, что увидел.
+
+GATT · OPEN FLIGHT
+Service / Servicio / Сервис          bf758001-96cb-45cf-a0e8-027b0d0d6130
+Command / Comando / Команда          bf758002-96cb-45cf-a0e8-027b0d0d6130
+
+Expected behavior / Resultado previsto / Ожидаемое поведение
+  01   One red blink (~600 ms); 400 ms dark before another can start.
+       Un destello rojo (~600 ms); 400 ms de pausa antes de otro.
+       Одна красная вспышка (~600 мс); затем пауза 400 мс.
+  00   Turn the red LED off. / Apaga el LED rojo. / Гасит светодиод.
+  02   No blink. / Sin destello. / Без вспышки.
+  Disconnect and reconnect / Desconexión y reconexión / Переподключение
+       A reported disconnect turns it off. Reconnect remains dark.
+       Se apaga al detectarse la desconexión. Al reconectar sigue apagado.
+       Гаснет, когда плата обнаружит разрыв связи. При новом подключении
+       остаётся выключенным.
+
+These are firmware targets, pending an actual phone and board trial.
+Use slow-motion video if you want to estimate the blink duration.
+If the LED goes dark before you tap Disconnect, mark that trial
+inconclusive for disconnect and try again.
+A GATT write response confirms delivery at the BLE layer. The LED shows
+the effect. Anyone nearby with a GATT client can connect to this
+unpaired demonstration. Open Flight defines both indicator commands. Each write carries exactly
+one byte.
+
+Los resultados se comprobarán con un teléfono y una placa.
+Результаты предстоит проверить на телефоне и плате.
+
+BOARD PACKAGE AND CLI
+https://files.seeedstudio.com/arduino/package_seeeduino_boards_index.json
+
+From the extracted directory:
+  arduino-cli core install Seeeduino:nrf52@1.1.13 --additional-urls https://files.seeedstudio.com/arduino/package_seeeduino_boards_index.json
+  arduino-cli compile --fqbn Seeeduino:nrf52:xiaonRF52840 OpenFlightPhoneBlink
+
+Use the standard Seeed compiler on a supported host. On an Apple Silicon
+Mac without Rosetta, the core's bundled compiler and uploader are Intel
+binaries. On that host, to verify the firmware up through ELF and HEX
+generation with Arm GNU Toolchain 13.3.Rel1, add these flags with your
+actual toolchain path. This build skips the upload package steps.
+  --build-property compiler.path=/absolute/path/to/arm-none-eabi/bin/
+  --build-property recipe.objcopy.zip.pattern=
+  --build-property recipe.objcopy.uf2.pattern=
+
+REFERENCES AND SOURCE TERMS
+Seeed board, Arduino setup and pinout:
+https://wiki.seeedstudio.com/XIAO_BLE/
+Adafruit Bluefruit BLE characteristic API:
+https://learn.adafruit.com/bluefruit-nrf52-feather-learning-guide/blecharacteristic
+Nordic phone app:
+https://www.nordicsemi.com/Products/Development-tools/nRF-Connect-for-mobile
+Nordic Android documentation:
+https://github.com/NordicSemiconductor/Android-nRF-Connect/blob/main/documentation/README.md
+Nordic iOS manual:
+https://nordicsemiconductor.github.io/IOS-nRF-Connect/assets/files/UserManual.pdf
+Arm native cross-compiler:
+https://support.arm.com/documentation/109845/13-3-Rel1
+
+Open Flight sketch and guide use Apache-2.0. See LICENSE.txt in the
+source archive. The Seeed board package, its included Bluefruit library,
+and Nordic's phone app are obtained separately under their own terms.

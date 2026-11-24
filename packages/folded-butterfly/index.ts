@@ -17,7 +17,7 @@ import {
   type Locale,
   type Paper,
 } from '../print-export/sheets.ts'
-import { keelSteps, type KeelStep } from '../../apps/editor/keel-guide.js'
+import { keelDiagram, keelSteps, type KeelStep } from '../../apps/editor/keel-guide.js'
 
 type Appearance = keyof WorkshopModel['palettes']
 export type FoldedSettings = {
@@ -29,7 +29,13 @@ export type FoldedSettings = {
   paper?: Paper
 }
 
-const depth = 8
+const bodyDepth = 8
+export const foldedSpanSpec = workshopModels[0].parameter_definitions.find(({ name }) => name === 'span_mm')!
+export const foldedSpecies = workshopModels.map(({ species }) => species)
+export function isFoldedSpan(value: number): boolean {
+  const { minimum, maximum, step } = foldedSpanSpec
+  return Number.isInteger(value) && value >= minimum && value <= maximum && (value - minimum) % step === 0
+}
 const evidence = 'experimental_unvalidated' as const
 const dark = '#272239'
 const centerInk = '#005A8D'
@@ -73,15 +79,10 @@ export function makeFoldedButterfly(
   if (revision !== 'k1') throw new Error('Unknown folded butterfly revision')
   const model = modelFor(species)
   const { span_mm = model.parameters.span_mm } = settings
-  if (
-    !Number.isInteger(span_mm) ||
-    span_mm < 148 ||
-    span_mm > 184 ||
-    span_mm % 2 !== 0
-  )
-    throw new Error(
-      'Finished span must be an even millimetre value from 148 to 184',
-    )
+  if (!isFoldedSpan(span_mm)) {
+    const { minimum, maximum, step } = foldedSpanSpec
+    throw new Error(`Finished span must be from ${minimum} to ${maximum} mm in ${step} mm increments`)
+  }
   if (!Object.hasOwn(model.palettes, appearance_id))
     throw new Error('Unknown butterfly appearance')
   if (!Object.hasOwn(sizes, paper)) throw new Error('Unknown paper size')
@@ -95,8 +96,8 @@ export function makeFoldedButterfly(
     appearance_id,
     paper,
     locale,
-    keel_depth_mm: depth,
-    flat_span_mm: span_mm + 2 * depth,
+    keel_depth_mm: bodyDepth,
+    flat_span_mm: span_mm + 2 * bodyDepth,
     clip_station_mm: clip_rear_from_nose_mm,
     body_length_mm: abdomen_y - nose_y,
     nose_y_mm: nose_y,
@@ -106,18 +107,18 @@ export function makeFoldedButterfly(
   }
 }
 
-const translate =
-  (side: number) =>
-  ([x, y]: Point): Point => [rounded(x + side * depth), y]
-
 export function foldedGeometry(plan: FoldedPlan) {
   const model = modelFor(plan.species)
   const original = wingShape(model)
   const {
-    nose_y: nose,
-    abdomen_y: tail,
-    clip_rear_from_nose_mm: station,
-  } = model.geometry
+    nose_y_mm: nose,
+    abdomen_y_mm: tail,
+    keel_depth_mm: depth,
+    clip_station_mm: station,
+  } = plan
+  const translate =
+    (side: number) =>
+    ([x, y]: Point): Point => [rounded(x + side * depth), y]
   const originalOutline = original.outline.map((point) =>
     toPaper(point, plan.span_mm),
   )
@@ -790,6 +791,11 @@ export function foldedPreview(plan: FoldedPlan): string {
   })
     .toString('utf8')
     .replace(` width="${width}mm" height="${height}mm"`, '')
+}
+
+export function foldedLessonSvg(plan: FoldedPlan, index: number): string {
+  const color = modelFor(plan.species).palettes[plan.appearance_id].base
+  return keelDiagram(plan, index, color, () => foldedPreview(plan))
 }
 
 export function foldedFinishedPreview(plan: FoldedPlan): string {

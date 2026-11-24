@@ -5,16 +5,6 @@ import { planeCatalog } from './assets/planes/catalog.js'
 export const languages = ['en', 'es', 'ru']
 export const words = (en, es, ru) => ({ en, es, ru })
 const w = words
-const names = {
-  monarch: w('Monarch', 'Monarca', 'Монарх'),
-  morpho: w('Blue Morpho', 'Morfo azul', 'Голубой морфо'),
-  swallowtail: w('Swallowtail', 'Cola de golondrina', 'Махаон'),
-}
-const scientific = {
-  monarch: 'Danaus plexippus',
-  morpho: 'Morpho peleides',
-  swallowtail: 'Papilio machaon',
-}
 const shapes = {
   monarch: w(
     'Follow the orange forewing to its long tip. The black veins help you see its sweep.',
@@ -65,26 +55,26 @@ const copy = {
     'Сначала выровняй оба язычка. Для второй серии немного подними один. С какой стороны окажется больше первых касаний?',
   ),
 }
-export const designIds = [...Object.keys(names), ...planeCatalog.map((p) => p.model_id)]
+export const designIds = [...Object.keys(baselines), ...planeCatalog.map((p) => p.model_id)]
 export function foldedLink(species, locale, settings = {}) {
-  return './keel.html?' + new URLSearchParams({species,lang:locale,...settings})
+  return './studio.html?' + new URLSearchParams({ construction: 'k1', species, lang: locale, ...settings })
 }
 export function studioLink(id, locale, flight = false) {
   const query = new URLSearchParams({ lang: locale })
   if (flight) query.set('view', 'flight')
-  if (id in names) return './studio.html?' + query + '#design=butterfly-' + id + '&revision=w1'
+  if (Object.hasOwn(baselines, id)) return './studio.html?' + query + '#design=butterfly-' + id + '&revision=w1'
   query.set('model', id)
   return './planes.html?' + query
 }
 export function fieldModel(id, locale = 'en') {
   const t = (x) => x[locale]
   const metrics = (entries) => entries.map(([key, value, unit]) => ({ label: t(copy[key]), value, unit }))
-  if (Object.hasOwn(names, id)) {
+  if (Object.hasOwn(baselines, id)) {
     const b = baselines[id]
     return {
       id,
-      name: t(names[id]),
-      inspiration: scientific[id],
+      name: t(b.names),
+      inspiration: b.scientific,
       family: 'butterfly',
       technique: t(copy.butterfly),
       materials: t(copy.butterflyTools),

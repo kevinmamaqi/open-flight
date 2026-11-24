@@ -1,8 +1,10 @@
-import { foldedLink } from './atlas-guide.js?v=50000cb495d7'
-import { flightPhysics,physicsTitle } from './atlas-physics.js?v=50000cb495d7'
-import { butterflies } from './flight-butterflies.js?v=50000cb495d7'
-import { words } from './editor-i18n.js?v=50000cb495d7'
-import { drawGlide, playGlide } from './editor-glide.js?v=50000cb495d7'
+import { foldArtwork, showFoldStep } from './fold-lesson.js?v=3f377bf311aa'
+import { keelSteps } from './keel-guide.js?v=3f377bf311aa'
+import { foldedAddress, foldedExports, foldedSettings } from './studio-folded.js?v=3f377bf311aa'
+import { flightPhysics,physicsTitle } from './atlas-physics.js?v=3f377bf311aa'
+import { butterflies } from './flight-butterflies.js?v=3f377bf311aa'
+import { words } from './editor-i18n.js?v=3f377bf311aa'
+import { drawGlide, playGlide } from './editor-glide.js?v=3f377bf311aa'
 
 const $ = (id) => document.getElementById(id)
 let spatial
@@ -21,8 +23,14 @@ if (initial.has('grant')) {
   )
 }
 const grant = loopback && sessionStorage.getItem('open-flight-grant')
-const portable = grant ? null : import('./browser-workshop.js?v=50000cb495d7')
+const portable = grant ? null : import('./browser-workshop.js?v=3f377bf311aa')
 const pageOptions = new URLSearchParams(location.search)
+let foldedDraft
+const foldedCache = new Map()
+let foldedView = 'folded'
+let foldedStep = 0
+let foldedRender = 0
+let foldedLesson
 const requestedLanguage = pageOptions.get('lang')
 if (Object.hasOwn(words, requestedLanguage))
   sessionStorage.setItem('open-flight-language', requestedLanguage)
@@ -274,13 +282,16 @@ function renderPalette() {
     } else wrap.append(radio, label)
     label.append(dot, el('span', null, id === 'coloring' ? name + ' · ' + t('lowInk') : name))
     radio.addEventListener('change', () => {
-      if (!busy && radio.checked) changeDraft({ appearance_id: id }, 0)
+      if (!busy && radio.checked) {
+        if (foldedDraft) updateFolded({ appearance_id: id })
+        else changeDraft({ appearance_id: id }, 0)
+      }
     })
     return wrap
   })
   $('palette-list').replaceChildren(...choices)
 }
-function setRange(id, name) {
+function setRange(id, name, value = draft.parameters[name]) {
   const definition = revision.parameter_definitions.find((p) => p.name === name)
   if (!definition) return
   const input = $(id)
@@ -288,7 +299,7 @@ function setRange(id, name) {
     min: definition.minimum,
     max: definition.maximum,
     step: definition.step,
-    value: draft.parameters[name],
+    value,
   })
   input.style.setProperty(
     '--fill',
@@ -297,11 +308,17 @@ function setRange(id, name) {
 }
 function renderSettings() {
   if (!revision) return
+  $('construction').hidden = !revision.species_id
+  $('tabbed-body').setAttribute('aria-pressed', String(!foldedDraft))
+  $('folded-body').setAttribute('aria-pressed', String(!!foldedDraft))
+  $('folded-options').hidden = !foldedDraft
+  $('activities').hidden = !!foldedDraft
+  $('folded-preview').hidden = !foldedDraft
+  $('preview').hidden = !!foldedDraft
+  $('wing-view').querySelector('span').textContent = t(foldedDraft ? 'foldedBody' : 'wings')
+  $('glide-view').querySelector('span').textContent = t(foldedDraft ? 'flatPattern' : 'glideSketch')
+  if (foldedDraft) return renderFoldedSettings()
   const p = draft.parameters
-  const folded = $('folded-edition')
-  folded.hidden = !revision.species_id
-  folded.textContent = {en:'Try the folded body with this wing pattern ↗',es:'Probar el cuerpo plegado con estas alas ↗',ru:'Сложить корпус для этих крыльев ↗'}[locale]
-  if (revision.species_id) folded.href = foldedLink(revision.species_id,locale,{span_mm:String(p.span_mm),appearance_id:draft.appearance_id})
   setRange('wing', 'span_mm')
   $('wing-value').textContent = mm(p.span_mm)
   $('wing').setAttribute('aria-valuetext', mm(p.span_mm))
@@ -352,6 +369,91 @@ function renderSettings() {
   $('preview').style.setProperty('--physical-height', 100 * scale + '%')
   renderBoardCopy()
 }
+function renderFoldedSettings() {
+  const settings = foldedDraft
+  setRange('wing', 'span_mm', settings.span_mm)
+  const span = mm(settings.span_mm)
+  $('wing-value').textContent = span
+  $('wing').setAttribute('aria-valuetext', span)
+  $('span-min').textContent = mm($('wing').min)
+  $('span-max').textContent = mm($('wing').max)
+  for (const radio of document.querySelectorAll('input[name=palette]'))
+    radio.checked = radio.value === settings.appearance_id
+  for (const id of ['spatial-open', 'spatial-step', 'trim-controls', 'read-only-note'])
+    $(id).hidden = true
+  $('glide-view').hidden = false
+  $('glide-board').hidden = true
+  $('art-board').hidden = false
+  $('wing-view').setAttribute('aria-pressed', String(foldedView === 'folded'))
+  $('glide-view').setAttribute('aria-pressed', String(foldedView === 'flatPattern'))
+  $('evidence').textContent = t('concept')
+  $('board-note').textContent = guide()?.[locale]?.flight_question ?? ''
+  $('note-icon').setAttribute('href', './editor-art.svg#leaf')
+  $('save-label').textContent = t('copyBuild')
+  $('save-design').disabled = busy
+  $('print-design').disabled = busy
+  $('reset-design').disabled = busy || (
+    settings.span_mm === revision.parameters.span_mm &&
+    settings.appearance_id === revision.appearance_id
+  )
+  syncFoldedAddress()
+  void renderFoldedPreview()
+}
+function syncFoldedAddress() {
+  const address = foldedAddress(new URL(location.href), foldedDraft, locale, foldedView, foldedStep)
+  history.replaceState(null, '', address)
+  address.searchParams.delete('construction')
+  $('folded-edition').href = './keel.html' + address.search + '#comparison'
+}
+async function renderFoldedPreview() {
+  const ticket = ++foldedRender
+  $('art-board').setAttribute('aria-busy', 'true')
+  foldedLesson = undefined
+  try {
+    const api = await (portable ?? import('./browser-workshop.js?v=3f377bf311aa'))
+    if (!foldedDraft || ticket !== foldedRender) return
+    const plan = api.makeFoldedButterfly(foldedDraft, locale)
+    foldedLesson = { api, plan }
+    renderStep()
+    const flat = foldedView === 'flatPattern'
+    const preview = $('folded-preview')
+    preview.setAttribute('aria-label', t(flat ? 'flatPattern' : 'foldedBody') + ' · ' + nameFor(revision))
+    preview.replaceChildren(foldArtwork(flat ? api.foldedPreview(plan) : api.foldedFinishedPreview(plan)))
+    $('span').textContent = mm(flat ? plan.flat_span_mm : plan.span_mm)
+    $('area').textContent = t(flat ? 'flatPattern' : 'foldedBody')
+  } catch (error) {
+    if (ticket === foldedRender && foldedDraft) reportError(error)
+  } finally {
+    if (ticket === foldedRender && foldedDraft) $('art-board').setAttribute('aria-busy', 'false')
+  }
+}
+function updateFolded(change) {
+  foldedDraft = { ...foldedDraft, ...change }
+  clearDownloads()
+  renderSettings()
+}
+function switchConstruction(folded) {
+  if (!revision?.species_id || busy || folded === !!foldedDraft) return
+  const key = refKey(revision.ref)
+  if (!folded) {
+    foldedCache.set(key, { settings: foldedDraft, step: foldedStep, view: foldedView })
+    const url = new URL(location.href)
+    url.search = new URLSearchParams({ lang: locale })
+    history.replaceState(null, '', url)
+    foldedDraft = undefined
+    foldedLesson = undefined
+    ++foldedRender
+    show(revision)
+    return
+  }
+  previewController?.abort()
+  ++previewGeneration
+  const saved = foldedCache.get(key)
+  foldedStep = saved?.step ?? 0
+  foldedView = saved?.view ?? 'folded'
+  updateFolded(saved?.settings ?? foldedSettings(new URLSearchParams(), revision, draft))
+}
+
 function renderBoardCopy() {
   if (!revision) return
   const activeGuide = guide()
@@ -380,13 +482,14 @@ function renderMetrics(metrics) {
 }
 function fitSpanRule() {
   const image = $('preview')
-  if (!draft || !image.naturalWidth || !image.clientWidth || !image.clientHeight) return
+  if (foldedDraft || !draft || !image.naturalWidth || !image.clientWidth || !image.clientHeight) return
   // A physical-size SVG is decoded at 96 CSS pixels per inch, then fitted inside the preview.
   const fit = Math.min(image.clientWidth / image.naturalWidth, image.clientHeight / image.naturalHeight)
   document.querySelector('.span-rule').style.width = (draft.parameters.span_mm * 96 * fit) / 25.4 + 'px'
 }
 function changeDraft(change, delay) {
   if (!revision) return
+  if (change.appearance_id || change.parameters?.span_mm) foldedCache.delete(refKey(revision.ref))
   draft = {
     ...draft,
     ...change,
@@ -401,10 +504,17 @@ function changeDraft(change, delay) {
   schedulePreview(delay)
 }
 function show(data) {
+  if (!data.species_id) foldedDraft = undefined
   const previous = revision
   revision = data
   draft = draftCache.get(refKey(data.ref)) ?? fresh(data)
-  if (previous?.species_id !== data.species_id) stepIndex = 0
+  if (previous?.species_id !== data.species_id) {
+    stepIndex = 0
+    if (foldedDraft) {
+      foldedDraft = { ...foldedDraft, species: data.species_id }
+      foldedStep = 0
+    }
+  }
   if (!data.species_id) currentView = 'wings'
   const id = data.species_id ?? 'legacy'
   document.querySelector('.preview-card').dataset.species = id
@@ -421,18 +531,15 @@ function show(data) {
   renderGuide()
   renderMetrics(data.geometry)
   clearDownloads()
-  history.replaceState(
-    null,
-    '',
-    '#' +
-      new URLSearchParams({
-        design: data.ref.design_id,
-        revision: data.ref.revision_id,
-      }),
-  )
-  message(data.head_revision_id === data.ref.revision_id ? '' : t('preserved'))
-  schedulePreview(0)
-  listActivities().catch(reportError)
+  if (!foldedDraft) {
+    const url = new URL(location.href)
+    url.searchParams.delete('construction')
+    url.hash = new URLSearchParams({ design: data.ref.design_id, revision: data.ref.revision_id })
+    history.replaceState(null, '', url)
+    message(data.head_revision_id === data.ref.revision_id ? '' : t('preserved'))
+    schedulePreview(0)
+    listActivities().catch(reportError)
+  } else message()
 }
 function schedulePreview(delay = 0) {
   const token = ++previewGeneration
@@ -555,41 +662,58 @@ function openPhoto() {
   $('nature-more').textContent = info.natural_history.source
   $('nature-dialog').showModal()
 }
+const studioLesson = {
+  figure: $('diagram-board'), progress: $('step-count'), title: $('step-title'),
+  action: $('step-body'), check: $('step-check'), previous: $('prev-step'),
+  next: $('next-step'), nextLabel: $('next-step').querySelector('span'),
+}
+const stepCount = (n, total) => t('step', { n, total })
+function selectFoldedStep(index) {
+  foldedStep = index
+  syncFoldedAddress()
+  renderStep()
+}
 function renderStep() {
+  if (foldedDraft) {
+    if (!foldedLesson) return
+    const { api, plan } = foldedLesson
+    const artwork = foldArtwork(api.foldedLessonSvg(plan, foldedStep))
+    showFoldStep(studioLesson, {
+      index: foldedStep, total: plan.steps.length, count: stepCount, step: plan.steps[foldedStep], artwork,
+      forwardLabel: t('next'),
+    })
+    $('next-step').querySelector('use').setAttribute('href', './editor-art.svg#next')
+    return
+  }
   const steps = guide()?.[locale].steps
   if (!steps?.length) return
   stepIndex = Math.min(stepIndex, steps.length - 1)
   const step = steps[stepIndex]
-  $('step-count').textContent = t('step', {
-    n: stepIndex + 1,
-    total: steps.length,
-  })
-  $('step-title').textContent = step.title
-  $('step-body').textContent = step.body
+  let action = step.body
   if (step.id === 'fold') {
     const { root, angle } = butterflies[revision.species_id]
     const wing = (draft.parameters.span_mm * (100 - root)) / 200
     const height = Math.round(wing * Math.sin((angle * Math.PI) / 180))
-    $('step-body').append(' ' + t('tipHeight', { height: mm(height) }))
+    action += ' ' + t('tipHeight', { height: mm(height) })
   }
-  if (step.id === 'launch') $('step-body').append(' ' + t('buildNote'))
+  if (step.id === 'launch') action += ' ' + t('buildNote')
   if (step.id === 'trim') {
-    $('step-body').append(
-      ' ' +
-        t('currentTrim', {
-          left: localizedAngle(draft.parameters.left_trim_deg),
-          right: localizedAngle(draft.parameters.right_trim_deg),
-        }),
-    )
+    action += ' ' + t('currentTrim', {
+      left: localizedAngle(draft.parameters.left_trim_deg),
+      right: localizedAngle(draft.parameters.right_trim_deg),
+    })
   }
-  refreshSpatial()
-  $('step-diagram').src = new URL('.' + step.diagram, import.meta.url).pathname
-  $('prev-step').disabled = stepIndex === 0
+  const artwork = document.createElement('img')
+  artwork.id = 'step-diagram'
+  artwork.alt = ''
+  artwork.src = new URL('.' + step.diagram, import.meta.url).pathname
+  showFoldStep(studioLesson, {
+    index: stepIndex, total: steps.length, count: stepCount, step: { ...step, action }, artwork,
+    firstLabel: t('firstStep'), forwardLabel: t('next'),
+  })
   const last = stepIndex === steps.length - 1
-  $('next-step').querySelector('span').textContent = t(last ? 'firstStep' : 'next')
-  $('next-step')
-    .querySelector('use')
-    .setAttribute('href', '/editor-art.svg#' + (last ? 'prev' : 'next'))
+  $('next-step').querySelector('use').setAttribute('href', './editor-art.svg#' + (last ? 'prev' : 'next'))
+  refreshSpatial()
 }
 function clearDownloads() {
   downloads.splice(0).forEach((url) => URL.revokeObjectURL(url))
@@ -740,6 +864,10 @@ function defaultName() {
   })
 }
 function updatePrintSummary() {
+  if (foldedDraft) {
+    $('print-summary').textContent = [nameFor(revision), t('foldedBody'), mm(foldedDraft.span_mm), t(foldedDraft.appearance_id)].join(' · ')
+    return
+  }
   const parts = [nameFor(revision), mm(draft.parameters.span_mm)]
   if (words[locale][draft.appearance_id]) parts.push(t(draft.appearance_id))
   if (revision.species_id)
@@ -750,6 +878,38 @@ function updatePrintSummary() {
       }),
     )
   $('print-summary').textContent = parts.join(' · ') + (edited() ? ' ' + t('unsavedPrint') : '')
+}
+async function exportFolded() {
+  clearDownloads()
+  const printLocale = $('print-locale').value
+  const planInput = { ...foldedDraft, paper: $('paper').value }
+  const api = await (portable ?? import('./browser-workshop.js?v=3f377bf311aa'))
+  const plan = api.makeFoldedButterfly(planInput, printLocale)
+  message(t('preparing'), false, $('print-status'))
+  await api.prepareFoldedPdf()
+  for (const { kind, ext, mime, bytes } of foldedExports(api, plan)) {
+    const link = el('a')
+    const url = URL.createObjectURL(new Blob([bytes], { type: mime }))
+    downloads.push(url)
+    link.href = url
+    link.dataset.kind = kind
+    link.download = [plan.species, 'k1', plan.span_mm, plan.appearance_id, plan.paper, printLocale, kind].join('-') + '.' + ext
+    link.append(icon('download', true), document.createTextNode(t(kind === 'fold-guide' ? 'guide' : files[kind][0])))
+    $('downloads').append(link)
+  }
+  message(t('filesReady'), false, $('print-status'))
+  $('downloads').querySelector('a')?.focus()
+}
+async function copyFoldedLink() {
+  try {
+    await navigator.clipboard.writeText(location.href)
+    message(t('buildCopied'))
+  } catch {
+    const link = el('a', null, location.href)
+    link.href = location.href
+    $('status').replaceChildren(link)
+    link.focus()
+  }
 }
 async function exportFiles() {
   clearDownloads()
@@ -829,12 +989,14 @@ async function openSpatial(mode, start) {
     renderStep()
   }
   if (!$('spatial-dialog').open) $('spatial-dialog').showModal()
-  const { mountFlightViewer } = await import('./flight-viewer.js?v=50000cb495d7')
+  const { mountFlightViewer } = await import('./flight-viewer.js?v=3f377bf311aa')
   if (!$('spatial-dialog').open) return
   spatial ??= mountFlightViewer($('spatial-surface'))
   refreshSpatial()
 }
 function wireUI() {
+  $('tabbed-body').addEventListener('click', () => switchConstruction(false))
+  $('folded-body').addEventListener('click', () => switchConstruction(true))
   $('spatial-open').addEventListener('click', () =>
     openSpatial(
       currentView === 'glide' ? 'flight' : 'fold',
@@ -908,6 +1070,7 @@ function wireUI() {
     const value = $('design-list').value
     if (!value) return
     try {
+      switchConstruction(false)
       await openChoice(value)
       $('library-dialog').close()
     } catch (error) {
@@ -916,10 +1079,20 @@ function wireUI() {
     }
   })
   $('wing-view').addEventListener('click', () => {
+    if (foldedDraft) {
+      foldedView = 'folded'
+      renderSettings()
+      return
+    }
     currentView = 'wings'
     renderBoardCopy()
   })
   $('glide-view').addEventListener('click', () => {
+    if (foldedDraft) {
+      foldedView = 'flatPattern'
+      renderSettings()
+      return
+    }
     currentView = 'glide'
     renderBoardCopy()
   })
@@ -938,7 +1111,12 @@ function wireUI() {
     ['right-trim', 'right_trim_deg'],
   ]) {
     $(id).addEventListener('input', () => {
-      if (!busy) changeDraft({ parameters: { [name]: $(id).valueAsNumber } }, 65)
+      if (busy) return
+      if (foldedDraft) {
+        if (name === 'span_mm') updateFolded({ span_mm: $(id).valueAsNumber })
+        return
+      }
+      changeDraft({ parameters: { [name]: $(id).valueAsNumber } }, 65)
     })
   }
   for (const button of document.querySelectorAll('[data-preset]')) {
@@ -952,11 +1130,16 @@ function wireUI() {
   }
   $('reset-design').addEventListener('click', () => {
     if (!revision || busy) return
-    changeDraft(fresh(revision), 0)
+    if (foldedDraft) updateFolded({
+      span_mm: revision.parameters.span_mm,
+      appearance_id: revision.appearance_id,
+    })
+    else changeDraft(fresh(revision), 0)
     message(t('resetOk'))
   })
   $('save-design').addEventListener('click', () => {
     if (!revision || busy) return
+    if (foldedDraft) return void copyFoldedLink()
     if (writableHead())
       return mutation(async () => {
         const d = await persist()
@@ -988,21 +1171,28 @@ function wireUI() {
   })
   $('print-design').addEventListener('click', () => {
     if (!revision || busy) return
+    if (foldedDraft) $('paper').value = foldedDraft.paper
     updatePrintSummary()
     $('print-dialog').showModal()
   })
   $('print-form').addEventListener('submit', (event) => {
     event.preventDefault()
-    mutation(exportFiles, $('print-status'))
+    mutation(foldedDraft ? exportFolded : exportFiles, $('print-status'))
   })
-  for (const id of ['paper', 'print-locale']) $(id).addEventListener('change', clearDownloads)
+  $('paper').addEventListener('change', () => {
+    if (foldedDraft) updateFolded({ paper: $('paper').value })
+    else clearDownloads()
+  })
+  $('print-locale').addEventListener('change', clearDownloads)
   $('prev-step').addEventListener('click', () => {
+    if (foldedDraft) return selectFoldedStep(foldedStep - 1)
     if (stepIndex > 0) {
       stepIndex--
       renderStep()
     }
   })
   $('next-step').addEventListener('click', () => {
+    if (foldedDraft) return selectFoldedStep(foldedStep + 1)
     const steps = guide()?.[locale].steps
     if (steps?.length) {
       stepIndex = (stepIndex + 1) % steps.length
@@ -1023,6 +1213,7 @@ function wireUI() {
   window.addEventListener('hashchange', () => {
     const params = new URLSearchParams(location.hash.slice(1))
     if (!params.has('design') || !params.has('revision') || busy) return
+    switchConstruction(false)
     openChoice(params.get('design') + '/' + params.get('revision')).catch(reportError)
   })
 }
@@ -1043,13 +1234,24 @@ try {
   await loadSpecs()
   renderCards()
   const first = seeds.get('monarch')?.design.ref ?? designIndex[0]?.ref
+  const explicitRevision = initial.has('design') && initial.has('revision')
+  const foldedStart = !explicitRevision && pageOptions.get('construction') === 'k1'
+  const foldedSeed = foldedStart && seeds.get(pageOptions.get('species'))?.design
   const selected =
-    initial.has('design') && initial.has('revision')
+    explicitRevision
       ? initial.get('design') + '/' + initial.get('revision')
-      : first && refKey(first)
+      : first && refKey(foldedSeed?.ref ?? first)
   if (!selected) throw new Error(t('selectFirst'))
   await openChoice(selected)
-  if (pageOptions.get('view') === 'flight' && revision?.species_id) {
+  if (foldedStart && revision?.species_id) {
+    const step = Number(pageOptions.get('step'))
+    const total = keelSteps(locale).length
+    foldedStep = Number.isInteger(step) && step >= 1 && step <= total ? step - 1 : 0
+    foldedView = pageOptions.get('view') === 'flatPattern' ? 'flatPattern' : 'folded'
+    previewController?.abort()
+    ++previewGeneration
+    updateFolded(foldedSettings(pageOptions, revision, draft))
+  } else if (pageOptions.get('view') === 'flight' && revision?.species_id) {
     currentView = 'glide'
     renderBoardCopy()
     $('glide-board').scrollIntoView({ block: 'nearest' })

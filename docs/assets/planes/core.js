@@ -1,6 +1,6 @@
-import { planeCatalog, sheetSizes, liveries, revision, planeColors, referenceForLocale } from './catalog.js?v=50000cb495d7'
-import { applyFolds, openSheet, outlineOf, publicPanels, wingShape, dedupeCreases } from './geometry.js?v=50000cb495d7'
-export { planeCatalog, sheetSizes, liveries, revision } from './catalog.js?v=50000cb495d7'
+import { planeCatalog, sheetSizes, liveries, revision, planeColors, referenceForLocale } from './catalog.js?v=3f377bf311aa'
+import { applyFolds, openSheet, outlineOf, publicPanels, wingShape, dedupeCreases } from './geometry.js?v=3f377bf311aa'
+export { planeCatalog, sheetSizes, liveries, revision } from './catalog.js?v=3f377bf311aa'
 
 function whole(value, min, max, fallback, label) {
   if (value === undefined) return fallback

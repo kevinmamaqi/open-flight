@@ -1,5 +1,5 @@
-import { motorRoadmap } from './atlas-roadmap.js?v=50000cb495d7'
-import { currentLocale, homeURL, localizedLinks } from './atlas-nav.js?v=50000cb495d7'
+import { motorRoadmap } from './atlas-roadmap.js?v=3f377bf311aa'
+import { currentLocale, homeURL, localizedLinks } from './atlas-nav.js?v=3f377bf311aa'
 const lang = currentLocale(),
   i = { en: 0, es: 1, ru: 2 }[lang],
   t = (...v) => v[i],
@@ -47,6 +47,8 @@ document.documentElement.lang = lang
 document.title = text.title + ' · Open Flight'
 $('home').href = $('foot-home').href = homeURL(lang)
 localizedLinks(lang)
+$('motor-workbench').href = './motor.html?lang=' + lang
+$('motor-workbench').textContent = t('Open the motor lab ↗', 'Abrir el laboratorio de motores ↗', 'Открыть лабораторию мотора ↗')
 $('circuit').href = './planes.html?model=boeing-747&view=flight&lang=' + lang
 for (const [i, s] of page.stages.entries()) {
   const card = el('article', '', 'stage')

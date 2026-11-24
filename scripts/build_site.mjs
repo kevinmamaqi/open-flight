@@ -70,20 +70,22 @@ for (const [lang, copy, title, region, photoAlt, name, family] of [
     )
     .on('meta[property="og:image:alt"]', updateAttr('content', photoAlt))
     .on('link[rel="canonical"]', updateAttr('href', domain + lang + '.html'))
+    .on('#book-cover-image', updateAttr('src', './assets/atlas/book-cover-' + lang + '.png'))
     .on('#specimen', updateAttr('alt', photoAlt))
     .on('#specimen-name', replaceText(name + ' ↗'))
     .on('#specimen-family', replaceText(family))
   for (const [selector, href] of Object.entries({
-    '#hero-link': 'keel.html?species=monarch&lang=' + lang,
-    '#specimen-name': 'keel.html?species=monarch&lang=' + lang,
-    '#classic-butterfly':'studio.html?lang='+lang+'#design=butterfly-monarch&revision=w1',
+    '#hero-link': 'studio.html?lang=' + lang + '#design=butterfly-monarch&revision=w1',
+    '#specimen-name': 'studio.html?lang=' + lang + '#design=butterfly-monarch&revision=w1',
+    '#folded-butterfly': 'studio.html?construction=k1&species=monarch&lang=' + lang,
+    '#book-link': 'book.html?lang=' + lang,
     '#download': 'library/monarch-k1-A4-' + lang + '.pdf',
-    '[data-route=butterfly]': 'keel.html?lang=' + lang,
+    '[data-route=butterfly]': 'studio.html?lang=' + lang + '#design=butterfly-monarch&revision=w1',
     '[data-route=airplane]': 'planes.html?lang=' + lang,
     '#lesson-file': 'library/family-lesson-' + lang + '.html',
     '#references': 'references.html?lang=' + lang,
     '#compare-link': 'compare.html?lang=' + lang,
-    '#roadmap-link': 'next.html?lang=' + lang,
+    '#motor-link': 'motor.html?lang=' + lang,
     '#flight-link': 'planes.html?model=boeing-747&lang=' + lang + '&view=flight',
   }))
     rewrite = rewrite.on(selector, updateAttr('href', './' + href))
@@ -105,12 +107,12 @@ for (const entry of readdirSync(editor, { withFileTypes: true })) {
 // The bundled workshop has no ES imports. Third-party modules keep their published contents.
 const localModule = /(\b(?:from\s*|import\s*\(\s*|import\s+))(["'])(\.{1,2}\/[\w./-]+\.js)\2/g
 for (const name of assets) {
-  if (!name.endsWith('.js') || name === 'browser-workshop.js' || name.includes('/vendor/')) continue
+  if (!name.endsWith('.js') || (name === 'browser-workshop.js' || name === 'book-engine.js') || name.includes('/vendor/')) continue
   const source = readFileSync(join(editor, name), 'utf8')
   const result = source.replace(localModule, (_all, keyword, quote, url) => keyword + quote + url + assetKey + quote)
   if (result !== source) writeFileSync(join(out, name), result)
 }
-for (const alias of ['studio', 'planes']) {
+for (const alias of ['studio', 'planes', 'book', 'motor']) {
   const dir = join(out, alias)
   mkdirSync(dir, { recursive: true })
   writeFileSync(
@@ -126,7 +128,7 @@ writeFileSync(
 )
 writeFileSync(join(out, '.nojekyll'), '')
 const origin = 'https://kevinmamaqi.github.io/open-flight/'
-const pages = ['keel.html','studio.html', 'planes.html', 'references.html', 'compare.html', 'next.html']
+const pages = ['book.html','motor.html','keel.html','studio.html', 'planes.html', 'references.html', 'compare.html', 'next.html']
 writeFileSync(
   join(out, 'sitemap.xml'),
   '<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">' +
@@ -146,6 +148,8 @@ writeFileSync(
 )
 for (const path of [
   'index.html',
+  'book.html', 'book.js', 'book-engine.js', 'motor.html', 'assets/motor/lab.json', 'fold-lesson.js',
+  'assets/atlas/book-cover-en.png', 'assets/atlas/book-cover-es.png', 'assets/atlas/book-cover-ru.png',
   'studio.html',
   'planes.html',
   'flight-viewer.js', 'keel.js','keel-guide.js','library/monarch-k1-US_LETTER-es.pdf',

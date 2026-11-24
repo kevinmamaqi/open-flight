@@ -2,7 +2,7 @@
   "openapi": "3.1.2",
   "info": {
     "title": "Open Flight local product API",
-    "version": "0.5.0",
+    "version": "0.6.0",
     "description": "Account-free local product operations backed by the selected workspace. A loopback instance issues a private bearer grant. Export jobs and immutable artifact bytes are stored together in SQLite."
   },
   "x-contract-status": "implemented_local_experimental",
@@ -2309,6 +2309,190 @@
           }
         }
       }
+    },
+    "/v1/books/render": {
+      "post": {
+        "operationId": "renderFamilyBook",
+        "summary": "Make a custom full-size family flight book",
+        "description": "Return a localized selection manifest or a bounded base64 part of the deterministic book PDF. Use next_offset to obtain all parts. The PDF preserves the pages of the published workshop sheets.",
+        "x-contract-status": "implemented_local_experimental",
+        "x-required-scopes": [
+          "openflight:designs:read"
+        ],
+        "x-mcp-access": "tool",
+        "x-success-schema": "FamilyBookResult",
+        "x-mutation": false,
+        "parameters": [],
+        "security": [
+          {
+            "UserToken": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Make a custom full-size family flight book",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FamilyBookResult"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Authentication required",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Insufficient scope or access",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Rate or quota limit",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Unexpected failure",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        },
+        "x-mcp-tool": "openflight_render_family_book",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/FamilyBookRequest"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/motor-lab": {
+      "get": {
+        "operationId": "getMotorLab",
+        "summary": "Open the motor lab notebook",
+        "description": "Return the public reference products, bill of materials, test plan and workshop-relative download paths for the independent motor experiment.",
+        "x-contract-status": "implemented_local_experimental",
+        "x-required-scopes": [
+          "openflight:designs:read"
+        ],
+        "x-mcp-access": "tool",
+        "x-success-schema": "MotorLabResult",
+        "x-mutation": false,
+        "parameters": [
+          {
+            "name": "locale",
+            "in": "query",
+            "schema": {
+              "$ref": "#/components/schemas/AirplaneLocale"
+            }
+          }
+        ],
+        "security": [
+          {
+            "UserToken": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Open the motor lab notebook",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MotorLabResult"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Authentication required",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Insufficient scope or access",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Rate or quota limit",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Unexpected failure",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        },
+        "x-mcp-tool": "openflight_get_motor_lab"
+      }
     }
   },
   "components": {
@@ -3230,11 +3414,13 @@
                 "getMotorRoadmap",
                 "getFlightCircuit",
                 "simulateFlight",
-                "planFoldedButterfly"
+                "planFoldedButterfly",
+                "renderFamilyBook",
+                "getMotorLab"
               ]
             },
             "uniqueItems": true,
-            "maxItems": 21
+            "maxItems": 23
           },
           "transports": {
             "type": "array",
@@ -5259,6 +5445,324 @@
           "keel_depth_mm",
           "clip_station_mm",
           "output"
+        ]
+      },
+      "FamilyBookOptions": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "lang": {
+            "enum": [
+              "en",
+              "es",
+              "ru"
+            ]
+          },
+          "paper": {
+            "enum": [
+              "A4",
+              "US_LETTER"
+            ]
+          },
+          "theme": {
+            "enum": [
+              "sky",
+              "sunset",
+              "meadow"
+            ]
+          },
+          "cover": {
+            "type": "string",
+            "maxLength": 64
+          },
+          "sheets": {
+            "type": "array",
+            "items": {
+              "enum": [
+                "monarch-k1",
+                "morpho-k1",
+                "swallowtail-k1",
+                "monarch",
+                "morpho",
+                "swallowtail",
+                "boeing-747",
+                "douglas-dc3",
+                "tupolev-tu144",
+                "ilyushin-il62"
+              ]
+            },
+            "uniqueItems": true,
+            "minItems": 1,
+            "maxItems": 10
+          }
+        },
+        "required": []
+      },
+      "FamilyBookRequest": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "settings": {
+            "$ref": "#/components/schemas/FamilyBookOptions"
+          },
+          "output": {
+            "enum": [
+              "manifest",
+              "pdf"
+            ]
+          },
+          "offset": {
+            "type": "integer",
+            "minimum": 0
+          }
+        },
+        "required": []
+      },
+      "FamilyBookResult": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "edition": {
+            "const": "family-book-1"
+          },
+          "settings": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "lang": {
+                "enum": [
+                  "en",
+                  "es",
+                  "ru"
+                ]
+              },
+              "paper": {
+                "enum": [
+                  "A4",
+                  "US_LETTER"
+                ]
+              },
+              "theme": {
+                "enum": [
+                  "sky",
+                  "sunset",
+                  "meadow"
+                ]
+              },
+              "cover": {
+                "type": "string",
+                "maxLength": 64
+              },
+              "sheets": {
+                "type": "array",
+                "items": {
+                  "enum": [
+                    "monarch-k1",
+                    "morpho-k1",
+                    "swallowtail-k1",
+                    "monarch",
+                    "morpho",
+                    "swallowtail",
+                    "boeing-747",
+                    "douglas-dc3",
+                    "tupolev-tu144",
+                    "ilyushin-il62"
+                  ]
+                },
+                "uniqueItems": true,
+                "minItems": 1,
+                "maxItems": 10
+              }
+            },
+            "required": [
+              "lang",
+              "paper",
+              "theme",
+              "cover",
+              "sheets"
+            ]
+          },
+          "sheets": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "id": {
+                  "enum": [
+                    "monarch-k1",
+                    "morpho-k1",
+                    "swallowtail-k1",
+                    "monarch",
+                    "morpho",
+                    "swallowtail",
+                    "boeing-747",
+                    "douglas-dc3",
+                    "tupolev-tu144",
+                    "ilyushin-il62"
+                  ]
+                },
+                "path": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "id",
+                "path"
+              ]
+            },
+            "minItems": 1,
+            "maxItems": 10
+          },
+          "pdf": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "media_type": {
+                "const": "application/pdf"
+              },
+              "encoding": {
+                "const": "base64"
+              },
+              "byte_length": {
+                "type": "integer",
+                "minimum": 1
+              },
+              "sha256": {
+                "type": "string",
+                "pattern": "^[0-9a-f]{64}$"
+              },
+              "offset": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "next_offset": {
+                "type": [
+                  "integer",
+                  "null"
+                ],
+                "minimum": 1
+              },
+              "content": {
+                "type": "string",
+                "maxLength": 262144
+              }
+            },
+            "required": [
+              "media_type",
+              "encoding",
+              "byte_length",
+              "sha256",
+              "offset",
+              "next_offset",
+              "content"
+            ]
+          }
+        },
+        "required": [
+          "edition",
+          "settings",
+          "sheets"
+        ]
+      },
+      "MotorLabResult": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "revision": {
+            "type": "string"
+          },
+          "evidenceState": {
+            "const": "concept"
+          },
+          "locale": {
+            "enum": [
+              "en",
+              "es",
+              "ru"
+            ]
+          },
+          "dimensions": {
+            "type": "object"
+          },
+          "links": {
+            "type": "object"
+          },
+          "content": {
+            "type": "object"
+          },
+          "bom": {
+            "type": "array",
+            "items": {
+              "type": "object"
+            }
+          },
+          "files": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "id": {
+                  "type": "string"
+                },
+                "path": {
+                  "type": "string"
+                },
+                "mediaType": {
+                  "type": "string"
+                },
+                "group": {
+                  "enum": [
+                    "fit",
+                    "bench",
+                    "phone"
+                  ]
+                },
+                "label": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "en": {
+                      "type": "string"
+                    },
+                    "es": {
+                      "type": "string"
+                    },
+                    "ru": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "en",
+                    "es",
+                    "ru"
+                  ]
+                }
+              },
+              "required": [
+                "id",
+                "path",
+                "mediaType",
+                "group",
+                "label"
+              ]
+            }
+          },
+          "bench": {
+            "type": "object"
+          }
+        },
+        "required": [
+          "revision",
+          "evidenceState",
+          "locale",
+          "dimensions",
+          "links",
+          "content",
+          "bom",
+          "files",
+          "bench"
         ]
       }
     }

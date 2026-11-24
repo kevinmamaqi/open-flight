@@ -1,0 +1,153 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta name="theme-color" content="#f9f7ee" />
+    <meta
+      name="description"
+      content="A paper fit check, the original phone-controlled airplane kit and open motor research."
+    />
+    <title>Motor lab · Open Flight</title>
+    <link rel="icon" href="./assets/wing-mark.svg" />
+    <link rel="stylesheet" href="./atlas.css?v=3f377bf311aa" />
+    <link rel="stylesheet" href="./atlas-nav.css?v=3f377bf311aa" />
+    <link rel="stylesheet" href="./atlas-lab.css?v=3f377bf311aa" />
+    <link rel="stylesheet" href="./motor.css?v=3f377bf311aa" />
+    <script type="module" src="./motor.js?v=3f377bf311aa"></script>
+  </head>
+  <body>
+    <a class="skip" href="#main" data-copy="skip">Skip to content</a>
+    <header class="mast">
+      <div class="mast-in">
+        <a class="wordmark" id="home" href="./"
+          ><img
+            src="./assets/wing-mark.svg"
+            width="36"
+            height="36"
+            alt=""
+          />Open Flight</a
+        >
+        <span data-workshop-menu></span>
+        <div class="lang">
+          <a
+            id="en"
+            lang="en"
+            hreflang="en"
+            aria-label="English"
+            href="?lang=en"
+            >EN</a
+          >
+          <a
+            id="es"
+            lang="es"
+            hreflang="es"
+            aria-label="Español"
+            href="?lang=es"
+            >ES</a
+          >
+          <a
+            id="ru"
+            lang="ru"
+            hreflang="ru"
+            aria-label="Русский"
+            href="?lang=ru"
+            >РУ</a
+          >
+        </div>
+      </div>
+    </header>
+    <main class="wrap motor" id="main">
+      <header class="motor-hero">
+        <div>
+          <p class="over" data-copy="title">Motor lab</p>
+          <h1 data-copy="heading">From paper airplane to phone control.</h1>
+          <p class="motor-lead" data-copy="intro">
+            Explore the POWERUP motor attachments that inspired this project. At the workbench, test how a driver switches a light, try a phone command, and fit a paper mount to an airplane before adding power.
+          </p>
+          <div class="motor-actions">
+            <a href="#bench" class="motor-primary" data-copy="primary"
+              >Start the electrical bench</a
+            >
+            <a href="#reference" data-copy="secondary">See the original kit</a>
+            <a href="#fit-check" data-copy="fitAction">Print the paper mount</a>
+          </div>
+        </div>
+        <figure>
+          <img
+            src="./assets/motor/reference-layout.svg"
+            width="520"
+            height="218"
+            alt="Motor layouts of POWERUP 3.0 and 4.0."
+          />
+          <figcaption data-copy="heroCaption">
+            Open Flight diagrams of the commercial references. 3.0 uses one propeller and a rudder. 4.0 uses two propellers.
+          </figcaption>
+        </figure>
+      </header>
+      <p id="load-status" role="status"></p>
+      <section class="motor-panel" id="bench" aria-labelledby="bench-title">
+        <h2 id="bench-title" data-copy="benchTitle">Adult bench starter</h2>
+        <p data-copy="benchBody"></p>
+        <div class="motor-links" id="bench-files"></div>
+        <h3 data-copy="phoneTitle">Try a command from a phone</h3>
+        <p data-copy="phoneBody"></p>
+        <div class="motor-links" id="phone-files"></div>
+      </section>
+      <section class="motor-panel" id="fit-check" aria-labelledby="activity">
+        <h2 id="activity" data-copy="activity">Make an unpowered saddle</h2>
+        <div class="motor-links" id="files">
+          <a href="./assets/motor/OF-M0-r1-A4.pdf">A4 PDF</a>
+          <a href="./assets/motor/OF-M0-r1-Letter.pdf">US Letter PDF</a>
+        </div>
+        <img class="motor-fit-art" src="./assets/motor/saddle-illustration.svg" alt="Folded paper mount" width="680" height="460" loading="lazy" />
+        <ol id="steps"></ol>
+        <p data-copy="status"></p>
+        <div class="motor-links">
+          <strong data-copy="models">Choose a plane</strong>
+          <a id="upper" data-copy="upper" href="./planes.html?model=boeing-747"
+            >Fold the Upper Deck</a
+          >
+          <a
+            id="prairie"
+            data-copy="prairie"
+            href="./planes.html?model=douglas-dc3"
+            >Fold the Prairie Skipper</a
+          >
+        </div>
+      </section>
+      <div class="motor-pair">
+        <section
+          class="motor-panel"
+          id="reference"
+          aria-labelledby="commercial"
+        >
+          <h2 id="commercial" data-copy="commercial">
+            The original phone-controlled kit
+          </h2>
+          <p data-copy="commercialBody"></p>
+          <p data-copy="maker"></p>
+          <div class="motor-links" id="commercial-links"></div>
+        </section>
+        <section class="motor-panel" aria-labelledby="upstream">
+          <h2 id="upstream" data-copy="upstream">
+            Open references for the next prototype
+          </h2>
+          <p data-copy="upstreamBody"></p>
+          <div class="motor-links" id="upstream-links"></div>
+        </section>
+      </div>
+      <section class="motor-panel" aria-labelledby="parts">
+        <h2 id="parts" data-copy="parts">Candidate parts for adult review</h2>
+        <p data-copy="partsBody"></p>
+        <ul class="motor-parts" id="bom"></ul>
+        <h3 data-copy="next">Before a powered prototype</h3>
+        <p data-copy="nextBody"></p>
+      </section>
+    </main>
+    <footer class="wrap">
+      <a id="foot-home" href="./">Open Flight</a
+      ><a href="https://github.com/kevinmamaqi/open-flight">GitHub ↗</a>
+    </footer>
+  </body>
+</html>

@@ -1,4 +1,4 @@
-import { planeCredits, creditText } from './credits.js?v=50000cb495d7'
+import { planeCredits, creditText } from './credits.js?v=3f377bf311aa'
 
 export const esc = (value) =>
   String(value).replace(

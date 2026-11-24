@@ -6,10 +6,11 @@
     <meta name="theme-color" content="#f9f7ee" />
     <title>Folded-body butterfly · Open Flight</title>
     <link rel="icon" href="./assets/wing-mark.svg" type="image/svg+xml" />
-    <link rel="stylesheet" href="./atlas-nav.css?v=50000cb495d7" />
-    <link rel="stylesheet" href="./atlas.css?v=50000cb495d7" />
-    <link rel="stylesheet" href="./keel.css?v=50000cb495d7" />
-    <script type="module" src="./keel.js?v=50000cb495d7"></script>
+    <link rel="stylesheet" href="./atlas-nav.css?v=3f377bf311aa" />
+    <link rel="stylesheet" href="./atlas.css?v=3f377bf311aa" />
+    <link rel="stylesheet" href="./keel.css?v=3f377bf311aa" />
+    <script type="module" src="./keel.js?v=3f377bf311aa"></script>
+    <link rel="stylesheet" href="./fold-lesson.css?v=3f377bf311aa" />
   </head>
   <body>
     <a class="skip" href="#main" data-word="skip">Skip to the worktable</a>
@@ -70,7 +71,7 @@
             ><span data-word="span"></span>
             <output id="span-value" for="span_mm"></output
           ></label>
-          <input id="span_mm" type="range" min="148" max="184" step="2" />
+          <input id="span_mm" type="range" />
           <label
             ><span data-word="appearance"></span
             ><select id="appearance_id"></select
@@ -115,7 +116,7 @@
       <section class="keel-guide" aria-labelledby="guide-title">
         <h2 id="guide-title" data-word="guide"></h2>
         <div class="keel-lesson" aria-live="polite">
-          <div id="diagram"></div>
+          <div id="diagram" class="fold-lesson-figure"></div>
           <div class="keel-instructions">
             <p id="progress"></p>
             <h3 id="step-title"></h3>
@@ -125,7 +126,7 @@
             </p>
           </div>
         </div>
-        <div class="keel-actions">
+        <div class="keel-actions fold-lesson-actions">
           <button type="button" id="prev" data-word="prev"></button>
           <button
             type="button"

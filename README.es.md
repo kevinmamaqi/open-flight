@@ -2,13 +2,15 @@
 
 Elige un planeador de papel, cambia un doblez y observa dónde aterriza. El taller es gratuito y funciona en el navegador. Está pensado para niñas y niños de 5 a 12 años, sus familias y sus docentes. Puedes guardar tus diseños en el dispositivo y descargar hojas para imprimir y guías ilustradas. [Abrir el taller en español](https://kevinmamaqi.github.io/open-flight/es.html) · [English](README.md) · [По-русски](README.ru.md)
 
+Crea un libro de vuelo en familia. Elige los modelos y su orden, personaliza la portada y descarga un PDF con índice, instrucciones de impresión y plantillas a tamaño real. En el taller de mariposas puedes cambiar entre dos construcciones. El laboratorio de motores incluye las referencias originales, los archivos para las primeras pruebas eléctricas y una montura de papel. [Crear un libro](https://kevinmamaqi.github.io/open-flight/book.html?lang=es) · [Taller de mariposas](https://kevinmamaqi.github.io/open-flight/studio.html?lang=es) · [Laboratorio de motores](https://kevinmamaqi.github.io/open-flight/motor.html?lang=es)
+
 | Qué puedes hacer | Qué necesitas | Qué puedes cambiar |
 | --- | --- | --- |
-| Mariposa con cuerpo plegado | Una plantilla K1, tijeras, regla y un clip pequeño | Junta las puntas, pliega el cuerpo de dos capas y apoya las alas en la mesa. Elige la envergadura y los colores. [Construir K1](https://kevinmamaqi.github.io/open-flight/keel.html?lang=es) |
+| Mariposa con cuerpo plegado | Una plantilla K1, tijeras, regla y un clip pequeño | Junta las puntas, pliega el cuerpo de dos capas y apoya las alas en la mesa. Elige la envergadura y los colores. [Construir K1](https://kevinmamaqi.github.io/open-flight/studio.html?construction=k1&species=monarch&lang=es) |
 | Una mariposa original monarca, morfo azul o cola de golondrina (macaón) | Una hoja con la plantilla impresa, tijeras y un clip pequeño de puntas redondeadas | El ancho de las alas, los colores y las dos aletas de cola. Sigue los dibujos para recortar y doblar. Lanza y compara dónde toca el suelo. |
 | Un avión inspirado en el Boeing 747, el Douglas DC-3, el Tupolev Tu-144 o el Ilyushin Il-62 | Una hoja entera A4 o tamaño carta | La profundidad del cuerpo, los dobleces en los extremos de las alas y los colores. Sigue los dibujos paso a paso. Puedes doblarlo sin impresora. |
 
-Imprime al 100 % (tamaño real) y comprueba con una regla la línea de **50 mm** de la mariposa o de **20 mm** del avión. La trayectoria en 3D y el circuito de tres puertas son ilustraciones de lo que podría pasar. Comprueba tus ideas con lanzamientos suaves, a nivel y en un espacio despejado. [60 PDF y actividades sin conexión](docs/library/) · [Actividad familiar en español](guides/paper-flight-lesson.es.md) · [Fuentes y créditos](https://kevinmamaqi.github.io/open-flight/references.html?lang=es) · [Versión 0.5.0](https://github.com/kevinmamaqi/open-flight/releases/tag/v0.5.0)
+Imprime al 100 % (tamaño real) y comprueba con una regla la línea de **50 mm** de la mariposa o de **20 mm** del avión. La trayectoria en 3D y el circuito de tres puertas son ilustraciones de lo que podría pasar. Comprueba tus ideas con lanzamientos suaves, a nivel y en un espacio despejado. [60 PDF y actividades sin conexión](docs/library/) · [Actividad familiar en español](guides/paper-flight-lesson.es.md) · [Fuentes y créditos](https://kevinmamaqi.github.io/open-flight/references.html?lang=es) · [Versión 0.6.0](https://github.com/kevinmamaqi/open-flight/releases/tag/v0.6.0)
 
 ## Usa el taller en tu equipo
 

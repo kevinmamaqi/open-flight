@@ -28,11 +28,11 @@ serveStdio(
           annotations,
         })),
     }))
-    server.setRequestHandler('tools/call', (request) => {
+    server.setRequestHandler('tools/call', async (request) => {
       const tool = catalog.tools.find((t) => t.name === request.params.name)
       if (!tool) throw new ProtocolError(ProtocolErrorCode.InvalidParams, 'Unknown product tool.')
       try {
-        const data = workspace.call(tool['x-operationId'], request.params.arguments ?? {})
+        const data = await workspace.call(tool['x-operationId'], request.params.arguments ?? {})
         return server.projectCallToolResult(
           {
             content:

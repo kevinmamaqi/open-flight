@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 520 218">
+  <title>Motor layout comparison</title>
+  <desc>Functional drawings show a narrow spine in both kits. POWERUP 3.0 has one rear propeller and a rudder. POWERUP 4.0 has two propellers on a crossmember. The manufacturer provides photographs and product documentation.</desc>
+  <defs>
+    <pattern id="grid" width="20" height="20" patternUnits="userSpaceOnUse">
+      <path d="M20 0H0v20" fill="none" stroke="#b7c7ac" opacity=".5"/>
+    </pattern>
+    <g id="propeller">
+      <path d="M0 0Q-14-6 0-19Q7-13 0 0Q14 6 0 19Q-7 13 0 0Z" fill="#dc8960" stroke="#234b43"/>
+      <circle r="2.4" fill="#234b43"/>
+    </g>
+  </defs>
+  <path fill="url(#grid)" d="M0 0h520v218H0z"/>
+  <path d="M24 109h472" stroke="#819d8e"/>
+  <g fill="#234b43" font-family="sans-serif" font-weight="700" font-size="23">
+    <text x="28" y="63">3.0</text>
+    <text x="28" y="171">4.0</text>
+  </g>
+  <g fill="#718c7c" stroke="#234b43" stroke-width="2">
+    <rect x="129" y="45" width="80" height="19" rx="9"/>
+    <path d="M207 55h177" stroke-width="5"/>
+    <rect x="366" y="48" width="26" height="14" rx="3"/>
+    <path d="M401 55h13l27 14h-40z" fill="#b8c9a9"/>
+    <rect x="129" y="149" width="80" height="19" rx="9"/>
+    <path d="M207 159h145m0-21v42" stroke-width="5"/>
+    <rect x="350" y="130" width="42" height="15" rx="3"/>
+    <rect x="350" y="172" width="42" height="15" rx="3"/>
+  </g>
+  <use href="#propeller" x="392" y="55"/>
+  <use href="#propeller" x="396" y="137" transform="rotate(-23 396 137)"/>
+  <use href="#propeller" x="396" y="180" transform="rotate(23 396 180)"/>
+</svg>

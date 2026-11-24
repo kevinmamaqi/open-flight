@@ -1,5 +1,5 @@
-import { compareModels, designIds, fieldModel, foldedLink } from './atlas-guide.js?v=50000cb495d7'
-import { currentLocale, homeURL, localizedLinks } from './atlas-nav.js?v=50000cb495d7'
+import { compareModels, designIds, fieldModel } from './atlas-guide.js?v=3f377bf311aa'
+import { currentLocale, homeURL, localizedLinks } from './atlas-nav.js?v=3f377bf311aa'
 const lang = currentLocale(),
   i = { en: 0, es: 1, ru: 2 }[lang]
 const t = (en, es, ru) => [en, es, ru][i],
@@ -117,7 +117,7 @@ function card(model, index) {
   )
   if(model.family==='butterfly'){
     const choice=el('p'),link=el('a',t('Compare this tabbed build with a folded body ↗','Comparar estas aletas con el cuerpo plegado ↗','Сравнить эту модель с вариантом со складным корпусом ↗'),'quiet')
-    link.href=foldedLink(model.id,lang)+'#comparison';choice.append(link);detail.append(choice)
+    link.href='./keel.html?' + new URLSearchParams({ species: model.id, lang }) + '#comparison';choice.append(link);detail.append(choice)
   }
   a.append(header, detail)
   return a

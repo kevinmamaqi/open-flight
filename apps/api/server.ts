@@ -36,6 +36,11 @@ const publicTypes: Record<string, string> = {
   '.txt': 'text/plain; charset=utf-8',
   '.html': 'text/html; charset=utf-8',
   '.pdf': 'application/pdf',
+  '.ino': 'text/plain; charset=utf-8',
+  '.h': 'text/plain; charset=utf-8',
+  '.zip': 'application/zip',
+  '.csv': 'text/csv; charset=utf-8',
+  '.md': 'text/markdown; charset=utf-8',
 }
 const assets = new Map<string, [string, string]>([
   ['/', ['atlas.html', publicTypes['.html']]],
@@ -51,7 +56,7 @@ for (const entry of readdirSync(editorRoot, {
   const path = relative(editorRoot, join(entry.parentPath, entry.name))
   const mime = publicTypes[extname(path)]
   const appFile =
-    /^(?:editor|atlas|planes|references|flight|keel|compare|next|browser-workshop)(?:-[a-z0-9-]+)?\.(js|css|html|svg)$/.test(
+    /^(?:editor|atlas|planes|references|flight|keel|compare|next|browser-workshop|studio-folded|fold|family|book|motor)(?:-[a-z0-9-]+)?\.(js|css|html|svg)$/.test(
       path,
     )
   if (mime && (path.startsWith('assets/') || path.startsWith('library/') || appFile))
@@ -112,6 +117,10 @@ const server = http.createServer(async (req, res) => {
       '/planes/': '/planes.html',
       '/compare': '/compare.html',
       '/compare/': '/compare.html',
+      '/book': '/book.html',
+      '/book/': '/book.html',
+      '/motor': '/motor.html',
+      '/motor/': '/motor.html',
       '/next': '/next.html',
       '/next/': '/next.html',
       '/es': '/es.html',
@@ -171,7 +180,7 @@ const server = http.createServer(async (req, res) => {
         } else args[arg] = v
       }
     }
-    const result = workspace.call(route.op, args)
+    const result = await workspace.call(route.op, args)
     if (route.op === 'downloadArtifact') {
       res.writeHead(200, {
         'Content-Type': result.meta.ref.media_type,

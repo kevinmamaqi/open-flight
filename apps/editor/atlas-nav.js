@@ -37,6 +37,8 @@ const menuCopy = {
     'Print library',
     'Field references',
     'Next steps',
+    'Make a family book',
+    'Motor lab',
   ],
   es: [
     'Menú',
@@ -48,6 +50,8 @@ const menuCopy = {
     'Biblioteca para imprimir',
     'Fuentes y créditos',
     'Próximos pasos',
+    'Hacer un libro en familia',
+    'Laboratorio de motores',
   ],
   ru: [
     'Меню',
@@ -59,6 +63,8 @@ const menuCopy = {
     'Для печати',
     'Источники',
     'Следующие шаги',
+    'Собрать семейную книгу',
+    'Лаборатория мотора',
   ],
 }
 const markers = document.querySelectorAll('[data-workshop-menu]')
@@ -83,7 +89,7 @@ if (markers.length) {
       const id = plane
         ? page.searchParams.get('model')
         : butterfly
-          ? hash.get('design')?.replace(/^butterfly-/, '')
+          ? page.searchParams.get('species') || hash.get('design')?.replace(/^butterfly-/, '')
           : folded ? page.searchParams.get('species') || 'monarch' : null
       const compare =
         './compare.html?lang=' +
@@ -97,13 +103,15 @@ if (markers.length) {
       }
       const urls = [
         home,
-        './keel.html?lang=' + lang,
+        './studio.html?lang=' + lang + '#design=butterfly-monarch&revision=w1',
         './planes.html?lang=' + lang,
         compare,
         circuit,
         home + '#library',
         './references.html?lang=' + lang,
         './next.html?lang=' + lang,
+        './book.html?lang=' + lang,
+        './motor.html?lang=' + lang,
       ]
       summary.textContent = labels[0]
       list.replaceChildren(

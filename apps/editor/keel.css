@@ -117,7 +117,7 @@
   padding: 12px;
 }
 .keel-preview svg,
-#diagram svg {
+#diagram > svg {
   display: block;
   width: 100%;
   height: auto;

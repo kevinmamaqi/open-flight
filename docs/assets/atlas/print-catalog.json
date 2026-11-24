@@ -1,0 +1,73 @@
+{
+  "sheets": [
+    {
+      "id": "monarch-k1",
+      "model": "monarch",
+      "family": "butterfly",
+      "construction": "k1"
+    },
+    {
+      "id": "morpho-k1",
+      "model": "morpho",
+      "family": "butterfly",
+      "construction": "k1"
+    },
+    {
+      "id": "swallowtail-k1",
+      "model": "swallowtail",
+      "family": "butterfly",
+      "construction": "k1"
+    },
+    {
+      "id": "monarch",
+      "model": "monarch",
+      "family": "butterfly",
+      "construction": "w1"
+    },
+    {
+      "id": "morpho",
+      "model": "morpho",
+      "family": "butterfly",
+      "construction": "w1"
+    },
+    {
+      "id": "swallowtail",
+      "model": "swallowtail",
+      "family": "butterfly",
+      "construction": "w1"
+    },
+    {
+      "id": "boeing-747",
+      "model": "boeing-747",
+      "family": "airplane",
+      "construction": "whole-sheet"
+    },
+    {
+      "id": "douglas-dc3",
+      "model": "douglas-dc3",
+      "family": "airplane",
+      "construction": "whole-sheet"
+    },
+    {
+      "id": "tupolev-tu144",
+      "model": "tupolev-tu144",
+      "family": "airplane",
+      "construction": "whole-sheet"
+    },
+    {
+      "id": "ilyushin-il62",
+      "model": "ilyushin-il62",
+      "family": "airplane",
+      "construction": "whole-sheet"
+    }
+  ],
+  "papers": [
+    "A4",
+    "US_LETTER"
+  ],
+  "locales": [
+    "en",
+    "es",
+    "ru"
+  ]
+}

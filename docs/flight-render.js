@@ -174,7 +174,7 @@ export function diagramRenderer(canvas) {
 }
 
 export async function spatialRenderer(canvas) {
-  const T = await import('./assets/viewer/three.js?v=50000cb495d7')
+  const T = await import('./assets/viewer/three.js?v=3f377bf311aa')
   const ctx = canvas.getContext('webgl2', { alpha: true, antialias: true, premultipliedAlpha: true })
   if (!ctx) throw Error('WebGL 2 unavailable')
   const renderer = new T.WebGLRenderer({ canvas, context: ctx, alpha: true, antialias: true })

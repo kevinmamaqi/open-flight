@@ -29,11 +29,11 @@
     <link rel="alternate" hreflang="en" href="https://kevinmamaqi.github.io/open-flight/?lang=en" />
     <link rel="alternate" hreflang="ru" href="https://kevinmamaqi.github.io/open-flight/ru.html" />
     <link rel="alternate" hreflang="es" href="https://kevinmamaqi.github.io/open-flight/es.html" />
-    <link rel="stylesheet" href="./atlas-nav.css?v=50000cb495d7" />
-    <link rel="stylesheet" href="./atlas-lab.css?v=50000cb495d7" />
+    <link rel="stylesheet" href="./atlas-nav.css?v=3f377bf311aa" />
+    <link rel="stylesheet" href="./atlas-lab.css?v=3f377bf311aa" />
     <link rel="icon" type="image/svg+xml" href="./assets/wing-mark.svg" />
-    <link rel="stylesheet" href="./atlas.css?v=50000cb495d7" />
-    <script type="module" src="./atlas.js?v=50000cb495d7"></script>
+    <link rel="stylesheet" href="./atlas.css?v=3f377bf311aa" />
+    <script type="module" src="./atlas.js?v=3f377bf311aa"></script>
   </head>
   <body>
     <a class="skip" href="#designs" data-t="skip">Skip to the designs</a>
@@ -43,7 +43,7 @@
           ><img src="./assets/wing-mark.svg" width="40" height="40" alt="" />Open Flight</a
         >
         <nav class="primary-links" aria-label="Main">
-          <a href="#designs" data-t="navDesigns">Designs</a><a href="#learn" data-t="navLearn">Learning</a
+          <a href="#designs" data-t="navDesigns">Designs</a><a href="#family-book" data-t="bookNav">Family book</a
           ><a href="#library" data-t="navLibrary">Open library</a>
         </nav>
         <span data-workshop-menu></span>
@@ -67,11 +67,11 @@
             butterfly or airplane, then change a fold and see where it lands.
           </p>
           <div class="actions">
-            <a href="./keel.html" data-route="butterfly" class="btn accent"
+            <a href="./studio.html?lang=en#design=butterfly-monarch&amp;revision=w1" data-route="butterfly" class="btn accent"
               ><span data-t="cutStart">Make a butterfly</span><b aria-hidden="true">↗</b></a
             ><a class="btn outline" data-route="airplane" href="./planes.html" data-t="foldStart"
               >Fold an airplane</a
-            ><a class="quiet" href="#library" data-t="getSheets">Get the print sheets</a>
+            ><a class="quiet" href="#family-book" data-t="bookQuick">Make a family book ↗</a>
           </div>
         </div>
         <div class="showcase">
@@ -89,7 +89,7 @@
           <a
             id="hero-link"
             class="specimen-art"
-            href="./keel.html?species=monarch&amp;lang=en"
+            href="./studio.html?lang=en#design=butterfly-monarch&amp;revision=w1"
             ><img
               id="specimen"
               src="./assets/atlas/monarch.svg"
@@ -101,7 +101,7 @@
           <div class="board-footer">
             <div>
               <small id="specimen-family">Butterfly glider</small
-              ><a id="specimen-name" href="./keel.html?species=monarch&amp;lang=en"
+              ><a id="specimen-name" href="./studio.html?lang=en#design=butterfly-monarch&amp;revision=w1"
                 >Monarch <span aria-hidden="true">↗</span></a
               ><i id="specimen-detail">Danaus plexippus</i>
             </div>
@@ -110,6 +110,18 @@
               ><button id="next" type="button" aria-label="Next design">→</button>
             </div>
           </div>
+        </div>
+      </section>
+      <section class="home-book wrap" id="family-book" aria-labelledby="book-heading">
+        <div class="book-display" aria-hidden="true">
+          <div class="book-underlay"></div>
+          <img class="book-cover-image" id="book-cover-image" src="./assets/atlas/book-cover-en.png" alt="" width="395" height="559" loading="lazy" />
+        </div>
+        <div class="home-book-copy">
+          <p class="over" data-t="bookFormat">Printable family book</p>
+          <h2 id="book-heading" data-t="bookHeadline">Put your favorite flyers in one book.</h2>
+          <p data-t="bookPitch">Pick the butterflies and airplanes together, give your book a cover, and download one PDF with full-size sheets and a printing guide. Print only the pages you want to build today.</p>
+          <div class="actions"><a class="btn accent" id="book-link" href="./book.html?lang=en" data-t="bookAction">Customize my book ↗</a><a class="quiet" href="#library" data-t="bookSheets">Get individual sheets free</a></div>
         </div>
       </section>
       <section class="collections wrap" id="designs" aria-labelledby="choose-title">
@@ -126,20 +138,20 @@
               <div class="family-text">
                 <p class="kicker" data-t="butterTech">Cut + fold</p>
                 <h3>
-                  <a data-route="butterfly" data-t="butterflies" href="./keel.html">Butterflies</a>
+                  <a data-route="butterfly" data-t="butterflies" href="./studio.html">Butterflies</a>
                 </h3>
                 <p data-t="butterDesc">
-                  Cut one outline, match the wingtips and fold a body you can hold. The tabletop sets the wings level. Each pattern takes its shape and colors from a real butterfly.
+                  Pick a real butterfly, color its wings, and follow its picture guide. In the same studio you can choose adjustable rear tabs or a folded body you can pinch at launch.
                 </p>
               </div>
               <img src="./assets/atlas/morpho.svg" alt="" width="180" height="114" loading="lazy" />
             </div>
             <div class="family-links" id="butter-links"></div>
-            <a class="family-cta" href="./keel.html" data-route="butterfly"
-              ><span data-t="openButter">Build a folded-body butterfly</span>
+            <a class="family-cta" href="./studio.html" data-route="butterfly"
+              ><span data-t="openButter">Open the butterfly studio</span>
               <span aria-hidden="true">↗</span></a
             >
-            <a class="classic-family" id="classic-butterfly" href="./studio.html" data-t="classicButter">Original butterfly with adjustable tabs ↗</a>
+            <a class="classic-family" id="folded-butterfly" href="./studio.html?construction=k1&amp;species=monarch&amp;lang=en" data-t="foldedShortcut">Try the folded body ↗</a>
           </article>
           <article class="family airplanes">
             <div class="family-main">
@@ -247,7 +259,7 @@
             <a
               class="all-sheets"
               data-t="allSheets"
-              href="https://github.com/kevinmamaqi/open-flight/releases/download/v0.5.0/open-flight-print-library.zip"
+              href="https://github.com/kevinmamaqi/open-flight/releases/download/v0.6.0/open-flight-print-library.zip"
               >Get the complete print library (ZIP) ↓</a
             >
           </article>
@@ -280,14 +292,13 @@
       <section class="horizon wrap">
         <div class="horizon-mark" aria-hidden="true">✺</div>
         <div>
-          <p class="over" data-t="futureTag">On the drawing board</p>
-          <h2 data-t="future">From a glide to powered flight.</h2>
+          <p class="over" data-t="futureTag">Motor lab</p>
+          <h2 data-t="future">What would a motor add?</h2>
           <p data-t="futureBody">
-            First we need repeatable paper flights. A future adult-led workshop will explore a removable
-            motor module and how it changes balance. You can already follow the research.
+            See the original phone-controlled module, explore the parts of an open alternative, and print a fit model to try on a paper airplane.
           </p>
         </div>
-        <a class="quiet" id="roadmap-link" href="./next.html" data-t="roadmap">Explore the roadmap ↗</a>
+        <a class="quiet" id="motor-link" href="./motor.html?lang=en" data-t="motorAction">Open the motor lab ↗</a>
       </section>
     </main>
     <footer class="wrap">

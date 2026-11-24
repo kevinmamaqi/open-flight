@@ -1,4 +1,4 @@
-import type { Species } from '../../packages/geometry/workshop-models.ts'
+import type { FoldedPlan } from '../../packages/folded-butterfly/index.ts'
 import type { Locale } from '../../packages/print-export/sheets.ts'
 
 export type KeelStep = {
@@ -9,4 +9,4 @@ export type KeelStep = {
 }
 
 export function keelSteps(locale?: Locale): KeelStep[]
-export function keelDiagram(stepIndex?: number, species?: Species, locale?: Locale, spanMm?: number): string
+export function keelDiagram(plan: FoldedPlan, stepIndex: number, color: string, flatSvg: () => string): string

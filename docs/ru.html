@@ -17,11 +17,11 @@
     <link rel="alternate" hreflang="en" href="https://kevinmamaqi.github.io/open-flight/?lang=en" />
     <link rel="alternate" hreflang="ru" href="https://kevinmamaqi.github.io/open-flight/ru.html" />
     <link rel="alternate" hreflang="es" href="https://kevinmamaqi.github.io/open-flight/es.html" />
-    <link rel="stylesheet" href="./atlas-nav.css?v=50000cb495d7" />
-    <link rel="stylesheet" href="./atlas-lab.css?v=50000cb495d7" />
+    <link rel="stylesheet" href="./atlas-nav.css?v=3f377bf311aa" />
+    <link rel="stylesheet" href="./atlas-lab.css?v=3f377bf311aa" />
     <link rel="icon" type="image/svg+xml" href="./assets/wing-mark.svg" />
-    <link rel="stylesheet" href="./atlas.css?v=50000cb495d7" />
-    <script type="module" src="./atlas.js?v=50000cb495d7"></script>
+    <link rel="stylesheet" href="./atlas.css?v=3f377bf311aa" />
+    <script type="module" src="./atlas.js?v=3f377bf311aa"></script>
   </head>
   <body>
     <a class="skip" href="#designs" data-t="skip">К выбору моделей</a>
@@ -31,7 +31,7 @@
           ><img src="./assets/wing-mark.svg" width="40" height="40" alt="" />Open Flight</a
         >
         <nav class="primary-links" aria-label="Main">
-          <a href="#designs" data-t="navDesigns">Модели</a><a href="#learn" data-t="navLearn">Занятия</a
+          <a href="#designs" data-t="navDesigns">Модели</a><a href="#family-book" data-t="bookNav">Семейная книга</a
           ><a href="#library" data-t="navLibrary">Библиотека</a>
         </nav>
         <span data-workshop-menu></span>
@@ -52,9 +52,9 @@
           </h1>
           <p class="lede" data-t="intro">Бесплатная мастерская для детей 5–12 лет и взрослых. Сделайте из листа бумаги бабочку или самолёт, измените один сгиб и посмотрите, куда полетит планер.</p>
           <div class="actions">
-            <a href="./keel.html?lang=ru" data-route="butterfly" class="btn accent"><span data-t="cutStart">Сделать бабочку</span><b aria-hidden="true">↗</b></a
+            <a href="./studio.html?lang=ru#design=butterfly-monarch&revision=w1" data-route="butterfly" class="btn accent"><span data-t="cutStart">Сделать бабочку</span><b aria-hidden="true">↗</b></a
             ><a class="btn outline" data-route="airplane" href="./planes.html?lang=ru" data-t="foldStart">Сложить самолёт</a
-            ><a class="quiet" href="#library" data-t="getSheets">Листы для печати</a>
+            ><a class="quiet" href="#family-book" data-t="bookQuick">Собрать семейную книгу ↗</a>
           </div>
         </div>
         <div class="showcase">
@@ -69,11 +69,11 @@
             <circle cx="92" cy="270" r="9" />
             <path d="M81 270h22m-11-11v22" />
           </svg>
-          <a id="hero-link" class="specimen-art" href="./keel.html?species=monarch&lang=ru"><img id="specimen" src="./assets/atlas/monarch.svg" width="440" height="245" alt="Бумажный монарх в мастерской Open Flight" fetchpriority="high" /></a>
+          <a id="hero-link" class="specimen-art" href="./studio.html?lang=ru#design=butterfly-monarch&revision=w1"><img id="specimen" src="./assets/atlas/monarch.svg" width="440" height="245" alt="Бумажный монарх в мастерской Open Flight" fetchpriority="high" /></a>
           <div class="board-footer">
             <div>
               <small id="specimen-family">Планер-бабочка</small
-              ><a id="specimen-name" href="./keel.html?species=monarch&lang=ru">Монарх ↗</a
+              ><a id="specimen-name" href="./studio.html?lang=ru#design=butterfly-monarch&revision=w1">Монарх ↗</a
               ><i id="specimen-detail">Danaus plexippus</i>
             </div>
             <div class="turn">
@@ -81,6 +81,18 @@
               ><button id="next" type="button" aria-label="Next design">→</button>
             </div>
           </div>
+        </div>
+      </section>
+      <section class="home-book wrap" id="family-book" aria-labelledby="book-heading">
+        <div class="book-display" aria-hidden="true">
+          <div class="book-underlay"></div>
+          <img class="book-cover-image" id="book-cover-image" src="./assets/atlas/book-cover-ru.png" alt="" width="395" height="559" loading="lazy" />
+        </div>
+        <div class="home-book-copy">
+          <p class="over" data-t="bookFormat">Семейная книга для печати</p>
+          <h2 id="book-heading" data-t="bookHeadline">Любимые модели в одной книге.</h2>
+          <p data-t="bookPitch">Выберите вместе бабочек и самолёты, оформите обложку и скачайте один PDF с полноразмерными выкройками и памяткой по печати. Сегодня можно распечатать только те страницы, по которым хочется строить.</p>
+          <div class="actions"><a class="btn accent" id="book-link" href="./book.html?lang=ru" data-t="bookAction">Оформить свою книгу ↗</a><a class="quiet" href="#library" data-t="bookSheets">Взять отдельные листы бесплатно</a></div>
         </div>
       </section>
       <section class="collections wrap" id="designs" aria-labelledby="choose-title">
@@ -97,17 +109,17 @@
               <div class="family-text">
                 <p class="kicker" data-t="butterTech">Вырезать и сложить</p>
                 <h3>
-                  <a data-route="butterfly" data-t="butterflies" href="./keel.html?lang=ru">Бабочки</a>
+                  <a data-route="butterfly" data-t="butterflies" href="./studio.html?lang=ru#design=butterfly-monarch&revision=w1">Бабочки</a>
                 </h3>
-                <p data-t="butterDesc">Вырежи контур, совмести кончики крыльев и сложи корпус. Положи крылья на стол, чтобы выровнять их. Каждая выкройка передаёт форму и окраску настоящей бабочки.</p>
+                <p data-t="butterDesc">Выбери настоящую бабочку, раскрась крылья и следуй рисункам. В одной мастерской можно выбрать задние язычки или сложить корпус, за который удобно взяться при запуске.</p>
               </div>
               <img src="./assets/atlas/morpho.svg" alt="" width="180" height="114" loading="lazy" />
             </div>
             <div class="family-links" id="butter-links"></div>
-            <a class="family-cta" href="./keel.html?lang=ru" data-route="butterfly"><span data-t="openButter">Сделать бабочку со складным корпусом</span>
+            <a class="family-cta" href="./studio.html?lang=ru#design=butterfly-monarch&revision=w1" data-route="butterfly"><span data-t="openButter">Открыть мастерскую бабочек</span>
               <span aria-hidden="true">↗</span></a
             >
-            <a class="classic-family" id="classic-butterfly" href="./studio.html?lang=ru#design=butterfly-monarch&revision=w1" data-t="classicButter">Исходная бабочка с задними язычками ↗</a>
+            <a class="classic-family" id="folded-butterfly" href="./studio.html?construction=k1&species=monarch&lang=ru" data-t="foldedShortcut">Попробовать складной корпус ↗</a>
           </article>
           <article class="family airplanes">
             <div class="family-main">
@@ -192,7 +204,7 @@
             <a
               class="all-sheets"
               data-t="allSheets"
-              href="https://github.com/kevinmamaqi/open-flight/releases/download/v0.5.0/open-flight-print-library.zip"
+              href="https://github.com/kevinmamaqi/open-flight/releases/download/v0.6.0/open-flight-print-library.zip"
               >Скачать все листы и занятия (ZIP) ↓</a
             >
           </article>
@@ -224,11 +236,11 @@
       <section class="horizon wrap">
         <div class="horizon-mark" aria-hidden="true">✺</div>
         <div>
-          <p class="over" data-t="futureTag">В разработке</p>
-          <h2 data-t="future">От планирования к моторному полёту.</h2>
-          <p data-t="futureBody">Сначала нужны повторяемые опыты с бумажными планерами. Затем мы хотим проверить, как съёмный мотор влияет на баланс. Это будет занятие под руководством взрослого. План исследований уже открыт.</p>
+          <p class="over" data-t="futureTag">Лаборатория мотора</p>
+          <h2 data-t="future">Что изменит мотор?</h2>
+          <p data-t="futureBody">Посмотри, как выглядит модуль с управлением со смартфона, изучи детали открытого варианта и распечатай макет, чтобы примерить его к бумажному самолёту.</p>
         </div>
-        <a class="quiet" id="roadmap-link" href="./next.html?lang=ru" data-t="roadmap">План исследований ↗</a>
+        <a class="quiet" id="motor-link" href="./motor.html?lang=ru" data-t="motorAction">Открыть лабораторию мотора ↗</a>
       </section>
     </main>
     <footer class="wrap">

@@ -17,7 +17,7 @@ import {
 } from "../../packages/product-core/content.ts";
 import { preparePrintAssets } from "atlas:files";
 
-export { makeFoldedButterfly, foldedSvg, foldedGuideSvg, foldedPdf, foldedPreview, foldedFinishedPreview, foldedSource } from "../../packages/folded-butterfly/index.ts";
+export { foldedSpanSpec, foldedSpecies, isFoldedSpan, foldedLessonSvg, makeFoldedButterfly, foldedSvg, foldedGuideSvg, foldedPdf, foldedPreview, foldedFinishedPreview, foldedSource } from "../../packages/folded-butterfly/index.ts";
 export { classicComparisonPdf } from "../../packages/product-core/folded-butterflies.ts";
 export const prepareFoldedPdf = () => preparePrintAssets(null, ["pdf"]);
 

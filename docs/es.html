@@ -17,11 +17,11 @@
     <link rel="alternate" hreflang="en" href="https://kevinmamaqi.github.io/open-flight/?lang=en" />
     <link rel="alternate" hreflang="ru" href="https://kevinmamaqi.github.io/open-flight/ru.html" />
     <link rel="alternate" hreflang="es" href="https://kevinmamaqi.github.io/open-flight/es.html" />
-    <link rel="stylesheet" href="./atlas-nav.css?v=50000cb495d7" />
-    <link rel="stylesheet" href="./atlas-lab.css?v=50000cb495d7" />
+    <link rel="stylesheet" href="./atlas-nav.css?v=3f377bf311aa" />
+    <link rel="stylesheet" href="./atlas-lab.css?v=3f377bf311aa" />
     <link rel="icon" type="image/svg+xml" href="./assets/wing-mark.svg" />
-    <link rel="stylesheet" href="./atlas.css?v=50000cb495d7" />
-    <script type="module" src="./atlas.js?v=50000cb495d7"></script>
+    <link rel="stylesheet" href="./atlas.css?v=3f377bf311aa" />
+    <script type="module" src="./atlas.js?v=3f377bf311aa"></script>
   </head>
   <body>
     <a class="skip" href="#designs" data-t="skip">Ir a los diseños</a>
@@ -31,7 +31,7 @@
           ><img src="./assets/wing-mark.svg" width="40" height="40" alt="" />Open Flight</a
         >
         <nav class="primary-links" aria-label="Main">
-          <a href="#designs" data-t="navDesigns">Diseños</a><a href="#learn" data-t="navLearn">Aprender</a
+          <a href="#designs" data-t="navDesigns">Diseños</a><a href="#family-book" data-t="bookNav">Libro familiar</a
           ><a href="#library" data-t="navLibrary">Biblioteca</a>
         </nav>
         <span data-workshop-menu></span>
@@ -52,9 +52,9 @@
           </h1>
           <p class="lede" data-t="intro">Un taller gratuito para niñas y niños de 5 a 12 años y quienes los acompañan. Convierte una hoja en una mariposa o un avión. Cambia un pliegue y descubre dónde aterriza.</p>
           <div class="actions">
-            <a href="./keel.html?lang=es" data-route="butterfly" class="btn accent"><span data-t="cutStart">Hacer una mariposa</span><b aria-hidden="true">↗</b></a
+            <a href="./studio.html?lang=es#design=butterfly-monarch&revision=w1" data-route="butterfly" class="btn accent"><span data-t="cutStart">Hacer una mariposa</span><b aria-hidden="true">↗</b></a
             ><a class="btn outline" data-route="airplane" href="./planes.html?lang=es" data-t="foldStart">Plegar un avión</a
-            ><a class="quiet" href="#library" data-t="getSheets">Plantillas para imprimir</a>
+            ><a class="quiet" href="#family-book" data-t="bookQuick">Crear un libro en familia ↗</a>
           </div>
         </div>
         <div class="showcase">
@@ -69,11 +69,11 @@
             <circle cx="92" cy="270" r="9" />
             <path d="M81 270h22m-11-11v22" />
           </svg>
-          <a id="hero-link" class="specimen-art" href="./keel.html?species=monarch&lang=es"><img id="specimen" src="./assets/atlas/monarch.svg" width="440" height="245" alt="Planeador monarca de papel en el taller Open Flight" fetchpriority="high" /></a>
+          <a id="hero-link" class="specimen-art" href="./studio.html?lang=es#design=butterfly-monarch&revision=w1"><img id="specimen" src="./assets/atlas/monarch.svg" width="440" height="245" alt="Planeador monarca de papel en el taller Open Flight" fetchpriority="high" /></a>
           <div class="board-footer">
             <div>
               <small id="specimen-family">Planeador mariposa</small
-              ><a id="specimen-name" href="./keel.html?species=monarch&lang=es">Monarca ↗</a
+              ><a id="specimen-name" href="./studio.html?lang=es#design=butterfly-monarch&revision=w1">Monarca ↗</a
               ><i id="specimen-detail">Danaus plexippus</i>
             </div>
             <div class="turn">
@@ -81,6 +81,18 @@
               ><button id="next" type="button" aria-label="Next design">→</button>
             </div>
           </div>
+        </div>
+      </section>
+      <section class="home-book wrap" id="family-book" aria-labelledby="book-heading">
+        <div class="book-display" aria-hidden="true">
+          <div class="book-underlay"></div>
+          <img class="book-cover-image" id="book-cover-image" src="./assets/atlas/book-cover-es.png" alt="" width="395" height="559" loading="lazy" />
+        </div>
+        <div class="home-book-copy">
+          <p class="over" data-t="bookFormat">Libro familiar para imprimir</p>
+          <h2 id="book-heading" data-t="bookHeadline">Tus diseños favoritos en un libro.</h2>
+          <p data-t="bookPitch">En familia, elige las mariposas y los aviones, personaliza la portada y descarga un PDF con plantillas a tamaño real y una guía de impresión. Imprime solo las páginas que quieras construir hoy.</p>
+          <div class="actions"><a class="btn accent" id="book-link" href="./book.html?lang=es" data-t="bookAction">Personalizar mi libro ↗</a><a class="quiet" href="#library" data-t="bookSheets">Descargar hojas individuales gratis</a></div>
         </div>
       </section>
       <section class="collections wrap" id="designs" aria-labelledby="choose-title">
@@ -97,17 +109,17 @@
               <div class="family-text">
                 <p class="kicker" data-t="butterTech">Recortar y plegar</p>
                 <h3>
-                  <a data-route="butterfly" data-t="butterflies" href="./keel.html?lang=es">Mariposas</a>
+                  <a data-route="butterfly" data-t="butterflies" href="./studio.html?lang=es#design=butterfly-monarch&revision=w1">Mariposas</a>
                 </h3>
-                <p data-t="butterDesc">Recorta un solo contorno, junta las puntas y pliega un cuerpo que puedas sujetar. Apoya las alas en la mesa para nivelarlas. Cada diseño conserva la forma y los colores de una mariposa real.</p>
+                <p data-t="butterDesc">Elige una mariposa real, dale color a las alas y sigue las imágenes. En el mismo taller puedes elegir aletas traseras ajustables o un cuerpo plegado que puedes sujetar para lanzarla.</p>
               </div>
               <img src="./assets/atlas/morpho.svg" alt="" width="180" height="114" loading="lazy" />
             </div>
             <div class="family-links" id="butter-links"></div>
-            <a class="family-cta" href="./keel.html?lang=es" data-route="butterfly"><span data-t="openButter">Construir una mariposa con cuerpo plegado</span>
+            <a class="family-cta" href="./studio.html?lang=es#design=butterfly-monarch&revision=w1" data-route="butterfly"><span data-t="openButter">Abrir el taller de mariposas</span>
               <span aria-hidden="true">↗</span></a
             >
-            <a class="classic-family" id="classic-butterfly" href="./studio.html?lang=es#design=butterfly-monarch&revision=w1" data-t="classicButter">Mariposa original con aletas ajustables ↗</a>
+            <a class="classic-family" id="folded-butterfly" href="./studio.html?construction=k1&species=monarch&lang=es" data-t="foldedShortcut">Probar el cuerpo plegado ↗</a>
           </article>
           <article class="family airplanes">
             <div class="family-main">
@@ -192,7 +204,7 @@
             <a
               class="all-sheets"
               data-t="allSheets"
-              href="https://github.com/kevinmamaqi/open-flight/releases/download/v0.5.0/open-flight-print-library.zip"
+              href="https://github.com/kevinmamaqi/open-flight/releases/download/v0.6.0/open-flight-print-library.zip"
               >Descargar todas las plantillas y actividades (ZIP) ↓</a
             >
           </article>
@@ -224,11 +236,11 @@
       <section class="horizon wrap">
         <div class="horizon-mark" aria-hidden="true">✺</div>
         <div>
-          <p class="over" data-t="futureTag">En desarrollo</p>
-          <h2 data-t="future">Del planeo al vuelo con motor.</h2>
-          <p data-t="futureBody">Primero necesitamos vuelos de papel repetibles. Después podremos investigar con adultos cómo afecta al equilibrio un motor desmontable.</p>
+          <p class="over" data-t="futureTag">Laboratorio de motores</p>
+          <h2 data-t="future">¿Qué cambia al añadir un motor?</h2>
+          <p data-t="futureBody">Descubre el módulo original que se maneja desde el móvil, explora los componentes de una alternativa abierta e imprime una maqueta para probar el encaje en un avión de papel.</p>
         </div>
-        <a class="quiet" id="roadmap-link" href="./next.html?lang=es" data-t="roadmap">Ver los próximos pasos ↗</a>
+        <a class="quiet" id="motor-link" href="./motor.html?lang=es" data-t="motorAction">Abrir el laboratorio de motores ↗</a>
       </section>
     </main>
     <footer class="wrap">

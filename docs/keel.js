@@ -1,5 +1,7 @@
-import { currentLocale, homeURL, localizedLinks } from "./atlas-nav.js?v=50000cb495d7";
-import { keelSteps, keelDiagram } from "./keel-guide.js?v=50000cb495d7";
+import { foldArtwork, showFoldStep } from './fold-lesson.js?v=3f377bf311aa';
+import { currentLocale, homeURL, localizedLinks } from "./atlas-nav.js?v=3f377bf311aa";
+import { keelSteps } from "./keel-guide.js?v=3f377bf311aa";
+import * as api from "./browser-workshop.js?v=3f377bf311aa";
 
 const copy = {
   skip: [
@@ -165,16 +167,15 @@ const locales = ["en", "es", "ru"];
 const lang = currentLocale();
 const t = (word) => copy[word][locales.indexOf(lang)];
 const get = (id) => document.getElementById(id);
-const defaults = { monarch: 172, morpho: 160, swallowtail: 180 };
+const { minimum, maximum, step: spanStep } = api.foldedSpanSpec;
+Object.assign(get("span_mm"), { min: minimum, max: maximum, step: spanStep });
 const appearances = ["natural", "carnival", "twilight", "coloring"];
 const papers = ["A4", "US_LETTER"];
 const steps = keelSteps(lang);
 const storageKey = "open-flight-folded-butterfly-k1";
-const engine = import("./browser-workshop.js?v=50000cb495d7");
 if (location.hash === '#comparison') get('comparison').open=true;
 let state = readState(new URLSearchParams(location.search));
 let plan;
-let renderId = 0;
 
 document.documentElement.lang = lang;
 document.title = t("title") + " · Open Flight";
@@ -182,7 +183,7 @@ get("home").href = homeURL(lang);
 for (const el of document.querySelectorAll("[data-word]"))
   el.textContent = t(el.dataset.word);
 for (const [id, choices] of [
-  ["species", Object.keys(defaults)],
+  ["species", api.foldedSpecies],
   ["appearance_id", appearances],
   ["paper", papers],
   ["view", ["folded", "flatPattern"]],
@@ -194,7 +195,7 @@ for (const [id, choices] of [
 
 function readState(params) {
   const rawSpecies = params.get("species");
-  const species = Object.hasOwn(defaults, rawSpecies) ? rawSpecies : "monarch";
+  const species = api.foldedSpecies.includes(rawSpecies) ? rawSpecies : "monarch";
   const span = Number(params.get("span_mm"));
   const appearance = params.get("appearance_id");
   const paper = params.get("paper");
@@ -203,7 +204,7 @@ function readState(params) {
     species,
     view: params.get("view") === "flatPattern" ? "flatPattern" : "folded",
     span_mm:
-      span >= 148 && span <= 184 && span % 2 === 0 ? span : defaults[species],
+      api.isFoldedSpan(span) ? span : api.makeFoldedButterfly({ species }).span_mm,
     appearance_id: appearances.includes(appearance) ? appearance : "natural",
     paper: papers.includes(paper) ? paper : "A4",
     step:
@@ -224,8 +225,7 @@ function syncUrl() {
   localizedLinks(lang);
 }
 
-async function render() {
-  const id = ++renderId;
+function render() {
   plan = undefined;
   syncUrl();
   const { step, view, ...settings } = state;
@@ -235,14 +235,6 @@ async function render() {
   const spanLabel = span_mm + " " + t("mm");
   get("span-value").textContent = spanLabel;
   get("span_mm").setAttribute("aria-valuetext", spanLabel);
-  const lesson = steps[step - 1];
-  get("progress").textContent = t("step") + " " + step + " / " + steps.length;
-  get("step-title").textContent = lesson.title;
-  get("action").textContent = lesson.action;
-  get("check").textContent = lesson.check;
-  get("diagram").innerHTML = keelDiagram(step - 1, species, lang, span_mm);
-  get("prev").disabled = step === 1;
-  get("next").disabled = step === steps.length;
   const file = [species, paper, lang].join("-") + ".pdf";
   get("original").href = "./library/" + file;
   get("fold-reference").href = "./references.html?lang=" + lang + "#folded-body";
@@ -254,9 +246,16 @@ async function render() {
     species +
     "&revision=w1";
   try {
-    const api = await engine;
-    if (id !== renderId) return;
     plan = api.makeFoldedButterfly(settings, lang);
+    showFoldStep({
+      figure: get("diagram"), progress: get("progress"), title: get("step-title"),
+      action: get("action"), check: get("check"), previous: get("prev"), next: get("next"),
+    }, {
+      index: step - 1, total: plan.steps.length, step: plan.steps[step - 1],
+      count: (n, total) => t("step") + " " + n + " / " + total,
+      artwork: foldArtwork(api.foldedLessonSvg(plan, step - 1)),
+    });
+
     const isFolded = view === "folded";
     get("preview").setAttribute("aria-label", t(view) + " · " + t(species));
     get("preview").innerHTML = isFolded
@@ -302,7 +301,7 @@ get("view").addEventListener("change", ({ target }) => {
 });
 get("species").addEventListener("change", ({ target }) => {
   state.species = target.value;
-  state.span_mm = defaults[target.value];
+  state.span_mm = api.makeFoldedButterfly({ species: target.value }).span_mm;
   render();
 });
 for (const key of ["span_mm", "appearance_id", "paper"]) {
@@ -321,7 +320,6 @@ for (const [id, delta] of [
   get(id).addEventListener("click", () => {
     state.step += delta;
     render();
-    if (get(id).disabled) get(delta === 1 ? "prev" : "next").focus();
   });
 }
 
@@ -343,7 +341,6 @@ for (const [id, method, type, ext] of [
     const button = get(id);
     button.disabled = true;
     try {
-      const api = await engine;
       const selection = plan;
       if (!selection) throw new Error();
       if (ext === "pdf") {
@@ -435,7 +432,6 @@ get("source-file").addEventListener("change", async ({ target }) => {
       lang: sourceLocale,
     });
     const settings = readState(params);
-    const api = await engine;
     const { step, view, ...sourceSettings } = settings;
     for (const [key, value] of Object.entries(sourceSettings)) {
       if (source[key] !== value) throw new Error();

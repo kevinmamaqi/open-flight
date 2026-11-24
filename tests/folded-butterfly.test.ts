@@ -5,6 +5,7 @@ import {
   foldedFinishedPreview,
   foldedGeometry,
   foldedGuideSvg,
+  foldedLessonSvg,
   foldedPdf,
   foldedPreview,
   foldedSource,
@@ -265,4 +266,33 @@ test('assembled preview recovers the original wingspan above a touching 8 mm kee
       ).includes('крылья на одном уровне'),
     )
   }
+})
+
+
+test('the cut lesson and exact print use the active plan’s web and clip coordinates', () => {
+  const defaultPlan = makeFoldedButterfly({ species: 'morpho', span_mm: 184, appearance_id: 'twilight' })
+  // Exercise the derived manufacturing data as if the physical source changed.
+  const plan = { ...defaultPlan, keel_depth_mm: 10, flat_span_mm: 204, clip_station_mm: 19 }
+  const cutLesson = foldedLessonSvg(plan, 0)
+  const printable = foldedSvg(plan, true)
+  const width = 210
+  const { outline, creases, clipStops } = foldedGeometry(plan)
+  const top = Math.min(...outline.map(([, y]) => y))
+  for (const { id, points } of [...creases, ...clipStops]) {
+    for (const [text, svgId, offsetX, offsetY] of [
+      [cutLesson, 'lesson-' + id, (plan.flat_span_mm + 6) / 2, 3 - top],
+      [printable, id, width / 2, 29],
+    ] as const) {
+      const path = new RegExp('id="' + svgId + '" d="([^"]+)').exec(text)?.[1]
+      assert.ok(path, svgId)
+      const coords = path.match(/[+-]?\d+(?:\.\d+)?/g)?.map(Number)
+      const expected = points.flatMap(([x, y]) => [
+        Number((x + offsetX).toFixed(3)),
+        Number((y + offsetY).toFixed(3)),
+      ])
+      assert.deepEqual(coords, expected, svgId)
+    }
+  }
+  assert.match(foldedLessonSvg(plan, 4), />19 mm</)
+  assert.match(printable, /id="gauge-clip-stop" d="M29 216.7 L29 227.3"/)
 })

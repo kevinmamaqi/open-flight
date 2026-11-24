@@ -143,6 +143,43 @@ h3 {
   border-bottom: 1px solid var(--border);
   background: var(--sheet);
 }
+.construction-switch {
+  display: inline-flex;
+  margin-top: 10px;
+}
+#folded-preview {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+}
+#folded-preview svg {
+  width: 100%;
+  height: 100%;
+}
+#folded-preview[hidden],
+#preview[hidden] {
+  display: none;
+}
+.art-board:has(#folded-preview:not([hidden])) .span-rule {
+  width: auto !important;
+}
+.art-board:has(#folded-preview:not([hidden])) .span-rule i {
+  display: none;
+}
+.diagram-board > svg {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+#folded-check {
+  padding: 7px 9px;
+  background: #e8f0df;
+  border-radius: 8px;
+}
+.status a {
+  overflow-wrap: anywhere;
+}
 .other-construction {display:inline-block;color:#1e584c;margin-top:7px;font-weight:600;text-decoration:underline;text-underline-offset:3px}.other-construction[hidden]{display:none}
 .topbar-inner,
 main {

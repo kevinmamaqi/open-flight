@@ -2,6 +2,7 @@ import { compareModels } from '../../apps/editor/atlas-guide.js'
 import { motorRoadmap } from '../../apps/editor/atlas-roadmap.js'
 import { flightCircuit, simulateFlight } from '../../apps/editor/flight-model.js'
 import { planeCatalog, sheetSizes, liveries, revision as planeRevision } from '../planes/index.ts'
+import { motorLab, renderFamilyBook } from './family-publications.ts'
 import { foldedButterflyPlan } from './folded-butterflies.ts'
 import { airplanePlan } from './airplanes.ts'
 import { DatabaseSync } from 'node:sqlite'
@@ -218,6 +219,10 @@ export class Workspace {
       case 'compareModels':
         if ((a.left ?? 'monarch') === (a.right ?? 'morpho')) throw invalid('Choose two distinct designs.')
         return compareModels(a.left, a.right, a.locale)
+      case 'getMotorLab':
+        return motorLab(a.locale)
+      case 'renderFamilyBook':
+        return renderFamilyBook(a.settings, a.output, a.offset)
       case 'getMotorRoadmap':
         return motorRoadmap(a.locale)
       case 'getFlightCircuit':
