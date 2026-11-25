@@ -3,31 +3,33 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="theme-color" content="#f9f7ee" />
+    <meta name="theme-color" content="#fbf9f4" />
     <title>Folded-body butterfly · Open Flight</title>
-    <link rel="icon" href="./assets/wing-mark.svg" type="image/svg+xml" />
-    <link rel="stylesheet" href="./atlas-nav.css" />
-    <link rel="stylesheet" href="./atlas.css" />
+    <link rel="icon" href="./assets/brand/favicon.ico" sizes="32x32" />
+    <link rel="icon" href="./assets/brand/favicon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="./assets/brand/apple-touch-icon.png" />
+    <link rel="manifest" href="./site.webmanifest" />
+    <link rel="preload" href="./assets/fonts/OpenFlightText-Regular.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="stylesheet" href="./tokens.css" />
+    <link rel="stylesheet" href="./system.css" />
     <link rel="stylesheet" href="./keel.css" />
     <script type="module" src="./keel.js"></script>
-    <link rel="stylesheet" href="./fold-lesson.css" />
-  </head>
+</head>
   <body>
-    <a class="skip" href="#main" data-word="skip">Skip to the worktable</a>
+    <a class="skip-link" href="#main" data-word="skip">Skip to the worktable</a>
     <header class="mast">
       <div class="mast-in">
         <a class="wordmark" id="home" href="./">
-          <img src="./assets/wing-mark.svg" width="40" height="40" alt="" />Open
-          Flight
+          <img src="./assets/brand/logo.svg" width="245" height="59" alt="Open Flight" />
         </a>
         <span data-workshop-menu></span>
-        <div class="lang">
+        <nav class="lang" aria-label="Language">
           <a
             id="en"
             href="?lang=en"
             lang="en"
             hreflang="en"
-            aria-label="English"
+            aria-label="English (EN)"
             >EN</a
           >
           <a
@@ -35,7 +37,7 @@
             href="?lang=es"
             lang="es"
             hreflang="es"
-            aria-label="Español"
+            aria-label="Español (ES)"
             >ES</a
           >
           <a
@@ -43,10 +45,10 @@
             href="?lang=ru"
             lang="ru"
             hreflang="ru"
-            aria-label="Русский"
-            >РУ</a
+            aria-label="Русский (RU)"
+            >RU</a
           >
-        </div>
+        </nav>
       </div>
     </header>
     <main id="main" class="wrap keel-main">
@@ -84,12 +86,13 @@
             <button
               type="button"
               id="print"
-              class="keel-primary"
+              class="button primary"
               data-word="print"
             ></button>
             <button type="button" id="pdf">PDF</button>
             <button type="button" id="svg">SVG</button>
           </div>
+          <p class="print-reminder" data-print-reminder></p>
           <p class="keel-hint" data-word="scale"></p>
         </div>
         <div class="keel-visual">
@@ -131,7 +134,7 @@
           <button
             type="button"
             id="next"
-            class="keel-primary"
+            class="button primary"
             data-word="next"
           ></button>
         </div>

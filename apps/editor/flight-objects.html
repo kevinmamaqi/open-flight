@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Flying objects · Open Flight</title>
+    <link rel="icon" href="./assets/brand/favicon.ico" sizes="32x32" />
+    <link rel="icon" href="./assets/brand/favicon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="./assets/brand/apple-touch-icon.png" />
+    <link rel="manifest" href="./site.webmanifest" />
+    <link rel="preload" href="./assets/fonts/OpenFlightText-Regular.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="stylesheet" href="./tokens.css" />
+    <link rel="stylesheet" href="./system.css" />
+    <link rel="stylesheet" href="./flight-objects.css" />
+    <script type="module" src="./flight-objects.js"></script>
+  </head>
+  <body>
+    <a class="skip-link" id="skip" href="#work">Skip to the workshop</a>
+    <header class="mast"><div class="mast-in">
+      <a class="wordmark" id="home" href="./"><img src="./assets/brand/logo.svg" width="245" height="59" alt="Open Flight" /></a>
+      <span data-workshop-menu></span>
+      <nav class="lang" aria-label="Language"><a id="en" lang="en" hreflang="en" href="?lang=en" aria-label="English (EN)">EN</a><a id="es" lang="es" hreflang="es" href="?lang=es" aria-label="Español (ES)">ES</a><a id="ru" lang="ru" hreflang="ru" href="?lang=ru" aria-label="Русский (RU)">RU</a></nav>
+    </div></header>
+    <main class="wrap objects" id="work">
+      <h1 id="title">Flying objects</h1>
+      <p class="lead" id="intro">Choose a ring, a maple spinner or a tandem glider.</p>
+      <nav class="object-picker" id="picker" aria-label="Choose a flying object"></nav>
+      <article id="activity">
+        <div class="object-plate">
+          <div class="plate-copy"><h2 id="name"></h2><p id="question"></p></div>
+          <img id="art" src="./assets/objects/ring.svg" alt="">
+        </div>
+        <section class="object-print">
+          <div><label for="paper-size" id="size">Paper size</label>
+            <select id="paper-size"><option value="A4">A4</option><option value="US_LETTER">US Letter</option></select>
+            <a class="button primary" id="packet" href="./assets/objects/flight-lab-A4-en.pdf" download>Download the three sheets</a>
+          </div>
+          <p class="print-reminder" data-print-reminder></p>
+          <p id="print-note"></p><p id="evidence"></p>
+        </section>
+        <div class="object-details">
+          <section><h3 id="build">Make it</h3><p id="materials"></p><ol id="steps"></ol>
+            <a id="original" href="https://www.jpl.nasa.gov/edu/resources/project/make-a-paper-glider/">NASA/JPL Education</a> · <a id="svg" href="./assets/objects/ring.svg" download>SVG</a>
+          </section>
+          <section><h3 id="experiment">Change one thing</h3><p id="trial"></p>
+            <details open><summary id="why"></summary><p id="physics"></p></details>
+            <details><summary id="fix"></summary><p id="recovery"></p></details>
+          </section>
+        </div>
+      </article>
+      <section id="field" hidden><h2 id="nature"></h2><div id="media" class="object-media"></div></section>
+      <section><h2 id="more">Fly with the designers</h2><p id="more-intro"></p><div id="sources" class="object-sources"></div>
+        <p><a id="source-review" class="text-link" href="./assets/objects/unusual-flyer-sources.md">All reviewed designs and reuse terms (EN)</a></p>
+      </section>
+    </main>
+    <footer class="wrap"><a id="credits" href="./assets/objects/CREDITS.md">Credits</a><a href="https://github.com/kevinmamaqi/open-flight">GitHub ↗</a></footer>
+  </body>
+</html>

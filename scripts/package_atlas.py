@@ -14,15 +14,15 @@ destination.mkdir(parents=True, exist_ok=True)
 site = root / 'docs'
 intro = """OPEN FLIGHT · МАСТЕРСКАЯ БУМАЖНЫХ ПОЛЁТОВ · TALLER DE VUELO EN PAPEL
 
-Print a PDF from the library at actual size. Butterfly sheets carry a 50 mm ruler. Airplane sheets carry a 20 mm ruler. For a folded-body K1 butterfly, cut the first page and follow the six pictures on page two. Print only the first airplane page for the aircraft. Keep the picture guide and notebook at hand.
+Print a PDF from the library at actual size. Every sheet carries a line marked 50 mm: measure it before you cut. For a folded-body K1 butterfly, cut the first page and follow the six pictures on page two. Print only the first airplane page for the aircraft. Keep the picture guide and notebook at hand.
 The full workshop includes the free Flight Book with Studio model, Drawn and Ink saver covers. Scroll through the pages, pick a flyer to recolor its pattern or give it the cover, and find its home on the world map. Print the scale check on book page 2 at 100% and measure 50 mm. The classroom guide gives one-sided copy counts and page ranges to send with the book PDF to a print shop. The motor lab includes a printable fit model and observation sheet.
 To use the complete website archive offline, open a terminal in its expanded folder, start python3 -m http.server 8000 and open http://localhost:8000 in a browser. Open /book.html?lang=en for the Flight Book or /classroom.html?lang=en for the classroom guide. PDFs and standalone lesson HTML files open directly. See NOTICES.md for artwork, fonts and other credits.
 
-Откройте нужный PDF и печатайте в натуральную величину. Проверьте контрольный отрезок: 50 мм у бабочки или 20 мм у самолёта. Для бабочки K1 вырежьте выкройку с первой страницы и следуйте шести рисункам на второй. Для самого самолёта достаточно первой страницы. На остальных страницах — схемы и лётный дневник.
+Откройте нужный PDF и печатайте в натуральную величину. Проверьте линейкой контрольный отрезок «50 мм» на листе. Для бабочки K1 вырежьте выкройку с первой страницы и следуйте шести рисункам на второй. Для самого самолёта достаточно первой страницы. На остальных страницах — схемы и лётный дневник.
 В полном архиве есть бесплатная Книга полётов с обложками «Модель в студии», «Рисунок» и «Экономия чернил». Листайте книгу, выбирайте модель, меняйте её расцветку или поместите её на обложку. На карте можно найти места из истории модели. Распечатайте страницу 2 книги в масштабе 100 % и проверьте отрезок 50 мм. Памятка для класса рассчитает страницы и число односторонних копий для копицентра. В лаборатории мотора есть макет для примерки и лист наблюдений.
 Чтобы открыть весь сайт без интернета, распакуйте архив, откройте терминал в этой папке, запустите python3 -m http.server 8000 и перейдите на http://localhost:8000. Откройте /book.html?lang=ru для Книги полётов или /classroom.html?lang=ru для памятки. PDF и самостоятельные HTML-занятия открываются прямо из папки. Лицензии и авторы указаны в NOTICES.md.
 
-Imprime el PDF a tamaño real. Comprueba con una regla la línea de 50 mm de la mariposa o de 20 mm del avión. Para la mariposa K1, recorta la primera página y sigue las seis imágenes de la segunda. Para armar el avión, imprime solo la primera página. Las siguientes traen los dibujos y el cuaderno de vuelo.
+Imprime el PDF a tamaño real. Comprueba con una regla la línea de 50 mm de cada hoja. Para la mariposa K1, recorta la primera página y sigue las seis imágenes de la segunda. Para armar el avión, imprime solo la primera página. Las siguientes traen los dibujos y el cuaderno de vuelo.
 El taller completo incluye el Libro de vuelo gratuito con las portadas Modelo de estudio, Ilustrado y Ahorro de tinta. Recorre las páginas, elige una mariposa o un avión, cambia sus colores o ponlo en la portada. Descubre en el mapa los lugares de su historia. Imprime la página 2 al 100 % y comprueba la línea de 50 mm. La guía para el aula calcula páginas y copias por una cara para enviar con el PDF a una copistería. El laboratorio de motores incluye una maqueta imprimible y una hoja de observación.
 Para usar el taller completo sin conexión, descomprime el archivo, abre una terminal en esa carpeta, ejecuta python3 -m http.server 8000 y visita http://localhost:8000/es.html en el navegador. Abre /book.html?lang=es para el Libro de vuelo o /classroom.html?lang=es para el aula. Los PDF y las actividades HTML independientes se abren directamente. Consulta las licencias y los créditos en NOTICES.md.
 
@@ -35,8 +35,12 @@ catalog = json.loads((site / 'assets/atlas/print-catalog.json').read_text())
 locales = catalog['locales']
 planes = [sheet['model'] for sheet in catalog['sheets'] if sheet['family'] == 'airplane']
 library_pdfs = {f"{sheet['id']}-{paper}-{locale}.pdf" for sheet in catalog['sheets'] for paper in catalog['papers'] for locale in locales}
-if len(library_pdfs) != 60:
-    raise ValueError(f'Expected 60 sheet editions, found {len(library_pdfs)}')
+expected_editions = len(catalog['sheets']) * len(catalog['papers']) * len(locales)
+if len(library_pdfs) != expected_editions or not library_pdfs:
+    raise ValueError('Missing or duplicate sheet editions in the print catalog')
+object_pdfs = {f'assets/objects/flight-lab-{paper}-{locale}.pdf' for paper in catalog['papers'] for locale in locales}
+object_files = object_pdfs | {f'assets/objects/{name}' for name in (
+    'ring.svg', 'tandem.svg', 'samara.svg', 'maple-keys.jpg', 'samara-study.png', 'CREDITS.md')}
 art_paths = json.loads((site / 'assets/book/art-catalog.json').read_text())
 if len(set(art_paths)) != len(art_paths) or any(
     not path.startswith('assets/book/models/') or not path.endswith('.jpg') or '..' in path for path in art_paths
@@ -46,8 +50,12 @@ book_art = set(art_paths) | {path.replace('/models/', '/thumbs/') for path in ar
 motor_files = {item['path'] for item in json.loads((site / 'assets/motor/lab.json').read_text())['files']}
 library_lessons = {f'family-lesson-{locale}.html' for locale in locales}
 workshop_files = {
+    'flight-objects.html', 'flight-objects.js', 'flight-objects.css', 'flight-objects-copy.js',
+    'assets/objects/activities.js', 'assets/objects/tandem.js', 'assets/objects/references.js', *object_files,
+    'tokens.css', 'system.css', 'home.css', 'lab.css', 'site.webmanifest', 'assets/brand/tokens.js', 'assets/brand/print.js',
+    'assets/brand/logo.svg', 'assets/brand/favicon.ico', 'assets/brand/favicon.svg', 'assets/fonts/OpenFlightText-Regular.woff2',
     'index.html', 'ru.html', 'es.html', 'studio.html', 'planes.html', 'compare.html', 'next.html', 'references.html',
-    'keel.html','keel.js','keel.css','keel-guide.js', 'studio-folded.js', 'fold-lesson.js', 'fold-lesson.css',
+    'keel.html','keel.js','keel.css','keel-guide.js', 'studio-folded.js', 'fold-lesson.js',
     'costa.html', 'costa.js', 'costa.css', 'assets/print-faces.js', 'assets/book/edge-cut.svg', 'assets/book/edge-whole.svg',
     'book.html', 'book.js', 'book.css', 'book-engine.js', 'book-support.js', 'family-sheets.js',
     'model-origins.js', 'model-map.js', 'model-map.css', 'model-appearance.js', 'model-studio.js',
@@ -57,7 +65,8 @@ workshop_files = {
     'classroom.html', 'classroom.js', 'classroom-plan.js', 'classroom.css',
     'assets/book/pdf.min.mjs', 'assets/book/pdf.worker.min.mjs', 'assets/book/pdfjs-dist-LICENSE.txt',
     'assets/book/qrcode-generator-LICENSE.txt', 'assets/book/services.json',
-    'assets/book/Rubik-Regular.ttf', 'assets/book/Rubik-Bold.ttf', 'assets/book/Rubik-OFL.txt',
+    'assets/fonts/OpenFlightText-Regular.ttf', 'assets/fonts/OpenFlightText-Bold.ttf', 'assets/fonts/Alegreya-Bold.ttf',
+    'assets/fonts/OFL-Andika.txt', 'assets/fonts/OFL-Alegreya.txt',
     *book_art,
     'motor.html', 'motor.js', 'motor.css', 'assets/motor/lab.json', *motor_files,
     'atlas-nav.js', 'compare.js', 'next.js', 'browser-workshop.js', 'flight-viewer.js',
@@ -65,6 +74,19 @@ workshop_files = {
     'flight-circuit-copy.js', 'flight-words.js',
     *[f'assets/planes/field/{model}.svg' for model in planes],
 }
+
+
+def write_zip(name: str, members: dict[str, bytes]) -> None:
+    with ZipFile(destination / name, 'w') as output:
+        for path, content in sorted(members.items()):
+            item = ZipInfo(path, (2026, 11, 24, 0, 0, 0))
+            item.external_attr = 0o100644 << 16
+            output.writestr(item, content, compress_type=ZIP_DEFLATED)
+    with ZipFile(destination / name) as output:
+        corrupt = output.testzip()
+        if corrupt:
+            raise ValueError(f'{name}: checksum failed for {corrupt}')
+    print(f'{name}: {len(members)} verified entries')
 
 
 def archive(name: str, directory: Path, *, full_workshop: bool = False) -> None:
@@ -76,11 +98,16 @@ def archive(name: str, directory: Path, *, full_workshop: bool = False) -> None:
     for path in ('LICENSE', 'NOTICES.md', 'licenses/CC-BY-SA-4.0.txt', 'licenses/CERN-OHL-W-2.0.txt'):
         members[path] = (root / path).read_bytes()
     members['licenses/DejaVu.txt'] = (root / 'apps/editor/assets/planes/vendor/DejaVu-LICENSE.txt').read_bytes()
+    members['licenses/OFL-Andika.txt'] = (root / 'apps/editor/assets/fonts/OFL-Andika.txt').read_bytes()
+    members['licenses/OFL-Alegreya.txt'] = (root / 'apps/editor/assets/fonts/OFL-Alegreya.txt').read_bytes()
+    if not full_workshop:
+        for path in object_files:
+            members[path] = (site / path).read_bytes()
     notices = members['NOTICES.md'].decode().replace('](apps/editor/', '](https://github.com/kevinmamaqi/open-flight/tree/main/apps/editor/')
     members['NOTICES.md'] = notices.replace('](guides/', '](https://github.com/kevinmamaqi/open-flight/blob/main/guides/').encode()
     members['START-HERE.txt'] = intro.encode()
     library_prefix = 'library/' if full_workshop else ''
-    expected_pdfs = {library_prefix + item for item in library_pdfs}
+    expected_pdfs = {library_prefix + item for item in library_pdfs} | object_pdfs
     expected_files = expected_pdfs | {library_prefix + item for item in library_lessons}
     if full_workshop:
         expected_files |= workshop_files
@@ -101,17 +128,29 @@ def archive(name: str, directory: Path, *, full_workshop: bool = False) -> None:
         }
         if actual_art != book_art:
             raise ValueError(f'{name}: unexpected book renders {sorted(actual_art - book_art)}')
-    with ZipFile(destination / name, 'w') as output:
-        for path, content in sorted(members.items()):
-            item = ZipInfo(path, (2026, 11, 24, 0, 0, 0))
-            item.external_attr = 0o100644 << 16
-            output.writestr(item, content, compress_type=ZIP_DEFLATED)
-    with ZipFile(destination / name) as output:
-        corrupt = output.testzip()
-        if corrupt:
-            raise ValueError(f'{name}: checksum failed for {corrupt}')
-    print(f'{name}: {len(members)} verified entries')
+    write_zip(name, members)
 
 
 archive('open-flight-print-library.zip', site / 'library')
 archive('open-flight-workshop.zip', site, full_workshop=True)
+
+# A family can share just the new activities, with their editable sources and credits.
+objects = {Path(name).name: (site / name).read_bytes() for name in object_files}
+for name in ('unusual-flyer-sources.md', 'williams-tandem.md'):
+    objects[name] = (root / 'guides' / name).read_bytes()
+for name in ('CC-BY-SA-4.0.txt', 'CERN-OHL-W-2.0.txt'):
+    objects['licenses/' + name] = (root / 'licenses' / name).read_bytes()
+objects['licenses/OFL-Andika.txt'] = (site / 'assets/fonts/OFL-Andika.txt').read_bytes()
+objects['licenses/OFL-Alegreya.txt'] = (site / 'assets/fonts/OFL-Alegreya.txt').read_bytes()
+objects['START-HERE.txt'] = (
+    'Open the PDF for your paper size and language. Print single-sided at 100% and check the 50 mm line. '
+    'Page 1 is a folding guide for a separate blank sheet. Cut the flyers on pages 2 and 3. '
+    'The SVGs are editable, and CREDITS.md identifies the authors and licenses.\n\n'
+    'Abre el PDF de tu idioma y formato de papel. Imprime por una cara al 100 % y mide la línea de 50 mm. '
+    'La página 1 te enseña a doblar otra hoja en blanco. Recorta las figuras de las páginas 2 y 3. '
+    'Los SVG son editables. En CREDITS.md encontrarás los autores y las licencias.\n\n'
+    'Выбери PDF для своего языка и формата бумаги. Печатай с одной стороны в масштабе 100 %. Проверь отрезок 50 мм. '
+    'По схеме на странице 1 сложи отдельный чистый лист. Вырежи модели со страниц 2 и 3. '
+    'Файлы SVG можно редактировать. Авторы и лицензии указаны в CREDITS.md.\n'
+).encode()
+write_zip('open-flight-flying-objects.zip', objects)

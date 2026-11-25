@@ -155,7 +155,7 @@ const words = {
   airplane: ['Paper airplane studio', 'Мастерская бумажных самолётов', 'Taller de aviones de papel'],
 }
 import { flightPhysics,physicsTitle } from './atlas-physics.js'
-import { currentLocale } from './atlas-nav.js'
+import { currentLocale, languageSwitch, localizedLinks } from './atlas-nav.js'
 import { studioOrigins, bookColorAction } from './studio-origins.js'
 import { bookFromStudio } from './model-studio.js'
 const $ = (id) => document.getElementById(id)
@@ -235,7 +235,7 @@ function translate() {
   document.querySelectorAll('[data-home]').forEach((link) => {
     link.href = { en: './', ru: './ru.html', es: './es.html' }[locale]
   })
-  $('language').value = locale
+  localizedLinks(locale)
   $('paper').options[0].textContent = 'A4 · 210 × 297 ' + tr('mm')
   $('paper').options[1].textContent = {
     en: 'US Letter · 8½ × 11 in',
@@ -503,8 +503,8 @@ document.querySelectorAll('a[href="#fold"]').forEach((link) => {
     renderStep()
   })
 })
-$('language').addEventListener('change', (e) => {
-  locale = e.target.value
+languageSwitch((next) => {
+  locale = next
   try { sessionStorage.setItem('open-flight-language',locale) } catch {}
   translate()
   acceptDesign(plan.source)

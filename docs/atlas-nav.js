@@ -13,6 +13,17 @@ export function currentLocale() {
   return lang
 }
 export const homeURL = (l) => (l === 'en' ? './?lang=en' : './' + l + '.html')
+// Pages that keep unsaved work in memory (the studios) switch language in place:
+// the links stay real links, and a plain click calls onSelect instead of reloading.
+export function languageSwitch(onSelect) {
+  for (const l of locales) {
+    document.getElementById(l)?.addEventListener('click', (e) => {
+      if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.button) return
+      e.preventDefault()
+      onSelect(l)
+    })
+  }
+}
 export function localizedLinks(lang) {
   for (const l of locales) {
     const a = document.getElementById(l)
@@ -39,6 +50,7 @@ const menuCopy = {
     'Next steps',
     'Flight Book',
     'Motor lab',
+    'Flying objects',
   ],
   es: [
     'Menú',
@@ -52,6 +64,7 @@ const menuCopy = {
     'Próximos pasos',
     'Libro de vuelo',
     'Laboratorio de motores',
+    'Objetos voladores',
   ],
   ru: [
     'Меню',
@@ -65,6 +78,7 @@ const menuCopy = {
     'Следующие шаги',
     'Книга полётов',
     'Лаборатория мотора',
+    'Летающие модели',
   ],
 }
 const markers = document.querySelectorAll('[data-workshop-menu]')
@@ -112,13 +126,20 @@ if (markers.length) {
         './next.html?lang=' + lang,
         './book.html?lang=' + lang,
         './motor.html?lang=' + lang,
+        './flight-objects.html?lang=' + lang,
       ]
-      summary.textContent = labels[0]
+      const label = document.createElement('span')
+      label.textContent = labels[0]
+      summary.replaceChildren(label)
+      summary.setAttribute('aria-label', labels[0])
       list.replaceChildren(
         ...urls.map((href, i) => {
           const a = document.createElement('a')
           a.href = href
           a.textContent = labels[i + 1]
+          const here = new URL(href, location.href)
+          const now = new URL(location.href)
+          if (i > 0 && here.pathname === now.pathname && here.searchParams.get('view') === now.searchParams.get('view')) a.setAttribute('aria-current', 'page')
           return a
         }),
       )
@@ -146,4 +167,33 @@ if (markers.length) {
       details.open = false
     })
   }
+}
+
+// Print-at-actual-size reminder: every [data-print-reminder] beside a download, in the page language.
+const reminderCopy = {
+  en: ['Print at 100% (Actual size).', 'Turn off “Fit to page”. The line marked 50 mm on the sheet should measure 50 mm.'],
+  es: ['Imprime al 100 % (Tamaño real).', 'Desactiva «Ajustar a la página». La línea marcada 50 mm debe medir 50 mm.'],
+  ru: ['Печатайте в масштабе 100% («Фактический размер»).', 'Отключите «По размеру страницы». Линия «50 мм» на листе должна быть ровно 50 мм.'],
+}
+const reminders = document.querySelectorAll('[data-print-reminder]')
+for (const el of document.querySelectorAll('[data-print-calibration] span')) {
+  const fill = () => {
+    const lang = locales.includes(document.documentElement.lang) ? document.documentElement.lang : currentLocale()
+    el.textContent = (lang === 'ru' ? '50 мм · ' : '50 mm · ') + reminderCopy[lang][0]
+  }
+  fill()
+  new MutationObserver(fill).observe(document.documentElement, { attributes: true, attributeFilter: ['lang'] })
+}
+if (reminders.length) {
+  const fill = () => {
+    const lang = locales.includes(document.documentElement.lang) ? document.documentElement.lang : currentLocale()
+    const [title, body] = reminderCopy[lang]
+    for (const el of reminders) {
+      const strong = document.createElement('strong')
+      strong.textContent = title
+      el.replaceChildren(strong, document.createTextNode(body))
+    }
+  }
+  fill()
+  new MutationObserver(fill).observe(document.documentElement, { attributes: true, attributeFilter: ['lang'] })
 }

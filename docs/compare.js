@@ -1,5 +1,5 @@
-import { compareModels, designIds, fieldModel } from './atlas-guide.js?v=317e8ae67356'
-import { currentLocale, homeURL, localizedLinks } from './atlas-nav.js?v=317e8ae67356'
+import { compareModels, designIds, fieldModel } from './atlas-guide.js?v=5ef7606d1b32'
+import { currentLocale, homeURL, localizedLinks } from './atlas-nav.js?v=5ef7606d1b32'
 const lang = currentLocale(),
   i = { en: 0, es: 1, ru: 2 }[lang]
 const t = (en, es, ru) => [en, es, ru][i],
@@ -94,7 +94,7 @@ function card(model, index) {
   header.append(label, select, image)
   const detail = el('div', null, 'compare-detail')
   detail.append(
-    el('p', model.technique, 'over'),
+    el('p', model.technique, 'eyebrow'),
     el('h2', model.name),
     el('p', model.inspiration, 'spec-name'),
     el('p', model.shape),
@@ -107,7 +107,7 @@ function card(model, index) {
     row.append(el('dt', item.label), el('dd', item.value + (item.unit === '°' ? '' : ' ') + item.unit))
     dl.append(row)
   }
-  const action = el('a', t('Build this model ↗', 'Construir este modelo ↗', 'Собрать модель ↗'), 'quiet')
+  const action = el('a', t('Build this model ↗', 'Construir este modelo ↗', 'Собрать модель ↗'), 'text-link')
   action.href = model.studio
   detail.append(
     dl,
@@ -116,7 +116,7 @@ function card(model, index) {
     action,
   )
   if(model.family==='butterfly'){
-    const choice=el('p'),link=el('a',t('Compare this tabbed build with a folded body ↗','Comparar estas aletas con el cuerpo plegado ↗','Сравнить эту модель с вариантом со складным корпусом ↗'),'quiet')
+    const choice=el('p'),link=el('a',t('Compare this tabbed build with a folded body ↗','Comparar estas aletas con el cuerpo plegado ↗','Сравнить эту модель с вариантом со складным корпусом ↗'),'text-link')
     link.href='./keel.html?' + new URLSearchParams({ species: model.id, lang }) + '#comparison';choice.append(link);detail.append(choice)
   }
   a.append(header, detail)

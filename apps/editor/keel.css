@@ -1,11 +1,11 @@
 .keel-main {
-  padding-block: clamp(24px, 5vw, 54px);
+  padding-block: clamp(var(--space-5), 5vw, var(--space-7));
 }
 .keel-main h1 {
   margin: 0;
-  font-size: clamp(2.15rem, 6vw, 4rem);
+  font-size: var(--text-3xl);
   line-height: 1.05;
-  letter-spacing: -0.045em;
+  
 }
 .keel-intro {
   max-width: 68ch;
@@ -13,27 +13,27 @@
 }
 .keel-worktable,
 .keel-guide {
-  margin-top: 24px;
-  padding: clamp(14px, 3vw, 28px);
-  border: 1px solid var(--rule);
-  border-radius: 22px;
-  background: #fffdf5;
+  margin-top: var(--space-5);
+  padding: clamp(var(--space-3), 3vw, var(--space-5));
+  border: 1px solid var(--color-rule);
+  border-radius: var(--radius-lg);
+  background: var(--color-surface);
 }
 .keel-worktable,
 .keel-lesson {
   display: grid;
   grid-template-columns: minmax(230px, 0.65fr) minmax(0, 1fr);
-  gap: clamp(16px, 4vw, 42px);
+  gap: clamp(var(--space-4), 4vw, var(--space-7));
 }
 .keel-main h2 {
-  margin: 0 0 12px;
-  font-size: 1.4rem;
+  margin: 0 0 var(--space-3);
+  font-size: var(--text-lg);
 }
 .keel-tools label,
 #share-row:not([hidden]) {
   display: block;
-  margin: 12px 0 4px;
-  font-weight: 500;
+  margin: var(--space-3) 0 var(--space-1);
+  font-weight: var(--weight-regular);
 }
 .keel-tools select,
 .keel-view select,
@@ -41,44 +41,39 @@
   width: 100%;
   display: block;
   min-height: 44px;
-  margin-top: 5px;
-  padding: 5px 10px;
-  border: 1px solid #82968a;
-  border-radius: 8px;
-  background: #fff;
-  color: var(--ink);
+  margin-top: var(--space-1);
+  padding: var(--space-1) var(--space-2);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background: var(--color-surface);
+  color: var(--color-text);
 }
 .keel-tools input[type="range"] {
   width: 100%;
-  min-height: 30px;
-  accent-color: var(--green);
+  min-height: var(--size-target);
+  accent-color: var(--color-text-link);
 }
 .keel-main input:focus-visible {
-  outline: 3px solid #9a401e;
+  outline: 3px solid var(--color-focus);
   outline-offset: 4px;
 }
 .keel-actions {
   display: flex;
   flex-wrap: wrap;
-  gap: 8px;
-  margin-top: 14px;
+  gap: var(--space-2);
+  margin-top: var(--space-3);
 }
 .keel-main button,
 .keel-actions a {
   display: inline-flex;
   align-items: center;
   min-height: 44px;
-  padding: 7px 13px;
-  border: 1px solid #82968a;
-  border-radius: 20px;
-  background: #fff;
-  color: var(--ink);
+  padding: var(--space-2) var(--space-3);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  background: var(--color-surface);
+  color: var(--color-text);
   cursor: pointer;
-}
-.keel-main .keel-primary {
-  background: var(--green);
-  border-color: var(--green);
-  color: #fff;
 }
 .keel-main button:disabled {
   opacity: 0.55;
@@ -87,8 +82,8 @@
 .keel-hint,
 .keel-dimensions,
 #progress {
-  color: var(--muted);
-  font-size: 0.95rem;
+  color: var(--color-text-muted);
+  font-size: var(--text-sm);
 }
 #status:empty {
   margin: 0;
@@ -96,16 +91,16 @@
 .keel-preview,
 #diagram {
   overflow: hidden;
-  border-radius: 14px;
-  background: #edf3ea;
+  border-radius: var(--radius-lg);
+  background: var(--color-surface-sunken);
 }
 .keel-view {
   display: grid;
   grid-template-columns: auto minmax(0, 1fr);
   align-items: center;
-  gap: 8px;
-  margin-bottom: 8px;
-  font-weight: 500;
+  gap: var(--space-2);
+  margin-bottom: var(--space-2);
+  font-weight: var(--weight-regular);
 }
 .keel-view select {
   margin: 0;
@@ -114,7 +109,7 @@
   min-height: 162px;
   display: grid;
   place-items: center;
-  padding: 12px;
+  padding: var(--space-3);
 }
 .keel-preview svg,
 #diagram > svg {
@@ -133,16 +128,16 @@
   line-height: 1.5;
 }
 .keel-instructions h3 {
-  font-size: 1.4rem;
-  margin-block: 6px;
+  font-size: var(--text-lg);
+  margin-block: var(--space-1);
 }
 .keel-check {
-  padding: 12px;
-  background: #e8f0df;
-  border-radius: 12px;
+  padding: var(--space-3);
+  background: var(--color-surface-sunken);
+  border-radius: var(--radius-lg);
 }
 .keel-footer {
-  margin-top: 22px;
+  margin-top: var(--space-5);
 }
 #print-sheet {
   display: none;
@@ -151,7 +146,7 @@
   .keel-worktable,
   .keel-lesson {
     grid-template-columns: minmax(0, 1fr);
-    gap: 14px;
+    gap: var(--space-3);
   }
   .keel-main {
     width: calc(100% - 24px);
@@ -172,7 +167,7 @@
   }
   body.keel-print {
     margin: 0;
-    background: #fff;
+    background: var(--color-surface);
     print-color-adjust: exact;
     -webkit-print-color-adjust: exact;
   }

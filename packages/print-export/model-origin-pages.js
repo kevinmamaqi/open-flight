@@ -1,3 +1,4 @@
+import { useFont } from '../../apps/editor/assets/brand/print.js'
 import { modelOrigin, relatedPilotStories } from '../../apps/editor/model-origins.js'
 
 const copy = {
@@ -27,11 +28,11 @@ export function drawOriginPages(doc, book, plan, layout, { world, photos }) {
     const entry = modelOrigin(model, lang)
     const airplane = entry.kind === 'airplane'
     doc.addPage()
-    note('OPEN FLIGHT', left, 18)
+    text('Open Flight', left, 18, 10, { weight:'display', color:ink })
     text(t.atlas, right, 18, 10, { align:'right', weight:'bold', color:accent })
     doc.setDrawColor(accent).setLineWidth(0.3).line(left, 23, right, 23)
     note(airplane ? t.aircraft : t.nature, left, 32)
-    text(entry.model, left, 45, 28, { weight:'bold' })
+    text(entry.model, left, 45, 28, { weight:'display' })
 
     const pictureWidth = width * 0.52
     const mapX = left + pictureWidth + 6
@@ -55,7 +56,7 @@ export function drawOriginPages(doc, book, plan, layout, { world, photos }) {
     for (const { lon, lat } of entry.locations) {
       const x = mapX + (lon + 180) / 360 * mapWidth
       const y = mapY + (90 - lat) / 180 * mapWidth / 2
-      doc.setFillColor(accent).setDrawColor('#ffffff').setLineWidth(0.45).circle(x, y, 1.6, 'FD')
+      doc.setFillColor(accent).setDrawColor(ink).setLineWidth(0.45).circle(x, y, 1.6, 'FD')
     }
     text('Natural Earth', right, mapY + mapWidth / 2 + 4, 7, { align:'right', color:accent })
 
@@ -88,17 +89,18 @@ export function drawOriginPages(doc, book, plan, layout, { world, photos }) {
       text(block.lines, left, y, size, { color:ink, weight:block.bold ? 'bold' : 'normal' })
       y += block.lines.length * size * 0.41 + 3.8
     }
-    doc.setFillColor(wash).rect(left, sourceY - 4.8, width, 5.8 + 5 * sources.length, 'F')
+    doc.setDrawColor(accent).setLineWidth(0.3).line(left, sourceY - 4.8, right, sourceY - 4.8)
     note(t.sources, left + 2, sourceY)
     sources.forEach(({label, url}, index) => {
       let short = label
-      doc.setFont('Rubik','normal').setFontSize(8.5)
+      useFont(doc, 'text')
+      doc.setFontSize(9)
       const host = new URL(url).hostname.replace(/^www\./, '')
       const suffix = ' · ' + host
       while (short.length && doc.getTextWidth(short + suffix) > width - 6) short = short.slice(0,-1)
       const title = (short === label ? short : short.trimEnd() + '…') + suffix
       const lineY = sourceY + 5 + index * 5
-      text(title, left + 2, lineY, 8.5)
+      text(title, left + 2, lineY, 9)
       doc.link(left + 2, lineY - 3.7, width - 4, 4.5, { url })
     })
     folio(number, t.atlas)

@@ -1,9 +1,11 @@
+import { brandMark, calibration, fontNotice as printFontNotice, ink, lineStyle, muted, registerFonts, textMm, useFont, atLeastLine, atLeastText } from '../../apps/editor/assets/brand/print.js'
+import type { PrintLabel } from '../print-export/sheets.ts'
+import { printFonts } from '../print-export/fonts.ts'
 // Printable sheet for the experimental K2 "costa" butterfly. Page 1 is the cut sheet in
 // landscape, so the wingspan runs along the long side of the paper (the stiffer grain direction
 // of most office and laser paper). Page 2 is its back face for double-sided printing and page 3
 // shows the build, balance and trim steps.
 
-import { readFileSync } from 'node:fs'
 import { jsPDF } from 'jspdf'
 import { rounded, sha256, type Drawing, type Line, type Point } from '../geometry/butterfly.ts'
 import { toPaper, trimGeometry } from '../geometry/workshop-art.ts'
@@ -38,15 +40,16 @@ const recommended = { paper: '120', clips: 2, clip_g: 0.5 }
 export const k2SpanRange = { minimum: 148, maximum: 184, step: 2 }
 const spanRange = k2SpanRange
 
-const dark = '#272239'
-const centerInk = '#005A8D'
-const wingInk = '#813842'
-const costaInk = '#9A6A00'
-const clipInk = '#254A36'
-const halo = '#FFFEF4'
-const hemFill = '#F4E6B8'
-const valleyDash = [0.65, 1.05]
-const mountainDash = [2.8, 0.9, 0.55, 0.9]
+// Paper conventions (tokens.css via brand/print.js): valley dashed, mountain dash-dot, cut solid.
+const dark = ink
+const centerInk = lineStyle.valley.stroke
+const wingInk = lineStyle.mountain.stroke
+const costaInk = ink
+const clipInk = ink
+const halo = '#FFFFFF'
+const hemFill = '#FFFFFF'
+const valleyDash = lineStyle.valley.dash
+const mountainDash = lineStyle.mountain.dash
 
 export type K2Plan = Required<K2Settings> & {
   outline: K2Outline
@@ -310,7 +313,7 @@ const words: Record<K2Locale, Words> = {
     note: 'K2 costa glider · Experimental · Flight not yet tested on paper',
     span: 'finished span',
     print: 'Print at 100% / actual size, landscape. Measure this line before cutting.',
-    legend: ['Cut', 'Center valley', 'Wing and costa mountains', 'Gold strip folds under', 'Clip zone', 'Balance dot'],
+    legend: ['Cut', 'Center valley', 'Wing and costa mountains', 'Edge strip folds under', 'Clip zone', 'Balance dot'],
     paperTitle: 'Paper and clips',
     paper: (gsm) => `${gsm} g/m² uncoated printer paper or light card (100–140 works).`,
     grain: 'The wings run along the long side of the sheet. Most office paper is stiffer that way.',
@@ -322,7 +325,7 @@ const words: Record<K2Locale, Words> = {
     steps: [
       {
         title: 'Cut',
-        action: 'Cut the outside line, including the gold strips and the antenna clubs. Cut the four short slits at the back of the hindwings.',
+        action: 'Cut the outside line, including the edge strips and the antenna clubs. Cut the four short slits at the back of the hindwings.',
         check: 'One piece. Each hindwing has a tab between two slits.',
       },
       {
@@ -332,22 +335,22 @@ const words: Record<K2Locale, Words> = {
       },
       {
         title: 'Fold the costa',
-        action: 'Fold each gold strip under its wing along the gold dashed line. Press it flat.',
+        action: 'Fold each edge strip under its wing along its dashed line. Press it flat.',
         check: 'The front edge is straight and doubled, like the costa vein of a real wing.',
       },
       {
         title: 'Fold the body',
-        action: 'Fold in half on the blue line, colors inside. Then fold each wing back out on its own line.',
+        action: 'Fold in half on the dashed centre line, colors inside. Then fold each wing back out on its dash-dot line.',
         check: 'The two body layers hang underneath and touch.',
       },
       {
         title: 'Clip the head',
         action: 'Slide both clips onto the head over the two body layers, one on top of the other, all the way to the nose.',
-        check: 'The clips stay inside the green clip zone.',
+        check: 'The clips stay inside the dashed clip box.',
       },
       {
         title: 'Balance',
-        action: 'Rest the wings on two fingertips under the green dots. Tail drops: add a clip. Nose drops: slide a clip back, or remove one.',
+        action: 'Rest the wings on two fingertips under the ringed dots. Tail drops: add a clip. Nose drops: slide a clip back, or remove one.',
         check: 'It stays level on your fingers.',
       },
       {
@@ -369,7 +372,7 @@ const words: Record<K2Locale, Words> = {
     note: 'Planeador K2 con costa · Experimental · Vuelo aún sin probar en papel',
     span: 'envergadura final',
     print: 'Imprime al 100 % en tamaño real y en horizontal. Mide esta línea antes de recortar.',
-    legend: ['Corte', 'Doblez central', 'Dobleces de alas y costa', 'La tira dorada va debajo', 'Zona del clip', 'Punto de equilibrio'],
+    legend: ['Corte', 'Doblez central', 'Dobleces de alas y costa', 'La tira del borde va debajo', 'Zona del clip', 'Punto de equilibrio'],
     paperTitle: 'Papel y clips',
     paper: (gsm) => `Papel de impresora sin estucar de ${gsm} g/m² o cartulina ligera (sirve de 100 a 140).`,
     grain: 'Las alas van a lo largo del lado largo de la hoja. Casi todo el papel de oficina es más rígido en esa dirección.',
@@ -381,7 +384,7 @@ const words: Record<K2Locale, Words> = {
     steps: [
       {
         title: 'Recorta',
-        action: 'Recorta la línea exterior, con las tiras doradas y las puntas de las antenas. Corta las cuatro ranuras cortas de las alas traseras.',
+        action: 'Recorta la línea exterior, con las tiras del borde y las puntas de las antenas. Corta las cuatro ranuras cortas de las alas traseras.',
         check: 'Es una sola pieza. Cada ala trasera tiene una aleta entre dos ranuras.',
       },
       {
@@ -391,22 +394,22 @@ const words: Record<K2Locale, Words> = {
       },
       {
         title: 'Dobla la costa',
-        action: 'Dobla cada tira dorada debajo de su ala por la línea dorada. Aplánala bien.',
+        action: 'Dobla cada tira del borde debajo de su ala por su línea de trazos. Aplánala bien.',
         check: 'El borde delantero queda recto y doble, como la vena costal de un ala real.',
       },
       {
         title: 'Dobla el cuerpo',
-        action: 'Dobla por la mitad en la línea azul, con los colores dentro. Luego dobla cada ala hacia fuera por su línea.',
+        action: 'Dobla por la mitad en la línea central de trazos, con los colores dentro. Luego dobla cada ala hacia fuera por su línea de trazo y punto.',
         check: 'Las dos capas del cuerpo cuelgan debajo y se tocan.',
       },
       {
         title: 'Pon los clips en la cabeza',
         action: 'Desliza los dos clips sobre las dos capas del cuerpo, uno encima del otro, hasta la punta.',
-        check: 'Los clips quedan dentro de la zona verde.',
+        check: 'Los clips quedan dentro del recuadro de trazos.',
       },
       {
         title: 'Equilibra',
-        action: 'Apoya las alas en dos dedos bajo los puntos verdes. Si cae la cola, añade un clip. Si cae la cabeza, retrasa un clip o quítalo.',
+        action: 'Apoya las alas en dos dedos bajo los puntos con anillo. Si cae la cola, añade un clip. Si cae la cabeza, retrasa un clip o quítalo.',
         check: 'Se queda horizontal sobre tus dedos.',
       },
       {
@@ -428,7 +431,7 @@ const words: Record<K2Locale, Words> = {
     note: 'Планер K2 с костальной жилкой · Опытная модель · Полёт на бумаге ещё не проверен',
     span: 'размах крыльев',
     print: 'Печатай в масштабе 100%, альбомная ориентация. Перед вырезанием измерь эту линию.',
-    legend: ['Разрез', 'Сгиб в центре', 'Сгибы крыльев и края', 'Золотая полоска уходит вниз', 'Зона скрепок', 'Точка баланса'],
+    legend: ['Разрез', 'Сгиб в центре', 'Сгибы крыльев и края', 'Полоска края уходит вниз', 'Зона скрепок', 'Точка баланса'],
     paperTitle: 'Бумага и скрепки',
     paper: (gsm) => `Бумага для принтера ${gsm} г/м² без покрытия или тонкий картон (подойдёт 100–140).`,
     grain: 'Крылья идут вдоль длинной стороны листа. Офисная бумага обычно жёстче в этом направлении.',
@@ -440,7 +443,7 @@ const words: Record<K2Locale, Words> = {
     steps: [
       {
         title: 'Вырежи',
-        action: 'Вырежи по внешней линии, вместе с золотыми полосками и булавами усиков. Сделай четыре коротких надреза сзади на задних крыльях.',
+        action: 'Вырежи по внешней линии, вместе с полосками края и булавами усиков. Сделай четыре коротких надреза сзади на задних крыльях.',
         check: 'Одна деталь. На каждом заднем крыле есть закрылок между двумя надрезами.',
       },
       {
@@ -450,22 +453,22 @@ const words: Record<K2Locale, Words> = {
       },
       {
         title: 'Согни край крыла',
-        action: 'Загни каждую золотую полоску под крыло по золотой пунктирной линии. Прижми.',
+        action: 'Загни каждую полоску края под крыло по её пунктирной линии. Прижми.',
         check: 'Передний край прямой и двойной, как костальная жилка настоящего крыла.',
       },
       {
         title: 'Согни корпус',
-        action: 'Согни пополам по синей линии, цветом внутрь. Затем отогни каждое крыло наружу по своей линии.',
+        action: 'Согни пополам по центральной пунктирной линии, цветом внутрь. Затем отогни каждое крыло наружу по его штрихпунктирной линии.',
         check: 'Два слоя корпуса висят снизу и касаются друг друга.',
       },
       {
         title: 'Надень скрепки на голову',
         action: 'Надень обе скрепки на два слоя корпуса, одну поверх другой, до самого носа.',
-        check: 'Скрепки находятся в зелёной зоне.',
+        check: 'Скрепки находятся внутри пунктирной рамки.',
       },
       {
         title: 'Проверь баланс',
-        action: 'Положи крылья на два пальца под зелёными точками. Хвост опускается: добавь скрепку. Нос опускается: сдвинь скрепку назад или сними её.',
+        action: 'Положи крылья на два пальца под точками в кружках. Хвост опускается: добавь скрепку. Нос опускается: сдвинь скрепку назад или сними её.',
         check: 'Бабочка держится ровно на пальцах.',
       },
       {
@@ -513,59 +516,72 @@ export function k2CutPage(plan: K2Plan): Drawing {
   const maxY = Math.max(...flat.outline.map(([, y]) => y))
   const top = 25
   const lines = placed(flat.lines, width / 2, top - minY)
-  const labels: Drawing['labels'] = []
-  const label = (x: number, y: number, copy: string, size: number, color = dark) =>
-    labels.push({ x, y, text: copy, size, color })
-  label(9, 10, 'OPEN FLIGHT  /  K2', 3.2, clipInk)
+  const labels: PrintLabel[] = []
+  const label = (x: number, y: number, copy: string, size: number, color = dark, font: PrintLabel['font'] = 'text') =>
+    labels.push({ x, y, text: copy, size, color, font })
+  const mark = brandMark(9, 6.5)
+  lines.push(...mark.lines)
+  labels.push(...(mark.labels as PrintLabel[]))
+  label(9 + mark.width + 2, 10, 'K2', textMm.min, muted, 'bold')
   lines.push(...registrationCrosses(width, false))
-  label(9, 17.5, text.names[plan.species], 6.1)
-  label(9, 22.5, `${plan.span_mm} mm ${text.span}`, 2.6)
-  for (const [i, part] of wrap(text.note, 34).entries()) label(9, 27 + i * 3.2, part, 2.4, '#5B5866')
+  label(9, 18.5, text.names[plan.species], textMm.title, dark, 'display')
+  label(9, 23.5, `${plan.span_mm} mm ${text.span}`, textMm.min)
+  for (const [i, part] of wrap(text.note, 30).entries()) label(9, 28 + i * 4.2, part, textMm.min, muted)
 
   // Legend along the bottom, then the ruler, paper advice and the tip-height strip.
-  const base = Math.min(height - 46, top + (maxY - minY) + 8)
+  const base = Math.min(height - 58, top + (maxY - minY) + 8)
   const keys: Line[] = [
-    { id: 'key-cut', points: [], stroke: dark, weight: 0.52 },
+    { id: 'key-cut', points: [], stroke: dark, weight: lineStyle.cut.weight },
     { id: 'key-center', points: [], stroke: centerInk, weight: 0.46, dash: valleyDash },
     { id: 'key-mountain', points: [], stroke: wingInk, weight: 0.46, dash: mountainDash },
     { id: 'key-hem', points: [], stroke: costaInk, weight: 0.8 },
     { id: 'key-clip', points: [], stroke: clipInk, weight: 0.4, dash: [1.2, 0.8] },
   ]
-  // Space legend items by their label length so long translations never collide.
-  const widths = text.legend.map((t) => 14 + t.length * 1.32)
-  const gap = Math.max(3, (width - 18 - widths.reduce((a, b) => a + b, 0)) / (widths.length - 1))
-  let kx = 9
-  for (const [index, key] of keys.entries()) {
-    const x = kx
-    if (key.id === 'key-hem')
-      lines.push({ id: 'key-hem-fill', points: [[x, base - 1.6], [x + 10, base - 1.6], [x + 10, base + 1.6], [x, base + 1.6]], closed: true, fill: hemFill, stroke: costaInk, weight: 0.3 })
-    else lines.push({ ...key, points: [[x, base], [x + 10, base]] })
-    label(x + 12, base + 1, text.legend[index], 2.5)
-    kx += widths[index] + gap
+  // Lay legend items out by label length; a long translation wraps onto a second row
+  // instead of running into the 6 mm edge zone.
+  const widths = text.legend.map((t) => 14 + t.length * 1.75)
+  const gap = 6
+  let kx = 9,
+    ky = base
+  const place = (w: number) => {
+    if (kx > 9 && kx + w > width - 9) {
+      kx = 9
+      ky += 6.5
+    }
+    const at = [kx, ky]
+    kx += w + gap
+    return at
   }
+  for (const [index, key] of keys.entries()) {
+    const [x, y] = place(widths[index])
+    if (key.id === 'key-hem')
+      lines.push({ id: 'key-hem-fill', points: [[x, y - 1.6], [x + 10, y - 1.6], [x + 10, y + 1.6], [x, y + 1.6]], closed: true, fill: hemFill, stroke: costaInk, weight: 0.3 })
+    else lines.push({ ...key, points: [[x, y], [x + 10, y]] })
+    label(x + 12, y + 1, text.legend[index], textMm.min)
+  }
+  const [bx, by] = place(widths[5])
   lines.push(
-    { id: 'key-balance-ring', points: circle(kx + 5, base, 2.2), closed: true, fill: halo, stroke: clipInk, weight: 0.55 },
-    { id: 'key-balance-dot', points: circle(kx + 5, base, 0.8, 12), closed: true, fill: clipInk },
+    { id: 'key-balance-ring', points: circle(bx + 5, by, 2.2), closed: true, fill: halo, stroke: clipInk, weight: 0.55 },
+    { id: 'key-balance-dot', points: circle(bx + 5, by, 0.8, 12), closed: true, fill: clipInk },
   )
-  label(kx + 12, base + 1, text.legend[5], 2.5)
+  label(bx + 12, by + 1, text.legend[5], textMm.min)
 
-  const ry = base + 10
-  lines.push({ id: 'ruler', points: [[9, ry], [59, ry]], stroke: dark, weight: 0.44 })
-  for (let mm = 0; mm <= 50; mm += 5)
-    lines.push({ id: 'ruler-tick-' + mm, points: [[9 + mm, ry], [9 + mm, mm % 10 === 0 ? ry - 2.8 : ry - 1.7]], stroke: dark, weight: 0.32 })
-  label(62, ry + 0.5, '50 mm  ·  ' + text.print, 2.6)
-
-  label(9, ry + 8, text.paperTitle, 3.2, clipInk)
-  let y = ry + 12.5
+  const ry = ky + 10
+  const cal = calibration(9, ry, plan.locale, { note: false })
+  lines.push(...cal.lines)
+  labels.push(...(cal.labels as PrintLabel[]))
+  label(73, ry + 0.5, text.print, textMm.min)
+  label(9, ry + 8, text.paperTitle, textMm.body, dark, 'bold')
+  let y = ry + 13
   for (const line of [text.paper('120'), text.grain, text.clips(recommended.clips)]) {
     for (const part of wrap(line, 95)) {
-      label(9, y, part, 2.45)
-      y += 3.3
+      label(9, y, part, textMm.min)
+      y += 4.2
     }
   }
   for (const part of wrap(text.predicted(plan), 95)) {
-    label(9, y, part, 2.25, '#5B5866')
-    y += 3.1
+    label(9, y, part, textMm.min, muted)
+    y += 4.2
   }
 
   // Tip-height strip: a cut-out card. Its line sits at body depth + tip rise above the table.
@@ -576,13 +592,13 @@ export function k2CutPage(plan: K2Plan): Drawing {
   const tipLine = stripH - (plan.keel_depth_mm + plan.tip_height_mm)
   lines.push(
     { id: 'strip-cut', points: [[sx, sy], [sx + stripW, sy], [sx + stripW, sy + stripH], [sx, sy + stripH]], closed: true, stroke: dark, weight: 0.52 },
-    { id: 'strip-body', points: [[sx, sy + stripH - plan.keel_depth_mm], [sx + stripW, sy + stripH - plan.keel_depth_mm]], stroke: '#8A8696', weight: 0.35, dash: [0.8, 0.8] },
+    { id: 'strip-body', points: [[sx, sy + stripH - plan.keel_depth_mm], [sx + stripW, sy + stripH - plan.keel_depth_mm]], stroke: muted, weight: 0.35, dash: [0.8, 0.8] },
     { id: 'strip-tip', points: [[sx - 1.5, sy + tipLine], [sx + stripW + 1.5, sy + tipLine]], stroke: clipInk, weight: 0.8 },
   )
   label(sx, sy - 2.5, text.strip, 3, clipInk)
   label(sx + stripW + 3, sy + tipLine + 1, text.stripLine, 2.5, clipInk)
-  for (const [i, part] of wrap(text.stripHelp(plan.tip_height_mm), 30).entries())
-    label(sx + stripW + 3, sy + tipLine + 6 + i * 3.1, part, 2.3)
+  for (const [i, part] of wrap(text.stripHelp(plan.tip_height_mm), 22).entries())
+    label(sx + stripW + 3, sy + tipLine + 6 + i * 4.2, part, textMm.min)
 
   label(9, height - printSafeMm - 1.5, 'Open Flight  /  CERN-OHL-W-2.0  /  CC BY-SA 4.0  /  K2', 2.2)
   return { width, height, lines, labels }
@@ -615,7 +631,7 @@ function stepPicture(index: number, plan: K2Plan): Line[] {
     draw('hem', [[4, 13.2], [14, 13.2]], costaInk, 0.6)
     draw('bend', [[4, 12], [3.2, 12.6], [4, 13.2]], costaInk, 0.6)
     arrow('turn', [[10, 6], [5, 6.5], [2.6, 9.5]])
-    draw('front', [[1, 18], [6, 18]], '#8A8696', 0.3)
+    draw('front', [[1, 18], [6, 18]], muted, 0.3)
   } else if (index === 3) {
     // Tail view: T with the doubled body underneath.
     draw('left', [[3, 6], [19.4, 6]], dark, 0.6)
@@ -627,22 +643,22 @@ function stepPicture(index: number, plan: K2Plan): Line[] {
     // Side view of the head with two clips.
     draw('body', [[2, 6], [38, 6], [38, 14], [2, 14]], centerInk, 0.5, { closed: true })
     draw('zone', [[3, 7], [16, 7], [16, 13], [3, 13]], clipInk, 0.35, { closed: true, dash: [1, 0.7] })
-    draw('clip1', [[2, 8], [14, 8], [14.8, 9], [14.8, 11], [14, 12], [4, 12], [3.3, 11], [3.3, 10], [12, 10]], '#59606A', 0.5)
-    draw('clip2', [[2, 7.4], [15, 7.4], [15.8, 8.6], [15.8, 11.4], [15, 12.6], [2, 12.6]], '#8A919C', 0.4)
+    draw('clip1', [[2, 8], [14, 8], [14.8, 9], [14.8, 11], [14, 12], [4, 12], [3.3, 11], [3.3, 10], [12, 10]], ink, 0.5)
+    draw('clip2', [[2, 7.4], [15, 7.4], [15.8, 8.6], [15.8, 11.4], [15, 12.6], [2, 12.6]], muted, 0.4)
     arrow('push', [[24, 18], [17, 18]])
   } else if (index === 5) {
     // Balance on two fingertips (tail view).
     draw('left', [[3, 7], [19.4, 7]], dark, 0.6)
     draw('right', [[20.6, 7], [37, 7]], dark, 0.6)
     draw('keel', [[20, 7], [20, 14]], centerInk, 0.9)
-    for (const x of [12, 28]) draw('finger' + x, [[x - 2, 20], [x - 2, 9.6], [x, 7.6], [x + 2, 9.6], [x + 2, 20]], '#B07A62', 0.45)
+    for (const x of [12, 28]) draw('finger' + x, [[x - 2, 20], [x - 2, 9.6], [x, 7.6], [x + 2, 9.6], [x + 2, 20]], muted, 0.45)
   } else if (index === 6) {
     // Tail view: shallow V with the strip next to the right tip.
     const rise = 6
     draw('left', [[3, 12 - rise], [19.4, 12]], dark, 0.6)
     draw('right', [[20.6, 12], [33, 12 - rise]], dark, 0.6)
     draw('keel', [[20, 12], [20, 18.5]], centerInk, 0.9)
-    draw('table', [[1, 18.5], [39, 18.5]], '#8A8696', 0.3)
+    draw('table', [[1, 18.5], [39, 18.5]], muted, 0.3)
     draw('strip', [[35, 18.5], [35, 3], [38, 3], [38, 18.5]], dark, 0.35)
     draw('mark', [[34, 12 - rise], [39, 12 - rise]], clipInk, 0.7)
   } else {
@@ -650,7 +666,7 @@ function stepPicture(index: number, plan: K2Plan): Line[] {
     draw('wing', [[4, 14], [26, 14]], dark, 0.6)
     draw('tab', [[26, 14], [31, 12]], wingInk, 0.7)
     arrow('lift', [[33, 15], [33, 10]])
-    draw('path', [[2, 4], [12, 5], [22, 7], [36, 9]], '#8A8696', 0.3, { dash: [0.8, 0.8] })
+    draw('path', [[2, 4], [12, 5], [22, 7], [36, 9]], muted, 0.3, { dash: [0.8, 0.8] })
   }
   return L
 }
@@ -678,15 +694,15 @@ export function k2BackPage(plan: K2Plan): Drawing {
   const minY = Math.min(...flat.outline.map(([, y]) => y))
   const mirror = (line: Line): Line => ({ ...line, points: line.points.map(([x, y]): Point => [-x, y]) })
   const swap = (dash?: number[]) => (dash === valleyDash ? mountainDash : dash === mountainDash ? valleyDash : dash)
-  const sheet: Line[] = [{ id: 'back-outline', points: flat.outline.map(([x, y]): Point => [-x, y]), closed: true, stroke: '#8C8898', weight: 0.3 }]
+  const sheet: Line[] = [{ id: 'back-outline', points: flat.outline.map(([x, y]): Point => [-x, y]), closed: true, stroke: muted, weight: 0.3 }]
   for (const line of [...flat.creases, ...flat.tabs.filter((t) => t.dash), ...flat.clip]) {
     sheet.push({ ...mirror(line), id: line.id + '-back-halo', weight: 1.2, stroke: halo, dash: undefined, fill: undefined, closed: false })
     sheet.push({ ...mirror(line), id: line.id + '-back', dash: swap(line.dash) })
   }
   sheet.push(...flat.tabs.filter((t) => !t.dash).map((line) => ({ ...mirror(line), id: line.id + '-back' })))
   const lines = [...placed(sheet, width / 2, 25 - minY), ...registrationCrosses(width, true)]
-  const labels: Drawing['labels'] = [
-    { x: 40, y: 10, text: 'OPEN FLIGHT  /  K2', size: 3.2, color: clipInk },
+  const labels: PrintLabel[] = [
+    { x: 40, y: 10, text: 'Open Flight  ·  K2', size: textMm.min, color: muted, font: 'display' },
     { x: 40, y: 17.5, text: text.names[plan.species] + '  ·  ' + back.title, size: 5, color: dark },
     ...back.lines.map((line, i) => ({ x: 9, y: height - 30 + i * 4.2, text: line, size: 2.8, color: dark })),
     { x: 9, y: height - printSafeMm - 1.5, text: 'Open Flight  /  CERN-OHL-W-2.0  /  CC BY-SA 4.0  /  K2', size: 2.2, color: dark },
@@ -698,35 +714,33 @@ export function k2GuidePage(plan: K2Plan): Drawing {
   const [width, height] = pageSize[plan.paper]
   const text = words[plan.locale]
   const lines: Line[] = []
-  const labels: Drawing['labels'] = []
-  const label = (x: number, y: number, copy: string, size: number, color = dark) =>
-    labels.push({ x, y, text: copy, size, color })
-  label(9, 10, 'OPEN FLIGHT  /  K2', 3.2, clipInk)
-  label(9, 17.5, text.guide + '  ·  ' + text.names[plan.species], 5)
+  const labels: PrintLabel[] = []
+  const label = (x: number, y: number, copy: string, size: number, color = dark, font: PrintLabel['font'] = 'text') =>
+    labels.push({ x, y, text: copy, size, color, font })
+  label(9, 10, 'Open Flight  ·  K2', textMm.min, muted, 'display')
+  label(9, 18, text.guide + '  ·  ' + text.names[plan.species], textMm.title, dark, 'display')
   const cols = 4
   const colW = (width - 18) / cols
   for (const [index, step] of text.steps.entries()) {
     const x = 9 + (index % cols) * colW
     const y = 26 + Math.floor(index / cols) * ((height - 40) / 2)
     lines.push(...placed(stepPicture(index, plan), x + 2, y))
-    label(x, y + 30, `${index + 1}. ${step.title}`, 3.1)
+    label(x, y + 30, `${index + 1}. ${step.title}`, textMm.body, dark, 'bold')
     let b = y + 35
-    for (const part of wrap(step.action, 38)) {
-      label(x, b, part, 2.35)
-      b += 3.15
+    for (const part of wrap(step.action, 36)) {
+      label(x, b, part, textMm.min)
+      b += 4.1
     }
-    b += 0.6
-    for (const part of wrap(step.check, 38)) {
-      label(x, b, part, 2.35, clipInk)
-      b += 3.15
+    b += 0.8
+    for (const part of wrap(step.check, 36)) {
+      label(x, b, part, textMm.min, muted)
+      b += 4.1
     }
   }
   label(9, height - printSafeMm - 1.5, 'Open Flight  /  CERN-OHL-W-2.0  /  CC BY-SA 4.0  /  K2', 2.2)
   return { width, height, lines, labels }
 }
 
-const fontPath = new URL('../../node_modules/dejavu-fonts-ttf/ttf/DejaVuSans.ttf', import.meta.url)
-let font64: string
 export function k2Pdf(plan: K2Plan): Buffer {
   // Page 2 is the back of the cut sheet for double-sided printing; page 3 is the guide.
   const pages = [k2CutPage(plan), k2BackPage(plan), k2GuidePage(plan)]
@@ -738,12 +752,10 @@ export function k2Pdf(plan: K2Plan): Buffer {
   doc.setProperties({
     title: 'Open Flight - K2 butterfly trial',
     author: 'Open Flight contributors',
-    subject: 'Original design: CERN-OHL-W-2.0. Artwork: CC BY-SA 4.0.',
+    subject: 'Original design: CERN-OHL-W-2.0. Artwork: CC BY-SA 4.0. ' + printFontNotice,
   })
-  font64 ??= readFileSync(fontPath).toString('base64')
-  doc.addFileToVFS('DejaVuSans.ttf', font64)
-  doc.addFont('DejaVuSans.ttf', 'DejaVu', 'normal')
-  doc.setFont('DejaVu', 'normal')
+  registerFonts(doc, printFonts())
+  doc.viewerPreferences({ PrintScaling: 'None' })
   for (const [index, page] of pages.entries()) {
     if (index) doc.addPage([w, h], 'landscape')
     doc.setLineJoin('round')
@@ -751,7 +763,7 @@ export function k2Pdf(plan: K2Plan): Buffer {
       if (!line.points.length) continue
       if (line.stroke) doc.setDrawColor(line.stroke)
       if (line.fill) doc.setFillColor(line.fill)
-      doc.setLineWidth(line.weight ?? 0)
+      doc.setLineWidth(line.stroke ? atLeastLine(line.weight) : 0)
       doc.setLineDashPattern(line.dash ?? [], 0)
       doc.path(line.points.map((c, i) => ({ op: i ? 'l' : 'm', c })))
       if (line.closed) doc.close()
@@ -759,8 +771,9 @@ export function k2Pdf(plan: K2Plan): Buffer {
       else if (line.fill) doc.fill()
       else doc.stroke()
     }
-    for (const l of page.labels) {
-      doc.setFontSize((l.size * 72) / 25.4)
+    for (const l of page.labels as PrintLabel[]) {
+      useFont(doc, l.font)
+      doc.setFontSize((atLeastText(l.size) * 72) / 25.4)
       doc.setTextColor(l.color ?? dark)
       doc.text(l.text, l.x, l.y)
     }

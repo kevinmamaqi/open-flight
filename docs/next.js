@@ -1,5 +1,5 @@
-import { motorRoadmap } from './atlas-roadmap.js?v=317e8ae67356'
-import { currentLocale, homeURL, localizedLinks } from './atlas-nav.js?v=317e8ae67356'
+import { motorRoadmap } from './atlas-roadmap.js?v=5ef7606d1b32'
+import { currentLocale, homeURL, localizedLinks } from './atlas-nav.js?v=5ef7606d1b32'
 const lang = currentLocale(),
   i = { en: 0, es: 1, ru: 2 }[lang],
   t = (...v) => v[i],
@@ -60,7 +60,7 @@ for (const [i, s] of page.stages.entries()) {
         : t('Adult research', 'Investigación para adultos', 'Исследование для взрослых')) +
         ' · ' +
         (i + 1),
-      'over',
+      'eyebrow',
     ),
     el('h2', s.title),
     el('p', s.action),

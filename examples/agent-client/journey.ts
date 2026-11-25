@@ -47,10 +47,11 @@ async function http(path: string, options: RequestInit = {}) {
 }
 try {
   const tools = (await client.listTools()).tools
-  assert.equal(tools.length, 22)
+  assert.equal(tools.length, 23)
   assert.equal((await client.listResourceTemplates()).resourceTemplates.length, 1)
   const caps = await call('get_capabilities')
-  assert.equal(caps.enabled_operations.length, 23)
+  assert.equal(caps.enabled_operations.length, 24)
+  assert.ok(caps.enabled_operations.includes('getFlightObjects'))
   assert.deepEqual(caps.locales, ['en', 'ru', 'es'])
   const k1 = {settings:{species:'morpho',span_mm:168,appearance_id:'twilight',paper:'US_LETTER'},locale:'es',output:'source_json'}
   const folded = await call('plan_folded_butterfly', k1)
@@ -134,6 +135,18 @@ try {
   const circuit = await call('get_flight_circuit', { locale: 'es' })
   assert.equal(circuit.evidence, 'simulation')
   assert.deepEqual(circuit.gates.map(({ id }: { id: string }) => id), ['level', 'dip', 'turn'])
+  const objects = await call('get_flight_objects', { locale: 'es' })
+  assert.equal(objects.locale, 'es')
+  assert.equal(objects.edition, 'flight-objects-1')
+  assert.equal(objects.evidence, 'untested_open_flight_builds')
+  assert.deepEqual(objects.activities.map(({ id }: { id: string }) => id), ['ring', 'samara', 'tandem'])
+  assert.deepEqual(objects.activities.map(({ page }: { page: number }) => page), [1, 2, 3])
+  assert.deepEqual(Object.keys(objects.packets).sort(), ['A4', 'US_LETTER'])
+  assert.ok(objects.references.some(({ asset, licenseUrl }: { asset?: string; licenseUrl?: string }) =>
+    asset && licenseUrl?.startsWith('https://'),
+  ))
+  assert.equal((await call('get_flight_objects')).locale, 'en')
+  assert.equal((await invoke('get_flight_objects', { locale: 'fr' })).error.code, 'invalid_input')
   const setup = { gate: 'dip', angleOfAttackDeg: 12 }
   const flight = await call('simulate_flight', setup)
   assert.equal(flight.evidence, 'simulation')
@@ -147,7 +160,17 @@ try {
       ['/v1/motor-roadmap?locale=es', roadmap],
       ['/v1/motor-lab?locale=es', lab],
       ['/v1/flight-circuit?locale=es', circuit],
+      ['/v1/flight-objects?locale=es', objects],
     ]) assert.deepEqual(await (await http(route)).json(), expected)
+    const objectRoute = new URL('/v1/flight-objects', origin)
+    const anonymous = await fetch(objectRoute)
+    assert.equal(anonymous.status, 401)
+    const unsupportedLocale = await fetch(new URL('?locale=fr', objectRoute), {
+      headers: { Authorization: 'Bearer ' + token },
+    })
+    assert.equal(unsupportedLocale.status, 400)
+    assert.equal((await unsupportedLocale.json()).code, 'invalid_input')
+
     const simulated = await http('/v1/flight-simulation', {
       method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(setup),
     })
@@ -325,6 +348,7 @@ try {
           'K1 folded body and matched W1 sheets, editable source and calibrated span',
           'Spanish airplane field guide, fold plan and download hashes',
           'comparison, motor roadmap, flight circuit and deterministic simulation',
+          'localized Flight Objects, evidence label and input validation',
           'Spanish butterfly print and offline guide',
           'fork',
           'save',

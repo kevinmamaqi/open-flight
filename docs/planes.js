@@ -1,9 +1,9 @@
-import { foldArtwork, showFoldStep } from './fold-lesson.js?v=317e8ae67356'
-import { makePlane, planeCatalog, planeSource, sheetSizes, liveries, sheetEdges, revision } from './assets/planes/core.js?v=317e8ae67356'
-import { planeSvg, planeSpecimen, esc, stripes } from './assets/planes/drawing.js?v=317e8ae67356'
-import { foldSvg, planeGuide } from './assets/planes/guide.js?v=317e8ae67356'
-import { planeBrowserPdf } from './assets/planes/print.js?v=317e8ae67356'
-import { appearanceChoices } from './model-appearance.js?v=317e8ae67356'
+import { foldArtwork, showFoldStep } from './fold-lesson.js?v=5ef7606d1b32'
+import { makePlane, planeCatalog, planeSource, sheetSizes, liveries, sheetEdges, revision } from './assets/planes/core.js?v=5ef7606d1b32'
+import { planeSvg, planeSpecimen, esc, stripes } from './assets/planes/drawing.js?v=5ef7606d1b32'
+import { foldSvg, planeGuide } from './assets/planes/guide.js?v=5ef7606d1b32'
+import { planeBrowserPdf } from './assets/planes/print.js?v=5ef7606d1b32'
+import { appearanceChoices } from './model-appearance.js?v=5ef7606d1b32'
 
 const words = {
   fieldTitle: ['From aircraft to paper', 'От самолёта к бумаге', 'Del avión real al papel'],
@@ -154,10 +154,10 @@ const words = {
   mm: ['mm', 'мм', 'mm'],
   airplane: ['Paper airplane studio', 'Мастерская бумажных самолётов', 'Taller de aviones de papel'],
 }
-import { flightPhysics,physicsTitle } from './atlas-physics.js?v=317e8ae67356'
-import { currentLocale } from './atlas-nav.js?v=317e8ae67356'
-import { studioOrigins, bookColorAction } from './studio-origins.js?v=317e8ae67356'
-import { bookFromStudio } from './model-studio.js?v=317e8ae67356'
+import { flightPhysics,physicsTitle } from './atlas-physics.js?v=5ef7606d1b32'
+import { currentLocale, languageSwitch, localizedLinks } from './atlas-nav.js?v=5ef7606d1b32'
+import { studioOrigins, bookColorAction } from './studio-origins.js?v=5ef7606d1b32'
+import { bookFromStudio } from './model-studio.js?v=5ef7606d1b32'
 const $ = (id) => document.getElementById(id)
 const updateAtlas = studioOrigins($('origin-atlas'))
 const params = new URLSearchParams(location.search)
@@ -235,7 +235,7 @@ function translate() {
   document.querySelectorAll('[data-home]').forEach((link) => {
     link.href = { en: './', ru: './ru.html', es: './es.html' }[locale]
   })
-  $('language').value = locale
+  localizedLinks(locale)
   $('paper').options[0].textContent = 'A4 · 210 × 297 ' + tr('mm')
   $('paper').options[1].textContent = {
     en: 'US Letter · 8½ × 11 in',
@@ -415,7 +415,7 @@ function renderStep() {
 }
 async function updateViewer() {
   try {
-    loadingViewer ??= import('./flight-viewer.js?v=317e8ae67356')
+    loadingViewer ??= import('./flight-viewer.js?v=5ef7606d1b32')
       .then(({ mountFlightViewer }) => mountFlightViewer($('three')))
       .catch((error) => {
         loadingViewer = undefined
@@ -503,8 +503,8 @@ document.querySelectorAll('a[href="#fold"]').forEach((link) => {
     renderStep()
   })
 })
-$('language').addEventListener('change', (e) => {
-  locale = e.target.value
+languageSwitch((next) => {
+  locale = next
   try { sessionStorage.setItem('open-flight-language',locale) } catch {}
   translate()
   acceptDesign(plan.source)

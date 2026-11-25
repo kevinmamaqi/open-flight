@@ -17,13 +17,15 @@ node scripts/build_book_art.mjs
 
 The generator uses the local Three.js bundle and software WebGL through Chromium. All images and fonts are local. For byte-for-byte reproduction, use the same Chromium build. The script derives filenames from the sheet catalog and [shared appearance choices](../apps/editor/model-appearance.js). The site build generates corresponding thumbnails and lists every render in `assets/book/art-catalog.json`.
 
-## Rubik fonts
+## Fonts
 
-The book’s Regular (400) and Bold (700) are static TrueType instances of Rubik 2.300 from [Google Fonts commit 765b99f8](https://github.com/google/fonts/commit/765b99f8e53c5919b24c2dac03ee16c835a9b197), packaged from [Rubik source commit e337a5f](https://github.com/googlefonts/rubik/commit/e337a5f69a9bea30e58d05bd40184d79cc099628). The [upstream OFL 1.1](../apps/editor/assets/book/Rubik-OFL.txt) ships with both fonts. Each instance keeps the full font’s Latin and Cyrillic character maps.
+Since 25 November 2026 every Open Flight PDF, the book included, uses the design system's two families. They replaced Rubik and DejaVu Sans; the b1 prototype sheet keeps DejaVu Sans because its print bytes are frozen. [Design decisions](../docs/design/DECISIONS.md)
 
-Fetch [the pinned variable TrueType file](https://github.com/google/fonts/blob/765b99f8e53c5919b24c2dac03ee16c835a9b197/ofl/rubik/Rubik%5Bwght%5D.ttf) as `Rubik-variable.ttf`. Its SHA-256 is `1b3a7437ba2af80e465e773ed60c5036d1ba6ace492d89046dbcf18fb31e4e88`. Generate the two faces with fontTools 4.68.0:
+- **Open Flight Text** is a subset of Andika 6 by SIL International, renamed as the SIL Open Font License requires because "Andika" is a Reserved Font Name. Sources: `ofl/andika/Andika-Regular.ttf` (SHA-256 `202b96b1f174a4a43baefe885b40dacacb81786755efd08ed4b7704e79c45515`), `Andika-Bold.ttf` (`4361126189a2d0e0da66999352db58aaf1b4ca940faf8a8239d725f8303d890d`) and `Andika-Italic.ttf` (`6a4a0dd26d28f577b51dd6afb5acf6fd91ab21694e25649c270a32179bb52a62`) from [Google Fonts commit fffdadf0](https://github.com/google/fonts/tree/fffdadf0f0c9cc1ec8b407063424a8bfbee05611/ofl/andika).
+- **Alegreya** Bold (wght 700) and Italic (wght 400) are static instances of `ofl/alegreya/Alegreya[wght].ttf` (`ba5564634b93a8f8ba57b48cd4f1ae7417d2b4656fbac779028679b00de3cf12`) and `Alegreya-Italic[wght].ttf` (`fa915eec76227935dc5fb678953c94b71287c360928013cfdb441dfe52f5a391`) from [Google Fonts commit 1b1793b5](https://github.com/google/fonts/tree/1b1793b59eba8d074e6fb720cdc95106e4a128ec/ofl/alegreya).
+
+Both are subset to Latin, Spanish and Cyrillic and written as TrueType (for jsPDF) and WOFF2 (for the site) with fontTools 4.60.1:
 
 ```sh
-python -m fontTools.varLib.instancer Rubik-variable.ttf wght=400 --update-name-table -o apps/editor/assets/book/Rubik-Regular.ttf
-python -m fontTools.varLib.instancer Rubik-variable.ttf wght=700 --update-name-table -o apps/editor/assets/book/Rubik-Bold.ttf
+python scripts/brand/subset_fonts.py <downloaded ofl folder> apps/editor/assets/fonts <charset file>
 ```

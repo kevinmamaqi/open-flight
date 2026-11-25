@@ -1,9 +1,9 @@
-import { ru, es } from './atlas-copy.js?v=317e8ae67356'
-import { currentLocale, homeURL, localizedLinks } from './atlas-nav.js?v=317e8ae67356'
-import { fieldModel, studioLink, foldedLink } from './atlas-guide.js?v=317e8ae67356'
-import { sheetIdFor, sheetPath } from './family-sheets.js?v=317e8ae67356'
-import { normalizeBook } from './book-model.js?v=317e8ae67356'
-import { recordBookEvent } from './book-metrics.js?v=317e8ae67356'
+import { ru, es } from './atlas-copy.js?v=5ef7606d1b32'
+import { currentLocale, homeURL, localizedLinks } from './atlas-nav.js?v=5ef7606d1b32'
+import { fieldModel, studioLink, foldedLink } from './atlas-guide.js?v=5ef7606d1b32'
+import { sheetIdFor, sheetPath } from './family-sheets.js?v=5ef7606d1b32'
+import { normalizeBook } from './book-model.js?v=5ef7606d1b32'
+import { recordBookEvent } from './book-metrics.js?v=5ef7606d1b32'
 
 const assetVersion = new URL(import.meta.url).search
 const fragment = new URLSearchParams(location.hash.slice(1))
@@ -65,6 +65,7 @@ $('flight-link').href = studioLink('boeing-747', lang, true)
 $('references').href = './references.html?lang=' + lang
 $('motor-link').href = './motor.html?lang=' + lang
 $('classroom-link').href = './classroom.html?lang=' + lang
+$('objects-link').href = './flight-objects.html?lang=' + lang
 $('lesson-file').href = './library/family-lesson-' + lang + '.html'
 const order = [
   'monarch',

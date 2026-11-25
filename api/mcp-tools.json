@@ -62,11 +62,12 @@
                         "simulateFlight",
                         "planFoldedButterfly",
                         "renderFamilyBook",
-                        "getMotorLab"
+                        "getMotorLab",
+                        "getFlightObjects"
                       ]
                     },
                     "uniqueItems": true,
-                    "maxItems": 23
+                    "maxItems": 24
                   },
                   "transports": {
                     "type": "array",
@@ -9000,6 +9001,357 @@
       "x-http": {
         "method": "GET",
         "path": "/v1/motor-lab",
+        "argumentBindings": {
+          "locale": {
+            "in": "query",
+            "name": "locale"
+          }
+        }
+      },
+      "x-required-scopes": [
+        "openflight:designs:read"
+      ]
+    },
+    {
+      "name": "openflight_get_flight_objects",
+      "title": "Read the flight object activities",
+      "description": "Return localized paper flyer activities, printable packet paths, source notes and the evidence status of the Open Flight builds.",
+      "inputSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "locale": {
+            "type": "string",
+            "enum": [
+              "en",
+              "ru",
+              "es"
+            ],
+            "default": "en"
+          }
+        },
+        "required": []
+      },
+      "outputSchema": {
+        "type": "object",
+        "oneOf": [
+          {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "ok": {
+                "const": true
+              },
+              "data": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "locale": {
+                    "type": "string",
+                    "enum": [
+                      "en",
+                      "ru",
+                      "es"
+                    ]
+                  },
+                  "edition": {
+                    "const": "flight-objects-1"
+                  },
+                  "evidence": {
+                    "const": "untested_open_flight_builds"
+                  },
+                  "packets": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                      "A4": {
+                        "type": "string",
+                        "minLength": 1,
+                        "description": "Path relative to the workshop root."
+                      },
+                      "US_LETTER": {
+                        "type": "string",
+                        "minLength": 1,
+                        "description": "Path relative to the workshop root."
+                      }
+                    },
+                    "required": [
+                      "A4",
+                      "US_LETTER"
+                    ]
+                  },
+                  "activities": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "properties": {
+                        "id": {
+                          "type": "string",
+                          "minLength": 1
+                        },
+                        "revision": {
+                          "type": "string",
+                          "minLength": 1
+                        },
+                        "motion": {
+                          "type": "string",
+                          "minLength": 1
+                        },
+                        "sheet": {
+                          "type": "string",
+                          "minLength": 1
+                        },
+                        "page": {
+                          "type": "integer",
+                          "minimum": 1
+                        },
+                        "illustration": {
+                          "type": "string",
+                          "minLength": 1,
+                          "description": "Path relative to the workshop root."
+                        },
+                        "source": {
+                          "type": "object",
+                          "additionalProperties": false,
+                          "properties": {
+                            "label": {
+                              "type": "string",
+                              "minLength": 1
+                            },
+                            "url": {
+                              "type": "string",
+                              "minLength": 1,
+                              "format": "uri"
+                            }
+                          },
+                          "required": [
+                            "label",
+                            "url"
+                          ]
+                        },
+                        "title": {
+                          "type": "string",
+                          "minLength": 1
+                        },
+                        "verb": {
+                          "type": "string",
+                          "minLength": 1
+                        },
+                        "question": {
+                          "type": "string",
+                          "minLength": 1
+                        },
+                        "materials": {
+                          "type": "string",
+                          "minLength": 1
+                        },
+                        "steps": {
+                          "type": "array",
+                          "minItems": 1,
+                          "items": {
+                            "type": "string",
+                            "minLength": 1
+                          }
+                        },
+                        "test": {
+                          "type": "string",
+                          "minLength": 1
+                        },
+                        "physics": {
+                          "type": "string",
+                          "minLength": 1
+                        },
+                        "measure": {
+                          "type": "string",
+                          "minLength": 1
+                        },
+                        "recovery": {
+                          "type": "string",
+                          "minLength": 1
+                        }
+                      },
+                      "required": [
+                        "id",
+                        "revision",
+                        "motion",
+                        "sheet",
+                        "page",
+                        "illustration",
+                        "source",
+                        "title",
+                        "verb",
+                        "question",
+                        "materials",
+                        "steps",
+                        "test",
+                        "physics",
+                        "measure",
+                        "recovery"
+                      ]
+                    }
+                  },
+                  "references": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "properties": {
+                        "title": {
+                          "type": "string",
+                          "minLength": 1
+                        },
+                        "creator": {
+                          "type": "string",
+                          "minLength": 1
+                        },
+                        "url": {
+                          "type": "string",
+                          "minLength": 1,
+                          "format": "uri"
+                        },
+                        "policy": {
+                          "type": "string",
+                          "minLength": 1
+                        },
+                        "motion": {
+                          "type": "string",
+                          "minLength": 1
+                        },
+                        "asset": {
+                          "type": "string",
+                          "minLength": 1,
+                          "description": "Local image path relative to the workshop root."
+                        },
+                        "licenseUrl": {
+                          "type": "string",
+                          "format": "uri",
+                          "pattern": "^https://"
+                        }
+                      },
+                      "required": [
+                        "title",
+                        "creator",
+                        "url",
+                        "policy",
+                        "motion"
+                      ],
+                      "dependentRequired": {
+                        "asset": [
+                          "licenseUrl"
+                        ],
+                        "licenseUrl": [
+                          "asset"
+                        ]
+                      }
+                    }
+                  }
+                },
+                "required": [
+                  "locale",
+                  "edition",
+                  "evidence",
+                  "packets",
+                  "activities",
+                  "references"
+                ]
+              }
+            },
+            "required": [
+              "ok",
+              "data"
+            ]
+          },
+          {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "ok": {
+                "const": false
+              },
+              "error": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "code": {
+                    "enum": [
+                      "invalid_input",
+                      "unauthenticated",
+                      "forbidden",
+                      "not_found",
+                      "revision_conflict",
+                      "idempotency_conflict",
+                      "rate_limited",
+                      "quota_exceeded",
+                      "unsupported_capability",
+                      "job_failed",
+                      "internal_error"
+                    ]
+                  },
+                  "message": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 2000
+                  },
+                  "request_id": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 128
+                  },
+                  "retryable": {
+                    "type": "boolean"
+                  },
+                  "details": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "properties": {
+                        "field": {
+                          "type": "string",
+                          "minLength": 1,
+                          "maxLength": 160
+                        },
+                        "reason": {
+                          "type": "string",
+                          "minLength": 1,
+                          "maxLength": 500
+                        }
+                      },
+                      "required": [
+                        "field",
+                        "reason"
+                      ]
+                    },
+                    "minItems": 0,
+                    "maxItems": 20
+                  }
+                },
+                "required": [
+                  "code",
+                  "message",
+                  "request_id",
+                  "retryable"
+                ]
+              }
+            },
+            "required": [
+              "ok",
+              "error"
+            ]
+          }
+        ]
+      },
+      "annotations": {
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": false
+      },
+      "x-operationId": "getFlightObjects",
+      "x-http": {
+        "method": "GET",
+        "path": "/v1/flight-objects",
         "argumentBindings": {
           "locale": {
             "in": "query",

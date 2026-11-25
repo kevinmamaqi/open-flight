@@ -1,4 +1,5 @@
 import { planePdfBytes } from './pdf.js'
+import { fontFiles } from '../brand/print.js'
 
 let pdfLibrary, typeface
 
@@ -18,21 +19,23 @@ function pdfScripts() {
   return pdfLibrary
 }
 
+// The three faces embedded in every Open Flight PDF (see assets/brand/print.js).
 function fontData() {
-  typeface ??= Promise.all([
-    fetch(new URL('./vendor/DejaVuSans.ttf', import.meta.url)),
-    fetch(new URL('./vendor/DejaVu-LICENSE.txt', import.meta.url)),
-  ])
-    .then(([font, notice]) => {
-      if (!font.ok || !notice.ok) throw Error('PDF typeface')
-      return Promise.all([font.arrayBuffer(), notice.text()])
-    })
-    .then(([bytes, notice]) => {
-      const raw = new Uint8Array(bytes)
-      let binary = ''
-      for (let i = 0; i < raw.length; i += 16384) binary += String.fromCharCode(...raw.subarray(i, i + 16384))
-      return { base64: btoa(binary), notice }
-    })
+  const base64 = (bytes) => {
+    const raw = new Uint8Array(bytes)
+    let binary = ''
+    for (let i = 0; i < raw.length; i += 16384) binary += String.fromCharCode(...raw.subarray(i, i + 16384))
+    return btoa(binary)
+  }
+  typeface ??= Promise.all(
+    Object.entries(fontFiles).map(([key, path]) =>
+      fetch(new URL('../../' + path, import.meta.url)).then((response) => {
+        if (!response.ok) throw Error('PDF typeface')
+        return response.arrayBuffer().then((bytes) => [key, base64(bytes)])
+      }),
+    ),
+  )
+    .then(Object.fromEntries)
     .catch((error) => {
       typeface = undefined
       throw error
@@ -41,6 +44,6 @@ function fontData() {
 }
 
 export async function planeBrowserPdf(plan) {
-  const [JsPDF, font] = await Promise.all([pdfScripts(), fontData()])
-  return planePdfBytes(plan, JsPDF, font.base64, font.notice)
+  const [JsPDF, fonts] = await Promise.all([pdfScripts(), fontData()])
+  return planePdfBytes(plan, JsPDF, fonts)
 }

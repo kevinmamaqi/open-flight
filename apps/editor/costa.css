@@ -1,5 +1,5 @@
 .costa-main {
-  padding-block: 24px 56px;
+  padding-block: var(--space-5) var(--space-7);
 }
 .costa-intro {
   max-width: 62ch;
@@ -7,16 +7,16 @@
 .costa-grid {
   display: grid;
   grid-template-columns: minmax(0, 2fr) minmax(240px, 1fr);
-  gap: 20px;
+  gap: var(--space-4);
   align-items: start;
-  margin-block: 18px;
+  margin-block: var(--space-4);
 }
 .costa-finished {
   margin: 0;
-  padding: 12px;
-  border: 1px solid var(--rule, #d8d2c3);
-  border-radius: 6px;
-  background: #fffef7;
+  padding: var(--space-3);
+  border: 1px solid var(--color-rule);
+  border-radius: var(--radius-md);
+  background: var(--color-surface);
 }
 .costa-finished svg {
   display: block;
@@ -25,78 +25,53 @@
   max-height: 420px;
 }
 .costa-finished figcaption {
-  font-size: 0.85rem;
-  color: #4f5d5a;
+  font-size: var(--text-xs);
+  color: var(--color-text-muted);
 }
 .costa-controls {
   display: grid;
-  gap: 6px;
+  gap: var(--space-1);
 }
 .costa-controls label {
-  margin-top: 6px;
-  font-weight: 600;
+  margin-top: var(--space-1);
+  font-weight: var(--weight-bold);
 }
 .costa-controls .button {
-  margin-top: 10px;
+  margin-top: var(--space-2);
   text-align: center;
 }
 .costa-facts dl {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
-  gap: 10px;
+  gap: var(--space-2);
   margin: 0;
 }
 .costa-facts dl div {
-  padding: 10px;
-  border: 1px solid var(--rule, #d8d2c3);
-  border-radius: 6px;
-  background: #fff;
+  padding: var(--space-2);
+  border: 1px solid var(--color-rule);
+  border-radius: var(--radius-md);
+  background: var(--color-surface);
 }
 .costa-facts dt {
-  font-size: 0.8rem;
-  color: #4f5d5a;
+  font-size: var(--text-xs);
+  color: var(--color-text-muted);
 }
 .costa-facts dd {
   margin: 2px 0 0;
-  font-size: 1.05rem;
-  font-weight: 600;
+  font-size: var(--text-sm);
+  font-weight: var(--weight-bold);
 }
 .sheet-preview svg {
   display: block;
   width: 100%;
   height: auto;
-  background: #fff;
-  border: 1px solid var(--rule, #d8d2c3);
+  background: var(--color-surface);
+  border: 1px solid var(--color-rule);
 }
 @media (max-width: 720px) {
   .costa-grid {
     grid-template-columns: 1fr;
   }
-}
-.costa-controls .button {
-  display: inline-flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 43px;
-  padding: 10px 16px;
-  border: 1px solid var(--line, #c9c2b1);
-  border-radius: 9px;
-  font: inherit;
-  font-weight: 600;
-  text-decoration: none;
-  cursor: pointer;
-}
-.costa-controls .button.primary {
-  background: var(--green, #13594a);
-  border-color: var(--green, #13594a);
-  color: #fff;
-}
-.costa-controls .button.primary:hover {
-  background: #0d493a;
-}
-.costa-controls .button.secondary {
-  background: var(--card, #fffef7);
-  color: inherit;
 }
 .costa-controls select,
 .costa-controls input[type='range'] {

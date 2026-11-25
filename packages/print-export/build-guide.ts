@@ -2,6 +2,7 @@ import { readFileSync } from 'node:fs'
 import type { GuideEntry } from '../product-core/content.ts'
 import { workshopModels, wingtipHeight, type WorkshopParameters } from '../geometry/workshop.ts'
 import type { Paper, Locale } from './sheets.ts'
+import { documentCss } from '../../apps/editor/assets/brand/print.js'
 
 const words = {
   en: {
@@ -144,18 +145,7 @@ export function pictureGuide(entry: GuideEntry, revision: Revision, paper: Paper
     model = escape(revision.ref.design_id) + ' / ' + escape(revision.ref.revision_id)
   return `<!doctype html><html lang="${locale}"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>${title} · ${t.title} · Open Flight</title><style>
-@page{size:${paper === 'A4' ? 'A4' : 'Letter'};margin:13mm}*{box-sizing:border-box}
-body{background:#f2eee7;color:#29233a;font:16px/1.45 system-ui,sans-serif;margin:0}
-article{max-width:780px;margin:20px auto;padding:32px 38px;background:white;border-radius:16px}
-header{display:flex;align-items:center;justify-content:space-between;font-size:.8em;font-weight:700;color:#5e456d;border-bottom:2px solid #604479;padding-bottom:8px}
-h1{font-size:2.5em;margin:14px 0 0;line-height:1.04}h2{font-size:1.45em;margin:17px 0 8px}h3{font-size:1.05em;margin:0}p{margin:4px 0 9px}
-dl{display:grid;grid-template-columns:repeat(4,1fr);border:1px solid #bfb3c6;border-radius:9px;padding:10px 12px;margin:14px 0 4px;gap:9px}
-dt{font-size:.75em}dd{font-size:1em;font-weight:700;margin:0}.step{display:grid;grid-template-columns:28px 1fr 34%;gap:11px;align-items:center;padding:10px 0;border-bottom:1px solid #dfd9e3;break-inside:avoid}
-.number{display:grid;place-items:center;border:1px solid #7c5791;border-radius:50%;width:26px;height:26px;font-weight:700;color:#603979}.step img{display:block;width:100%;height:83px;object-fit:contain}
-.nature{display:flex;align-items:center;gap:15px;margin-top:16px}.photo{width:28%;height:95px;border-radius:8px;object-fit:cover}
-footer{font-size:.74em;color:#50485b;margin-top:11px;overflow-wrap:anywhere} a{color:#543474}
-@media(max-width:540px){article{padding:16px;margin:8px}dl{grid-template-columns:1fr 1fr}.step{grid-template-columns:25px 1fr}.step img{grid-column:2}.nature{align-items:flex-start}}
-@media print{body{background:white;font-size:10.5pt}article{max-width:none;margin:0;padding:0;break-after:page}article:last-of-type{break-after:auto}.step{padding:3.5mm 0}.step img{height:24mm}.nature img{height:24mm}h1{font-size:26pt}}
+${documentCss({ paper })}
 </style><article><header><b>Open Flight</b><span>${t.title} · 1 / 2</span></header>
 <h1>${title}</h1><p><i>${escape(entry.scientific_name)}</i></p><dl>${settings}</dl><p>${t.look}</p>
 <h2>${t.folds}</h2>${steps.slice(0, 3).join('')}

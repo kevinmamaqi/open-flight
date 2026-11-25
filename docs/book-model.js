@@ -1,6 +1,6 @@
-import { appearanceChoices, appearanceArtPath, appearanceArtStyles } from './model-appearance.js?v=317e8ae67356'
-import { paperSizes, sheetCatalog, sheetIdFor, sheetLocales } from './family-sheets.js?v=317e8ae67356'
-import { sheetEdges } from './assets/print-faces.js?v=317e8ae67356'
+import { appearanceChoices, appearanceArtPath, appearanceArtStyles } from './model-appearance.js?v=5ef7606d1b32'
+import { paperSizes, sheetCatalog, sheetIdFor, sheetLocales } from './family-sheets.js?v=5ef7606d1b32'
+import { sheetEdges } from './assets/print-faces.js?v=5ef7606d1b32'
 
 const entries = new Map(sheetCatalog.map(item => [item.id, item]))
 const titles = { en: 'Flight Book', es: 'Libro de vuelo', ru: 'Книга полётов' }

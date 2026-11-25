@@ -1,0 +1,185 @@
+/*
+ * Open Flight design tokens: the single source of truth for colour, type, spacing,
+ * radius, line weight, motion and print. Components use only the semantic layer.
+ * scripts/build_tokens.mjs copies these values to assets/brand/tokens.js for the
+ * PDF generators; `npm test` fails if the two disagree. Read DESIGN.md first.
+ */
+:root {
+  /* ---------- Raw palette: paper, graphite and two inks. Never use these in components. ---------- */
+  --of-paper: #fbf9f4; /* uncoated paper; page background */
+  --of-sheet: #ffffff; /* a fresh printed sheet; raised surfaces */
+  --of-vellum: #f2eee5; /* sunken areas, tracks */
+  --of-crease: #dcd5c6; /* decorative rules, grid */
+  --of-pencil: #7c858c; /* control borders (3:1 on paper) */
+  --of-graphite: #4d5862; /* secondary text (6.9:1 on paper) */
+  --of-ink: #1d2731; /* text and cut lines (14.4:1 on paper) */
+  --of-sky-800: #1d4a75; /* air-blue: information, links, selection */
+  --of-sky-600: #2e6ca4; /* focus ring, hover lines */
+  --of-sky-200: #c5d6e6; /* the reverse face of paper in diagrams */
+  --of-sky-100: #e2ecf5; /* selected tint */
+  --of-sky-50: #f0f5fa; /* drawing stage */
+  --of-kite-700: #a63a21; /* vermilion text, pressed action */
+  --of-kite-600: #b9452a; /* the next action */
+  --of-kite-500: #d2552f; /* marks and large graphics only */
+  --of-kite-100: #fae5dc; /* attention tint */
+  --of-meadow-700: #33704d; /* observed, done */
+  --of-meadow-100: #e2efe5;
+  --of-sun-600: #87590f; /* caution text */
+  --of-sun-400: #e3a83a; /* highlight marks: predictions, calibration */
+  --of-sun-100: #faefd6;
+  --of-black: #000000; /* print text and cut lines: black toner only */
+  --of-white: #ffffff;
+
+  /* ---------- Semantic colour roles ---------- */
+  --color-page: var(--of-paper);
+  --color-surface: var(--of-sheet);
+  --color-surface-sunken: var(--of-vellum);
+  --color-surface-stage: var(--of-sky-50);
+  --color-surface-selected: var(--of-sky-100);
+  --color-surface-attention: var(--of-kite-100);
+  --color-surface-success: var(--of-meadow-100);
+  --color-surface-caution: var(--of-sun-100);
+  --color-surface-inverse: var(--of-ink);
+
+  --color-text: var(--of-ink);
+  --color-text-muted: var(--of-graphite);
+  --color-text-inverse: var(--of-white);
+  --color-text-link: var(--of-sky-800);
+  --color-text-accent: var(--of-kite-700);
+  --color-text-success: var(--of-meadow-700);
+  --color-text-caution: var(--of-sun-600);
+  --color-text-danger: var(--of-kite-700);
+
+  --color-rule: var(--of-crease);
+  --color-border: var(--of-pencil);
+  --color-border-strong: var(--of-ink);
+  --color-grid: var(--of-crease);
+
+  --color-action: var(--of-kite-600);
+  --color-action-hover: var(--of-kite-700);
+  --color-action-text: var(--of-white);
+  --color-selected: var(--of-sky-800);
+  --color-selected-text: var(--of-white);
+  --color-focus: var(--of-sky-600);
+  --color-mark: var(--of-kite-500);
+  --color-highlight: var(--of-sun-400);
+  --color-scrim: color-mix(in srgb, var(--of-ink) 40%, transparent);
+  --color-shadow: color-mix(in srgb, var(--of-ink) 22%, transparent);
+
+  /* Two things compared side by side. Distinct in grayscale (L* 30 / 52) and always also labelled A / B. */
+  --color-series-a: var(--of-sky-800);
+  --color-series-b: var(--of-kite-500);
+  --color-series-c: var(--of-meadow-700);
+  --color-series-d: var(--of-sun-400);
+
+  /* Fold notation, on screen and paper. Meaning is carried by the line style; colour only helps. */
+  --color-line-cut: var(--of-ink);
+  --color-line-valley: var(--of-sky-800);
+  --color-line-mountain: var(--of-kite-700);
+  --color-line-guide: var(--of-pencil);
+
+  /* Fold diagrams: the faces of the sheet, told apart by lightness (L* 100 / 85 / 73) and named by tone. */
+  --color-diagram-front: var(--of-sheet);
+  --color-diagram-back: var(--of-sky-200);
+  --color-diagram-moving: var(--of-sun-400);
+  --color-diagram-arrow: var(--of-kite-700);
+  --color-diagram-ink: var(--of-ink);
+
+  /* Brand mark colours (identity SVGs repeat these values; npm test checks them). */
+  --color-brand-ink: var(--of-ink);
+  --color-brand-kite: var(--of-kite-600);
+  --color-brand-sheet: var(--of-sheet);
+
+  /* ---------- Type ---------- */
+  --font-text: 'Open Flight Text', 'Andika', system-ui, sans-serif;
+  --font-display: 'Alegreya', Georgia, serif;
+  --weight-regular: 400;
+  --weight-bold: 700;
+
+  /* Screen scale, rem. 14 px is the smallest text anywhere. */
+  --text-xs: 0.875rem; /* 14 px: labels, captions, meta */
+  --text-sm: 1rem; /* 16 px: controls, dense UI */
+  --text-md: 1.125rem; /* 18 px: body */
+  --text-lg: 1.375rem; /* 22 px: lead paragraphs, card titles */
+  --text-xl: 1.75rem; /* 28 px: section titles */
+  --text-2xl: clamp(2rem, 1.6rem + 1.6vw, 2.5rem); /* 32–40 px: page titles */
+  --text-3xl: clamp(2.5rem, 1.7rem + 3.4vw, 4rem); /* 40–64 px: home headline */
+  --leading-tight: 1.08;
+  --leading-snug: 1.25;
+  --leading-body: 1.55;
+  --tracking-label: 0.06em;
+  --measure: 62ch;
+
+  /* ---------- Space (4 px base) ---------- */
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.5rem;
+  --space-6: 2rem;
+  --space-7: 3rem;
+  --space-8: 4rem;
+  --space-9: 6rem;
+
+  /* ---------- Size ---------- */
+  --size-target: 44px; /* minimum touch target */
+  --size-icon: 1.25rem;
+  --size-page: 76rem;
+  --size-gutter: clamp(1rem, 4vw, 2.5rem);
+
+  /* ---------- Radius: paper is crisp; only controls soften. ---------- */
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --radius-round: 999px;
+
+  /* ---------- Line weight (screen) ---------- */
+  --line-hair: 1px;
+  --line-control: 1.5px;
+  --line-strong: 2px;
+  --line-focus: 3px;
+  --dash-valley: 6 4;
+  --dash-mountain: 6 3 1.5 3;
+  --dash-guide: 1.5 4;
+
+  /* ---------- Elevation: a sheet lifted off the table ---------- */
+  --shadow-sheet: 0 1px 0 var(--color-rule), 0 8px 20px -14px var(--color-shadow);
+  --shadow-float: 0 14px 36px -12px var(--color-shadow);
+
+  /* ---------- Motion ---------- */
+  --duration-quick: 120ms;
+  --duration-base: 220ms;
+  --duration-slow: 420ms;
+  --ease-standard: cubic-bezier(0.2, 0, 0, 1);
+  --ease-glide: cubic-bezier(0.22, 0.8, 0.3, 1);
+
+  /* ---------- Paper (print) ---------- */
+  --print-paper: var(--of-white);
+  --print-ink: var(--of-black);
+  --print-muted: var(--of-graphite);
+  --print-text-min: 9pt; /* nothing smaller on paper */
+  --print-text-body: 10.5pt;
+  --print-text-step: 12pt;
+  --print-text-title: 18pt;
+  --print-text-display: 24pt;
+  --print-leading: 1.35;
+  --print-line-min: 0.3mm; /* nothing thinner on paper */
+  --print-line-css: 2px; /* browsers snap borders to whole pixels: 1px prints at 0.26 mm, 2px at 0.53 mm */
+  --print-line-fold: 0.35mm;
+  --print-line-cut: 0.5mm;
+  --print-dash-valley: 3mm 1.5mm;
+  --print-dash-mountain: 3mm 1mm 0.4mm 1mm;
+  --print-dash-guide: 0.4mm 1.2mm;
+  --print-safe: 6mm; /* nothing important closer to the paper edge */
+  --print-margin: 12mm;
+  --print-calibration: 50mm;
+  --print-brand-max: 25mm; /* widest the wordmark may be on a sheet */
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --duration-quick: 0ms;
+    --duration-base: 0ms;
+    --duration-slow: 0ms;
+  }
+}

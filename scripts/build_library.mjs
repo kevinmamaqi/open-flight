@@ -14,6 +14,7 @@ import { workshopModels } from "../packages/geometry/workshop.ts";
 import { makeFoldedButterfly, foldedPdf } from "../packages/folded-butterfly/index.ts";
 import { makePlane, planePdf, planeCatalog } from "../packages/planes/index.ts";
 import { makeK2, k2Pdf } from "../packages/folded-butterfly/k2-sheet.ts";
+import { calibrationHtml, documentCss } from "../apps/editor/assets/brand/print.js";
 
 const root = fileURLToPath(new URL("../", import.meta.url));
 const editor = join(root, "apps/editor"),
@@ -80,12 +81,15 @@ for (const locale of sheetLocales) {
       locale +
       '"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>' +
       title +
-      ' · Open Flight</title><style>body{font:17px/1.5 system-ui;color:#173d34;max-width:46rem;margin:auto;padding:1.4em}h1{line-height:1.1}li{margin:.6em 0}table{border-collapse:collapse;width:100%}td,th{border:1px solid #789487;padding:.5em}a{color:#105e76}@media(max-width:480px){body{padding:1em}table{font-size:.86rem}td,th{padding:.3em}th:first-child{width:32%}}@media print{body{font-size:11pt;padding:0}a{color:inherit}table{break-inside:avoid}}</style><header><a href="https://kevinmamaqi.github.io/open-flight/' +
+      ' · Open Flight</title><style>' +
+      documentCss({ fontsBase: '../assets/fonts/' }) +
+      '</style><main><header><a href="https://kevinmamaqi.github.io/open-flight/' +
       home +
-      '">Open Flight</a></header><main><h1>' +
+      '">Open Flight</a></header><h1>' +
       title +
       "</h1>" +
       body +
+      calibrationHtml(locale) +
       "</main></html>",
   );
   for (const paper of paperSizes) {

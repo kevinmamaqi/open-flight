@@ -1,7 +1,7 @@
 import http, { type IncomingMessage } from 'node:http'
 import type { AddressInfo } from 'node:net'
 import { randomBytes, timingSafeEqual } from 'node:crypto'
-import { readdirSync, readFileSync, writeFileSync, renameSync } from 'node:fs'
+import { existsSync, readdirSync, readFileSync, writeFileSync, renameSync } from 'node:fs'
 import { extname, join, relative } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { parseArgs } from 'node:util'
@@ -42,6 +42,8 @@ const publicTypes: Record<string, string> = {
   '.zip': 'application/zip',
   '.csv': 'text/csv; charset=utf-8',
   '.md': 'text/markdown; charset=utf-8',
+  '.ico': 'image/x-icon',
+  '.webmanifest': 'application/manifest+json',
 }
 const assets = new Map<string, [string, string]>([
   ['/', ['atlas.html', publicTypes['.html']]],
@@ -49,6 +51,12 @@ const assets = new Map<string, [string, string]>([
   ['/ru.html', ['ru.html', publicTypes['.html']]],
   ['/es.html', ['es.html', publicTypes['.html']]],
 ])
+// Only these two reviewed notes accompany the public activity sheets.
+for (const name of ['unusual-flyer-sources.md', 'williams-tandem.md']) {
+  const research = '../../docs/research/' + name
+  const source = existsSync(join(editorRoot, research)) ? research : '../../guides/' + name
+  assets.set('/assets/objects/' + name, [source, publicTypes['.md']])
+}
 for (const entry of readdirSync(editorRoot, {
   recursive: true,
   withFileTypes: true,
@@ -57,7 +65,7 @@ for (const entry of readdirSync(editorRoot, {
   const path = relative(editorRoot, join(entry.parentPath, entry.name))
   const mime = publicTypes[extname(path)]
   const appFile =
-    /^(?:editor|atlas|planes|references|flight|keel|costa|compare|next|browser-workshop|studio-folded|fold|family|book|classroom|model|studio-origins|appearance-sheet-browser|motor)(?:-[a-z0-9-]+)?\.(js|css|html|svg)$/.test(
+    /^(?:tokens|system|home|lab|editor|atlas|planes|references|flight|keel|costa|compare|next|browser-workshop|studio-folded|fold|family|book|classroom|model|studio-origins|appearance-sheet-browser|motor)(?:-[a-z0-9-]+)?\.(js|css|html|svg)$|^site\.webmanifest$/.test(
       path,
     )
   if (mime && (path.startsWith('assets/') || path.startsWith('library/') || appFile))

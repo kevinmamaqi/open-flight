@@ -3,6 +3,5 @@ import type { jsPDF } from 'jspdf'
 export function planePdfBytes(
   plan: PlanePlan,
   jsPdfClass: typeof jsPDF,
-  fontBase64: string,
-  fontNotice: string,
+  fonts: { text: string; bold: string; display: string },
 ): Uint8Array

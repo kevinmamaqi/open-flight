@@ -3,13 +3,13 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="theme-color" content="#f9f7ee" />
+    <meta name="theme-color" content="#fbf9f4" />
     <meta name="description" content="Un taller gratuito para niñas y niños de 5 a 12 años y quienes los acompañan. Convierte una hoja en una mariposa o un avión. Cambia un pliegue y descubre dónde aterriza." />
     <meta property="og:title" content="Open Flight · Taller de vuelo en papel" />
     <meta property="og:description" content="Un taller gratuito para niñas y niños de 5 a 12 años y quienes los acompañan. Convierte una hoja en una mariposa o un avión. Cambia un pliegue y descubre dónde aterriza." />
     <meta property="og:type" content="website" />
     <meta property="og:locale" content="es_ES" />
-    <meta property="og:image" content="https://kevinmamaqi.github.io/open-flight/assets/atlas/workshop-preview-es.png" />
+    <meta property="og:image" content="https://kevinmamaqi.github.io/open-flight/assets/brand/social-es.png" />
     <meta property="og:image:alt" content="Planeador monarca de papel en el taller Open Flight" />
     <meta name="twitter:card" content="summary_large_image" />
     <link rel="canonical" href="https://kevinmamaqi.github.io/open-flight/es.html" />
@@ -17,50 +17,53 @@
     <link rel="alternate" hreflang="en" href="https://kevinmamaqi.github.io/open-flight/?lang=en" />
     <link rel="alternate" hreflang="ru" href="https://kevinmamaqi.github.io/open-flight/ru.html" />
     <link rel="alternate" hreflang="es" href="https://kevinmamaqi.github.io/open-flight/es.html" />
-    <link rel="stylesheet" href="./atlas-nav.css?v=317e8ae67356" />
-    <link rel="stylesheet" href="./atlas-lab.css?v=317e8ae67356" />
-    <link rel="icon" type="image/svg+xml" href="./assets/wing-mark.svg" />
-    <link rel="stylesheet" href="./atlas.css?v=317e8ae67356" />
-    <script type="module" src="./atlas.js?v=317e8ae67356"></script>
+    <link rel="icon" href="./assets/brand/favicon.ico" sizes="32x32" />
+    <link rel="icon" href="./assets/brand/favicon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="./assets/brand/apple-touch-icon.png" />
+    <link rel="manifest" href="./site.webmanifest" />
+    <link rel="preload" href="./assets/fonts/OpenFlightText-Regular.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="stylesheet" href="./tokens.css?v=5ef7606d1b32" />
+    <link rel="stylesheet" href="./system.css?v=5ef7606d1b32" />
+    <link rel="stylesheet" href="./home.css?v=5ef7606d1b32" />
+    <script type="module" src="./atlas.js?v=5ef7606d1b32"></script>
   </head>
   <body>
-    <a class="skip" href="#designs" data-t="skip">Ir a los diseños</a>
+    <a class="skip-link" href="#designs" data-t="skip">Ir a los diseños</a>
     <header class="mast">
       <div class="mast-in">
         <a class="wordmark" href="./"
-          ><img src="./assets/wing-mark.svg" width="40" height="40" alt="" />Open Flight</a
+          ><img src="./assets/brand/logo.svg" width="245" height="59" alt="Open Flight" /></a
         >
         <nav class="primary-links" aria-label="Main">
           <a href="#designs" data-t="navDesigns">Diseños</a><a id="nav-book" href="./book.html?lang=es" data-t="bookNav">Libro de vuelo</a
           ><a href="#library" data-t="navLibrary">Biblioteca</a>
         </nav>
         <span data-workshop-menu></span>
-        <div class="lang">
-          <a id="en" lang="en" hreflang="en" href="?lang=en" aria-label="English">EN</a
-          ><a id="es" lang="es" hreflang="es" href="./es.html" aria-label="Español">ES</a
-          ><a id="ru" lang="ru" hreflang="ru" href="./ru.html" aria-label="Русский">РУ</a>
-        </div>
+        <nav class="lang" aria-label="Language">
+          <a id="en" lang="en" hreflang="en" href="?lang=en" aria-label="English (EN)">EN</a
+          ><a id="es" lang="es" hreflang="es" href="./es.html" aria-label="Español (ES)">ES</a
+          ><a id="ru" lang="ru" hreflang="ru" href="./ru.html" aria-label="Русский (RU)">RU</a>
+        </nav>
       </div>
     </header>
     <main>
       <section class="hero wrap" aria-labelledby="hero-title">
         <div class="hero-copy">
-          <p class="over" data-t="eyebrow">Taller de vuelo en papel</p>
+          <p class="eyebrow" data-t="eyebrow">Taller de vuelo en papel</p>
           <h1 id="hero-title">
             <span data-t="headline1">Pliega un planeador.</span>
             <em data-t="headline2">Cambia su vuelo.</em>
           </h1>
           <p class="lede" data-t="intro">Un taller gratuito para niñas y niños de 5 a 12 años y quienes los acompañan. Convierte una hoja en una mariposa o un avión. Cambia un pliegue y descubre dónde aterriza.</p>
-          <div class="actions">
-            <a class="btn accent" id="hero-book" href="./book.html?lang=es" data-t="bookQuick">Crear mi Libro de vuelo ↗</a>
-            <a href="./studio.html?lang=es#design=butterfly-monarch&revision=w1" data-route="butterfly" class="btn outline"><span data-t="cutStart">Hacer una mariposa</span><b aria-hidden="true">↗</b></a
-            ><a class="quiet" data-route="airplane" href="./planes.html?lang=es" data-t="foldStart">Plegar un avión</a>
+          <div class="routes">
+            <a href="./studio.html?lang=es#design=butterfly-monarch&revision=w1" data-route="butterfly" class="button primary route"><span data-t="cutStart">Hacer una mariposa</span><small data-t="butterTech">Recortar y plegar</small></a
+            ><a class="button secondary route" data-route="airplane" href="./planes.html?lang=es"><span data-t="foldStart">Plegar un avión</span><small data-t="planeTech">Hoja entera · solo pliegues</small></a>
           </div>
+          <a class="text-link" id="hero-book" href="./book.html?lang=es" data-t="bookQuick">Crear mi Libro de vuelo ↗</a>
         </div>
-        <div class="showcase">
-          <div class="board-corners" aria-hidden="true"></div>
+        <div class="showcase stage-grid">
           <div class="board-header">
-            <span class="board-mark" aria-hidden="true">✣</span><span data-t="bench">En la mesa de trabajo</span
+            <span data-t="bench">En la mesa de trabajo</span
             ><span class="counter" id="specimen-count">01 / 07</span>
           </div>
           <svg class="draft-lines" viewBox="0 0 600 380" preserveAspectRatio="none" aria-hidden="true">
@@ -89,17 +92,17 @@
           <div class="book-jacket"><img class="book-cover-image" id="book-cover-image" src="./assets/atlas/book-cover-es.png" alt="" width="395" height="559" loading="lazy" /><span id="home-cover-pilot" hidden></span></div>
         </div>
         <div class="home-book-copy">
-          <p class="over" data-t="bookFormat">Para casa o el aula</p>
+          <p class="eyebrow" data-t="bookFormat">Para casa o el aula</p>
           <h2 id="book-heading" data-t="bookHeadline">Tu Libro de vuelo</h2>
           <p data-t="bookPitch">Hojea el libro, elige un modelo y prueba sus colores. Descubre su historia en el mapa del mundo e imprime la plantilla a tamaño real.</p>
           <form id="home-book-form" action="./book.html"><label class="home-pilot"><span data-t="bookPilot">Nombre del piloto (opcional)</span><input id="home-pilot" maxlength="40" autocomplete="off" dir="auto" /></label>
-          <div class="actions"><a class="btn accent" id="book-link" href="./book.html?lang=es" data-t="bookAction">Crear mi libro ↗</a><a class="quiet" href="#library" data-t="bookSheets">Descargar hojas individuales gratis</a></div></form>
+          <div class="actions"><a class="button primary" id="book-link" href="./book.html?lang=es" data-t="bookAction">Crear mi libro ↗</a><a class="text-link" href="#library" data-t="bookSheets">Descargar hojas individuales gratis</a></div></form>
         </div>
       </section>
       <section class="collections wrap" id="designs" aria-labelledby="choose-title">
         <div class="section-top">
           <div>
-            <p class="over" data-t="collections">La colección</p>
+            <p class="eyebrow" data-t="collections">La colección</p>
             <h2 id="choose-title" data-t="which">¿Qué vas a construir?</h2>
           </div>
           <p data-t="chooseHint">Empieza con lo que tengas a mano. Cada modelo tiene su propia mesa de trabajo.</p>
@@ -108,7 +111,7 @@
           <article class="family butterflies">
             <div class="family-main">
               <div class="family-text">
-                <p class="kicker" data-t="butterTech">Recortar y plegar</p>
+                <p class="eyebrow" data-t="butterTech">Recortar y plegar</p>
                 <h3>
                   <a data-route="butterfly" data-t="butterflies" href="./studio.html?lang=es#design=butterfly-monarch&revision=w1">Mariposas</a>
                 </h3>
@@ -125,7 +128,7 @@
           <article class="family airplanes">
             <div class="family-main">
               <div class="family-text">
-                <p class="kicker" data-t="planeTech">Hoja entera · solo pliegues</p>
+                <p class="eyebrow" data-t="planeTech">Hoja entera · solo pliegues</p>
                 <h3>
                   <a data-route="airplane" data-t="planes" href="./planes.html?lang=es">Aviones</a>
                 </h3>
@@ -142,22 +145,23 @@
       </section>
       <section class="home-compare wrap">
         <div>
-          <p class="over" data-t="compareTag">En paralelo</p>
+          <p class="eyebrow" data-t="compareTag">En paralelo</p>
           <h2 data-t="compareTitle">Dos planeadores. Una prueba.</h2>
           <p data-t="compareBody">Compara las alas, los materiales y los pliegues de dos modelos. Imprime la ficha y marca dónde toca el suelo cada uno.</p>
         </div>
         <div class="compare-actions">
-          <a class="quiet" id="compare-link" href="./compare.html?lang=es" data-t="compareAction">Comparar diseños ↗</a
-          ><a class="quiet" id="flight-link" href="./planes.html?model=boeing-747&lang=es&view=flight" data-t="flightAction">Probar el circuito de vuelo ↗</a
+          <a class="text-link" id="compare-link" href="./compare.html?lang=es" data-t="compareAction">Comparar diseños ↗</a
+          ><a class="text-link" id="flight-link" href="./planes.html?model=boeing-747&lang=es&view=flight" data-t="flightAction">Probar el circuito de vuelo ↗</a
           >
         </div>
       </section>
       <section class="learn wrap" id="learn">
         <div class="learn-intro">
-          <p class="over" data-t="lessonTag">En casa o en clase</p>
+          <p class="eyebrow" data-t="lessonTag">En casa o en clase</p>
           <h2 data-t="lessonTitle">Un pliegue es un experimento.</h2>
           <p data-t="lessonIntro">Escoge un lugar para aterrizar. Haz una predicción. Lanza con suavidad, cambia una sola cosa y vuelve a lanzar desde el mismo sitio.</p>
-          <a id="lesson-file" class="quiet" href="./library/family-lesson-es.html" data-t="lessonLink">Descargar la actividad familiar ↗</a>
+          <a id="lesson-file" class="text-link" href="./library/family-lesson-es.html" data-t="lessonLink">Descargar la actividad familiar ↗</a>
+          <p><a class="text-link" id="objects-link" href="./flight-objects.html?lang=es" data-t="objectsAction">Prueba el anillo, la semilla giratoria o el planeador tándem ↗</a></p>
         </div>
         <div class="learning-notes" id="learning-notes">
           <div>
@@ -177,10 +181,10 @@
       <section class="library wrap" id="library">
         <div class="section-top">
           <div>
-            <p class="over" data-t="resources">Biblioteca abierta</p>
+            <p class="eyebrow" data-t="resources">Biblioteca abierta</p>
             <h2 data-t="takeAway">Llévatelo a casa.</h2>
           </div>
-          <p data-t="resourceIntro">Imprime a tamaño real. Comprueba la barra de 50 mm en las mariposas y de 20 mm en los aviones. Puedes personalizar cada modelo en el taller.</p>
+          <p data-t="resourceIntro">Imprime a tamaño real. Comprueba con una regla la línea de 50 mm de cada hoja. Puedes personalizar cada modelo en el taller.</p>
         </div>
         <div class="library-grid">
           <article class="download-panel">
@@ -200,7 +204,8 @@
                 </select></label
               >
             </div>
-            <a id="download" class="btn dark" download href="./library/monarch-k1-A4-es.pdf"><span data-t="download">Descargar PDF</span><b aria-hidden="true">↓</b></a
+            <p class="print-reminder" data-print-reminder></p>
+            <a id="download" class="button primary" download href="./library/monarch-k1-A4-es.pdf"><span data-t="download">Descargar PDF</span><b aria-hidden="true">↓</b></a
             >
             <a
               class="all-sheets"
@@ -236,18 +241,17 @@
         </div>
       </section>
       <section class="horizon wrap">
-        <div class="horizon-mark" aria-hidden="true">✺</div>
         <div>
-          <p class="over" data-t="futureTag">Laboratorio de motores</p>
+          <p class="eyebrow" data-t="futureTag">Laboratorio de motores</p>
           <h2 data-t="future">¿Qué cambia al añadir un motor?</h2>
           <p data-t="futureBody">Descubre el módulo original que se maneja desde el móvil, explora los componentes de una alternativa abierta e imprime una maqueta para probar el encaje en un avión de papel.</p>
         </div>
-        <a class="quiet" id="motor-link" href="./motor.html?lang=es" data-t="motorAction">Abrir el laboratorio de motores ↗</a>
+        <a class="text-link" id="motor-link" href="./motor.html?lang=es" data-t="motorAction">Abrir el laboratorio de motores ↗</a>
       </section>
     </main>
-    <footer class="wrap">
+    <footer class="site-footer wrap">
       <a class="wordmark" href="./"
-        ><img src="./assets/wing-mark.svg" width="32" height="32" alt="" />Open Flight</a
+        ><img src="./assets/brand/logo.svg" width="245" height="59" alt="Open Flight" /></a
       ><span data-t="footer">Un taller abierto de vuelo en papel.</span
       ><a href="https://github.com/kevinmamaqi/open-flight">GitHub ↗</a>
     </footer>

@@ -22,6 +22,7 @@ const resources = [
   "packages/geometry/workshop-models.ts",
   "designs/butterfly-001/model.json",
   "packages/field-guide/species.json",
+  // DejaVu Sans serves only the frozen b1 prototype renderer (packages/print-export/b1-frozen.ts).
   "node_modules/dejavu-fonts-ttf/LICENSE",
   "content/en/butterfly-001/build.md",
   "content/ru/butterfly-001/build.md",
@@ -83,7 +84,7 @@ async function pdfReady(){
 }
 export async function preparePrintAssets(guide,formats){
   const needed=[]
-  if(formats.includes('pdf')) needed.push(pdfReady(),resource('/node_modules/dejavu-fonts-ttf/ttf/DejaVuSans.ttf','assets/planes/vendor/DejaVuSans.ttf'))
+  if(formats.includes('pdf')) needed.push(pdfReady(),resource('/node_modules/dejavu-fonts-ttf/ttf/DejaVuSans.ttf','assets/planes/vendor/DejaVuSans.ttf'),...['OpenFlightText-Regular','OpenFlightText-Bold','Alegreya-Bold'].map(name=>resource('/apps/editor/assets/fonts/'+name+'.ttf','assets/fonts/'+name+'.ttf')))
   if(guide && formats.includes('illustrated_guide')) {
     const paths=[guide.photo.local_path,...guide.en.steps.map(s=>s.diagram)].filter(Boolean)
     for(const path of new Set(paths)) needed.push(resource('/apps/editor'+path,path.slice(1)))

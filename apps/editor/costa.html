@@ -3,27 +3,31 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="theme-color" content="#f9f7ee" />
+    <meta name="theme-color" content="#fbf9f4" />
     <title>Costa butterfly glider · Open Flight</title>
-    <link rel="icon" href="./assets/wing-mark.svg" type="image/svg+xml" />
-    <link rel="stylesheet" href="./atlas-nav.css" />
-    <link rel="stylesheet" href="./atlas.css" />
+    <link rel="icon" href="./assets/brand/favicon.ico" sizes="32x32" />
+    <link rel="icon" href="./assets/brand/favicon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="./assets/brand/apple-touch-icon.png" />
+    <link rel="manifest" href="./site.webmanifest" />
+    <link rel="preload" href="./assets/fonts/OpenFlightText-Regular.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="stylesheet" href="./tokens.css" />
+    <link rel="stylesheet" href="./system.css" />
     <link rel="stylesheet" href="./costa.css" />
     <script type="module" src="./costa.js"></script>
   </head>
   <body>
-    <a class="skip" href="#main" data-word="skip">Skip to the butterfly</a>
+    <a class="skip-link" href="#main" data-word="skip">Skip to the butterfly</a>
     <header class="mast">
       <div class="mast-in">
         <a class="wordmark" id="home" href="./">
-          <img src="./assets/wing-mark.svg" width="40" height="40" alt="" />Open Flight
+          <img src="./assets/brand/logo.svg" width="245" height="59" alt="Open Flight" />
         </a>
         <span data-workshop-menu></span>
-        <div class="lang">
-          <a id="en" href="?lang=en" lang="en" hreflang="en" aria-label="English">EN</a>
-          <a id="es" href="?lang=es" lang="es" hreflang="es" aria-label="Español">ES</a>
-          <a id="ru" href="?lang=ru" lang="ru" hreflang="ru" aria-label="Русский">РУ</a>
-        </div>
+        <nav class="lang" aria-label="Language">
+          <a id="en" href="?lang=en" lang="en" hreflang="en" aria-label="English (EN)">EN</a>
+          <a id="es" href="?lang=es" lang="es" hreflang="es" aria-label="Español (ES)">ES</a>
+          <a id="ru" href="?lang=ru" lang="ru" hreflang="ru" aria-label="Русский (RU)">RU</a>
+        </nav>
       </div>
     </header>
     <main id="main" class="wrap costa-main">
@@ -53,6 +57,7 @@
           </select>
           <button type="button" id="download" class="button primary" data-word="download">Download PDF</button>
           <a id="book" class="button secondary" href="./book.html" data-word="book">Add to a Flight Book</a>
+          <p class="print-reminder" data-print-reminder></p>
           <p id="status" class="hint" role="status"></p>
         </form>
       </section>

@@ -1,0 +1,491 @@
+/* Home page (atlas.html, es.html, ru.html). Layout only; components come from system.css. */
+main > section {
+  margin-block: var(--space-8);
+}
+main > section:first-child {
+  margin-top: var(--space-6);
+}
+
+/* ---------- Hero: one question, two ways in ---------- */
+.hero {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr);
+  gap: var(--space-7);
+  align-items: center;
+}
+.hero h1 {
+  font-size: var(--text-3xl);
+  line-height: var(--leading-tight);
+  
+}
+.hero h1 span,
+.hero h1 em {
+  display: block;
+}
+.hero h1 em {
+  color: var(--color-text-accent);
+  font-style: normal;
+}
+.hero .lede {
+  margin-block: var(--space-4) var(--space-5);
+}
+.routes {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(12rem, 1fr));
+  gap: var(--space-3);
+  max-width: 34rem;
+  margin-bottom: var(--space-3);
+}
+.button.route {
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0;
+  padding-block: var(--space-3);
+  font-size: var(--text-md);
+  text-align: start;
+}
+.button.route small {
+  font-weight: var(--weight-regular);
+  font-size: var(--text-xs);
+}
+.button.route.primary small {
+  color: var(--color-action-text);
+}
+.button.route.secondary small {
+  color: var(--color-text-muted);
+}
+
+/* The specimen on the drawing stage. */
+.showcase {
+  position: relative;
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  min-height: 22rem;
+  padding: var(--space-4);
+  border: var(--line-hair) solid var(--color-rule);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+}
+.board-header {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--space-3);
+  color: var(--color-text-muted);
+  font-size: var(--text-xs);
+  font-weight: var(--weight-bold);
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+}
+.counter {
+  font-variant-numeric: tabular-nums;
+}
+.draft-lines {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  fill: none;
+  stroke: var(--color-line-valley);
+  stroke-width: var(--line-control);
+  stroke-dasharray: var(--dash-valley);
+  opacity: 0.55;
+  pointer-events: none;
+}
+.specimen-art {
+  position: relative;
+  display: grid;
+  place-items: center;
+  padding: var(--space-4);
+}
+.specimen-art img {
+  width: min(100%, 27rem);
+  transition: transform var(--duration-slow) var(--ease-glide);
+}
+.specimen-art:hover img {
+  transform: translateY(calc(-1 * var(--space-2))) rotate(-2deg);
+}
+.showcase[data-family='airplane'] .specimen-art img {
+  width: min(100%, 24rem);
+}
+.board-footer {
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  align-items: end;
+  gap: var(--space-3);
+  padding-top: var(--space-3);
+  border-top: var(--line-hair) dashed var(--color-border);
+}
+.board-footer > div:first-child {
+  display: grid;
+}
+.board-footer small {
+  color: var(--color-text-muted);
+}
+.board-footer a {
+  font-family: var(--font-display);
+  font-size: var(--text-xl);
+  font-weight: var(--weight-bold);
+  color: var(--color-text);
+  text-decoration: none;
+  line-height: var(--leading-snug);
+}
+.board-footer a:hover {
+  text-decoration: underline;
+}
+.board-footer i {
+  font-family: var(--font-display);
+  color: var(--color-text-muted);
+}
+.turn {
+  display: flex;
+  gap: var(--space-2);
+}
+.turn button {
+  width: var(--size-target);
+  height: var(--size-target);
+  border: var(--line-control) solid var(--color-border-strong);
+  border-radius: var(--radius-round);
+  background: var(--color-surface);
+  color: var(--color-text);
+  font-size: var(--text-md);
+  cursor: pointer;
+}
+.turn button:hover {
+  background: var(--color-surface-selected);
+}
+
+/* ---------- Section heads ---------- */
+.section-top {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: var(--space-3) var(--space-7);
+  align-items: end;
+  margin-bottom: var(--space-5);
+}
+.section-top > p {
+  color: var(--color-text-muted);
+  max-width: var(--measure);
+}
+
+/* ---------- Flight Book ---------- */
+.home-book {
+  display: grid;
+  grid-template-columns: minmax(12rem, 0.75fr) minmax(0, 1.25fr);
+  align-items: center;
+  overflow: hidden;
+  border: var(--line-hair) solid var(--color-rule);
+  border-radius: var(--radius-md);
+  background: var(--color-surface);
+  box-shadow: var(--shadow-sheet);
+}
+.book-display {
+  display: grid;
+  place-items: center;
+  align-self: stretch;
+  min-height: 19rem;
+  padding: var(--space-5) var(--space-4);
+  border-inline-end: var(--line-hair) dashed var(--color-rule);
+}
+.book-jacket,
+.book-underlay {
+  grid-area: 1 / 1;
+  width: clamp(10rem, 15vw, 14rem);
+  aspect-ratio: 210 / 297;
+}
+.book-jacket {
+  position: relative;
+  container-type: inline-size;
+  transform: rotate(-4deg);
+  box-shadow: var(--shadow-float);
+}
+.book-underlay {
+  transform: rotate(5deg) translate(var(--space-3), 0);
+  background: var(--color-surface);
+  border: var(--line-hair) solid var(--color-rule);
+}
+.book-cover-image {
+  display: block;
+  width: 100%;
+}
+/* Sits on the cover's printed name line; keep in step with the book cover layout. */
+#home-cover-pilot {
+  position: absolute;
+  inset: 20.1% 15% auto 21%;
+  min-height: 3%;
+  background: var(--color-surface);
+  color: var(--color-text);
+  font-family: var(--font-display);
+  font-weight: var(--weight-bold);
+  font-size: 2.55cqw;
+  line-height: var(--leading-tight);
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+.home-book-copy {
+  display: grid;
+  gap: var(--space-3);
+  padding: var(--space-6);
+}
+.home-book-copy > p:not(.eyebrow) {
+  max-width: var(--measure);
+}
+.home-pilot {
+  display: grid;
+  gap: var(--space-1);
+  max-width: 22rem;
+  font-weight: var(--weight-bold);
+}
+
+/* ---------- The collection ---------- */
+.families {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 22rem), 1fr));
+  gap: var(--space-5);
+}
+.family {
+  display: grid;
+  align-content: start;
+  gap: var(--space-4);
+  padding: var(--space-5);
+  border: var(--line-hair) solid var(--color-rule);
+  border-radius: var(--radius-md);
+  background: var(--color-surface);
+  box-shadow: var(--shadow-sheet);
+}
+.family-main {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: var(--space-4);
+  align-items: start;
+}
+.family-main img {
+  width: 9rem;
+}
+.family h3 a {
+  color: var(--color-text);
+  text-decoration: none;
+  font-size: var(--text-xl);
+}
+.family h3 a:hover {
+  text-decoration: underline;
+}
+.family-text p:last-child {
+  margin-top: var(--space-2);
+  color: var(--color-text-muted);
+}
+.family-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+.family-links a {
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--size-target);
+  padding-inline: var(--space-3);
+  border: var(--line-hair) solid var(--color-border);
+  border-radius: var(--radius-sm);
+  color: var(--color-text);
+  font-size: var(--text-sm);
+  text-decoration: none;
+}
+.family-links a:hover {
+  border-color: var(--color-selected);
+  background: var(--color-surface-selected);
+}
+.family-cta {
+  justify-self: start;
+  color: var(--color-text-link);
+  font-weight: var(--weight-bold);
+}
+.classic-family {
+  justify-self: start;
+  font-size: var(--text-sm);
+}
+
+/* ---------- Compare band ---------- */
+.home-compare {
+  display: grid;
+  grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
+  gap: var(--space-5);
+  align-items: center;
+  padding: var(--space-6);
+  border-block: var(--line-strong) dashed var(--color-line-valley);
+}
+.home-compare p:not(.eyebrow) {
+  margin-top: var(--space-2);
+  color: var(--color-text-muted);
+}
+.compare-actions {
+  display: grid;
+  justify-items: start;
+}
+
+/* ---------- Learning ---------- */
+.learn {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.4fr);
+  gap: var(--space-7);
+  align-items: start;
+}
+.learn-intro > p:not(.eyebrow) {
+  margin-block: var(--space-3);
+  color: var(--color-text-muted);
+}
+.learning-notes {
+  display: grid;
+  gap: var(--space-3);
+}
+.learning-notes > div {
+  display: grid;
+  grid-template-columns: 9rem minmax(0, 1fr);
+  gap: var(--space-4);
+  padding-block: var(--space-4);
+  border-top: var(--line-hair) solid var(--color-rule);
+}
+.learning-notes h3 {
+  font-size: var(--text-lg);
+}
+
+/* ---------- Library ---------- */
+.library-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: var(--space-5);
+  align-items: start;
+}
+.download-panel {
+  display: grid;
+  gap: var(--space-4);
+  padding: var(--space-5);
+  border: var(--line-hair) solid var(--color-rule);
+  border-radius: var(--radius-md);
+  background: var(--color-surface);
+  box-shadow: var(--shadow-sheet);
+}
+.download-panel h3 + p {
+  margin-top: var(--space-1);
+  color: var(--color-text-muted);
+}
+.download-fields {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(10rem, 1fr));
+  gap: var(--space-3);
+}
+.download-fields label {
+  display: grid;
+  gap: var(--space-1);
+  font-weight: var(--weight-bold);
+}
+.download-panel .button {
+  justify-self: start;
+}
+.all-sheets {
+  font-size: var(--text-sm);
+}
+.source-list {
+  display: grid;
+}
+.source-list a {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--space-4);
+  padding-block: var(--space-4);
+  border-top: var(--line-hair) solid var(--color-rule);
+  color: var(--color-text);
+  text-decoration: none;
+}
+.source-list a:last-child {
+  border-bottom: var(--line-hair) solid var(--color-rule);
+}
+.source-list strong {
+  display: block;
+  color: var(--color-text-link);
+}
+.source-list a:hover strong {
+  text-decoration: underline;
+}
+.source-list small {
+  display: block;
+  color: var(--color-text-muted);
+}
+
+/* ---------- Motor lab teaser ---------- */
+.horizon {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: var(--space-5);
+  align-items: end;
+  padding: var(--space-6);
+  border-radius: var(--radius-md);
+  background: var(--color-surface-sunken);
+}
+.horizon p:not(.eyebrow) {
+  margin-top: var(--space-2);
+  max-width: var(--measure);
+  color: var(--color-text-muted);
+}
+
+/* ---------- Narrow screens ---------- */
+@media (max-width: 900px) {
+  .hero,
+  .learn,
+  .library-grid,
+  .home-compare,
+  .section-top {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .hero {
+    gap: var(--space-5);
+  }
+  .showcase {
+    min-height: 17rem;
+  }
+}
+@media (max-width: 640px) {
+  main > section {
+    margin-block: var(--space-7);
+  }
+  .home-book {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .book-display {
+    min-height: 13rem;
+    border-inline-end: 0;
+    border-bottom: var(--line-hair) dashed var(--color-rule);
+  }
+  .book-jacket,
+  .book-underlay {
+    width: 9rem;
+  }
+  .home-book-copy,
+  .family,
+  .download-panel,
+  .horizon,
+  .home-compare {
+    padding: var(--space-4);
+  }
+  .family-main {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .family-main img {
+    grid-row: 1;
+    width: 7rem;
+  }
+  .learning-notes > div {
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--space-1);
+  }
+  .horizon {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+@media print {
+  .showcase,
+  .home-book,
+  .horizon {
+    display: none;
+  }
+}

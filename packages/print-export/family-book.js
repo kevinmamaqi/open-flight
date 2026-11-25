@@ -1,5 +1,6 @@
-import { Duplex, PDFDocument, PrintScaling, StandardFonts, rgb } from "pdf-lib";
+import { Duplex, PDFDocument, PrintScaling } from "pdf-lib";
 import { jsPDF } from "jspdf";
+import { fontFiles, print, registerFonts, useFont } from "../../apps/editor/assets/brand/print.js";
 import qrcode from "qrcode-generator";
 import { appearanceArtPath } from "../../apps/editor/model-appearance.js";
 import { loadAppearanceSheet } from "./appearance-sheet.js";
@@ -79,7 +80,7 @@ function drawQR(doc, url, center, y) {
   return y + size;
 }
 
-function frontMatter(book, plan, regular, bold, art, artPaths, originArt) {
+function frontMatter(book, plan, regular, bold, display, art, artPaths, originArt) {
   const { lang, paper, theme, cover, sheets, pilot, style } = book;
   const instructions = bookCopy[lang];
   const copy = flightBookCopy[lang];
@@ -96,14 +97,8 @@ function frontMatter(book, plan, regular, bold, art, artPaths, originArt) {
   });
   doc.setFileId("6f70656e666c69676874626f6f6b3037");
   doc.setCreationDate("D:20000101000000+00'00'");
-  for (const [name, data] of [
-    ["normal", regular],
-    ["bold", bold],
-  ]) {
-    const file = `Rubik-${name}.ttf`;
-    doc.addFileToVFS(file, base64(data));
-    doc.addFont(file, "Rubik", name);
-  }
+  // The Open Flight faces (assets/brand/print.js); `regular` and `bold` carry the text face, `display` the serif.
+  registerFonts(doc, { text: base64(regular), bold: base64(bold), display: base64(display) });
 
   const w = doc.internal.pageSize.getWidth();
   const h = doc.internal.pageSize.getHeight();
@@ -116,28 +111,27 @@ function frontMatter(book, plan, regular, bold, art, artPaths, originArt) {
     y,
     size,
     { color = ink, weight = "normal", align = "left" } = {},
-  ) =>
-    doc
-      .setFont("Rubik", weight)
-      .setFontSize(size)
-      .setTextColor(color)
-      .text(value, x, y, { align });
-  const wrap = (value, size, maxWidth, weight = "normal") =>
-    doc
-      .setFont("Rubik", weight)
-      .setFontSize(size)
-      .splitTextToSize(value, maxWidth);
-  const rule = (x1, y1, x2, y2, weight = 0.2) =>
-    doc.setDrawColor(hairline).setLineWidth(weight).line(x1, y1, x2, y2);
-  function fit(value, size, maxWidth, lines) {
-    let fitted = wrap(value, size, maxWidth, "bold");
-    while (fitted.length > lines)
-      fitted = wrap(value, --size, maxWidth, "bold");
+  ) => {
+    useFont(doc, weight === "display" ? "display" : weight === "bold" ? "bold" : "text");
+    return doc.setFontSize(Math.max(size, print.text.min)).setTextColor(color).text(value, x, y, { align });
+  };
+  const wrap = (value, size, maxWidth, weight = "normal") => {
+    useFont(doc, weight === "display" ? "display" : weight === "bold" ? "bold" : "text");
+    return doc.setFontSize(Math.max(size, print.text.min)).splitTextToSize(value, maxWidth);
+  };
+  const rule = (x1, y1, x2, y2, weight = print.line.min) =>
+    doc.setDrawColor(hairline).setLineWidth(Math.max(weight, print.line.min)).line(x1, y1, x2, y2);
+  function fit(value, size, maxWidth, lines, weight = "display") {
+    let fitted = wrap(value, size, maxWidth, weight);
+    while (fitted.length > lines && size > print.text.min)
+      fitted = wrap(value, --size, maxWidth, weight);
     return [fitted, size];
   }
   const paperLabel = paper === "A4" ? "A4" : "US Letter";
   const byline = (value, x, y, align = "left") =>
     text(value, x, y, 9, { weight: "bold", color: accent, align });
+  const brandLine = (x, y, align = "left") =>
+    text("Open Flight", x, y, 10, { weight: "display", color: ink, align });
   const image = (id, x, y, imageWidth) =>
     doc.addImage(
       art.get(id),
@@ -154,24 +148,24 @@ function frontMatter(book, plan, regular, bold, art, artPaths, originArt) {
     byline(String(page).padStart(2, "0"), right, h - 14, "right");
   };
   const heading = (title, number) => {
-    byline("OPEN FLIGHT", left, 19);
+    brandLine(left, 19);
     byline(paperLabel, right, 19, "right");
     rule(left, 24, right, 24);
-    text(title, left, 41, 31, { weight: "bold" });
+    text(title, left, 41, 31, { weight: "display" });
     folio(number, instructions.title);
   };
 
-  // A consistent 10 mm blank border fits the home-print page.
-  doc.setFillColor(wash).rect(10, 10, w - 20, h - 20, "F");
-  byline("OPEN FLIGHT", left + 3, 21);
+  // Low ink: the cover is paper with a fine frame 10 mm inside the edge, not a full-page fill.
+  doc.setDrawColor(accent).setLineWidth(0.5).rect(10, 10, w - 20, h - 20, "S");
+  brandLine(left + 3, 21);
   byline(paperLabel, right - 3, 21, "right");
   rule(left + 3, 26, right - 3, 26);
   const [title, titleSize] = fit(cover, 37, width - 6, 2);
   const titleTop = title.length === 1 ? 49 : 42;
-  text(title, left + 3, titleTop, titleSize, { weight: "bold" });
+  text(title, left + 3, titleTop, titleSize, { weight: "display" });
   byline(copy.pilot.toUpperCase(), left + 3, 66);
   if (pilot) {
-    const [name, nameSize] = fit(pilot, 15, width - 38, 2);
+    const [name, nameSize] = fit(pilot, 15, width - 38, 2, "bold");
     text(name, left + 28, name.length > 1 ? 63 : 66, nameSize, {
       weight: "bold",
     });
@@ -201,7 +195,7 @@ function frontMatter(book, plan, regular, bold, art, artPaths, originArt) {
   heading(instructions.print, 2);
   let y = 59;
   for (const [index, [title, body]] of instructions.notes.entries()) {
-    doc.setFillColor(wash).roundedRect(left, y - 6, 12, 12, 2, 2, "F");
+    doc.setDrawColor(accent).setLineWidth(0.5).roundedRect(left, y - 6, 12, 12, 2, 2, "S");
     text(String(index + 1), left + 6, y + 2, 12, {
       align: "center",
       weight: "bold",
@@ -212,7 +206,7 @@ function frontMatter(book, plan, regular, bold, art, artPaths, originArt) {
     y += 20 + paragraphs.length * 5;
   }
   y += 8;
-  doc.setFillColor(wash).rect(left, y, width, 32, "F");
+  doc.setDrawColor(accent).setLineWidth(0.3).setLineDashPattern([...print.dash.valley], 0).rect(left, y, width, 32, "S").setLineDashPattern([], 0);
   text(instructions.ruler, left + 9, y + 10, 11, { weight: "bold" });
   const ruleX = left + 9;
   const ruleY = y + 23;
@@ -251,11 +245,11 @@ function frontMatter(book, plan, regular, bold, art, artPaths, originArt) {
       doc
         .setDrawColor(accent)
         .setFillColor(accent)
-        .setLineWidth(0.17)
+        .setLineWidth(print.line.min)
         .circle(
           right - 39 + dot * 3,
           y + 5.6,
-          0.75,
+          0.9,
           dot < details.level ? "F" : "S",
         );
     }
@@ -318,7 +312,7 @@ function frontMatter(book, plan, regular, bold, art, artPaths, originArt) {
   byline("OPEN FLIGHT", left, 23);
   byline(instructions.title, right, 23, "right");
   image(book.coverModel, center - 29, 37, 58);
-  text(copy.certificate, center, 91, 29, { weight: "bold", align: "center" });
+  text(copy.certificate, center, 91, 29, { weight: "display", align: "center" });
   text(wrap(copy.award, 12, width - 24), center, 103, 12, { align: "center" });
   byline(copy.pilot, left + 7, 121);
   if (pilot) {
@@ -368,9 +362,10 @@ export async function createBook(input, { loadAsset }) {
       return [id, appearanceArtPath(id, book.style, book.appearances[model])];
     }),
   );
-  const [regular, bold, originArt, sheetDocuments, images] = await Promise.all([
-    loadAsset("assets/book/Rubik-Regular.ttf"),
-    loadAsset("assets/book/Rubik-Bold.ttf"),
+  const [regular, bold, display, originArt, sheetDocuments, images] = await Promise.all([
+    loadAsset(fontFiles.text),
+    loadAsset(fontFiles.bold),
+    loadAsset(fontFiles.display),
     loadOriginArt(plan, book.lang, loadAsset),
     Promise.all(
       book.sheets.map(async (id) =>
@@ -392,11 +387,27 @@ export async function createBook(input, { loadAsset }) {
     Array.from(artPaths, ([id, path]) => [id, imageBytes.get(path)]),
   );
   const output = await PDFDocument.load(
-    frontMatter(book, plan, regular, bold, art, artPaths, originArt),
+    frontMatter(book, plan, regular, bold, display, art, artPaths, originArt),
     { updateMetadata: false },
   );
   const { width, height } = output.getPage(0).getSize();
-  const stampFont = await output.embedFont(StandardFonts.Helvetica);
+  // Page numbers are set in the Open Flight text face: one small jsPDF page per stamp, placed with pdf-lib.
+  const stamps = [];
+  for (const [entryIndex] of sheetDocuments.entries())
+    for (const { number } of plan.entries[entryIndex].pages)
+      stamps.push(`${String(number).padStart(2, "0")} / ${plan.pageCount}`);
+  const stampDoc = new jsPDF({ unit: "mm", format: [24, 6], orientation: "landscape", compress: true, putOnlyUsedFonts: true });
+  stampDoc.setCreationDate("D:20000101000000+00'00'");
+  stampDoc.setFileId("6f70656e666c696768747374616d7073");
+  registerFonts(stampDoc, { text: base64(regular), bold: base64(bold), display: base64(display) });
+  stamps.forEach((stamp, i) => {
+    if (i) stampDoc.addPage([24, 6], "landscape");
+    useFont(stampDoc, "text");
+    stampDoc.setFontSize(print.text.min).setTextColor(print.muted).text(stamp, 23, 4.5, { align: "right" });
+  });
+  const stampPages = stamps.length ? await output.embedPdf(stampDoc.output("arraybuffer"), stamps.map((_, i) => i)) : [];
+  const mm = 72 / 25.4;
+  let stampIndex = 0;
   for (const [entryIndex, original] of sheetDocuments.entries()) {
     const entry = plan.entries[entryIndex];
     const airplane = sheetCatalog.find((sheet) => sheet.id === entry.id).family === "airplane";
@@ -414,17 +425,14 @@ export async function createBook(input, { loadAsset }) {
     );
     for (const [index, page] of pages.entries()) {
       output.insertPage(entry.pages[index].number - 1, page);
-      const number = String(entry.pages[index].number).padStart(2, "0");
-      const stamp = `${number} / ${plan.pageCount}`;
-      // The first airplane page leaves room beside its calibration bar for the folio.
+      // On the first airplane page the folio sits under the calibration line, clear of its label.
       const airplaneTemplate = airplane && entry.pages[index].index === 0;
-      const size = 7;
-      page.drawText(stamp, {
-        font: stampFont,
-        size,
-        x: page.getWidth() - (airplaneTemplate ? 54 : 31) - stampFont.widthOfTextAtSize(stamp, size),
-        y: airplaneTemplate ? 52 : 38,
-        color: rgb(0.19, 0.24, 0.27),
+      const right = airplaneTemplate ? page.getWidth() - 58 * mm : page.getWidth() - 11 * mm;
+      page.drawPage(stampPages[stampIndex++], {
+        x: right - 24 * mm,
+        y: (airplaneTemplate ? 14.5 : 11) * mm,
+        width: 24 * mm,
+        height: 6 * mm,
       });
     }
   }
@@ -432,8 +440,8 @@ export async function createBook(input, { loadAsset }) {
   output.setAuthor("Open Flight");
   output.setCreator("Open Flight");
   output.setLanguage(book.lang);
-  const print = output.catalog.getOrCreateViewerPreferences();
-  print.setDuplex(Duplex.Simplex);
-  print.setPrintScaling(PrintScaling.None);
+  const prefs = output.catalog.getOrCreateViewerPreferences();
+  prefs.setDuplex(Duplex.Simplex);
+  prefs.setPrintScaling(PrintScaling.None);
   return output.save({ useObjectStreams: false });
 }

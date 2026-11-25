@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="162mm" height="90mm" viewBox="0 0 162 90" role="img" aria-labelledby="title description">
+  <title id="title">Williams tandem paper glider cutting and folding pattern</title>
+  <metadata>Open Flight contributors, tandem-1. Based on Archibald Williams, Things To Make (1918 edition), figure 128, Model B. Editable geometry: CERN-OHL-W-2.0, https://spdx.org/licenses/CERN-OHL-W-2.0.html. Original markings: CC BY-SA 4.0, https://creativecommons.org/licenses/by-sa/4.0/.</metadata>
+  <desc id="description">The left end is the nose. Cut the solid outline. Four dotted lines cross the nose for weighting folds. The long dashed center line forms the keel, and the dash-dot lines mark the four wing roots.</desc>
+  <path d="M5 41H43V5H69L74 41H103V9H127L132 41H157V49H132L127 81H103V49H74L69 85H43V49H5Z" fill="#fff" stroke="#18263b" stroke-width=".6" stroke-linejoin="round"/>
+  <path d="M43.3 40.8V5.3H68.75L73.65 40.8ZM43.3 49.2V84.7H68.75L73.65 49.2Z" fill="#a8dcd9"/>
+  <path d="M103.3 40.8V9.3H126.75L131.65 40.8ZM103.3 49.2V80.7H126.75L131.65 49.2Z" fill="#cad3ed"/>
+  <path d="M5 45H157" fill="none" stroke="#344f81" stroke-width=".35" stroke-dasharray="3 1.5"/>
+  <path d="M43 41H74M103 41H132M43 49H74M103 49H132" fill="none" stroke="#344f81" stroke-width=".4" stroke-dasharray="3 1 .6 1"/>
+  <path d="M12 41V49M19 41V49M26 41V49M33 41V49" fill="none" stroke="#9b4b24" stroke-width=".48" stroke-linecap="round" stroke-dasharray=".35 1.1"/>
+</svg>

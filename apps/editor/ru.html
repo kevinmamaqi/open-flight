@@ -3,13 +3,13 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="theme-color" content="#f9f7ee" />
+    <meta name="theme-color" content="#fbf9f4" />
     <meta name="description" content="Бесплатная мастерская для детей 5–12 лет и взрослых. Сделайте из листа бумаги бабочку или самолёт, измените один сгиб и посмотрите, куда полетит планер." />
     <meta property="og:title" content="Open Flight · Мастерская бумажных полётов" />
     <meta property="og:description" content="Бесплатная мастерская для детей 5–12 лет и взрослых. Сделайте из листа бумаги бабочку или самолёт, измените один сгиб и посмотрите, куда полетит планер." />
     <meta property="og:type" content="website" />
     <meta property="og:locale" content="ru_RU" />
-    <meta property="og:image" content="https://kevinmamaqi.github.io/open-flight/assets/atlas/workshop-preview-ru.png" />
+    <meta property="og:image" content="https://kevinmamaqi.github.io/open-flight/assets/brand/social-ru.png" />
     <meta property="og:image:alt" content="Бумажный монарх в мастерской Open Flight" />
     <meta name="twitter:card" content="summary_large_image" />
     <link rel="canonical" href="https://kevinmamaqi.github.io/open-flight/ru.html" />
@@ -17,50 +17,53 @@
     <link rel="alternate" hreflang="en" href="https://kevinmamaqi.github.io/open-flight/?lang=en" />
     <link rel="alternate" hreflang="ru" href="https://kevinmamaqi.github.io/open-flight/ru.html" />
     <link rel="alternate" hreflang="es" href="https://kevinmamaqi.github.io/open-flight/es.html" />
-    <link rel="stylesheet" href="./atlas-nav.css" />
-    <link rel="stylesheet" href="./atlas-lab.css" />
-    <link rel="icon" type="image/svg+xml" href="./assets/wing-mark.svg" />
-    <link rel="stylesheet" href="./atlas.css" />
+    <link rel="icon" href="./assets/brand/favicon.ico" sizes="32x32" />
+    <link rel="icon" href="./assets/brand/favicon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="./assets/brand/apple-touch-icon.png" />
+    <link rel="manifest" href="./site.webmanifest" />
+    <link rel="preload" href="./assets/fonts/OpenFlightText-Regular.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="stylesheet" href="./tokens.css" />
+    <link rel="stylesheet" href="./system.css" />
+    <link rel="stylesheet" href="./home.css" />
     <script type="module" src="./atlas.js"></script>
   </head>
   <body>
-    <a class="skip" href="#designs" data-t="skip">К выбору моделей</a>
+    <a class="skip-link" href="#designs" data-t="skip">К выбору моделей</a>
     <header class="mast">
       <div class="mast-in">
         <a class="wordmark" href="./"
-          ><img src="./assets/wing-mark.svg" width="40" height="40" alt="" />Open Flight</a
+          ><img src="./assets/brand/logo.svg" width="245" height="59" alt="Open Flight" /></a
         >
         <nav class="primary-links" aria-label="Main">
           <a href="#designs" data-t="navDesigns">Модели</a><a id="nav-book" href="./book.html?lang=ru" data-t="bookNav">Книга полётов</a
           ><a href="#library" data-t="navLibrary">Библиотека</a>
         </nav>
         <span data-workshop-menu></span>
-        <div class="lang">
-          <a id="en" lang="en" hreflang="en" href="?lang=en" aria-label="English">EN</a
-          ><a id="es" lang="es" hreflang="es" href="./es.html" aria-label="Español">ES</a
-          ><a id="ru" lang="ru" hreflang="ru" href="./ru.html" aria-label="Русский">РУ</a>
-        </div>
+        <nav class="lang" aria-label="Language">
+          <a id="en" lang="en" hreflang="en" href="?lang=en" aria-label="English (EN)">EN</a
+          ><a id="es" lang="es" hreflang="es" href="./es.html" aria-label="Español (ES)">ES</a
+          ><a id="ru" lang="ru" hreflang="ru" href="./ru.html" aria-label="Русский (RU)">RU</a>
+        </nav>
       </div>
     </header>
     <main>
       <section class="hero wrap" aria-labelledby="hero-title">
         <div class="hero-copy">
-          <p class="over" data-t="eyebrow">Мастерская бумажных полётов</p>
+          <p class="eyebrow" data-t="eyebrow">Мастерская бумажных полётов</p>
           <h1 id="hero-title">
             <span data-t="headline1">Сложите планер.</span>
             <em data-t="headline2">Измените его полёт.</em>
           </h1>
           <p class="lede" data-t="intro">Бесплатная мастерская для детей 5–12 лет и взрослых. Сделайте из листа бумаги бабочку или самолёт, измените один сгиб и посмотрите, куда полетит планер.</p>
-          <div class="actions">
-            <a class="btn accent" id="hero-book" href="./book.html?lang=ru" data-t="bookQuick">Собрать Книгу полётов ↗</a>
-            <a href="./studio.html?lang=ru#design=butterfly-monarch&revision=w1" data-route="butterfly" class="btn outline"><span data-t="cutStart">Сделать бабочку</span><b aria-hidden="true">↗</b></a
-            ><a class="quiet" data-route="airplane" href="./planes.html?lang=ru" data-t="foldStart">Сложить самолёт</a>
+          <div class="routes">
+            <a href="./studio.html?lang=ru#design=butterfly-monarch&revision=w1" data-route="butterfly" class="button primary route"><span data-t="cutStart">Сделать бабочку</span><small data-t="butterTech">Вырезать и сложить</small></a
+            ><a class="button secondary route" data-route="airplane" href="./planes.html?lang=ru"><span data-t="foldStart">Сложить самолёт</span><small data-t="planeTech">Целый лист · только сгибы</small></a>
           </div>
+          <a class="text-link" id="hero-book" href="./book.html?lang=ru" data-t="bookQuick">Собрать Книгу полётов ↗</a>
         </div>
-        <div class="showcase">
-          <div class="board-corners" aria-hidden="true"></div>
+        <div class="showcase stage-grid">
           <div class="board-header">
-            <span class="board-mark" aria-hidden="true">✣</span><span data-t="bench">На рабочем столе</span
+            <span data-t="bench">На рабочем столе</span
             ><span class="counter" id="specimen-count">01 / 07</span>
           </div>
           <svg class="draft-lines" viewBox="0 0 600 380" preserveAspectRatio="none" aria-hidden="true">
@@ -89,17 +92,17 @@
           <div class="book-jacket"><img class="book-cover-image" id="book-cover-image" src="./assets/atlas/book-cover-ru.png" alt="" width="395" height="559" loading="lazy" /><span id="home-cover-pilot" hidden></span></div>
         </div>
         <div class="home-book-copy">
-          <p class="over" data-t="bookFormat">Бумажная мастерская для дома и класса</p>
+          <p class="eyebrow" data-t="bookFormat">Бумажная мастерская для дома и класса</p>
           <h2 id="book-heading" data-t="bookHeadline">Твоя Книга полётов</h2>
           <p data-t="bookPitch">Полистай книгу, выбери модель и попробуй разные расцветки. Найди её историю на карте мира и распечатай выкройку в натуральную величину.</p>
           <form id="home-book-form" action="./book.html"><label class="home-pilot"><span data-t="bookPilot">Имя пилота (по желанию)</span><input id="home-pilot" maxlength="40" autocomplete="off" dir="auto" /></label>
-          <div class="actions"><a class="btn accent" id="book-link" href="./book.html?lang=ru" data-t="bookAction">Собрать книгу ↗</a><a class="quiet" href="#library" data-t="bookSheets">Взять отдельные листы бесплатно</a></div></form>
+          <div class="actions"><a class="button primary" id="book-link" href="./book.html?lang=ru" data-t="bookAction">Собрать книгу ↗</a><a class="text-link" href="#library" data-t="bookSheets">Взять отдельные листы бесплатно</a></div></form>
         </div>
       </section>
       <section class="collections wrap" id="designs" aria-labelledby="choose-title">
         <div class="section-top">
           <div>
-            <p class="over" data-t="collections">Коллекция</p>
+            <p class="eyebrow" data-t="collections">Коллекция</p>
             <h2 id="choose-title" data-t="which">Что вы сделаете?</h2>
           </div>
           <p data-t="chooseHint">Выберите модель по материалам, которые есть под рукой. Каждую можно настроить в мастерской.</p>
@@ -108,7 +111,7 @@
           <article class="family butterflies">
             <div class="family-main">
               <div class="family-text">
-                <p class="kicker" data-t="butterTech">Вырезать и сложить</p>
+                <p class="eyebrow" data-t="butterTech">Вырезать и сложить</p>
                 <h3>
                   <a data-route="butterfly" data-t="butterflies" href="./studio.html?lang=ru#design=butterfly-monarch&revision=w1">Бабочки</a>
                 </h3>
@@ -125,7 +128,7 @@
           <article class="family airplanes">
             <div class="family-main">
               <div class="family-text">
-                <p class="kicker" data-t="planeTech">Целый лист · только сгибы</p>
+                <p class="eyebrow" data-t="planeTech">Целый лист · только сгибы</p>
                 <h3>
                   <a data-route="airplane" data-t="planes" href="./planes.html?lang=ru">Самолёты</a>
                 </h3>
@@ -142,22 +145,23 @@
       </section>
       <section class="home-compare wrap">
         <div>
-          <p class="over" data-t="compareTag">Сравнить модели</p>
+          <p class="eyebrow" data-t="compareTag">Сравнить модели</p>
           <h2 data-t="compareTitle">Два планера. Один опыт.</h2>
           <p data-t="compareBody">Возьми две модели и сравни крылья, материалы и сгибы. Затем распечатай карточку и отметь первые касания пола.</p>
         </div>
         <div class="compare-actions">
-          <a class="quiet" id="compare-link" href="./compare.html?lang=ru" data-t="compareAction">Сравнить модели ↗</a
-          ><a class="quiet" id="flight-link" href="./planes.html?model=boeing-747&lang=ru&view=flight" data-t="flightAction">Лётная трасса ↗</a
+          <a class="text-link" id="compare-link" href="./compare.html?lang=ru" data-t="compareAction">Сравнить модели ↗</a
+          ><a class="text-link" id="flight-link" href="./planes.html?model=boeing-747&lang=ru&view=flight" data-t="flightAction">Лётная трасса ↗</a
           >
         </div>
       </section>
       <section class="learn wrap" id="learn">
         <div class="learn-intro">
-          <p class="over" data-t="lessonTag">Дома или в классе</p>
+          <p class="eyebrow" data-t="lessonTag">Дома или в классе</p>
           <h2 data-t="lessonTitle">Один сгиб — уже опыт.</h2>
           <p data-t="lessonIntro">Выберите место для посадки. Предскажите, куда прилетит планер. Запустите его мягко, измените что-то одно и повторите запуск с того же места.</p>
-          <a id="lesson-file" class="quiet" href="./library/family-lesson-ru.html" data-t="lessonLink">Скачать семейное занятие ↗</a>
+          <a id="lesson-file" class="text-link" href="./library/family-lesson-ru.html" data-t="lessonLink">Скачать семейное занятие ↗</a>
+          <p><a class="text-link" id="objects-link" href="./flight-objects.html?lang=ru" data-t="objectsAction">Испытай кольцеплан, крылатку или планер с двумя парами крыльев ↗</a></p>
         </div>
         <div class="learning-notes" id="learning-notes">
           <div>
@@ -177,10 +181,10 @@
       <section class="library wrap" id="library">
         <div class="section-top">
           <div>
-            <p class="over" data-t="resources">Открытая библиотека</p>
+            <p class="eyebrow" data-t="resources">Открытая библиотека</p>
             <h2 data-t="takeAway">Возьмите с собой.</h2>
           </div>
-          <p data-t="resourceIntro">Печатайте в натуральную величину. Проверьте отрезок на листе: 50 мм у бабочек, 20 мм у самолётов. Любую модель можно изменить в мастерской.</p>
+          <p data-t="resourceIntro">Печатайте в натуральную величину. Проверьте линейкой отрезок «50 мм» на каждом листе. Любую модель можно изменить в мастерской.</p>
         </div>
         <div class="library-grid">
           <article class="download-panel">
@@ -200,7 +204,8 @@
                 </select></label
               >
             </div>
-            <a id="download" class="btn dark" download href="./library/monarch-k1-A4-ru.pdf"><span data-t="download">Скачать PDF</span><b aria-hidden="true">↓</b></a
+            <p class="print-reminder" data-print-reminder></p>
+            <a id="download" class="button primary" download href="./library/monarch-k1-A4-ru.pdf"><span data-t="download">Скачать PDF</span><b aria-hidden="true">↓</b></a
             >
             <a
               class="all-sheets"
@@ -236,18 +241,17 @@
         </div>
       </section>
       <section class="horizon wrap">
-        <div class="horizon-mark" aria-hidden="true">✺</div>
         <div>
-          <p class="over" data-t="futureTag">Лаборатория мотора</p>
+          <p class="eyebrow" data-t="futureTag">Лаборатория мотора</p>
           <h2 data-t="future">Что изменит мотор?</h2>
           <p data-t="futureBody">Посмотри, как выглядит модуль с управлением со смартфона, изучи детали открытого варианта и распечатай макет, чтобы примерить его к бумажному самолёту.</p>
         </div>
-        <a class="quiet" id="motor-link" href="./motor.html?lang=ru" data-t="motorAction">Открыть лабораторию мотора ↗</a>
+        <a class="text-link" id="motor-link" href="./motor.html?lang=ru" data-t="motorAction">Открыть лабораторию мотора ↗</a>
       </section>
     </main>
-    <footer class="wrap">
+    <footer class="site-footer wrap">
       <a class="wordmark" href="./"
-        ><img src="./assets/wing-mark.svg" width="32" height="32" alt="" />Open Flight</a
+        ><img src="./assets/brand/logo.svg" width="245" height="59" alt="Open Flight" /></a
       ><span data-t="footer">Открытая мастерская бумажных полётов.</span
       ><a href="https://github.com/kevinmamaqi/open-flight">GitHub ↗</a>
     </footer>

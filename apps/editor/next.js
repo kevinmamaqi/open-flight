@@ -60,7 +60,7 @@ for (const [i, s] of page.stages.entries()) {
         : t('Adult research', 'Investigación para adultos', 'Исследование для взрослых')) +
         ' · ' +
         (i + 1),
-      'over',
+      'eyebrow',
     ),
     el('h2', s.title),
     el('p', s.action),

@@ -65,6 +65,7 @@ $('flight-link').href = studioLink('boeing-747', lang, true)
 $('references').href = './references.html?lang=' + lang
 $('motor-link').href = './motor.html?lang=' + lang
 $('classroom-link').href = './classroom.html?lang=' + lang
+$('objects-link').href = './flight-objects.html?lang=' + lang
 $('lesson-file').href = './library/family-lesson-' + lang + '.html'
 const order = [
   'monarch',

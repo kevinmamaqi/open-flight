@@ -1,3 +1,5 @@
+import { brandMark, calibration, ink, lineStyle, muted, textMm } from '../../apps/editor/assets/brand/print.js'
+import type { PrintLabel } from '../print-export/sheets.ts'
 import {
   rounded,
   type Drawing,
@@ -38,13 +40,14 @@ export function isFoldedSpan(value: number): boolean {
   return Number.isInteger(value) && value >= minimum && value <= maximum && (value - minimum) % step === 0
 }
 const evidence = 'experimental_unvalidated' as const
-const dark = '#272239'
-const centerInk = '#005A8D'
-const wingInk = '#813842'
-const clipInk = '#254A36'
-const halo = '#FFFEF4'
-const valleyDash = [0.65, 1.05]
-const mountainDash = [2.8, 0.9, 0.55, 0.9]
+// Paper conventions (tokens.css via brand/print.js): valley dashed, mountain dash-dot, cut solid.
+const dark = ink
+const centerInk = lineStyle.valley.stroke
+const wingInk = lineStyle.mountain.stroke
+const clipInk = ink
+const halo = '#FFFFFF'
+const valleyDash = lineStyle.valley.dash
+const mountainDash = lineStyle.mountain.dash
 
 export type FoldedPlan = Required<FoldedSettings> & {
   locale: Locale
@@ -280,7 +283,7 @@ const words = {
     gauge: 'Full-size nose and clip gauge',
     gaugeHelp:
       'Place the folded body on its side. Match its nose to the left line.',
-    gaugeStop: 'The back end of the clip should meet the green line.',
+    gaugeStop: 'The back end of the clip should meet the thick stop line.',
     nose: 'Nose',
     clip: 'Back of clip',
     assembledTop: 'Assembled · top view',
@@ -306,7 +309,7 @@ const words = {
     gauge: 'Guía del clip a tamaño real',
     gaugeHelp:
       'Apoya de lado el cuerpo plegado. Alinea su punta con la línea izquierda.',
-    gaugeStop: 'El extremo trasero del clip debe llegar a la línea verde.',
+    gaugeStop: 'El extremo trasero del clip debe llegar a la línea de tope gruesa.',
     nose: 'Punta',
     clip: 'Extremo trasero',
     assembledTop: 'Plegada · vista superior',
@@ -330,7 +333,7 @@ const words = {
     next: 'На странице 2 — пошаговые рисунки.',
     gauge: 'Шкала для скрепки в натуральную величину',
     gaugeHelp: 'Положи сложенный корпус набок. Совмести нос с левой линией.',
-    gaugeStop: 'Задний край скрепки должен совпасть с зелёной линией.',
+    gaugeStop: 'Задний край скрепки должен совпасть с толстой линией упора.',
     nose: 'Нос',
     clip: 'Задний край',
     assembledTop: 'В сборе · вид сверху',
@@ -471,7 +474,7 @@ function stepDiagram(
         [-15, 6.5],
         [15, 6.5],
       ],
-      '#66736F',
+      muted,
       0.7,
     )
     draw('paper', [
@@ -564,26 +567,31 @@ function drawing(
   const [width, height] = sizes[plan.paper]
   const text = words[plan.locale]
   const lines = placed(geometry.lines, width / 2, 29)
-  const labels: Drawing['labels'] = []
+  const labels: PrintLabel[] = []
   const label = (
     x: number,
     y: number,
     copy: string,
     size: number,
     color = dark,
-  ) => labels.push({ x, y, text: copy, size, color })
-  label(9, 10, 'OPEN FLIGHT  /  K1', 3.2, clipInk)
+    font: PrintLabel['font'] = 'text',
+  ) => labels.push({ x, y, text: copy, size, color, font })
+  const mark = brandMark(9, 6.5)
+  lines.push(...mark.lines)
+  labels.push(...(mark.labels as PrintLabel[]))
+  label(9 + mark.width + 2, 10, 'K1', textMm.min, muted, 'bold')
   lines.push(...registrationCrosses(width, false))
-  label(9, 18, text.names[plan.species], 6.1)
-  label(9, 24, text.note, 2.8)
+  label(9, 18.5, text.names[plan.species], textMm.title, dark, 'display')
+  label(9, 24, text.note, textMm.min)
   label(
     9,
     28.6,
     `${plan.span_mm} mm ${text.span}  ·  ${plan.flat_span_mm} mm ${text.flat}`,
-    2.6,
+    textMm.min,
+    muted,
   )
   const keys = [
-    { id: 'key-cut', stroke: dark, weight: 0.52 },
+    { id: 'key-cut', stroke: dark, weight: lineStyle.cut.weight },
     { ...geometry.creases[1], id: 'key-center' },
     { ...geometry.creases[0], id: 'key-wings' },
     { ...geometry.clipStops[0], id: 'key-clip' },
@@ -597,31 +605,15 @@ function drawing(
         [x + 10, 132],
       ],
     })
-    label(x + 12, 133, text.labels[index], 2.6)
+    label(x + 12, 133, text.labels[index], textMm.min)
   }
-  lines.push({
-    id: 'ruler',
-    points: [
-      [9, 143],
-      [59, 143],
-    ],
-    stroke: dark,
-    weight: 0.44,
-  })
-  for (let mm = 0; mm <= 50; mm += 5)
-    lines.push({
-      id: 'ruler-tick-' + mm,
-      points: [
-        [9 + mm, 143],
-        [9 + mm, mm % 10 === 0 ? 140.2 : 141.3],
-      ],
-      stroke: dark,
-      weight: 0.32,
-    })
-  label(62, 143.5, '50 mm  ·  ' + text.print, 2.85)
-  label(9, 151, text.build, 3.45, clipInk)
+  const cal = calibration(9, 143, plan.locale, { note: false })
+  lines.push(...cal.lines)
+  labels.push(...(cal.labels as PrintLabel[]))
+  label(73, 143.5, text.print, textMm.min)
+  label(9, 151, text.build, textMm.step, dark, 'bold')
   if (quickStart) {
-    label(9, 157, text.next, 3.35, clipInk)
+    label(9, 157, text.next, textMm.body, dark, 'bold')
     const columnWidth = (width - 18) / 2
     plan.steps.forEach((step, index) =>
       label(
@@ -644,8 +636,8 @@ function drawing(
           [x, y + 8],
         ],
         closed: true,
-        fill: '#E6EEEB',
-        stroke: '#788F84',
+        fill: '#FFFFFF',
+        stroke: muted,
         weight: 0.29,
       },
       {
@@ -664,7 +656,7 @@ function drawing(
           [stop, y + 9.3],
         ],
         stroke: clipInk,
-        weight: 0.62,
+        weight: 1,
       },
     )
     label(x, 202, text.gauge, 4.5)
@@ -706,9 +698,9 @@ function guideDrawing(
   const [width, height] = sizes[plan.paper]
   const copy = words[plan.locale]
   const lines: Line[] = []
-  const labels: Drawing['labels'] = [
-    { x: 9, y: 10, text: 'OPEN FLIGHT  /  K1', size: 3.2, color: clipInk },
-    { x: 9, y: 20, text: copy.guide, size: 6.1 },
+  const labels: PrintLabel[] = [
+    { x: 9, y: 10, text: 'Open Flight  ·  K1', size: textMm.min, color: muted, font: 'display' },
+    { x: 9, y: 20, text: copy.guide, size: textMm.title, font: 'display' },
     { x: 9, y: 26.5, text: copy.rear + ' (2–4, 6)', size: 3.15 },
   ]
   let y = 33
@@ -720,7 +712,7 @@ function guideDrawing(
           [9, y],
           [width - 9, y],
         ],
-        stroke: '#B7C7C0',
+        stroke: muted,
         weight: 0.32,
       },
       ...placed(stepDiagram(step.id, plan, geometry), 34, y + 10, 1.48),
@@ -779,7 +771,7 @@ function backDrawing(plan: FoldedPlan, geometry: ReturnType<typeof foldedGeometr
     dash: line.dash === valleyDash ? mountainDash : line.dash === mountainDash ? valleyDash : line.dash,
   })
   const sheet: Line[] = [
-    { id: 'back-outline', points: geometry.outline.map(([x, y]): Point => [-x, y]), closed: true, stroke: '#8C8898', weight: 0.3 },
+    { id: 'back-outline', points: geometry.outline.map(([x, y]): Point => [-x, y]), closed: true, stroke: muted, weight: 0.3 },
   ]
   for (const line of [...geometry.creases, ...geometry.clipStops]) {
     sheet.push({ ...mirror(line), id: line.id + '-back-halo', weight: 1.25, stroke: halo, dash: undefined })
@@ -788,9 +780,9 @@ function backDrawing(plan: FoldedPlan, geometry: ReturnType<typeof foldedGeometr
   sheet.push(...geometry.shoulders.map((line) => ({ ...mirror(line), id: line.id + '-back' })))
   const lines = [...placed(sheet, width / 2, 29), ...registrationCrosses(width, true)]
   const text = words[plan.locale]
-  const labels: Drawing['labels'] = [
+  const labels: PrintLabel[] = [
     // The registration crosses mirror to the top left on this face, so the header starts after them.
-    { x: 40, y: 10, text: 'OPEN FLIGHT  /  K1', size: 3.2, color: clipInk },
+    { x: 40, y: 10, text: 'Open Flight  ·  K1', size: textMm.min, color: muted, font: 'display' },
     { x: 40, y: 18, text: text.names[plan.species] + '  ·  ' + back.title, size: 5.2, color: dark },
     ...back.lines.map((line, i) => ({ x: 9, y: 140 + i * 4.4, text: line, size: 2.8, color: dark })),
     { x: 9, y: height - printSafeMm - 1.5, text: 'Open Flight  /  CERN-OHL-W-2.0  /  CC BY-SA 4.0', size: 2.2, color: dark },
@@ -922,7 +914,7 @@ export function foldedFinishedPreview(plan: FoldedPlan): string {
         [center + 0.31, wingLevel],
         [center + 0.31, keelBottom],
       ],
-      stroke: '#53596C',
+      stroke: muted,
       weight: 0.62,
     },
     {
@@ -946,7 +938,7 @@ export function foldedFinishedPreview(plan: FoldedPlan): string {
       weight: 0.46,
     },
   ]
-  const labels: Drawing['labels'] = [
+  const labels: PrintLabel[] = [
     { x: 6, y: 7.5, text: copy.assembledTop, size: 3.65, color: dark },
     {
       x: 6,

@@ -1,6 +1,7 @@
 import { planeCredits, creditText } from './credits.js'
 import { flagDecals } from './country-markings.js'
 import { backFaceWords, backKind, printSafeMm } from '../print-faces.js'
+import { atLeastText, calibration, calibrationShort, ink as paperInk, lineStyle, muted as paperMuted, textMm } from '../brand/print.js'
 
 export const esc = (value) =>
   String(value).replace(
@@ -24,13 +25,14 @@ const line = (points, stroke, sw = 0.4, dash) => ({
   sw,
   dash,
 })
-const label = (pos, value, size = 3, color = '#253b44', anchor = 'start') => ({
+const label = (pos, value, size = 3, color = paperInk, anchor = 'start', font = 'text') => ({
   type: 'text',
   pos,
   value,
   size,
   color,
   anchor,
+  font,
 })
 const dot = (pos, radius, fill, stroke = 'none', sw = 0) => ({
   type: 'circle',
@@ -51,8 +53,11 @@ export function svgParts(parts) {
           '" y="' +
           n(e.pos[1]) +
           '" font-size="' +
-          e.size +
-          '" font-family="DejaVu Sans,Arial,sans-serif" fill="' +
+          atLeastText(e.size) +
+          (e.font === 'display'
+            ? '" font-family="Alegreya,Georgia,serif" font-weight="700'
+            : '" font-family="Open Flight Text,Andika,sans-serif' + (e.font === 'bold' ? '" font-weight="700' : '')) +
+          '" fill="' +
           e.color +
           '" text-anchor="' +
           e.anchor +
@@ -173,10 +178,10 @@ export function stripes(plan) {
   return [...shapes, ...shapes.map((s) => ({ ...s, points: s.points.map(reflect) }))]
 }
 function creaseDash(kind) {
-  return kind === 'mountain' ? [3.4, 1, 0.7, 1] : [2.3, 1.4]
+  return kind === 'mountain' ? lineStyle.mountain.dash : lineStyle.valley.dash
 }
 export { printSafeMm }
-const guideInk = '#233e46'
+const guideInk = paperInk
 
 // Liang–Barsky clip of one segment to a rectangle. Returns null when nothing is inside.
 function clipSegment([p, q], x0, y0, x1, y1) {
@@ -251,10 +256,12 @@ function creaseScene(plan, back) {
     markers = new Map()
   for (const crease of plan.creases) {
     const [p, q] = crease.line.map(flip)
-    const dash = creaseDash(creaseKey(crease.kind, back))
+    const kind = creaseKey(crease.kind, back)
+    const dash = creaseDash(kind)
+    const ink = kind === 'mountain' ? lineStyle.mountain.stroke : lineStyle.valley.stroke
     const inside = clipSegment([p, q], m, m, w - m, h - m)
     if (inside) {
-      parts.push(line(inside, guideInk, 0.32, dash))
+      parts.push(line(inside, ink, lineStyle.valley.weight, dash))
       if (plan.trim_mm) continue
       for (const end of [p, q]) {
         const key = end.map((v) => v.toFixed(1)).join(',')
@@ -268,7 +275,7 @@ function creaseScene(plan, back) {
       const x = p[0],
         fromEdge = Math.min(x, w - x),
         side = x < w / 2 ? 1 : -1
-      parts.push(line([[x, m], [x, h - m]], guideInk, 0.32, dash))
+      parts.push(line([[x, m], [x, h - m]], ink, lineStyle.valley.weight, dash))
       for (const y of [h * 0.3]) {
         const edge = side > 0 ? m : w - m
         parts.push(
@@ -417,64 +424,44 @@ export function sheetScene(plan) {
   ]
   const ink = guideInk
   const credit = creditText(plan.locale)
-  const scaleX = w - 49,
-    scaleY = h - 18.5
+  // Bottom band: the model's credits on the left, the 50 mm calibration line on the right.
+  const scaleX = w - 82,
+    scaleY = h - 21
+  const cal = calibration(scaleX, scaleY, plan.locale, { note: false })
   parts.push(
     poly(
       [
-        [21, h - 32],
-        [w / 2 - 29, h - 32],
-        [w / 2 - 29, h - 15.7],
+        [21, h - 38.5],
+        [w - 86, h - 38.5],
+        [w - 86, h - 15.7],
         [21, h - 15.7],
       ],
       '#ffffff',
     ),
     ...(trimmed
       ? [
-          poly([[21, h - 36.5], [w / 2 - 29, h - 36.5], [w / 2 - 29, h - 32], [21, h - 32]], '#ffffff'),
-          label([22, h - 33.2], cutWords[plan.locale] ?? cutWords.en, 2.6, '#9b3a2c'),
+          poly([[21, h - 43.5], [w - 86, h - 43.5], [w - 86, h - 38.5], [21, h - 38.5]], '#ffffff'),
+          label([22, h - 39.8], cutWords[plan.locale] ?? cutWords.en, textMm.min, paperInk, 'start', 'bold'),
         ]
       : []),
-    label([22, h - 29], plan.name, 3.2),
-    label([22, h - 25.6], credit.creator, 2.3),
+    label([22, h - 34.5], plan.name, textMm.body, paperInk, 'start', 'display'),
+    label([22, h - 30.4], credit.creator, textMm.min, paperMuted),
     {
-      ...label([22, h - 22.4], credit.geometry, 2.3),
+      ...label([22, h - 26.3], credit.geometry, textMm.min, paperMuted),
       url: planeCredits.geometry.url,
     },
     {
-      ...label([22, h - 19.2], credit.artwork, 2.3),
+      ...label([22, h - 22.2], credit.artwork, textMm.min, paperMuted),
       url: planeCredits.artwork.url,
     },
-    { ...label([22, h - 16.1], credit.credits, 2.05), url: planeCredits.url },
+    { ...label([22, h - 18.1], credit.credits, textMm.min, paperMuted), url: planeCredits.url },
     poly(
-      [[scaleX - 2, h - 26], [w - 18, h - 26], [w - 18, h - 15.7], [scaleX - 2, h - 15.7]],
+      [[scaleX - 2, h - 33], [w - 16, h - 33], [w - 16, h - 15.7], [scaleX - 2, h - 15.7]],
       '#ffffff',
     ),
-    label([scaleX + 10, scaleY - 3], ru ? '20 мм' : '20 mm', 2.8, ink, 'middle'),
-    line(
-      [
-        [scaleX, scaleY],
-        [scaleX + 20, scaleY],
-      ],
-      ink,
-      0.5,
-    ),
-    line(
-      [
-        [scaleX, scaleY - 1.5],
-        [scaleX, scaleY + 1.5],
-      ],
-      ink,
-      0.5,
-    ),
-    line(
-      [
-        [scaleX + 20, scaleY - 1.5],
-        [scaleX + 20, scaleY + 1.5],
-      ],
-      ink,
-      0.5,
-    ),
+    label([scaleX, h - 28.5], calibrationShort(plan.locale), textMm.min, paperInk),
+    ...cal.lines.map((l) => line(l.points, l.stroke, l.weight)),
+    ...cal.labels.map((l) => label([l.x, l.y], l.text, l.size, l.color, 'start', l.font)),
   )
   return onPage(plan, parts)
 }
@@ -488,10 +475,10 @@ export function backScene(plan) {
     ...creaseScene(plan, true),
     ...registrationMarks(plan, true),
     ...targetParts(stepTargets(plan), flip),
-    poly([[21, h - 33], [w - 21, h - 33], [w - 21, h - 15.7], [21, h - 15.7]], '#ffffff'),
-    label([22, h - 29], plan.name + '  ·  ' + words.title, 3.2),
+    poly([[21, h - 35.5], [w - 21, h - 35.5], [w - 21, h - 15.7], [21, h - 15.7]], '#ffffff'),
+    label([22, h - 31], plan.name + '  ·  ' + words.title, textMm.body, paperInk, 'start', 'display'),
   ]
-  words.lines.forEach((text, i) => parts.push(label([22, h - 25.4 + i * 3.3], text, 2.3)))
+  words.lines.forEach((text, i) => parts.push(label([22, h - 26.6 + i * 4.1], text, textMm.min)))
   return onPage(plan, parts)
 }
 export function planeBackSvg(plan) {

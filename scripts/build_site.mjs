@@ -13,7 +13,7 @@ const replaceText = (value) => ({ element: (el) => el.setInnerContent(value) })
 // Pages caches files independently. Link each release's HTML and ES module graph
 // to the same asset generation, including dynamic imports in the worktables.
 const assets = readdirSync(editor, { recursive: true })
-  .filter(name => /\.(css|js|mjs|json)$/.test(name) || /^assets\/motor\/.*\.(csv|h|ino|md|pdf|svg|txt|zip)$/.test(name))
+  .filter(name => /\.(css|js|mjs|json)$/.test(name) || /^assets\/(?:motor|objects)\/.*\.(csv|h|ino|md|pdf|svg|txt|zip|jpg|png)$/.test(name))
   .sort()
 const hash = createHash('sha256').update(readFileSync(fileURLToPath(import.meta.url)))
 for (const name of assets) hash.update(name).update('\0').update(readFileSync(join(editor, name))).update('\0')
@@ -68,7 +68,7 @@ for (const [lang, copy, title, region, photoAlt, name, family] of [
     .on('meta[property="og:locale"]', updateAttr('content', region))
     .on(
       'meta[property="og:image"]',
-      updateAttr('content', domain + 'assets/atlas/workshop-preview-' + lang + '.png'),
+      updateAttr('content', domain + 'assets/brand/social-' + lang + '.png'),
     )
     .on('meta[property="og:image:alt"]', updateAttr('content', photoAlt))
     .on('link[rel="canonical"]', updateAttr('href', domain + lang + '.html'))
@@ -84,6 +84,7 @@ for (const [lang, copy, title, region, photoAlt, name, family] of [
     '#nav-book': 'book.html?lang=' + lang,
     '#hero-book': 'book.html?lang=' + lang,
     '#classroom-link': 'classroom.html?lang=' + lang,
+    '#objects-link': 'flight-objects.html?lang=' + lang,
     '#download': 'library/monarch-k1-A4-' + lang + '.pdf',
     '[data-route=butterfly]': 'studio.html?lang=' + lang + '#design=butterfly-monarch&revision=w1',
     '[data-route=airplane]': 'planes.html?lang=' + lang,
@@ -107,7 +108,11 @@ for (const entry of readdirSync(editor, { withFileTypes: true })) {
     })
   if (entry.isFile() && entry.name.endsWith('.html'))
     writeFileSync(join(out, dest), versionHtml(readFileSync(source, 'utf8')))
-  else if (entry.isFile() && /\.(js|css|svg)$/.test(entry.name)) cpSync(source, join(out, dest))
+  else if (entry.isFile() && /\.(js|css|svg|webmanifest)$/.test(entry.name)) cpSync(source, join(out, dest))
+}
+for (const name of ['unusual-flyer-sources.md', 'williams-tandem.md']) {
+  const research = join(root, 'docs/research', name)
+  cpSync(existsSync(research) ? research : join(root, 'guides', name), join(out, 'assets/objects', name))
 }
 // The bundled workshop has no ES imports. Third-party modules keep their published contents.
 const localModule = /(\b(?:from\s*|import\s*\(\s*|import\s+))(["'])(\.{1,2}\/[\w./-]+\.js)\2/g
@@ -133,7 +138,7 @@ writeFileSync(
 )
 writeFileSync(join(out, '.nojekyll'), '')
 const origin = 'https://kevinmamaqi.github.io/open-flight/'
-const pages = ['book.html','classroom.html','motor.html','keel.html','costa.html','studio.html', 'planes.html', 'references.html', 'compare.html', 'next.html']
+const pages = ['book.html','classroom.html','motor.html','keel.html','costa.html','studio.html', 'planes.html', 'references.html', 'compare.html', 'next.html', 'flight-objects.html']
 writeFileSync(
   join(out, 'sitemap.xml'),
   '<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">' +
@@ -153,6 +158,7 @@ writeFileSync(
 )
 for (const path of [
   'index.html',
+  'tokens.css', 'system.css', 'site.webmanifest', 'assets/brand/logo.svg', 'assets/brand/favicon.ico', 'assets/fonts/OpenFlightText-Regular.woff2',
   'classroom.html', 'classroom.js', 'book-size.js', 'book-reader.js', 'model-origins.js', 'model-map.js', 'model-appearance.js', 'assets/origins/world-land.png', 'assets/book/pdf.worker.min.mjs',
   'book.html', 'book.js', 'book-engine.js', 'motor.html', 'assets/motor/lab.json', 'fold-lesson.js',
   'assets/atlas/book-cover-en.png', 'assets/atlas/book-cover-es.png', 'assets/atlas/book-cover-ru.png',
@@ -162,6 +168,7 @@ for (const path of [
   'costa.html', 'costa.js', 'library/monarch-k2-A4-ru.pdf', 'assets/print-faces.js',
   'browser-workshop.js',
   'references.html',
+  'flight-objects.html', 'assets/objects/flight-lab-A4-en.pdf', 'assets/objects/CREDITS.md',
   'library/boeing-747-US_LETTER-ru.pdf',
   'library/monarch-A4-es.pdf',
   'library/family-lesson-es.html',

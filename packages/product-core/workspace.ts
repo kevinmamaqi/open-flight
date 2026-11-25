@@ -1,3 +1,4 @@
+import { flightObjects } from '../../apps/editor/assets/objects/activities.js'
 import { compareModels } from '../../apps/editor/atlas-guide.js'
 import { motorRoadmap } from '../../apps/editor/atlas-roadmap.js'
 import { flightCircuit, simulateFlight } from '../../apps/editor/flight-model.js'
@@ -225,6 +226,8 @@ export class Workspace {
         return renderFamilyBook(a.settings, a.output, a.offset, a.classroom)
       case 'getMotorRoadmap':
         return motorRoadmap(a.locale)
+      case 'getFlightObjects':
+        return flightObjects(a.locale ?? 'en')
       case 'getFlightCircuit':
         return flightCircuit(a.locale)
       case 'simulateFlight':

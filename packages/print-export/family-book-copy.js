@@ -132,6 +132,7 @@ export const flightBookCopy = {
     },
     construction: {
       k1: "Folded body",
+      k2: "Folded front edge",
       w1: "Tabs",
       "whole-sheet": "Whole-sheet fold",
     },
@@ -174,6 +175,7 @@ export const flightBookCopy = {
     },
     construction: {
       k1: "Cuerpo plegado",
+      k2: "Borde delantero plegado",
       w1: "Pestañas",
       "whole-sheet": "Plegado de hoja entera",
     },
@@ -216,6 +218,7 @@ export const flightBookCopy = {
     },
     construction: {
       k1: "Складной корпус",
+      k2: "Сложенный передний край",
       w1: "Язычки",
       "whole-sheet": "Сгибы на целом листе",
     },

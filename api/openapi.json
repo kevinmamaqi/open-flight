@@ -2493,6 +2493,98 @@
         },
         "x-mcp-tool": "openflight_get_motor_lab"
       }
+    },
+    "/v1/flight-objects": {
+      "get": {
+        "operationId": "getFlightObjects",
+        "summary": "Read the flight object activities",
+        "description": "Return localized paper flyer activities, printable packet paths, source notes and the evidence status of the Open Flight builds.",
+        "x-contract-status": "implemented_local_experimental",
+        "x-required-scopes": [
+          "openflight:designs:read"
+        ],
+        "x-mcp-access": "tool",
+        "x-success-schema": "FlightObjects",
+        "x-mutation": false,
+        "parameters": [
+          {
+            "name": "locale",
+            "in": "query",
+            "schema": {
+              "$ref": "#/components/schemas/AirplaneLocale",
+              "default": "en"
+            }
+          }
+        ],
+        "security": [
+          {
+            "UserToken": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Read the flight object activities",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FlightObjects"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Authentication required",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Insufficient scope or access",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Rate or quota limit",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Unexpected failure",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        },
+        "x-mcp-tool": "openflight_get_flight_objects"
+      }
     }
   },
   "components": {
@@ -3416,11 +3508,12 @@
                 "simulateFlight",
                 "planFoldedButterfly",
                 "renderFamilyBook",
-                "getMotorLab"
+                "getMotorLab",
+                "getFlightObjects"
               ]
             },
             "uniqueItems": true,
-            "maxItems": 23
+            "maxItems": 24
           },
           "transports": {
             "type": "array",
@@ -6425,6 +6518,221 @@
           "sources",
           "locations"
         ]
+      },
+      "FlightObjects": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "locale": {
+            "$ref": "#/components/schemas/AirplaneLocale"
+          },
+          "edition": {
+            "const": "flight-objects-1"
+          },
+          "evidence": {
+            "const": "untested_open_flight_builds"
+          },
+          "packets": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "A4": {
+                "type": "string",
+                "minLength": 1,
+                "description": "Path relative to the workshop root."
+              },
+              "US_LETTER": {
+                "type": "string",
+                "minLength": 1,
+                "description": "Path relative to the workshop root."
+              }
+            },
+            "required": [
+              "A4",
+              "US_LETTER"
+            ]
+          },
+          "activities": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/FlightObjectActivity"
+            }
+          },
+          "references": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/FlightObjectReference"
+            }
+          }
+        },
+        "required": [
+          "locale",
+          "edition",
+          "evidence",
+          "packets",
+          "activities",
+          "references"
+        ]
+      },
+      "FlightObjectActivity": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "revision": {
+            "type": "string",
+            "minLength": 1
+          },
+          "motion": {
+            "type": "string",
+            "minLength": 1
+          },
+          "sheet": {
+            "type": "string",
+            "minLength": 1
+          },
+          "page": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "illustration": {
+            "type": "string",
+            "minLength": 1,
+            "description": "Path relative to the workshop root."
+          },
+          "source": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "label": {
+                "type": "string",
+                "minLength": 1
+              },
+              "url": {
+                "type": "string",
+                "minLength": 1,
+                "format": "uri"
+              }
+            },
+            "required": [
+              "label",
+              "url"
+            ]
+          },
+          "title": {
+            "type": "string",
+            "minLength": 1
+          },
+          "verb": {
+            "type": "string",
+            "minLength": 1
+          },
+          "question": {
+            "type": "string",
+            "minLength": 1
+          },
+          "materials": {
+            "type": "string",
+            "minLength": 1
+          },
+          "steps": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "test": {
+            "type": "string",
+            "minLength": 1
+          },
+          "physics": {
+            "type": "string",
+            "minLength": 1
+          },
+          "measure": {
+            "type": "string",
+            "minLength": 1
+          },
+          "recovery": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "required": [
+          "id",
+          "revision",
+          "motion",
+          "sheet",
+          "page",
+          "illustration",
+          "source",
+          "title",
+          "verb",
+          "question",
+          "materials",
+          "steps",
+          "test",
+          "physics",
+          "measure",
+          "recovery"
+        ]
+      },
+      "FlightObjectReference": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "title": {
+            "type": "string",
+            "minLength": 1
+          },
+          "creator": {
+            "type": "string",
+            "minLength": 1
+          },
+          "url": {
+            "type": "string",
+            "minLength": 1,
+            "format": "uri"
+          },
+          "policy": {
+            "type": "string",
+            "minLength": 1
+          },
+          "motion": {
+            "type": "string",
+            "minLength": 1
+          },
+          "asset": {
+            "type": "string",
+            "minLength": 1,
+            "description": "Local image path relative to the workshop root."
+          },
+          "licenseUrl": {
+            "type": "string",
+            "format": "uri",
+            "pattern": "^https://"
+          }
+        },
+        "required": [
+          "title",
+          "creator",
+          "url",
+          "policy",
+          "motion"
+        ],
+        "dependentRequired": {
+          "asset": [
+            "licenseUrl"
+          ],
+          "licenseUrl": [
+            "asset"
+          ]
+        }
       }
     }
   }

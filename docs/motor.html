@@ -3,38 +3,37 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
-    <meta name="theme-color" content="#f9f7ee" />
+    <meta name="theme-color" content="#fbf9f4" />
     <meta
       name="description"
       content="A paper fit check, the original phone-controlled airplane kit and open motor research."
     />
     <title>Motor lab · Open Flight</title>
-    <link rel="icon" href="./assets/wing-mark.svg" />
-    <link rel="stylesheet" href="./atlas.css?v=317e8ae67356" />
-    <link rel="stylesheet" href="./atlas-nav.css?v=317e8ae67356" />
-    <link rel="stylesheet" href="./atlas-lab.css?v=317e8ae67356" />
-    <link rel="stylesheet" href="./motor.css?v=317e8ae67356" />
-    <script type="module" src="./motor.js?v=317e8ae67356"></script>
+    <link rel="icon" href="./assets/brand/favicon.ico" sizes="32x32" />
+    <link rel="icon" href="./assets/brand/favicon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="./assets/brand/apple-touch-icon.png" />
+    <link rel="manifest" href="./site.webmanifest" />
+    <link rel="preload" href="./assets/fonts/OpenFlightText-Regular.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="stylesheet" href="./tokens.css?v=5ef7606d1b32" />
+    <link rel="stylesheet" href="./system.css?v=5ef7606d1b32" />
+    <link rel="stylesheet" href="./lab.css?v=5ef7606d1b32" />
+    <link rel="stylesheet" href="./motor.css?v=5ef7606d1b32" />
+    <script type="module" src="./motor.js?v=5ef7606d1b32"></script>
   </head>
   <body>
-    <a class="skip" href="#main" data-copy="skip">Skip to content</a>
+    <a class="skip-link" href="#main" data-copy="skip">Skip to content</a>
     <header class="mast">
       <div class="mast-in">
         <a class="wordmark" id="home" href="./"
-          ><img
-            src="./assets/wing-mark.svg"
-            width="36"
-            height="36"
-            alt=""
-          />Open Flight</a
+          ><img src="./assets/brand/logo.svg" width="245" height="59" alt="Open Flight" /></a
         >
         <span data-workshop-menu></span>
-        <div class="lang">
+        <nav class="lang" aria-label="Language">
           <a
             id="en"
             lang="en"
             hreflang="en"
-            aria-label="English"
+            aria-label="English (EN)"
             href="?lang=en"
             >EN</a
           >
@@ -42,7 +41,7 @@
             id="es"
             lang="es"
             hreflang="es"
-            aria-label="Español"
+            aria-label="Español (ES)"
             href="?lang=es"
             >ES</a
           >
@@ -50,23 +49,23 @@
             id="ru"
             lang="ru"
             hreflang="ru"
-            aria-label="Русский"
+            aria-label="Русский (RU)"
             href="?lang=ru"
-            >РУ</a
+            >RU</a
           >
-        </div>
+        </nav>
       </div>
     </header>
     <main class="wrap motor" id="main">
       <header class="motor-hero">
         <div>
-          <p class="over" data-copy="title">Motor lab</p>
+          <p class="eyebrow" data-copy="title">Motor lab</p>
           <h1 data-copy="heading">From paper airplane to phone control.</h1>
           <p class="motor-lead" data-copy="intro">
             Explore the POWERUP motor attachments that inspired this project. At the workbench, test how a driver switches a light, try a phone command, and fit a paper mount to an airplane before adding power.
           </p>
           <div class="motor-actions">
-            <a href="#bench" class="motor-primary" data-copy="primary"
+            <a href="#bench" class="button primary" data-copy="primary"
               >Start the electrical bench</a
             >
             <a href="#reference" data-copy="secondary">See the original kit</a>

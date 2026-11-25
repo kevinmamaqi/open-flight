@@ -110,9 +110,9 @@ function assertScaleBar(drawing: string, width: number, height: number) {
     (match) => match.slice(1).map(toMm),
   )
   assert.ok(lines.some(([x1, y1, x2, y2]) =>
-    Math.abs(x2 - x1 - 20) < 0.01 && y1 === y2 &&
+    Math.abs(x2 - x1 - 50) < 0.01 && y1 === y2 &&
     y1 >= 15 && y1 < height / 2 && x1 > width / 2 && x2 <= width - 15,
-  ), 'The 20 mm scale bar must fit inside the lower-right printable area')
+  ), 'The 50 mm calibration line must fit inside the lower-right printable area')
 }
 
 const papers: PlanePaper[] = ['A4', 'US_LETTER']
@@ -183,7 +183,7 @@ test('recipes have different real outlines, crease sets, printable source and li
       assert.ok(planeGuide(plan).includes('href="' + url + '"'))
     }
     assert.match(svg, /width="210mm" height="297mm"/)
-    assert.match(svg, /20 mm/)
+    assert.match(svg, /50 mm/)
     assert.match(svg, /stroke-dasharray=/)
     assert.deepEqual(makePlane(JSON.parse(planeSource(plan))).source, plan.source)
     const file = readFileSync(

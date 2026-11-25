@@ -14,9 +14,13 @@
     "typecheck": "tsc --noEmit",
     "check:editor": "node scripts/check_editor.ts",
     "journey": "node examples/agent-client/journey.ts",
-    "build:workshop": "bun scripts/build_library.mjs && bun scripts/build_browser.mjs && bun scripts/build_book.mjs && node scripts/build_book_sizes.mjs && node scripts/build_book_covers.mjs",
+    "build:workshop": "bun scripts/build_library.mjs && node scripts/build_flight_objects.mjs && bun scripts/build_browser.mjs && bun scripts/build_book.mjs && node scripts/build_book_sizes.mjs && node scripts/build_book_covers.mjs",
     "build:site": "npm run build:workshop && bun scripts/build_site.mjs docs",
-    "build:cloudflare": "npm run build:workshop && bun scripts/build_site.mjs dist/cloudflare --cloudflare"
+    "build:cloudflare": "npm run build:workshop && bun scripts/build_site.mjs dist/cloudflare --cloudflare",
+    "check:design": "node scripts/build_tokens.mjs --check && node scripts/check_design.mjs",
+    "check:print": "node scripts/check_print_design.mjs",
+    "check:ui": "node scripts/check_ui.mjs",
+    "build:tokens": "node scripts/build_tokens.mjs"
   },
   "dependencies": {
     "@modelcontextprotocol/client": "2.4.0",

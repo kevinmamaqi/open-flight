@@ -3,39 +3,40 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
-    <meta name="theme-color" content="#f8f5ed" />
+    <meta name="theme-color" content="#fbf9f4" />
     <meta
       name="description"
       content="Build four original paper airplanes inspired by historic passenger aircraft. Adjust the folds, print one sheet, and explore flight."
     />
     <title>Paper airplane studio · Open Flight</title>
-    <link rel="icon" href="./assets/wing-mark.svg" type="image/svg+xml" />
-    <link rel="stylesheet" href="./planes.css?v=317e8ae67356" />
-    <link rel="stylesheet" href="./flight-viewer.css?v=317e8ae67356" />
-    <link rel="stylesheet" href="./atlas-nav.css?v=317e8ae67356"><script type="module" src="./atlas-nav.js?v=317e8ae67356"></script>
-    <script type="module" src="./planes.js?v=317e8ae67356"></script>
-    <link rel="stylesheet" href="./fold-lesson.css?v=317e8ae67356" />
-  </head>
+    <link rel="icon" href="./assets/brand/favicon.ico" sizes="32x32" />
+    <link rel="icon" href="./assets/brand/favicon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="./assets/brand/apple-touch-icon.png" />
+    <link rel="manifest" href="./site.webmanifest" />
+    <link rel="preload" href="./assets/fonts/OpenFlightText-Regular.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="stylesheet" href="./tokens.css?v=5ef7606d1b32" />
+    <link rel="stylesheet" href="./system.css?v=5ef7606d1b32" />
+    <link rel="stylesheet" href="./planes.css?v=5ef7606d1b32" />
+    <link rel="stylesheet" href="./flight-viewer.css?v=5ef7606d1b32" />
+    <script type="module" src="./atlas-nav.js?v=5ef7606d1b32"></script>
+    <script type="module" src="./planes.js?v=5ef7606d1b32"></script>
+</head>
   <body>
-    <a class="skip" href="#main" data-copy="skip">Skip to design</a>
-    <header class="top">
-      <div class="bar">
-        <a class="brand" data-home href="./"
-          ><img src="./assets/wing-mark.svg" width="35" height="35" alt="" />Open Flight</a
-        >
-        <nav>
+    <a class="skip-link" href="#main" data-copy="skip">Skip to design</a>
+    <header class="mast">
+      <div class="mast-in">
+        <a class="wordmark" data-home href="./"><img src="./assets/brand/logo.svg" width="245" height="59" alt="Open Flight" /></a>
+        <nav class="primary-links" aria-label="Workshop">
           <a data-home href="./" data-copy="atlas">Flight atlas</a
           ><a href="#fold" data-copy="foldGuide">Fold guide</a
           ><a href="#collection" data-copy="myBuilds">My builds</a>
         </nav>
-        <span data-workshop-menu></span><label class="language"
-          ><span class="sr" data-copy="language">Language</span
-          ><select id="language">
-            <option value="en" lang="en">EN</option>
-            <option value="ru" lang="ru">RU</option>
-            <option value="es" lang="es">ES</option>
-          </select></label
-        >
+        <span data-workshop-menu></span>
+        <nav class="lang" aria-label="Language" data-group="language">
+          <a id="en" lang="en" hreflang="en" href="?lang=en" aria-label="English (EN)">EN</a>
+          <a id="es" lang="es" hreflang="es" href="?lang=es" aria-label="Español (ES)">ES</a>
+          <a id="ru" lang="ru" hreflang="ru" href="?lang=ru" aria-label="Русский (RU)">RU</a>
+        </nav>
       </div>
     </header>
     <main id="main">
@@ -47,7 +48,7 @@
           <p id="character"></p>
           <div class="actions">
             <a href="#fold" class="button primary" data-copy="start">Start folding</a
-            ><button type="button" class="button light pdf" data-copy="print">Download build PDF</button>
+            ><button type="button" class="button secondary pdf" data-copy="print">Download build PDF</button>
             <a id="book-colors" class="source-link" href="./book.html">Use these colors in my Flight Book</a>
           </div>
         </div>
@@ -108,7 +109,7 @@
         </div>
         <div class="work-grid">
           <div class="work-main">
-            <div class="view-tabs" role="group" aria-label="View" data-group="view">
+            <div class="view-tabs segmented" role="group" aria-label="View" data-group="view">
               <button type="button" data-mode="guide" aria-pressed="true" data-copy="diagrams">
                 Fold diagrams</button
               ><button type="button" data-mode="fold" aria-pressed="false" data-copy="fold3d">3D folds</button
@@ -132,7 +133,7 @@
               <h3 id="step-title"></h3>
               <p id="instruction"></p>
               <div class="step-nav fold-lesson-actions">
-                <button id="previous" class="button light" type="button" data-copy="previous">Previous</button
+                <button id="previous" class="button secondary" type="button" data-copy="previous">Previous</button
                 ><button id="next" class="button primary" type="button" data-copy="next">Next fold</button>
               </div>
             </div>
@@ -171,7 +172,7 @@
               ><output id="tips-value" for="tips"></output></label
             ><input type="range" id="tips" min="0" max="12" step="1" />
             <p class="hint" data-copy="tipHint">At zero, both outside edges stay flat.</p>
-            <button type="button" id="save" class="button light" data-copy="save">Save a copy</button>
+            <button type="button" id="save" class="button secondary" data-copy="save">Save a copy</button>
           </aside>
         </div>
       </section>
@@ -182,6 +183,7 @@
           <p data-copy="printHelp">
             Print page 1, or pages 1–2 double-sided (flip on long edge) to see the folds on both faces. With a cut border, cut along the thick line before folding.
           </p>
+          <p class="print-reminder" data-print-reminder></p>
           <div class="resource-actions">
             <button type="button" class="button primary pdf" data-copy="print">Download build PDF</button
             ><button type="button" class="text-button" id="svg" data-copy="svg">Full-size SVG sheet</button
@@ -207,8 +209,8 @@
           </p>
         </div>
         <div class="actions">
-          <button id="share" class="button light" type="button" data-copy="share">Copy design link</button
-          ><button id="import" class="button light" type="button" data-copy="import">Import design</button
+          <button id="share" class="button secondary" type="button" data-copy="share">Copy design link</button
+          ><button id="import" class="button secondary" type="button" data-copy="import">Import design</button
           ><input type="file" accept=".json,application/json" id="import-file" hidden />
         </div>
         <div id="saved-builds"></div>

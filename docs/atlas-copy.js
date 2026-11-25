@@ -1,4 +1,5 @@
 export const ru = {
+  objectsAction: 'Испытай кольцеплан, крылатку или планер с двумя парами крыльев ↗',
   classTitle: 'Распечатать для класса',
   classIntro: 'Рассчитайте число копий для каждой команды и возьмите инструкцию в копицентр.',
   bookNav: 'Книга полётов',
@@ -61,7 +62,7 @@ export const ru = {
   resources: 'Открытая библиотека',
   takeAway: 'Возьмите с собой.',
   resourceIntro:
-    'Печатайте в натуральную величину. Проверьте отрезок на листе: 50 мм у бабочек, 20 мм у самолётов. Любую модель можно изменить в мастерской.',
+    'Печатайте в натуральную величину. Проверьте линейкой отрезок «50 мм» на каждом листе. Любую модель можно изменить в мастерской.',
   print: 'Лист для первого полёта',
   printHint: 'Выберите модель и формат бумаги для принтера.',
   designLabel: 'Модель',
@@ -79,6 +80,7 @@ export const ru = {
   footer: 'Открытая мастерская бумажных полётов.',
 }
 export const es = {
+  objectsAction: 'Prueba el anillo, la semilla giratoria o el planeador tándem ↗',
   classTitle: 'Imprimir para una clase',
   classIntro: 'Calcula las copias por equipo y lleva las instrucciones a la copistería.',
   bookNav: 'Libro de vuelo',
@@ -142,7 +144,7 @@ export const es = {
   resources: 'Biblioteca abierta',
   takeAway: 'Llévatelo a casa.',
   resourceIntro:
-    'Imprime a tamaño real. Comprueba la barra de 50 mm en las mariposas y de 20 mm en los aviones. Puedes personalizar cada modelo en el taller.',
+    'Imprime a tamaño real. Comprueba con una regla la línea de 50 mm de cada hoja. Puedes personalizar cada modelo en el taller.',
   print: 'Plantilla de inicio',
   printHint: 'Elige el diseño y el formato que usa tu impresora.',
   designLabel: 'Diseño',

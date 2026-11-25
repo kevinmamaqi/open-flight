@@ -4,10 +4,12 @@ import { backFaceWords, backKind, printSafeMm, sheetEdges, trimMm } from '../app
 import { foldedGeometry, foldedPages, makeFoldedButterfly } from '../packages/folded-butterfly/index.ts'
 import { k2BackPage, k2CutPage, k2Flat, makeK2 } from '../packages/folded-butterfly/k2-sheet.ts'
 import type { Drawing, Line } from '../packages/geometry/butterfly.ts'
+import { lineStyle } from '../apps/editor/assets/brand/print.js'
 
 const species = ['monarch', 'morpho', 'swallowtail'] as const
-const valley = [0.65, 1.05]
-const mountain = [2.8, 0.9, 0.55, 0.9]
+// The paper fold convention (DESIGN.md): valley dashed, mountain dash-dot.
+const valley = lineStyle.valley.dash
+const mountain = lineStyle.mountain.dash
 const near = (a: number, b: number) => Math.abs(a - b) < 1e-6
 
 // Every fold drawn on the front reappears on the back where it meets the paper from behind:

@@ -1,3 +1,4 @@
+import { color, dash } from './assets/brand/tokens.js';
 const ids = ['cut', 'center', 'wings', 'table', 'clip', 'launch'];
 const copy = {
   en: [
@@ -37,12 +38,13 @@ export function keelSteps(locale = 'en') {
   return steps.map(([title, action, check], index) => ({ id: ids[index], title, action, check }));
 }
 
-const ink = '#222432';
-const alignment = '#17664d';
-const motion = '#963512';
-const centerDash = '1 5';
-const wingDash = '8 4 1 4';
-const stripFill = '#eadac4';
+// Fold notation from the design tokens: valley dashed, mountain dash-dot, arrows in the diagram ink.
+const ink = color.diagramInk;
+const alignment = color.lineValley;
+const motion = color.diagramArrow;
+const centerDash = dash.valley;
+const wingDash = dash.mountain;
+const stripFill = color.diagramBack;
 const escapeXml = (text) => text.replaceAll('&', '&amp;').replaceAll('<', '&lt;').replaceAll('"', '&quot;');
 const point = ([x, y]) => `${x.toFixed(2)},${y.toFixed(2)}`;
 const path = (points) => `M ${points.map(point).join(' L ')}`;
@@ -86,7 +88,7 @@ function rearSection(x, y, halfWidth, stripAngle, wingAngle, inverted, color, st
     ]);
     return `<path d="${path([[x, y], root])}" fill="none" stroke="${ink}" stroke-width="2.4" stroke-linecap="round"/>
       <path d="${path([root, tip])}" fill="none" stroke="${ink}" stroke-width="6" stroke-linecap="round"/>
-      <path d="${path([root, tip])}" fill="none" stroke="#fff9ec" stroke-width="3.4" stroke-linecap="round"/>
+      <path d="${path([root, tip])}" fill="none" stroke="${color.diagramFront}" stroke-width="3.4" stroke-linecap="round"/>
       <path d="${path(printedFace)}" fill="none" stroke="${color}" stroke-width="1.7" stroke-linecap="round"/>`;
   }).join('');
 }
@@ -96,7 +98,7 @@ function foldDiagram(step, words, color, stripDepth) {
   const center = step === 1;
   return `${label(200, 30, words.rear)}
     ${label(100, 69, words.start)}${label(300, 69, words.finish)}
-    <path d="M200 55v145" stroke="#ddd2c1"/>
+    <path d="M200 55v145" stroke="${color.rule}"/>
     ${rearSection(100, 174, 62, center ? 0 : half, center ? 0 : half, false, color, stripDepth)}
     ${rearSection(300, 174, 62, half, center ? half : 0, false, color, stripDepth)}
     ${center ? `
@@ -111,7 +113,7 @@ function foldDiagram(step, words, color, stripDepth) {
 
 function tableDiagram(words, color, stripDepth) {
   return `${label(200, 30, words.rear)}
-    <path d="M28 145 H372 V186 H28 Z" fill="#eadac4"/>
+    <path d="M28 145 H372 V186 H28 Z" fill="${stripFill}"/>
     <path d="M28 145 H372" stroke="${ink}" stroke-width="2"/>
     ${rearSection(200, 145 - stripDepth, 121, Math.PI / 2, 0, true, color, stripDepth)}
     ${arrow([75, 83], [75, 102], [75, 125])}${arrow([325, 83], [325, 102], [325, 125])}
@@ -155,7 +157,7 @@ export function keelDiagram(plan, stepIndex, color, flatSvg) {
   else drawing = finishedDiagram(step, words, plan, color, stripDepth);
   return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 240" role="img" lang="${language}" aria-label="${escapeXml(`${title}. ${action} ${check}`)}" font-family="system-ui, sans-serif" font-size="14" fill="${ink}">
     <title>${escapeXml(title)}</title>
-    <rect width="400" height="240" rx="12" fill="#fffdf7"/>
+    <rect width="400" height="240" rx="12" fill="${color.surface}"/>
     ${drawing}
   </svg>`;
 }

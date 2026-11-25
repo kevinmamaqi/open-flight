@@ -7,7 +7,8 @@ import {
   type WorkshopModel,
   type WorkshopParameters,
 } from '../geometry/workshop.ts'
-import { sizes, svg, type Locale, type Paper } from './sheets.ts'
+import { sizes, svg, type Locale, type Paper, type PrintLabel } from './sheets.ts'
+import { accent as accentInk, brandMark, calibration, ink, lineStyle, muted as mutedInk, textMm } from '../../apps/editor/assets/brand/print.js'
 
 type PrintRevision = {
   ref: { design_id: string; revision_id: string; source_sha256: string }
@@ -133,10 +134,18 @@ const latin = {
   morpho: 'Morpho peleides',
   swallowtail: 'Papilio machaon',
 }
-const dark = '#252339',
-  muted = '#525767',
-  accent = '#345C58',
-  paper = '#FFFEF6'
+const dark = ink,
+  muted = mutedInk,
+  accent = accentInk,
+  paper = '#FFFFFF'
+// The W1 geometry module (fingerprinted) fixes shapes; the paper line convention is applied here.
+function paperStyle(line: Line): Line {
+  if (line.id === 'cut') return { ...line, stroke: lineStyle.cut.stroke, weight: lineStyle.cut.weight }
+  if (line.id.startsWith('root-fold-') && !line.id.endsWith('-halo')) return { ...line, ...lineStyle.valley }
+  if (line.id.startsWith('tab-hinge-') && !line.id.endsWith('-halo')) return { ...line, ...lineStyle.guide, stroke: ink }
+  if (line.id.startsWith('tab-slit-') && !line.id.endsWith('-halo')) return { ...line, stroke: ink, weight: lineStyle.cut.weight }
+  return line
+}
 
 function oval(x: number, y: number, rx: number, ry: number): Point[] {
   return Array.from({ length: 27 }, (_, i) => {
@@ -178,67 +187,44 @@ export function workshopSheet(
   const { parameters: p, appearance_id: appearance, ref } = revision
   const art = workshopArt(model, p, appearance, true)
   const artY = 45 - art.minY
-  const lines = placeArt(art.lines, width / 2, artY),
-    labels: Label[] = []
+  const lines = placeArt(art.lines, width / 2, artY).map(paperStyle),
+    labels: PrintLabel[] = []
   const line = (id: string, points: Point[], stroke = dark, weight = 0.4, dash?: number[]) =>
     lines.push({ id, points, stroke, weight, dash })
   const body = (id: string, points: Point[], fill: string, stroke?: string, weight = 0.28) =>
     lines.push({ id, points, closed: true, fill, stroke, weight })
-  const label = (x: number, y: number, text: string, size = 3.1, color = dark) =>
-    labels.push({ x, y, text, size, color })
+  const label = (x: number, y: number, text: string, size = 3.1, color = dark, font: PrintLabel['font'] = 'text') =>
+    labels.push({ x, y, text, size, color, font })
   const copy = (x: number, y: number, rows: string[], step = 4.9) =>
     rows.forEach((row, i) => label(x, y + i * step, row, 3.05))
   const step = (n: number, x: number, y: number) => {
     body('number-ring-' + n, oval(x + 2.6, y - 1.3, 2.65, 2.65), dark)
     label(x + 1.71, y - 0.23, String(n + 1), 2.9, '#FFFFFF')
-    label(x + 7.3, y, t.step[n], 4.05)
+    label(x + 7.3, y, t.step[n], textMm.step, dark, 'bold')
   }
   const bright = model.palettes[appearance as keyof typeof model.palettes].sun
   const trimInk = appearance === 'coloring' ? dark : model.palettes.natural.shade
 
-  label(13, 12.8, 'OPEN FLIGHT', 3.35, dark)
-  line(
-    'brand-divider',
-    [
-      [39, 10],
-      [39, 13],
-    ],
-    muted,
-    0.28,
-  )
-  label(42, 12.8, t.lab, 2.8, muted)
-  label(12.6, 27.1, t.names[model.species], 8.0)
-  label(13, 35, latin[model.species] + '   /   ' + p.span_mm + ' ' + t.mm + ' ' + t.flatSpan, 3.3, muted)
-  const rulerX = width - 64
-  label(rulerX, 14.3, t.scale + '  ·  50 ' + t.mm, 3.1)
-  line(
-    'ruler',
-    [
-      [rulerX, 23.5],
-      [rulerX + 50, 23.5],
-    ],
-    dark,
-    0.5,
-  )
-  for (let mm = 0; mm <= 50; mm += 5)
-    line(
-      'ruler-tick-' + mm,
-      [
-        [rulerX + mm, 23.5],
-        [rulerX + mm, mm % 10 === 0 ? 19.6 : 21.5],
-      ],
-      dark,
-      0.34,
-    )
-  label(rulerX, 31.1, t.print, 2.95, muted)
+  const mark = brandMark(13, 9)
+  lines.push(...mark.lines)
+  labels.push(...(mark.labels as PrintLabel[]))
+  label(13 + mark.width + 3, 12.6, t.lab, textMm.min, muted)
+  label(12.6, 27.1, t.names[model.species], textMm.display, dark, 'display')
+  label(13, 35, latin[model.species] + '   ·   ' + p.span_mm + ' ' + t.mm + ' ' + t.flatSpan, textMm.min, muted)
+  const rulerX = width - 74
+  label(rulerX, 14.3, t.scale + '  ·  50 ' + t.mm, textMm.min, dark, 'bold')
+  const cal = calibration(rulerX, 23.5, locale, { note: false })
+  lines.push(...cal.lines)
+  labels.push(...(cal.labels as PrintLabel[]))
+  label(rulerX, 31.1, t.print, textMm.min, muted)
   line(
     'masthead-rule',
     [
       [13, 39.3],
       [width - 13, 39.3],
     ],
-    '#C1C8C4',
-    0.28,
+    muted,
+    0.3,
   )
 
   // Put L/R directly between the corresponding slit endpoints.
@@ -251,7 +237,7 @@ export function workshopSheet(
   }
   const legendY = 150
   const cols = [13, 77, width - 72],
-    keys: (number[] | undefined)[] = [undefined, [2.9, 1.6], [0.55, 0.85]]
+    keys: (number[] | undefined)[] = [undefined, lineStyle.valley.dash, lineStyle.guide.dash]
   cols.forEach((x, i) => {
     line(
       'legend-' + i,
@@ -271,10 +257,10 @@ export function workshopSheet(
       [13, 154.8],
       [width - 13, 154.8],
     ],
-    '#B7C1BF',
+    muted,
     0.35,
   )
-  label(13, 163.3, t.heading, 5.5)
+  label(13, 163.3, t.heading, textMm.title, dark, 'display')
   const right = width / 2 + 3
   step(0, 13, 172.4)
   copy(13, 179, t.cut)
@@ -382,7 +368,7 @@ export function workshopSheet(
       [13, 199],
       [width - 13, 199],
     ],
-    '#D1D7D1',
+    muted,
     0.27,
   )
   step(3, right, 208)
@@ -472,7 +458,7 @@ export function workshopSheet(
       [13, 242],
       [width - 13, 242],
     ],
-    '#B7C1BF',
+    muted,
     0.35,
   )
   label(13, 247.5, t.launch, 3.1)

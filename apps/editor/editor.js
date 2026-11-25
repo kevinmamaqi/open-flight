@@ -1,3 +1,5 @@
+import { languageSwitch, localizedLinks } from './atlas-nav.js'
+import { butterflySwatches } from './assets/atlas/swatches.js'
 import { foldArtwork, showFoldStep } from './fold-lesson.js'
 import { keelSteps } from './keel-guide.js'
 import { foldedAddress, foldedExports, foldedSettings } from './studio-folded.js'
@@ -64,7 +66,7 @@ function t(key, substitutions = {}) {
 function translateChrome() {
   document.documentElement.lang = locale
   document.title = t('studioTitle') + ' · Open Flight'
-  $('locale').value = locale
+  localizedLinks(locale)
   const home = new URL('./', import.meta.url)
   home.searchParams.set('lang', locale)
   $('atlas-home').href = home
@@ -275,6 +277,14 @@ function renderPalette() {
     label.htmlFor = radio.id
     const dot = el('span', 'palette-dot')
     dot.dataset.appearance = id
+    // The dot shows the colours that will actually print (from the print palettes).
+    const species = document.querySelector('.controls')?.dataset.species
+    const swatch = butterflySwatches[species]?.[id === 'blank' ? 'coloring' : id]
+    if (swatch) {
+      dot.style.setProperty('--swatch-1', swatch[0])
+      dot.style.setProperty('--swatch-2', swatch[1])
+      dot.style.setProperty('--swatch-3', swatch[2])
+    }
     const name = words[locale][id] ?? appearance.title
     if (['coloring', 'blank'].includes(id)) {
       const hint = el('span', 'sr-only', t('coloringHint'))
@@ -1213,8 +1223,8 @@ function wireUI() {
       renderStep()
     }
   })
-  $('locale').addEventListener('change', () => {
-    locale = $('locale').value
+  languageSwitch((next) => {
+    locale = next
     sessionStorage.setItem('open-flight-language', locale)
     const url = new URL(location.href)
     url.searchParams.set('lang', locale)

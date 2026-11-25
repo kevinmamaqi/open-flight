@@ -1,11 +1,13 @@
 import { aircraftPortrait } from './field-portraits.js'
 import { esc, svgParts, specimenScene } from './drawing.js'
 import { planeCredits, creditText } from './credits.js'
-const ink = '#244851',
-  printed = '#faecc7',
-  back = '#dceae7',
-  active = '#fab578',
-  arrow = '#a64222'
+import { color } from '../brand/tokens.js'
+// Faces of the sheet, told apart by lightness: white front, pale reverse, shaded moving flap.
+const ink = color.diagramInk,
+  printed = color.diagramFront,
+  back = color.diagramBack,
+  active = color.diagramMoving,
+  arrow = color.diagramArrow
 const line = (points, stroke, sw = 1.5, dash) => ({
   type: 'polyline',
   points,
@@ -266,17 +268,17 @@ export function planeGuide(plan) {
     '</h1><p>' +
     esc(
       t(
-        'One full sheet. Print the matching template at actual size. Check its 20 mm line with a ruler.',
-        'Один целый лист. Распечатайте шаблон в масштабе 100%. Измерьте линейкой контрольные 20 мм.',
-        'Una hoja entera. Imprime la plantilla correspondiente a tamaño real. Comprueba con una regla que la línea mide 20 mm.',
+        'One full sheet. Print the matching template at actual size. Check its 50 mm line with a ruler.',
+        'Один целый лист. Распечатайте шаблон в масштабе 100%. Измерьте линейкой контрольные 50 мм.',
+        'Una hoja entera. Imprime la plantilla correspondiente a tamaño real. Comprueba con una regla que la línea mide 50 mm.',
       ),
     ) +
     '</p><small>' +
     esc(
       t(
-        'Cream = printed face · mint = reverse · orange = moving flap · dashed = crease.',
-        'Кремовая сторона — печать, мятная — оборот, оранжевая — подвижный клапан, пунктир — сгиб.',
-        'Crema · cara impresa. Verde menta · reverso. Naranja · parte que se dobla. Línea de rayas · doblez.',
+        'White = printed face · pale = reverse · shaded = flap that moves · dashed = crease.',
+        'Белое — сторона с печатью, светлое — оборот, тёмное — подвижный клапан, пунктир — сгиб.',
+        'Blanco · cara impresa. Claro · reverso. Sombreado · parte que se dobla. Línea de trazos · doblez.',
       ),
     ) +
     '</small></div><svg viewBox="0 0 420 222" role="img" aria-label="' +

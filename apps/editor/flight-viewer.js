@@ -1,3 +1,4 @@
+import { color } from './assets/brand/tokens.js'
 import { makeWorld, clamp, butterflyGeometry, flightRun, practiceTabs } from './flight-geometry.js'
 import { diagramRenderer, framing, spatialRenderer } from './flight-render.js'
 import { flightCircuit, sampleFlight } from './flight-model.js'
@@ -547,7 +548,7 @@ export function mountFlightViewer(host) {
     canvas.height = Math.round(state.planes.height * scale)
     if (!ctx) return null
     ctx.scale(scale, scale)
-    ctx.fillStyle = '#fff7e6'
+    ctx.fillStyle = color.surface
     ctx.fillRect(0, 0, state.planes.width, state.planes.height)
     for (const part of state.sheetDecoration) {
       if (part.type !== 'polygon' || !part.points.length) continue

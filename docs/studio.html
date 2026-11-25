@@ -3,48 +3,38 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
-    <meta name="theme-color" content="#f9f7f1" />
+    <meta name="theme-color" content="#fbf9f4" />
     <title>Butterfly studio · Open Flight</title>
-    <link rel="icon" href="./assets/wing-mark.svg" type="image/svg+xml" />
-    <link rel="stylesheet" href="./editor.css?v=317e8ae67356" />
-    <link rel="stylesheet" href="./flight-viewer.css?v=317e8ae67356" />
-    <link rel="stylesheet" href="./atlas-nav.css?v=317e8ae67356"><script type="module" src="./atlas-nav.js?v=317e8ae67356"></script>
-    <script type="module" src="./editor.js?v=317e8ae67356"></script>
-    <link rel="stylesheet" href="./fold-lesson.css?v=317e8ae67356" />
-  </head>
+    <link rel="icon" href="./assets/brand/favicon.ico" sizes="32x32" />
+    <link rel="icon" href="./assets/brand/favicon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="./assets/brand/apple-touch-icon.png" />
+    <link rel="manifest" href="./site.webmanifest" />
+    <link rel="preload" href="./assets/fonts/OpenFlightText-Regular.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="stylesheet" href="./tokens.css?v=5ef7606d1b32" />
+    <link rel="stylesheet" href="./system.css?v=5ef7606d1b32" />
+    <link rel="stylesheet" href="./editor.css?v=5ef7606d1b32" />
+    <link rel="stylesheet" href="./flight-viewer.css?v=5ef7606d1b32" />
+    <script type="module" src="./atlas-nav.js?v=5ef7606d1b32"></script>
+    <script type="module" src="./editor.js?v=5ef7606d1b32"></script>
+</head>
   <body>
     <a class="skip-link" href="#worktable" data-i18n="skip">Skip to the worktable</a>
-    <header class="topbar">
-      <div class="topbar-inner">
-        <a class="brand" id="atlas-home" href="./">
-          <img src="./assets/wing-mark.svg" width="40" height="40" alt="" />Open Flight
-        </a>
-        <nav class="navigation" aria-label="Workshop" data-aria="workshop">
-          <a href="#studio" class="active"
-            ><svg class="icon" aria-hidden="true"><use href="./editor-art.svg#studio" /></svg
-            ><span data-i18n="studio">Studio</span></a
-          >
-          <a href="#build-guide"
-            ><svg class="icon" aria-hidden="true"><use href="./editor-art.svg#book" /></svg
-            ><span data-i18n="buildGuide">Build guide</span></a
-          >
+    <header class="mast">
+      <div class="mast-in">
+        <a class="wordmark" id="atlas-home" href="./"><img src="./assets/brand/logo.svg" width="245" height="59" alt="Open Flight" /></a>
+        <nav class="primary-links" aria-label="Workshop" data-aria="workshop">
+          <a href="#studio" class="current" aria-current="true"><span data-i18n="studio">Studio</span></a>
+          <a href="#build-guide"><span data-i18n="buildGuide">Build guide</span></a>
         </nav>
-        <div class="top-actions"><span data-workshop-menu></span>
-          <button type="button" class="library-btn" id="open-library">
-            <svg class="icon" aria-hidden="true"><use href="./editor-art.svg#folder" /></svg
-            ><span data-i18n="myDesigns">My designs</span>
-          </button>
-          <label class="language"
-            ><span class="sr-only" data-i18n="language">Language</span>
-            <svg class="icon" aria-hidden="true"><use href="./editor-art.svg#globe" /></svg>
-            <select id="locale">
-              <option value="en" lang="en">EN</option>
-              <option value="ru" lang="ru">RU</option>
-              <option value="es" lang="es">ES</option>
-            </select>
-            <svg class="chevron" aria-hidden="true"><use href="./editor-art.svg#down" /></svg>
-          </label>
-        </div>
+        <button type="button" class="button small" id="open-library">
+          <svg class="icon" aria-hidden="true"><use href="./editor-art.svg#folder" /></svg><span data-i18n="myDesigns">My designs</span>
+        </button>
+        <span data-workshop-menu></span>
+        <nav class="lang" aria-label="Language" data-aria="language">
+          <a id="en" lang="en" hreflang="en" href="?lang=en" aria-label="English (EN)">EN</a>
+          <a id="es" lang="es" hreflang="es" href="?lang=es" aria-label="Español (ES)">ES</a>
+          <a id="ru" lang="ru" hreflang="ru" href="?lang=ru" aria-label="Русский (RU)">RU</a>
+        </nav>
       </div>
     </header>
     <main id="studio">
@@ -52,7 +42,7 @@
         <div>
           <h1 data-i18n="studioTitle">Butterfly studio</h1>
           <p data-i18n="intro">Choose a butterfly, make its wings your own, and fold it for flight.</p>
-          <div id="construction" class="view-switch construction-switch" role="group" data-aria="construction" aria-label="Construction" hidden>
+          <div id="construction" class="view-switch construction-switch segmented" role="group" data-aria="construction" aria-label="Construction" hidden>
             <button type="button" id="tabbed-body" data-i18n="tabbedBody" aria-pressed="true">Tabbed wings</button>
             <button type="button" id="folded-body" data-i18n="foldedBody" aria-pressed="false">Folded body</button>
           </div>
@@ -76,7 +66,7 @@
               <h2 id="title">Monarch</h2>
               <p id="scientific" lang="la"></p>
             </div>
-            <div class="view-switch" role="group" aria-label="Preview view" data-aria="previewView">
+            <div class="view-switch segmented" role="group" aria-label="Preview view" data-aria="previewView">
               <button type="button" id="wing-view" class="selected" aria-pressed="true">
                 <svg class="icon" aria-hidden="true"><use href="./editor-art.svg#wings" /></svg
                 ><span data-i18n="wings">Wings</span>
@@ -407,6 +397,7 @@
       </form>
       <p id="print-status" class="dialog-status" role="status"></p>
       <div id="downloads"></div>
+      <p class="print-reminder" data-print-reminder></p>
       <button type="button" id="jump-guide" class="text-button jump-guide">
         <svg class="small-icon" aria-hidden="true"><use href="./editor-art.svg#book" /></svg
         ><span data-i18n="showSteps">See the build steps</span>
@@ -419,7 +410,7 @@
           <svg class="icon" aria-hidden="true"><use href="./editor-art.svg#close" /></svg>
         </button>
       </div>
-      <div class="spatial-modes" role="group" data-aria="previewView" aria-label="Preview view">
+      <div class="spatial-modes segmented" role="group" data-aria="previewView" aria-label="Preview view">
         <button type="button" id="spatial-fold" data-i18n="foldLesson">Fold lesson</button>
         <button type="button" id="spatial-flight" data-i18n="flightLab">Flight experiment</button>
       </div>

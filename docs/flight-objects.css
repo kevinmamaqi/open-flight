@@ -1,0 +1,47 @@
+.objects { padding-block: clamp(var(--space-6), 5vw, var(--space-8)) var(--space-8); }
+.objects h1 { font-size: var(--text-3xl); line-height: 1;  margin: 0; }
+.objects .lead { font-size: var(--text-lg); max-width: 50rem; line-height: 1.5; margin: var(--space-3) 0 var(--space-6); }
+.object-picker { display: grid; gap: var(--space-3); grid-template-columns: repeat(3, minmax(0, 1fr)); margin-bottom: var(--space-4); }
+.object-picker a { display: grid; align-content: center; gap: var(--space-1); text-decoration: none; color: var(--color-text); border: 1px solid var(--color-rule); border-radius: var(--radius-lg); padding: var(--space-3) var(--space-4); background: var(--color-surface); }
+.object-picker a[aria-current] { border: 2px solid var(--color-selected); padding: calc(var(--space-3) - 1px) calc(var(--space-4) - 1px); background: var(--color-surface-sunken); }
+.object-picker small { color: var(--color-text-muted); font-size: var(--text-xs); }
+.object-picker strong { font-size: var(--text-md); line-height: 1.17; }
+.object-picker a:hover, .object-sources a:hover { background-color: var(--color-surface-sunken); }
+#activity { border: 1px solid var(--color-rule); border-radius: var(--radius-lg); background: var(--color-surface); overflow: hidden; }
+.object-plate { background: var(--color-surface-sunken); display: grid; grid-template-columns: minmax(0, .9fr) minmax(0, 1.25fr); align-items: center; gap: var(--space-6); padding: clamp(var(--space-5), 3.5vw, var(--space-7)); }
+[data-model=samara] .object-plate { background: var(--color-surface-caution); }
+[data-model=tandem] .object-plate { background: var(--color-surface-selected); }
+.object-plate img { display: block; width: 100%; height: clamp(7rem, 14vw, 12rem); object-fit: contain; }
+.objects h2 {  line-height: 1.1; margin: var(--space-7) 0 var(--space-2); font-size: var(--text-3xl); }
+.object-plate h2 { margin: 0 0 var(--space-3); }
+.object-plate p { font-size: var(--text-md); line-height: 1.4; margin: 0; }
+.object-details { padding: clamp(var(--space-5), 3.5vw, var(--space-7)); display: grid; grid-template-columns: 1.3fr 1fr; gap: clamp(var(--space-5), 5vw, var(--space-8)); }
+.objects h3 { font-size: var(--text-lg);  margin: 0 0 var(--space-2); }
+.object-details p, .object-details li { line-height: 1.52; }
+.object-details ol { margin: var(--space-4) 0 var(--space-4); padding-left: var(--space-5); }
+.object-details li { padding-left: var(--space-1); margin: var(--space-2) 0; }
+.object-details li::marker { font-weight: bold; color: var(--color-text-success); }
+.object-details details { border-top: 1px solid var(--color-rule); padding: var(--space-3) 0; }
+.object-details summary { cursor: pointer; font-weight: var(--weight-bold); }
+.object-details details p { margin: var(--space-2) 0 .1rem; }
+.object-print { border-bottom: 1px solid var(--color-rule); padding: var(--space-4) clamp(var(--space-5), 3.5vw, var(--space-7)); }
+.object-print div { display: flex; gap: var(--space-2); align-items: center; flex-wrap: wrap; }
+.object-print select { font: inherit; min-height: 44px; padding: var(--space-2) var(--space-3); border-radius: var(--radius-md); background: var(--color-surface); }
+.object-print p { margin: var(--space-3) 0 .1rem; }
+.object-print #evidence { color: var(--color-text-muted); font-size: var(--text-xs); }
+.object-media, .object-sources { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: var(--space-3); }
+.object-media figure { padding: var(--space-4); margin: 0; background: var(--color-surface); border-radius: var(--radius-lg); border: 1px solid var(--color-rule); }
+.object-media img { width: 100%; height: clamp(9rem, 18vw, 15rem); object-fit: contain; }
+.object-media figcaption { font-size: var(--text-xs); line-height: 1.4; }
+.object-media figcaption p { font-size: var(--text-sm); }
+.object-sources { margin-top: var(--space-4); }
+.object-sources a { padding: var(--space-4) var(--space-4); border-top: 1px solid var(--color-rule); text-decoration: none; color: var(--color-text); }
+.object-sources strong, .object-sources span { display: block; }
+.object-sources span { font-size: var(--text-xs); color: var(--color-text-muted); margin: var(--space-1) 0; }
+.object-sources p { margin: var(--space-2) 0 0; line-height: 1.42; }
+@media (max-width: 650px) {
+  .object-picker { grid-template-columns: 1fr; gap: var(--space-1); }
+  .object-picker a { grid-template-columns: minmax(6rem,.7fr) 1.3fr; align-items: center; min-height: 44px; }
+  .object-plate, .object-details, .object-media, .object-sources { grid-template-columns: 1fr; }
+  .object-plate { gap: var(--space-4); }
+}

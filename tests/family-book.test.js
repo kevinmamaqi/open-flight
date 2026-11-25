@@ -1,6 +1,7 @@
 import assert from "node:assert/strict";
 import { readFile } from "node:fs/promises";
 import test from "node:test";
+import { getDocument } from "pdfjs-dist/legacy/build/pdf.mjs";
 import {
   PDFDocument,
   PDFName,
@@ -76,6 +77,10 @@ for (const [lang, paper] of editions) {
     const normalized = normalizeBook(input);
     const plan = bookPlan(normalized);
     const bytes = await createBook(input, { loadAsset });
+    // Page text as a reader sees it (the stamps are set in the Open Flight text face).
+    const readable = await getDocument({ data: new Uint8Array(bytes), verbosity: 0 }).promise;
+    const pageText = async (n) =>
+      (await (await readable.getPage(n)).getTextContent()).items.map((item) => item.str).join(" ");
     const document = await PDFDocument.load(bytes, { updateMetadata: false });
     assert.equal(document.getTitle(), input.cover);
     const print = document.catalog.getOrCreateViewerPreferences();
@@ -147,12 +152,7 @@ for (const [lang, paper] of editions) {
           `Unchanged source content for ${id} page ${index + 1}`,
         );
         const stamp = `${String(pageNumber).padStart(2, "0")} / ${plan.pageCount}`;
-        const encodedStamp = Buffer.from(stamp).toString("hex").toUpperCase();
-        assert.ok(
-          content(actualStreams.at(-1))
-            .toString()
-            .includes(`<${encodedStamp}>`),
-        );
+        assert.ok((await pageText(pageNumber)).includes(stamp), `Page stamp ${stamp}`);
         pageNumber++;
       }
     }

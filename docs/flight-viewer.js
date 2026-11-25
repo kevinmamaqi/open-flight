@@ -1,9 +1,10 @@
-import { makeWorld, clamp, butterflyGeometry, flightRun, practiceTabs } from './flight-geometry.js?v=317e8ae67356'
-import { diagramRenderer, framing, spatialRenderer } from './flight-render.js?v=317e8ae67356'
-import { flightCircuit, sampleFlight } from './flight-model.js?v=317e8ae67356'
-import { circuitWords } from './flight-circuit-copy.js?v=317e8ae67356'
-import { printFlightScorecard } from './flight-scorecard.js?v=317e8ae67356'
-import { viewerWords } from './flight-words.js?v=317e8ae67356'
+import { color } from './assets/brand/tokens.js?v=5ef7606d1b32'
+import { makeWorld, clamp, butterflyGeometry, flightRun, practiceTabs } from './flight-geometry.js?v=5ef7606d1b32'
+import { diagramRenderer, framing, spatialRenderer } from './flight-render.js?v=5ef7606d1b32'
+import { flightCircuit, sampleFlight } from './flight-model.js?v=5ef7606d1b32'
+import { circuitWords } from './flight-circuit-copy.js?v=5ef7606d1b32'
+import { printFlightScorecard } from './flight-scorecard.js?v=5ef7606d1b32'
+import { viewerWords } from './flight-words.js?v=5ef7606d1b32'
 
 const views = {
   orbit: [0.46, 0.69],
@@ -547,7 +548,7 @@ export function mountFlightViewer(host) {
     canvas.height = Math.round(state.planes.height * scale)
     if (!ctx) return null
     ctx.scale(scale, scale)
-    ctx.fillStyle = '#fff7e6'
+    ctx.fillStyle = color.surface
     ctx.fillRect(0, 0, state.planes.width, state.planes.height)
     for (const part of state.sheetDecoration) {
       if (part.type !== 'polygon' || !part.points.length) continue
