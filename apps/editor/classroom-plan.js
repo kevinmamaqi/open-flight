@@ -1,16 +1,19 @@
+import { objects } from './assets/objects/activities.js'
 import { bookPlan, bookURL, normalizeBook, starterModels } from './book-model.js'
 import { sheetIdFor } from './family-sheets.js'
 
 const sheets = starterModels.map(model => sheetIdFor(model))
 
-export function classroomPlan({ lang, paper, learners, team_size }, bookBase) {
+export function classroomPlan({ lang, paper, learners, team_size, include_activities = false }, bookBase) {
   if (!Number.isInteger(learners) || learners < 1 || learners > 300)
     throw new RangeError('Enter a class size from 1 to 300.')
   if (![2, 3, 4].includes(team_size))
     throw new RangeError('Choose 2, 3 or 4 learners per team.')
 
-  const settings = normalizeBook({ lang, paper, sheets, style: 'ink' })
-  const { entries, guidePage, originPages } = bookPlan(settings)
+  if (typeof include_activities !== 'boolean') throw new RangeError('Invalid activity selection.')
+  const activities = include_activities ? objects.map(item => item.id) : []
+  const settings = normalizeBook({ lang, paper, sheets, style: 'ink', activities })
+  const { entries, guidePage, originPages, activityPages } = bookPlan(settings)
   const teams = Math.ceil(learners / team_size)
   const rows = [
     { kind: 'scale_check', pages: [2], copies: 1 },
@@ -22,6 +25,7 @@ export function classroomPlan({ lang, paper, learners, team_size }, bookBase) {
     })),
     { kind: 'shared_guide', pages: [guidePage], copies: teams },
     { kind: 'flight_log', pages: [4], copies: teams },
+    ...activityPages.map(({ id, number }) => ({ kind: 'activity', activity_id: id, pages: [number], copies: teams })),
   ]
   const book_url = bookURL(settings, bookBase)
   const guide = new URL('classroom.html', book_url)
@@ -29,6 +33,7 @@ export function classroomPlan({ lang, paper, learners, team_size }, bookBase) {
     lang: settings.lang, learners, team: team_size, paper: settings.paper === 'A4' ? 'a4' : 'letter',
   }).toString()
 
+  if (include_activities) guide.searchParams.set('objects', '1')
   return {
     settings,
     learners, team_size, teams, rows,

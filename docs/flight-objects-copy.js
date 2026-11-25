@@ -1,5 +1,7 @@
 export const objectCopy = {
   en: {
+    kit: 'Download the complete activity kit (ZIP)',
+    book: 'Add this activity to my Flight Book', classroom: 'Plan copies for a class',
     title: 'Flying objects', intro: 'Curl a sheet into a ring, drop a wing like a maple seed, or fold a glider from a 1918 book. Pick one and see what changes in five tries.',
     skip: 'Skip to the workshop', select: 'Choose a flying object',
     print: 'Download the three sheets', size: 'Paper size', letter: 'US Letter',
@@ -12,6 +14,8 @@ export const objectCopy = {
     full: 'Open full-size image', paperTypes: { 'whole-rectangle': 'Whole sheet', 'cut-and-clip': 'Cut and clip', 'cut-and-fold': 'Cut and fold' },
   },
   es: {
+    kit: 'Descargar el kit completo (ZIP)',
+    book: 'Añadir esta actividad a mi Libro de vuelo', classroom: 'Calcular copias para una clase',
     title: 'Objetos voladores', intro: 'Curva una hoja para hacer un anillo, deja caer una semilla de papel o pliega un planeador de un libro de 1918. Elige uno y pruébalo cinco veces.',
     skip: 'Ir al taller', select: 'Elige un objeto volador',
     print: 'Descargar las tres hojas', size: 'Formato de papel', letter: 'Carta (EE. UU.)',
@@ -24,6 +28,8 @@ export const objectCopy = {
     full: 'Abrir la imagen a tamaño completo', paperTypes: { 'whole-rectangle': 'Hoja entera', 'cut-and-clip': 'Recortar y sujetar', 'cut-and-fold': 'Recortar y doblar' },
   },
   ru: {
+    kit: 'Скачать полный комплект заданий (ZIP)',
+    book: 'Добавить задание в мою Книгу полётов', classroom: 'Рассчитать копии для класса',
     title: 'Летающие модели', intro: 'Сверни лист в кольцо, отпусти бумажную крылатку или сложи планер из книги 1918 года. Выбери модель и посмотри, что произойдёт за пять запусков.',
     skip: 'Перейти к мастерской', select: 'Выбери модель',
     print: 'Скачать три листа', size: 'Формат бумаги', letter: 'US Letter',

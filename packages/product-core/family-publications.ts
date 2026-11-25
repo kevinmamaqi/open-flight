@@ -49,6 +49,7 @@ export async function renderFamilyBook(settings: BookOptions = {}, output = 'man
     page_count: plan.pageCount,
     model_count: plan.modelCount,
     shared_guide_page: plan.guidePage,
+    ...(plan.activityPages.length && { activity_pages: plan.activityPages.map(({ id, number }) => ({ id, page: number })) }),
     atlas: plan.originPages.map(({model, id, number}) => ({
       page: number, sheet_id: id, field_note: fieldNote(modelOrigin(model, book.lang)!),
       appearances: appearanceChoices(model, book.lang),

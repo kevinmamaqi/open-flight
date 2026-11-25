@@ -1,11 +1,11 @@
-import { appearanceArtPath } from './model-appearance.js?v=38199683889a'
-import { coverSizes, measuredSizes } from './book-size-data.js?v=38199683889a'
-import { sheetCatalog } from './family-sheets.js?v=38199683889a'
+import { appearanceArtPath } from './model-appearance.js?v=400f8dcd57db'
+import { coverSizes, measuredSizes } from './book-size-data.js?v=400f8dcd57db'
+import { sheetCatalog } from './family-sheets.js?v=400f8dcd57db'
 
 const sheetsById = new Map(sheetCatalog.map(entry => [entry.id,entry]))
 
 // The result is an estimate for normalized options. Names and QR encoding can change the exact byte count.
-export function estimateBookBytes({ lang, paper, sheets, style, appearances = {} }) {
+export function estimateBookBytes({ lang, paper, sheets, style, appearances = {}, activities = [] }) {
   const { singles, frontMatter, sharedGuide, colored, duplicateNotes } = measuredSizes[lang][paper]
   const countedGuides = new Set()
   const countedModels = new Set()
@@ -22,6 +22,11 @@ export function estimateBookBytes({ lang, paper, sheets, style, appearances = {}
     const guide = entry.sharedGuide?.key
     if (guide && countedGuides.has(guide)) bytes -= sharedGuide
     if (guide) countedGuides.add(guide)
+  }
+  if (activities.length) {
+    const { activityBytes, activityOverlap } = measuredSizes[lang][paper]
+    for (const id of activities) bytes += activityBytes[id]
+    bytes -= (activities.length - 1) * activityOverlap
   }
   return bytes
 }

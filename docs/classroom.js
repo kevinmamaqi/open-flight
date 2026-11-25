@@ -1,10 +1,13 @@
-import { currentLocale, homeURL, localizedLinks } from './atlas-nav.js?v=38199683889a'
-import { bookFilename, bookTitle, localePaper } from './book-model.js?v=38199683889a'
-import { classroomPlan } from './classroom-plan.js?v=38199683889a'
-import { sheetName } from './family-sheets.js?v=38199683889a'
+import { flightObjects } from './assets/objects/activities.js?v=400f8dcd57db'
+import { currentLocale, homeURL, localizedLinks } from './atlas-nav.js?v=400f8dcd57db'
+import { bookFilename, bookTitle, localePaper } from './book-model.js?v=400f8dcd57db'
+import { classroomPlan } from './classroom-plan.js?v=400f8dcd57db'
+import { sheetName } from './family-sheets.js?v=400f8dcd57db'
 
 const translations = {
   en: {
+    includeActivities: 'Include the ring glider, maple spinner and tandem glider',
+    activitySupplies: 'Give each team a blank sheet for the ring, scissors, a paper clip and a ruler. Use the five-trial table on each activity page.',
     workshop: 'Workshop',
     language: 'Language',
     title: 'Classroom flight guide',
@@ -21,6 +24,8 @@ const translations = {
     omitted: 'Print the cover, fleet index, certificate and field notes separately if your class wants them.',
   },
   es: {
+    includeActivities: 'Incluir el anillo, la semilla giratoria y el planeador tándem',
+    activitySupplies: 'Da a cada equipo una hoja en blanco para el anillo, tijeras, un clip y una regla. Usad la tabla de cinco pruebas de cada actividad.',
     workshop: 'Taller',
     language: 'Idioma',
     title: 'Guía de vuelo para el aula',
@@ -67,6 +72,8 @@ const translations = {
     omitted: 'Si la clase quiere la portada, el índice, el certificado y las fichas de campo, imprímelos aparte.',
   },
   ru: {
+    includeActivities: 'Добавить кольцеплан, крылатку и тандемный планер',
+    activitySupplies: 'Дайте каждой команде чистый лист для кольцеплана, ножницы, скрепку и линейку. На каждом листе задания есть таблица для пяти попыток.',
     workshop: 'Мастерская',
     language: 'Язык',
     title: 'Полёты на уроке',
@@ -138,6 +145,9 @@ const table = get('page-ranges')
 const brief = get('shop-brief')
 const status = get('copy-status')
 const query = new URLSearchParams(location.search)
+const activities = get('include-activities')
+activities.checked = query.get('objects') === '1'
+const activityNames = new Map(flightObjects(lang).activities.map(item => [item.id, item.title]))
 
 function learnerCount(value) {
   const size = Number(value)
@@ -165,18 +175,19 @@ function update() {
   const size = learnerCount(learners.value)
   if (!size) return
   const plan = classroomPlan(
-    { lang, paper: paper.value, learners: size, team_size: Number(team.value) },
+    { lang, paper: paper.value, learners: size, team_size: Number(team.value), include_activities: activities.checked },
     new URL('./book.html', location.href),
   )
   const rowNames = { scale_check: copy.proofPage, shared_guide: copy.sharedGuide, flight_log: copy.logPage }
-  const rows = plan.rows.map(({ kind, sheet_id, pages, copies }) => ({
-    name: kind === 'model' ? copy.modelSheet(sheetName(sheet_id, lang), pages.length > 1) : rowNames[kind],
+  const rows = plan.rows.map(({ kind, sheet_id, activity_id, pages, copies }) => ({
+    name: kind === 'model' ? copy.modelSheet(sheetName(sheet_id, lang), pages.length > 1) : activityNames.get(activity_id) ?? rowNames[kind],
     pages, copies,
   }))
   const format = (pages) => pages.length > 1 ? `${pages[0]}–${pages.at(-1)}` : String(pages[0])
   const summary = copy.summary(size, plan.team_size, plan.teams, plan.total_sheets, paper.selectedOptions[0].textContent)
   get('copy-summary').textContent = summary
   table.replaceChildren(...rows.map(({ name, pages, copies }) => row(name, format(pages), copies)))
+  get('activity-supplies').hidden = !activities.checked
   starter.href = plan.book_url
   const shipRanges = rows.map(({ name, pages, copies }) => copy.noteLine(name, format(pages), copies))
   brief.value = [
@@ -186,6 +197,7 @@ function update() {
     get('print-shop').querySelector('.shop-proof').textContent,
     '',
     ...shipRanges,
+    ...(activities.checked ? [copy.activitySupplies] : []),
     '',
     copy.omitted,
   ].join('\n')
@@ -203,12 +215,14 @@ function commitSettings() {
   url.searchParams.set('learners', learners.value)
   url.searchParams.set('team', team.value)
   url.searchParams.set('paper', paper.value === 'A4' ? 'a4' : 'letter')
+  if (activities.checked) url.searchParams.set('objects', '1')
+  else url.searchParams.delete('objects')
   history.replaceState(null, '', url)
   localizedLinks(lang)
 }
 
 learners.addEventListener('input', update)
-for (const control of [learners, team, paper]) control.addEventListener('change', commitSettings)
+for (const control of [learners, team, paper, activities]) control.addEventListener('change', commitSettings)
 get('print-guide').addEventListener('click', () => window.print())
 get('copy-shop').addEventListener('click', async () => {
   try {

@@ -1,4 +1,7 @@
 export const ru = {
+  objectTag: 'Экспериментальные модели',
+  objectFamily: 'Летающие модели',
+  objectDesc: 'Сверни лист в кольцо, отпусти бумажную крылатку или сложи планер с двумя парами крыльев. Какая модель закрутится при падении?',
   sampleSheet: 'Посмотреть выкройку (PDF, A4)',
   pilotHint: 'Имя будет видно на обложке, в сертификате и в ссылке на книгу. Поле можно оставить пустым.',
   costaBuild: 'Опытная модель · K2',
@@ -33,9 +36,9 @@ export const ru = {
   headline1: 'Сложи планер.',
   headline2: 'Измени его полёт.',
   intro:
-    'Бесплатная мастерская для детей 5–12 лет и взрослых. Для самолёта хватит листа бумаги. Для бабочки понадобятся распечатка, ножницы и скрепка. Можно начать без регистрации.',
+    'Бесплатная мастерская для детей 5–12 лет и взрослых. Для самолёта или кольцеплана хватит листа бумаги. Для бабочки или крылатки понадобятся распечатка, ножницы и скрепка. Можно начать без регистрации.',
   choose: 'Выбрать модель',
-  allSheets: 'Скачать библиотеку версии 0.8.0 (ZIP) ↓',
+  allSheets: 'Скачать библиотеку версии 0.9.0 (ZIP) ↓',
   getSheets: 'Листы для печати',
   bench: 'На рабочем столе',
   collections: 'Коллекция',
@@ -85,6 +88,9 @@ export const ru = {
   footer: 'Открытая мастерская бумажных полётов.',
 }
 export const es = {
+  objectTag: 'Diseños experimentales',
+  objectFamily: 'Objetos voladores',
+  objectDesc: 'Forma un anillo con una hoja, deja caer una semilla de arce de papel o pliega un planeador con dos pares de alas. ¿Cuál gira al caer?',
   sampleSheet: 'Ver la plantilla (PDF A4)',
   pilotHint: 'El nombre aparece en la portada, el certificado y el enlace que compartas. Puedes dejarlo en blanco.',
   costaBuild: 'Pliegue experimental · K2',
@@ -111,11 +117,11 @@ export const es = {
   headline1: 'Pliega un planeador.',
   headline2: 'Cambia su vuelo.',
   intro:
-    'Un taller gratuito para niños de 5 a 12 años y sus familias. Para el avión basta una hoja de papel. Para la mariposa necesitas la plantilla impresa, tijeras y un clip. Puedes empezar sin registrarte.',
+    'Un taller gratuito para niños de 5 a 12 años y sus familias. Para un avión o un planeador de anillo basta una hoja. Para la mariposa o la semilla giratoria necesitas una plantilla impresa, tijeras y un clip. Puedes empezar sin registrarte.',
   choose: 'Elegir un diseño',
   cutStart: 'Hacer una mariposa',
   foldStart: 'Plegar un avión',
-  allSheets: 'Descargar la biblioteca de la versión 0.8.0 (ZIP) ↓',
+  allSheets: 'Descargar la biblioteca de la versión 0.9.0 (ZIP) ↓',
   getSheets: 'Plantillas para imprimir',
   bench: 'En la mesa de trabajo',
   collections: 'La colección',

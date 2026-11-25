@@ -1,3 +1,4 @@
+import { flightObjects } from "../../apps/editor/assets/objects/activities.js";
 import { Duplex, PDFDocument, PrintScaling } from "pdf-lib";
 import { jsPDF } from "jspdf";
 import { fontFiles, print, registerFonts, useFont } from "../../apps/editor/assets/brand/print.js";
@@ -227,20 +228,22 @@ function frontMatter(book, plan, regular, bold, display, art, artPaths, originAr
   if (plan.guidePage)
     text(wrap(copy.fleetGuide(plan.guidePage), 9.5, width), left, 59, 9.5);
   byline(copy.pages, right, 69, "right");
-  const rowHeight = 17.8;
+  // Keep both index lines above the folio, even when every sheet variant is selected.
+  const lastIndexLine = plan.activityPages.length ? 85 : 78;
+  const rowHeight = Math.min(17.8, (h - 25 - lastIndexLine) / plan.entries.length);
   plan.entries.forEach(({ id, start, end, guidePage }, index) => {
     const entry = sheetCatalog.find((item) => item.id === id);
     const details = modelDetails(id);
     const y = 72 + index * rowHeight;
     if (index % 2 === 0)
       doc.setFillColor(wash).rect(left, y, width, rowHeight, "F");
-    image(id, left + 3, y + 2.25, 21);
-    text(sheetName(id, lang), left + 29, y + 7, 13, { weight: "bold" });
+    image(id, left + 3, y + 1.5, Math.min(21, (rowHeight - 3) * 8 / 5));
+    text(sheetName(id, lang), left + 29, y + rowHeight * 0.39, 13, { weight: "bold" });
     const minutes = details.minutes
       ? ` · ${details.minutes.join("–")} ${lang === "ru" ? "мин" : "min"}`
       : "";
     const meta = `${copy.construction[entry.construction]} · ${copy.difficulty[details.level - 1]}${minutes} · ${copy.tools[entry.family]}`;
-    text(meta, left + 29, y + 13.2, 8.7);
+    text(meta, left + 29, y + rowHeight * 0.77, 9);
     for (let dot = 0; dot < 3; dot++) {
       doc
         .setDrawColor(accent)
@@ -265,7 +268,12 @@ function frontMatter(book, plan, regular, bold, display, art, artPaths, originAr
     );
   });
   const atlasLabel = {en:"Flight atlas", es:"Atlas de vuelo", ru:"Атлас полётов"}[lang];
-  byline(atlasLabel + " · " + plan.originPages[0].number + (plan.originPages.length > 1 ? "–" + plan.pageCount : ""), right, 78 + plan.entries.length * rowHeight, "right");
+  byline(atlasLabel + " · " + plan.originPages[0].number + (plan.originPages.length > 1 ? "–" + plan.originPages.at(-1).number : ""), right, 78 + plan.entries.length * rowHeight, "right");
+  if (plan.activityPages.length) {
+    const label = {en:"Flying objects", es:"Objetos voladores", ru:"Летающие модели"}[lang];
+    const range = plan.activityPages.map(item => item.number).join(", ");
+    byline(label + " · " + range, right, 85 + plan.entries.length * rowHeight, "right");
+  }
   text(copy.estimate, left, 78 + plan.entries.length * rowHeight, 8, {
     color: accent,
   });
@@ -433,6 +441,19 @@ export async function createBook(input, { loadAsset }) {
         y: (airplaneTemplate ? 14.5 : 11) * mm,
         width: 24 * mm,
         height: 6 * mm,
+      });
+    }
+  }
+  if (plan.activityPages.length) {
+    const lab = flightObjects(book.lang);
+    const packet = await PDFDocument.load(await loadAsset(lab.packets[book.paper]), { updateMetadata: false });
+    const selected = plan.activityPages.map(({ id }) => lab.activities.find(activity => activity.id === id));
+    const activitySheets = await output.copyPages(packet, selected.map(item => item.page - 1));
+    for (const [i, item] of selected.entries()) {
+      output.addPage(activitySheets[i]);
+      await output.attach(await loadAsset(item.illustration), item.illustration.split("/").at(-1), {
+        mimeType: "image/svg+xml", description: item.title,
+        creationDate: new Date("2026-11-25T00:00:00Z"), modificationDate: new Date("2026-11-25T00:00:00Z"),
       });
     }
   }

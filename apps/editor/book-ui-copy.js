@@ -1,5 +1,7 @@
 export const builderCopy = {
   en: {
+    activityTitle: "Flying object activities",
+    activityHint: "Add a full-size activity page for each design you want to try. These builds are awaiting flight trials.",
     intro:
       "Read the book, make it yours and print the flyers you want to build.",
     read: "Read the book",
@@ -110,6 +112,8 @@ export const builderCopy = {
       `${n} ${n === 1 ? "page" : "pages"} · ${n} ${n === 1 ? "sheet" : "sheets"}`,
   },
   es: {
+    activityTitle: "Actividades con objetos voladores",
+    activityHint: "Añade una página a tamaño real por cada diseño que quieras probar. Aún faltan las pruebas de vuelo de estos modelos.",
     intro:
       "Lee el libro, hazlo tuyo e imprime los modelos que quieras construir.",
     read: "Leer el libro",
@@ -220,6 +224,8 @@ export const builderCopy = {
       `${n} ${n === 1 ? "página" : "páginas"} · ${n} ${n === 1 ? "hoja" : "hojas"}`,
   },
   ru: {
+    activityTitle: "Опыты с летающими моделями",
+    activityHint: "Выбери модели для опытов. Для каждой в книге появится страница в натуральную величину. Лётные испытания ещё предстоят.",
     intro:
       "Почитай книгу, оформи её по-своему и распечатай модели, которые хочешь собрать.",
     read: "Читать книгу",

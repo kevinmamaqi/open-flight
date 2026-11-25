@@ -7,7 +7,7 @@ export function compareModels(left?: string, right?: string, locale?: Locale): {
     id: string
     name: string
     inspiration: string
-    family: 'butterfly' | 'airplane'
+    family: 'butterfly' | 'airplane' | 'object'
     technique: string
     materials: string
     shape: string

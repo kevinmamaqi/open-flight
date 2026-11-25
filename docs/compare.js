@@ -1,5 +1,5 @@
-import { compareModels, designIds, fieldModel } from './atlas-guide.js?v=38199683889a'
-import { currentLocale, homeURL, localizedLinks } from './atlas-nav.js?v=38199683889a'
+import { compareModels, designIds, fieldModel } from './atlas-guide.js?v=400f8dcd57db'
+import { currentLocale, homeURL, localizedLinks } from './atlas-nav.js?v=400f8dcd57db'
 const lang = currentLocale(),
   i = { en: 0, es: 1, ru: 2 }[lang]
 const t = (en, es, ru) => [en, es, ru][i],
@@ -15,9 +15,9 @@ const texts = {
   tag: t('At the worktable', 'En la mesa de trabajo', 'На рабочем столе'),
   title: t('Which two will you fly?', '¿Cuáles vas a lanzar?', 'Какие две модели запустим?'),
   intro: t(
-    'Choose two gliders. Look at what changes in the paper, predict a landing, then put them to the same test.',
-    'Elige dos planeadores. Mira qué cambia en el papel, predice dónde aterrizarán y ponlos a prueba.',
-    'Выбери два планера. Сравни бумажные детали, предположи, куда они полетят, и проведи один опыт для обоих.',
+    'Choose two designs. Look at their shapes and predict how each will move through the air.',
+    'Elige dos diseños. Observa sus formas y predice cómo se moverá cada uno en el aire.',
+    'Выбери две модели. Сравни их форму и предположи, как каждая будет двигаться в воздухе.',
   ),
   'test-tag': t('Try it on paper', 'Pruébalo en papel', 'Опыт с бумагой'),
   method: t(
@@ -48,6 +48,7 @@ if (left === right) right = designIds.find((id) => id !== left)
 const presets = [
   ['monarch', 'morpho', t('Two butterflies', 'Dos mariposas', 'Две бабочки')],
   ['boeing-747', 'tupolev-tu144', t('Two airplanes', 'Dos aviones', 'Два самолёта')],
+  ['ring', 'samara', t('Ring + spinner', 'Anillo y semilla', 'Кольцо и крылатка')],
   ['swallowtail', 'douglas-dc3', t('Butterfly + airplane', 'Mariposa y avión', 'Бабочка и самолёт')],
 ]
 for (const [a, b, name] of presets) {
@@ -126,6 +127,11 @@ function render() {
   const pair = compareModels(left, right, lang)
   $('comparison').replaceChildren(...pair.models.map(card))
   $('test-heading').textContent = pair.question
+  $('method').textContent = pair.models.some(model => model.family === 'object')
+    ? t('Follow each design’s release instructions. Watch five attempts per model. Record turns for the spinner and first landings for the gliders. Use each model’s own two settings to test one change.',
+      'Sigue las instrucciones de cada modelo. Haz cinco pruebas por modelo. Cuenta las vueltas de la semilla y marca el primer contacto de los planeadores. Prueba dos ajustes del mismo modelo para estudiar un cambio.',
+      'Следуй инструкции по запуску каждой модели. Проведи по пять попыток. Для крылатки считай обороты, для планеров отмечай первое касание пола. Чтобы проверить одно изменение, сравни две настройки одной модели.')
+    : texts.method
   $('trial-grid').replaceChildren(
     ...pair.models.map((m, i) => {
       const row = el('div', null, 'trial-line')

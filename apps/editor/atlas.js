@@ -1,3 +1,4 @@
+import { flightObjects } from './assets/objects/activities.js'
 import { ru, es } from './atlas-copy.js'
 import { currentLocale, homeURL, localizedLinks } from './atlas-nav.js'
 import { fieldModel, studioLink, foldedLink } from './atlas-guide.js'
@@ -72,33 +73,45 @@ $('lesson-file').href = './library/family-lesson-' + lang + '.html'
 const order = [
   'monarch',
   'boeing-747',
+  'ring',
   'morpho',
   'tupolev-tu144',
+  'samara',
   'swallowtail',
   'douglas-dc3',
   'ilyushin-il62',
+  'tandem',
 ]
 const models = order.map((id) => fieldModel(id, lang))
+const lab = flightObjects(lang)
+const activities = new Map(lab.activities.map(item => [item.id, item]))
+$('object-family').href = $('objects-link').href
 const select = $('download-model')
 $('download-paper').querySelector('[value=US_LETTER]').textContent = t(
   'US Letter',
   'Carta (EE. UU.)',
   'US Letter',
 )
-for (const m of [...models].sort(
-  (a, b) => Number(a.family === 'airplane') - Number(b.family === 'airplane'),
-)) {
-  const a = document.createElement('a')
-  a.href = m.studio
-  a.textContent = m.family === 'airplane' ? m.inspiration : m.name
-  $(m.family === 'airplane' ? 'plane-links' : 'butter-links').append(a)
-  select.add(new Option(m.family === 'airplane' ? m.name + ' · ' + m.inspiration : m.name, m.id))
+for (const family of ['butterfly', 'airplane', 'object']) {
+  for (const m of models.filter(model => model.family === family)) {
+    const label = family === 'airplane' ? m.inspiration : m.name
+    const a = family === 'object' ? document.querySelector('[data-object="' + m.id + '"]') : document.createElement('a')
+    a.href = m.studio
+    a.textContent = label
+    if (family !== 'object') $(family === 'airplane' ? 'plane-links' : 'butter-links').append(a)
+    select.add(new Option(family === 'airplane' ? m.name + ' · ' + label : label, m.id))
+  }
 }
+const patternLabel = $('specimen-sheet').textContent
 let pos = 0
 function display() {
   const m = models[pos],
     name = m.family === 'airplane' ? m.inspiration : m.name
-  $('specimen-sheet').href = './' + sheetPath(sheetIdFor(m.id, 'w1'), 'A4', lang) + assetVersion
+  const activity = activities.get(m.id)
+  $('specimen-sheet').href = activity
+    ? './' + lab.packets.A4 + assetVersion + '#page=' + activity.page
+    : './' + sheetPath(sheetIdFor(m.id, 'w1'), 'A4', lang) + assetVersion
+  $('specimen-sheet').textContent = activity ? t('Open the activity (A4 PDF)', 'Ver la actividad (PDF A4)', 'Открыть задание (PDF, A4)') : patternLabel
   $('specimen').src = m.family === 'butterfly' ? './assets/viewer/' + m.id + '-natural.webp' : m.image
   $('specimen').alt = t('Open design ', 'Abrir el diseño ', 'Открыть модель ') + name
   $('hero-link').href = $('specimen-name').href = m.studio
@@ -107,8 +120,9 @@ function display() {
     m.family === 'airplane'
       ? t('Whole-sheet airplane', 'Avión de hoja entera', 'Бумажный самолёт')
       : t('Butterfly glider', 'Planeador mariposa', 'Планер-бабочка')
+  if (activity) $('specimen-family').textContent = t('Experimental design', 'Diseño experimental', 'Экспериментальная модель')
   $('specimen-detail').textContent = m.family === 'airplane' ? m.name : m.inspiration
-  $('specimen-count').textContent = String(pos + 1).padStart(2, '0') + ' / 07'
+  $('specimen-count').textContent = String(pos + 1).padStart(2, '0') + ' / ' + models.length
   document.querySelector('.showcase').dataset.family = m.family
 }
 for (const [id, step, label] of [
@@ -127,6 +141,15 @@ const patternAndBack = t('Pattern, reverse side and fold guide', 'Plantilla, rev
 function download() {
   const butterfly = models.find(m=>m.id===select.value)?.family==='butterfly'
   $('construction-field').hidden=!butterfly
+  const activity = activities.get(select.value)
+  if (activity) {
+    const path = lab.packets[$('download-paper').value]
+    $('sheet-contents').textContent = activity.title + ' · ' + t('Page ', 'Página ', 'Страница ') + activity.page + t(' of 3', ' de 3', ' из 3')
+    $('sheet-note').textContent = activity.materials + ' ' + t('Experimental design. The PDF includes all three activities.', 'Diseño experimental. El PDF incluye las tres actividades.', 'Экспериментальная модель. В PDF входят все три задания.')
+    $('download').href = './' + path + assetVersion + '#page=' + activity.page
+    $('download').download = path.split('/').pop()
+    return
+  }
   const id = sheetIdFor(select.value, $('construction').value)
   const { pages, construction } = sheetCatalog.find(sheet => sheet.id === id)
   const pageUnit = t(pages === 1 ? 'page' : 'pages', pages === 1 ? 'página' : 'páginas',

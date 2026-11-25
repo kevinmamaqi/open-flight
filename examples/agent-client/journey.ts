@@ -104,6 +104,20 @@ try {
     const response = await http('/v1/books/render', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(classroomArgs) })
     assert.deepEqual(await response.json(), classroom)
   }
+  const objectPair = await call('compare_models', { left: 'samara', right: 'tandem', locale: 'es' })
+  assert.deepEqual(objectPair.models.map((item: {family: string}) => item.family), ['object', 'object'])
+  const activityArgs = { settings: { ...bookSettings, activities: ['tandem', 'ring'] } }
+  const withActivities = await call('render_family_book', activityArgs)
+  assert.deepEqual(withActivities.activity_pages, [{ id: 'tandem', page: 16 }, { id: 'ring', page: 17 }])
+  const activityClass = { ...classroomArgs, classroom: { ...classroomArgs.classroom, include_activities: true } }
+  const withTeams = await call('render_family_book', activityClass)
+  assert.equal(withTeams.classroom.total_sheets, classroom.classroom.total_sheets + 3 * classroom.classroom.teams)
+  if (origin) {
+    for (const [args, expected] of [[activityArgs, withActivities], [activityClass, withTeams]]) {
+      const response = await http('/v1/books/render', {method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(args)})
+      assert.deepEqual(await response.json(), expected)
+    }
+  }
   const bookParts: Buffer[] = []
   let bookOffset: number | null = 0
   let bookHash = ''

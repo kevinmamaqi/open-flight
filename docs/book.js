@@ -1,5 +1,6 @@
-import { currentLocale, homeURL, localizedLinks } from "./atlas-nav.js?v=38199683889a";
-import { recordBookEvent } from "./book-metrics.js?v=38199683889a";
+import { flightObjects } from "./assets/objects/activities.js?v=400f8dcd57db";
+import { currentLocale, homeURL, localizedLinks } from "./atlas-nav.js?v=400f8dcd57db";
+import { recordBookEvent } from "./book-metrics.js?v=400f8dcd57db";
 import {
   bookFilename,
   bookPlan,
@@ -11,24 +12,24 @@ import {
   normalizeBook,
   pilotLimit,
   readBookURL,
-} from "./book-model.js?v=38199683889a";
+} from "./book-model.js?v=400f8dcd57db";
 import {
   loadBookServices,
   recoverBookCheckout,
   supportChoices,
-} from "./book-support.js?v=38199683889a";
-import { estimateBookBytes } from "./book-size.js?v=38199683889a";
-import { mountBookReader } from "./book-reader.js?v=38199683889a";
-import { applyStudioColors, studioForBookSheet } from "./model-studio.js?v=38199683889a";
-import { mountModelMap } from "./model-map.js?v=38199683889a";
-import { appearanceArtPath, appearanceChoices } from "./model-appearance.js?v=38199683889a";
-import { builderCopy } from "./book-ui-copy.js?v=38199683889a";
+} from "./book-support.js?v=400f8dcd57db";
+import { estimateBookBytes } from "./book-size.js?v=400f8dcd57db";
+import { mountBookReader } from "./book-reader.js?v=400f8dcd57db";
+import { applyStudioColors, studioForBookSheet } from "./model-studio.js?v=400f8dcd57db";
+import { mountModelMap } from "./model-map.js?v=400f8dcd57db";
+import { appearanceArtPath, appearanceChoices } from "./model-appearance.js?v=400f8dcd57db";
+import { builderCopy } from "./book-ui-copy.js?v=400f8dcd57db";
 import {
   sheetCatalog,
   sheetIdFor,
   sheetName,
   sheetPath,
-} from "./family-sheets.js?v=38199683889a";
+} from "./family-sheets.js?v=400f8dcd57db";
 
 const sheetVersion = new URL(import.meta.url).search;
 const byId = (id) => document.getElementById(id);
@@ -73,6 +74,12 @@ const { draft: saved, legacy } = readDraft();
 const incoming = readBookURL(location.href);
 const fullShare = Array.isArray(incoming.sheets);
 const draft = fullShare ? incoming : { ...saved, ...incoming };
+const requestedActivity = new URL(location.href).searchParams.get("addActivity");
+if (requestedActivity && flightObjects().activities.some(item => item.id === requestedActivity)) {
+  const previous = Array.isArray(draft.activities) ? draft.activities : [];
+  draft.activities = [...new Set([...previous, requestedActivity])];
+  if (!draft.sheets?.length) delete draft.sheets;
+}
 const studioChanges = applyStudioColors(draft, location.href);
 const preferences = { ...draft, ...studioChanges };
 const lang = locales.includes(preferences.lang)
@@ -382,6 +389,13 @@ function previewOptions(book) {
   }
   for (const { id, number } of plan.originPages ?? [])
     items.push({ label: t.origin(sheetName(id, book.lang)), number });
+  if (plan.activityPages.length) {
+    const lab = flightObjects(book.lang);
+    for (const { id, number } of plan.activityPages) {
+      const activity = lab.activities.find(item => item.id === id);
+      items.push({ number, label: activity.title, source: "./" + lab.packets[book.paper] + sheetVersion + "#page=" + activity.page });
+    }
+  }
   return items;
 }
 
@@ -407,6 +421,7 @@ function refresh({ lazy = false } = {}) {
   renderActions();
   persist();
   const url = new URL(location.href);
+  url.searchParams.delete("addActivity");
   if (studioChanges.sheets && url.hash.includes("flyer=")) {
     url.hash = "";
   } else if (fullShare && book) {
@@ -482,6 +497,17 @@ function renderLocale() {
   byId("classroom").href = `./classroom.html?lang=${state.lang}`;
   for (const item of document.querySelectorAll("[data-book]"))
     item.textContent = t[item.dataset.book];
+  const lab = flightObjects(state.lang);
+  byId("activity-choices").replaceChildren(...lab.activities.map(activity => {
+    const label = document.createElement("label");
+    const input = document.createElement("input");
+    input.type = "checkbox";
+    input.name = "activity";
+    input.value = activity.id;
+    input.checked = state.activities?.includes(activity.id) ?? false;
+    label.append(input, document.createTextNode(activity.title));
+    return label;
+  }));
   setWideReading(document.querySelector(".workbench").dataset.wide === "true");
   byId("customize").setAttribute("aria-label", t.customize);
   titleInput.placeholder = t.title;
@@ -601,6 +627,11 @@ byId("cover-model").addEventListener("click", () => {
 });
 document.addEventListener("change", ({ target }) => {
   const { name, value } = target;
+  if (name === "activity") {
+    state.activities = Array.from(byId("activity-choices").querySelectorAll("input:checked"), input => input.value);
+    refresh();
+    return;
+  }
   if (name === "construction") {
     const replacement = sheetIdFor(activeModel, value);
     const editions = editionsFor(activeModel);
@@ -720,7 +751,7 @@ function loadAsset(path) {
   recentAssets.delete(path);
   if (!bytes) {
     const url = new URL(path, import.meta.url);
-    if (path.startsWith("library/")) url.search = sheetVersion;
+    if (path.startsWith("library/") || path.startsWith("assets/objects/")) url.search = sheetVersion;
     bytes = fetch(url).then(async (response) => {
       if (!response.ok) throw new Error("Unable to load " + path);
       return new Uint8Array(await response.arrayBuffer());
@@ -738,8 +769,8 @@ function readyPDF(book) {
   const key = JSON.stringify(book);
   if (activePDF?.key === key) return activePDF.promise;
   const promise = Promise.all([
-    import("./book-engine.js?v=38199683889a"),
-    import("./assets/planes/vendor/jspdf.js?v=38199683889a"),
+    import("./book-engine.js?v=400f8dcd57db"),
+    import("./assets/planes/vendor/jspdf.js?v=400f8dcd57db"),
   ]).then(async ([{ createBook }]) => {
     const data = await createBook(book, { loadAsset });
     return new File([data], bookFilename(book), { type: "application/pdf" });

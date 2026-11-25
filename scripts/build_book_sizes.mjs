@@ -1,3 +1,4 @@
+import { objects } from '../apps/editor/assets/objects/activities.js'
 import { readFile, stat, writeFile } from 'node:fs/promises'
 import { appearanceArtPath, appearanceArtStyles, appearanceChoices } from '../apps/editor/model-appearance.js'
 import { paperSizes, sheetCatalog, sheetLocales } from '../apps/editor/family-sheets.js'
@@ -23,7 +24,7 @@ const sizes = {}
 for (const lang of sheetLocales) {
   sizes[lang] = {}
   for (const paper of paperSizes) {
-    const measure = async (sheets, appearances) => (await createBook({lang,paper,sheets,appearances},{loadAsset})).byteLength
+    const measure = async (sheets, appearances, activities) => (await createBook({lang,paper,sheets,appearances,activities},{loadAsset})).byteLength
     const singles = {}, colored = {}, duplicateNotes = {}
     for (const {id,model} of sheetCatalog) {
       singles[id] = await measure([id])
@@ -40,7 +41,11 @@ for (const lang of sheetLocales) {
       const classic = sheetCatalog.find(entry => entry.model === model && entry.construction === 'w1')
       if (classic) duplicateNotes[model] = await overlap([classic.id, id]) - frontMatter
     }
-    sizes[lang][paper] = { singles, frontMatter, sharedGuide, colored, duplicateNotes }
+    const activityBytes = {}
+    for (const { id } of objects) activityBytes[id] = await measure([pair[0]], {}, [id]) - singles[pair[0]]
+    const activitiesTogether = await measure([pair[0]], {}, objects.map(item => item.id)) - singles[pair[0]]
+    const activityOverlap = (Object.values(activityBytes).reduce((sum, size) => sum + size, 0) - activitiesTogether) / (objects.length - 1)
+    sizes[lang][paper] = { singles, frontMatter, sharedGuide, colored, duplicateNotes, activityBytes, activityOverlap }
   }
 }
 await writeFile(new URL('book-size-data.js',editor), [

@@ -15,6 +15,7 @@ test('each language can compare any distinct pair using the released fold and cl
         geometry.clip_rear_from_nose_mm,
       ],
     ]),
+    ...['ring', 'samara', 'tandem'].map(id => [id, []]),
     ...planeCatalog.map((p) => [p.model_id, [p.keel_mm, p.winglet_mm]]),
   ])
   assert.deepEqual(new Set(designIds), new Set(Object.keys(expected)))
@@ -40,7 +41,7 @@ test('each language can compare any distinct pair using the released fold and cl
           assert.ok(m.shape.length > 55 && m.experiment.length > 35)
           const studio = new URL(m.studio, 'https://example.test/')
           assert.equal(studio.searchParams.get('lang'), locale)
-          if (m.family === 'airplane') assert.equal(studio.searchParams.get('model'), m.id)
+          if (m.family !== 'butterfly') assert.equal(studio.searchParams.get('model'), m.id)
           else assert.equal(new URLSearchParams(studio.hash.slice(1)).get('design'), 'butterfly-' + m.id)
         }
       }

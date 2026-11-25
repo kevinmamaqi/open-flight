@@ -5,7 +5,7 @@ import { sheetCatalog } from './family-sheets.js'
 const sheetsById = new Map(sheetCatalog.map(entry => [entry.id,entry]))
 
 // The result is an estimate for normalized options. Names and QR encoding can change the exact byte count.
-export function estimateBookBytes({ lang, paper, sheets, style, appearances = {} }) {
+export function estimateBookBytes({ lang, paper, sheets, style, appearances = {}, activities = [] }) {
   const { singles, frontMatter, sharedGuide, colored, duplicateNotes } = measuredSizes[lang][paper]
   const countedGuides = new Set()
   const countedModels = new Set()
@@ -22,6 +22,11 @@ export function estimateBookBytes({ lang, paper, sheets, style, appearances = {}
     const guide = entry.sharedGuide?.key
     if (guide && countedGuides.has(guide)) bytes -= sharedGuide
     if (guide) countedGuides.add(guide)
+  }
+  if (activities.length) {
+    const { activityBytes, activityOverlap } = measuredSizes[lang][paper]
+    for (const id of activities) bytes += activityBytes[id]
+    bytes -= (activities.length - 1) * activityOverlap
   }
   return bytes
 }

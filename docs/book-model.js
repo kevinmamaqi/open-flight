@@ -1,6 +1,7 @@
-import { appearanceChoices, appearanceArtPath, appearanceArtStyles } from './model-appearance.js?v=38199683889a'
-import { paperSizes, sheetCatalog, sheetIdFor, sheetLocales } from './family-sheets.js?v=38199683889a'
-import { sheetEdges } from './assets/print-faces.js?v=38199683889a'
+import { objects } from './assets/objects/activities.js?v=400f8dcd57db'
+import { appearanceChoices, appearanceArtPath, appearanceArtStyles } from './model-appearance.js?v=400f8dcd57db'
+import { paperSizes, sheetCatalog, sheetIdFor, sheetLocales } from './family-sheets.js?v=400f8dcd57db'
+import { sheetEdges } from './assets/print-faces.js?v=400f8dcd57db'
 
 const entries = new Map(sheetCatalog.map(item => [item.id, item]))
 const titles = { en: 'Flight Book', es: 'Libro de vuelo', ru: 'Книга полётов' }
@@ -44,6 +45,10 @@ function bookAppearances(choices = {}) {
   }
   return Object.fromEntries(modelOrder.filter(id => Object.hasOwn(colors, id)).map(id => [id, colors[id]]))
 }
+const activityIds = new Set(objects.map(item => item.id))
+function validActivities(ids) {
+  return Array.isArray(ids) && new Set(ids).size === ids.length && Array.from(ids).every(id => activityIds.has(id))
+}
 export function normalizeBook(input = {}) {
   if (!input || typeof input !== 'object' || Array.isArray(input)) throw new TypeError('Expected book options.')
   const { lang = 'en', paper = 'A4', sheets = defaultSheets, pilot = '', style = 'studio',
@@ -53,10 +58,12 @@ export function normalizeBook(input = {}) {
   // Airplane pages: 'cut' prints a border to cut along; 'whole' folds the full page.
   if (!sheetEdges.includes(edge)) throw new RangeError('Invalid airplane sheet edge.')
   if (!Array.isArray(sheets) || !sheets.length || !Array.from(sheets).every(id => entries.has(id))
-      || new Set(sheets).size !== sheets.length) throw new RangeError('Select 1 to 10 distinct sheets.')
+      || new Set(sheets).size !== sheets.length) throw new RangeError('Select 1 to ' + entries.size + ' distinct sheets.')
+  const activities = input.activities === undefined ? [] : input.activities
+  if (!validActivities(activities)) throw new RangeError('Choose distinct flying object activities.')
   const coverModel = input.coverModel === undefined || input.coverModel === '' ? sheets[0] : input.coverModel
   if (!sheets.includes(coverModel)) throw new RangeError('Select a cover model included in the book.')
-  return { lang, paper, sheets: [...sheets], coverModel, appearances: bookAppearances(input.appearances), pilot: label(pilot,pilotLimit,'pilot name'), style,
+  return { lang, paper, ...(activities.length && { activities: [...activities] }), sheets: [...sheets], coverModel, appearances: bookAppearances(input.appearances), pilot: label(pilot,pilotLimit,'pilot name'), style,
     theme, edge, cover: label(cover,coverLimit,'cover title') || bookTitle(lang) }
 }
 
@@ -71,7 +78,7 @@ export function artPath(id, style = 'studio') {
   return appearanceArtPath(id, style)
 }
 export function bookPlan(input = {}) {
-  const { sheets } = normalizeBook(input)
+  const { sheets, activities = [] } = normalizeBook(input)
   const keeps = 5, shared = new Map()
   let number = keeps
   const items = sheets.map(id => {
@@ -96,7 +103,8 @@ export function bookPlan(input = {}) {
       originPages.push({ model, id, number: ++number })
     }
   }
-  return { pageCount: number, modelCount: originPages.length, originPages,
+  const activityPages = activities.map(id => ({ id, number: ++number }))
+  return { pageCount: number, modelCount: originPages.length + activityPages.length, originPages, activityPages,
     guidePage: shared.get('folded-butterfly') ?? null, entries: items, keeps }
 }
 export function localePaper(languages = []) {
@@ -116,6 +124,7 @@ export function bookURL(input, base = canonicalBook) {
   if (book.coverModel !== book.sheets[0]) fields.set('hero', book.coverModel)
   const colors = Object.entries(book.appearances).map(([id, color]) => id + ':' + color)
   if (colors.length) fields.set('a', colors.join(','))
+  if (book.activities?.length) fields.set('activities', book.activities.join(','))
   if (book.pilot) fields.set('pilot',book.pilot)
   if (book.cover !== bookTitle(book.lang)) fields.set('title',book.cover)
   if (book.theme !== 'sky') fields.set('theme',book.theme)
@@ -131,6 +140,10 @@ export function readBookURL(address) {
   if (selection) {
     const ids = selection.split(',')
     if (ids.every(id=>entries.has(id)) && new Set(ids).size === ids.length) partial.sheets = ids
+  }
+  if (fields.has('activities')) {
+    const ids = fields.get('activities').split(',')
+    if (validActivities(ids)) partial.activities = ids
   }
   const hero = fields.get('hero')
   if (hero && (partial.sheets || defaultSheets).includes(hero)) partial.coverModel = hero

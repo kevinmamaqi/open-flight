@@ -46,11 +46,14 @@ $('original').href = selected.source.url
 $('original').textContent = selected.source.label + ' ↗'
 $('svg').href = './' + selected.illustration
 $('svg').textContent = copy.drawing
+$('activity-book').textContent = copy.book
+$('activity-classroom').textContent = copy.classroom
 $('trial').textContent = selected.test
 $('physics').textContent = selected.physics
 $('recovery').textContent = selected.recovery
 $('packet').textContent = copy.print
 $('print-note').textContent = copy.printNote + ' ' + copy.page + ' ' + selected.page + '.'
+$('kit').textContent = copy.kit
 $('credits').textContent = copy.credit
 $('paper-size').options[1].textContent = copy.letter
 const initialPaper = url.searchParams.get('paper')
@@ -58,6 +61,9 @@ if (Object.hasOwn(lab.packets, initialPaper)) $('paper-size').value = initialPap
 function choosePaper() {
   const paper = $('paper-size').value
   $('packet').href = './' + lab.packets[paper]
+  const size = paper === 'A4' ? 'a4' : 'letter'
+  $('activity-book').href = './book.html?' + new URLSearchParams({lang, paper: size, addActivity: selected.id})
+  $('activity-classroom').href = './classroom.html?' + new URLSearchParams({lang, paper: size, objects: '1'})
   for (const a of $('picker').children) {
     const next = new URL(a.href)
     next.searchParams.set('paper', paper)

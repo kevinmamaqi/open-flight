@@ -1,4 +1,4 @@
-import { aircraftHeritage } from './assets/planes/heritage.js?v=38199683889a';
+import { aircraftHeritage } from './assets/planes/heritage.js?v=400f8dcd57db';
 
 const tr = (en, es, ru) => ({en, es, ru});
 

@@ -2,7 +2,7 @@
   "openapi": "3.1.2",
   "info": {
     "title": "Open Flight local product API",
-    "version": "0.8.0",
+    "version": "0.9.0",
     "description": "Account-free local product operations backed by the selected workspace. A loopback instance issues a private bearer grant. Export jobs and immutable artifact bytes are stored together in SQLite."
   },
   "x-contract-status": "implemented_local_experimental",
@@ -4076,10 +4076,16 @@
             "const": "open-flight-plane"
           },
           "revision": {
-            "enum": ["1", "2"]
+            "enum": [
+              "1",
+              "2"
+            ]
           },
           "edge": {
-            "enum": ["cut", "whole"],
+            "enum": [
+              "cut",
+              "whole"
+            ],
             "description": "cut prints a thick border 7 mm inside the paper and folds the cut-out sheet. whole folds the full paper. Revision 2 only; defaults to cut."
           },
           "model_id": {
@@ -4116,10 +4122,16 @@
             "const": "open-flight-plane"
           },
           "revision": {
-            "enum": ["1", "2"]
+            "enum": [
+              "1",
+              "2"
+            ]
           },
           "edge": {
-            "enum": ["cut", "whole"],
+            "enum": [
+              "cut",
+              "whole"
+            ],
             "description": "cut prints a thick border 7 mm inside the paper and folds the cut-out sheet. whole folds the full paper. Revision 2 only; defaults to cut."
           },
           "model_id": {
@@ -4273,7 +4285,12 @@
           },
           "edges": {
             "type": "array",
-            "items": { "enum": ["cut", "whole"] }
+            "items": {
+              "enum": [
+                "cut",
+                "whole"
+              ]
+            }
           },
           "papers": {
             "type": "array",
@@ -4559,7 +4576,10 @@
           "boeing-747",
           "douglas-dc3",
           "tupolev-tu144",
-          "ilyushin-il62"
+          "ilyushin-il62",
+          "ring",
+          "samara",
+          "tandem"
         ]
       },
       "AtlasModelComparison": {
@@ -4588,7 +4608,8 @@
                   "type": "string",
                   "enum": [
                     "butterfly",
-                    "airplane"
+                    "airplane",
+                    "object"
                   ]
                 },
                 "technique": {
@@ -5700,6 +5721,20 @@
                 ]
               }
             }
+          },
+          "activities": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": [
+                "ring",
+                "samara",
+                "tandem"
+              ]
+            },
+            "maxItems": 3,
+            "uniqueItems": true,
+            "description": "Append selected experimental activity pages in this order."
           }
         },
         "required": []
@@ -5738,6 +5773,10 @@
                   3,
                   4
                 ]
+              },
+              "include_activities": {
+                "type": "boolean",
+                "description": "Include all three experimental activity pages, one copy per team."
               }
             },
             "required": [
@@ -5902,6 +5941,20 @@
                     ]
                   }
                 }
+              },
+              "activities": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "enum": [
+                    "ring",
+                    "samara",
+                    "tandem"
+                  ]
+                },
+                "maxItems": 3,
+                "uniqueItems": true,
+                "description": "Append selected experimental activity pages in this order."
               }
             },
             "required": [
@@ -6105,6 +6158,31 @@
                 "field_note",
                 "appearances",
                 "pilot_stories"
+              ]
+            }
+          },
+          "activity_pages": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "id": {
+                  "type": "string",
+                  "enum": [
+                    "ring",
+                    "samara",
+                    "tandem"
+                  ]
+                },
+                "page": {
+                  "type": "integer",
+                  "minimum": 1
+                }
+              },
+              "required": [
+                "id",
+                "page"
               ]
             }
           }
@@ -6316,6 +6394,42 @@
                   "required": [
                     "kind",
                     "sheet_id",
+                    "pages",
+                    "copies"
+                  ]
+                },
+                {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "kind": {
+                      "const": "activity"
+                    },
+                    "activity_id": {
+                      "type": "string",
+                      "enum": [
+                        "ring",
+                        "samara",
+                        "tandem"
+                      ]
+                    },
+                    "pages": {
+                      "type": "array",
+                      "items": {
+                        "type": "integer",
+                        "minimum": 1
+                      },
+                      "minItems": 1,
+                      "uniqueItems": true
+                    },
+                    "copies": {
+                      "type": "integer",
+                      "minimum": 1
+                    }
+                  },
+                  "required": [
+                    "kind",
+                    "activity_id",
                     "pages",
                     "copies"
                   ]

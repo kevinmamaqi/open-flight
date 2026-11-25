@@ -1,3 +1,6 @@
+import { bookPlan, bookURL, normalizeBook, readBookURL } from '../apps/editor/book-model.js'
+import { createBook } from '../packages/print-export/family-book.js'
+import { classroomPlan } from '../apps/editor/classroom-plan.js'
 import assert from 'node:assert/strict'
 import { readFile } from 'node:fs/promises'
 import { createHash } from 'node:crypto'
@@ -47,4 +50,30 @@ test('bundled reference images match the reviewed versions and retain their indi
       assert.equal(createHash('sha256').update(await readFile(new URL(ref.asset, editor))).digest('hex'), hash)
     }
   }
+})
+
+test('selected activities survive sharing and are printed with their original artwork and class copy counts', async () => {
+  const settings = {lang: 'es', paper: 'US_LETTER', sheets: ['monarch-k1'], activities: ['tandem', 'samara']}
+  assert.deepEqual(normalizeBook(readBookURL(bookURL(settings))), normalizeBook(settings))
+  assert.throws(() => normalizeBook({...settings, activities: ['ring', 'ring']}), RangeError)
+  assert.throws(() => normalizeBook({...settings, activities: ['unreviewed']}), RangeError)
+  assert.deepEqual(bookPlan({...settings, activities: []}).activityPages, [])
+  const plan = bookPlan(settings)
+  assert.deepEqual(plan.activityPages, [{id:'tandem', number:9}, {id:'samara', number:10}])
+  const pdf = await PDFDocument.load(await createBook(settings, {loadAsset:path=>readFile(new URL(path, editor))}))
+  assert.equal(pdf.getPageCount(), plan.pageCount)
+  const names = pdf.catalog.lookup(PDFName.of('Names')).lookup(PDFName.of('EmbeddedFiles')).lookup(PDFName.of('Names'))
+  assert.equal(names.size(), 4)
+  for (let i = 0; i < names.size(); i += 2) {
+    const name = names.lookup(i).decodeText()
+    assert.ok(['tandem.svg', 'samara.svg'].includes(name))
+    const file = names.lookup(i+1).lookup(PDFName.of('EF')).lookup(PDFName.of('F'))
+    assert.deepEqual(Buffer.from(decodePDFRawStream(file).decode()), await readFile(new URL('assets/objects/' + name,editor)))
+  }
+  const room = {lang:'ru', paper:'A4', learners:11, team_size:3}
+  const basic = classroomPlan(room)
+  const extended = classroomPlan({...room, include_activities:true})
+  assert.equal(extended.total_sheets, basic.total_sheets + 12)
+  assert.deepEqual(extended.rows.filter(row => row.kind === 'activity').map(row => [row.activity_id, row.copies]), [['ring',4],['samara',4],['tandem',4]])
+  assert.deepEqual(normalizeBook(readBookURL(extended.book_url)), extended.settings)
 })

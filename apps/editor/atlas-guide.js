@@ -1,3 +1,4 @@
+import { objects } from './assets/objects/activities.js'
 import { flightPhysics } from './atlas-physics.js'
 import { baselines } from './assets/atlas/baselines.js'
 import { planeCatalog } from './assets/planes/catalog.js'
@@ -55,7 +56,7 @@ const copy = {
     'Сначала выровняй оба язычка. Для второй серии немного подними один. С какой стороны окажется больше первых касаний?',
   ),
 }
-export const designIds = [...Object.keys(baselines), ...planeCatalog.map((p) => p.model_id)]
+export const designIds = [...Object.keys(baselines), ...planeCatalog.map((p) => p.model_id), ...objects.map(item => item.id)]
 export function foldedLink(species, locale, settings = {}) {
   return './studio.html?' + new URLSearchParams({ construction: 'k1', species, lang: locale, ...settings })
 }
@@ -88,6 +89,16 @@ export function fieldModel(id, locale = 'en') {
         ['clip', b.clip, 'mm'],
       ]),
       studio: studioLink(id, locale),
+    }
+  }
+  const activity = objects.find(item => item.id === id)
+  if (activity) {
+    const words = activity[locale]
+    return {
+      id, name: words.title, inspiration: activity.source.label, family: 'object',
+      technique: t(w('Experimental design', 'Diseño experimental', 'Экспериментальная модель')) + ' · ' + words.verb, materials: words.materials, shape: words.physics, experiment: words.test,
+      image: './' + activity.illustration, settings: [],
+      studio: './flight-objects.html?' + new URLSearchParams({ model: id, lang: locale }),
     }
   }
   const p = planeCatalog.find((p) => p.model_id === id)
@@ -130,6 +141,12 @@ export function compareModels(left = 'monarch', right = 'morpho', locale = 'en')
   if (!languages.includes(locale) || left === right)
     throw new RangeError('Choose a language and two distinct designs')
   const models = [fieldModel(left, locale), fieldModel(right, locale)]
+  if (models.some(model => model.family === 'object')) {
+    const question = w('How does each design move between release and first contact?',
+      '¿Cómo se mueve cada modelo desde que lo sueltas hasta que toca el suelo?',
+      'Как движется каждая модель от момента запуска до первого касания пола?')
+    return { locale, models, question: question[locale] }
+  }
   const kind = models[0].family === models[1].family ? models[0].family : 'mixed'
   return { locale, models, question: questions[kind][locale] }
 }

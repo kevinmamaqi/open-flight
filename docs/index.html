@@ -34,10 +34,10 @@
     <link rel="apple-touch-icon" href="./assets/brand/apple-touch-icon.png" />
     <link rel="manifest" href="./site.webmanifest" />
     <link rel="preload" href="./assets/fonts/OpenFlightText-Regular.woff2" as="font" type="font/woff2" crossorigin />
-    <link rel="stylesheet" href="./tokens.css?v=38199683889a" />
-    <link rel="stylesheet" href="./system.css?v=38199683889a" />
-    <link rel="stylesheet" href="./home.css?v=38199683889a" />
-    <script type="module" src="./atlas.js?v=38199683889a"></script>
+    <link rel="stylesheet" href="./tokens.css?v=400f8dcd57db" />
+    <link rel="stylesheet" href="./system.css?v=400f8dcd57db" />
+    <link rel="stylesheet" href="./home.css?v=400f8dcd57db" />
+    <script type="module" src="./atlas.js?v=400f8dcd57db"></script>
   </head>
   <body>
     <a class="skip-link" href="#designs" data-t="skip">Skip to the designs</a>
@@ -67,14 +67,14 @@
             <em data-t="headline2">Change its flight.</em>
           </h1>
           <p class="lede" data-t="intro">
-            Free for kids aged 5–12 and their grown-ups. Fold an airplane from plain paper, or make a butterfly with a printed sheet, scissors and a paper clip. No account needed.
+            Free for kids aged 5–12 and their grown-ups. Start with a plain sheet for an airplane or ring glider. Add scissors and a paper clip for a butterfly or maple spinner. No account needed.
           </p>
           <a href="#designs" class="button primary" data-t="choose">Choose a design</a>
         </div>
         <div class="showcase stage-grid">
           <div class="board-header">
             <span data-t="bench">On the worktable</span
-            ><span class="counter" id="specimen-count">01 / 07</span>
+            ><span class="counter" id="specimen-count">01 / 10</span>
           </div>
           <a
             id="hero-link"
@@ -151,6 +151,21 @@
               ><span data-t="openPlanes">Enter the airplane hangar</span>
               <span aria-hidden="true">↗</span></a
             >
+          </article>
+          <article class="family objects" id="flying-objects">
+            <div class="family-main">
+              <div class="family-text">
+                <p class="eyebrow" data-t="objectTag">Experimental designs</p>
+                <h3><a id="object-family" href="./flight-objects.html?lang=en" data-t="objectFamily">Flying objects</a></h3>
+                <p data-t="objectDesc">Roll a sheet into a ring, drop a paper maple seed, or fold a glider with two pairs of wings. Which one spins on the way down?</p>
+              </div>
+              <img src="./assets/objects/tandem.svg" alt="" width="180" height="114" loading="lazy" />
+            </div>
+            <div class="family-links" id="object-links">
+              <a data-object="ring" href="./flight-objects.html?model=ring&amp;lang=en">Ring glider</a>
+              <a data-object="samara" href="./flight-objects.html?model=samara&amp;lang=en">Maple spinner</a>
+              <a data-object="tandem" href="./flight-objects.html?model=tandem&amp;lang=en">Williams tandem glider</a>
+            </div>
           </article>
         </div>
       </section>
@@ -258,8 +273,8 @@
             <a
               class="all-sheets"
               data-t="allSheets"
-              href="https://github.com/kevinmamaqi/open-flight/releases/download/v0.8.0/open-flight-print-library.zip"
-              >Download the v0.8.0 print library (ZIP) ↓</a
+              href="https://github.com/kevinmamaqi/open-flight/releases/download/v0.9.0/open-flight-print-library.zip"
+              >Download the v0.9.0 print library (ZIP) ↓</a
             >
           </article>
           <div class="source-list">

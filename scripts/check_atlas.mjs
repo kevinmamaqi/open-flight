@@ -60,7 +60,7 @@ try {
     await page.goto(new URL('?lang=' + lang, base).href)
     await page.locator('#plane-links a').first().waitFor()
     assert.equal(await page.locator('html').getAttribute('lang'), lang)
-    assert.equal(await page.locator('.family-links a').count(), 7)
+    assert.equal(await page.locator('.family-links a').count(), 10)
     assert.equal(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1), true)
     await page.locator('#next').click()
     assert.match(await page.locator('#hero-link').getAttribute('href'), /boeing-747/)
@@ -236,7 +236,7 @@ try {
         width +
         ' px ' +
         lang +
-        ' · home, 7 designs, 3D, local save/reload, references and exact edited PDF exports for both families',
+        ' · home, 10 designs, 3D, local save/reload, references and exact edited PDF exports for both families',
     )
   }
   const narrow = await browser.newPage({viewport:{width:320,height:720},reducedMotion:'reduce'})

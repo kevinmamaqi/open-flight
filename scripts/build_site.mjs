@@ -1,3 +1,4 @@
+import { flightObjects } from '../apps/editor/assets/objects/activities.js'
 import { createHash } from 'node:crypto'
 import { ru, es } from '../apps/editor/atlas-copy.js'
 import { cpSync, existsSync, mkdirSync, readdirSync, readFileSync, writeFileSync } from 'node:fs'
@@ -77,6 +78,10 @@ for (const [lang, copy, title, region, photoAlt, name, family] of [
     .on('#specimen', updateAttr('alt', photoAlt))
     .on('#specimen-name', replaceText(name + ' ↗'))
     .on('#specimen-family', replaceText(family))
+  for (const item of flightObjects(lang).activities) {
+    const selector = '[data-object="' + item.id + '"]'
+    rewrite = rewrite.on(selector, replaceText(item.title)).on(selector, updateAttr('href', './flight-objects.html?model=' + item.id + '&lang=' + lang))
+  }
   for (const [selector, href] of Object.entries({
     '#hero-link': 'studio.html?lang=' + lang + '#design=butterfly-monarch&revision=w1',
     '#specimen-name': 'studio.html?lang=' + lang + '#design=butterfly-monarch&revision=w1',
@@ -86,6 +91,7 @@ for (const [lang, copy, title, region, photoAlt, name, family] of [
     '#book-sample': 'book.html?lang=' + lang + '&p=4',
     '#specimen-sheet': 'library/monarch-A4-' + lang + '.pdf',
     '#classroom-link': 'classroom.html?lang=' + lang,
+    '#object-family': 'flight-objects.html?lang=' + lang,
     '#objects-link': 'flight-objects.html?lang=' + lang,
     '#download': 'library/monarch-k1-A4-' + lang + '.pdf',
     '[data-route=butterfly]': 'studio.html?lang=' + lang + '#design=butterfly-monarch&revision=w1',
