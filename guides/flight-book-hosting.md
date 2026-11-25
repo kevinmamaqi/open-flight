@@ -12,6 +12,8 @@ The production workshop is the Cloudflare Pages project `openflight-design`. It 
 
 Older printed QR codes and shared bookmarks still work through the GitHub Pages copy. A link in the workshop footer opens that copy in the same browser to recover earlier saved models and book drafts. Browser storage is tied to the origin where the work was saved. New printed certificate links use the custom domain. [Open the earlier workshop](https://kevinmamaqi.github.io/open-flight/?previous=1)
 
+Pushing to the public repository’s `main` branch starts the **Publish Open Flight on Cloudflare** workflow. It requests a Pages build using the project’s `Open Flight main` deploy hook, stored in the GitHub Actions secret `OPEN_FLIGHT_PAGES_DEPLOY_HOOK`. Check the commit and build result in Cloudflare Pages. The workflow can also be run manually for the current `main`. [Publication runs](https://github.com/kevinmamaqi/open-flight/actions/workflows/cloudflare-pages.yml) · [Cloudflare deploy hooks](https://developers.cloudflare.com/pages/configuration/deploy-hooks/)
+
 For an offline compilation check, run `wrangler pages functions build --outdir /tmp/open-flight-functions` from the source root. Wrangler's generated routes should agree with the template above.
 
 ## Configure authorized services

@@ -1,0 +1,18 @@
+name: Publish Open Flight on Cloudflare
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions: {}
+
+jobs:
+  deploy:
+    if: github.repository == 'kevinmamaqi/open-flight'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Start the main-branch Pages build
+        env:
+          DEPLOY_HOOK: ${{ secrets.OPEN_FLIGHT_PAGES_DEPLOY_HOOK }}
+        run: curl --proto '=https' --fail --silent --show-error --output /dev/null --request POST "$DEPLOY_HOOK"
