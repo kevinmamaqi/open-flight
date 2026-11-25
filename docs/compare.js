@@ -1,5 +1,5 @@
-import { compareModels, designIds, fieldModel } from './atlas-guide.js?v=8a5cae46106b'
-import { currentLocale, homeURL, localizedLinks } from './atlas-nav.js?v=8a5cae46106b'
+import { compareModels, designIds, fieldModel } from './atlas-guide.js?v=c3029913b67f'
+import { currentLocale, homeURL, localizedLinks } from './atlas-nav.js?v=c3029913b67f'
 const lang = currentLocale(),
   i = { en: 0, es: 1, ru: 2 }[lang]
 const t = (en, es, ru) => [en, es, ru][i],
@@ -39,7 +39,7 @@ const texts = {
 for (const [id, txt] of Object.entries(texts)) $(id).textContent = txt
 document.title = texts.title + ' · Open Flight'
 document.documentElement.lang = lang
-$('home').href = $('foot-home').href = homeURL(lang)
+$('foot-home').href = homeURL(lang)
 $('print').onclick = () => window.print()
 const url = new URL(location.href)
 let left = designIds.includes(url.searchParams.get('left')) ? url.searchParams.get('left') : 'monarch'

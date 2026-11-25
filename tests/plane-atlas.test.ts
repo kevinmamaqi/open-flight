@@ -186,16 +186,23 @@ test('recipes have different real outlines, crease sets, printable source and li
     assert.match(svg, /50 mm/)
     assert.match(svg, /stroke-dasharray=/)
     assert.deepEqual(makePlane(JSON.parse(planeSource(plan))).source, plan.source)
-    const file = readFileSync(
-      new URL('../apps/editor/assets/planes/' + plan.model_id + '.svg', import.meta.url),
-      'utf8',
-    ).trim()
-    assert.equal(planeSpecimen(plan), file)
     assert.match(plan.reference.url, /^https:\/\//)
     const different = makePlane({ ...plan.source, keel_mm: 26, winglet_mm: 0, livery: 'festival' })
     assert.notEqual(planeSvg(different), svg)
     assert.notDeepEqual(different.wingPolygon, plan.wingPolygon)
     assert.ok(different.steps.at(-1)?.instruction.includes('flat'))
+  }
+})
+// Node/V8 generated the original SVGs. JavaScriptCore clips a degenerate polygon
+// differently in the Tu-144 preview, so verify the published bytes with Node.
+test('checked-in airplane specimens match the original Node renderer', { skip: Boolean(process.versions.bun) }, () => {
+  for (const { model_id } of planeCatalog) {
+    const plan = makePlane({ model_id })
+    const file = readFileSync(
+      new URL('../apps/editor/assets/planes/' + plan.model_id + '.svg', import.meta.url),
+      'utf8',
+    ).trim()
+    assert.equal(planeSpecimen(plan), file)
   }
 })
 test('a 100% physical sheet and trilingual illustrated guides export deterministically in both paper formats', async () => {

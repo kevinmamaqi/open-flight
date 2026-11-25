@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://openflight.design/sitemap.xml

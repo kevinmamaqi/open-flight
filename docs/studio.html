@@ -10,33 +10,26 @@
     <link rel="apple-touch-icon" href="./assets/brand/apple-touch-icon.png" />
     <link rel="manifest" href="./site.webmanifest" />
     <link rel="preload" href="./assets/fonts/OpenFlightText-Regular.woff2" as="font" type="font/woff2" crossorigin />
-    <link rel="stylesheet" href="./tokens.css?v=8a5cae46106b" />
-    <link rel="stylesheet" href="./system.css?v=8a5cae46106b" />
-    <link rel="stylesheet" href="./editor.css?v=8a5cae46106b" />
-    <link rel="stylesheet" href="./flight-viewer.css?v=8a5cae46106b" />
-    <script type="module" src="./atlas-nav.js?v=8a5cae46106b"></script>
-    <script type="module" src="./editor.js?v=8a5cae46106b"></script>
-</head>
+    <link rel="stylesheet" href="./tokens.css?v=c3029913b67f" />
+    <link rel="stylesheet" href="./system.css?v=c3029913b67f" />
+    <link rel="stylesheet" href="./editor.css?v=c3029913b67f" />
+    <link rel="stylesheet" href="./flight-viewer.css?v=c3029913b67f" />
+    <script type="module" src="./editor.js?v=c3029913b67f"></script>
+<meta name="robots" content="noindex"></head>
   <body>
     <a class="skip-link" href="#worktable" data-i18n="skip">Skip to the worktable</a>
-    <header class="mast">
-      <div class="mast-in">
-        <a class="wordmark" id="atlas-home" href="./"><img src="./assets/brand/logo.svg" width="245" height="59" alt="Open Flight" /></a>
-        <nav class="primary-links" aria-label="Workshop" data-aria="workshop">
-          <a href="#studio" class="current" aria-current="true"><span data-i18n="studio">Studio</span></a>
-          <a href="#build-guide"><span data-i18n="buildGuide">Build guide</span></a>
-        </nav>
-        <button type="button" class="button small" id="open-library">
-          <svg class="icon" aria-hidden="true"><use href="./editor-art.svg#folder" /></svg><span data-i18n="myDesigns">My designs</span>
-        </button>
-        <span data-workshop-menu></span>
-        <nav class="lang" aria-label="Language" data-aria="language">
-          <a id="en" lang="en" hreflang="en" href="?lang=en" aria-label="English (EN)">EN</a>
-          <a id="es" lang="es" hreflang="es" href="?lang=es" aria-label="Español (ES)">ES</a>
-          <a id="ru" lang="ru" hreflang="ru" href="?lang=ru" aria-label="Русский (RU)">RU</a>
-        </nav>
-      </div>
-    </header>
+    <header class="mast" data-site-page="studio"><div class="mast-in">
+    <a class="wordmark" href="./"><img src="./assets/brand/logo.svg" width="245" height="59" alt="Open Flight"></a>
+    <nav class="primary-links" aria-label="Main navigation"><a href="./designs/">Designs</a><a href="./flight-book/">Flight Book</a><a href="./teachers/">For teachers</a></nav>
+    <details class="workshop-menu"><summary aria-label="Menu"><span>Menu</span></summary>
+      <div class="workshop-links"><a href="./butterflies/">Paper butterflies</a><a href="./airplanes/">Paper airplanes</a><a href="./flying-objects/">Flying objects</a><a href="./flight-book/">Flight Book</a><a href="./teachers/">For teachers</a><a href="./motor-lab/">Motor lab</a><a href="./compare.html?lang=en">Compare designs</a><a href="./planes.html?view=flight&amp;lang=en">Flight circuit</a><a href="./#library">Print library</a><a href="./references.html?lang=en">Sources and credits</a><a href="./next.html?lang=en">Next steps</a></div>
+    </details>
+    <nav class="lang" aria-label="Language"><a id="en" lang="en" hreflang="en" href="?lang=en"
+      aria-label="English" aria-current="true">EN</a><a id="es" lang="es" hreflang="es" href="?lang=es"
+      aria-label="Español">ES</a><a id="ru" lang="ru" hreflang="ru" href="?lang=ru"
+      aria-label="Русский">RU</a></nav>
+  </div></header>
+    <div data-site-trail><nav class="breadcrumbs wrap" aria-label="Breadcrumb"><ol><li><a href="./">Workshop</a></li><li><a href="./designs/">Designs</a></li><li><a href="./butterflies/">Paper butterflies</a></li><li aria-current="page">Butterfly studio</li></ol></nav></div>
     <main id="studio">
       <div class="intro">
         <div>
@@ -47,10 +40,15 @@
             <button type="button" id="folded-body" data-i18n="foldedBody" aria-pressed="false">Folded body</button>
           </div>
         </div>
-        <button class="button primary" type="button" id="print-design" disabled>
-          <svg class="icon" aria-hidden="true"><use href="./editor-art.svg#print" /></svg>
-          <span data-i18n="buildPrint">Build &amp; print</span>
-        </button>
+        <div class="studio-actions">
+          <button type="button" class="button small" id="open-library">
+            <svg class="icon" aria-hidden="true"><use href="./editor-art.svg#folder" /></svg><span data-i18n="myDesigns">My designs</span>
+          </button>
+          <button class="button primary" type="button" id="print-design" disabled>
+            <svg class="icon" aria-hidden="true"><use href="./editor-art.svg#print" /></svg>
+            <span data-i18n="buildPrint">Build &amp; print</span>
+          </button>
+        </div>
       </div>
       <section
         aria-label="Choose your butterfly"

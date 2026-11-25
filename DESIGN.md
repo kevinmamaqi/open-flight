@@ -9,11 +9,11 @@ Open Flight looks like a **field notebook**: paper, graphite ink, one air-blue f
 | `apps/editor/tokens.css` | **The single source of truth**: raw values, then semantic roles. Change values only here. |
 | `apps/editor/system.css` | Fonts, base elements, every shared component and the print base. |
 | `apps/editor/<page>.css` | Layout for one page, using semantic tokens only. |
-| `apps/editor/assets/brand/tokens.js` | Generated from `tokens.css` for code that cannot read CSS. Run `npm run build:tokens`. |
+| `apps/editor/assets/brand/tokens.js` | Generated from `tokens.css` for code that cannot read CSS. Run `bun run build:tokens`. |
 | `apps/editor/assets/brand/print.js` | Paper conventions for every PDF and printable HTML document: fonts, line styles, calibration, brand mark. |
 | `apps/editor/assets/brand/` | Logo, symbol, favicon, app icons and social previews, built by `scripts/brand/build_identity.mjs`. |
 
-Every page loads `tokens.css`, then `system.css`, then its own stylesheet. A component uses `--color-*`, `--text-*`, `--space-*`, `--radius-*`, `--line-*` and `--duration-*`, never `--of-*` raw values or literals. `npm run check:design` fails on a hard-coded colour, font, size, radius, spacing or duration.
+Every page loads `tokens.css`, then `system.css`, then its own stylesheet. A component uses `--color-*`, `--text-*`, `--space-*`, `--radius-*`, `--line-*` and `--duration-*`, never `--of-*` raw values or literals. `bun run check:design` fails on a hard-coded colour, font, size, radius, spacing or duration.
 
 ## Colour
 
@@ -59,9 +59,10 @@ Layouts must survive Russian and Spanish strings that run 30% longer than Englis
 
 | Component | Markup | Notes |
 | --- | --- | --- |
-| Header | `.mast > .mast-in > .wordmark, .primary-links, [data-workshop-menu], nav.lang` | Identical on every page. At 360 px and below the wordmark crops to the symbol. |
+| Header | `.mast > .mast-in > .wordmark, .primary-links, .workshop-menu, .lang` | Identical on every page. At 360 px and below the wordmark crops to the symbol. |
 | Language switch | `nav.lang > a#en, a#es, a#ru` | Always visible and one tap. Pages with unsaved work call `languageSwitch()` to change language in place. |
-| Menu | `<span data-workshop-menu>` | Built by `atlas-nav.js`. The current page is marked. |
+| Menu | `.workshop-menu > summary + .workshop-links` | Prerendered from the shared navigation. Tool pages retain contextual compare and flight-circuit links. |
+| Breadcrumbs | `.breadcrumbs > ol` | Links to parent products and marks the current page. Product pages publish the same trail as structured data. |
 | Button | `.button`, `.button.primary`, `.button.secondary`, `.button.small` | 44 px high. Use `primary` once per view. |
 | Text link | `.text-link` | A next step that should not look like a box. |
 | Choice | any `button[aria-pressed]`, in `.segmented` for one-of-n | Selected = tint + blue edge + bold, never colour alone. |
@@ -76,7 +77,7 @@ Layouts must survive Russian and Spanish strings that run 30% longer than Englis
 | Eyebrow, lead, hint | `.eyebrow`, `.lede`, `.hint` | |
 | Skip link, screen-reader text | `.skip-link`, `.sr-only` | |
 
-Touch targets are 44 × 44 px. Standalone links get this automatically, and links inside a sentence stay inline. Focus always shows a 3 px air-blue ring. `npm run check:ui -- http://localhost:8000/` measures rendered contrast, targets, text size, focus and overflow on every page.
+Touch targets are 44 × 44 px. Standalone links get this automatically, and links inside a sentence stay inline. Focus always shows a 3 px air-blue ring. `bun run check:ui http://localhost:8000/` measures rendered contrast, targets, text size, focus and overflow on every page.
 
 ## Identity
 
@@ -108,10 +109,10 @@ Use `assets/brand/print.js`. Never hand-set a print size, weight or dash.
 ## Checks
 
 ```bash
-npm run check:design   # tokens in sync, 71 contrast pairs, grayscale, gamut, no hard-coded values
-npm run check:print    # every library and activity PDF: 9 pt, 0.3 mm, 6 mm edge, 50 mm line, ink
-npm run check:ui -- http://localhost:8000/   # rendered contrast, 44 px targets, focus, overflow
-npm test               # includes the design and print gates
+bun run check:design   # tokens in sync, 71 contrast pairs, grayscale, gamut, no hard-coded values
+bun run check:print    # every library and activity PDF: 9 pt, 0.3 mm, 6 mm edge, 50 mm line, ink
+bun run check:ui http://localhost:8000/   # rendered contrast, 44 px targets, focus, overflow
+bun run test               # includes the design and print gates
 ```
 
-To add a colour, add a raw `--of-*` value and a semantic role, run `npm run build:tokens`, then run `npm run check:design`. To add a component, put it in `system.css` once a second page needs it. Until then it belongs in the page's stylesheet, using tokens only.
+To add a colour, add a raw `--of-*` value and a semantic role, run `bun run build:tokens`, then run `bun run check:design`. To add a component, put it in `system.css` once a second page needs it. Until then it belongs in the page's stylesheet, using tokens only.

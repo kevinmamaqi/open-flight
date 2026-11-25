@@ -1,7 +1,7 @@
-import { foldArtwork, showFoldStep } from './fold-lesson.js?v=8a5cae46106b';
-import { currentLocale, homeURL, localizedLinks } from "./atlas-nav.js?v=8a5cae46106b";
-import { keelSteps } from "./keel-guide.js?v=8a5cae46106b";
-import * as api from "./browser-workshop.js?v=8a5cae46106b";
+import { foldArtwork, showFoldStep } from './fold-lesson.js?v=c3029913b67f';
+import { currentLocale, localizedLinks } from "./atlas-nav.js?v=c3029913b67f";
+import { keelSteps } from "./keel-guide.js?v=c3029913b67f";
+import * as api from "./browser-workshop.js?v=c3029913b67f";
 
 const copy = {
   skip: [
@@ -179,7 +179,6 @@ let plan;
 
 document.documentElement.lang = lang;
 document.title = t("title") + " · Open Flight";
-get("home").href = homeURL(lang);
 for (const el of document.querySelectorAll("[data-word]"))
   el.textContent = t(el.dataset.word);
 for (const [id, choices] of [

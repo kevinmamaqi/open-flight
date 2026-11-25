@@ -480,10 +480,6 @@ function renderLocale() {
   const t = copy();
   document.documentElement.lang = state.lang;
   document.title = `${t.title} · Open Flight`;
-  document.querySelector(".lang").setAttribute("aria-label", t.language);
-  document
-    .querySelector(".primary-links")
-    .setAttribute("aria-label", t.workshop);
   localizedLinks(state.lang);
   for (const locale of locales) {
     const link = byId(locale);
@@ -492,9 +488,7 @@ function renderLocale() {
     if (currentBook()) link.href = bookURL({ ...state, lang: locale }, url);
   }
   const home = homeURL(state.lang);
-  byId("home").href = home;
-  byId("workshop").href = home;
-  for (const id of ["individual", "library"]) byId(id).href = home + "#library";
+  byId("individual").href = home + "#library";
   byId("classroom").href = `./classroom.html?lang=${state.lang}`;
   for (const item of document.querySelectorAll("[data-book]"))
     item.textContent = t[item.dataset.book];

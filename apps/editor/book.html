@@ -21,33 +21,10 @@
     <script type="module" src="./book.js"></script>
   </head>
   <body>
-    <header class="mast">
-      <div class="mast-in">
-        <a class="wordmark" id="home" href="./"
-          ><img src="./assets/brand/logo.svg" width="245" height="59" alt="Open Flight" /></a
-        >
-        <nav class="primary-links" aria-label="Workshop">
-          <a id="workshop" href="./" data-book="workshop">Workshop</a>
-          <a
-            class="current"
-            href="#reader"
-            aria-current="page"
-            data-book="title"
-            >Flight Book</a
-          >
-          <a id="library" href="./#library" data-book="library"
-            >Print library</a
-          >
-        </nav>
-        <span data-workshop-menu></span>
-        <nav class="lang" aria-label="Language">
-          <a id="en" lang="en" hreflang="en" href="?lang=en" aria-label="English (EN)">EN</a>
-          <a id="es" lang="es" hreflang="es" href="?lang=es" aria-label="Español (ES)">ES</a>
-          <a id="ru" lang="ru" hreflang="ru" href="?lang=ru" aria-label="Русский (RU)">RU</a>
-        </nav>
-      </div>
-    </header>
-    <main class="workbench">
+    <a class="skip-link" href="#main" data-site-skip>Skip to content</a>
+    <header class="mast" data-site-page="book"></header>
+    <div data-site-trail></div>
+    <main id="main" class="workbench">
       <header class="intro">
         <h1 id="book-heading" data-book="title">Flight Book</h1>
         <p data-book="intro">

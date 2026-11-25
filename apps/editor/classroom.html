@@ -18,23 +18,10 @@
     <script type="module" src="./classroom.js"></script>
   </head>
   <body class="classroom">
-    <header class="mast">
-      <div class="mast-in">
-        <a class="wordmark" id="home" href="./"><img src="./assets/brand/logo.svg" width="245" height="59" alt="Open Flight" /></a>
-        <nav class="primary-links" aria-label="Workshop" data-aria="workshop">
-          <a id="book-link" href="./book.html" data-text="book">Flight Book</a>
-          <a id="library-link" href="./#library" data-text="library">Print library</a>
-          <a class="current" aria-current="page" href="#classroom-heading" data-text="classroom">Classroom</a>
-        </nav>
-        <span data-workshop-menu></span>
-        <nav class="lang" aria-label="Language" data-aria="language">
-          <a id="en" lang="en" hreflang="en" href="?lang=en" aria-label="English (EN)">EN</a>
-          <a id="es" lang="es" hreflang="es" href="?lang=es" aria-label="Español (ES)">ES</a>
-          <a id="ru" lang="ru" hreflang="ru" href="?lang=ru" aria-label="Русский (RU)">RU</a>
-        </nav>
-      </div>
-    </header>
-    <main class="classroom-main">
+    <a class="skip-link" href="#main" data-site-skip>Skip to content</a>
+    <header class="mast" data-site-page="classroom"></header>
+    <div data-site-trail></div>
+    <main id="main" class="classroom-main">
       <header class="classroom-intro">
         <h1 id="classroom-heading" data-text="title">Classroom flight guide</h1>
         <p data-text="intro">Can the same flyer land closer to a target when you change the way you release it? Fold a plane or make a paper butterfly and find out together.</p>

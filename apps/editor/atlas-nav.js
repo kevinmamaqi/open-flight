@@ -1,3 +1,4 @@
+import { breadcrumbs, navHref, navigationLinks, siteHeader, siteLabels, siteLocales, toolTrail } from './site-navigation.js'
 import { movedPage, previousHome, workshopHome } from './assets/workshop-address.js'
 
 if (location.href.startsWith(previousHome)) {
@@ -17,7 +18,7 @@ if (location.href.startsWith(previousHome)) {
   }
 }
 
-const locales = ['en', 'es', 'ru']
+const locales = siteLocales
 export const languageInPath = path => path.match(/\/(es|ru)(?:\.html)?$/)?.[1]
 export function currentLocale() {
   const forced = new URLSearchParams(location.search).get('lang')
@@ -26,13 +27,14 @@ export function currentLocale() {
   try {
     saved = sessionStorage.getItem('open-flight-language')
   } catch {}
-  const lang = [forced, pathLang, saved].find((v) => locales.includes(v)) || 'en'
+  const defaultHome = mast?.dataset.sitePage === 'home' ? 'en' : undefined
+  const lang = [forced, pathLang, defaultHome, saved].find((v) => locales.includes(v)) || 'en'
   try {
     sessionStorage.setItem('open-flight-language', lang)
   } catch {}
   return lang
 }
-export const homeURL = (l) => (l === 'en' ? './?lang=en' : './' + l + '.html')
+export const homeURL = (lang) => navHref('home', lang, './')
 // Pages that keep unsaved work in memory (the studios) switch language in place:
 // the links stay real links, and a plain click calls onSelect instead of reloading.
 export function languageSwitch(onSelect) {
@@ -45,10 +47,11 @@ export function languageSwitch(onSelect) {
   }
 }
 export function localizedLinks(lang) {
+  refreshNavigation(lang)
   for (const l of locales) {
     const a = document.getElementById(l)
     if (!a) continue
-    const home = /\/(es|ru|atlas|index)(?:\.html)?$/.test(location.pathname) || location.pathname.endsWith('/')
+    const home = mast?.dataset.sitePage === 'home'
     const url = new URL(home ? homeURL(l) : location.href, location.href)
     if (!home) url.searchParams.set('lang', l)
     url.hash = location.hash
@@ -57,137 +60,61 @@ export function localizedLinks(lang) {
     else a.removeAttribute('aria-current')
   }
 }
-const menuCopy = {
-  en: [
-    'Menu',
-    'Workshop',
-    'Build a butterfly',
-    'Fold an airplane',
-    'Compare designs',
-    'Flight circuit',
-    'Print library',
-    'Field references',
-    'Next steps',
-    'Flight Book',
-    'Motor lab',
-    'Flying objects',
-  ],
-  es: [
-    'Menú',
-    'Taller',
-    'Construir una mariposa',
-    'Plegar un avión',
-    'Comparar diseños',
-    'Circuito de vuelo',
-    'Biblioteca para imprimir',
-    'Fuentes y créditos',
-    'Próximos pasos',
-    'Libro de vuelo',
-    'Laboratorio de motores',
-    'Objetos voladores',
-  ],
-  ru: [
-    'Меню',
-    'Мастерская',
-    'Сделать бабочку',
-    'Сложить самолёт',
-    'Сравнить модели',
-    'Лётная трасса',
-    'Для печати',
-    'Источники',
-    'Следующие шаги',
-    'Книга полётов',
-    'Лаборатория мотора',
-    'Летающие модели',
-  ],
-}
-const markers = document.querySelectorAll('[data-workshop-menu]')
-if (markers.length) {
-  for (const holder of markers) {
-    const details = document.createElement('details'),
-      summary = document.createElement('summary'),
-      list = document.createElement('div')
-    details.className = 'workshop-menu'
-    list.className = 'workshop-links'
-    function refresh() {
-      const lang = locales.includes(document.documentElement.lang)
-        ? document.documentElement.lang
-        : currentLocale()
-      const labels = menuCopy[lang],
-        home = homeURL(lang),
-        page = new URL(location.href),
-        hash = new URLSearchParams(page.hash.slice(1))
-      const path = page.pathname.replace(/\.html$/, '')
-      const plane = path.endsWith('/planes')
-      const butterfly = path.endsWith('/studio')
-      const folded = path.endsWith('/keel')
-      const id = plane
-        ? page.searchParams.get('model')
-        : butterfly
-          ? page.searchParams.get('species') || hash.get('design')?.replace(/^butterfly-/, '')
-          : folded ? page.searchParams.get('species') || 'monarch' : null
-      const compare =
-        './compare.html?lang=' +
-        lang +
-        (id ? '&left=' + encodeURIComponent(id) + '&right=' + (id === 'morpho' ? 'monarch' : 'morpho') : '')
-      let circuit = './planes.html?model=boeing-747&view=flight&lang=' + lang
-      if (plane || butterfly) {
-        page.searchParams.set('lang', lang)
-        page.searchParams.set('view', 'flight')
-        circuit = page.href
-      }
-      const urls = [
-        home,
-        './studio.html?lang=' + lang + '#design=butterfly-monarch&revision=w1',
-        './planes.html?lang=' + lang,
-        compare,
-        circuit,
-        home + '#library',
-        './references.html?lang=' + lang,
-        './next.html?lang=' + lang,
-        './book.html?lang=' + lang,
-        './motor.html?lang=' + lang,
-        './flight-objects.html?lang=' + lang,
-      ]
-      const label = document.createElement('span')
-      label.textContent = labels[0]
-      summary.replaceChildren(label)
-      summary.setAttribute('aria-label', labels[0])
-      list.replaceChildren(
-        ...urls.map((href, i) => {
-          const a = document.createElement('a')
-          a.href = href
-          a.textContent = labels[i + 1]
-          const here = new URL(href, location.href)
-          const now = new URL(location.href)
-          if (i > 0 && here.pathname === now.pathname && here.searchParams.get('view') === now.searchParams.get('view')) a.setAttribute('aria-current', 'page')
-          return a
-        }),
-      )
-    }
-    refresh()
-    details.addEventListener('toggle', () => {
-      if (details.open) refresh()
-    })
-    new MutationObserver(refresh).observe(document.documentElement, {
-      attributes: true,
-      attributeFilter: ['lang'],
-    })
-    details.append(summary, list)
-    holder.append(details)
-    document.addEventListener('click', (e) => {
-      if (!details.contains(e.target)) details.open = false
-    })
-    details.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape') {
-        details.open = false
-        summary.focus()
-      }
-    })
-    list.addEventListener('click', () => {
-      details.open = false
-    })
+const mast = document.querySelector('[data-site-page]')
+if (mast && !mast.firstElementChild) mast.innerHTML = siteHeader(mast.dataset.sitePage, currentLocale())
+
+function refreshNavigation(lang) {
+  if (!mast) return
+  const page = mast.dataset.sitePage
+  const menu = mast.querySelector('.workshop-menu')
+  const current = new URL(location.href)
+  const circuit = page === 'planes' && current.searchParams.get('view') === 'flight'
+  const nav = navigationLinks(lang, './', circuit ? 'circuit' : page)
+  const primary = mast.querySelector('.primary-links')
+  const list = menu.querySelector('.workshop-links')
+  if (mast.dataset.navLocale !== lang || mast.dataset.navView !== String(circuit)) {
+    mast.dataset.navLocale = lang
+    mast.dataset.navView = String(circuit)
+    primary.innerHTML = nav.primary
+    list.innerHTML = nav.menu
+    primary.setAttribute('aria-label', siteLabels.primary[lang])
+    mast.querySelector('.lang').setAttribute('aria-label', siteLabels.language[lang])
+    menu.querySelector('summary').setAttribute('aria-label', siteLabels.menu[lang])
+    menu.querySelector('summary span').textContent = siteLabels.menu[lang]
+    mast.querySelector('.wordmark').href = homeURL(lang)
+    const trail = document.querySelector('[data-site-trail]')
+    if (trail) trail.innerHTML = breadcrumbs(toolTrail(circuit ? 'circuit' : page, lang), lang)
+    const skip = document.querySelector('[data-site-skip]')
+    if (skip) skip.textContent = siteLabels.skip[lang]
   }
+
+  const hash = new URLSearchParams(current.hash.slice(1))
+  const id = page === 'planes' ? current.searchParams.get('model')
+    : page === 'studio' ? current.searchParams.get('species') || hash.get('design')?.replace(/^butterfly-/, '')
+    : ['keel', 'costa'].includes(page) ? current.searchParams.get('species') || 'monarch' : null
+  const compare = list.querySelector('a[href*="compare.html"]')
+  compare.href = navHref('compare', lang, './') +
+    (id ? '&left=' + encodeURIComponent(id) + '&right=' + (id === 'morpho' ? 'monarch' : 'morpho') : '')
+  if (page === 'planes' || page === 'studio') {
+    current.searchParams.set('lang', lang)
+    current.searchParams.set('view', 'flight')
+    list.querySelector('a[href*="view=flight"]').href = current.href
+  }
+}
+
+const menu = mast?.querySelector('.workshop-menu')
+if (menu) {
+  menu.addEventListener('toggle', () => {
+    if (menu.open) refreshNavigation(document.documentElement.lang)
+  })
+  document.addEventListener('click', (event) => {
+    if (!menu.contains(event.target) || event.target.closest('.workshop-links a')) menu.open = false
+  })
+  menu.addEventListener('keydown', (event) => {
+    if (event.key !== 'Escape' || !menu.open) return
+    menu.open = false
+    menu.querySelector('summary').focus()
+  })
 }
 
 // Print-at-actual-size reminder: every [data-print-reminder] beside a download, in the page language.

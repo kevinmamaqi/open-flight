@@ -1,8 +1,8 @@
-import { flightObjects } from './assets/objects/activities.js?v=8a5cae46106b'
-import { currentLocale, homeURL, localizedLinks } from './atlas-nav.js?v=8a5cae46106b'
-import { bookFilename, bookTitle, localePaper } from './book-model.js?v=8a5cae46106b'
-import { classroomPlan } from './classroom-plan.js?v=8a5cae46106b'
-import { sheetName } from './family-sheets.js?v=8a5cae46106b'
+import { flightObjects } from './assets/objects/activities.js?v=c3029913b67f'
+import { currentLocale, localizedLinks } from './atlas-nav.js?v=c3029913b67f'
+import { bookFilename, localePaper } from './book-model.js?v=c3029913b67f'
+import { classroomPlan } from './classroom-plan.js?v=c3029913b67f'
+import { sheetName } from './family-sheets.js?v=c3029913b67f'
 
 const translations = {
   en: {
@@ -132,10 +132,6 @@ for (const node of document.querySelectorAll('[data-text]')) {
 for (const node of document.querySelectorAll('[data-aria]')) {
   node.setAttribute('aria-label', copy[node.dataset.aria])
 }
-get('book-link').textContent = bookTitle(lang)
-get('book-link').href = './book.html?lang=' + lang
-get('home').href = homeURL(lang)
-get('library-link').href = homeURL(lang) + '#library'
 
 const learners = get('learners')
 const team = get('team')

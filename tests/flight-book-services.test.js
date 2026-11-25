@@ -19,7 +19,7 @@ const env = {
 }
 const request = (route, body, page = origin, source = page) =>
   new Request(page + '/api/flight-book/' + route, {
-    method: 'POST', body, headers: { Origin: source },
+    method: 'POST', body, headers: { Origin: source, 'Content-Type': 'text/plain;charset=UTF-8' },
   })
 
 function database() {

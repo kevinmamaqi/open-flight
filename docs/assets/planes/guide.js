@@ -1,7 +1,7 @@
-import { aircraftPortrait } from './field-portraits.js?v=8a5cae46106b'
-import { esc, svgParts, specimenScene } from './drawing.js?v=8a5cae46106b'
-import { planeCredits, creditText } from './credits.js?v=8a5cae46106b'
-import { color } from '../brand/tokens.js?v=8a5cae46106b'
+import { aircraftPortrait } from './field-portraits.js?v=c3029913b67f'
+import { esc, svgParts, specimenScene } from './drawing.js?v=c3029913b67f'
+import { planeCredits, creditText } from './credits.js?v=c3029913b67f'
+import { color } from '../brand/tokens.js?v=c3029913b67f'
 // Faces of the sheet, told apart by lightness: white front, pale reverse, shaded moving flap.
 const ink = color.diagramInk,
   printed = color.diagramFront,

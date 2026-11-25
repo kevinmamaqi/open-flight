@@ -39,7 +39,7 @@ const texts = {
 for (const [id, txt] of Object.entries(texts)) $(id).textContent = txt
 document.title = texts.title + ' · Open Flight'
 document.documentElement.lang = lang
-$('home').href = $('foot-home').href = homeURL(lang)
+$('foot-home').href = homeURL(lang)
 $('print').onclick = () => window.print()
 const url = new URL(location.href)
 let left = designIds.includes(url.searchParams.get('left')) ? url.searchParams.get('left') : 'monarch'

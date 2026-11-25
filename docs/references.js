@@ -1,15 +1,12 @@
-import { currentLocale, homeURL, localizedLinks } from './atlas-nav.js?v=8a5cae46106b'
-import { studioLink } from './atlas-guide.js?v=8a5cae46106b'
-import { planeCatalog } from './assets/planes/catalog.js?v=8a5cae46106b'
+import { currentLocale, localizedLinks } from './atlas-nav.js?v=c3029913b67f'
+import { studioLink } from './atlas-guide.js?v=c3029913b67f'
+import { planeCatalog } from './assets/planes/catalog.js?v=c3029913b67f'
 const $ = (id) => document.getElementById(id)
 const lang = currentLocale()
 const ru = lang === 'ru'
 document.documentElement.lang = lang
-$('home').href = homeURL(lang)
-document.querySelectorAll('.wordmark').forEach((a) => (a.href = homeURL(lang)))
 localizedLinks(lang)
 const sp = {
-  home: 'Taller',
   over: 'Biblioteca abierta',
   heading: 'Fuentes y créditos',
   intro:
@@ -53,7 +50,6 @@ $('folded-worktable').href='./keel.html?lang='+lang
 $('next-page').href = './next.html?lang=' + lang
 for (const [i, id] of ['next-page', 'ctitle', 'cg'].entries()) $(id).textContent = extra[i]
 const labels = {
-  home: ['Workshop', 'Мастерская'],
   over: ['The open library', 'Открытая библиотека'],
   heading: ['Field references', 'Полевой справочник'],
   intro: [

@@ -27,9 +27,10 @@
     <meta name="twitter:card" content="summary_large_image" />
     <link rel="canonical" href="https://openflight.design/" />
     <title>Open Flight · The paper flight workshop</title>
-    <link rel="alternate" hreflang="en" href="https://openflight.design/?lang=en" />
+    <link rel="alternate" hreflang="en" href="https://openflight.design/" />
     <link rel="alternate" hreflang="ru" href="https://openflight.design/ru" />
     <link rel="alternate" hreflang="es" href="https://openflight.design/es" />
+    <link rel="alternate" hreflang="x-default" href="https://openflight.design/" />
     <link rel="icon" href="./assets/brand/favicon.ico" sizes="32x32" />
     <link rel="icon" href="./assets/brand/favicon.svg" type="image/svg+xml" />
     <link rel="apple-touch-icon" href="./assets/brand/apple-touch-icon.png" />
@@ -42,23 +43,7 @@
   </head>
   <body>
     <a class="skip-link" href="#designs" data-t="skip">Skip to the designs</a>
-    <header class="mast">
-      <div class="mast-in">
-        <a class="wordmark" href="./"
-          ><img src="./assets/brand/logo.svg" width="245" height="59" alt="Open Flight" /></a
-        >
-        <nav class="primary-links" aria-label="Main">
-          <a href="#designs" data-t="navDesigns">Designs</a><a id="nav-book" href="./book.html?lang=en" data-t="bookNav">Flight Book</a
-          ><a href="#library" data-t="navLibrary">Open library</a>
-        </nav>
-        <span data-workshop-menu></span>
-        <nav class="lang" aria-label="Language">
-          <a id="en" lang="en" hreflang="en" href="?lang=en" aria-label="English (EN)">EN</a
-          ><a id="es" lang="es" hreflang="es" href="./es.html" aria-label="Español (ES)">ES</a
-          ><a id="ru" lang="ru" hreflang="ru" href="./ru.html" aria-label="Русский (RU)">RU</a>
-        </nav>
-      </div>
-    </header>
+    <header class="mast" data-site-page="home"></header>
     <main>
       <section class="hero wrap" aria-labelledby="hero-title">
         <div class="hero-copy">
@@ -118,7 +103,7 @@
               <div class="family-text">
                 <p class="eyebrow" data-t="butterTech">Cut + fold</p>
                 <h3>
-                  <a data-route="butterfly" data-t="butterflies" href="./studio.html">Butterflies</a>
+                  <a data-product="butterflies" data-t="butterflies" href="./butterflies/">Butterflies</a>
                 </h3>
                 <p data-t="butterDesc">
                   Pick a real butterfly, color its wings, and follow its picture guide. In the same studio you can choose adjustable rear tabs or a folded body you can pinch at launch.
@@ -138,7 +123,7 @@
               <div class="family-text">
                 <p class="eyebrow" data-t="planeTech">One sheet per airplane</p>
                 <h3>
-                  <a data-route="airplane" data-t="planes" href="./planes.html">Airplanes</a>
+                  <a data-product="airplanes" data-t="planes" href="./airplanes/">Airplanes</a>
                 </h3>
                 <p data-t="planeDesc">
                   Fold a plain sheet whole. If you use the starter PDF, cut along its thick border with scissors before folding.
@@ -156,15 +141,15 @@
             <div class="family-main">
               <div class="family-text">
                 <p class="eyebrow" data-t="objectTag">Experimental designs</p>
-                <h3><a id="object-family" href="./flight-objects.html?lang=en" data-t="objectFamily">Flying objects</a></h3>
+                <h3><a data-product="flying-objects" href="./flying-objects/" data-t="objectFamily">Flying objects</a></h3>
                 <p data-t="objectDesc">Roll a sheet into a ring, drop a paper maple seed, or fold a glider with two pairs of wings. Which one spins on the way down?</p>
               </div>
               <img src="./assets/objects/tandem.svg" alt="" width="180" height="114" loading="lazy" />
             </div>
             <div class="family-links" id="object-links">
-              <a data-object="ring" href="./flight-objects.html?model=ring&amp;lang=en">Ring glider</a>
-              <a data-object="samara" href="./flight-objects.html?model=samara&amp;lang=en">Maple spinner</a>
-              <a data-object="tandem" href="./flight-objects.html?model=tandem&amp;lang=en">Williams tandem glider</a>
+              <a data-object="ring" href="./flying-objects/ring/">Ring glider</a>
+              <a data-object="samara" href="./flying-objects/samara/">Maple spinner</a>
+              <a data-object="tandem" href="./flying-objects/tandem/">Williams tandem glider</a>
             </div>
           </article>
         </div>

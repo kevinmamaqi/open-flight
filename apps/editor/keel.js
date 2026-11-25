@@ -1,5 +1,5 @@
 import { foldArtwork, showFoldStep } from './fold-lesson.js';
-import { currentLocale, homeURL, localizedLinks } from "./atlas-nav.js";
+import { currentLocale, localizedLinks } from "./atlas-nav.js";
 import { keelSteps } from "./keel-guide.js";
 import * as api from "./browser-workshop.js";
 
@@ -179,7 +179,6 @@ let plan;
 
 document.documentElement.lang = lang;
 document.title = t("title") + " · Open Flight";
-get("home").href = homeURL(lang);
 for (const el of document.querySelectorAll("[data-word]"))
   el.textContent = t(el.dataset.word);
 for (const [id, choices] of [

@@ -14,29 +14,12 @@
     <link rel="stylesheet" href="./system.css" />
     <link rel="stylesheet" href="./editor.css" />
     <link rel="stylesheet" href="./flight-viewer.css" />
-    <script type="module" src="./atlas-nav.js"></script>
     <script type="module" src="./editor.js"></script>
 </head>
   <body>
     <a class="skip-link" href="#worktable" data-i18n="skip">Skip to the worktable</a>
-    <header class="mast">
-      <div class="mast-in">
-        <a class="wordmark" id="atlas-home" href="./"><img src="./assets/brand/logo.svg" width="245" height="59" alt="Open Flight" /></a>
-        <nav class="primary-links" aria-label="Workshop" data-aria="workshop">
-          <a href="#studio" class="current" aria-current="true"><span data-i18n="studio">Studio</span></a>
-          <a href="#build-guide"><span data-i18n="buildGuide">Build guide</span></a>
-        </nav>
-        <button type="button" class="button small" id="open-library">
-          <svg class="icon" aria-hidden="true"><use href="./editor-art.svg#folder" /></svg><span data-i18n="myDesigns">My designs</span>
-        </button>
-        <span data-workshop-menu></span>
-        <nav class="lang" aria-label="Language" data-aria="language">
-          <a id="en" lang="en" hreflang="en" href="?lang=en" aria-label="English (EN)">EN</a>
-          <a id="es" lang="es" hreflang="es" href="?lang=es" aria-label="Español (ES)">ES</a>
-          <a id="ru" lang="ru" hreflang="ru" href="?lang=ru" aria-label="Русский (RU)">RU</a>
-        </nav>
-      </div>
-    </header>
+    <header class="mast" data-site-page="studio"></header>
+    <div data-site-trail></div>
     <main id="studio">
       <div class="intro">
         <div>
@@ -47,10 +30,15 @@
             <button type="button" id="folded-body" data-i18n="foldedBody" aria-pressed="false">Folded body</button>
           </div>
         </div>
-        <button class="button primary" type="button" id="print-design" disabled>
-          <svg class="icon" aria-hidden="true"><use href="./editor-art.svg#print" /></svg>
-          <span data-i18n="buildPrint">Build &amp; print</span>
-        </button>
+        <div class="studio-actions">
+          <button type="button" class="button small" id="open-library">
+            <svg class="icon" aria-hidden="true"><use href="./editor-art.svg#folder" /></svg><span data-i18n="myDesigns">My designs</span>
+          </button>
+          <button class="button primary" type="button" id="print-design" disabled>
+            <svg class="icon" aria-hidden="true"><use href="./editor-art.svg#print" /></svg>
+            <span data-i18n="buildPrint">Build &amp; print</span>
+          </button>
+        </div>
       </div>
       <section
         aria-label="Choose your butterfly"

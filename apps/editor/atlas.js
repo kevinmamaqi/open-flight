@@ -1,3 +1,4 @@
+import { publicPath } from './site-navigation.js'
 import { flightObjects } from './assets/objects/activities.js'
 import { ru, es } from './atlas-copy.js'
 import { currentLocale, homeURL, languageInPath, localizedLinks } from './atlas-nav.js'
@@ -42,12 +43,11 @@ if (onPreviousSite) {
   saved.searchParams.set('previous', '1')
   previousSite.href = saved.href
 }
-for (const a of document.querySelectorAll('.wordmark')) a.href = homeURL(lang)
+for (const a of document.querySelectorAll('[data-product]')) a.href = './' + publicPath(a.dataset.product, lang)
 for (const a of document.querySelectorAll('[data-route]'))
   a.href = a.dataset.route === 'airplane' ? studioLink('boeing-747', lang) : studioLink('monarch', lang)
 $('folded-butterfly').href = foldedLink('monarch', lang)
 const bookLink = './book.html?lang=' + lang
-$('nav-book').href = bookLink
 $('book-sample').href = bookLink + '&p=4'
 $('book-log-image').src = './assets/atlas/book-log-' + lang + '.png' + assetVersion
 $('book-cover-image').src = './assets/atlas/book-cover-' + lang + '.png' + assetVersion
@@ -96,18 +96,17 @@ const order = [
 const models = order.map((id) => fieldModel(id, lang))
 const lab = flightObjects(lang)
 const activities = new Map(lab.activities.map(item => [item.id, item]))
-$('object-family').href = $('objects-link').href
 const select = $('download-model')
 $('download-paper').querySelector('[value=US_LETTER]').textContent = t(
   'US Letter',
   'Carta (EE. UU.)',
   'US Letter',
 )
-for (const family of ['butterfly', 'airplane', 'object']) {
+for (const [family, category] of Object.entries({ butterfly: 'butterflies', airplane: 'airplanes', object: 'flying-objects' })) {
   for (const m of models.filter(model => model.family === family)) {
     const label = family === 'airplane' ? m.inspiration : m.name
     const a = family === 'object' ? document.querySelector('[data-object="' + m.id + '"]') : document.createElement('a')
-    a.href = m.studio
+    a.href = './' + publicPath(category + '/' + m.id, lang)
     a.textContent = label
     if (family !== 'object') $(family === 'airplane' ? 'plane-links' : 'butter-links').append(a)
     select.add(new Option(family === 'airplane' ? m.name + ' · ' + label : label, m.id))

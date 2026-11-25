@@ -15,9 +15,10 @@
     <meta name="twitter:card" content="summary_large_image" />
     <link rel="canonical" href="https://openflight.design/ru" />
     <title>Open Flight · Мастерская бумажных полётов</title>
-    <link rel="alternate" hreflang="en" href="https://openflight.design/?lang=en" />
+    <link rel="alternate" hreflang="en" href="https://openflight.design/" />
     <link rel="alternate" hreflang="ru" href="https://openflight.design/ru" />
     <link rel="alternate" hreflang="es" href="https://openflight.design/es" />
+    <link rel="alternate" hreflang="x-default" href="https://openflight.design/" />
     <link rel="icon" href="./assets/brand/favicon.ico" sizes="32x32" />
     <link rel="icon" href="./assets/brand/favicon.svg" type="image/svg+xml" />
     <link rel="apple-touch-icon" href="./assets/brand/apple-touch-icon.png" />
@@ -30,23 +31,7 @@
   </head>
   <body>
     <a class="skip-link" href="#designs" data-t="skip">К выбору моделей</a>
-    <header class="mast">
-      <div class="mast-in">
-        <a class="wordmark" href="./"
-          ><img src="./assets/brand/logo.svg" width="245" height="59" alt="Open Flight" /></a
-        >
-        <nav class="primary-links" aria-label="Main">
-          <a href="#designs" data-t="navDesigns">Модели</a><a id="nav-book" href="./book.html?lang=ru" data-t="bookNav">Книга полётов</a
-          ><a href="#library" data-t="navLibrary">Библиотека</a>
-        </nav>
-        <span data-workshop-menu></span>
-        <nav class="lang" aria-label="Language">
-          <a id="en" lang="en" hreflang="en" href="?lang=en" aria-label="English (EN)">EN</a
-          ><a id="es" lang="es" hreflang="es" href="./es.html" aria-label="Español (ES)">ES</a
-          ><a id="ru" lang="ru" hreflang="ru" href="./ru.html" aria-label="Русский (RU)">RU</a>
-        </nav>
-      </div>
-    </header>
+    <header class="mast" data-site-page="home"></header>
     <main>
       <section class="hero wrap" aria-labelledby="hero-title">
         <div class="hero-copy">
@@ -92,7 +77,7 @@
               <div class="family-text">
                 <p class="eyebrow" data-t="butterTech">Вырезать и сложить</p>
                 <h3>
-                  <a data-route="butterfly" data-t="butterflies" href="./studio.html?lang=ru#design=butterfly-monarch&revision=w1">Бабочки</a>
+                  <a data-product="butterflies" data-t="butterflies" href="./ru/butterflies/">Бабочки</a>
                 </h3>
                 <p data-t="butterDesc">Выбери настоящую бабочку, раскрась крылья и следуй рисункам. В одной мастерской можно выбрать задние язычки или сложить корпус, за который удобно взяться при запуске.</p>
               </div>
@@ -109,7 +94,7 @@
               <div class="family-text">
                 <p class="eyebrow" data-t="planeTech">Один лист на самолёт</p>
                 <h3>
-                  <a data-route="airplane" data-t="planes" href="./planes.html?lang=ru">Самолёты</a>
+                  <a data-product="airplanes" data-t="planes" href="./ru/airplanes/">Самолёты</a>
                 </h3>
                 <p data-t="planeDesc">Чистый лист складывай целиком. Если используешь стартовый PDF, сначала вырежи выкройку ножницами по толстой рамке.</p>
               </div>
@@ -124,15 +109,15 @@
             <div class="family-main">
               <div class="family-text">
                 <p class="eyebrow" data-t="objectTag">Экспериментальные модели</p>
-                <h3><a id="object-family" href="./flight-objects.html?lang=ru" data-t="objectFamily">Летающие модели</a></h3>
+                <h3><a data-product="flying-objects" href="./ru/flying-objects/" data-t="objectFamily">Летающие модели</a></h3>
                 <p data-t="objectDesc">Сверни лист в кольцо, отпусти бумажную крылатку или сложи планер с двумя парами крыльев. Какая модель закрутится при падении?</p>
               </div>
               <img src="./assets/objects/tandem.svg" alt="" width="180" height="114" loading="lazy" />
             </div>
             <div class="family-links" id="object-links">
-              <a data-object="ring" href="./flight-objects.html?model=ring&lang=ru">Кольцеплан</a>
-              <a data-object="samara" href="./flight-objects.html?model=samara&lang=ru">Кленовая крылатка</a>
-              <a data-object="tandem" href="./flight-objects.html?model=tandem&lang=ru">Планер-тандем Уильямса</a>
+              <a data-object="ring" href="./ru/flying-objects/ring/">Кольцеплан</a>
+              <a data-object="samara" href="./ru/flying-objects/samara/">Кленовая крылатка</a>
+              <a data-object="tandem" href="./ru/flying-objects/tandem/">Планер-тандем Уильямса</a>
             </div>
           </article>
         </div>

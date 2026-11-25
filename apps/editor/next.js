@@ -45,7 +45,7 @@ const text = {
 for (const [id, value] of Object.entries(text)) $(id).textContent = value
 document.documentElement.lang = lang
 document.title = text.title + ' · Open Flight'
-$('home').href = $('foot-home').href = homeURL(lang)
+$('foot-home').href = homeURL(lang)
 localizedLinks(lang)
 $('motor-workbench').href = './motor.html?lang=' + lang
 $('motor-workbench').textContent = t('Open the motor lab ↗', 'Abrir el laboratorio de motores ↗', 'Открыть лабораторию мотора ↗')

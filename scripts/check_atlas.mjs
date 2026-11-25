@@ -1,3 +1,5 @@
+import { execFileSync } from 'node:child_process'
+import { fileURLToPath } from 'node:url'
 import assert from 'node:assert/strict'
 import { createHash } from 'node:crypto'
 import { mkdirSync, readFileSync } from 'node:fs'
@@ -7,6 +9,20 @@ import { sheetFor } from '../packages/product-core/aircraft.ts'
 import { pdf } from '../packages/print-export/sheets.ts'
 import { makePlane, planePdf } from '../packages/planes/index.ts'
 
+// Chromium uses V8. Generate the expected PDF with the same JavaScript engine
+// so the byte comparison also works when Bun drives the browser.
+function expectedPlanePdf(source, lang) {
+  if (!process.versions.bun) return planePdf(makePlane(source, lang))
+  return execFileSync('node', ['--input-type=module', '-e', `
+    import { readFileSync } from 'node:fs'
+    import { makePlane, planePdf } from './packages/planes/index.ts'
+    const { source, lang } = JSON.parse(readFileSync(0, 'utf8'))
+    process.stdout.write(planePdf(makePlane(source, lang)))
+  `], {
+    cwd: fileURLToPath(new URL('../', import.meta.url)),
+    input: JSON.stringify({ source, lang }),
+  })
+}
 const base = new URL(process.argv[2] ?? 'http://127.0.0.1:4190/')
 if (!base.pathname.endsWith('/')) base.pathname += '/'
 const shots = process.argv[3]
@@ -78,7 +94,7 @@ try {
     }
     // Every home route stays reachable on a phone, including the comparison and motor notebook.
     await page.locator('.workshop-menu > summary').click()
-    assert.equal(await page.locator('.workshop-links a[href*="flight-objects.html"]').isVisible(), true)
+    assert.equal(await page.locator('.workshop-links a[href$="flying-objects/"]').isVisible(), true)
     await page.locator('.workshop-links a[href*="compare.html"]').click()
     await page.locator('#left-model').selectOption('swallowtail')
     await page.locator('#right-model').selectOption('douglas-dc3')
@@ -217,7 +233,7 @@ try {
     assert.equal(planeSource.winglet_mm, 10)
     assert.equal(planeSource.model_id, 'tupolev-tu144')
     const output = await download(page, page.locator('.pdf').first())
-    assert.equal(hash(output), hash(planePdf(makePlane(planeSource, lang))), 'airplane PDF parity')
+    assert.equal(hash(output), hash(expectedPlanePdf(planeSource, lang)), 'airplane PDF parity')
     if (shots)
       await page.screenshot({
         path: join(shots, 'airplanes-' + lang + '.png'),

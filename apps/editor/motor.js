@@ -4,8 +4,7 @@ const lang = currentLocale();
 const assetVersion = new URL(import.meta.url).search;
 document.documentElement.lang = lang;
 localizedLinks(lang);
-for (const id of ["home", "foot-home"])
-  document.getElementById(id).href = homeURL(lang);
+document.getElementById("foot-home").href = homeURL(lang);
 for (const id of ["upper", "prairie"]) {
   const link = document.getElementById(id);
   const url = new URL(link.href);

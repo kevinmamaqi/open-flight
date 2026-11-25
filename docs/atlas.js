@@ -1,11 +1,12 @@
-import { flightObjects } from './assets/objects/activities.js?v=8a5cae46106b'
-import { ru, es } from './atlas-copy.js?v=8a5cae46106b'
-import { currentLocale, homeURL, languageInPath, localizedLinks } from './atlas-nav.js?v=8a5cae46106b'
-import { fieldModel, studioLink, foldedLink } from './atlas-guide.js?v=8a5cae46106b'
-import { sheetCatalog, sheetIdFor, sheetPath } from './family-sheets.js?v=8a5cae46106b'
-import { bookURL, monarchTrialSheets, normalizeBook } from './book-model.js?v=8a5cae46106b'
-import { recordBookEvent } from './book-metrics.js?v=8a5cae46106b'
-import { previousHome, workshopHome } from './assets/workshop-address.js?v=8a5cae46106b'
+import { publicPath } from './site-navigation.js?v=c3029913b67f'
+import { flightObjects } from './assets/objects/activities.js?v=c3029913b67f'
+import { ru, es } from './atlas-copy.js?v=c3029913b67f'
+import { currentLocale, homeURL, languageInPath, localizedLinks } from './atlas-nav.js?v=c3029913b67f'
+import { fieldModel, studioLink, foldedLink } from './atlas-guide.js?v=c3029913b67f'
+import { sheetCatalog, sheetIdFor, sheetPath } from './family-sheets.js?v=c3029913b67f'
+import { bookURL, monarchTrialSheets, normalizeBook } from './book-model.js?v=c3029913b67f'
+import { recordBookEvent } from './book-metrics.js?v=c3029913b67f'
+import { previousHome, workshopHome } from './assets/workshop-address.js?v=c3029913b67f'
 
 const assetVersion = new URL(import.meta.url).search
 const fragment = new URLSearchParams(location.hash.slice(1))
@@ -42,12 +43,11 @@ if (onPreviousSite) {
   saved.searchParams.set('previous', '1')
   previousSite.href = saved.href
 }
-for (const a of document.querySelectorAll('.wordmark')) a.href = homeURL(lang)
+for (const a of document.querySelectorAll('[data-product]')) a.href = './' + publicPath(a.dataset.product, lang)
 for (const a of document.querySelectorAll('[data-route]'))
   a.href = a.dataset.route === 'airplane' ? studioLink('boeing-747', lang) : studioLink('monarch', lang)
 $('folded-butterfly').href = foldedLink('monarch', lang)
 const bookLink = './book.html?lang=' + lang
-$('nav-book').href = bookLink
 $('book-sample').href = bookLink + '&p=4'
 $('book-log-image').src = './assets/atlas/book-log-' + lang + '.png' + assetVersion
 $('book-cover-image').src = './assets/atlas/book-cover-' + lang + '.png' + assetVersion
@@ -96,18 +96,17 @@ const order = [
 const models = order.map((id) => fieldModel(id, lang))
 const lab = flightObjects(lang)
 const activities = new Map(lab.activities.map(item => [item.id, item]))
-$('object-family').href = $('objects-link').href
 const select = $('download-model')
 $('download-paper').querySelector('[value=US_LETTER]').textContent = t(
   'US Letter',
   'Carta (EE. UU.)',
   'US Letter',
 )
-for (const family of ['butterfly', 'airplane', 'object']) {
+for (const [family, category] of Object.entries({ butterfly: 'butterflies', airplane: 'airplanes', object: 'flying-objects' })) {
   for (const m of models.filter(model => model.family === family)) {
     const label = family === 'airplane' ? m.inspiration : m.name
     const a = family === 'object' ? document.querySelector('[data-object="' + m.id + '"]') : document.createElement('a')
-    a.href = m.studio
+    a.href = './' + publicPath(category + '/' + m.id, lang)
     a.textContent = label
     if (family !== 'object') $(family === 'airplane' ? 'plane-links' : 'butter-links').append(a)
     select.add(new Option(family === 'airplane' ? m.name + ' · ' + label : label, m.id))

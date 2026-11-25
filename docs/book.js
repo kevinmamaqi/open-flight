@@ -1,6 +1,6 @@
-import { flightObjects } from "./assets/objects/activities.js?v=8a5cae46106b";
-import { currentLocale, homeURL, localizedLinks } from "./atlas-nav.js?v=8a5cae46106b";
-import { recordBookEvent } from "./book-metrics.js?v=8a5cae46106b";
+import { flightObjects } from "./assets/objects/activities.js?v=c3029913b67f";
+import { currentLocale, homeURL, localizedLinks } from "./atlas-nav.js?v=c3029913b67f";
+import { recordBookEvent } from "./book-metrics.js?v=c3029913b67f";
 import {
   bookFilename,
   bookPlan,
@@ -12,24 +12,24 @@ import {
   normalizeBook,
   pilotLimit,
   readBookURL,
-} from "./book-model.js?v=8a5cae46106b";
+} from "./book-model.js?v=c3029913b67f";
 import {
   loadBookServices,
   recoverBookCheckout,
   supportChoices,
-} from "./book-support.js?v=8a5cae46106b";
-import { estimateBookBytes } from "./book-size.js?v=8a5cae46106b";
-import { mountBookReader } from "./book-reader.js?v=8a5cae46106b";
-import { applyStudioColors, studioForBookSheet } from "./model-studio.js?v=8a5cae46106b";
-import { mountModelMap } from "./model-map.js?v=8a5cae46106b";
-import { appearanceArtPath, appearanceChoices } from "./model-appearance.js?v=8a5cae46106b";
-import { builderCopy } from "./book-ui-copy.js?v=8a5cae46106b";
+} from "./book-support.js?v=c3029913b67f";
+import { estimateBookBytes } from "./book-size.js?v=c3029913b67f";
+import { mountBookReader } from "./book-reader.js?v=c3029913b67f";
+import { applyStudioColors, studioForBookSheet } from "./model-studio.js?v=c3029913b67f";
+import { mountModelMap } from "./model-map.js?v=c3029913b67f";
+import { appearanceArtPath, appearanceChoices } from "./model-appearance.js?v=c3029913b67f";
+import { builderCopy } from "./book-ui-copy.js?v=c3029913b67f";
 import {
   sheetCatalog,
   sheetIdFor,
   sheetName,
   sheetPath,
-} from "./family-sheets.js?v=8a5cae46106b";
+} from "./family-sheets.js?v=c3029913b67f";
 
 const sheetVersion = new URL(import.meta.url).search;
 const byId = (id) => document.getElementById(id);
@@ -480,10 +480,6 @@ function renderLocale() {
   const t = copy();
   document.documentElement.lang = state.lang;
   document.title = `${t.title} · Open Flight`;
-  document.querySelector(".lang").setAttribute("aria-label", t.language);
-  document
-    .querySelector(".primary-links")
-    .setAttribute("aria-label", t.workshop);
   localizedLinks(state.lang);
   for (const locale of locales) {
     const link = byId(locale);
@@ -492,9 +488,7 @@ function renderLocale() {
     if (currentBook()) link.href = bookURL({ ...state, lang: locale }, url);
   }
   const home = homeURL(state.lang);
-  byId("home").href = home;
-  byId("workshop").href = home;
-  for (const id of ["individual", "library"]) byId(id).href = home + "#library";
+  byId("individual").href = home + "#library";
   byId("classroom").href = `./classroom.html?lang=${state.lang}`;
   for (const item of document.querySelectorAll("[data-book]"))
     item.textContent = t[item.dataset.book];
@@ -770,8 +764,8 @@ function readyPDF(book) {
   const key = JSON.stringify(book);
   if (activePDF?.key === key) return activePDF.promise;
   const promise = Promise.all([
-    import("./book-engine.js?v=8a5cae46106b"),
-    import("./assets/planes/vendor/jspdf.js?v=8a5cae46106b"),
+    import("./book-engine.js?v=c3029913b67f"),
+    import("./assets/planes/vendor/jspdf.js?v=c3029913b67f"),
   ]).then(async ([{ createBook }]) => {
     const data = await createBook(book, { loadAsset });
     return new File([data], bookFilename(book), { type: "application/pdf" });

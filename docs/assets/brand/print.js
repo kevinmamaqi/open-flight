@@ -2,7 +2,7 @@
 // All values derive from tokens.css through tokens.js. DESIGN.md explains the rules:
 // text >= 9 pt, lines >= 0.3 mm, nothing within 6 mm of the edge, a 50 mm calibration line,
 // fold types told apart by dash pattern (not colour), and a small brand mark.
-import { color, print } from './tokens.js?v=8a5cae46106b'
+import { color, print } from './tokens.js?v=c3029913b67f'
 
 export { print }
 export const mmPerPt = 25.4 / 72

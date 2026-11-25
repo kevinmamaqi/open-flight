@@ -1,5 +1,5 @@
-import { motorRoadmap } from './atlas-roadmap.js?v=8a5cae46106b'
-import { currentLocale, homeURL, localizedLinks } from './atlas-nav.js?v=8a5cae46106b'
+import { motorRoadmap } from './atlas-roadmap.js?v=c3029913b67f'
+import { currentLocale, homeURL, localizedLinks } from './atlas-nav.js?v=c3029913b67f'
 const lang = currentLocale(),
   i = { en: 0, es: 1, ru: 2 }[lang],
   t = (...v) => v[i],
@@ -45,7 +45,7 @@ const text = {
 for (const [id, value] of Object.entries(text)) $(id).textContent = value
 document.documentElement.lang = lang
 document.title = text.title + ' · Open Flight'
-$('home').href = $('foot-home').href = homeURL(lang)
+$('foot-home').href = homeURL(lang)
 localizedLinks(lang)
 $('motor-workbench').href = './motor.html?lang=' + lang
 $('motor-workbench').textContent = t('Open the motor lab ↗', 'Abrir el laboratorio de motores ↗', 'Открыть лабораторию мотора ↗')

@@ -1,0 +1,110 @@
+.product-page {
+  display: grid;
+  gap: var(--space-7);
+  padding-block: var(--space-4) var(--space-6);
+}
+
+.product-hero {
+  display: grid;
+  grid-template-columns: 1.1fr 1fr;
+  gap: var(--space-6);
+  align-items: center;
+}
+
+.product-hero-text {
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.product-hero h1 {
+  margin-block: var(--space-2);
+  font-size: var(--text-3xl);
+}
+
+.product-hero .lede {
+  margin-block: var(--space-4) var(--space-5);
+}
+
+.product-art {
+  display: grid;
+  place-items: center;
+  aspect-ratio: 4 / 3;
+  padding: var(--space-4);
+  border-radius: var(--radius-md);
+  background: var(--color-surface-stage);
+  overflow: hidden;
+}
+
+.product-art img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+  object-fit: contain;
+}
+
+.product-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 16rem), 1fr));
+  gap: var(--space-4);
+  margin-block: var(--space-4) 0;
+  padding: 0;
+  list-style: none;
+}
+
+.product-card {
+  overflow: hidden;
+}
+
+.product-card .product-art {
+  aspect-ratio: 16 / 9;
+  border-end-start-radius: 0;
+  border-end-end-radius: 0;
+}
+
+.product-card-copy {
+  padding: var(--space-3) var(--space-4) var(--space-4);
+}
+
+.product-card-copy h2,
+.product-card-copy h3 {
+  margin: 0;
+  font-size: var(--text-lg);
+}
+
+.product-card-copy a {
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--size-target);
+}
+
+.product-card-copy p {
+  margin: 0;
+  color: var(--color-text-muted);
+}
+
+.product-sections {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-5) var(--space-7);
+  border-block-start: var(--line-hair) solid var(--color-rule);
+  padding-block-start: var(--space-5);
+}
+
+.product-sections h2 {
+  margin-block-start: 0;
+}
+
+.product-sections h3 {
+  margin-block: var(--space-4) var(--space-1);
+}
+
+@media (max-width: 680px) {
+  .product-hero,
+  .product-sections {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .product-hero {
+    gap: var(--space-4);
+  }
+}

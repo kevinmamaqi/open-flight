@@ -328,7 +328,7 @@ a:hover {
   outline-offset: calc(-1 * var(--line-focus));
 }
 
-/* Workshop menu (built by atlas-nav.js into every [data-workshop-menu]). */
+/* Workshop menu */
 .workshop-menu {
   position: relative;
   font-size: var(--text-sm);
@@ -374,11 +374,16 @@ a:hover {
   width: max-content;
   min-width: 14rem;
   max-width: min(90vw, 20rem);
+  max-height: calc(100dvh - var(--space-9));
+  overflow-y: auto;
   padding: var(--space-2);
   background: var(--color-surface);
   border: var(--line-hair) solid var(--color-rule);
   border-radius: var(--radius-md);
   box-shadow: var(--shadow-float);
+}
+.workshop-menu:not([open]) .workshop-links {
+  display: none;
 }
 .workshop-links a {
   display: flex;
@@ -398,10 +403,7 @@ a:hover {
   font-weight: var(--weight-bold);
   box-shadow: inset var(--line-focus) 0 0 var(--color-selected);
 }
-@media (max-width: 460px) {
-  .workshop-menu summary {
-    padding-inline: var(--space-3);
-  }
+@media (max-width: 400px) {
   .workshop-menu summary span {
     position: absolute;
     width: 1px;
@@ -409,8 +411,10 @@ a:hover {
     overflow: hidden;
     clip: rect(0 0 0 0);
   }
+}
+@media (max-width: 460px) {
   .mast-in,
-  .mast [data-workshop-menu] > .workshop-menu {
+  .mast .workshop-menu {
     position: static;
   }
   .workshop-links {
@@ -418,6 +422,46 @@ a:hover {
     width: auto;
     max-width: none;
   }
+}
+
+/* Breadcrumb links wrap independently on narrow screens. */
+.breadcrumbs {
+  color: var(--color-text-muted);
+  font-size: var(--text-sm);
+}
+
+.breadcrumbs ol {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  column-gap: var(--space-2);
+  margin: 0;
+  padding: var(--space-1) 0;
+  list-style: none;
+}
+
+.breadcrumbs li {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  max-width: 100%;
+  overflow-wrap: anywhere;
+}
+
+.breadcrumbs li + li::before {
+  content: '';
+  width: var(--space-1);
+  height: var(--space-1);
+  border: solid var(--color-border);
+  border-width: var(--line-hair) var(--line-hair) 0 0;
+  transform: rotate(45deg);
+}
+
+.breadcrumbs a {
+  display: inline-flex;
+  align-items: center;
+  min-width: var(--size-target);
+  min-height: var(--size-target);
 }
 
 /* ---------- Footer ---------- */
@@ -850,6 +894,7 @@ dialog::backdrop {
     line-height: var(--print-leading);
   }
   .mast,
+  .breadcrumbs,
   .site-footer,
   .skip-link,
   .workshop-menu,

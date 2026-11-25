@@ -5,6 +5,7 @@ import { existsSync, readdirSync, readFileSync, writeFileSync, renameSync } from
 import { extname, join, relative } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { parseArgs } from 'node:util'
+import { productRoutes, renderProduct } from '../editor/site-pages.js'
 import { Workspace } from '../../packages/product-core/workspace.ts'
 import { catalog, Fault, invalid, missing, scopesByOperation } from '../../packages/product-core/contracts.ts'
 
@@ -142,6 +143,22 @@ const server = http.createServer(async (req, res) => {
       res.writeHead(307, { Location: aliases[url.pathname] + url.search })
       res.end()
       return
+    }
+    if (req.method === 'GET') {
+      const path = url.pathname.slice(1).replace(/\/$/, '')
+      const [prefix, ...parts] = path.split('/')
+      const lang = ['es', 'ru'].includes(prefix) ? prefix : 'en'
+      const page = lang === 'en' ? path : parts.join('/')
+      if (productRoutes.includes(page)) {
+        if (!url.pathname.endsWith('/')) {
+          res.writeHead(308, { Location: url.pathname + '/' + url.search })
+          res.end()
+        } else {
+          res.writeHead(200, { 'Content-Type': publicTypes['.html'] })
+          res.end(renderProduct(page, lang, '', 'https://openflight.design/'))
+        }
+        return
+      }
     }
     const asset = assets.get(url.pathname)
     if (asset && req.method === 'GET') {

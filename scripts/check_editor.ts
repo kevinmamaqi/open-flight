@@ -14,14 +14,15 @@ import { pathToFileURL } from 'node:url'
 const { values } = parseArgs({
   options: {
     screenshots: { type: 'string' },
-    'server-runtime': { type: 'string', default: 'node' },
+    'server-runtime': { type: 'string' },
   },
 })
-if (!['node', 'bun'].includes(values['server-runtime']))
+const runtime = values['server-runtime']
+if (runtime && !['node', 'bun'].includes(runtime))
   throw Error('Choose node or bun as the server runtime.')
 const workspace = mkdtempSync(join(tmpdir(), 'open-flight-browser-'))
 const server = spawn(
-  values['server-runtime'] === 'bun' ? 'bun' : process.execPath,
+  runtime ?? process.execPath,
   ['apps/api/server.ts', '--workspace', workspace, '--port', '0'],
   { stdio: ['ignore', 'pipe', 'inherit'] },
 )

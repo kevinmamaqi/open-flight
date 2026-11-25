@@ -4,23 +4,27 @@
   "private": true,
   "type": "module",
   "engines": {
+    "bun": ">=1.4.2",
     "node": ">=24.0.0"
   },
   "scripts": {
     "studio": "bun apps/api/server.ts",
     "editor": "node apps/api/server.ts",
     "mcp": "node apps/mcp-server/server.ts",
-    "test": "node --test tests/*.test.ts tests/*.test.js",
-    "typecheck": "tsc --noEmit",
+    "test": "bun test --timeout 120000 tests",
+    "typecheck": "bun --bun tsc --noEmit",
     "check:editor": "node scripts/check_editor.ts",
-    "journey": "node examples/agent-client/journey.ts",
-    "build:workshop": "bun scripts/build_library.mjs && node scripts/build_flight_objects.mjs && bun scripts/build_browser.mjs && bun scripts/build_book.mjs && node scripts/build_book_sizes.mjs && node scripts/build_book_covers.mjs",
-    "build:site": "npm run build:workshop && bun scripts/build_site.mjs docs",
-    "build:cloudflare": "npm run build:workshop && bun scripts/build_site.mjs dist/cloudflare-input --cloudflare && node scripts/prepare_pages.mjs dist/cloudflare-input dist/cloudflare",
-    "check:design": "node scripts/build_tokens.mjs --check && node scripts/check_design.mjs",
-    "check:print": "node scripts/check_print_design.mjs",
-    "check:ui": "node scripts/check_ui.mjs",
-    "build:tokens": "node scripts/build_tokens.mjs"
+    "journey": "bun examples/agent-client/journey.ts",
+    "build:workshop": "bun scripts/build_library.mjs && bun scripts/build_flight_objects.mjs && bun scripts/build_browser.mjs && bun scripts/build_book.mjs && bun scripts/build_book_sizes.mjs && bun scripts/build_book_covers.mjs",
+    "build:site": "bun run build:workshop && bun scripts/build_site.mjs docs",
+    "build:cloudflare": "bun run build:workshop && bun scripts/build_site.mjs dist/cloudflare-input --cloudflare && bun scripts/prepare_pages.mjs dist/cloudflare-input dist/cloudflare",
+    "check:design": "bun scripts/build_tokens.mjs --check && bun scripts/check_design.mjs",
+    "check:print": "bun scripts/check_print_design.mjs",
+    "check:ui": "bun scripts/check_ui.mjs",
+    "build:tokens": "bun scripts/build_tokens.mjs",
+    "test:compat": "node --test --test-name-pattern \"checked-in airplane specimens\" tests/plane-atlas.test.ts",
+    "check:site": "bun scripts/check_site.mjs",
+    "check:atlas": "bun scripts/check_atlas.mjs"
   },
   "dependencies": {
     "@modelcontextprotocol/client": "2.4.0",
@@ -40,5 +44,6 @@
     "playwright-core": "1.59.1",
     "prettier": "3.10.1",
     "typescript": "7.0.2"
-  }
+  },
+  "packageManager": "bun@1.4.2"
 }

@@ -1,6 +1,6 @@
 import { flightObjects } from './assets/objects/activities.js'
-import { currentLocale, homeURL, localizedLinks } from './atlas-nav.js'
-import { bookFilename, bookTitle, localePaper } from './book-model.js'
+import { currentLocale, localizedLinks } from './atlas-nav.js'
+import { bookFilename, localePaper } from './book-model.js'
 import { classroomPlan } from './classroom-plan.js'
 import { sheetName } from './family-sheets.js'
 
@@ -132,10 +132,6 @@ for (const node of document.querySelectorAll('[data-text]')) {
 for (const node of document.querySelectorAll('[data-aria]')) {
   node.setAttribute('aria-label', copy[node.dataset.aria])
 }
-get('book-link').textContent = bookTitle(lang)
-get('book-link').href = './book.html?lang=' + lang
-get('home').href = homeURL(lang)
-get('library-link').href = homeURL(lang) + '#library'
 
 const learners = get('learners')
 const team = get('team')

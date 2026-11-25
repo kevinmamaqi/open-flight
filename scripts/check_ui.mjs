@@ -1,9 +1,10 @@
 // Rendered-page checks for the design system. Needs the built site served over HTTP.
-//   node scripts/check_ui.mjs http://localhost:8000/ [--width 375] [--lang en,ru]
+//   bun scripts/check_ui.mjs http://localhost:8000/ [--width 375] [--lang en,ru]
 // For every page: text contrast against the actual background (WCAG 2.2 AA), touch targets
 // smaller than 44 x 44 px (inline links inside a sentence are exempt), horizontal overflow,
 // and a visible focus indicator on the first focusable elements.
 import { chromium } from 'playwright-core'
+import { publicPath } from '../apps/editor/site-navigation.js'
 
 const args = process.argv.slice(2)
 const base = args.find((a) => /^https?:/.test(a)) ?? 'http://localhost:8000/'
@@ -13,13 +14,17 @@ const opt = (name, fallback) => {
 }
 const width = Number(opt('width', '375'))
 const langs = opt('lang', 'en,ru').split(',')
-const pages = [
+const tools = [
   ['home', { en: 'index.html', ru: 'ru.html', es: 'es.html' }],
   ['studio', 'studio.html'], ['planes', 'planes.html'], ['flight', 'planes.html?model=boeing-747&view=flight'],
   ['book', 'book.html'], ['classroom', 'classroom.html'], ['motor', 'motor.html'], ['keel', 'keel.html'],
   ['costa', 'costa.html'], ['compare', 'compare.html'], ['references', 'references.html'], ['next', 'next.html'],
   ['objects', 'flight-objects.html'],
 ]
+
+const products = ['designs', 'flight-book', 'teachers', 'motor-lab', 'butterflies/monarch', 'airplanes/tupolev-tu144', 'flying-objects/ring']
+  .map(route => [route, Object.fromEntries(langs.map(lang => [lang, publicPath(route, lang)]))])
+const pages = args.includes('--products-only') ? products : [...tools, ...products]
 
 function audit() {
   const parse = (c) => {

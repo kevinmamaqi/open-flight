@@ -1,4 +1,4 @@
-import { currentLocale, homeURL, localizedLinks } from './atlas-nav.js'
+import { currentLocale, localizedLinks } from './atlas-nav.js'
 import { flightObjects } from './assets/objects/activities.js'
 import { objectCopy } from './flight-objects-copy.js'
 
@@ -10,7 +10,6 @@ const url = new URL(location.href)
 const selected = lab.activities.find(item => item.id === url.searchParams.get('model')) ?? lab.activities[0]
 document.documentElement.lang = lang
 document.title = selected.title + ' · ' + copy.title + ' · Open Flight'
-$('home').href = homeURL(lang)
 
 function element(tag, text) {
   const node = document.createElement(tag)

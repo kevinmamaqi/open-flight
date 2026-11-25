@@ -1,3 +1,5 @@
+import { languageAlternates, productRoutes, renderProduct } from '../apps/editor/site-pages.js'
+import { breadcrumbs, publicPath, siteHeader, siteLabels, toolTrail } from '../apps/editor/site-navigation.js'
 import { flightObjects } from '../apps/editor/assets/objects/activities.js'
 import { monarchTrialSheets } from '../apps/editor/book-model.js'
 import { paperSizes, sheetLocales } from '../apps/editor/family-sheets.js'
@@ -31,11 +33,24 @@ function versionAttribute(attr) {
     },
   }
 }
-function versionHtml(source) {
-  return new HTMLRewriter()
+function versionHtml(source, lang = 'en') {
+  const rewrite = new HTMLRewriter()
+    .on('[data-site-page]', {
+      element(el) {
+        el.setInnerContent(siteHeader(el.getAttribute('data-site-page'), lang), { html: true })
+      },
+    })
+    .on('[data-site-skip]', replaceText(siteLabels.skip[lang]))
     .on('script[src]', versionAttribute('src'))
     .on('link[rel="stylesheet"]', versionAttribute('href'))
-    .transform(source)
+  const page = source.match(/data-site-page="([\w-]+)"/)?.[1]
+  if (page && page !== 'home') {
+    rewrite.on('head', { element: el => el.append('<meta name="robots" content="noindex">', { html: true }) })
+    rewrite.on('[data-site-trail]', {
+      element: el => el.setInnerContent(breadcrumbs(toolTrail(page, lang), lang), { html: true }),
+    })
+  }
+  return rewrite.transform(source)
 }
 const template = readFileSync(join(editor, 'atlas.html'), 'utf8')
 for (const [lang, copy, title, region, photoAlt, name, family] of [
@@ -86,19 +101,19 @@ for (const [lang, copy, title, region, photoAlt, name, family] of [
     .on('#previous-site', updateAttr('href', previousHome + lang + '.html?previous=1'))
   for (const item of flightObjects(lang).activities) {
     const selector = '[data-object="' + item.id + '"]'
-    rewrite = rewrite.on(selector, replaceText(item.title)).on(selector, updateAttr('href', './flight-objects.html?model=' + item.id + '&lang=' + lang))
+    rewrite = rewrite.on(selector, replaceText(item.title)).on(selector, updateAttr('href', './' + publicPath('flying-objects/' + item.id, lang)))
   }
+  for (const route of ['butterflies', 'airplanes', 'flying-objects'])
+    rewrite = rewrite.on('[data-product="' + route + '"]', updateAttr('href', './' + publicPath(route, lang)))
   for (const [selector, href] of Object.entries({
     '#hero-link': 'studio.html?lang=' + lang + '#design=butterfly-monarch&revision=w1',
     '#specimen-name': 'studio.html?lang=' + lang + '#design=butterfly-monarch&revision=w1',
     '#folded-butterfly': 'studio.html?construction=k1&species=monarch&lang=' + lang,
     '#book-link': 'book.html?lang=' + lang,
-    '#nav-book': 'book.html?lang=' + lang,
     '#book-sample': 'book.html?lang=' + lang + '&p=4',
     '#monarch-trial': 'book.html?lang=' + lang + '&p=4#m=monarch-k1,monarch-k2&paper=a4',
     '#specimen-sheet': 'library/monarch-A4-' + lang + '.pdf',
     '#classroom-link': 'classroom.html?lang=' + lang,
-    '#object-family': 'flight-objects.html?lang=' + lang,
     '#objects-link': 'flight-objects.html?lang=' + lang,
     '#download': 'library/monarch-k1-A4-' + lang + '.pdf',
     '[data-route=butterfly]': 'studio.html?lang=' + lang + '#design=butterfly-monarch&revision=w1',
@@ -122,7 +137,7 @@ for (const entry of readdirSync(editor, { withFileTypes: true })) {
       filter: (p) => !p.endsWith('.d.ts'),
     })
   if (entry.isFile() && entry.name.endsWith('.html'))
-    writeFileSync(join(out, dest), versionHtml(readFileSync(source, 'utf8')))
+    writeFileSync(join(out, dest), versionHtml(readFileSync(source, 'utf8'), ['es.html', 'ru.html'].includes(entry.name) ? entry.name.slice(0, 2) : 'en'))
   else if (entry.isFile() && /\.(js|css|svg|webmanifest)$/.test(entry.name)) cpSync(source, join(out, dest))
 }
 for (const name of ['unusual-flyer-sources.md', 'williams-tandem.md']) {
@@ -161,24 +176,27 @@ writeFileSync(
   "location.replace(document.getElementById('route').href+location.search+location.hash)\n",
 )
 writeFileSync(join(out, '.nojekyll'), '')
-const pages = ['book.html','classroom.html','motor.html','keel.html','costa.html','studio.html', 'planes.html', 'references.html', 'compare.html', 'next.html', 'flight-objects.html']
-writeFileSync(
-  join(out, 'sitemap.xml'),
-  '<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">' +
-    '<url><loc>' +
-    domain +
-    '</loc></url><url><loc>' +
-    domain +
-    'ru</loc></url><url><loc>' +
-    domain +
-    'es</loc></url>' +
-    pages
-      .flatMap((page) =>
-        ['en', 'ru', 'es'].map((lang) => '<url><loc>' + domain + page.replace(/\.html$/, '') + '?lang=' + lang + '</loc></url>'),
-      )
-      .join('') +
-    '</urlset>',
+for (const route of productRoutes) {
+  for (const lang of sheetLocales) {
+    const directory = join(out, publicPath(route, lang))
+    mkdirSync(directory, { recursive: true })
+    writeFileSync(join(directory, 'index.html'), renderProduct(route, lang, assetKey))
+  }
+}
+const sitemap = ['home', ...productRoutes].flatMap(route => {
+  const alternates = languageAlternates(route).map(([lang, href]) =>
+    '<xhtml:link rel="alternate" hreflang="' + lang + '" href="' + href + '"/>',
+  ).join('')
+  return sheetLocales.map(lang =>
+    '<url><loc>' + domain + publicPath(route, lang) + '</loc>' + alternates + '</url>',
+  )
+})
+writeFileSync(join(out, 'sitemap.xml'),
+  '<?xml version="1.0" encoding="UTF-8"?>\n' +
+  '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">\n' +
+  sitemap.join('\n') + '\n</urlset>\n',
 )
+writeFileSync(join(out, 'robots.txt'), 'User-agent: *\nAllow: /\nSitemap: ' + domain + 'sitemap.xml\n')
 for (const path of [
   'index.html',
   'tokens.css', 'system.css', 'site.webmanifest', 'assets/brand/logo.svg', 'assets/brand/favicon.ico', 'assets/fonts/OpenFlightText-Regular.woff2',

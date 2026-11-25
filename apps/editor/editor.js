@@ -67,9 +67,6 @@ function translateChrome() {
   document.documentElement.lang = locale
   document.title = t('studioTitle') + ' · Open Flight'
   localizedLinks(locale)
-  const home = new URL('./', import.meta.url)
-  home.searchParams.set('lang', locale)
-  $('atlas-home').href = home
   document.querySelectorAll('[data-i18n]').forEach((node) => {
     node.textContent = t(node.dataset.i18n)
   })

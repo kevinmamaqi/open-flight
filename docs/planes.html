@@ -14,31 +14,27 @@
     <link rel="apple-touch-icon" href="./assets/brand/apple-touch-icon.png" />
     <link rel="manifest" href="./site.webmanifest" />
     <link rel="preload" href="./assets/fonts/OpenFlightText-Regular.woff2" as="font" type="font/woff2" crossorigin />
-    <link rel="stylesheet" href="./tokens.css?v=8a5cae46106b" />
-    <link rel="stylesheet" href="./system.css?v=8a5cae46106b" />
-    <link rel="stylesheet" href="./planes.css?v=8a5cae46106b" />
-    <link rel="stylesheet" href="./flight-viewer.css?v=8a5cae46106b" />
-    <script type="module" src="./atlas-nav.js?v=8a5cae46106b"></script>
-    <script type="module" src="./planes.js?v=8a5cae46106b"></script>
-</head>
+    <link rel="stylesheet" href="./tokens.css?v=c3029913b67f" />
+    <link rel="stylesheet" href="./system.css?v=c3029913b67f" />
+    <link rel="stylesheet" href="./planes.css?v=c3029913b67f" />
+    <link rel="stylesheet" href="./flight-viewer.css?v=c3029913b67f" />
+    <script type="module" src="./atlas-nav.js?v=c3029913b67f"></script>
+    <script type="module" src="./planes.js?v=c3029913b67f"></script>
+<meta name="robots" content="noindex"></head>
   <body>
     <a class="skip-link" href="#main" data-copy="skip">Skip to design</a>
-    <header class="mast">
-      <div class="mast-in">
-        <a class="wordmark" data-home href="./"><img src="./assets/brand/logo.svg" width="245" height="59" alt="Open Flight" /></a>
-        <nav class="primary-links" aria-label="Workshop">
-          <a data-home href="./" data-copy="atlas">Flight atlas</a
-          ><a href="#fold" data-copy="foldGuide">Fold guide</a
-          ><a href="#collection" data-copy="myBuilds">My builds</a>
-        </nav>
-        <span data-workshop-menu></span>
-        <nav class="lang" aria-label="Language" data-group="language">
-          <a id="en" lang="en" hreflang="en" href="?lang=en" aria-label="English (EN)">EN</a>
-          <a id="es" lang="es" hreflang="es" href="?lang=es" aria-label="Español (ES)">ES</a>
-          <a id="ru" lang="ru" hreflang="ru" href="?lang=ru" aria-label="Русский (RU)">RU</a>
-        </nav>
-      </div>
-    </header>
+    <header class="mast" data-site-page="planes"><div class="mast-in">
+    <a class="wordmark" href="./"><img src="./assets/brand/logo.svg" width="245" height="59" alt="Open Flight"></a>
+    <nav class="primary-links" aria-label="Main navigation"><a href="./designs/">Designs</a><a href="./flight-book/">Flight Book</a><a href="./teachers/">For teachers</a></nav>
+    <details class="workshop-menu"><summary aria-label="Menu"><span>Menu</span></summary>
+      <div class="workshop-links"><a href="./butterflies/">Paper butterflies</a><a href="./airplanes/">Paper airplanes</a><a href="./flying-objects/">Flying objects</a><a href="./flight-book/">Flight Book</a><a href="./teachers/">For teachers</a><a href="./motor-lab/">Motor lab</a><a href="./compare.html?lang=en">Compare designs</a><a href="./planes.html?view=flight&amp;lang=en">Flight circuit</a><a href="./#library">Print library</a><a href="./references.html?lang=en">Sources and credits</a><a href="./next.html?lang=en">Next steps</a></div>
+    </details>
+    <nav class="lang" aria-label="Language"><a id="en" lang="en" hreflang="en" href="?lang=en"
+      aria-label="English" aria-current="true">EN</a><a id="es" lang="es" hreflang="es" href="?lang=es"
+      aria-label="Español">ES</a><a id="ru" lang="ru" hreflang="ru" href="?lang=ru"
+      aria-label="Русский">RU</a></nav>
+  </div></header>
+    <div data-site-trail><nav class="breadcrumbs wrap" aria-label="Breadcrumb"><ol><li><a href="./">Workshop</a></li><li><a href="./designs/">Designs</a></li><li><a href="./airplanes/">Paper airplanes</a></li><li aria-current="page">Airplane studio</li></ol></nav></div>
     <main id="main">
       <section class="intro">
         <div class="hero-copy">
@@ -49,6 +45,7 @@
           <div class="actions">
             <a href="#fold" class="button primary" data-copy="start">Start folding</a
             ><button type="button" class="button secondary pdf" data-copy="print">Download build PDF</button>
+            <a href="#collection" class="source-link" data-copy="myBuilds">My builds</a>
             <a id="book-colors" class="source-link" href="./book.html">Use these colors in my Flight Book</a>
           </div>
         </div>

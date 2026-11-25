@@ -43,7 +43,10 @@
 @media (max-width: 660px) {
   .classroom-main { width: calc(100% - 24px); }
   .lesson-layout { grid-template-columns: 1fr; }
-  .copy-plan table { font-size: var(--text-xs); }
+  .copy-plan table { font-size: var(--text-xs); table-layout: fixed; }
+  .copy-plan th, .copy-plan td:nth-child(2) { white-space: normal; overflow-wrap: anywhere; }
+  .copy-plan th:nth-child(2) { width: 32%; }
+  .copy-plan th:nth-child(3) { width: 20%; }
 }
 @media print {
   .classroom .mast, .classroom .screen-only { display: none !important; }

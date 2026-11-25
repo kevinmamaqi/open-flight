@@ -1,7 +1,7 @@
-import { objects } from './assets/objects/activities.js?v=8a5cae46106b'
-import { flightPhysics } from './atlas-physics.js?v=8a5cae46106b'
-import { baselines } from './assets/atlas/baselines.js?v=8a5cae46106b'
-import { planeCatalog } from './assets/planes/catalog.js?v=8a5cae46106b'
+import { objects } from './assets/objects/activities.js?v=c3029913b67f'
+import { flightPhysics } from './atlas-physics.js?v=c3029913b67f'
+import { baselines } from './assets/atlas/baselines.js?v=c3029913b67f'
+import { planeCatalog } from './assets/planes/catalog.js?v=c3029913b67f'
 
 export const languages = ['en', 'es', 'ru']
 export const words = (en, es, ru) => ({ en, es, ru })
