@@ -360,7 +360,7 @@ const words: Record<K2Locale, Words> = {
       },
       {
         title: 'Launch and trim',
-        action: 'Push it gently forward, nose level, at walking speed. Dives: bend both tabs up 1–2 mm. Swoops up and stalls: flatten them.',
+        action: 'Push it smoothly forward, nose level, about as fast as a jog. Dives: bend both tabs up 1–2 mm. Swoops up and stalls: flatten them.',
         check: 'Turns left: bend the right tab up a little. Turns right: the left tab.',
       },
     ],
@@ -368,7 +368,7 @@ const words: Record<K2Locale, Words> = {
       `Estimate for ${p.span_mm} mm on 120 g/m² with two clips: balance ${p.balance_from_nose_mm} mm behind the nose, glide about ${p.prediction.glide_speed_m_s.toFixed(1)} m/s. Not yet measured.`,
   },
   es: {
-    names: { monarch: 'Monarca', morpho: 'Morfo azul', swallowtail: 'Cola de golondrina' },
+    names: { monarch: 'Monarca', morpho: 'Morfo azul', swallowtail: 'Macaón' },
     note: 'Planeador K2 con costa · Dobla el borde delantero bajo cada ala',
     span: 'envergadura final',
     print: 'Imprime al 100 % en tamaño real y en horizontal. Mide esta línea antes de recortar.',
@@ -419,7 +419,7 @@ const words: Record<K2Locale, Words> = {
       },
       {
         title: 'Lanza y ajusta',
-        action: 'Empújala suavemente hacia delante, con la punta recta, a paso de caminar. Si cae en picado, sube las dos aletas 1–2 mm. Si sube y se frena, aplánalas.',
+        action: 'Empújala con suavidad hacia delante, con la punta recta, a la velocidad de un trote. Si cae en picado, sube las dos aletas 1–2 mm. Si sube y se frena, aplánalas.',
         check: 'Gira a la izquierda: sube un poco la aleta derecha. Gira a la derecha: la izquierda.',
       },
     ],
@@ -478,7 +478,7 @@ const words: Record<K2Locale, Words> = {
       },
       {
         title: 'Запуск и настройка',
-        action: 'Мягко толкни вперёд, нос ровно, со скоростью шага. Пикирует: подними оба закрылка на 1–2 мм. Взмывает и зависает: выпрями их.',
+        action: 'Плавно толкните вперёд, нос ровно, примерно со скоростью лёгкого бега. Пикирует: поднимите оба язычка на 1–2 мм. Взмывает и зависает: выпрямите их.',
         check: 'Поворачивает влево: чуть подними правый закрылок. Вправо: левый.',
       },
     ],

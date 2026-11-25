@@ -29,6 +29,15 @@
   --of-sun-100: #faefd6;
   --of-black: #000000; /* print text and cut lines: black toner only */
   --of-white: #ffffff;
+  /* Editorial inks for the book and the chapter pages (One Sheet, round 3): constructivist
+   * signal red, birch paper, and the night sky of the space chapter. */
+  --of-birch: #efe9dc; /* birch-paper panels (ink 12.5:1, signal red 4.6:1) */
+  --of-signal-600: #c8281e; /* poster red: numerals, flight paths, wedges (5.3:1 on paper) */
+  --of-signal-400: #f0603f; /* poster red on the night sky (5.5:1) */
+  --of-night-900: #0b1633; /* night sky: space spreads (paper text 17:1) */
+  --of-night-700: #13224a; /* a raised panel on the night sky */
+  --of-night-500: #566c99; /* rules and grid on the night sky (3.4:1) */
+  --of-star: #a9b6cc; /* secondary text on the night sky (8.7:1) */
 
   /* ---------- Semantic colour roles ---------- */
   --color-page: var(--of-paper);
@@ -85,6 +94,18 @@
   --color-diagram-arrow: var(--of-kite-700);
   --color-diagram-ink: var(--of-ink);
 
+  /* Editorial roles: the book spreads and the chapter and plate pages share them. */
+  --color-poster: var(--of-signal-600); /* big numerals, flight paths, the red wedge; AA as text */
+  --color-surface-birch: var(--of-birch);
+  --color-night: var(--of-night-900);
+  --color-night-raised: var(--of-night-700);
+  --color-night-text: var(--of-paper);
+  --color-night-muted: var(--of-star);
+  --color-night-accent: var(--of-signal-400);
+  --color-night-info: var(--of-sky-200);
+  --color-night-caution: var(--of-sun-400);
+  --color-night-rule: var(--of-night-500);
+
   /* Brand mark colours (identity SVGs repeat these values; npm test checks them). */
   --color-brand-ink: var(--of-ink);
   --color-brand-kite: var(--of-kite-600);
@@ -93,8 +114,16 @@
   /* ---------- Type ---------- */
   --font-text: 'Open Flight Text', 'Andika', system-ui, sans-serif;
   --font-display: 'Alegreya', Georgia, serif;
+  /* Poster face: Unbounded (OFL), wide space-age geometry with full Cyrillic. Book display
+   * type, chapter numerals, pull figures and the chapter and plate page headings. */
+  --font-poster: 'Unbounded', 'Open Flight Text', system-ui, sans-serif;
   --weight-regular: 400;
+  --weight-medium: 500;
   --weight-bold: 700;
+  --weight-heavy: 800;
+  --weight-ultra: 900;
+  --tracking-poster: -0.02em;
+  --tracking-signage: 0.08em;
 
   /* Screen scale, rem. 14 px is the smallest text anywhere. */
   --text-xs: 0.875rem; /* 14 px: labels, captions, meta */
@@ -104,6 +133,9 @@
   --text-xl: 1.75rem; /* 28 px: section titles */
   --text-2xl: clamp(2rem, 1.6rem + 1.6vw, 2.5rem); /* 32–40 px: page titles */
   --text-3xl: clamp(2.5rem, 1.7rem + 3.4vw, 4rem); /* 40–64 px: home headline */
+  --text-poster: clamp(1.875rem, 0.9rem + 4.8vw, 5.5rem); /* 30–88 px: chapter and plate titles in the poster face */
+  --text-hero: clamp(3rem, 1.2rem + 7.5vw, 8rem); /* 48–128 px: the home cover title, set like the book cover */
+  --leading-poster: 0.92; /* heavy capitals stacked like the printed cover */
   --leading-tight: 1.08;
   --leading-snug: 1.25;
   --leading-body: 1.55;

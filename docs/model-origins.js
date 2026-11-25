@@ -1,4 +1,4 @@
-import { aircraftHeritage } from './assets/planes/heritage.js?v=3b57e65abbf7';
+import { aircraftHeritage } from './assets/planes/heritage.js?v=827c6a6b1e8f';
 
 const tr = (en, es, ru) => ({en, es, ru});
 
@@ -40,7 +40,7 @@ const origins = {
     ),
     illustration: {
       file: 'monarch.jpg',
-      caption: tr('Adult monarch', 'Monarca adulta', 'Взрослый монарх'),
+      caption: tr('A monarch feeding (photo location not recorded)', 'Una monarca alimentándose (lugar de la foto no registrado)', 'Монарх кормится (место съёмки не записано)'),
       credit: 'JamesDeMers · CC0',
       url: 'https://pixabay.com/photos/monarch-butterfly-pink-flowers-60824/',
     },
@@ -70,13 +70,13 @@ const origins = {
       'Тончайшие слои в чешуйках крыльев отражают синий свет. Взрослые морфо кормятся упавшими плодами в лесу.',
     ),
     specimen: tr(
-      'The photo shows one adult. Guanacaste is an example habitat. Some collections use the name Morpho helenor peleides.',
-      'La foto muestra una adulta. Guanacaste es un hábitat de ejemplo. Algunas colecciones usan el nombre Morpho helenor peleides.',
-      'На фото одна взрослая бабочка. Гуанакасте — пример места обитания. В некоторых коллекциях используют название Morpho helenor peleides.',
+      'The photo shows one adult in a butterfly house. Guanacaste is an example of its wild habitat. Some collections use the name Morpho helenor peleides.',
+      'La foto muestra un adulto en un mariposario. Guanacaste es un ejemplo de su hábitat natural. Algunas colecciones usan el nombre Morpho helenor peleides.',
+      'На фото взрослая бабочка в павильоне бабочек. Гуанакасте — пример места, где она живёт в природе. В некоторых коллекциях используют название Morpho helenor peleides.',
     ),
     illustration: {
       file: 'morpho.jpg',
-      caption: tr('Adult blue morpho', 'Morfo azul adulto', 'Взрослый голубой морфо'),
+      caption: tr('A blue morpho in a butterfly house, not in the wild', 'Un morfo azul en un mariposario, no en libertad', 'Голубой морфо в павильоне бабочек, а не в природе'),
       credit: 'Meli1670 · CC0',
       url: 'https://pixabay.com/photos/blue-morpho-butterfly-morpho-peleides-947714/',
     },
@@ -92,7 +92,7 @@ const origins = {
   },
   swallowtail: {
     kind: 'butterfly',
-    model: tr('Old World swallowtail', 'Mariposa macaón', 'Махаон'),
+    model: tr('Old World swallowtail', 'Macaón', 'Махаон'),
     scientificName: 'Papilio machaon',
     date: tr('Early summer at Kizhi', 'Principios del verano en Kizhi', 'Начало лета в Кижах'),
     story: tr(
@@ -101,9 +101,9 @@ const origins = {
       'Махаон встречается на большей части умеренной Евразии, а также в некоторых районах Северной Африки и Северной Америки. Музей «Кижи» отмечает его в лесах, на лугах и болотах.',
     ),
     discovery: tr(
-      'The caterpillars eat plants in the carrot family, such as wild angelica in Karelia. Can you spot the adult’s two long tails?',
-      'Las orugas comen plantas de la familia de la zanahoria, como la angélica silvestre en Carelia. ¿Ves las dos colas largas de la adulta?',
-      'Гусеницы едят зонтичные растения, например лесной дудник в Карелии. Найдёшь два длинных хвостика у взрослой бабочки?',
+      'The caterpillars eat plants in the carrot family, such as wild angelica in Karelia. Can you spot the short tail on each hindwing?',
+      'Las orugas comen plantas de la familia de la zanahoria, como la angélica silvestre en Carelia. ¿Ves la cola corta de cada ala trasera?',
+      'Гусеницы едят зонтичные растения, например лесной дудник в Карелии. Найдёте короткий хвостик на каждом заднем крыле?',
     ),
     specimen: tr(
       'The map marks a documented population in the Kizhi archipelago. The photographed butterfly’s location is unverified.',
@@ -112,7 +112,7 @@ const origins = {
     ),
     illustration: {
       file: 'swallowtail.jpg',
-      caption: tr('Adult swallowtail', 'Macaón adulto', 'Взрослый махаон'),
+      caption: tr('Adult swallowtail (photo location not recorded)', 'Macaón adulto (lugar de la foto no registrado)', 'Взрослый махаон (место съёмки не записано)'),
       credit: 'makamuki0 · CC0',
       url: 'https://pixabay.com/photos/macaon-papilio-machaon-butterfly-1710213/',
     },

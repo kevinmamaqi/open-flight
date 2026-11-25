@@ -1,9 +1,9 @@
-import { foldArtwork, showFoldStep } from './fold-lesson.js?v=3b57e65abbf7'
-import { makePlane, planeCatalog, planeSource, sheetSizes, liveries, sheetEdges, revision } from './assets/planes/core.js?v=3b57e65abbf7'
-import { planeSvg, planeSpecimen, esc, stripes } from './assets/planes/drawing.js?v=3b57e65abbf7'
-import { foldSvg, planeGuide } from './assets/planes/guide.js?v=3b57e65abbf7'
-import { planeBrowserPdf } from './assets/planes/print.js?v=3b57e65abbf7'
-import { appearanceChoices } from './model-appearance.js?v=3b57e65abbf7'
+import { foldArtwork, showFoldStep } from './fold-lesson.js?v=827c6a6b1e8f'
+import { makePlane, planeCatalog, planeSource, sheetSizes, liveries, sheetEdges, revision } from './assets/planes/core.js?v=827c6a6b1e8f'
+import { planeSvg, planeSpecimen, esc, stripes } from './assets/planes/drawing.js?v=827c6a6b1e8f'
+import { foldSvg, planeGuide } from './assets/planes/guide.js?v=827c6a6b1e8f'
+import { planeBrowserPdf } from './assets/planes/print.js?v=827c6a6b1e8f'
+import { appearanceChoices } from './model-appearance.js?v=827c6a6b1e8f'
 
 const words = {
   fieldTitle: ['From aircraft to paper', 'От самолёта к бумаге', 'Del avión real al papel'],
@@ -69,11 +69,6 @@ const words = {
     'Dobla la hoja en blanco entera con ayuda de los dibujos. Para imprimir las marcas hasta los bordes, usa impresión sin márgenes o acude a una copistería.',
   ],
   livery: ['Printed colors', 'Расцветка', 'Colores del avión'],
-  flagHelp: [
-    'These wing markings show where the passenger airplane was designed.',
-    'Флаги на крыльях показывают, где спроектировали пассажирский самолёт.',
-    'Las banderas de las alas indican dónde se diseñó el avión de pasajeros.',
-  ],
   keel: ['Body fold', 'Глубина корпуса', 'Profundidad del cuerpo'],
   keelHint: [
     'A deeper body leaves less paper in each wing.',
@@ -154,10 +149,10 @@ const words = {
   mm: ['mm', 'мм', 'mm'],
   airplane: ['Paper airplane studio', 'Мастерская бумажных самолётов', 'Taller de aviones de papel'],
 }
-import { flightPhysics,physicsTitle } from './atlas-physics.js?v=3b57e65abbf7'
-import { currentLocale, languageSwitch, localizedLinks } from './atlas-nav.js?v=3b57e65abbf7'
-import { studioOrigins, bookColorAction } from './studio-origins.js?v=3b57e65abbf7'
-import { bookFromStudio } from './model-studio.js?v=3b57e65abbf7'
+import { flightPhysics,physicsTitle } from './atlas-physics.js?v=827c6a6b1e8f'
+import { currentLocale, languageSwitch, localizedLinks } from './atlas-nav.js?v=827c6a6b1e8f'
+import { studioOrigins, bookColorAction } from './studio-origins.js?v=827c6a6b1e8f'
+import { bookFromStudio } from './model-studio.js?v=827c6a6b1e8f'
 const $ = (id) => document.getElementById(id)
 const updateAtlas = studioOrigins($('origin-atlas'))
 const params = new URLSearchParams(location.search)
@@ -357,7 +352,6 @@ function renderPlan() {
     $('livery').dataset.model = plan.model_id
   }
   $('livery').value = plan.livery
-  $('flag-help').hidden = plan.livery !== 'flag'
   $('keel').value = plan.keel_mm
   $('tips').value = plan.winglet_mm
   $('keel-value').value = plan.keel_mm + ' ' + tr('mm')
@@ -415,7 +409,7 @@ function renderStep() {
 }
 async function updateViewer() {
   try {
-    loadingViewer ??= import('./flight-viewer.js?v=3b57e65abbf7')
+    loadingViewer ??= import('./flight-viewer.js?v=827c6a6b1e8f')
       .then(({ mountFlightViewer }) => mountFlightViewer($('three')))
       .catch((error) => {
         loadingViewer = undefined

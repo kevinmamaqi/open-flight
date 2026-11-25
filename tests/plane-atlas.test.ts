@@ -261,7 +261,7 @@ test('every guide prints inside office-printer margins on both faces, and the ba
   for (const model of planeCatalog)
     for (const paper of papers)
       for (const [keel_mm, winglet_mm] of [[12, 0], [20, 4], [28, 12], [16, 6]])
-        for (const livery of ['heritage', 'flag'] as const)
+        for (const livery of ['heritage', 'airshow'] as const)
         for (const sheet of [{ revision: '1' }, { revision: '2', edge: 'cut' }, { revision: '2', edge: 'whole' }] as const) {
           const plan = makePlane({ model_id: model.model_id, paper, keel_mm, winglet_mm, livery, ...sheet }) as PlanePlan
           const front = sheetScene(plan) as Part[],

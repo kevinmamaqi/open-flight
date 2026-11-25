@@ -66,10 +66,10 @@ for (const entry of readdirSync(editorRoot, {
   const path = relative(editorRoot, join(entry.parentPath, entry.name))
   const mime = publicTypes[extname(path)]
   const appFile =
-    /^(?:tokens|system|home|lab|editor|atlas|planes|references|flight|keel|costa|compare|next|browser-workshop|studio-folded|fold|family|book|classroom|model|studio-origins|appearance-sheet-browser|motor)(?:-[a-z0-9-]+)?\.(js|css|html|svg)$|^site\.webmanifest$/.test(
+    /^(?:tokens|system|home|lab|editor|atlas|planes|references|flight|keel|costa|compare|next|browser-workshop|studio-folded|fold|family|book|classroom|model|studio-origins|appearance-sheet-browser|motor|print)(?:-[a-z0-9-]+)?\.(js|css|html|svg)$|^site\.webmanifest$/.test(
       path,
     )
-  if (mime && (path.startsWith('assets/') || path.startsWith('library/') || appFile))
+  if (mime && (path.startsWith('assets/') || path.startsWith('library/') || path.startsWith('book/') || appFile))
     assets.set('/' + path, [path, mime])
 }
 const mappings = [...catalog.tools, ...catalog.resourceTemplates].map((entry) => {
@@ -133,6 +133,8 @@ const server = http.createServer(async (req, res) => {
       '/book/': '/book.html',
       '/motor': '/motor.html',
       '/motor/': '/motor.html',
+      '/print': '/print.html',
+      '/print/': '/print.html',
       '/next': '/next.html',
       '/next/': '/next.html',
       '/es': '/es.html',

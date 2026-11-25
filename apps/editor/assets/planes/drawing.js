@@ -1,5 +1,4 @@
 import { planeCredits, creditText } from './credits.js'
-import { flagDecals } from './country-markings.js'
 import { backFaceWords, backKind, printSafeMm } from '../print-faces.js'
 import { atLeastText, calibration, calibrationShort, ink as paperInk, lineStyle, muted as paperMuted, textMm } from '../brand/print.js'
 
@@ -133,7 +132,6 @@ function cropConvex(subject, shape) {
   return points
 }
 export function stripes(plan) {
-  if (plan.livery === 'flag') return flagDecals(plan)
   const { width_mm: w, height_mm: h } = plan.dimensions
   const [a, b, c] = plan.colors
   const shapes = []

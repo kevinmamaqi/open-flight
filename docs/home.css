@@ -1,4 +1,7 @@
-/* Home page (atlas.html, es.html, ru.html). Layout only; components come from system.css. */
+/* Home page: the book's cover and contents (atlas.html, es.html, ru.html, generated
+   by site-home.js). Layout only; components come from system.css.
+   Round 3: the hero is set like the printed cover. Heavy poster capitals, the drawing
+   sheet in a double frame, the red wedge across it, and two-digit chapter numerals. */
 main > section {
   margin-block: var(--space-8);
 }
@@ -6,461 +9,283 @@ main > section:first-child {
   margin-top: var(--space-6);
 }
 
-/* ---------- Hero ---------- */
-.hero {
+/* ---------- Cover ---------- */
+.book-hero {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr);
   gap: var(--space-7);
   align-items: center;
 }
-.hero h1 {
-  font-size: var(--text-3xl);
-  line-height: var(--leading-tight);
-  
+@media (min-width: 900px) {
+  .book-hero {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr);
+  }
 }
-.hero h1 span,
-.hero h1 em {
-  display: block;
+.book-hero .eyebrow,
+.one-sheet .eyebrow {
+  color: var(--color-poster);
+  font-family: var(--font-poster);
+  letter-spacing: var(--tracking-signage);
 }
-.hero h1 em {
-  color: var(--color-text-accent);
-  font-style: normal;
+.book-hero h1 {
+  width: min-content;
+  max-width: 100%;
+  margin: var(--space-3) 0 0;
+  font-family: var(--font-poster);
+  font-size: var(--text-hero);
+  font-weight: var(--weight-ultra);
+  letter-spacing: var(--tracking-poster);
+  line-height: var(--leading-poster);
+  text-transform: uppercase;
+  overflow-wrap: break-word;
 }
-.hero .lede {
+.book-hero .lede {
   margin-block: var(--space-4) var(--space-5);
+  color: var(--color-text);
 }
-/* The specimen on the drawing stage. */
-.showcase {
+.book-hero .actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-3) var(--space-5);
+}
+.book-hero .hint {
+  margin-top: var(--space-4);
+}
+/* The cover card is a drawing sheet: a heavy frame, a hairline inside it, the red wedge. */
+.book-cover {
   position: relative;
+  isolation: isolate;
   display: grid;
   grid-template-rows: auto 1fr auto;
-  min-height: 22rem;
-  padding: var(--space-4);
-  border: var(--line-hair) solid var(--color-rule);
-  border-radius: var(--radius-md);
-  overflow: hidden;
-}
-.board-header {
-  display: flex;
-  justify-content: space-between;
   gap: var(--space-3);
-  color: var(--color-text-muted);
-  font-size: var(--text-xs);
-  font-weight: var(--weight-bold);
-  letter-spacing: var(--tracking-label);
+  min-height: 22rem;
+  margin: 0;
+  padding: var(--space-6) var(--space-5) var(--space-5);
+  border: var(--line-strong) solid var(--color-text);
+  outline: var(--line-hair) solid var(--color-text);
+  outline-offset: calc(-1 * var(--space-2));
+  box-shadow: var(--shadow-sheet);
+}
+.book-cover::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: var(--color-poster);
+  clip-path: polygon(0 78%, 0 96%, 100% 34%, 100% 16%);
+}
+.book-cover-title {
+  margin: 0;
+  color: var(--color-text);
+  font-family: var(--font-poster);
+  font-size: var(--text-lg);
+  font-weight: var(--weight-heavy);
+  letter-spacing: var(--tracking-signage);
   text-transform: uppercase;
 }
-.counter {
-  font-variant-numeric: tabular-nums;
-}
-.specimen-art {
-  position: relative;
+.book-cover-art {
   display: grid;
   place-items: center;
-  padding: var(--space-4);
 }
-.specimen-art img {
-  width: min(100%, 27rem);
-  transition: transform var(--duration-slow) var(--ease-glide);
+.book-cover-art img {
+  width: 100%;
+  max-height: 16rem;
+  object-fit: contain;
 }
-.specimen-art:hover img {
-  transform: translateY(calc(-1 * var(--space-2))) rotate(-2deg);
-}
-.showcase[data-family='airplane'] .specimen-art img {
-  width: min(100%, 24rem);
-}
-.board-footer {
-  position: relative;
+.book-cover figcaption {
   display: flex;
-  justify-content: space-between;
   align-items: end;
+  justify-content: space-between;
   gap: var(--space-3);
-  padding-top: var(--space-3);
-  border-top: var(--line-hair) dashed var(--color-border);
+  padding: var(--space-3);
+  border-top: var(--line-strong) solid var(--color-text);
+  background: var(--color-surface);
 }
-.board-footer > div:first-child {
+.book-cover figcaption > span:first-child {
   display: grid;
 }
-.board-footer small {
-  color: var(--color-text-muted);
-}
-.board-footer a {
-  font-family: var(--font-display);
-  font-size: var(--text-xl);
+.book-cover small {
+  color: var(--color-poster);
+  font-family: var(--font-poster);
+  font-size: var(--text-xs);
   font-weight: var(--weight-bold);
-  color: var(--color-text);
-  text-decoration: none;
-  line-height: var(--leading-snug);
+  letter-spacing: var(--tracking-signage);
+  text-transform: uppercase;
 }
-.board-footer .sheet-preview {
-  font: inherit;
-  color: var(--color-text-link);
-  text-decoration: underline;
+.book-cover strong {
+  font-family: var(--font-poster);
+  font-size: var(--text-lg);
+  letter-spacing: var(--tracking-poster);
 }
-.board-footer a:hover {
-  text-decoration: underline;
-}
-.board-footer i {
-  font-family: var(--font-display);
+.book-cover i {
   color: var(--color-text-muted);
+  font-family: var(--font-text);
 }
-.turn {
+.book-cover .turn {
   display: flex;
   gap: var(--space-2);
 }
-.turn button {
-  width: var(--size-target);
-  height: var(--size-target);
-  border: var(--line-control) solid var(--color-border-strong);
+.book-cover .turn button {
+  min-width: var(--size-target);
+  min-height: var(--size-target);
+  border: var(--line-control) solid var(--color-border);
   border-radius: var(--radius-round);
   background: var(--color-surface);
   color: var(--color-text);
-  font-size: var(--text-md);
+  font: inherit;
   cursor: pointer;
 }
-.turn button:hover {
-  background: var(--color-surface-selected);
-}
 
-/* ---------- Section heads ---------- */
-.section-top {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-  gap: var(--space-3) var(--space-7);
-  align-items: end;
-  margin-bottom: var(--space-5);
-}
-.section-top > p {
-  color: var(--color-text-muted);
-  max-width: var(--measure);
-}
-
-/* ---------- Flight Book ---------- */
-.home-book {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  align-items: center;
-  overflow: hidden;
-  border: var(--line-hair) solid var(--color-rule);
-  border-radius: var(--radius-md);
-  background: var(--color-surface);
-  box-shadow: var(--shadow-sheet);
-}
-.book-display {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: var(--space-2);
-  place-items: center;
-  align-self: stretch;
-  min-height: 19rem;
-  padding: var(--space-5) var(--space-4);
-  border-inline-end: var(--line-hair) dashed var(--color-rule);
-}
-.book-jacket,
-.book-log {
-  width: min(100%, 14rem);
-  aspect-ratio: 210 / 297;
-}
-.book-jacket {
-  position: relative;
-  container-type: inline-size;
-  box-shadow: var(--shadow-float);
-}
-.book-log {
-  box-shadow: var(--shadow-sheet);
-}
-.book-cover-image {
-  display: block;
-  width: 100%;
-}
-/* Sits on the cover's printed name line; keep in step with the book cover layout. */
-#home-cover-pilot {
-  position: absolute;
-  inset: 20.1% 15% auto 21%;
-  min-height: 3%;
-  background: var(--color-surface);
-  color: var(--color-text);
-  font-family: var(--font-display);
-  font-weight: var(--weight-bold);
-  font-size: 2.55cqw;
+/* ---------- Contents ---------- */
+.contents h2,
+.one-sheet h2,
+.home-notes h2 {
+  margin: 0 0 var(--space-4);
+  font-family: var(--font-poster);
+  font-size: var(--text-2xl);
+  font-weight: var(--weight-heavy);
+  letter-spacing: var(--tracking-poster);
   line-height: var(--leading-tight);
-  overflow: hidden;
+}
+.contents h2 {
+  font-size: var(--text-poster);
+}
+.contents-list {
+  display: grid;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  border-top: var(--space-1) solid var(--color-text);
+}
+.contents-chapter {
+  display: grid;
+  grid-template-columns: calc(var(--space-9) + var(--space-6)) minmax(0, 1fr);
+  gap: var(--space-4);
+  padding-block: var(--space-5);
+  border-bottom: var(--line-hair) solid var(--color-text);
+}
+.contents-number {
   white-space: nowrap;
-  text-overflow: ellipsis;
+  color: var(--color-poster);
+  font-family: var(--font-poster);
+  font-size: var(--text-3xl);
+  font-weight: var(--weight-heavy);
+  letter-spacing: var(--tracking-poster);
+  line-height: var(--leading-poster);
 }
-.home-book-copy {
-  display: grid;
-  gap: var(--space-3);
-  padding: var(--space-6);
-}
-.home-book-copy > p:not(.eyebrow) {
-  max-width: var(--measure);
-}
-.home-pilot {
-  display: grid;
-  gap: var(--space-1);
-  max-width: 22rem;
-  font-weight: var(--weight-bold);
-}
-
-/* ---------- The collection ---------- */
-.families {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(min(100%, 22rem), 1fr));
-  gap: var(--space-5);
-}
-.family {
-  display: grid;
-  align-content: start;
-  gap: var(--space-4);
-  padding: var(--space-5);
-  border: var(--line-hair) solid var(--color-rule);
-  border-radius: var(--radius-md);
-  background: var(--color-surface);
-  box-shadow: var(--shadow-sheet);
-}
-.family-main {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) auto;
-  gap: var(--space-4);
-  align-items: start;
-}
-.family-main img {
-  width: 9rem;
-}
-.family h3 a {
-  color: var(--color-text);
-  text-decoration: none;
+.contents-chapter h3 {
+  margin: 0;
+  font-family: var(--font-poster);
   font-size: var(--text-xl);
+  letter-spacing: var(--tracking-poster);
 }
-.family h3 a:hover {
-  text-decoration: underline;
+@media (max-width: 36rem) {
+  .contents-chapter {
+    grid-template-columns: var(--space-8) minmax(0, 1fr);
+    gap: var(--space-3);
+  }
+  .contents-number {
+    font-size: var(--text-2xl);
+  }
+  .contents-chapter h3 {
+    font-size: var(--text-lg);
+  }
 }
-.family-text p:last-child {
-  margin-top: var(--space-2);
-  color: var(--color-text-muted);
-}
-.family-links {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--space-2);
-}
-.family-links a {
-  display: inline-flex;
-  align-items: center;
-  min-height: var(--size-target);
-  padding-inline: var(--space-3);
-  border: var(--line-hair) solid var(--color-border);
-  border-radius: var(--radius-sm);
+.contents-chapter h3 a {
   color: var(--color-text);
-  font-size: var(--text-sm);
-  text-decoration: none;
+  text-decoration-thickness: var(--line-hair);
+  text-underline-offset: 0.2em;
 }
-.family-links a:hover {
-  border-color: var(--color-selected);
-  background: var(--color-surface-selected);
-}
-.family-cta {
-  justify-self: start;
+.contents-chapter h3 a:hover {
   color: var(--color-text-link);
-  font-weight: var(--weight-bold);
 }
-.classic-family {
-  justify-self: start;
-  font-size: var(--text-sm);
-}
-
-/* ---------- Compare band ---------- */
-.home-compare {
-  display: grid;
-  grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
-  gap: var(--space-5);
-  align-items: center;
-  padding: var(--space-6);
-  border-block: var(--line-strong) dashed var(--color-line-valley);
-}
-.home-compare p:not(.eyebrow) {
-  margin-top: var(--space-2);
+.contents-chapter p {
+  margin: var(--space-2) 0 0;
   color: var(--color-text-muted);
+  max-width: var(--measure);
 }
-.compare-actions {
+.contents-plates {
   display: grid;
-  justify-items: start;
-}
-
-/* ---------- Learning ---------- */
-.learn {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(0, 1.4fr);
-  gap: var(--space-7);
-  align-items: start;
-}
-.learn-intro > p:not(.eyebrow) {
-  margin-block: var(--space-3);
-  color: var(--color-text-muted);
-}
-.learning-notes {
-  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 10rem), 1fr));
   gap: var(--space-3);
+  margin: var(--space-4) 0 0;
+  padding: 0;
+  list-style: none;
 }
-.learning-notes > div {
+.contents-plate {
   display: grid;
-  grid-template-columns: 9rem minmax(0, 1fr);
-  gap: var(--space-4);
-  padding-block: var(--space-4);
-  border-top: var(--line-hair) solid var(--color-rule);
-}
-.learning-notes h3 {
-  font-size: var(--text-lg);
-}
-
-/* ---------- Library ---------- */
-.library-grid {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-  gap: var(--space-5);
-  align-items: start;
-}
-.download-panel {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr);
-  gap: var(--space-4);
-  padding: var(--space-5);
+  gap: var(--space-2);
+  min-height: var(--size-target);
+  padding: var(--space-3);
   border: var(--line-hair) solid var(--color-rule);
   border-radius: var(--radius-md);
   background: var(--color-surface);
-  box-shadow: var(--shadow-sheet);
-}
-.download-panel h3 + p {
-  margin-top: var(--space-1);
-  color: var(--color-text-muted);
-}
-.download-fields {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(10rem, 1fr));
-  gap: var(--space-3);
-}
-.download-fields select {
-  width: 100%;
-}
-.download-fields label {
-  grid-template-columns: minmax(0, 1fr);
-  display: grid;
-  gap: var(--space-1);
-  font-weight: var(--weight-bold);
-}
-.download-panel .button {
-  justify-self: start;
-}
-.sheet-details {
-  border-inline-start: var(--line-strong) solid var(--color-rule);
-  padding-inline-start: var(--space-3);
-}
-.sheet-details p, #home-pilot-hint {
-  margin-block: var(--space-2);
-  color: var(--color-text-muted);
-  font-size: var(--text-sm);
-}
-.all-sheets {
-  font-size: var(--text-sm);
-}
-.source-list {
-  display: grid;
-}
-.source-list a {
-  display: flex;
-  justify-content: space-between;
-  gap: var(--space-4);
-  padding-block: var(--space-4);
-  border-top: var(--line-hair) solid var(--color-rule);
   color: var(--color-text);
   text-decoration: none;
 }
-.source-list a:last-child {
-  border-bottom: var(--line-hair) solid var(--color-rule);
+.contents-plate:hover {
+  border-color: var(--color-selected);
 }
-.source-list strong {
-  display: block;
-  color: var(--color-text-link);
+.contents-plate img {
+  width: 100%;
+  height: 5.5rem;
+  object-fit: contain;
 }
-.source-list a:hover strong {
-  text-decoration: underline;
+.contents-plate span {
+  font-family: var(--font-poster);
+  font-size: var(--text-sm);
+  font-weight: var(--weight-bold);
 }
-.source-list small {
-  display: block;
-  color: var(--color-text-muted);
+.contents-plate small {
+  color: var(--color-poster);
+  font-family: var(--font-poster);
+  font-size: var(--text-xs);
+  font-weight: var(--weight-bold);
 }
 
-/* ---------- Motor lab teaser ---------- */
-.horizon {
+/* ---------- Chapter 1 and notes ---------- */
+.one-sheet,
+.home-notes {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) auto;
-  gap: var(--space-5);
-  align-items: end;
-  padding: var(--space-6);
-  border-radius: var(--radius-md);
-  background: var(--color-surface-sunken);
+  gap: var(--space-7);
 }
-.horizon p:not(.eyebrow) {
-  margin-top: var(--space-2);
+@media (min-width: 900px) {
+  .one-sheet,
+  .home-notes {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  }
+}
+.one-sheet p,
+.home-notes p {
   max-width: var(--measure);
-  color: var(--color-text-muted);
+  line-height: var(--leading-body);
 }
-
-/* ---------- Narrow screens ---------- */
-@media (max-width: 900px) {
-  .hero,
-  .learn,
-  .library-grid,
-  .home-compare,
-  .section-top {
-    grid-template-columns: minmax(0, 1fr);
-  }
-  .hero {
-    gap: var(--space-5);
-  }
-  .showcase {
-    min-height: 17rem;
-  }
+.reading-together {
+  display: grid;
+  margin: 0;
 }
-@media (max-width: 640px) {
-  main > section {
-    margin-block: var(--space-7);
-  }
-  .home-book {
-    grid-template-columns: minmax(0, 1fr);
-  }
-  .book-display {
-    min-height: 13rem;
-    border-inline-end: 0;
-    border-bottom: var(--line-hair) dashed var(--color-rule);
-  }
-  .home-book-copy,
-  .family,
-  .download-panel,
-  .horizon,
-  .home-compare {
-    padding: var(--space-4);
-  }
-  .family-main {
-    grid-template-columns: minmax(0, 1fr);
-  }
-  .family-main img {
-    grid-row: 1;
-    width: 7rem;
-  }
-  .learning-notes > div {
-    grid-template-columns: minmax(0, 1fr);
-    gap: var(--space-1);
-  }
-  .horizon {
-    grid-template-columns: minmax(0, 1fr);
-  }
+.reading-together div {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 2fr);
+  gap: var(--space-4);
+  padding-block: var(--space-4);
+  border-top: var(--line-hair) solid var(--color-text);
 }
-@media print {
-  .showcase,
-  .home-book,
-  .horizon {
-    display: none;
-  }
+.reading-together div:first-child {
+  border-top: var(--space-1) solid var(--color-poster);
+}
+.reading-together dt {
+  font-family: var(--font-poster);
+  font-size: var(--text-sm);
+  font-weight: var(--weight-bold);
+  letter-spacing: var(--tracking-poster);
+}
+.reading-together dd {
+  margin: 0;
+}
+.home-notes > div {
+  padding: var(--space-5);
+  border: var(--line-hair) solid var(--color-rule);
+  border-top: var(--space-1) solid var(--color-text);
+  background: var(--color-surface);
 }

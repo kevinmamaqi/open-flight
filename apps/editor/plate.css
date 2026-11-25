@@ -1,0 +1,580 @@
+/* A design page as a plate of the book. Tokens only (npm run check:design).
+ * Round 3: the book's poster face (Unbounded) sets titles, numerals and signage labels here
+ * too, so a plate page, a chapter page and the printed spread read as one object. */
+.plate-head .eyebrow,
+.chapter-head .eyebrow {
+  color: var(--color-poster);
+  font-family: var(--font-poster);
+  letter-spacing: var(--tracking-signage);
+}
+.plate {
+  display: grid;
+  gap: var(--space-7);
+  padding-block: var(--space-5) var(--space-8);
+}
+.plate-head h1,
+.chapter-head h1 {
+  hyphens: auto;
+  overflow-wrap: break-word;
+}
+.plate-head h1 {
+  margin: 0;
+  font-family: var(--font-poster);
+  font-size: var(--text-poster);
+  font-weight: var(--weight-heavy);
+  letter-spacing: var(--tracking-poster);
+  line-height: var(--leading-tight);
+  text-wrap: balance;
+}
+.plate-head .eyebrow a {
+  color: inherit;
+}
+.plate-lineage {
+  margin: var(--space-2) 0 var(--space-4);
+  color: var(--color-text-muted);
+  font-family: var(--font-text);
+  font-size: var(--text-lg);
+  font-style: italic;
+  line-height: var(--leading-snug);
+}
+.plate-quick-print {
+  margin-top: var(--space-4);
+}
+@media (min-width: 900px) {
+  .plate-quick-print {
+    display: none;
+  }
+}
+.plate-badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  margin: 0;
+}
+.chip-evidence {
+  border-color: var(--color-text-caution);
+  background: var(--color-surface-caution);
+  color: var(--color-text-caution);
+}
+
+/* The specimen and the print card. On a phone the print button stays in the first screen. */
+.plate-hero {
+  display: grid;
+  gap: var(--space-5);
+  align-items: start;
+}
+@media (min-width: 900px) {
+  .plate-hero {
+    grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+  }
+}
+.plate-specimen {
+  display: grid;
+  place-items: center;
+  margin: 0;
+  padding: var(--space-5);
+  border: var(--line-hair) solid var(--color-rule);
+  border-radius: var(--radius-md);
+}
+.plate-specimen {
+  min-height: min(42vh, 24rem);
+}
+.plate-poster {
+  width: 100%;
+  max-height: min(38vh, 22rem);
+  object-fit: contain;
+  filter: drop-shadow(0 var(--space-2) var(--space-2) color-mix(in srgb, var(--color-text) 15%, transparent));
+}
+.plate-print {
+  display: grid;
+  gap: var(--space-4);
+  padding: var(--space-5);
+}
+.plate-print .model-palette {
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+.plate-print legend,
+.plate-paper,
+.plate-panel-title {
+  font-size: var(--text-sm);
+  font-weight: var(--weight-bold);
+}
+.plate-panel-title {
+  margin: var(--space-2) 0 0;
+  font-family: var(--font-text);
+  padding-top: var(--space-4);
+  border-top: var(--line-hair) dashed var(--color-rule);
+}
+.plate-print .paint-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  margin-top: var(--space-2);
+}
+.plate-print .paint-grid button {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  min-height: var(--size-target);
+  padding-inline: var(--space-3);
+  border: var(--line-control) solid var(--color-border);
+  border-radius: var(--radius-sm);
+  background: var(--color-surface);
+  color: var(--color-text);
+  font: inherit;
+  font-size: var(--text-sm);
+  cursor: pointer;
+}
+.plate-print .paint-grid button[aria-pressed='true'] {
+  border-color: var(--color-selected);
+  background: var(--color-surface-selected);
+  font-weight: var(--weight-bold);
+}
+.plate-print .palette-chip {
+  width: var(--space-4);
+  height: var(--space-4);
+  border-radius: var(--radius-round);
+  border: var(--line-hair) solid var(--color-border);
+}
+.plate-paper {
+  display: grid;
+  gap: var(--space-2);
+}
+.plate-print .model-print {
+  width: 100%;
+}
+.plate-add,
+.plate-print .print-reminder {
+  margin: 0;
+}
+.plate-glance {
+  display: grid;
+  margin: 0;
+}
+.plate-glance div {
+  display: grid;
+  grid-template-columns: minmax(0, 2fr) minmax(0, 3fr);
+  gap: var(--space-3);
+  padding-block: var(--space-2);
+  border-bottom: var(--line-hair) solid var(--color-rule);
+}
+.plate-glance dt {
+  color: var(--color-text-muted);
+  font-size: var(--text-sm);
+}
+.plate-glance dd {
+  margin: 0;
+  font-size: var(--text-sm);
+}
+
+/* Sections read like the book: a dashed rule, a display heading, then the work. */
+.plate-section {
+  padding-top: var(--space-6);
+  border-top: var(--line-strong) solid var(--color-text);
+}
+.plate-section h2 {
+  margin: 0 0 var(--space-4);
+  font-family: var(--font-poster);
+  font-size: var(--text-xl);
+  font-weight: var(--weight-bold);
+  letter-spacing: var(--tracking-poster);
+  line-height: var(--leading-tight);
+  text-wrap: balance;
+}
+.plate-section h3 {
+  margin: var(--space-4) 0 var(--space-2);
+  font-family: var(--font-text);
+  font-size: var(--text-lg);
+}
+.plate-section p,
+.plate-section li {
+  max-width: var(--measure);
+  line-height: var(--leading-body);
+}
+.plate-flight-grid,
+.plate-why-grid,
+.plate-launch {
+  display: grid;
+  gap: var(--space-6);
+  align-items: start;
+}
+@media (min-width: 900px) {
+  .plate-flight-grid {
+    grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+  }
+  .plate-why-grid {
+    grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+  }
+  .plate-launch {
+    grid-template-columns: minmax(0, 4fr) minmax(0, 8fr);
+  }
+}
+.plate-figure {
+  margin: 0;
+  padding: var(--space-4);
+  border: var(--line-hair) solid var(--color-rule);
+  border-radius: var(--radius-md);
+}
+.plate-figure-art svg {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+.figure-controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-4);
+  margin-top: var(--space-3);
+}
+.figure-control {
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+.figure-control legend {
+  margin-bottom: var(--space-1);
+  font-size: var(--text-sm);
+  font-weight: var(--weight-bold);
+}
+.figure-control button {
+  min-height: var(--size-target);
+  padding-inline: var(--space-3);
+  font: inherit;
+  font-size: var(--text-sm);
+  cursor: pointer;
+}
+.plate-flight-copy .lede {
+  margin-top: 0;
+  color: var(--color-text);
+}
+
+/* Every step at once: the fold sequence is faster to scan than a carousel. */
+.plate-steps {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 15rem), 1fr));
+  gap: var(--space-4);
+  margin: var(--space-4) 0 0;
+  padding: 0;
+  list-style: none;
+}
+.plate-steps li {
+  display: grid;
+  align-content: start;
+  gap: var(--space-2);
+  padding: var(--space-3);
+  border: var(--line-hair) solid var(--color-rule);
+  border-radius: var(--radius-md);
+  background: var(--color-surface);
+}
+.plate-steps .step-picture svg {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+.plate-steps .step-number {
+  color: var(--color-poster);
+  font-family: var(--font-poster);
+  font-size: var(--text-xs);
+  font-weight: var(--weight-bold);
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+}
+.plate-steps h3 {
+  margin: 0;
+  font-size: var(--text-md);
+}
+.plate-steps p {
+  margin: 0;
+  font-size: var(--text-sm);
+}
+.plate-steps .step-check {
+  color: var(--color-text-muted);
+}
+
+.trim-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: var(--text-sm);
+}
+.trim-table th,
+.trim-table td {
+  padding: var(--space-2) var(--space-3);
+  border-bottom: var(--line-hair) solid var(--color-rule);
+  text-align: start;
+  vertical-align: top;
+  line-height: var(--leading-snug);
+}
+.trim-table thead th {
+  color: var(--color-text-muted);
+  font-size: var(--text-xs);
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+}
+.trim-table tbody th {
+  width: 36%;
+  font-weight: var(--weight-bold);
+}
+
+.plate-origin {
+  margin: 0;
+}
+.plate-origin img {
+  width: 100%;
+  border-radius: var(--radius-md);
+}
+.plate-origin figcaption {
+  margin-top: var(--space-2);
+  color: var(--color-text-muted);
+  font-size: var(--text-xs);
+}
+.plate-borrows {
+  padding-inline-start: var(--space-3);
+  border-inline-start: var(--line-strong) solid var(--color-rule);
+  color: var(--color-text-muted);
+}
+
+/* "Try this" carries the next action's colour as a rule, like the book's experiment boxes. */
+.plate-try {
+  padding: var(--space-5);
+  border: var(--line-hair) solid var(--color-rule);
+  border-top: var(--space-1) solid var(--color-poster);
+  border-radius: var(--radius-md);
+  background: var(--color-surface);
+}
+.plate-question {
+  font-family: var(--font-poster);
+  font-weight: var(--weight-bold);
+  font-size: var(--text-lg);
+  line-height: var(--leading-snug);
+}
+.plate-try-steps {
+  padding-inline-start: var(--space-5);
+}
+
+/* "For grown-ups" carries the information colour. */
+.plate-grownups {
+  padding: var(--space-5);
+  border: var(--line-hair) solid var(--color-rule);
+  border-inline-start: var(--line-focus) solid var(--color-text-link);
+  border-radius: var(--radius-md);
+}
+.plate-grownups summary {
+  cursor: pointer;
+  list-style-position: outside;
+}
+.plate-grownups summary h2 {
+  display: inline;
+  margin: 0;
+}
+.plate-links,
+.plate-references {
+  padding-inline-start: var(--space-5);
+}
+
+.plate-pager {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: var(--space-4);
+  padding-top: var(--space-5);
+  border-top: var(--line-hair) dashed var(--color-rule);
+}
+.plate-pager a {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  flex-wrap: wrap;
+  min-width: 0;
+  min-height: var(--size-target);
+  font-family: var(--font-poster);
+  font-size: var(--text-md);
+  font-weight: var(--weight-bold);
+}
+.plate-pager small {
+  color: var(--color-poster);
+  font-family: var(--font-poster);
+  letter-spacing: var(--tracking-signage);
+  text-transform: uppercase;
+  font-size: var(--text-xs);
+  font-weight: var(--weight-bold);
+}
+
+@media print {
+  .plate-print .paint-grid,
+  .plate-add,
+  .figure-controls,
+  .plate-pager {
+    display: none;
+  }
+}
+
+/* ---------- Chapter pages ---------- */
+.chapter-head {
+  padding-block: var(--space-5) var(--space-2);
+}
+.chapter-head h1 {
+  margin: 0;
+  font-family: var(--font-poster);
+  font-size: var(--text-poster);
+  font-weight: var(--weight-heavy);
+  letter-spacing: var(--tracking-poster);
+  line-height: var(--leading-tight);
+  text-wrap: balance;
+}
+.chapter-head p {
+  max-width: var(--measure);
+  line-height: var(--leading-body);
+}
+.plate-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 17rem), 1fr));
+  gap: var(--space-4);
+  margin: var(--space-5) 0;
+  padding: 0;
+  list-style: none;
+}
+.plate-card {
+  display: grid;
+  height: 100%;
+  overflow: hidden;
+  color: var(--color-text);
+  text-decoration: none;
+}
+.plate-card:hover {
+  border-color: var(--color-selected);
+}
+.plate-card-art {
+  display: grid;
+  place-items: center;
+  height: 10rem;
+  padding: var(--space-3);
+}
+.plate-card-art img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+}
+.plate-card-copy {
+  display: grid;
+  align-content: start;
+  gap: var(--space-2);
+  padding: var(--space-4);
+}
+.plate-card-copy small {
+  color: var(--color-poster);
+  font-family: var(--font-poster);
+  font-size: var(--text-xs);
+  font-weight: var(--weight-bold);
+  letter-spacing: var(--tracking-signage);
+}
+.plate-card-copy strong {
+  font-family: var(--font-poster);
+  font-size: var(--text-lg);
+  font-weight: var(--weight-bold);
+  letter-spacing: var(--tracking-poster);
+  line-height: var(--leading-tight);
+}
+.plate-card-copy > span:not(.plate-badges) {
+  color: var(--color-text-muted);
+  font-size: var(--text-sm);
+}
+.chapter-print {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-4);
+  margin-block: var(--space-6);
+  padding: var(--space-5);
+}
+.chapter-print h2 {
+  margin: 0;
+  font-family: var(--font-poster);
+  letter-spacing: var(--tracking-poster);
+  font-size: var(--text-xl);
+}
+.chapter-print p {
+  margin: var(--space-2) 0 0;
+  max-width: var(--measure);
+}
+
+/* ---------- The book page ---------- */
+.book-chapters {
+  display: grid;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.book-chapters li {
+  display: grid;
+  grid-template-columns: var(--space-8) minmax(0, 1fr);
+  gap: var(--space-3);
+  padding-block: var(--space-3);
+  border-bottom: var(--line-hair) solid var(--color-text);
+}
+.book-chapters li:first-child {
+  border-top: var(--space-1) solid var(--color-text);
+}
+.book-chapters .contents-number {
+  color: var(--color-poster);
+  font-family: var(--font-poster);
+  font-size: var(--text-2xl);
+  font-weight: var(--weight-heavy);
+  letter-spacing: var(--tracking-poster);
+  line-height: var(--leading-tight);
+}
+.book-chapters strong {
+  font-family: var(--font-poster);
+  font-size: var(--text-lg);
+  font-weight: var(--weight-bold);
+  letter-spacing: var(--tracking-poster);
+}
+.book-chapters p {
+  margin: var(--space-1) 0 0;
+  color: var(--color-text-muted);
+}
+.book-inside,
+.book-edition,
+.book-now {
+  margin-block: var(--space-7);
+}
+.book-inside h2,
+.book-edition h2,
+.book-now h2 {
+  font-family: var(--font-poster);
+  font-size: var(--text-2xl);
+  letter-spacing: var(--tracking-poster);
+  text-wrap: balance;
+}
+.book-cover-art img {
+  width: 100%;
+  max-height: 20rem;
+  object-fit: contain;
+}
+
+/* Paragraphs in plates and chapters need air between them. */
+.product-page p + p {
+  margin-top: var(--space-3);
+}
+
+/* The book page title is set like the cover: heavy poster capitals. Only the book page
+ * pairs .product-hero with plate.css. */
+.product-hero h1 {
+  font-family: var(--font-poster);
+  font-size: var(--text-poster);
+  font-weight: var(--weight-ultra);
+  letter-spacing: var(--tracking-poster);
+  line-height: var(--leading-tight);
+  text-transform: uppercase;
+  hyphens: auto;
+  overflow-wrap: break-word;
+}
+
+/* Look inside: preview spreads of the book. */
+.book-look { margin-block: var(--space-7); }
+.book-look h2 { font-family: var(--font-poster); font-size: var(--text-2xl); letter-spacing: var(--tracking-poster); }
+.look-inside { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 22rem), 1fr)); gap: var(--space-4); margin: var(--space-4) 0 0; padding: 0; list-style: none; }
+.look-inside img { display: block; width: 100%; height: auto; border: var(--line-hair) solid var(--color-rule); box-shadow: var(--shadow-sheet); }
+.book-cover-art img { box-shadow: var(--shadow-sheet); }

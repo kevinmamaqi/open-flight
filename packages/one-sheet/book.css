@@ -1,0 +1,279 @@
+/* One Sheet · the book's base stylesheet (screen PDF). Loaded after apps/editor/tokens.css.
+ * Colours and faces come from tokens; sizes are the book grid in mm and pt (06-book-editorial §4):
+ * trim 210 × 279 mm; margins top 18, bottom 23, inner 20, outer 16; 12 columns with 4 mm gutters;
+ * 15 pt baseline. press.css adds a 3 mm bleed and pure-black text; home.css removes stage tints.
+ *
+ * Round 3 look (design note: evidence/2026-11-25-book-orientation/research-r3/design.md):
+ * Swiss/Nordic calm in the grid and the reading text, constructivist energy in the display
+ * layer. Unbounded (--font-poster) sets titles, numerals and signage labels; Open Flight Text
+ * sets everything a reader reads. Every colour below is a book role; .night swaps the roles
+ * for the space chapter, and home.css swaps them back to paper and black toner. */
+:root {
+  --book-w: 210mm;
+  --book-h: 279mm;
+  --bleed: 0mm;
+  --gutter: 4mm;
+  --book-paper: var(--color-page);
+  --book-ink: var(--color-text);
+  --book-muted: var(--color-text-muted);
+  --book-stage: var(--color-surface-stage);
+  --book-grid: var(--color-grid);
+  --book-rule: var(--color-text);
+  --book-accent: var(--color-poster);
+  --book-info: var(--color-text-link);
+  --book-caution: var(--color-text-caution);
+  --body: 10.5pt;
+  --lead: 15pt;
+  --small: 9pt;
+  --small-lead: 12pt;
+}
+/* The night sky: the space chapter's ground. Paper text 17:1, muted 8.7:1, red 5.5:1. */
+.night {
+  --book-paper: var(--color-night);
+  --book-ink: var(--color-night-text);
+  --book-muted: var(--color-night-muted);
+  --book-grid: var(--color-night-rule);
+  --book-rule: var(--color-night-text);
+  --book-accent: var(--color-night-accent);
+  --book-info: var(--color-night-info);
+  --book-caution: var(--color-night-caution);
+}
+@page { size: 210mm 279mm; margin: 0; }
+* { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; }
+body {
+  font-family: var(--font-text);
+  font-size: var(--body);
+  line-height: var(--lead);
+  color: var(--book-ink);
+  font-kerning: normal;
+  font-variant-ligatures: common-ligatures;
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+}
+p, li, td, th { hyphens: auto; text-wrap: pretty; }
+.page {
+  position: relative;
+  width: calc(var(--book-w) + 2 * var(--bleed));
+  height: calc(var(--book-h) + 2 * var(--bleed));
+  overflow: hidden;
+  break-after: page;
+  background: var(--book-paper);
+  color: var(--book-ink);
+}
+.trim { position: absolute; inset: var(--bleed); }
+.area { position: absolute; top: 18mm; bottom: 23mm; }
+.verso .area { left: 16mm; right: 20mm; }
+.recto .area { left: 20mm; right: 16mm; }
+.grid12 { display: grid; grid-template-columns: repeat(12, 1fr); column-gap: var(--gutter); }
+.area.grid12 { align-items: stretch; }
+.verso .notes { grid-column: 1 / 5; grid-row: 1; }
+.verso .main { grid-column: 5 / 13; grid-row: 1; }
+.recto .main { grid-column: 1 / 9; grid-row: 1; }
+.recto .notes { grid-column: 9 / 13; grid-row: 1; }
+[data-slot] { overflow: hidden; min-width: 0; }
+.area.grid12 > [data-slot], .area > [data-slot]:only-child { height: 100%; }
+.notes { display: flex; flex-direction: column; justify-content: flex-end; gap: 3mm; }
+
+/* Wayfinding, after the metro: a roundel with the chapter number, then the name in capitals. */
+.runhead {
+  position: absolute; top: 8mm; display: flex; align-items: center; gap: 2.2mm;
+  font-family: var(--font-poster); font-size: var(--small); line-height: var(--small-lead); font-weight: var(--weight-medium);
+  letter-spacing: var(--tracking-signage); text-transform: uppercase; color: var(--book-muted);
+}
+.verso .runhead { left: 16mm; }
+.recto .runhead { right: 16mm; flex-direction: row-reverse; }
+.roundel {
+  display: inline-flex; align-items: center; justify-content: center; flex: none;
+  min-width: 6.4mm; height: 6.4mm; padding: 0 1.3mm; border-radius: 3.2mm;
+  background: var(--book-accent); color: var(--book-paper);
+  font-family: var(--font-poster); font-size: var(--small); line-height: 1; font-weight: var(--weight-heavy); letter-spacing: 0;
+}
+.roundel-ink { background: var(--book-ink); }
+.roundel-xl { min-width: 24mm; height: 24mm; border-radius: 12mm; font-size: 40pt; letter-spacing: var(--tracking-poster); }
+.folio {
+  position: absolute; bottom: 10mm; font-family: var(--font-poster); font-size: var(--small); font-weight: var(--weight-bold);
+  color: var(--book-ink); font-variant-numeric: lining-nums tabular-nums;
+}
+.verso .folio { left: 16mm; } .recto .folio { right: 16mm; }
+
+/* Stage: the brand's drawing ground, pale sky with a 5 mm grid. On the night sky it reads as a lit table. */
+.stage {
+  background-color: var(--book-stage);
+  background-image: linear-gradient(var(--color-grid) 0.2mm, transparent 0.2mm), linear-gradient(90deg, var(--color-grid) 0.2mm, transparent 0.2mm);
+  background-size: 5mm 5mm;
+}
+.bleed { position: absolute; inset: calc(-1 * var(--bleed)); }
+.verso.is-bleed .bleed { right: calc(-1 * var(--bleed)); }
+.specimen-band { bottom: auto; height: calc(118mm + var(--bleed)); }
+
+/* Type scale. Display: Unbounded, tight and heavy. Reading: Open Flight Text at 10.5/15 pt. */
+h1, h2, h3 { margin: 0; font-weight: var(--weight-bold); }
+.chapter-title, .spread-title, .question, .plate-name { font-family: var(--font-poster); letter-spacing: var(--tracking-poster); font-kerning: normal; text-wrap: balance; }
+.chapter-title { font-size: 34pt; line-height: 38pt; font-weight: var(--weight-heavy); margin: 2mm 0 7mm; }
+.spread-title { font-size: 21pt; line-height: 26pt; font-weight: var(--weight-bold); margin: 0 0 4mm; }
+.question { font-size: 16pt; line-height: 21pt; font-weight: var(--weight-bold); margin: 2mm 0 5mm; }
+.plate-name { font-size: 28pt; line-height: 32pt; font-weight: var(--weight-heavy); margin: 1mm 0 1mm; }
+h3 { font-family: var(--font-text); font-size: 11pt; line-height: var(--lead); margin: 4mm 0 1mm; }
+.lineage { font-family: var(--font-text); font-style: italic; font-size: 12pt; line-height: 17pt; margin: 1mm 0 3mm; color: var(--book-muted); }
+.standfirst { font-size: 13pt; line-height: 19pt; margin: 0 0 5mm; }
+p { margin: 0 0 var(--lead) 0; }
+.main p + p { margin-top: calc(-1 * var(--lead) + 2.6mm); }
+.eyebrow, .chapter-no {
+  font-family: var(--font-poster); font-size: var(--small); line-height: var(--small-lead); font-weight: var(--weight-bold);
+  letter-spacing: var(--tracking-signage); text-transform: uppercase; color: var(--book-accent); margin: 0 0 1mm;
+}
+/* The section number over a spread title: a short red bar, then 8.1 as on the opener's list. */
+.section-no {
+  display: inline-block; margin: 0 0 2mm; padding-top: 1.2mm; border-top: 1.2mm solid var(--book-accent);
+  font-family: var(--font-poster); font-size: 11pt; line-height: 12pt; font-weight: var(--weight-heavy); color: var(--book-accent);
+}
+.caption, figcaption { font-size: var(--small); line-height: var(--small-lead); color: var(--book-muted); margin: 2mm 0 0; }
+ul, ol { margin: 0 0 3mm; padding-left: 5mm; }
+li { margin-bottom: 1mm; }
+.steps li::marker { font-family: var(--font-poster); font-weight: var(--weight-heavy); color: var(--book-accent); }
+sup.chapter-note { font-size: var(--small); line-height: 0; }
+sup.chapter-note a { color: var(--book-info); text-decoration: none; }
+a { color: inherit; text-decoration: none; }
+
+/* Pull figures: one measured number from the section's own words, set like a poster. */
+.pull { margin: 0 0 auto; }
+.pull-figure {
+  margin: 0 0 2.5mm; font-family: var(--font-poster); font-weight: var(--weight-heavy); color: var(--book-accent);
+  font-size: 34pt; line-height: 36pt; letter-spacing: -0.03em; font-variant-numeric: lining-nums;
+}
+.pull-unit { font-size: 16pt; letter-spacing: 0; }
+.pull-num { white-space: nowrap; }
+.pull-l .pull-figure { font-size: 24pt; line-height: 28pt; }
+.pull-xl .pull-figure { font-size: 19pt; line-height: 23pt; }
+.pull-l .pull-unit, .pull-xl .pull-unit { font-size: 12pt; }
+.pull figcaption { margin: 0; padding-top: 2mm; border-top: 0.35mm solid var(--book-rule); color: var(--book-ink); }
+
+/* Evidence chips: words, never colour alone. */
+.chip { display: inline-block; font-size: var(--small); line-height: 11pt; padding: 0 1.4mm; border: 0.25mm solid currentColor; border-radius: 1mm; white-space: nowrap; font-weight: var(--weight-regular); }
+.chip-evidence { color: var(--book-caution); margin-left: 0.6mm; }
+.chip-evidence[data-state='not-yet-measured'] { color: var(--book-muted); }
+.chips .chip { color: var(--book-accent); }
+
+/* Boxes: Try it carries the red bar, the go-deeper note the air-blue rule. Labels are signage. */
+.chapter-box, .notes-box { font-size: var(--small); line-height: var(--small-lead); color: var(--book-muted); border-top: 0.5mm solid var(--book-info); padding-top: 2.5mm; margin: 0 0 4mm; }
+.chapter-box h3, .notes-box b {
+  display: block; margin: 0 0 1.2mm; font-family: var(--font-poster); font-size: var(--small); font-weight: var(--weight-bold);
+  letter-spacing: var(--tracking-signage); text-transform: uppercase; color: var(--book-info);
+}
+.chapter-box p, .notes-box p { margin: 0 0 2mm; }
+.chapter-try { border-top: 1.4mm solid var(--book-accent); color: var(--book-ink); font-size: var(--body); line-height: var(--lead); }
+.chapter-try h3 { color: var(--book-accent); }
+.chapter-try ol { margin-bottom: 1mm; }
+.chapter-try li::marker { font-family: var(--font-poster); font-weight: var(--weight-heavy); color: var(--book-accent); }
+
+/* Figures. */
+figure { margin: 0; }
+figure svg { display: block; width: 100%; height: auto; }
+.figure-band { padding: 6mm 8mm; margin: 0 0 6mm; }
+.figure-band img { display: block; max-width: 100%; max-height: 110mm; margin: 0 auto; }
+.below { align-items: start; }
+.opener-art { position: absolute; z-index: 3; inset: 18mm 16mm 23mm 16mm; display: flex; flex-direction: column; justify-content: center; gap: 6mm; }
+.opener-figure, .opener-art .photo-slot { background: var(--book-paper); padding: 6mm; }
+.opener-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 6mm; }
+.opener-grid > div { background: var(--book-paper); padding: 3mm; }
+.opener-caption { width: max-content; max-width: 114.7mm; margin: 0; padding: 1.5mm 2.5mm; background: var(--book-paper); }
+
+/* Chapter openers: the flight path, the oversized numeral, then the calm text column. */
+.flightpath { position: absolute; top: 0; width: 420mm; height: 279mm; overflow: visible; pointer-events: none; z-index: 2; }
+.flightpath.verso { left: 0; }
+.flightpath.recto { left: -210mm; }
+.flightpath .trail { stroke: var(--book-accent); stroke-width: 1.6; fill: none; }
+.flightpath .dart { fill: var(--book-accent); }
+.flightpath .dart-fold { stroke: var(--book-paper); stroke-width: 0.5; fill: none; }
+.opener-num {
+  position: absolute; top: 11mm; right: 12mm; margin: 0;
+  font-family: var(--font-poster); font-weight: var(--weight-heavy); font-size: 190pt; line-height: 190pt;
+  letter-spacing: -0.05em; color: var(--book-accent); font-variant-numeric: lining-nums;
+}
+.opener-text { position: absolute; top: 62mm; left: 0; right: 59.3mm; bottom: 0; }
+.opener .chapter-no { margin: 0; }
+.orbit { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
+.orbit circle { fill: none; stroke: var(--book-grid); stroke-width: 0.3; }
+.opener-note { position: absolute; right: 0; bottom: 0; width: 55.3mm; }
+.toc { width: 100%; border-collapse: collapse; }
+.toc td { border-top: 0.25mm solid var(--book-grid); padding: 1.2mm 0; vertical-align: top; }
+.toc tr:first-child td { border-top: 0.6mm solid var(--book-rule); }
+.toc-id { width: 11mm; font-family: var(--font-poster); font-weight: var(--weight-heavy); color: var(--book-accent); }
+.toc-page { width: 10mm; text-align: right; font-family: var(--font-poster); font-weight: var(--weight-medium); font-variant-numeric: tabular-nums lining-nums; }
+.photo-slot { display: flex; align-items: center; justify-content: center; height: 80mm; border: 0.3mm dashed var(--color-border); color: var(--book-muted); font-size: var(--small); margin-bottom: 6mm; }
+.slot-label { border: 0.3mm dashed var(--color-border); padding: 2mm; font-size: var(--small); line-height: var(--small-lead); color: var(--book-muted); }
+
+/* Tables. */
+table { border-collapse: collapse; width: 100%; }
+.chapter-table, table.data, table.trim-table { font-size: var(--small); line-height: var(--small-lead); margin: 0 0 4mm; }
+.chapter-table caption { text-align: left; font-weight: var(--weight-bold); padding-bottom: 1mm; color: var(--book-ink); }
+.chapter-table th, .chapter-table td, table.data th, table.data td, table.trim-table th, table.trim-table td { text-align: left; vertical-align: top; padding: 1.2mm 2mm 1.2mm 0; border-top: 0.25mm solid var(--book-grid); }
+.chapter-table thead th { color: var(--book-muted); }
+table.data { width: 114.7mm; font-size: var(--body); line-height: var(--lead); }
+table.data th { width: 40mm; font-size: var(--small); color: var(--book-muted); }
+.chapter-num { white-space: nowrap; font-variant-numeric: tabular-nums lining-nums; }
+.chapter-small { font-size: var(--small); color: var(--book-muted); }
+.chapter-records .is-current td { font-weight: var(--weight-bold); }
+.chapter-records .is-yours td, .chapter-log td { height: 6mm; border-bottom: 0.25mm dashed var(--color-border); }
+.chapter-table-wrap { overflow: visible; }
+.chapter-log-sheet { border: 0.25mm solid var(--book-grid); padding: 3mm; font-size: var(--small); line-height: var(--small-lead); }
+.chapter-log-fields { margin: 0 0 2mm; } .chapter-log-fields div { display: flex; gap: 2mm; border-bottom: 0.25mm dashed var(--color-border); }
+.chapter-log-fields dd { margin: 0; }
+.safety { border-left: 0.6mm solid var(--book-accent); padding-left: 2.5mm; }
+
+/* Plate. */
+.pattern { display: grid; grid-template-columns: 105mm 1fr; column-gap: 5mm; align-items: end; margin-top: 4mm; }
+.pattern-crop { width: 105mm; height: 76mm; overflow: hidden; background: var(--color-surface); }
+.pattern-crop svg { width: 105mm; height: 148.5mm; }
+.scalebar { display: flex; align-items: end; gap: 2mm; margin-top: 3mm; color: var(--book-ink); }
+.legend { list-style: none; padding: 0; margin: 3mm 0 0; }
+.legend li { display: flex; align-items: center; gap: 2mm; }
+.play { position: absolute; left: 0; right: 0; bottom: 0; display: flex; gap: 5mm; align-items: center; border-top: 1.4mm solid var(--book-accent); padding-top: 4mm; }
+.play b { font-family: var(--font-poster); font-weight: var(--weight-bold); }
+.play svg, .qr-box svg, .watch svg { width: 20mm; height: 20mm; display: block; flex: none; }
+.play p { margin: 1mm 0 0; font-size: var(--small); line-height: var(--small-lead); color: var(--book-muted); }
+.specimen { height: 108mm; display: flex; flex-direction: column; justify-content: center; }
+.specimen svg { width: 150mm; margin: 0 auto; }
+.pl .below { position: absolute; top: 112mm; left: 0; right: 0; bottom: 0; }
+.pl .below > [data-slot] { height: 100%; }
+.pl .notes { justify-content: flex-start; }
+.pl .below h3 { margin-top: 3mm; }
+.pl .below [data-slot] > h3:first-child { margin-top: 0; }
+/* The plate number, oversized behind the specimen, as a sheet number on a drawing set. */
+.plate-id {
+  position: absolute; right: 18mm; top: 56mm; margin: 0;
+  font-family: var(--font-poster); font-weight: var(--weight-ultra); font-size: 96pt; line-height: 96pt;
+  letter-spacing: -0.05em; color: var(--book-accent);
+}
+
+/* Data spread: the distance drawing is exactly 174 mm wide, so 1:1000. */
+.da-text { height: 140mm; }
+/* The record figure sits beside the spread title, like a figure on a scoreboard. */
+.da-head { display: flex; flex-wrap: wrap; align-items: flex-start; justify-content: space-between; column-gap: 6mm; margin: 0 0 4mm; }
+.da-head .spread-title { flex: 1 1 70mm; margin: 0; }
+.pull-record { margin: 0; text-align: right; }
+.pull-record .pull-figure { font-size: 40pt; line-height: 40pt; margin-bottom: 1mm; }
+.pull-record .pull-unit { font-size: 20pt; }
+.pull-record figcaption { border: 0; padding: 0; color: var(--book-muted); max-width: 80mm; margin-left: auto; }
+.da-scale { position: absolute; left: 0; right: 0; bottom: 0; padding: 0; }
+.da-scale svg { width: 174mm; }
+.da-scale figcaption { padding: 0 0 0 0; }
+.da-time { padding: 0; margin-bottom: 1mm; }
+.qr-box { display: flex; flex-direction: column; gap: 1mm; }
+
+.dummy { border: 0.3mm dashed var(--color-border); padding: 8mm; height: 100%; }
+.pr-type { display: flex; flex-direction: column; justify-content: flex-end; padding-bottom: 40mm; }
+.pull-hero { margin: 0 0 auto; }
+.pull-hero .pull-figure { font-size: 80pt; line-height: 80pt; letter-spacing: -0.04em; }
+.pull-hero .pull-unit { font-size: 32pt; }
+.pull-hero figcaption { max-width: 110mm; }
+.pull-hero.pull-xl .pull-figure { font-size: 60pt; line-height: 60pt; }
+.pull-hero.pull-xl .pull-unit { font-size: 26pt; }
+
+/* Screen preview of spreads (PNG); print ignores it. */
+@media screen {
+  body.spreads { background: var(--color-surface-sunken); }
+  body.spreads .spread { display: flex; width: max-content; margin: 0 0 10mm; }
+  body.spreads .spread .page:only-child.recto { margin-left: calc(var(--book-w) + 2 * var(--bleed)); }
+}

@@ -24,7 +24,8 @@
     "build:tokens": "bun scripts/build_tokens.mjs",
     "test:compat": "node --test --test-name-pattern \"checked-in airplane specimens\" tests/plane-atlas.test.ts",
     "check:site": "bun scripts/check_site.mjs",
-    "check:atlas": "bun scripts/check_atlas.mjs"
+    "check:atlas": "bun scripts/check_atlas.mjs",
+    "build:book": "bun scripts/build_one_sheet.mjs"
   },
   "dependencies": {
     "@modelcontextprotocol/client": "2.4.0",

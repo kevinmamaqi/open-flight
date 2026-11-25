@@ -1,10 +1,10 @@
-import { color } from './assets/brand/tokens.js?v=3b57e65abbf7'
-import { makeWorld, clamp, butterflyGeometry, flightRun, practiceTabs } from './flight-geometry.js?v=3b57e65abbf7'
-import { diagramRenderer, framing, spatialRenderer } from './flight-render.js?v=3b57e65abbf7'
-import { flightCircuit, sampleFlight } from './flight-model.js?v=3b57e65abbf7'
-import { circuitWords } from './flight-circuit-copy.js?v=3b57e65abbf7'
-import { printFlightScorecard } from './flight-scorecard.js?v=3b57e65abbf7'
-import { viewerWords } from './flight-words.js?v=3b57e65abbf7'
+import { color } from './assets/brand/tokens.js?v=827c6a6b1e8f'
+import { makeWorld, clamp, butterflyGeometry, flightRun, practiceTabs } from './flight-geometry.js?v=827c6a6b1e8f'
+import { diagramRenderer, framing, spatialRenderer } from './flight-render.js?v=827c6a6b1e8f'
+import { flightCircuit, sampleFlight } from './flight-model.js?v=827c6a6b1e8f'
+import { circuitWords } from './flight-circuit-copy.js?v=827c6a6b1e8f'
+import { printFlightScorecard } from './flight-scorecard.js?v=827c6a6b1e8f'
+import { viewerWords } from './flight-words.js?v=827c6a6b1e8f'
 
 const views = {
   orbit: [0.46, 0.69],

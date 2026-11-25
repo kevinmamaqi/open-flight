@@ -1,6 +1,6 @@
 export type PlaneModelId = 'boeing-747' | 'douglas-dc3' | 'tupolev-tu144' | 'ilyushin-il62'
 export type PlanePaper = 'A4' | 'US_LETTER'
-export type PlaneLivery = 'heritage' | 'festival' | 'pencil' | 'flag' | 'airshow'
+export type PlaneLivery = 'heritage' | 'festival' | 'pencil' | 'airshow'
 export type PlaneLocale = 'en' | 'ru' | 'es'
 // 'cut': fold the sheet inside a printed cut border. 'whole': fold the full paper.
 export type PlaneEdge = 'cut' | 'whole'

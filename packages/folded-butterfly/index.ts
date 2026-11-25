@@ -294,7 +294,7 @@ const words = {
     names: {
       monarch: 'Monarca',
       morpho: 'Morfo azul',
-      swallowtail: 'Cola de golondrina',
+      swallowtail: 'Macaón',
     },
     note: 'Cuerpo plegado experimental · Pendiente de probar en papel y en vuelo',
     print:

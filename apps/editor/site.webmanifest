@@ -1,7 +1,7 @@
 {
   "name": "Open Flight",
   "short_name": "Open Flight",
-  "description": "A free paper flight workshop for children and their grown-ups.",
+  "description": "A free paper flight workshop and book for anyone curious about flight.",
   "start_url": "./",
   "display": "standalone",
   "background_color": "#fbf9f4",

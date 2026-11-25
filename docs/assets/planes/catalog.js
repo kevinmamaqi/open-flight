@@ -1,5 +1,4 @@
-import { originCountryName } from './heritage.js?v=3b57e65abbf7'
-import { planeFlagColors } from './country-markings.js?v=3b57e65abbf7'
+import { originCountryName } from './heritage.js?v=827c6a6b1e8f'
 
 const local = (en, ru, es) => ({ en, ru, es })
 
@@ -20,9 +19,9 @@ export const planeCatalog = [
       'Busca el piso superior elevado del primer 747 en el Museo del Vuelo de Seattle. Sus dos dobleces superpuestos dejan un escalón en la punta del avión de papel que puedes tocar.',
     ),
     experiment: local(
-      'Make a second copy with a deeper body fold. Keep the nose pleat and launch height the same. Launch each five times. Which copy stays level for longer?',
-      'Сделайте второй самолёт с более глубоким сгибом корпуса. Оставьте носовую складку и высоту старта прежними. Запустите каждый по пять раз. Какой самолёт дольше летит ровно?',
-      'Haz otra copia con un doblez del cuerpo más profundo. Mantén igual el doblez de la punta y la altura de lanzamiento. Lanza cada copia cinco veces. ¿Cuál se mantiene a nivel más tiempo?',
+      'Make a second copy with a deeper body fold. Predict first: will its balance point move? Balance both on a pencil to check. Then launch each five times from the same height. Mark where each first touches the floor, and whether it glided, dived or stalled.',
+      'Сделайте второй самолёт с более глубоким сгибом корпуса. Сначала предскажите: сдвинется ли точка равновесия? Проверьте оба самолёта на карандаше. Затем запустите каждый по пять раз с одной высоты. Отметьте, где каждый впервые коснулся пола и планировал он, пикировал или сваливался.',
+      'Haz otra copia con un doblez del cuerpo más profundo. Predice primero: ¿se moverá el punto de equilibrio? Equilibra las dos sobre un lápiz para comprobarlo. Después lanza cada una cinco veces desde la misma altura. Marca dónde toca el suelo cada una por primera vez y si planeó, cayó en picado o se desplomó.',
     ),
     reference: {
       label: 'The Museum of Flight • Boeing 747-121',
@@ -65,9 +64,9 @@ export const planeCatalog = [
       'Doble borde delantero · punta ancha',
     ),
     history: local(
-      'The Smithsonian’s DC-3 carried passengers on two propeller engines. Look for its wide metal wings. The paper version keeps broad shoulders and rolls the front edge twice.',
-      'У пассажирского DC-3 из коллекции Смитсоновского института два винтовых двигателя. Найдите широкие металлические крылья. У бумажной версии широкие плечи и два подгиба передней кромки.',
-      'El DC-3 del Smithsonian llevaba pasajeros y tenía dos motores de hélice. Fíjate en las alas anchas de metal. En papel conservamos una forma ancha y doblamos dos veces el borde delantero.',
+      'The Smithsonian’s DC-3 carried passengers on two propeller engines. Look for its long, slender metal wings. The paper version is the opposite: a short, broad wing with the front edge rolled twice.',
+      'У пассажирского DC-3 из коллекции Смитсоновского института два винтовых двигателя. Найдите длинные узкие металлические крылья. У бумажной версии всё наоборот: короткое широкое крыло с дважды подогнутой передней кромкой.',
+      'El DC-3 del Smithsonian llevaba pasajeros y tenía dos motores de hélice. Fíjate en sus alas de metal, largas y estrechas. En papel es al revés: un ala corta y ancha con el borde delantero doblado dos veces.',
     ),
     experiment: local(
       'Open the wings into a very shallow V. Compare five gentle launches with five from a copy with taller turned-up tips. Count how often each lands wings-level.',
@@ -82,14 +81,14 @@ export const planeCatalog = [
       step: 3,
       variant: 'Douglas DC-3',
       landmark: local(
-        'Broad wing and twin propellers',
-        'Широкое крыло и два винта',
-        'Ala ancha y dos hélices',
+        'Long wing and twin propellers',
+        'Длинное крыло и два винта',
+        'Ala larga y dos hélices',
       ),
       look: local(
-        'The wide metal wing carries an engine and propeller on each side.',
-        'На широком крыле по одному винтовому двигателю с каждой стороны.',
-        'El ala ancha de metal lleva un motor con hélice a cada lado.',
+        'The long metal wing carries an engine and propeller on each side.',
+        'На длинном крыле по одному винтовому двигателю с каждой стороны.',
+        'El ala larga de metal lleva un motor con hélice a cada lado.',
       ),
       fold: local(
         'Folds 2–4 · Roll the front edge twice and fold in its corners.',
@@ -114,19 +113,19 @@ export const planeCatalog = [
     inspiration: local('Tupolev Tu-144', 'Туполев Ту-144', 'Tupolev Tu-144'),
     origin: originCountryName('tupolev-tu144'),
     character: local(
-      'Double sweep · narrow delta',
+      'Two diagonal folds · narrow delta',
       'Два косых сгиба · узкое крыло',
       'Dos dobleces diagonales · ala delta estrecha',
     ),
     history: local(
-      'Trace the triangular wing in NASA’s three-view drawing of the Tu-144. On paper, a second long diagonal on each side narrows the triangle. The full-size aircraft used a more complex delta outline.',
-      'Обведите взглядом треугольное крыло на чертеже Ту-144 из отчёта NASA. В бумажной модели второй длинный косой сгиб с каждой стороны сужает треугольник. У настоящего самолёта контур крыла сложнее.',
-      'Sigue el contorno triangular del ala del Tu-144 en el dibujo de tres vistas de la NASA. En papel, un segundo doblez diagonal largo por lado estrecha el triángulo. El ala del avión real tiene un contorno más complejo.',
+      'Trace the triangular wing in NASA’s three-view drawing of the Tu-144. This paper plane is the traditional dart, whose first folder is unknown; Open Flight added 4 mm tips. A second long diagonal on each side narrows the triangle. The full-size aircraft used a more complex delta outline.',
+      'Обведите взглядом треугольное крыло на чертеже Ту-144 из отчёта NASA. Эта бумажная модель — традиционный дротик, автор которого неизвестен; Open Flight добавила законцовки по 4 мм. Второй длинный косой сгиб с каждой стороны сужает треугольник. У настоящего самолёта контур крыла сложнее.',
+      'Sigue el contorno triangular del ala del Tu-144 en el dibujo de tres vistas de la NASA. Este avión de papel es el dardo tradicional, de autor desconocido; Open Flight le añadió puntas de 4 mm. Un segundo doblez diagonal largo por lado estrecha el triángulo. El ala del avión real tiene un contorno más complejo.',
     ),
     experiment: local(
-      'Fold a Delta and a Prairie Skipper from the same paper. Launch each five times gently from the same place. Compare the spots where the two shapes first touch the floor.',
-      'Сложите «Дельту» и «Луговой планёр» из одинаковой бумаги. Запустите каждый по пять раз с одного места. Сравните точки первого касания пола.',
-      'Dobla un Cometa delta y un Planeador de la pradera con el mismo papel. Lanza cada modelo cinco veces suavemente desde el mismo sitio. Compara dónde toca por primera vez el suelo cada uno.',
+      'Fold one Delta Comet. Throw it five times with flat back edges, then bend up the back 15 mm of each wing, next to the body, by 2 mm. Throw five more times with the same firm push. Predict first: which flies flatter and further? Mark where each flight first touches the floor.',
+      'Сложите одну «Дельта-комету». Бросьте её пять раз с ровными задними кромками, затем отогните вверх на 2 мм задние 15 мм каждого крыла у корпуса. Бросьте ещё пять раз так же сильно. Сначала предскажите: в каком случае полёт ровнее и дальше? Отмечайте точку первого касания пола.',
+      'Pliega un Cometa delta. Lánzalo cinco veces con los bordes traseros planos y después dobla 2 mm hacia arriba los últimos 15 mm de cada ala, junto al cuerpo. Lánzalo cinco veces más con el mismo empujón firme. Predice primero: ¿cuándo vuela más recto y más lejos? Marca dónde toca el suelo cada vuelo por primera vez.',
     ),
     reference: {
       label: 'NASA • Tu-144 flight research, Fig. 1',
@@ -168,9 +167,9 @@ export const planeCatalog = [
     inspiration: local('Ilyushin Il-62', 'Ильюшин Ил-62', 'Ilyushin Il-62'),
     origin: originCountryName('ilyushin-il62'),
     character: local(
-      'Swept shoulders · striped tail',
-      'Стреловидные крылья · полосатый хвост',
-      'Alas inclinadas hacia atrás · cola a rayas',
+      'Swept shoulders · tall tips',
+      'Стреловидные крылья · высокие законцовки',
+      'Alas inclinadas hacia atrás · puntas altas',
     ),
     history: local(
       'The State Aviation Museum’s Il-62 has swept wings and four engines at the rear. Look for the two pairs. Two pairs of stripes on the paper wing tips echo that detail.',
@@ -183,7 +182,7 @@ export const planeCatalog = [
       'Haz una copia con los bordes de las alas planos y otra con dobleces de 10 mm en los extremos. Lanza cada una cinco veces a nivel. Anota cuáles aterrizan a la izquierda o a la derecha antes de cambiar otro doblez.',
     ),
     reference: {
-      label: 'State Aviation Museum • Ил-62',
+      label: 'State Aviation Museum • Il-62',
       url: 'https://aviamuseum.com.ua/ru/exposition/exposition/kb-ilyushina/173-il-62',
     },
     field: {
@@ -223,7 +222,7 @@ const spanishReferenceLabels = {
   'Smithsonian • Douglas DC-3': 'Smithsonian • Douglas DC-3',
   'NASA • Tu-144 flight research, Fig. 1': 'NASA • Estudio de vuelo del Tu-144, fig. 1',
   'Technik Museum Sinsheim • Tupolev Tu-144': 'Museo de Tecnología de Sinsheim • Tupolev Tu-144',
-  'State Aviation Museum • Ил-62': 'Museo Estatal de Aviación de Kyiv • Il-62',
+  'State Aviation Museum • Il-62': 'Museo Estatal de Aviación de Kyiv • Il-62',
 }
 
 export function referenceForLocale(reference, locale) {
@@ -232,10 +231,10 @@ export function referenceForLocale(reference, locale) {
 }
 
 export const sheetSizes = { A4: [210, 297], US_LETTER: [215.9, 279.4] }
-export const liveries = ['heritage', 'festival', 'pencil', 'flag', 'airshow']
+export const liveries = ['heritage', 'festival', 'pencil', 'airshow']
 // Revision 1 always folds the whole sheet. Revision 2 adds the sheet edge choice: 'cut' prints a
 // thick border trimMm inside the paper and folds the cut-out sheet; 'whole' folds the full paper.
-export { trimMm, sheetEdges } from '../print-faces.js?v=3b57e65abbf7'
+export { trimMm, sheetEdges } from '../print-faces.js?v=827c6a6b1e8f'
 export const revision = '2'
 export const revisions = ['1', '2']
 export function planeColors(model, livery) {
@@ -247,6 +246,25 @@ export function planeColors(model, livery) {
   }[model.model_id]
   if (livery === 'pencil') return ['#687481', '#a3a9ad', '#6c7d84']
   if (livery === 'festival') return ['#e44f75', '#148d89', '#e8a323']
-  if (livery === 'flag') return planeFlagColors(model.model_id)
   return model.colors
+}
+
+// What to look for on the printed model. Every livery prints the design's bands, so the field
+// caption holds; Graphite prints them grey and Airshow adds landmark tiles on the outer wing.
+const liveryNotes = {
+  pencil: local(
+    'Graphite prints the bands in grey, ready to colour in.',
+    'В графитовой раскраске полосы печатаются серыми, их можно раскрасить.',
+    'En grafito, las franjas se imprimen en gris para que las colorees.',
+  ),
+  airshow: local(
+    'Airshow adds small coloured tiles on the outer wing.',
+    'Раскраска «Авиашоу» добавляет небольшие цветные плашки на внешней части крыла.',
+    'Exhibición aérea añade pequeñas teselas de color en la parte exterior del ala.',
+  ),
+}
+/** The caption under a printed model, following its livery. */
+export function planeFinish(model, livery, locale) {
+  const note = liveryNotes[livery]?.[locale]
+  return model.field.finish[locale] + (note ? ' ' + note : '')
 }

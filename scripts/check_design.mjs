@@ -38,8 +38,8 @@ const hex = (name) => {
 
 // ---------- 1. contrast ----------
 const textOn = {
-  'color-text': ['color-page', 'color-surface', 'color-surface-sunken', 'color-surface-stage', 'color-surface-selected', 'color-surface-attention', 'color-surface-success', 'color-surface-caution', 'color-highlight'],
-  'color-text-muted': ['color-page', 'color-surface', 'color-surface-sunken', 'color-surface-stage', 'color-surface-selected', 'color-surface-attention', 'color-surface-success', 'color-surface-caution'],
+  'color-text': ['color-surface-birch', 'color-page', 'color-surface', 'color-surface-sunken', 'color-surface-stage', 'color-surface-selected', 'color-surface-attention', 'color-surface-success', 'color-surface-caution', 'color-highlight'],
+  'color-text-muted': ['color-surface-birch', 'color-page', 'color-surface', 'color-surface-sunken', 'color-surface-stage', 'color-surface-selected', 'color-surface-attention', 'color-surface-success', 'color-surface-caution'],
   'color-text-link': ['color-page', 'color-surface', 'color-surface-sunken', 'color-surface-stage', 'color-surface-selected'],
   'color-text-accent': ['color-page', 'color-surface', 'color-surface-sunken', 'color-surface-attention'],
   'color-text-success': ['color-page', 'color-surface', 'color-surface-success'],
@@ -48,6 +48,13 @@ const textOn = {
   'color-text-inverse': ['color-surface-inverse', 'color-selected', 'color-action', 'color-action-hover'],
   'color-action-text': ['color-action', 'color-action-hover'],
   'color-selected-text': ['color-selected'],
+  // Editorial roles (book spreads, chapter and plate pages).
+  'color-poster': ['color-page', 'color-surface', 'color-surface-stage', 'color-surface-birch'],
+  'color-night-text': ['color-night', 'color-night-raised'],
+  'color-night-muted': ['color-night', 'color-night-raised'],
+  'color-night-accent': ['color-night', 'color-night-raised'],
+  'color-night-info': ['color-night'],
+  'color-night-caution': ['color-night'],
 }
 // Non-text UI (WCAG 1.4.11): control borders, focus ring, marks and data series need 3:1.
 const graphicOn = {
@@ -63,6 +70,7 @@ const graphicOn = {
   'color-line-valley': ['color-surface', 'color-surface-stage'],
   'color-line-mountain': ['color-surface', 'color-surface-stage'],
   'color-line-guide': ['color-surface', 'color-surface-stage'],
+  'color-night-rule': ['color-night'],
 }
 const rows = []
 for (const [map, min, kind] of [

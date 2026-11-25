@@ -1,9 +1,8 @@
-import { butterflySwatches } from './assets/atlas/swatches.js?v=3b57e65abbf7'
-import { planeCatalog, planeColors, liveries } from './assets/planes/catalog.js?v=3b57e65abbf7'
-import { planeFlagCountry } from './assets/planes/country-markings.js?v=3b57e65abbf7'
-import { sheetCatalog, sheetLocales } from './family-sheets.js?v=3b57e65abbf7'
+import { butterflySwatches } from './assets/atlas/swatches.js?v=827c6a6b1e8f'
+import { planeCatalog, planeColors, liveries, planeFinish } from './assets/planes/catalog.js?v=827c6a6b1e8f'
+import { sheetCatalog, sheetLocales } from './family-sheets.js?v=827c6a6b1e8f'
 
-import { objectIds, objectPalettes } from './assets/objects/appearance.js?v=3b57e65abbf7'
+import { objectIds, objectPalettes } from './assets/objects/appearance.js?v=827c6a6b1e8f'
 const labels = {
   field: { en:'Original colors', es:'Colores originales', ru:'Исходные цвета' },
   sunset: { en:'Sunset', es:'Atardecer', ru:'Закат' },
@@ -16,8 +15,6 @@ const labels = {
   heritage: { en: 'Heritage stripes', es: 'Franjas clásicas', ru: 'Классические полосы' },
   festival: { en: 'Festival colors', es: 'Colores vivos', ru: 'Праздничные цвета' },
   pencil: { en: 'Graphite', es: 'Grafito', ru: 'Графит' },
-  us: { en: 'U.S. flag', es: 'Bandera de EE. UU.', ru: 'Флаг США' },
-  ussr: { en: 'USSR flag', es: 'Bandera de la URSS', ru: 'Флаг СССР' },
 }
 const entries = new Map(sheetCatalog.map(item => [item.id, item]))
 export const appearanceArtStyles = Object.freeze(['studio', 'illustrated', 'ink'])
@@ -33,7 +30,7 @@ export function appearanceChoices(modelId, lang = 'en') {
   }
   if (plane) {
     return liveries.map(id => ({
-      id, label: labels[id === 'flag' ? planeFlagCountry(model) : id][lang],
+      id, label: labels[id][lang],
       colors: [...planeColors(plane, id)],
     }))
   }
@@ -65,8 +62,15 @@ export function appearanceArtPath(sheetId, style = 'studio', appearance) {
     return 'assets/book/models/' + sheetId + (color === 'field' || style === 'ink' ? '' : '-' + color) + '-' + style + '.jpg'
   }
   const selection = sheetAppearance(sheetId, appearance)
-  // Color palettes share one monochrome outline. The flag changes the wing markings.
-  const useOriginal = selection.original || (style === 'ink' && selection.appearance !== 'flag')
+  // Color palettes share one monochrome outline.
+  const useOriginal = selection.original || style === 'ink'
   const variant = useOriginal ? '' : '-' + selection.appearance
   return 'assets/book/models/' + sheetId + variant + '-' + style + '.jpg'
+}
+
+/** The caption under an airplane model for the chosen livery: it follows the colors. */
+export function appearanceCaption(modelId, appearance, lang = 'en') {
+  const plane = planeCatalog.find(entry => entry.model_id === modelId)
+  if (!plane || !liveries.includes(appearance)) throw new RangeError('Unknown airplane livery')
+  return planeFinish(plane, appearance, lang)
 }

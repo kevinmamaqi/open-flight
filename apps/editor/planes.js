@@ -69,11 +69,6 @@ const words = {
     'Dobla la hoja en blanco entera con ayuda de los dibujos. Para imprimir las marcas hasta los bordes, usa impresión sin márgenes o acude a una copistería.',
   ],
   livery: ['Printed colors', 'Расцветка', 'Colores del avión'],
-  flagHelp: [
-    'These wing markings show where the passenger airplane was designed.',
-    'Флаги на крыльях показывают, где спроектировали пассажирский самолёт.',
-    'Las banderas de las alas indican dónde se diseñó el avión de pasajeros.',
-  ],
   keel: ['Body fold', 'Глубина корпуса', 'Profundidad del cuerpo'],
   keelHint: [
     'A deeper body leaves less paper in each wing.',
@@ -357,7 +352,6 @@ function renderPlan() {
     $('livery').dataset.model = plan.model_id
   }
   $('livery').value = plan.livery
-  $('flag-help').hidden = plan.livery !== 'flag'
   $('keel').value = plan.keel_mm
   $('tips').value = plan.winglet_mm
   $('keel-value').value = plan.keel_mm + ' ' + tr('mm')

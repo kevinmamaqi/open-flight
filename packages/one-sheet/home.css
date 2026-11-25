@@ -1,0 +1,18 @@
+/* One Sheet · home print-friendly variant: the screen edition with low ink, for A4 or US
+ * Letter at 100%. No stage tints or grids, no page tone, black text; drawings keep their lines.
+ * The night sky becomes paper, and the red wedge and the plate number drop out. */
+:root, .night {
+  --book-paper: var(--print-paper);
+  --book-ink: var(--print-ink);
+  --book-muted: var(--color-text-muted);
+  --book-stage: transparent;
+  --book-grid: var(--color-grid);
+  --book-rule: var(--print-ink);
+  --book-accent: var(--color-poster);
+  --book-info: var(--color-text-link);
+  --book-caution: var(--color-text-caution);
+}
+.stage { background: none; }
+.opener-figure, .opener-grid > div { background: none; }
+.figure-band, .da-time { border: 0.3mm solid var(--color-rule); }
+.cover-wedge, .plate-id { display: none; }

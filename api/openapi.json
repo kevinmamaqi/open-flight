@@ -2403,6 +2403,99 @@
         }
       }
     },
+    "/v1/print-and-play": {
+      "post": {
+        "operationId": "printAndPlay",
+        "summary": "Make a Print & Play PDF for one to three designs",
+        "description": "Return the page plan, or a bounded base64 part of the deterministic Print & Play PDF for one to three designs: each pattern, a one-page quick guide with the plate ID, launch and trim notes, a landing tally and the 50 mm line. Keep the same settings and follow next_offset to reassemble the PDF. The bytes equal the file the website downloads for the same designs, paper, language and edge.",
+        "x-contract-status": "implemented_local_experimental",
+        "x-required-scopes": [
+          "openflight:designs:read"
+        ],
+        "x-mcp-access": "tool",
+        "x-success-schema": "PrintAndPlayResult",
+        "x-mutation": false,
+        "parameters": [],
+        "security": [
+          {
+            "UserToken": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Make a Print & Play PDF for one to three designs",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PrintAndPlayResult"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Authentication required",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Insufficient scope or access",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Rate or quota limit",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Unexpected failure",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        },
+        "x-mcp-tool": "openflight_print_and_play",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PrintAndPlayRequest"
+              }
+            }
+          }
+        }
+      }
+    },
     "/v1/motor-lab": {
       "get": {
         "operationId": "getMotorLab",
@@ -3508,12 +3601,13 @@
                 "simulateFlight",
                 "planFoldedButterfly",
                 "renderFamilyBook",
+                "printAndPlay",
                 "getMotorLab",
                 "getFlightObjects"
               ]
             },
             "uniqueItems": true,
-            "maxItems": 24
+            "maxItems": 25
           },
           "transports": {
             "type": "array",
@@ -4047,7 +4141,6 @@
           "heritage",
           "festival",
           "pencil",
-          "flag",
           "airshow"
         ]
       },
@@ -5697,7 +5790,6 @@
                   "heritage",
                   "festival",
                   "pencil",
-                  "flag",
                   "airshow"
                 ]
               },
@@ -5706,7 +5798,6 @@
                   "heritage",
                   "festival",
                   "pencil",
-                  "flag",
                   "airshow"
                 ]
               },
@@ -5715,7 +5806,6 @@
                   "heritage",
                   "festival",
                   "pencil",
-                  "flag",
                   "airshow"
                 ]
               },
@@ -5724,7 +5814,6 @@
                   "heritage",
                   "festival",
                   "pencil",
-                  "flag",
                   "airshow"
                 ]
               },
@@ -5945,7 +6034,6 @@
                       "heritage",
                       "festival",
                       "pencil",
-                      "flag",
                       "airshow"
                     ]
                   },
@@ -5954,7 +6042,6 @@
                       "heritage",
                       "festival",
                       "pencil",
-                      "flag",
                       "airshow"
                     ]
                   },
@@ -5963,7 +6050,6 @@
                       "heritage",
                       "festival",
                       "pencil",
-                      "flag",
                       "airshow"
                     ]
                   },
@@ -5972,7 +6058,6 @@
                       "heritage",
                       "festival",
                       "pencil",
-                      "flag",
                       "airshow"
                     ]
                   },
@@ -6936,6 +7021,248 @@
             "asset"
           ]
         }
+      },
+      "PrintAndPlayRequest": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "designs": {
+            "type": "array",
+            "minItems": 1,
+            "maxItems": 3,
+            "uniqueItems": true,
+            "description": "One to three designs, in print order. Each is a plate ID (A1 to A4, B1 to B3, F1 to F3) or a design model such as boeing-747, monarch or ring.",
+            "items": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 40
+            }
+          },
+          "lang": {
+            "enum": [
+              "en",
+              "es",
+              "ru"
+            ]
+          },
+          "paper": {
+            "enum": [
+              "A4",
+              "US_LETTER"
+            ]
+          },
+          "edge": {
+            "enum": [
+              "cut",
+              "whole"
+            ],
+            "description": "Airplane patterns. cut prints a border to cut along. whole prints the full page to fold without cutting, as the No scissors set does."
+          },
+          "output": {
+            "enum": [
+              "manifest",
+              "pdf"
+            ]
+          },
+          "offset": {
+            "type": "integer",
+            "minimum": 0
+          }
+        },
+        "required": [
+          "designs"
+        ]
+      },
+      "PrintAndPlayResult": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "edition": {
+            "const": "print-and-play-1"
+          },
+          "settings": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "designs": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                },
+                "minItems": 1,
+                "maxItems": 3
+              },
+              "lang": {
+                "enum": [
+                  "en",
+                  "es",
+                  "ru"
+                ]
+              },
+              "paper": {
+                "enum": [
+                  "A4",
+                  "US_LETTER"
+                ]
+              },
+              "edge": {
+                "enum": [
+                  "cut",
+                  "whole"
+                ]
+              }
+            },
+            "required": [
+              "designs",
+              "lang",
+              "paper",
+              "edge"
+            ]
+          },
+          "filename": {
+            "type": "string",
+            "pattern": "^open-flight-print-and-play-[A-Z0-9-]+-(a4|letter)-(en|es|ru)\\.pdf$"
+          },
+          "page_count": {
+            "type": "integer",
+            "minimum": 2,
+            "maximum": 9
+          },
+          "designs": {
+            "type": "array",
+            "minItems": 1,
+            "maxItems": 3,
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "id": {
+                  "type": "string"
+                },
+                "model": {
+                  "type": "string"
+                },
+                "name": {
+                  "type": "string"
+                },
+                "url": {
+                  "type": "string",
+                  "format": "uri",
+                  "pattern": "^https://"
+                },
+                "pages": {
+                  "type": "array",
+                  "minItems": 2,
+                  "maxItems": 3,
+                  "items": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                      "role": {
+                        "enum": [
+                          "pattern",
+                          "build",
+                          "guide"
+                        ]
+                      },
+                      "source": {
+                        "type": [
+                          "string",
+                          "null"
+                        ],
+                        "description": "Library or packet PDF the page is copied from, or null for the quick guide and generated whole-sheet patterns."
+                      },
+                      "source_page": {
+                        "type": [
+                          "integer",
+                          "null"
+                        ],
+                        "minimum": 1
+                      }
+                    },
+                    "required": [
+                      "role",
+                      "source",
+                      "source_page"
+                    ]
+                  }
+                }
+              },
+              "required": [
+                "id",
+                "model",
+                "name",
+                "url",
+                "pages"
+              ]
+            }
+          },
+          "static_path": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "The pre-built file on the website for exactly these settings, relative to the site root, or null when the website joins single-design files in the browser."
+          },
+          "booklet_hash": {
+            "type": "string",
+            "pattern": "^#m=",
+            "description": "Open the same designs as a booklet: append this hash to book.html. It always carries m=."
+          },
+          "pdf": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "media_type": {
+                "const": "application/pdf"
+              },
+              "encoding": {
+                "const": "base64"
+              },
+              "byte_length": {
+                "type": "integer",
+                "minimum": 1
+              },
+              "sha256": {
+                "type": "string",
+                "pattern": "^[0-9a-f]{64}$"
+              },
+              "offset": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "next_offset": {
+                "type": [
+                  "integer",
+                  "null"
+                ],
+                "minimum": 1
+              },
+              "content": {
+                "type": "string",
+                "maxLength": 262144
+              }
+            },
+            "required": [
+              "media_type",
+              "encoding",
+              "byte_length",
+              "sha256",
+              "offset",
+              "next_offset",
+              "content"
+            ]
+          }
+        },
+        "required": [
+          "edition",
+          "settings",
+          "filename",
+          "page_count",
+          "designs",
+          "static_path",
+          "booklet_hash"
+        ]
       }
     }
   }

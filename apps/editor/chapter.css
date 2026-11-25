@@ -1,0 +1,460 @@
+/* Book chapter pages (/how-it-flies/, /contests/, /experiments/), rendered by
+ * book/render-chapter.js. Tokens only: see DESIGN.md. Load after tokens.css and system.css.
+ * Round 3: the opener is led by its photograph with the book's red flight path across it,
+ * titles are set in the poster face, sections carry a numeral on a red bar, and the space
+ * chapter opens on the night sky, as in the printed book. */
+
+.chapter {
+  width: 100%; /* a grid item: wide figures scroll in their frames instead of widening the page */
+  min-width: 0;
+  max-width: var(--size-page);
+  margin: 0 auto;
+  padding: var(--space-5) var(--size-gutter) var(--space-8);
+  color: var(--color-text);
+  font-family: var(--font-text);
+  font-size: var(--text-md);
+  line-height: var(--leading-body);
+}
+.chapter h1,
+.chapter h2 {
+  hyphens: auto;
+  overflow-wrap: break-word;
+  font-family: var(--font-poster);
+  font-weight: var(--weight-bold);
+  letter-spacing: var(--tracking-poster);
+  line-height: var(--leading-snug);
+  text-wrap: balance;
+}
+.chapter h1 {
+  margin: 0 0 var(--space-3);
+  font-size: var(--text-poster);
+  font-weight: var(--weight-heavy);
+  line-height: var(--leading-tight);
+}
+.chapter h2 {
+  margin: 0 0 var(--space-4);
+  font-size: var(--text-xl);
+}
+.chapter h3 {
+  margin: var(--space-5) 0 var(--space-2);
+  font-size: var(--text-md);
+}
+.chapter p,
+.chapter li {
+  max-width: var(--measure);
+}
+.chapter-head {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  margin-bottom: var(--space-7);
+}
+.chapter-head .eyebrow {
+  margin: 0;
+  font-size: var(--text-sm);
+}
+/* The opening photograph comes first, cropped wide, with the flight path on its diagonal. */
+.chapter-head .chapter-photo {
+  display: grid;
+  order: -1;
+  margin: 0 0 var(--space-5);
+}
+.chapter-head .chapter-photo img,
+.chapter-head .chapter-photo::after {
+  grid-area: 1 / 1;
+}
+.chapter-head .chapter-photo img {
+  width: 100%;
+  max-width: none;
+  aspect-ratio: 21 / 9;
+  object-fit: cover;
+  border: 0;
+}
+.chapter-head .chapter-photo::after {
+  content: '';
+  pointer-events: none;
+  background: linear-gradient(to bottom right, transparent calc(50% - var(--line-focus)), var(--photo-path, var(--color-poster)) calc(50% - var(--line-focus)), var(--photo-path, var(--color-poster)) calc(50% + var(--line-focus)), transparent calc(50% + var(--line-focus)));
+}
+.chapter-head .chapter-photo figcaption {
+  grid-area: 2 / 1;
+}
+/* The space chapter opens on the night sky. */
+.chapter[data-chapter='space'] .chapter-head {
+  --photo-path: var(--color-night-accent);
+  padding-block: var(--space-6);
+  background: var(--color-night);
+  box-shadow: 0 0 0 100vmax var(--color-night);
+  clip-path: inset(0 -100vmax);
+  color: var(--color-night-text);
+}
+.chapter[data-chapter='space'] .chapter-head .eyebrow {
+  color: var(--color-night-accent);
+}
+.chapter[data-chapter='space'] .chapter-standfirst,
+.chapter[data-chapter='space'] .chapter-head figcaption,
+.chapter[data-chapter='space'] .chapter-head .chapter-grownups {
+  color: var(--color-night-muted);
+}
+.chapter[data-chapter='space'] .chapter-head .chapter-intro {
+  color: var(--color-night-text);
+}
+.chapter[data-chapter='space'] .chapter-head a,
+.chapter[data-chapter='space'] .chapter-head .chapter-grownups h2 {
+  color: var(--color-night-info);
+}
+.chapter[data-chapter='space'] .chapter-head .chapter-box {
+  border-top-color: var(--color-night-info);
+}
+.chapter-standfirst {
+  margin: 0;
+  color: var(--color-text-muted);
+  font-size: var(--text-lg);
+}
+.chapter-intro {
+  margin: var(--space-3) 0;
+  color: var(--color-text);
+}
+.chapter-toc ol {
+  display: grid;
+  gap: var(--space-1);
+  padding-left: var(--space-5);
+}
+.chapter-toc a {
+  color: var(--color-text-link);
+}
+.chapter-toc h2 {
+  font-size: var(--text-lg);
+}
+
+.chapter-section {
+  padding-top: var(--space-6);
+  margin-top: var(--space-6);
+  border-top: var(--line-hair) solid var(--color-text);
+}
+/* Each section's number (8.1) on a short red bar, as over every spread title in the book. */
+.chapter-section-no {
+  display: block;
+  width: fit-content;
+  margin-bottom: var(--space-2);
+  padding-top: var(--space-1);
+  border-top: var(--space-1) solid var(--color-poster);
+  color: var(--color-poster);
+  font-size: var(--text-sm);
+  font-weight: var(--weight-heavy);
+  letter-spacing: 0;
+}
+.chapter-lead,
+.chapter-question {
+  font-size: var(--text-lg);
+  line-height: var(--leading-snug);
+}
+.chapter-question {
+  font-family: var(--font-poster);
+  font-weight: var(--weight-bold);
+}
+.chapter-role {
+  margin: 0;
+  color: var(--color-poster);
+  font-family: var(--font-poster);
+  font-size: var(--text-sm);
+  font-weight: var(--weight-bold);
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+}
+.chapter-why {
+  font-size: var(--text-lg);
+}
+.chapter-small {
+  color: var(--color-text-muted);
+  font-size: var(--text-xs);
+}
+.chapter-steps li,
+.chapter-try li {
+  margin-bottom: var(--space-1);
+}
+.chapter-steps li::marker,
+.chapter-try li::marker {
+  color: var(--color-poster);
+  font-family: var(--font-poster);
+  font-weight: var(--weight-bold);
+}
+
+/* Figures sit on the drawing stage. Below their natural width they scroll sideways
+ * instead of shrinking, so labels stay at the 14 px minimum. */
+.chapter-figure {
+  margin: var(--space-5) 0;
+}
+.chapter-figure-frame {
+  overflow-x: auto;
+  padding: var(--space-4);
+  border-radius: var(--radius-md);
+}
+.chapter-figure svg {
+  display: block;
+  width: 100%;
+  min-width: 35rem;
+  max-width: 35rem;
+  height: auto;
+}
+.chapter-figure-wide svg {
+  min-width: 43.5rem;
+  max-width: 43.5rem;
+}
+.chapter-image img,
+.chapter-photo img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  border: var(--line-hair) solid var(--color-rule);
+}
+.chapter-figure figcaption {
+  margin-top: var(--space-2);
+  max-width: var(--measure);
+  color: var(--color-text-muted);
+  font-size: var(--text-sm);
+}
+
+/* Boxes: "Try it" has the kite rule (the next action), "For grown-ups" the air-blue rule. */
+.chapter-box {
+  max-width: var(--measure);
+  margin: var(--space-5) 0;
+  padding: var(--space-3) 0 0;
+  border-top: var(--line-strong) solid var(--color-rule);
+}
+.chapter-box h2,
+.chapter-box h3 {
+  margin: 0 0 var(--space-2);
+  font-family: var(--font-poster);
+  font-size: var(--text-xs);
+  font-weight: var(--weight-bold);
+  letter-spacing: var(--tracking-signage);
+  text-transform: uppercase;
+}
+.chapter-try {
+  border-top: var(--space-1) solid var(--color-poster);
+}
+.chapter-try h3 {
+  color: var(--color-poster);
+}
+.chapter-grownups {
+  border-top-color: var(--color-text-link);
+  color: var(--color-text-muted);
+  font-size: var(--text-sm);
+}
+.chapter-grownups h2,
+.chapter-grownups h3 {
+  color: var(--color-text-link);
+}
+.chapter-watch a {
+  color: var(--color-text-link);
+}
+
+/* Dated timelines (history, space): a ruled list, date in the margin column. */
+.chapter-dates {
+  display: grid;
+  gap: 0;
+  margin: var(--space-5) 0;
+  padding: 0;
+  list-style: none;
+}
+.chapter-dates li {
+  display: grid;
+  grid-template-columns: 9rem 1fr;
+  gap: var(--space-4);
+  padding: var(--space-2) 0;
+  border-top: var(--line-hair) solid var(--color-rule);
+}
+.chapter-when {
+  color: var(--color-poster);
+  font-family: var(--font-text);
+  font-weight: var(--weight-bold);
+  font-variant-numeric: tabular-nums lining-nums;
+}
+
+/* Games sit between chapters. A heavier rule and a tinted ground set them apart from the text. */
+.chapter-game {
+  padding: var(--space-5) var(--space-4);
+  border: var(--line-hair) solid var(--color-rule);
+  border-top: var(--space-1) solid var(--color-text);
+  border-radius: var(--radius-md);
+  background: var(--color-surface);
+}
+.chapter-game-facts {
+  display: grid;
+  gap: var(--space-2);
+  margin: var(--space-4) 0;
+}
+.chapter-game-facts div {
+  display: grid;
+  grid-template-columns: 7rem 1fr;
+  gap: var(--space-3);
+  padding-bottom: var(--space-2);
+  border-bottom: var(--line-hair) dashed var(--color-border);
+}
+.chapter-game-facts dt {
+  color: var(--color-text-muted);
+  font-size: var(--text-xs);
+  font-weight: var(--weight-bold);
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+}
+.chapter-game-facts dd {
+  margin: 0;
+}
+.chapter-score,
+.chapter-teaches {
+  padding-left: var(--space-3);
+  border-left: var(--line-strong) solid var(--color-rule);
+}
+.chapter-score strong,
+.chapter-teaches strong {
+  color: var(--color-text);
+}
+.chapter-after {
+  color: var(--color-text-muted);
+  font-size: var(--text-sm);
+}
+.chapter-after a {
+  color: var(--color-text-link);
+}
+
+.chapter-note {
+  font-size: var(--text-xs);
+  line-height: 0;
+}
+.chapter-note + .chapter-note::before {
+  content: ',';
+}
+.chapter-note a {
+  color: var(--color-text-link);
+  text-decoration: none;
+}
+.chip-evidence {
+  margin-left: var(--space-1);
+  color: var(--color-text-caution);
+  border-color: currentColor;
+  font-size: var(--text-xs);
+  line-height: var(--leading-snug);
+  vertical-align: baseline;
+}
+.chip-evidence[data-state='not-yet-measured'] {
+  color: var(--color-text-muted);
+}
+.chip-evidence[data-state='measured'] {
+  color: var(--color-text-success);
+}
+
+/* Tables: trim chart, records, empty logs. */
+.chapter-table-wrap {
+  overflow-x: auto;
+  margin: var(--space-4) 0;
+}
+.chapter-table {
+  width: 100%;
+  min-width: 30rem;
+  border-collapse: collapse;
+  font-size: var(--text-sm);
+}
+.chapter-table caption {
+  padding-bottom: var(--space-2);
+  font-weight: var(--weight-bold);
+  text-align: left;
+}
+.chapter-table th,
+.chapter-table td {
+  padding: var(--space-2) var(--space-3) var(--space-2) 0;
+  border-top: var(--line-hair) solid var(--color-rule);
+  text-align: left;
+  vertical-align: top;
+}
+.chapter-table thead th {
+  color: var(--color-text-muted);
+  font-size: var(--text-xs);
+}
+.chapter-num {
+  font-variant-numeric: tabular-nums lining-nums;
+  white-space: nowrap;
+}
+.chapter-records .is-current td {
+  font-weight: var(--weight-bold);
+}
+.chapter-records .is-yours td,
+.chapter-log td {
+  height: var(--size-target);
+  border-bottom: var(--line-hair) dashed var(--color-border);
+}
+.chapter-log-sheet {
+  max-width: var(--measure);
+  padding: var(--space-4);
+  border: var(--line-hair) solid var(--color-rule);
+  border-radius: var(--radius-md);
+  background: var(--color-surface);
+}
+.chapter-log-title {
+  margin: 0 0 var(--space-3);
+  font-family: var(--font-poster);
+  font-weight: var(--weight-bold);
+}
+.chapter-log-fields {
+  display: grid;
+  gap: var(--space-2);
+  margin: 0;
+}
+.chapter-log-fields div {
+  display: flex;
+  gap: var(--space-3);
+  border-bottom: var(--line-hair) dashed var(--color-border);
+}
+.chapter-log-fields dt {
+  color: var(--color-text-muted);
+  font-size: var(--text-sm);
+}
+.chapter-log-notes {
+  color: var(--color-text-muted);
+  font-size: var(--text-sm);
+}
+.chapter-events {
+  display: grid;
+  gap: var(--space-5);
+}
+.chapter-safety {
+  padding-left: var(--space-3);
+  border-left: var(--line-strong) solid var(--color-text-danger);
+}
+.chapter-known strong,
+.chapter-safety strong {
+  color: var(--color-text);
+}
+.chapter-foot {
+  margin-top: var(--space-8);
+  padding-top: var(--space-5);
+  border-top: var(--line-hair) solid var(--color-rule);
+}
+.chapter-references {
+  font-size: var(--text-sm);
+}
+.chapter-references a {
+  color: var(--color-text-link);
+  overflow-wrap: anywhere;
+}
+
+@media (max-width: 36rem) {
+  .chapter-dates li,
+  .chapter-game-facts div {
+    grid-template-columns: 1fr;
+    gap: var(--space-1);
+  }
+}
+
+@media (min-width: 60rem) {
+  .chapter-events {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media print {
+  .chapter-figure-frame,
+  .chapter-log-sheet {
+    background: none;
+  }
+}

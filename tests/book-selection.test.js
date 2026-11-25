@@ -21,14 +21,14 @@ test('old shared books retain their settings while saved work stays accessible a
 })
 test('a cover, palettes and model order survive the printed link as independent choices', () => {
   const chosen = { lang:'es', paper:'US_LETTER', sheets:['morpho','morpho-k1','boeing-747'], coverModel:'boeing-747',
-    appearances:{'boeing-747':'flag',morpho:'twilight'}, pilot:'Ana', cover:'Mi atlas' }
+    appearances:{'boeing-747':'airshow',morpho:'twilight'}, pilot:'Ana', cover:'Mi atlas' }
   const book = normalizeBook(chosen)
   const url = new URL(bookURL(book))
   assert.equal(url.search, '?lang=es')
   assert.deepEqual(normalizeBook(readBookURL(url)), book)
   assert.equal(bookPlan(book).originPages.length,2)
   assert.equal(bookPlan(book).entries[0].id,'morpho')
-  assert.match(studioForBookSheet(book,'boeing-747'),/livery=flag/)
+  assert.match(studioForBookSheet(book,'boeing-747'),/livery=airshow/)
   assert.match(studioForBookSheet(book,'morpho-k1'),/appearance_id=twilight/)
   assert.match(studioForBookSheet(book,'morpho'),/appearance_id=twilight.*#design=butterfly-morpho/)
   assert.throws(()=>normalizeBook({...chosen,coverModel:'monarch'}),/cover model/)

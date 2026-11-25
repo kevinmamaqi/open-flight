@@ -1,0 +1,1576 @@
+{
+  "book": "One Sheet",
+  "trim": {
+    "width": 210,
+    "height": 279,
+    "unit": "mm"
+  },
+  "bleed": 3,
+  "margins": {
+    "top": 18,
+    "bottom": 23,
+    "inner": 20,
+    "outer": 16
+  },
+  "pages": 266,
+  "asOf": "2026-11-25",
+  "note": "Fixed spreads: page numbers are identical in EN, ES and RU. Templates: OP opener, PL plate, SQ fold sequence, EX how it flies, LN lineage, PR profile, DA data, XP experiment, AP apparatus.",
+  "sample": {
+    "en": [
+      "cover",
+      "toc",
+      "nature",
+      "nature-seeds",
+      "nature-insects",
+      "game-spot-the-trim",
+      "game-match-the-flyer",
+      "how-it-flies-four-forces",
+      "plate-A1",
+      "history",
+      "history-timeline",
+      "space",
+      "space-wings-need-air",
+      "contests-records",
+      "index",
+      "back"
+    ],
+    "es": [
+      "cover",
+      "toc",
+      "space"
+    ],
+    "ru": [
+      "cover",
+      "toc",
+      "nature",
+      "how-it-flies-four-forces"
+    ]
+  },
+  "spreads": [
+    {
+      "id": "half-title",
+      "pages": [
+        1
+      ],
+      "template": "AP",
+      "chapter": null,
+      "title": "Half-title",
+      "image": null
+    },
+    {
+      "id": "title",
+      "pages": [
+        2,
+        3
+      ],
+      "template": "OP",
+      "chapter": null,
+      "title": "Frontispiece and title page",
+      "image": "B1 Monarch at actual size (drawing exists; photograph NEW)"
+    },
+    {
+      "id": "toc",
+      "pages": [
+        4,
+        5
+      ],
+      "template": "TOC",
+      "chapter": null,
+      "title": "Contents",
+      "image": null
+    },
+    {
+      "id": "how-to-use",
+      "pages": [
+        6,
+        7
+      ],
+      "template": "EX",
+      "chapter": null,
+      "title": "How to use this book",
+      "image": "Notation diagram (exists, redraw)"
+    },
+    {
+      "id": "fleet",
+      "pages": [
+        8,
+        9
+      ],
+      "template": "DA",
+      "chapter": null,
+      "title": "The fleet at a glance",
+      "image": "Silhouettes from geometry (generate)"
+    },
+    {
+      "id": "one-sheet",
+      "pages": [
+        10,
+        11
+      ],
+      "template": "OP",
+      "chapter": "one-sheet",
+      "title": "1 · One sheet",
+      "image": "One sheet beside its plane (NEW photograph)"
+    },
+    {
+      "id": "essay-why",
+      "pages": [
+        12,
+        13
+      ],
+      "template": "EX",
+      "chapter": "one-sheet",
+      "title": "Why paper flight; how the book was made",
+      "image": null
+    },
+    {
+      "id": "essay-reading",
+      "pages": [
+        14,
+        15
+      ],
+      "template": "EX",
+      "chapter": "one-sheet",
+      "title": "Reading together; the method in one line",
+      "image": "A real launch line (NEW photograph)"
+    },
+    {
+      "id": "how-it-flies",
+      "pages": [
+        16,
+        17
+      ],
+      "template": "OP",
+      "chapter": "how-it-flies",
+      "title": "2 · How flight works",
+      "image": "Four-forces diagram (figure forces)"
+    },
+    {
+      "id": "how-it-flies-four-forces",
+      "pages": [
+        18,
+        19
+      ],
+      "template": "EX",
+      "chapter": "how-it-flies",
+      "content": "how-it-flies#four-forces"
+    },
+    {
+      "id": "how-it-flies-lift",
+      "pages": [
+        20,
+        21
+      ],
+      "template": "EX",
+      "chapter": "how-it-flies",
+      "content": "how-it-flies#lift"
+    },
+    {
+      "id": "how-it-flies-balance",
+      "pages": [
+        22,
+        23
+      ],
+      "template": "EX",
+      "chapter": "how-it-flies",
+      "content": "how-it-flies#balance"
+    },
+    {
+      "id": "how-it-flies-stability",
+      "pages": [
+        24,
+        25
+      ],
+      "template": "EX",
+      "chapter": "how-it-flies",
+      "content": "how-it-flies#stability"
+    },
+    {
+      "id": "how-it-flies-trim",
+      "pages": [
+        26,
+        27
+      ],
+      "template": "EX",
+      "chapter": "how-it-flies",
+      "content": "how-it-flies#trim"
+    },
+    {
+      "id": "how-it-flies-fold-rescue",
+      "pages": [
+        28,
+        29
+      ],
+      "template": "EX",
+      "chapter": "how-it-flies",
+      "content": "how-it-flies#fold-rescue"
+    },
+    {
+      "id": "how-it-flies-glide",
+      "pages": [
+        30,
+        31
+      ],
+      "template": "EX",
+      "chapter": "how-it-flies",
+      "content": "how-it-flies#glide"
+    },
+    {
+      "id": "how-it-flies-paper",
+      "pages": [
+        32,
+        33
+      ],
+      "template": "EX",
+      "chapter": "how-it-flies",
+      "content": "how-it-flies#paper"
+    },
+    {
+      "id": "how-it-flies-spinning",
+      "pages": [
+        34,
+        35
+      ],
+      "template": "EX",
+      "chapter": "how-it-flies",
+      "content": "how-it-flies#spinning"
+    },
+    {
+      "id": "how-it-flies-numbers",
+      "pages": [
+        36,
+        37
+      ],
+      "template": "EX",
+      "chapter": "how-it-flies",
+      "content": "how-it-flies#numbers"
+    },
+    {
+      "id": "game-spot-the-trim",
+      "template": "GM",
+      "chapter": "games",
+      "content": "games#spot-the-trim",
+      "title": null,
+      "generated": true,
+      "pages": [
+        38,
+        39
+      ]
+    },
+    {
+      "id": "nature",
+      "template": "PH",
+      "chapter": "nature",
+      "title": "Nature’s flyers",
+      "photo": "maple-samara",
+      "generated": true,
+      "pages": [
+        40,
+        41
+      ]
+    },
+    {
+      "id": "nature-seeds",
+      "template": "EX",
+      "chapter": "nature",
+      "content": "nature#seeds",
+      "title": null,
+      "generated": true,
+      "pages": [
+        42,
+        43
+      ]
+    },
+    {
+      "id": "nature-insects",
+      "template": "EX",
+      "chapter": "nature",
+      "content": "nature#insects",
+      "title": null,
+      "generated": true,
+      "pages": [
+        44,
+        45
+      ]
+    },
+    {
+      "id": "nature-dragonflies",
+      "template": "EX",
+      "chapter": "nature",
+      "content": "nature#dragonflies",
+      "title": null,
+      "generated": true,
+      "pages": [
+        46,
+        47
+      ]
+    },
+    {
+      "id": "nature-pterosaurs",
+      "template": "EX",
+      "chapter": "nature",
+      "content": "nature#pterosaurs",
+      "title": null,
+      "generated": true,
+      "pages": [
+        48,
+        49
+      ]
+    },
+    {
+      "id": "nature-birds",
+      "template": "EX",
+      "chapter": "nature",
+      "content": "nature#birds",
+      "title": null,
+      "generated": true,
+      "pages": [
+        50,
+        51
+      ]
+    },
+    {
+      "id": "nature-bats",
+      "template": "EX",
+      "chapter": "nature",
+      "content": "nature#bats",
+      "title": null,
+      "generated": true,
+      "pages": [
+        52,
+        53
+      ]
+    },
+    {
+      "id": "nature-gliding-animals",
+      "template": "EX",
+      "chapter": "nature",
+      "content": "nature#gliding-animals",
+      "title": null,
+      "generated": true,
+      "pages": [
+        54,
+        55
+      ]
+    },
+    {
+      "id": "nature-sea-gliders",
+      "template": "EX",
+      "chapter": "nature",
+      "content": "nature#sea-gliders",
+      "title": null,
+      "generated": true,
+      "pages": [
+        56,
+        57
+      ]
+    },
+    {
+      "id": "nature-record-flyers",
+      "template": "EX",
+      "chapter": "nature",
+      "content": "nature#record-flyers",
+      "title": null,
+      "generated": true,
+      "pages": [
+        58,
+        59
+      ]
+    },
+    {
+      "id": "nature-flap-or-glide",
+      "template": "EX",
+      "chapter": "nature",
+      "content": "nature#flap-or-glide",
+      "title": null,
+      "generated": true,
+      "pages": [
+        60,
+        61
+      ]
+    },
+    {
+      "id": "nature-copycats",
+      "template": "EX",
+      "chapter": "nature",
+      "content": "nature#copycats",
+      "title": null,
+      "generated": true,
+      "pages": [
+        62,
+        63
+      ]
+    },
+    {
+      "id": "nature-your-flyers",
+      "template": "EX",
+      "chapter": "nature",
+      "content": "nature#your-flyers",
+      "title": null,
+      "generated": true,
+      "pages": [
+        64,
+        65
+      ]
+    },
+    {
+      "id": "game-match-the-flyer",
+      "template": "GM",
+      "chapter": "games",
+      "content": "games#match-the-flyer",
+      "title": null,
+      "generated": true,
+      "pages": [
+        66,
+        67
+      ]
+    },
+    {
+      "id": "airplanes",
+      "pages": [
+        68,
+        69
+      ],
+      "template": "OP",
+      "chapter": "airplanes",
+      "title": "3 · Airplanes",
+      "image": "Four folded planes (NEW photograph; drawings exist)"
+    },
+    {
+      "id": "plate-A1",
+      "pages": [
+        70,
+        71
+      ],
+      "template": "PL",
+      "chapter": "airplanes",
+      "plate": "A1",
+      "image": "Specimen photograph at 1:1 (NEW)"
+    },
+    {
+      "id": "sequence-A1",
+      "pages": [
+        72,
+        73
+      ],
+      "template": "SQ",
+      "chapter": "airplanes",
+      "plate": "A1",
+      "image": "Redrawn steps and hands photographs (NEW)"
+    },
+    {
+      "id": "lineage-A1",
+      "pages": [
+        74,
+        75
+      ],
+      "template": "LN",
+      "chapter": "airplanes",
+      "plate": "A1",
+      "image": "Licensed archive photograph (to find)"
+    },
+    {
+      "id": "plate-A2",
+      "pages": [
+        76,
+        77
+      ],
+      "template": "PL",
+      "chapter": "airplanes",
+      "plate": "A2",
+      "image": "Specimen photograph at 1:1 (NEW)"
+    },
+    {
+      "id": "sequence-A2",
+      "pages": [
+        78,
+        79
+      ],
+      "template": "SQ",
+      "chapter": "airplanes",
+      "plate": "A2",
+      "image": "Redrawn steps and hands photographs (NEW)"
+    },
+    {
+      "id": "lineage-A2",
+      "pages": [
+        80,
+        81
+      ],
+      "template": "LN",
+      "chapter": "airplanes",
+      "plate": "A2",
+      "image": "Licensed archive photograph (to find)"
+    },
+    {
+      "id": "plate-A3",
+      "pages": [
+        82,
+        83
+      ],
+      "template": "PL",
+      "chapter": "airplanes",
+      "plate": "A3",
+      "image": "Specimen photograph at 1:1 (NEW)"
+    },
+    {
+      "id": "sequence-A3",
+      "pages": [
+        84,
+        85
+      ],
+      "template": "SQ",
+      "chapter": "airplanes",
+      "plate": "A3",
+      "image": "Redrawn steps and hands photographs (NEW)"
+    },
+    {
+      "id": "lineage-A3",
+      "pages": [
+        86,
+        87
+      ],
+      "template": "LN",
+      "chapter": "airplanes",
+      "plate": "A3",
+      "image": "Licensed archive photograph (to find)"
+    },
+    {
+      "id": "plate-A4",
+      "pages": [
+        88,
+        89
+      ],
+      "template": "PL",
+      "chapter": "airplanes",
+      "plate": "A4",
+      "image": "Specimen photograph at 1:1 (NEW)"
+    },
+    {
+      "id": "sequence-A4",
+      "pages": [
+        90,
+        91
+      ],
+      "template": "SQ",
+      "chapter": "airplanes",
+      "plate": "A4",
+      "image": "Redrawn steps and hands photographs (NEW)"
+    },
+    {
+      "id": "lineage-A4",
+      "pages": [
+        92,
+        93
+      ],
+      "template": "LN",
+      "chapter": "airplanes",
+      "plate": "A4",
+      "image": "Licensed archive photograph (to find)"
+    },
+    {
+      "id": "airplanes-trim",
+      "pages": [
+        94,
+        95
+      ],
+      "template": "EX",
+      "chapter": "airplanes",
+      "title": "Trim and tune a dart",
+      "image": "Tail-view diagrams (redraw)"
+    },
+    {
+      "id": "airplanes-compared",
+      "pages": [
+        96,
+        97
+      ],
+      "template": "DA",
+      "chapter": "airplanes",
+      "title": "Four airplanes compared",
+      "image": "Plan views at one scale (generate)"
+    },
+    {
+      "id": "airplanes-experiment",
+      "pages": [
+        98,
+        99
+      ],
+      "template": "XP",
+      "chapter": "airplanes",
+      "title": "Change one thing: body depth or wingtip height",
+      "image": "Real setup photograph (NEW)"
+    },
+    {
+      "id": "game-airline-pilot",
+      "template": "GM",
+      "chapter": "games",
+      "content": "games#airline-pilot",
+      "title": null,
+      "generated": true,
+      "pages": [
+        100,
+        101
+      ]
+    },
+    {
+      "id": "butterflies",
+      "pages": [
+        102,
+        103
+      ],
+      "template": "OP",
+      "chapter": "butterflies",
+      "title": "4 · Butterflies",
+      "image": "B1 specimen drawing at 1:1 (exists)"
+    },
+    {
+      "id": "butterfly-flies",
+      "pages": [
+        104,
+        105
+      ],
+      "template": "EX",
+      "chapter": "butterflies",
+      "title": "How a paper butterfly flies",
+      "image": "Diagram (NEW)"
+    },
+    {
+      "id": "butterfly-build-1",
+      "pages": [
+        106,
+        107
+      ],
+      "template": "SQ",
+      "chapter": "butterflies",
+      "title": "Build, balance and trim, steps 1–4",
+      "image": "Redrawn steps and hands photographs (NEW)"
+    },
+    {
+      "id": "butterfly-build-2",
+      "pages": [
+        108,
+        109
+      ],
+      "template": "SQ",
+      "chapter": "butterflies",
+      "title": "Steps 5–8",
+      "image": "Redrawn steps and hands photographs (NEW)"
+    },
+    {
+      "id": "plate-B1",
+      "pages": [
+        110,
+        111
+      ],
+      "template": "PL",
+      "chapter": "butterflies",
+      "plate": "B1",
+      "image": "Specimen photograph at 1:1 (NEW)"
+    },
+    {
+      "id": "field-notes-B1",
+      "pages": [
+        112,
+        113
+      ],
+      "template": "LN",
+      "chapter": "butterflies",
+      "plate": "B1",
+      "image": "Species photograph (exists, licence to confirm)"
+    },
+    {
+      "id": "plate-B2",
+      "pages": [
+        114,
+        115
+      ],
+      "template": "PL",
+      "chapter": "butterflies",
+      "plate": "B2",
+      "image": "Specimen photograph at 1:1 (NEW)"
+    },
+    {
+      "id": "field-notes-B2",
+      "pages": [
+        116,
+        117
+      ],
+      "template": "LN",
+      "chapter": "butterflies",
+      "plate": "B2",
+      "image": "Species photograph (exists, licence to confirm)"
+    },
+    {
+      "id": "plate-B3",
+      "pages": [
+        118,
+        119
+      ],
+      "template": "PL",
+      "chapter": "butterflies",
+      "plate": "B3",
+      "image": "Specimen photograph at 1:1 (NEW)"
+    },
+    {
+      "id": "field-notes-B3",
+      "pages": [
+        120,
+        121
+      ],
+      "template": "LN",
+      "chapter": "butterflies",
+      "plate": "B3",
+      "image": "Species photograph (exists, licence to confirm)"
+    },
+    {
+      "id": "k1-to-k2",
+      "pages": [
+        122,
+        123
+      ],
+      "template": "XP",
+      "chapter": "butterflies",
+      "title": "From K1 to K2, a design story",
+      "image": "Trial photographs after PHYS-011 (NEW)"
+    },
+    {
+      "id": "game-landing-zone",
+      "template": "GM",
+      "chapter": "games",
+      "content": "games#landing-zone",
+      "title": null,
+      "generated": true,
+      "pages": [
+        124,
+        125
+      ]
+    },
+    {
+      "id": "flying-objects",
+      "pages": [
+        126,
+        127
+      ],
+      "template": "OP",
+      "chapter": "flying-objects",
+      "title": "5 · Flying objects",
+      "image": "Three real objects (NEW photograph)"
+    },
+    {
+      "id": "plate-F1",
+      "pages": [
+        128,
+        129
+      ],
+      "template": "PL",
+      "chapter": "flying-objects",
+      "plate": "F1",
+      "image": "Specimen photograph (NEW)"
+    },
+    {
+      "id": "ring-flies",
+      "pages": [
+        130,
+        131
+      ],
+      "template": "EX",
+      "chapter": "flying-objects",
+      "title": "How a ring flies",
+      "image": "Diagram (redraw)"
+    },
+    {
+      "id": "plate-F2",
+      "pages": [
+        132,
+        133
+      ],
+      "template": "PL",
+      "chapter": "flying-objects",
+      "plate": "F2",
+      "image": "Specimen photograph (NEW)"
+    },
+    {
+      "id": "autorotation",
+      "pages": [
+        134,
+        135
+      ],
+      "template": "EX",
+      "chapter": "flying-objects",
+      "title": "Autorotation and the real maple seed",
+      "image": "CC BY 4.0 figure and CC BY 3.0 photograph (exist)"
+    },
+    {
+      "id": "plate-F3",
+      "pages": [
+        136,
+        137
+      ],
+      "template": "PL",
+      "chapter": "flying-objects",
+      "plate": "F3",
+      "image": "Specimen photograph (NEW)"
+    },
+    {
+      "id": "williams-1918",
+      "pages": [
+        138,
+        139
+      ],
+      "template": "LN",
+      "chapter": "flying-objects",
+      "plate": "F3",
+      "title": "Things to Make, 1918",
+      "image": "Figure 128, public domain (exists as a source)"
+    },
+    {
+      "id": "slowest",
+      "pages": [
+        140,
+        141
+      ],
+      "template": "XP",
+      "chapter": "flying-objects",
+      "title": "Which falls slowest?",
+      "image": "Real setup photograph (NEW)"
+    },
+    {
+      "id": "game-seed-drop-race",
+      "template": "GM",
+      "chapter": "games",
+      "content": "games#seed-drop-race",
+      "title": null,
+      "generated": true,
+      "pages": [
+        142,
+        143
+      ]
+    },
+    {
+      "id": "history",
+      "template": "PH",
+      "chapter": "history",
+      "title": "A short history of flight",
+      "photo": "biplanes",
+      "generated": true,
+      "pages": [
+        144,
+        145
+      ]
+    },
+    {
+      "id": "history-timeline",
+      "template": "EX",
+      "chapter": "history",
+      "content": "history#timeline",
+      "title": null,
+      "generated": true,
+      "pages": [
+        146,
+        147
+      ]
+    },
+    {
+      "id": "history-kites-notebooks",
+      "template": "EX",
+      "chapter": "history",
+      "content": "history#kites-notebooks",
+      "title": null,
+      "generated": true,
+      "pages": [
+        148,
+        149
+      ]
+    },
+    {
+      "id": "history-balloons",
+      "template": "EX",
+      "chapter": "history",
+      "content": "history#balloons",
+      "title": null,
+      "generated": true,
+      "pages": [
+        150,
+        151
+      ]
+    },
+    {
+      "id": "history-gliders",
+      "template": "EX",
+      "chapter": "history",
+      "content": "history#gliders",
+      "title": null,
+      "generated": true,
+      "pages": [
+        152,
+        153
+      ]
+    },
+    {
+      "id": "history-russian-wings",
+      "template": "EX",
+      "chapter": "history",
+      "content": "history#russian-wings",
+      "title": null,
+      "generated": true,
+      "pages": [
+        154,
+        155
+      ]
+    },
+    {
+      "id": "history-wrights",
+      "template": "EX",
+      "chapter": "history",
+      "content": "history#wrights",
+      "title": null,
+      "generated": true,
+      "pages": [
+        156,
+        157
+      ]
+    },
+    {
+      "id": "history-timeline-faster",
+      "template": "EX",
+      "chapter": "history",
+      "content": "history#timeline-faster",
+      "title": null,
+      "generated": true,
+      "pages": [
+        158,
+        159
+      ]
+    },
+    {
+      "id": "history-santos-dumont",
+      "template": "EX",
+      "chapter": "history",
+      "content": "history#santos-dumont",
+      "title": null,
+      "generated": true,
+      "pages": [
+        160,
+        161
+      ]
+    },
+    {
+      "id": "history-sikorsky-giants",
+      "template": "EX",
+      "chapter": "history",
+      "content": "history#sikorsky-giants",
+      "title": null,
+      "generated": true,
+      "pages": [
+        162,
+        163
+      ]
+    },
+    {
+      "id": "history-cierva-autogiro",
+      "template": "EX",
+      "chapter": "history",
+      "content": "history#cierva-autogiro",
+      "title": null,
+      "generated": true,
+      "pages": [
+        164,
+        165
+      ]
+    },
+    {
+      "id": "history-women-who-flew",
+      "template": "EX",
+      "chapter": "history",
+      "content": "history#women-who-flew",
+      "title": null,
+      "generated": true,
+      "pages": [
+        166,
+        167
+      ]
+    },
+    {
+      "id": "history-sound-barrier",
+      "template": "EX",
+      "chapter": "history",
+      "content": "history#sound-barrier",
+      "title": null,
+      "generated": true,
+      "pages": [
+        168,
+        169
+      ]
+    },
+    {
+      "id": "history-paper-planes",
+      "template": "EX",
+      "chapter": "history",
+      "content": "history#paper-planes",
+      "title": null,
+      "generated": true,
+      "pages": [
+        170,
+        171
+      ]
+    },
+    {
+      "id": "game-timeline-race",
+      "template": "GM",
+      "chapter": "games",
+      "content": "games#timeline-race",
+      "title": null,
+      "generated": true,
+      "pages": [
+        172,
+        173
+      ]
+    },
+    {
+      "id": "space",
+      "template": "PH",
+      "chapter": "space",
+      "title": "Beyond the sky",
+      "photo": "dragon-over-earth",
+      "generated": true,
+      "pages": [
+        174,
+        175
+      ]
+    },
+    {
+      "id": "space-wings-need-air",
+      "template": "EX",
+      "chapter": "space",
+      "content": "space#wings-need-air",
+      "title": null,
+      "generated": true,
+      "pages": [
+        176,
+        177
+      ]
+    },
+    {
+      "id": "space-edge-of-space",
+      "template": "EX",
+      "chapter": "space",
+      "content": "space#edge-of-space",
+      "title": null,
+      "generated": true,
+      "pages": [
+        178,
+        179
+      ]
+    },
+    {
+      "id": "space-rocket-pioneers",
+      "template": "EX",
+      "chapter": "space",
+      "content": "space#rocket-pioneers",
+      "title": null,
+      "generated": true,
+      "pages": [
+        180,
+        181
+      ]
+    },
+    {
+      "id": "space-sputnik-laika",
+      "template": "EX",
+      "chapter": "space",
+      "content": "space#sputnik-laika",
+      "title": null,
+      "generated": true,
+      "pages": [
+        182,
+        183
+      ]
+    },
+    {
+      "id": "space-first-people",
+      "template": "EX",
+      "chapter": "space",
+      "content": "space#first-people",
+      "title": null,
+      "generated": true,
+      "pages": [
+        184,
+        185
+      ]
+    },
+    {
+      "id": "space-suits-spacewalk",
+      "template": "EX",
+      "chapter": "space",
+      "content": "space#suits-spacewalk",
+      "title": null,
+      "generated": true,
+      "pages": [
+        186,
+        187
+      ]
+    },
+    {
+      "id": "space-space-timeline",
+      "template": "EX",
+      "chapter": "space",
+      "content": "space#space-timeline",
+      "title": null,
+      "generated": true,
+      "pages": [
+        188,
+        189
+      ]
+    },
+    {
+      "id": "space-x-15",
+      "template": "EX",
+      "chapter": "space",
+      "content": "space#x-15",
+      "title": null,
+      "generated": true,
+      "pages": [
+        190,
+        191
+      ]
+    },
+    {
+      "id": "space-reentry-gliders",
+      "template": "EX",
+      "chapter": "space",
+      "content": "space#reentry-gliders",
+      "title": null,
+      "generated": true,
+      "pages": [
+        192,
+        193
+      ]
+    },
+    {
+      "id": "space-paper-stratosphere",
+      "template": "EX",
+      "chapter": "space",
+      "content": "space#paper-stratosphere",
+      "title": null,
+      "generated": true,
+      "pages": [
+        194,
+        195
+      ]
+    },
+    {
+      "id": "space-origami-space",
+      "template": "EX",
+      "chapter": "space",
+      "content": "space#origami-space",
+      "title": null,
+      "generated": true,
+      "pages": [
+        196,
+        197
+      ]
+    },
+    {
+      "id": "space-mars",
+      "template": "EX",
+      "chapter": "space",
+      "content": "space#mars",
+      "title": null,
+      "generated": true,
+      "pages": [
+        198,
+        199
+      ]
+    },
+    {
+      "id": "space-dynamic-pressure",
+      "template": "EX",
+      "chapter": "space",
+      "content": "space#dynamic-pressure",
+      "title": null,
+      "generated": true,
+      "pages": [
+        200,
+        201
+      ]
+    },
+    {
+      "id": "space-space-now",
+      "template": "EX",
+      "chapter": "space",
+      "content": "space#space-now",
+      "title": null,
+      "generated": true,
+      "pages": [
+        202,
+        203
+      ]
+    },
+    {
+      "id": "game-mission-to-mars",
+      "template": "GM",
+      "chapter": "games",
+      "content": "games#mission-to-mars",
+      "title": null,
+      "generated": true,
+      "pages": [
+        204,
+        205
+      ]
+    },
+    {
+      "id": "contests",
+      "pages": [
+        206,
+        207
+      ],
+      "template": "OP",
+      "chapter": "contests",
+      "title": "6 · Contests and records",
+      "image": "Tape measure on a real floor (NEW photograph)"
+    },
+    {
+      "id": "contests-what-counts",
+      "pages": [
+        208,
+        209
+      ],
+      "template": "EX",
+      "chapter": "contests",
+      "content": "contests#what-counts"
+    },
+    {
+      "id": "contests-records",
+      "pages": [
+        210,
+        211
+      ],
+      "template": "DA",
+      "chapter": "contests",
+      "content": "contests#records"
+    },
+    {
+      "id": "contests-paper-wings",
+      "pages": [
+        212,
+        213
+      ],
+      "template": "EX",
+      "chapter": "contests",
+      "content": "contests#paper-wings"
+    },
+    {
+      "id": "contests-collins",
+      "pages": [
+        214,
+        215
+      ],
+      "template": "PR",
+      "chapter": "contests",
+      "content": "contests#collins"
+    },
+    {
+      "id": "contests-record-team",
+      "pages": [
+        216,
+        217
+      ],
+      "template": "PR",
+      "chapter": "contests",
+      "content": "contests#record-team"
+    },
+    {
+      "id": "contests-time-aloft",
+      "pages": [
+        218,
+        219
+      ],
+      "template": "PR",
+      "chapter": "contests",
+      "content": "contests#time-aloft"
+    },
+    {
+      "id": "contests-around-the-world",
+      "pages": [
+        220,
+        221
+      ],
+      "template": "EX",
+      "chapter": "contests",
+      "content": "contests#around-the-world"
+    },
+    {
+      "id": "contests-throwing",
+      "pages": [
+        222,
+        223
+      ],
+      "template": "EX",
+      "chapter": "contests",
+      "content": "contests#throwing"
+    },
+    {
+      "id": "contests-your-contest",
+      "pages": [
+        224,
+        225
+      ],
+      "template": "XP",
+      "chapter": "contests",
+      "content": "contests#your-contest"
+    },
+    {
+      "id": "game-paper-plane-golf",
+      "template": "GM",
+      "chapter": "games",
+      "content": "games#paper-plane-golf",
+      "title": null,
+      "generated": true,
+      "pages": [
+        226,
+        227
+      ]
+    },
+    {
+      "id": "experiments",
+      "pages": [
+        228,
+        229
+      ],
+      "template": "OP",
+      "chapter": "experiments",
+      "title": "7 · The flight lab",
+      "image": "A real log in use (NEW photograph)"
+    },
+    {
+      "id": "experiments-fair-test",
+      "pages": [
+        230,
+        231
+      ],
+      "template": "EX",
+      "chapter": "experiments",
+      "content": "experiments#fair-test",
+      "image": null
+    },
+    {
+      "id": "experiments-flight-log",
+      "pages": [
+        232,
+        233
+      ],
+      "template": "EX",
+      "chapter": "experiments",
+      "content": "experiments#flight-log",
+      "image": null
+    },
+    {
+      "id": "experiments-clip",
+      "pages": [
+        234,
+        235
+      ],
+      "template": "XP",
+      "chapter": "experiments",
+      "content": "experiments#clip",
+      "image": "Real setup photograph (NEW)"
+    },
+    {
+      "id": "experiments-angle",
+      "pages": [
+        236,
+        237
+      ],
+      "template": "XP",
+      "chapter": "experiments",
+      "content": "experiments#angle",
+      "image": "Real setup photograph (NEW)"
+    },
+    {
+      "id": "experiments-dihedral",
+      "pages": [
+        238,
+        239
+      ],
+      "template": "XP",
+      "chapter": "experiments",
+      "content": "experiments#dihedral",
+      "image": "Real setup photograph (NEW)"
+    },
+    {
+      "id": "experiments-wing-area",
+      "pages": [
+        240,
+        241
+      ],
+      "template": "XP",
+      "chapter": "experiments",
+      "content": "experiments#wing-area",
+      "image": "Real setup photograph (NEW)"
+    },
+    {
+      "id": "experiments-paper",
+      "pages": [
+        242,
+        243
+      ],
+      "template": "XP",
+      "chapter": "experiments",
+      "content": "experiments#paper",
+      "image": "Real setup photograph (NEW)"
+    },
+    {
+      "id": "experiments-ring",
+      "pages": [
+        244,
+        245
+      ],
+      "template": "XP",
+      "chapter": "experiments",
+      "content": "experiments#ring",
+      "image": "Real setup photograph (NEW)"
+    },
+    {
+      "id": "experiments-height",
+      "pages": [
+        246,
+        247
+      ],
+      "template": "XP",
+      "chapter": "experiments",
+      "content": "experiments#height",
+      "image": "Real setup photograph (NEW)"
+    },
+    {
+      "id": "experiments-stopwatch",
+      "pages": [
+        248,
+        249
+      ],
+      "template": "XP",
+      "chapter": "experiments",
+      "content": "experiments#stopwatch",
+      "image": "Real setup photograph (NEW)"
+    },
+    {
+      "id": "experiments-tunnel",
+      "pages": [
+        250,
+        251
+      ],
+      "template": "XP",
+      "chapter": "experiments",
+      "content": "experiments#tunnel",
+      "image": "Real setup photograph (NEW)"
+    },
+    {
+      "id": "experiments-results",
+      "pages": [
+        252,
+        253
+      ],
+      "template": "DA",
+      "chapter": "experiments",
+      "content": "experiments#results",
+      "image": null
+    },
+    {
+      "id": "game-seed-designer",
+      "template": "GM",
+      "chapter": "games",
+      "content": "games#seed-designer",
+      "title": null,
+      "generated": true,
+      "pages": [
+        254,
+        255
+      ]
+    },
+    {
+      "id": "glossary",
+      "pages": [
+        256,
+        257
+      ],
+      "template": "AP",
+      "chapter": null,
+      "title": "Glossary with ES and RU terms",
+      "image": null
+    },
+    {
+      "id": "sources",
+      "pages": [
+        258,
+        259
+      ],
+      "template": "AP",
+      "chapter": null,
+      "title": "Sources and further reading",
+      "image": null
+    },
+    {
+      "id": "index",
+      "pages": [
+        260,
+        261
+      ],
+      "template": "IX",
+      "chapter": null,
+      "title": "Index",
+      "image": null
+    },
+    {
+      "id": "print-and-play",
+      "pages": [
+        262,
+        263
+      ],
+      "template": "AP",
+      "chapter": null,
+      "title": "Print & Play: every sheet, QR and a 50 mm line",
+      "image": null
+    },
+    {
+      "id": "credits",
+      "pages": [
+        264,
+        265
+      ],
+      "template": "AP",
+      "chapter": null,
+      "title": "Credits, image licences and colophon",
+      "image": null
+    },
+    {
+      "id": "bookplate",
+      "pages": [
+        266
+      ],
+      "template": "AP",
+      "chapter": null,
+      "title": "Bookplate",
+      "image": null
+    }
+  ],
+  "covers": [
+    {
+      "id": "cover",
+      "template": "COVER",
+      "pages": [
+        0
+      ],
+      "chapter": null,
+      "title": "Front cover"
+    },
+    {
+      "id": "back",
+      "template": "BACK",
+      "pages": [
+        999
+      ],
+      "chapter": null,
+      "title": "Back cover"
+    }
+  ]
+}

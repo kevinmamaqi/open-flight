@@ -1,128 +1,108 @@
-import { fieldPanels } from './model-field-panels.js?v=3b57e65abbf7'
-import { workbenchMarkup } from './model-workbench.js?v=3b57e65abbf7'
-import { specimenPath } from './model-appearance.js?v=3b57e65abbf7'
-import { planeCatalog } from './assets/planes/catalog.js?v=3b57e65abbf7'
-import { designIds, fieldModel, studioLink, words } from './atlas-guide.js?v=3b57e65abbf7'
-import { flightObjects } from './assets/objects/activities.js?v=3b57e65abbf7'
-import { workshopHome } from './assets/workshop-address.js?v=3b57e65abbf7'
-import { sheetIdFor, sheetPath } from './family-sheets.js?v=3b57e65abbf7'
-import { breadcrumbs, escapeHtml as e, navHref, publicPath, siteHeader, siteLabels, siteLocales } from './site-navigation.js?v=3b57e65abbf7'
+import { book, chapterById, chapterLabel, chapters, plateFor, plates } from './book/catalog.js?v=827c6a6b1e8f'
+import { fieldModel } from './atlas-guide.js?v=827c6a6b1e8f'
+import { specimenPath } from './model-appearance.js?v=827c6a6b1e8f'
+import { workshopHome } from './assets/workshop-address.js?v=827c6a6b1e8f'
+import { plateMarkup } from './plate.js?v=827c6a6b1e8f'
+import { chapterBody as writtenChapter } from './book/render-chapter.js?v=827c6a6b1e8f'
+import { breadcrumbs, escapeHtml as e, navHref, pageLabel, publicPath, siteFooter, siteHeader, siteLabels, siteLocales } from './site-navigation.js?v=827c6a6b1e8f'
 
-const w = words
+const w = (en, es, ru) => ({ en, es, ru })
 const copy = {
-  open: w('Open the workshop', 'Abrir el taller', 'Открыть мастерскую'),
-  models: w('Choose a model', 'Elige un modelo', 'Выбери модель'),
-  downloads: w('Print the pattern', 'Imprime la plantilla', 'Напечатай шаблон'),
-  materials: w('What you need', 'Qué necesitas', 'Что понадобится'),
-  experiment: w('Try this flight test', 'Prueba este experimento', 'Проверь в полёте'),
-  print: w(
-    'Print at 100% (Actual size) and check the 50 mm scale on the sheet with a ruler.',
-    'Imprime al 100 % (Tamaño real) y comprueba con una regla que la escala del papel mide 50 mm.',
-    'Печатай в масштабе 100% («Фактический размер») и проверь линейкой отметку 50 мм.',
+  print: w('Print & Play', 'Imprime y vuela', 'Распечатать и запустить'),
+  printChapter: w(
+    'Print one design from this chapter, or a set of up to three. One PDF, ready for A4 or US Letter.',
+    'Imprime un modelo de este capítulo o un juego de hasta tres. Un solo PDF, listo para A4 o Carta.',
+    'Распечатайте одну модель из этой главы или набор до трёх. Один PDF для A4 или US Letter.',
   ),
-  letter: w('US Letter', 'Carta', 'US Letter'),
-  paired: w('Monarch K1 and K2 trial PDF', 'PDF de la prueba del monarca K1 y K2', 'PDF для сравнения монарха K1 и K2'),
-  variants: w('Other butterfly folds', 'Otros pliegues de mariposa', 'Другие варианты сгиба'),
-  w1: w('Tabbed wings (W1)', 'Alas con aletas (W1)', 'Крылья с язычками (W1)'),
-  k2title: w('Folded leading edge (K2)', 'Borde de ataque plegado (K2)', 'Подогнутая передняя кромка (K2)'),
-  alternate: w('See the other models', 'Ver los otros modelos', 'Посмотреть другие модели'),
+  plates: w('Plates', 'Láminas', 'Таблицы'),
+  chapter: w('Chapter', 'Capítulo', 'Глава'),
+  previous: w('Previous chapter', 'Capítulo anterior', 'Предыдущая глава'),
+  next: w('Next chapter', 'Capítulo siguiente', 'Следующая глава'),
+  contents: w('Contents', 'Índice', 'Содержание'),
 }
+
+// The opening paragraphs of the three design chapters.
+const chapterIntros = {
+  airplanes: [
+    w('Each airplane folds from one rectangular sheet. The folds decide where the paper’s weight sits and how the wings meet the air.',
+      'Cada avión se pliega a partir de una hoja rectangular. Los pliegues deciden dónde queda el peso del papel y cómo encuentran las alas el aire.',
+      'Каждый самолёт складывается из одного прямоугольного листа. Сгибы решают, где окажется вес бумаги и как крылья встретят воздух.'),
+    w('Upper Deck and Prairie Skipper are built to glide slowly, Tailwind to fly straight and steady, and Delta Comet is the classic dart. None has a recorded test flight yet: each plate says what to expect and what to try.',
+      'Dos pisos y Planeador de la pradera están hechos para planear despacio, Viento de cola para volar recto y estable, y Cometa delta es el dardo clásico. Ninguno tiene todavía un vuelo de prueba registrado: cada lámina dice qué esperar y qué probar.',
+      '«Две палубы» и «Луговой планёр» созданы для медленного планирования, «Попутный ветер» — для ровного прямого полёта, а «Дельта-комета» — классический дротик. Ни у одного пока нет записанного испытательного полёта: на каждой таблице сказано, чего ожидать и что попробовать.'),
+  ],
+  butterflies: [
+    w('Real butterflies flap, twist and glide. A paper butterfly can only glide, so it must balance like a flying wing.',
+      'Las mariposas de verdad aletean, se retuercen y planean. Una mariposa de papel solo puede planear, así que tiene que equilibrarse como un ala volante.',
+      'Настоящие бабочки машут крыльями, изгибают их и планируют. Бумажная бабочка может только планировать, поэтому она должна балансировать, как летающее крыло.'),
+    w('These are experimental gliders, our second attempt. Build one, balance it on the dots and tell us how it flies.',
+      'Son planeadores experimentales, nuestro segundo intento. Construye uno, equilíbralo sobre los puntos y cuéntanos cómo vuela.',
+      'Это экспериментальные планёры, наша вторая попытка. Соберите один, уравновесьте его на точках и расскажите, как он летает.'),
+  ],
+  'flying-objects': [
+    w('Three classic experiments: a ring that flies like a shuttlecock, a seed that spins as it falls, and a two-winged glider from a 1918 book.',
+      'Tres experimentos clásicos: un anillo que vuela como un volante de bádminton, una semilla que gira al caer y un planeador de dos alas de un libro de 1918.',
+      'Три классических опыта: кольцо, которое летит как волан, семя, которое вращается при падении, и двукрылый планёр из книги 1918 года.'),
+  ],
+}
+
 const products = {
-  designs: {
-    description: w(
-      'Choose a paper butterfly, fold a one-sheet airplane, or try a ring glider, maple spinner or tandem. The patterns and activities are free to print.',
-      'Elige una mariposa de papel, pliega un avión de una sola hoja o prueba un anillo, una semilla giratoria o un planeador tándem. Las plantillas y actividades son gratuitas.',
-      'Выбери бумажную бабочку или самолёт из одного листа. Попробуй кольцеплан, кленовую крылатку или тандем. Шаблоны и задания можно распечатать бесплатно.',
-    ),
-  },
-  butterflies: {
-    family: 'butterfly', image: specimenPath('monarch'), tool: 'costa',
-    description: w(
-      'Cut and fold three paper butterfly gliders with printable patterns. Change a fold, check the balance with a paper clip, and record where each glider lands.',
-      'Recorta y pliega tres planeadores con forma de mariposa. Cambia un pliegue, comprueba el equilibrio con un clip y apunta dónde aterriza cada uno.',
-      'Вырежи и сложи три планера-бабочки по шаблонам. Измени сгиб, проверь баланс скрепкой и отметь места посадок.',
-    ),
-  },
-  airplanes: {
-    family: 'airplane', image: specimenPath('boeing-747'), tool: 'planes',
-    description: w(
-      'Fold a paper airplane from a single rectangular sheet. Pick one of four models and follow its illustrated guide, with printable patterns in A4 and US Letter.',
-      'Pliega un avión de papel con una sola hoja rectangular. Elige uno de cuatro modelos y sigue su guía ilustrada, con plantillas en A4 y Carta.',
-      'Сложи бумажный самолёт из одного прямоугольного листа. Выбери одну из четырёх моделей и следуй рисункам. Шаблоны есть в форматах A4 и US Letter.',
-    ),
-  },
-  'flying-objects': {
-    family: 'object', image: specimenPath('ring'), tool: 'flight-objects',
-    description: w(
-      'Make a ring glider, a maple spinner and a Williams tandem glider. Each activity gives you a build, two settings to compare and a way to record the result.',
-      'Construye un planeador de anillo, una semilla giratoria y un planeador tándem Williams. Cada actividad incluye instrucciones, dos variantes y una forma de anotar el resultado.',
-      'Сделай кольцеплан, кленовую крылатку или тандемный планер Уильямса. В каждом задании есть инструкция, две настройки для сравнения и способ записать результат.',
-    ),
-  },
+  designs: { redirect: true },
   'flight-book': {
-    image: lang => 'assets/atlas/book-cover-' + lang + '.png', tool: 'book',
-    action: w('Build your Flight Book', 'Crea tu libro de vuelo', 'Создай свою книгу полётов'),
     description: w(
-      'Make a free printable book with your choice of flyers, folding guides and flight logs. Preview the pages, choose A4 or US Letter, then download a PDF or share the setup.',
-      'Crea un libro gratuito para imprimir con tus modelos, guías de pliegues y registros de vuelo. Previsualiza las páginas, elige A4 o Carta y descarga el PDF o comparte tu selección.',
-      'Собери бесплатную книгу с выбранными моделями, схемами сгибов и журналами полётов. Просмотри страницы, выбери A4 или US Letter, скачай PDF или поделись своей подборкой.',
+      'The printed edition of One Sheet: its chapters, format and status. Everything in it that you can fold is free to print today.',
+      'La edición impresa de Una hoja: sus capítulos, formato y estado. Todo lo que se puede plegar ya se puede imprimir gratis.',
+      'Печатное издание книги «Один лист»: главы, формат и состояние работы. Всё, что в ней можно сложить, уже сейчас можно бесплатно распечатать.',
     ),
-    links: [
-      [w('Read the complete A4 book (PDF)', 'Leer el libro completo en A4 (PDF)', 'Открыть полную книгу A4 (PDF)'), lang=>'assets/book/samples/flight-book-A4-'+lang+'.pdf'],
-      [w('Preview the flight log', 'Ver el registro de vuelo', 'Посмотреть журнал полётов'), lang => 'book.html?lang=' + lang + '&p=4'],
-      [siteLabels.teachers, lang => publicPath('teachers', lang)],
-    ],
   },
   teachers: {
     image: lang => 'assets/atlas/book-log-' + lang + '.png', tool: 'classroom',
-    action: w('Plan classroom copies', 'Planifica las copias para el aula', 'Рассчитай тираж для класса'),
+    action: w('Plan classroom copies', 'Planifica las copias para el aula', 'Рассчитать тираж для класса'),
     description: w(
       'Plan a paper-flight lesson for your class. Choose a team size and paper format, calculate the copies you need, and give teams a simple test to run together.',
       'Prepara una clase de vuelo en papel. Elige cuántos alumnos habrá en cada equipo y el formato de papel, calcula las copias y asigna a los equipos una prueba sencilla.',
-      'Подготовь урок о полёте бумажных моделей. Выбери размер команды и формат бумаги, рассчитай количество копий и предложи командам простой опыт.',
+      'Подготовьте урок о полёте бумажных моделей. Выберите размер команды и формат бумаги, рассчитайте количество копий и предложите командам простой опыт.',
     ),
     links: [
-      [w('Open the printable lesson', 'Abre la ficha para imprimir', 'Открой задание для печати'), lang => 'library/family-lesson-' + lang + '.html'],
-      [siteLabels['flight-book'], lang => publicPath('flight-book', lang)],
+      [w('Open the printable lesson', 'Abre la ficha para imprimir', 'Открыть задание для печати'), lang => 'library/family-lesson-' + lang + '.html'],
+      [copy.print, lang => publicPath('print', lang)],
     ],
   },
   'motor-lab': {
     image: 'assets/motor/saddle-illustration.svg', tool: 'motor',
-    action: w('Open the motor workbench', 'Abre el banco de motores', 'Открой стенд для мотора'),
+    action: w('Open the motor workbench', 'Abre el banco de motores', 'Открыть стенд для мотора'),
     description: w(
-      'Explore a removable motor mount and a button-to-LED bench experiment with an adult. The workbench contains the fit drawing, firmware and trial log. Powered flight is untested.',
-      'Explora con un adulto un soporte de motor desmontable y una prueba de banco con pulsador y LED. Consulta el plano, el firmware y el registro de ensayos. El vuelo con motor sigue sin probarse.',
-      'Вместе со взрослым изучи съёмное крепление мотора и опыт с кнопкой и светодиодом. На стенде есть чертёж, прошивка и журнал испытаний. Полёт с мотором ещё не проверен.',
+      'Explore a removable motor mount and a button-to-LED bench experiment with someone who has worked with electronics before. The workbench contains the fit drawing, firmware and trial log. Powered flight is untested.',
+      'Explora, con alguien que ya haya trabajado con electrónica, un soporte de motor desmontable y una prueba de banco con pulsador y LED. Consulta el plano, el firmware y el registro de ensayos. El vuelo con motor sigue sin probarse.',
+      'Вместе с тем, кто уже работал с электроникой, изучите съёмное крепление мотора и опыт с кнопкой и светодиодом. На стенде есть чертёж, прошивка и журнал испытаний. Полёт с мотором ещё не проверен.',
     ),
     links: [
-      [w('Print the mount drawing (A4)', 'Imprime el plano del soporte (A4)', 'Напечатай чертёж крепления (A4)'), () => 'assets/motor/OF-M0-r1-A4.pdf'],
+      [w('Print the mount drawing (A4)', 'Imprime el plano del soporte (A4)', 'Распечатать чертёж крепления (A4)'), () => 'assets/motor/OF-M0-r1-A4.pdf'],
       [siteLabels.next, lang => 'next.html?lang=' + lang],
     ],
   },
 }
-const categories = Object.keys(products).filter(id => products[id].family)
-const modelsByCategory = Object.fromEntries(categories.map(id =>
-  [id, designIds.filter(model => fieldModel(model).family === products[id].family)],
-))
+const familyChapters = chapters.filter(chapter => chapter.family).map(chapter => chapter.id)
+// Chapters written as text (How flight works, Contests and records, The flight lab).
+const textChapters = chapters.filter(chapter => chapter.route && !chapter.family).map(chapter => chapter.id)
 export const productRoutes = [
   ...Object.keys(products),
-  ...categories.flatMap(id => modelsByCategory[id].map(model => id + '/' + model)),
+  ...familyChapters,
+  ...textChapters,
+  ...plates.map(plate => plate.chapter + '/' + plate.model),
 ]
+/** Routes that belong in the sitemap: redirects are left out. */
+export const sitemapRoutes = productRoutes.filter(route => !products[route]?.redirect)
 
-const nameOf = model => model.family === 'airplane' ? model.inspiration : model.name
-const photo = (src, base, lazy = false) =>
-  `<div class="product-art"><img src="${base}${e(src.replace(/^\.\//, ''))}" alt=""${lazy ? ' loading="lazy"' : ''} decoding="async"></div>`
-const link = (href, label, cls = '') =>
-  `<a href="${e(href)}"${cls ? ' class="' + cls + '"' : ''}>${e(label)}</a>`
 const absolute = (route, lang) => workshopHome + publicPath(route, lang)
 const ogLocale = { en: 'en_US', es: 'es_ES', ru: 'ru_RU' }
+const link = (href, label, cls = '') => `<a href="${e(href)}"${cls ? ' class="' + cls + '"' : ''}>${e(label)}</a>`
 
 export function languageAlternates(route) {
   return [...siteLocales.map(lang => [lang, absolute(route, lang)]), ['x-default', absolute(route, 'en')]]
 }
 
-function productHead(route, lang, title, description, trail) {
-  const social = workshopHome + 'assets/brand/social-' + lang + '.png'
+function head(route, lang, title, description, trail) {
   const itemListElement = trail.map(({ label, route }, index) => ({
     '@type': 'ListItem', position: index + 1, name: label, item: absolute(route, lang),
   }))
@@ -138,136 +118,183 @@ function productHead(route, lang, title, description, trail) {
   <meta property="og:title" content="${e(title)}">
   <meta property="og:description" content="${e(description)}">
   <meta property="og:url" content="${absolute(route, lang)}">
-  <meta property="og:image" content="${social}">
+  <meta property="og:image" content="${workshopHome + 'assets/brand/social-' + lang + '.png'}">
   <meta property="og:image:alt" content="Open Flight">
   <meta name="twitter:card" content="summary_large_image">
   <script type="application/ld+json">${JSON.stringify(structured).replaceAll('<', '\\u003c')}</script>`
 }
 
-function productCard(id, lang, base) {
-  const product = products[id]
-  return `<li class="product-card panel">
-    ${photo(typeof product.image === 'function' ? product.image(lang) : product.image, base, true)}
-    <div class="product-card-copy"><h2>${link(base + publicPath(id, lang), siteLabels[id][lang])}</h2>
-    <p>${e(product.description[lang])}</p></div>
-  </li>`
+function plateCard(plate, lang, base) {
+  const model = fieldModel(plate.model, lang)
+  return `<li><a class="plate-card panel" href="${e(base + publicPath(plate.chapter + '/' + plate.model, lang))}">
+    <span class="plate-card-art stage-grid"><img src="${base}${e(specimenPath(plate.model))}" alt="" loading="lazy" decoding="async"></span>
+    <span class="plate-card-copy"><small>${plate.id}</small><strong>${e(model.name)}</strong>
+    <span>${e(plate.lineage[lang])}</span>
+    <span class="plate-badges"><span class="chip">${e(plate.kind[lang])}</span><span class="chip chip-evidence">${e(plate.evidence[lang])}</span></span></span>
+  </a></li>`
 }
 
-function modelCards(category, ids, lang, base) {
-  return `<ul class="product-grid">${ids.map(id => {
-    const model = fieldModel(id, lang)
-    return `<li class="product-card panel">
-      ${photo(specimenPath(id), base, true)}
-      <div class="product-card-copy"><h3>${link(base + publicPath(category + '/' + id, lang), nameOf(model))}</h3>
-      <p>${e(model.technique)}</p></div>
-    </li>`
-  }).join('')}</ul>`
+function chapterPager(chapter, lang, base) {
+  const routed = chapters.filter(item => item.route)
+  const index = routed.findIndex(item => item.id === chapter.id)
+  const side = (item, label) => item
+    ? `<a href="${e(base + publicPath(item.route, lang))}"><small>${label}</small> ${e(chapterLabel(item, lang))}</a>` : '<span></span>'
+  return `<nav class="plate-pager" aria-label="${copy.contents[lang]}">${side(routed[index - 1], copy.previous[lang])}${side(routed[index + 1], copy.next[lang])}</nav>`
 }
 
-function modelContent(model, lang, base, trialsBase) {
-  const t = key => copy[key][lang]
-  const butterfly = model.family === 'butterfly'
-  const object = model.family === 'object'
-  const lab = object ? flightObjects(lang) : null
-  const activity = lab?.activities.find(item => item.id === model.id)
-  const files = (construction = 'k2') => ['A4', 'US_LETTER'].map(paper => {
-    const path = activity ? lab.packets[paper] + '#page=' + activity.page
-      : sheetPath(sheetIdFor(model.id, construction), paper, lang)
-    return link(base + path, (paper === 'A4' ? paper : t('letter')) + ' PDF', 'button secondary')
-  }).join('')
-  const trial = model.id === 'monarch'
-    ? '<p>' + link(trialsBase + 'trials/monarch-k1-k2-A4-' + lang + '.pdf', t('paired'), 'text-link') + '</p>' : ''
-  const variants = butterfly ? `<details class="bench-downloads"><summary>${t('variants')}</summary>
-    <h3>${link(base+studioLink(model.id,lang).slice(2),t('w1'),'text-link')}</h3><div class="actions">${files('w1')}</div>
-    <h3>${link(base+'keel.html?species='+model.id+'&lang='+lang,w('Pinched spine','Pliegue central','Складной корпус')[lang]+' (K1)','text-link')}</h3><div class="actions">${files('k1')}</div>${trial}
-  </details>` : ''
-  return `<details class="bench-downloads"><summary>${t('downloads')}${butterfly ? ' (K2)' : ''}</summary>
-    <div class="actions">${files()}</div><p>${t('print')}</p></details>${variants}`
-
+function chapterBody(chapter, lang, base) {
+  return `<header class="chapter-head">
+    <p class="eyebrow">${copy.chapter[lang]} ${chapter.n}</p>
+    <h1>${e(chapter.title[lang])}</h1>
+    <p class="lede">${e(chapter.standfirst[lang])}</p>
+    ${(chapterIntros[chapter.id] ?? []).map(p => '<p>' + e(p[lang]) + '</p>').join('')}
+  </header>
+  <section aria-labelledby="plates-title"><h2 id="plates-title" class="sr-only">${copy.plates[lang]}</h2>
+    <ol class="plate-list">${chapter.plates.map(id => plateCard(plates.find(plate => plate.id === id), lang, base)).join('')}</ol></section>
+  <aside class="chapter-print panel"><div><h2>${copy.print[lang]}</h2><p>${copy.printChapter[lang]}</p></div>
+    ${link(base + publicPath('print', lang), copy.print[lang], 'button primary')}</aside>
+  ${chapterPager(chapter, lang, base)}`
 }
 
-export function renderProduct(route, lang, assetKey = '', trialsBase = null) {
+const bookWords = {
+  status: w('The book · in preparation', 'El libro · en preparación', 'Книга · готовится'),
+  read: w('Read the free web edition', 'Lee la edición digital gratuita', 'Читать бесплатное веб-издание'),
+  inside: w('What will be inside', 'Qué habrá dentro', 'Что будет внутри'),
+  edition: w('The edition', 'La edición', 'Издание'),
+  facts: [
+    [w('Format', 'Formato', 'Формат'), w('210 × 279 mm. It also prints at 100% on A4 and US Letter.', '210 × 279 mm. También se imprime al 100 % en A4 y Carta.', '210 × 279 мм. Печатается в масштабе 100% на A4 и US Letter.')],
+    [w('Pages', 'Páginas', 'Страницы'), w('About 160, sewn', 'Unas 160, cosidas', 'Около 160, шитый переплёт')],
+    [w('Languages', 'Idiomas', 'Языки'), w('English, Spanish and Russian', 'Inglés, español y ruso', 'Английский, испанский и русский')],
+    [w('Status', 'Estado', 'Статус'), w('Being written. Chapters appear on this site as they are finished.', 'En redacción. Los capítulos aparecen en esta web a medida que se terminan.', 'Пишется. Главы появляются на сайте по мере готовности.')],
+  ],
+  honest: w(
+    'Every design in the book will be built, flown and photographed before the book is printed. Until then, each plate says which numbers are estimates.',
+    'Cada modelo del libro se construirá, se volará y se fotografiará antes de imprimirlo. Hasta entonces, cada lámina indica qué números son estimaciones.',
+    'Перед печатью каждую модель из книги соберут, испытают в полёте и сфотографируют. А пока на каждой таблице отмечено, какие числа являются оценками.',
+  ),
+  now: w('Print & Play now', 'Imprime y vuela ya', 'Печатайте и запускайте уже сейчас'),
+  nowText: w(
+    'Everything in the book that you can fold is free to print today.',
+    'Todo lo que se puede plegar del libro ya se puede imprimir gratis.',
+    'Всё, что в книге можно сложить, уже сегодня можно бесплатно распечатать.',
+  ),
+  look: w('Look inside', 'Echa un vistazo', 'Заглянуть внутрь'),
+  lookNote: w('Pages from the preview edition, in English. Photographs from Pixabay; drawings from the printable geometry.', 'Páginas de la edición de avance, en inglés. Fotografías de Pixabay; dibujos a partir de la geometría imprimible.', 'Страницы пробного выпуска на английском. Фотографии с Pixabay; рисунки построены по геометрии шаблонов.'),
+  booklet: w('Download the complete family booklet (A4 PDF)', 'Descarga el cuadernillo familiar completo (PDF A4)', 'Скачать полный семейный буклет (PDF A4)'),
+}
+
+function bookBody(lang, base) {
+  const t = key => bookWords[key][lang]
+  return `<section class="product-hero">
+    <div><p class="eyebrow">${t('status')}</p><h1>${e(book.title[lang])}</h1>
+      <p class="plate-lineage">${e(book.subtitle[lang])}</p>
+      <p class="lede">${e(book.promise[lang])}</p>
+      ${link(base + publicPath('home', lang) + '#contents', t('read'), 'button primary')}</div>
+    <div class="product-art book-cover-art"><img src="${base}assets/book/preview/cover.webp" alt="${e(book.title[lang])}" decoding="async"></div>
+  </section>
+  <section class="book-look" aria-labelledby="look-title"><h2 id="look-title">${t('look')}</h2><p class="hint">${t('lookNote')}</p>
+    <ol class="look-inside">${['toc', 'nature', 'nature-insects', 'game-spot-the-trim', 'plate-A1', 'history-timeline', 'space', 'contests-records', 'index'].map(id => `<li><a href="${base}assets/book/preview/${id}.webp"><img src="${base}assets/book/preview/${id}.webp" alt="" loading="lazy" decoding="async"></a></li>`).join('')}</ol></section>
+  <section class="book-inside" aria-labelledby="inside-title"><h2 id="inside-title">${t('inside')}</h2>
+    <ol class="book-chapters">${chapters.map(chapter => `<li><span class="contents-number">${chapter.n}</span><div><strong>${chapter.route ? link(base + publicPath(chapter.route, lang), chapter.title[lang]) : e(chapter.title[lang])}</strong><p>${e(chapter.standfirst[lang])}</p></div></li>`).join('')}</ol></section>
+  <section class="book-edition" aria-labelledby="edition-title"><h2 id="edition-title">${t('edition')}</h2>
+    <dl class="plate-glance">${bookWords.facts.map(([label, value]) => '<div><dt>' + e(label[lang]) + '</dt><dd>' + e(value[lang]) + '</dd></div>').join('')}</dl>
+    <p>${t('honest')}</p></section>
+  <section class="book-now" aria-labelledby="now-title"><h2 id="now-title">${t('now')}</h2><p>${t('nowText')}</p>
+    <ul class="plate-links"><li>${link(base + publicPath('print', lang), copy.print[lang], 'text-link')}</li>
+    <li>${link(base + navHref('book', lang, '').replace(/^\.?\//, ''), siteLabels.book[lang], 'text-link')}</li>
+    <li>${link(base + 'assets/book/samples/flight-book-A4-' + lang + '.pdf', t('booklet'), 'text-link')}</li></ul></section>`
+}
+
+function productBody(route, lang, base) {
+  const product = products[route]
+  const image = typeof product.image === 'function' ? product.image(lang) : product.image
+  const next = product.tool ? navHref(product.tool, lang, '') : null
+  return `<section class="product-hero${image ? '' : ' product-hero-text'}"><div>
+    <h1>${e(pageLabel(route, lang))}</h1><p class="lede">${e(product.description[lang])}</p>
+    ${next ? link(base + next, product.action[lang], 'button primary') : ''}
+  </div>${image ? `<div class="product-art"><img src="${base}${e(image)}" alt="" decoding="async"></div>` : ''}</section>
+  <div class="actions">${product.links.map(([label, path]) => link(base + path(lang), label[lang], 'button secondary')).join('')}</div>`
+}
+
+function redirectPage(lang, base) {
+  const target = base + publicPath('home', lang) + '#contents'
+  return `<!doctype html>
+<html lang="${lang}">
+<head>
+  <meta charset="utf-8">
+  <title>Open Flight</title>
+  <meta name="robots" content="noindex">
+  <link rel="canonical" href="${workshopHome + publicPath('home', lang)}">
+  <meta http-equiv="refresh" content="0; url=${e(target)}">
+</head>
+<body><a href="${e(target)}">${siteLabels.contents[lang]}</a></body>
+</html>`
+}
+
+export function renderProduct(route, lang, assetKey = '') {
   if (!productRoutes.includes(route) || !siteLocales.includes(lang)) throw new RangeError('Unknown workshop page')
-  const [category, id] = route.split('/')
+  const [category, model] = route.split('/')
   const base = '../'.repeat(route.split('/').length + (lang === 'en' ? 0 : 1))
-  const product = products[category]
-  const model = id ? fieldModel(id, lang) : null
-  const categoryLabel = siteLabels[category][lang]
-  const label = model ? nameOf(model) : categoryLabel
-  const desc = model ? model.shape : product.description[lang]
-  const title = (model ? label + ' · ' + categoryLabel : label) + ' · Open Flight'
+  if (products[route]?.redirect) return redirectPage(lang, base)
+  const chapter = chapterById(category)
+  const plate = model ? plateFor(model) : null
   const trail = [{ label: siteLabels.home[lang], route: 'home' }]
-  if (categories.includes(category)) trail.push({ label: siteLabels.designs[lang], route: 'designs' })
-  trail.push({ label: categoryLabel, route: category })
-  if (model) trail.push({ label, route })
+  let title, description, body, styles = ['product.css'], script = null
+  if (plate) {
+    const field = fieldModel(model, lang)
+    trail.push({ label: chapterLabel(chapter, lang), route: category }, { label: plate.id + ' ' + field.name, route })
+    title = field.name + ', ' + plate.lineage[lang].charAt(0).toLowerCase() + plate.lineage[lang].slice(1) + ' · Open Flight'
+    description = plate.lineage[lang] + '. ' + plate.kind[lang] + '.'
+    body = plateMarkup(model, lang, base)
+    styles = ['product.css', 'plate.css']
+    script = 'plate-page.js'
+  } else if (chapter && !chapter.family) {
+    trail.push({ label: chapterLabel(chapter, lang), route })
+    title = chapterLabel(chapter, lang) + ' · ' + book.title[lang] + ' · Open Flight'
+    description = chapter.standfirst[lang] + ' ' + book.subtitle[lang] + '.'
+    body = writtenChapter(chapter.id, lang, base) + chapterPager(chapter, lang, base)
+    styles = ['product.css', 'plate.css', 'chapter.css']
+  } else if (chapter) {
+    trail.push({ label: chapterLabel(chapter, lang), route })
+    title = chapterLabel(chapter, lang) + ' · ' + book.title[lang] + ' · Open Flight'
+    description = chapter.standfirst[lang]
+    body = chapterBody(chapter, lang, base)
+    styles = ['product.css', 'plate.css']
+  } else if (route === 'flight-book') {
+    trail.push({ label: siteLabels['flight-book'][lang], route })
+    title = book.title[lang] + ' · ' + book.subtitle[lang] + ' · Open Flight'
+    description = products['flight-book'].description[lang]
+    body = bookBody(lang, base)
+    styles = ['product.css', 'plate.css']
+  } else {
+    trail.push({ label: pageLabel(route, lang), route })
+    title = pageLabel(route, lang) + ' · Open Flight'
+    description = products[route].description[lang]
+    body = productBody(route, lang, base)
+  }
   const crumbs = trail.map(({ label, route }, index) => index === trail.length - 1
     ? { label } : { label, href: navHref(route, lang, base) })
-  const image = model?.image ?? (typeof product.image === 'function' ? product.image(lang) : product.image)
-  const next = model ? (model.family === 'butterfly' ? './costa.html?' + new URLSearchParams({species:id,lang}) : model.studio).slice(2)
-    : product.tool ? navHref(product.tool, lang, '') : null
-  const metric = (label,value) => '<div><dt>'+e(label)+'</dt><dd>'+e(String(value))+'</dd></div>'
-  const objectFacts = {
-    ring:[w('Rim fold','Pliegue del borde','Подгиб обода'), '13 mm', w('Folds at rim','Pliegues del borde','Сгибы обода'), '2'],
-    samara:[w('Clip stations','Posiciones del clip','Положения скрепки'),'A / B',w('Wings','Alas','Крылья'),'1'],
-    tandem:[w('Front span before folding','Envergadura delantera antes de plegar','Передний размах до сгиба'),'80 mm',w('Rear span before folding','Envergadura trasera antes de plegar','Задний размах до сгиба'),'72 mm'],
-  }
-  function metrics() {
-    if(model.family === 'object'){
-      const [a,v,b,n] = objectFacts[id]
-      return metric(a[lang],v)+metric(b[lang],n)
-    }
-    if (model.family === 'butterfly') {
-      const [, angle, tip] = model.settings
-      return metric(angle.label, angle.value+'°') + '<div><dt>'+e(tip.label)+'</dt><dd data-tip-height>'+tip.value+' mm</dd></div>'
-    }
-    return model.settings.map(({label,value,unit})=>metric(label,value+' '+unit)).join('')
-  }
-  const activity = model?.family === 'object' ? flightObjects(lang).activities.find(item=>item.id===id) : null
-  const hero = model ? workbenchMarkup(id,lang,base,{
-    title:label,
-    subtitle:model.family === 'butterfly' ? model.inspiration + ' · K2' : model.family === 'airplane' ? model.name : model.technique,
-    description:model.family === 'airplane' ? planeCatalog.find(p=>p.model_id===id).field.finish[lang] : model.family === 'butterfly' ? model.shape.split(/(?<=\.)\s/).slice(0,2).join(' ') : activity.question,
-    metrics:metrics(),
-    panels:fieldPanels(model,lang,base,next,activity),
-  }) : `<section class="product-hero${image ? '' : ' product-hero-text'}"><div>
-    <h1>${e(label)}</h1><p class="lede">${e(desc)}</p>
-    ${next ? link(base + next, (product.action ?? copy.open)[lang], 'button primary') : ''}
-  </div>${image ? photo(image, base) : ''}</section>`
-  let body = ''
-  if (model) {
-    body = '<div class="edition-files">'+modelContent(model, lang, base, trialsBase ?? base)+'</div>' +
-      `<section aria-labelledby="related"><h2 id="related">${copy.alternate[lang]}</h2>${modelCards(category, modelsByCategory[category].filter(other => other !== id), lang, base)}</section>`
-  } else if (product.family) {
-    body = `<section aria-labelledby="models"><h2 id="models">${copy.models[lang]}</h2>${modelCards(category, modelsByCategory[category], lang, base)}</section>`
-  } else if (category === 'designs') {
-    body = `<ul class="product-grid">${Object.keys(products).filter(id => id !== 'designs').map(id => productCard(id, lang, base)).join('')}</ul>`
-  } else {
-    body = `<div class="actions">${product.links.map(([label, path]) => link(base + path(lang), label[lang], 'button secondary')).join('')}</div>`
-  }
   return `<!doctype html>
 <html lang="${lang}">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  ${productHead(route, lang, title, desc, trail)}
-  ${model ? '<script type="module" src="'+base+'model-workbench.js'+assetKey+'"></script>' : ''}
+  ${head(route, lang, title, description, trail)}
+  ${script ? '<script type="module" src="' + base + script + assetKey + '"></script>' : ''}
+  <script type="module" src="${base}atlas-nav.js${assetKey}"></script>
   <link rel="icon" href="${base}assets/brand/favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="${base}tokens.css${assetKey}">
   <link rel="stylesheet" href="${base}system.css${assetKey}">
-  <link rel="stylesheet" href="${base}product.css${assetKey}">
+  ${styles.map(name => '<link rel="stylesheet" href="' + base + name + assetKey + '">').join('\n  ')}
 </head>
 <body>
   <a class="skip-link" href="#main">${siteLabels.skip[lang]}</a>
   <header class="mast">${siteHeader(route, lang, base, route)}</header>
   ${breadcrumbs(crumbs, lang)}
   <main id="main" class="wrap product-page">
-    ${hero}
     ${body}
   </main>
-  <footer class="site-footer wrap">
-    ${link(navHref('home', lang, base), 'Open Flight', 'brand')}
-    ${link(navHref('library', lang, base), siteLabels.library[lang])}
-    ${link(navHref('references', lang, base), siteLabels.references[lang])}
-  </footer>
+  <footer class="site-footer wrap">${siteFooter(lang, base)}</footer>
 </body></html>`.replace(/[ \t]+$/gm, '')
 }
+

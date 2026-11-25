@@ -336,7 +336,7 @@ export const words = {
     stock: 'Planeador mariposa b1',
     monarch: 'Monarca',
     morpho: 'Morfo azul',
-    swallowtail: 'Cola de golondrina',
+    swallowtail: 'Macaón',
     monarchTrait: 'Alas largas y estrechas',
     morphoTrait: 'Alas anchas y redondeadas',
     swallowtailTrait: 'Alas con forma de flecha y dos colas',

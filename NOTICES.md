@@ -9,6 +9,7 @@
 | World atlas coastlines | Open Flight drawing based on public-domain land data. [Natural Earth terms](https://www.naturalearthdata.com/about/terms-of-use/) |
 | Orenburg MiG-15bis photograph | Ratursun, 2016. Resized and metadata removed. [Original photograph](https://commons.wikimedia.org/wiki/File:Оренбурггагарин.jpg) · [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/) |
 | RF-8A Crusader photograph | U.S. Navy, around 1963. Resized and metadata removed. Public domain in the United States. [Original photograph](https://commons.wikimedia.org/wiki/File:Vought_RF-8A_Crusader_of_VFP-62_in_flight_c1963.jpg) |
+| Book and chapter photographs | Pixabay (Pixabay Content License) and Pexels (Pexels License) photographs, credited by photographer on every page and recorded with their original page in [the photo registry](apps/editor/book/photos.js). Several space photographs were uploaded by SpaceX or are likely NASA releases. [Pixabay license](https://pixabay.com/service/license-summary/) · [Pexels license](https://www.pexels.com/license/) |
 | Monarch photograph | JamesDeMers, 11 October 2012. [Pixabay original](https://pixabay.com/photos/monarch-butterfly-pink-flowers-60824/) |
 | Blue morpho photograph | Meli1670, 21 September 2015. [Pixabay original](https://pixabay.com/photos/blue-morpho-butterfly-morpho-peleides-947714/) |
 | Swallowtail photograph | makamuki0, 3 October 2016. [Pixabay original](https://pixabay.com/photos/macaon-papilio-machaon-butterfly-1710213/) |

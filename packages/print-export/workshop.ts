@@ -96,7 +96,7 @@ const words = {
     names: {
       monarch: 'Monarca',
       morpho: 'Morfo azul',
-      swallowtail: 'Cola de golondrina',
+      swallowtail: 'Macaón',
     },
     flatSpan: 'de envergadura en plano',
     scale: 'Mide esta línea',

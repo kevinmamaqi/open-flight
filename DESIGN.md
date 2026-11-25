@@ -28,12 +28,13 @@ Every page loads `tokens.css`, then `system.css`, then its own stylesheet. A com
 | Series | `--color-series-a…d` | Two things compared: L* 31 / 52 / 43 / 73, so they separate in grayscale. Label them A and B too. |
 | Fold notation | `--color-line-cut/valley/mountain/guide` | The line **style** carries the meaning; colour only helps. |
 | Diagram faces | `--color-diagram-front/back/moving` | White, pale and shaded faces of the sheet in fold diagrams (L* 100 / 85 / 73). |
+| Editorial | `--color-poster` · `--color-surface-birch` · `--color-night*` | The book and the chapter and plate pages: signal red for numerals, flight paths and the cover wedge (5.3:1 on paper); birch paper; the night sky of the space chapter with its own text, muted, accent, info, caution and rule roles. |
 
 Every colour sits inside a CMYK press gamut, and every text and UI pair meets WCAG 2.2 AA. The check computes all 71 pairs.
 
 ## Type
 
-**Alegreya** (display) sets names and headings: pages, sections, species and aircraft names, sheet titles. **Open Flight Text** sets everything a person reads or does. It is a renamed Latin, Spanish and Cyrillic subset of SIL's Andika, a typeface designed for early readers (`I l 1` and `a g` are distinct). Both are self-hosted under the SIL OFL in `assets/fonts/`.
+**Alegreya** (display) sets names and headings: pages, sections, species and aircraft names, sheet titles. **Open Flight Text** sets everything a person reads or does. It is a renamed Latin, Spanish and Cyrillic subset of SIL's Andika, a typeface designed for early readers (`I l 1` and `a g` are distinct). Both are self-hosted under the SIL OFL in `assets/fonts/`. **Unbounded** (`--font-poster`, OFL, from google/fonts) is the editorial poster face: book titles, numerals, pull figures and signage labels, and the headings of the chapter, plate and book pages (`--text-poster`). It is never used for reading text. Rationale: the round-3 design note, `evidence/2026-11-25-book-orientation/research-r3/design.md` in the Open Flight archive.
 
 | Screen | Size | Paper | Size |
 | --- | --- | --- | --- |

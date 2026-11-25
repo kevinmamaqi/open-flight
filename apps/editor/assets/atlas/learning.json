@@ -3,48 +3,48 @@
     "families": [
       {
         "label": "Ages 5–7 · make it together",
-        "prompt": "Pick a wing color. Ask a grown-up to help with the tricky folds or cuts. Point to where you think your glider will land."
+        "prompt": "Pick a wing color. Two pairs of hands make the tricky folds and cuts easier. Point to where you think your glider will land."
       },
       {
         "label": "Ages 8–12 · run a flight test",
         "prompt": "Try a butterfly. Mark where five glides land. Raise one back tab a little and fly five more times from the same spot. What changed?"
       },
       {
-        "label": "For grown-ups and teachers",
+        "label": "Go deeper: families and teachers",
         "prompt": "Give one person the glider and another a pencil to mark each landing. Swap jobs, then ask which marks support their prediction."
       }
     ],
     "adult_prompt": "Can one small fold change where a glider lands? Make a prediction you can test with a sheet of paper.",
     "reflection": "Which flight surprised you? Point to its landing mark and describe what you saw.",
-    "feedback_prompt": "Grown-ups can share the model name, paper size, what you changed and where it landed. A note about a confusing fold helps too."
+    "feedback_prompt": "You can share the model name, paper size, what you changed and where it landed. A note about a confusing fold helps too."
   },
   "es": {
     "families": [
-      {"label":"De 5 a 7 años · construir en compañía","prompt":"Elige el color de las alas. Pide a un adulto que te ayude con los cortes o pliegues difíciles. Señala dónde crees que aterrizará tu planeador."},
+      {"label":"De 5 a 7 años · construir en compañía","prompt":"Elige el color de las alas. Con dos pares de manos, los cortes y pliegues difíciles salen mejor. Señala dónde crees que aterrizará tu planeador."},
       {"label":"De 8 a 12 años · probar una idea","prompt":"Elige una mariposa. Marca cinco aterrizajes. Sube un poco una aleta de cola y haz cinco lanzamientos más desde el mismo sitio. ¿Qué cambió?"},
       {"label":"Para familias y docentes","prompt":"Una persona lanza y otra marca cada primer contacto. Intercambiad las tareas y observad qué marcas coinciden con vuestra predicción."}
     ],
     "adult_prompt":"¿Puede un pequeño pliegue cambiar el aterrizaje? Haced una predicción que podáis poner a prueba con una hoja.",
     "reflection":"¿Qué vuelo te sorprendió? Señala la marca y cuenta lo que viste.",
-    "feedback_prompt":"Las personas adultas pueden indicar el modelo, el formato de papel, qué cambiaron y dónde aterrizó. También pueden explicar qué pliegue resultó difícil."
+    "feedback_prompt":"Puedes indicar el modelo, el formato de papel, qué cambiaron y dónde aterrizó. También pueden explicar qué pliegue resultó difícil."
   },
   "ru": {
     "families": [
       {
-        "label": "5–7 лет · вместе со взрослым",
-        "prompt": "Выбери цвет крыльев. Попроси взрослого помочь со сложными сгибами или надрезами. Покажи, где, по-твоему, приземлится планер."
+        "label": "5–7 лет · делаем вместе",
+        "prompt": "Выбери цвет крыльев. Вдвоём сложные сгибы и надрезы получаются легче. Покажи, где, по-твоему, приземлится планер."
       },
       {
         "label": "8–12 лет · лётный опыт",
         "prompt": "Выбери бабочку. Пять раз запусти её и отметь места посадки. Чуть подними один задний язычок и сделай ещё пять запусков с того же места. Что изменилось?"
       },
       {
-        "label": "Взрослым и учителям",
+        "label": "Копнём глубже: семьям и учителям",
         "prompt": "Один участник запускает планер, другой карандашом отмечает места посадки. Поменяйтесь ролями и обсудите, какие отметки подтверждают вашу догадку."
       }
     ],
     "adult_prompt": "Может ли один маленький сгиб изменить место посадки? Для проверки вашей догадки понадобится лист бумаги.",
     "reflection": "Какой полёт тебя удивил? Покажи место посадки и расскажи, что ты заметил.",
-    "feedback_prompt": "Взрослые могут рассказать, какую модель и формат бумаги выбрали, что поменяли и куда приземлился планер. Если какой-то сгиб вызвал трудности, напишите, какой именно."
+    "feedback_prompt": "Расскажите, какую модель и формат бумаги выбрали, что поменяли и куда приземлился планер. Если какой-то сгиб вызвал трудности, напишите, какой именно."
   }
 }

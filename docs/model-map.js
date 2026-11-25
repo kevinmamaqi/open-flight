@@ -1,4 +1,4 @@
-import {modelOrigin, originModelIds, pilotStories} from './model-origins.js?v=3b57e65abbf7';
+import {modelOrigin, originModelIds, pilotStories} from './model-origins.js?v=827c6a6b1e8f';
 
 // Offset the labels to keep their touch targets readable. Lines lead to the sites.
 const labelPositions = {

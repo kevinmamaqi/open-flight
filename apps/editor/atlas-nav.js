@@ -92,13 +92,15 @@ function refreshNavigation(lang) {
   const id = page === 'planes' ? current.searchParams.get('model')
     : page === 'studio' ? current.searchParams.get('species') || hash.get('design')?.replace(/^butterfly-/, '')
     : ['keel', 'costa'].includes(page) ? current.searchParams.get('species') || 'monarch' : null
+  // Compare and the circuit now live in chapter 7; keep their links in step when a page shows them.
   const compare = list.querySelector('a[href*="compare.html"]')
-  compare.href = navHref('compare', lang, './') +
+  if (compare) compare.href = navHref('compare', lang, './') +
     (id ? '&left=' + encodeURIComponent(id) + '&right=' + (id === 'morpho' ? 'monarch' : 'morpho') : '')
-  if (page === 'planes' || page === 'studio') {
+  const circuitLink = list.querySelector('a[href*="view=flight"]')
+  if (circuitLink && (page === 'planes' || page === 'studio')) {
     current.searchParams.set('lang', lang)
     current.searchParams.set('view', 'flight')
-    list.querySelector('a[href*="view=flight"]').href = current.href
+    circuitLink.href = current.href
   }
 }
 

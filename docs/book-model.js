@@ -1,8 +1,8 @@
-import { objects } from './assets/objects/activities.js?v=3b57e65abbf7'
-import { appearanceChoices, appearanceArtPath, appearanceArtStyles } from './model-appearance.js?v=3b57e65abbf7'
-import { paperSizes, sheetCatalog, sheetIdFor, sheetLocales } from './family-sheets.js?v=3b57e65abbf7'
-import { sheetEdges } from './assets/print-faces.js?v=3b57e65abbf7'
-import { workshopHome } from './assets/workshop-address.js?v=3b57e65abbf7'
+import { objects } from './assets/objects/activities.js?v=827c6a6b1e8f'
+import { appearanceChoices, appearanceArtPath, appearanceArtStyles } from './model-appearance.js?v=827c6a6b1e8f'
+import { paperSizes, sheetCatalog, sheetIdFor, sheetLocales } from './family-sheets.js?v=827c6a6b1e8f'
+import { sheetEdges } from './assets/print-faces.js?v=827c6a6b1e8f'
+import { workshopHome } from './assets/workshop-address.js?v=827c6a6b1e8f'
 
 export const monarchTrialSheets = Object.freeze(['monarch-k1', 'monarch-k2'])
 
@@ -23,8 +23,8 @@ export const bookStyles = appearanceArtStyles
 
 // Editorial teaching sequence. Time ranges are planning allowances for a first build.
 const levels = Object.freeze({
-  monarch: 1, 'boeing-747': 1, 'douglas-dc3': 1, morpho: 2,
-  'ilyushin-il62': 2, swallowtail: 3, 'tupolev-tu144': 3,
+  monarch: 1, 'boeing-747': 2, 'douglas-dc3': 2, morpho: 2,
+  'ilyushin-il62': 2, swallowtail: 3, 'tupolev-tu144': 1,
 })
 export const modelOrder = Object.freeze([...Object.keys(levels), ...objects.map(item => item.id)])
 export const starterModels = Object.freeze(['monarch', 'boeing-747', 'morpho'])

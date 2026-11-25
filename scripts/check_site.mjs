@@ -3,7 +3,7 @@ import assert from 'node:assert/strict'
 import { existsSync, readFileSync, statSync } from 'node:fs'
 import { join, resolve } from 'node:path'
 import { workshopHome } from '../apps/editor/assets/workshop-address.js'
-import { languageAlternates, productRoutes } from '../apps/editor/site-pages.js'
+import { languageAlternates, sitemapRoutes } from '../apps/editor/site-pages.js'
 import { publicPath, siteLocales } from '../apps/editor/site-navigation.js'
 
 const output = resolve(process.argv[2] ?? 'dist/site')
@@ -11,7 +11,8 @@ const sitemap = readFileSync(join(output, 'sitemap.xml'), 'utf8')
 assert.match(readFileSync(join(output, 'robots.txt'), 'utf8'), /^Sitemap: https:\/\/openflight\.design\/sitemap\.xml$/m)
 const titles = new Set()
 const descriptions = new Set()
-const routes = ['home', ...productRoutes]
+// Print & Play pages are written by scripts/build_print_and_play.mjs.
+const routes = ['home', ...sitemapRoutes, 'print']
 const indexed = [...sitemap.matchAll(/<url><loc>([^<]+)<\/loc>(.*?)<\/url>/g)]
 assert.equal(indexed.length, routes.length * siteLocales.length)
 const sitemapEntries = new Map(indexed.map(([, url, alternates]) => [url, alternates]))
@@ -25,8 +26,9 @@ function checkLocalResource(path, canonical, product) {
   const file = join(output, relative)
   assert.ok(existsSync(file) && statSync(file).isFile(), `${canonical} references missing ${relative}`)
   if (product && url.pathname === new URL(canonical).pathname && url.hash)
-    assert.equal(url.hash, '#main', `${canonical} contains an unexpected on-page link`)
+    assert.ok(url.hash === '#main' || ids.has(decodeURIComponent(url.hash.slice(1))), `${canonical} links to a missing anchor ${url.hash}`)
 }
+let ids = new Set()
 
 for (const route of routes) {
   for (const lang of siteLocales) {
@@ -64,10 +66,11 @@ for (const route of routes) {
     assert.ok(sitemapEntries.has(canonical), canonical + ' is missing from the sitemap')
     for (const [locale, href] of languageAlternates(route))
       assert.ok(sitemapEntries.get(canonical).includes(`hreflang="${locale}" href="${href}"`), canonical)
-    if (route !== 'home') {
-      assert.equal(got.externalScripts, route.includes('/') ? 1 : 0, canonical + ' unexpected script count')
+    if (route !== 'home' && route !== 'print') {
+      // Every page loads the navigation script; a plate adds its own.
+      assert.equal(got.externalScripts, route.includes('/') ? 2 : 1, canonical + ' unexpected script count')
       if (route.includes('/')) {
-        assert.ok(document.includes('data-model-workbench=') && document.includes('model-workbench.js'), canonical)
+        assert.ok(document.includes('data-plate-page=') && document.includes('plate-page.js'), canonical)
         assert.ok(got.resources.some(path=>path.includes('.pdf')), canonical+' needs a printable fallback')
       }
       assert.equal(got.crumbs, 1, canonical)
@@ -77,6 +80,7 @@ for (const route of routes) {
       assert.equal(trail.itemListElement.at(-1)?.item, canonical)
       assert.ok(trail.itemListElement.every((item, index) => item.position === index + 1 && sitemapEntries.has(item.item)), canonical)
     }
+    ids = new Set([...document.matchAll(/\sid="([^"]+)"/g)].map(match => match[1]))
     for (const resource of got.resources) checkLocalResource(resource, canonical, route !== 'home')
   }
 }

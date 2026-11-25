@@ -17,7 +17,25 @@
 
 .product-hero h1 {
   margin-block: var(--space-2);
-  font-size: var(--text-3xl);
+  font-size: var(--text-poster);
+}
+
+/* Round 3: product pages (the book, teachers, designs, chapter index and plates) share the
+ * book's poster face for headings and labels; reading text stays Open Flight Text. Tool
+ * panels inside a page (.model-workbench) keep their compact headings. */
+.product-page :is(h1, h2, h3):not(.model-workbench *) {
+  font-family: var(--font-poster);
+  letter-spacing: var(--tracking-poster);
+  hyphens: auto;
+}
+.product-page h1:not(.model-workbench *) {
+  font-weight: var(--weight-heavy);
+  line-height: var(--leading-tight);
+}
+.product-page .eyebrow {
+  color: var(--color-poster);
+  font-family: var(--font-poster);
+  letter-spacing: var(--tracking-signage);
 }
 
 .product-hero .lede {
@@ -172,7 +190,7 @@
   flex-wrap: wrap;
 }
 .specimen-subtitle {
-  font-family: var(--font-display);
+  font-family: var(--font-text);
   font-style: italic;
   color: var(--color-text-muted);
 }

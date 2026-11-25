@@ -5,7 +5,7 @@ The three printable activities include original Open Flight instructions and tra
 | Build | Source and contribution |
 | --- | --- |
 | Ring glider | NASA/JPL Education describes folding and tucking a Letter sheet and varying ring diameter. Open Flight drew the three views and wrote a five-launch activity. Carlo Cayetano is credited on the separate JPL printable, available through the source. [Open Flight diagram](ring.svg) · [Original lesson](https://www.jpl.nasa.gov/edu/resources/lesson-plan/the-ring-wing-glider/) |
-| Maple spinner | Gregory Vogt (Ohio State University), edited by Roger Storm at NASA Glenn, described a paper samara experiment with a clip. Open Flight drew a new outline and marked two clip positions for a comparison. [Open Flight pattern](samara.svg) · [Original activity](https://www.grc.nasa.gov/www/k-12/TRC/Aeronautics/Maple_Seed.html) |
+| Maple spinner | Gregory Vogt (Oklahoma State University, Aerospace Education Services Project), edited by Roger Storm at NASA Glenn, described a paper samara experiment with a clip. Open Flight drew a new outline and marked two clip positions for a comparison. [Open Flight pattern](samara.svg) · [Original activity](https://www.grc.nasa.gov/www/k-12/TRC/Aeronautics/Maple_Seed.html) |
 | Williams tandem glider | Archibald Williams, *Things To Make*, Thomas Nelson and Sons, 1918 edition, chapter XXIV, figure 128, Model B. Open Flight redrew the wing pairs and specified dimensions, keel and four nose folds. [Open Flight pattern](tandem.svg) · [Original chapter and drawing](https://chestofbooks.com/crafts/popular-mechanics/Things-To-Make/XXIV-Paper-Gliders.html) |
 
 ## Images of real seeds

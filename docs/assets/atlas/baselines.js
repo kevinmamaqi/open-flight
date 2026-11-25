@@ -31,7 +31,7 @@ export const baselines = {
     "clip": 17,
     "names": {
       "en": "Old World swallowtail",
-      "es": "Cola de golondrina",
+      "es": "Macaón",
       "ru": "Махаон"
     },
     "scientific": "Papilio machaon"

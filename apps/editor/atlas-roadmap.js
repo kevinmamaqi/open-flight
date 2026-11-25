@@ -21,9 +21,9 @@ const stages = [
   [
     w('Try a removable dummy mass', 'Prueba con una masa desmontable', 'Попробуй съёмный груз'),
     w(
-      'With a grown-up, weigh the plane and a small secured inert weight. Find the finished plane’s balance point before and after fitting the weight. Measure from the nose in millimetres.',
-      'Con un adulto, pesa el avión y un pequeño contrapeso inerte bien sujeto. Encuentra el punto de equilibrio antes y después de colocarlo. Mide desde el morro en milímetros.',
-      'Вместе со взрослым взвесь самолёт и небольшой надёжно закреплённый груз. Найди точку равновесия до и после установки и измерь расстояние от носа в миллиметрах.',
+      'With a helper, weigh the plane and a small secured inert weight. Find the finished plane’s balance point before and after fitting the weight. Measure from the nose in millimetres.',
+      'Con alguien que ayude, pesa el avión y un pequeño contrapeso inerte bien sujeto. Encuentra el punto de equilibrio antes y después de colocarlo. Mide desde el morro en milímetros.',
+      'Вдвоём взвесь самолёт и небольшой надёжно закреплённый груз. Найди точку равновесия до и после установки и измерь расстояние от носа в миллиметрах.',
     ),
     w(
       'Write down weight, attachment position and balance point separately. Repeat the baseline glides and inspect the paper around the mount.',

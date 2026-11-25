@@ -1,7 +1,6 @@
-import { planeCredits, creditText } from './credits.js?v=3b57e65abbf7'
-import { flagDecals } from './country-markings.js?v=3b57e65abbf7'
-import { backFaceWords, backKind, printSafeMm } from '../print-faces.js?v=3b57e65abbf7'
-import { atLeastText, calibration, calibrationShort, ink as paperInk, lineStyle, muted as paperMuted, textMm } from '../brand/print.js?v=3b57e65abbf7'
+import { planeCredits, creditText } from './credits.js?v=827c6a6b1e8f'
+import { backFaceWords, backKind, printSafeMm } from '../print-faces.js?v=827c6a6b1e8f'
+import { atLeastText, calibration, calibrationShort, ink as paperInk, lineStyle, muted as paperMuted, textMm } from '../brand/print.js?v=827c6a6b1e8f'
 
 export const esc = (value) =>
   String(value).replace(
@@ -133,7 +132,6 @@ function cropConvex(subject, shape) {
   return points
 }
 export function stripes(plan) {
-  if (plan.livery === 'flag') return flagDecals(plan)
   const { width_mm: w, height_mm: h } = plan.dimensions
   const [a, b, c] = plan.colors
   const shapes = []

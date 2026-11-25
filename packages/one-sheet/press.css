@@ -1,0 +1,11 @@
+/* One Sheet · press variant. 3 mm bleed on every side (media 216 × 285 mm, trim 210 × 279 mm,
+ * TrimBox and BleedBox set by scripts/build_one_sheet.mjs). Text in pure black; stage tints and
+ * bleeding images run into the bleed. Night pages keep their reversed paper text. No PDF/X
+ * claim: colour conversion and preflight are the printer's (06-book-editorial §6.2). */
+@page { size: 216mm 285mm; margin: 0; }
+:root {
+  --bleed: 3mm;
+  --book-ink: var(--print-ink);
+}
+body, .chapter-try, table.data td, .chapter-table td { color: var(--print-ink); }
+.night, .night .chapter-try, .night table.data td, .night .chapter-table td { color: var(--book-ink); }

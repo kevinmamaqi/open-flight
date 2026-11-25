@@ -15,7 +15,7 @@ const notes = {
     'Длинные хвостики входят в контур. Если загнуть один из небольших язычков ближе к корпусу, воздух будет по-разному обтекать крылья. Запиши отдельно начальный крен и место посадки.',
   ],
   'boeing-747': [
-    'The pleat stacks paper at the nose. A deeper body fold leaves less paper spread out as wing. Measure the balance point of each finished copy and watch whether the nose rises or drops after release.',
+    'The pleat stacks paper at the nose. A deeper body fold leaves less paper spread out as wing, but it runs from nose to tail. Predict first: will the balance point move? Balance each copy on a pencil to check, and watch whether the nose rises or drops after release.',
     'El pliegue superpone capas en el morro. Un pliegue de fuselaje más profundo deja menos papel extendido como ala. Mide el punto de equilibrio de cada copia y observa si el morro sube o baja tras soltarla.',
     'Складка собирает слои бумаги у носа. Более глубокий сгиб корпуса оставляет меньше бумаги на расправленные крылья. Измерь точку равновесия каждого самолёта и посмотри, поднимается ли нос после запуска.',
   ],

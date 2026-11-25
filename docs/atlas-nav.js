@@ -1,5 +1,5 @@
-import { breadcrumbs, navHref, navigationLinks, siteHeader, siteLabels, siteLocales, toolTrail } from './site-navigation.js?v=3b57e65abbf7'
-import { movedPage, previousHome, workshopHome } from './assets/workshop-address.js?v=3b57e65abbf7'
+import { breadcrumbs, navHref, navigationLinks, siteHeader, siteLabels, siteLocales, toolTrail } from './site-navigation.js?v=827c6a6b1e8f'
+import { movedPage, previousHome, workshopHome } from './assets/workshop-address.js?v=827c6a6b1e8f'
 
 if (location.href.startsWith(previousHome)) {
   let keepPrevious = new URLSearchParams(location.search).get('previous') === '1'
@@ -92,13 +92,15 @@ function refreshNavigation(lang) {
   const id = page === 'planes' ? current.searchParams.get('model')
     : page === 'studio' ? current.searchParams.get('species') || hash.get('design')?.replace(/^butterfly-/, '')
     : ['keel', 'costa'].includes(page) ? current.searchParams.get('species') || 'monarch' : null
+  // Compare and the circuit now live in chapter 7; keep their links in step when a page shows them.
   const compare = list.querySelector('a[href*="compare.html"]')
-  compare.href = navHref('compare', lang, './') +
+  if (compare) compare.href = navHref('compare', lang, './') +
     (id ? '&left=' + encodeURIComponent(id) + '&right=' + (id === 'morpho' ? 'monarch' : 'morpho') : '')
-  if (page === 'planes' || page === 'studio') {
+  const circuitLink = list.querySelector('a[href*="view=flight"]')
+  if (circuitLink && (page === 'planes' || page === 'studio')) {
     current.searchParams.set('lang', lang)
     current.searchParams.set('view', 'flight')
-    list.querySelector('a[href*="view=flight"]').href = current.href
+    circuitLink.href = current.href
   }
 }
 

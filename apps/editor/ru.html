@@ -1,259 +1,145 @@
 <!doctype html>
 <html lang="ru">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="theme-color" content="#fbf9f4" />
-    <meta name="description" content="Бесплатная мастерская для детей 5–12 лет и взрослых. Для самолёта или кольцеплана хватит листа бумаги. Для бабочки нужны ножницы и две скрепки, для крылатки — одна. Можно начать без регистрации." />
-    <meta property="og:title" content="Open Flight · Мастерская бумажных полётов" />
-    <meta property="og:description" content="Бесплатная мастерская для детей 5–12 лет и взрослых. Для самолёта или кольцеплана хватит листа бумаги. Для бабочки нужны ножницы и две скрепки, для крылатки — одна. Можно начать без регистрации." />
-    <meta property="og:type" content="website" />
-    <meta property="og:url" content="https://openflight.design/ru" />
-    <meta property="og:locale" content="ru_RU" />
-    <meta property="og:image" content="https://openflight.design/assets/brand/social-ru.png" />
-    <meta property="og:image:alt" content="Бумажный монарх в мастерской Open Flight" />
-    <meta name="twitter:card" content="summary_large_image" />
-    <link rel="canonical" href="https://openflight.design/ru" />
-    <title>Open Flight · Мастерская бумажных полётов</title>
-    <link rel="alternate" hreflang="en" href="https://openflight.design/" />
-    <link rel="alternate" hreflang="ru" href="https://openflight.design/ru" />
-    <link rel="alternate" hreflang="es" href="https://openflight.design/es" />
-    <link rel="alternate" hreflang="x-default" href="https://openflight.design/" />
-    <link rel="icon" href="./assets/brand/favicon.ico" sizes="32x32" />
-    <link rel="icon" href="./assets/brand/favicon.svg" type="image/svg+xml" />
-    <link rel="apple-touch-icon" href="./assets/brand/apple-touch-icon.png" />
-    <link rel="manifest" href="./site.webmanifest" />
-    <link rel="preload" href="./assets/fonts/OpenFlightText-Regular.woff2" as="font" type="font/woff2" crossorigin />
-    <link rel="stylesheet" href="./tokens.css" />
-    <link rel="stylesheet" href="./system.css" />
-    <link rel="stylesheet" href="./home.css" />
-    <script type="module" src="./atlas.js"></script>
-  </head>
-  <body>
-    <a class="skip-link" href="#designs" data-t="skip">К выбору моделей</a>
-    <header class="mast" data-site-page="home"></header>
-    <main>
-      <section class="hero wrap" aria-labelledby="hero-title">
-        <div class="hero-copy">
-          <p class="eyebrow" data-t="eyebrow">Мастерская бумажных полётов</p>
-          <h1 id="hero-title">
-            <span data-t="headline1">Сложи планер.</span>
-            <em data-t="headline2">Измени его полёт.</em>
-          </h1>
-          <p class="lede" data-t="intro">Бесплатная мастерская для детей 5–12 лет и взрослых. Для самолёта или кольцеплана хватит листа бумаги. Для бабочки нужны ножницы и две скрепки, для крылатки — одна. Можно начать без регистрации.</p>
-          <a href="#designs" class="button primary" data-t="choose">Выбрать модель</a>
-        </div>
-        <div class="showcase stage-grid">
-          <div class="board-header">
-            <span data-t="bench">На рабочем столе</span
-            ><span class="counter" id="specimen-count">01 / 10</span>
-          </div>
-          <a id="hero-link" class="specimen-art" href="./ru/butterflies/monarch/"><img id="specimen" src="./assets/atlas/monarch-k2-natural.svg" width="440" height="245" alt="Бумажный монарх в мастерской Open Flight" fetchpriority="high" /></a>
-          <div class="board-footer">
-            <div>
-              <small id="specimen-family">Планер-бабочка</small
-              ><a id="specimen-name" href="./ru/butterflies/monarch/">Монарх ↗</a
-              ><i id="specimen-detail">Danaus plexippus</i>
-              <a class="sheet-preview" id="specimen-sheet" href="./library/monarch-k2-A4-ru.pdf" data-t="sampleSheet">Посмотреть выкройку (PDF, A4)</a>
-            </div>
-            <div class="turn">
-              <button id="back" type="button" aria-label="Previous design">←</button
-              ><button id="next" type="button" aria-label="Next design">→</button>
-            </div>
-          </div>
-        </div>
-      </section>
-      <section class="collections wrap" id="designs" aria-labelledby="choose-title">
-        <div class="section-top">
-          <div>
-            <p class="eyebrow" data-t="collections">Коллекция</p>
-            <h2 id="choose-title" data-t="which">Что вы сделаете?</h2>
-          </div>
-          <p data-t="chooseHint">Выберите модель по материалам, которые есть под рукой. Каждую можно настроить в мастерской.</p>
-        </div>
-        <div class="families">
-          <article class="family butterflies">
-            <div class="family-main">
-              <div class="family-text">
-                <p class="eyebrow" data-t="butterTech">Вырезать и сложить</p>
-                <h3>
-                  <a data-product="butterflies" data-t="butterflies" href="./ru/butterflies/">Бабочки</a>
-                </h3>
-                <p data-t="butterDesc">Выбери настоящую бабочку, раскрась крылья и следуй рисункам. Подогни передние кромки, надень две скрепки на длинную голову и выровняй кончики крыльев.</p>
-              </div>
-              <img src="./assets/book/models/morpho-k2-studio.jpg" alt="" width="180" height="114" loading="lazy" />
-            </div>
-            <div class="family-links" id="butter-links"></div>
-            <a class="family-cta" href="./costa.html?lang=ru" data-route="butterfly"><span data-t="openButter">Открыть мастерскую бабочек</span>
-              <span aria-hidden="true">↗</span></a
-            >
-            <a class="classic-family" id="folded-butterfly" href="./studio.html?construction=k1&species=monarch&lang=ru" data-t="foldedShortcut">Собрать предыдущую версию K1 ↗</a>
-          </article>
-          <article class="family airplanes">
-            <div class="family-main">
-              <div class="family-text">
-                <p class="eyebrow" data-t="planeTech">Один лист на самолёт</p>
-                <h3>
-                  <a data-product="airplanes" data-t="planes" href="./ru/airplanes/">Самолёты</a>
-                </h3>
-                <p data-t="planeDesc">Чистый лист складывай целиком. Если используешь стартовый PDF, сначала вырежи выкройку ножницами по толстой рамке.</p>
-              </div>
-              <img src="./assets/planes/tupolev-tu144.svg" alt="" width="180" height="114" loading="lazy" />
-            </div>
-            <div class="family-links" id="plane-links"></div>
-            <a class="family-cta" href="./planes.html?lang=ru" data-route="airplane"><span data-t="openPlanes">В ангар самолётов</span>
-              <span aria-hidden="true">↗</span></a
-            >
-          </article>
-          <article class="family objects" id="flying-objects">
-            <div class="family-main">
-              <div class="family-text">
-                <p class="eyebrow" data-t="objectTag">Планирование и вращение</p>
-                <h3><a data-product="flying-objects" href="./ru/flying-objects/" data-t="objectFamily">Летающие модели</a></h3>
-                <p data-t="objectDesc">Сверни лист в кольцо, отпусти бумажную крылатку или сложи планер с двумя парами крыльев. Какая модель закрутится при падении?</p>
-              </div>
-              <img src="./assets/objects/tandem.svg" alt="" width="180" height="114" loading="lazy" />
-            </div>
-            <div class="family-links" id="object-links">
-              <a data-object="ring" href="./ru/flying-objects/ring/">Кольцеплан</a>
-              <a data-object="samara" href="./ru/flying-objects/samara/">Кленовая крылатка</a>
-              <a data-object="tandem" href="./ru/flying-objects/tandem/">Планер-тандем Уильямса</a>
-            </div>
-          </article>
-        </div>
-      </section>
-      <section class="home-book wrap" id="family-book" aria-labelledby="book-heading">
-        <div class="book-display" aria-hidden="true">
-          <div class="book-jacket"><img class="book-cover-image" id="book-cover-image" src="./assets/atlas/book-cover-ru.png" alt="" width="395" height="559" loading="lazy" /><span id="home-cover-pilot" hidden></span></div>
-          <img class="book-log" id="book-log-image" src="./assets/atlas/book-log-ru.png" alt="" width="395" height="559" loading="lazy" />
-        </div>
-        <div class="home-book-copy">
-          <p class="eyebrow" data-t="bookFormat">Бумажная мастерская для дома и класса</p>
-          <h2 id="book-heading" data-t="bookHeadline">Твоя Книга полётов</h2>
-          <p data-t="bookPitch">На странице 3 ты найдёшь свои модели и номера их страниц. На странице 4 отметь пять посадок, измени один сгиб и повтори ещё пять раз. Книгу можно бесплатно скачать для печати на A4 или US Letter.</p>
-          <a class="text-link" id="book-sample" href="./book.html?lang=ru&p=4" data-t="bookQuick">Открыть книгу на странице 4 ↗</a>
-          <form id="home-book-form" action="./book.html"><label class="home-pilot"><span data-t="bookPilot">Имя пилота (по желанию)</span><input id="home-pilot" maxlength="40" autocomplete="off" dir="auto" aria-describedby="home-pilot-hint" /></label>
-            <p class="hint" id="home-pilot-hint" data-t="pilotHint">Имя будет видно на обложке, в сертификате и в ссылке на книгу. Поле можно оставить пустым.</p>
-          <div class="actions"><a class="button primary" id="book-link" href="./book.html?lang=ru" data-t="bookAction">Собрать книгу ↗</a><a class="text-link" href="#library" data-t="bookSheets">Взять отдельные листы бесплатно</a></div></form>
-        </div>
-      </section>
-      <section class="home-compare wrap">
-        <div>
-          <p class="eyebrow" data-t="compareTag">Сравнить модели</p>
-          <h2 data-t="compareTitle">Два планера. Один опыт.</h2>
-          <p data-t="compareBody">Возьми две модели и сравни крылья, материалы и сгибы. Затем распечатай карточку и отметь первые касания пола.</p>
-        </div>
-        <div class="compare-actions">
-          <a class="text-link" id="compare-link" href="./compare.html?lang=ru" data-t="compareAction">Сравнить модели ↗</a
-          ><a class="text-link" id="flight-link" href="./planes.html?model=boeing-747&lang=ru&view=flight" data-t="flightAction">Лётная трасса ↗</a
-          >
-        </div>
-      </section>
-      <section class="learn wrap" id="learn">
-        <div class="learn-intro">
-          <p class="eyebrow" data-t="lessonTag">Дома или в классе</p>
-          <h2 data-t="lessonTitle">Один сгиб — уже опыт.</h2>
-          <p data-t="lessonIntro">Выберите место для посадки. Предскажите, куда прилетит планер. Запустите его мягко, измените что-то одно и повторите запуск с того же места.</p>
-          <a id="lesson-file" class="text-link" href="./library/family-lesson-ru.html" data-t="lessonLink">Скачать семейное занятие ↗</a>
-          <p><a class="text-link" id="objects-link" href="./flight-objects.html?lang=ru" data-t="objectsAction">Испытай кольцеплан, крылатку или планер с двумя парами крыльев ↗</a></p>
-        </div>
-        <div class="learning-notes" id="learning-notes">
-          <div>
-            <h3 data-t="young">5–7 лет</h3>
-            <p data-t="youngPrompt">Попроси взрослого помочь с ножницами или тугим сгибом. Покажи, куда, по-твоему, прилетит планер.</p>
-          </div>
-          <div>
-            <h3 data-t="older">8–12 лет</h3>
-            <p data-t="olderPrompt">Нарисуй свой прогноз и сравни две настройки. Что изменило место посадки?</p>
-          </div>
-          <div>
-            <h3 data-t="adult">Взрослым</h3>
-            <p data-t="adultPrompt">Спросите, что может показать следующий полёт. Пусть ребёнок сам выберет, что изменить.</p>
-          </div>
-        </div>
-      </section>
-      <section class="library wrap" id="library">
-        <div class="section-top">
-          <div>
-            <p class="eyebrow" data-t="resources">Открытая библиотека</p>
-            <h2 data-t="takeAway">Возьмите с собой.</h2>
-          </div>
-          <p data-t="resourceIntro">Сначала напечатайте один экземпляр. Измерьте линейкой отрезок «50 мм». Если длина другая, выберите в настройках печати «Фактический размер» (100 %) и повторите проверку, прежде чем печатать для всего класса.</p>
-        </div>
-        <div class="library-grid">
-          <article class="download-panel">
-            <div>
-              <h3 data-t="print">Лист для первого полёта</h3>
-              <p data-t="printHint">Выберите модель и формат бумаги для принтера.</p>
-            </div>
-            <div class="download-fields">
-              <label
-                ><span data-t="designLabel">Модель</span
-                ><select id="download-model"></select></label><label id="construction-field"><span data-t="bodyStyle">Конструкция бабочки</span><select id="construction"><option value="k2" data-t="costaBuild">Подогнутая кромка · K2</option><option value="k1" data-t="keelBuild">Складной корпус · K1</option><option value="w1" data-t="flatBuild">Задние язычки · W1</option></select></label
-              ><label
-                ><span data-t="paperLabel">Бумага</span
-                ><select id="download-paper">
-                  <option value="A4">A4</option>
-                  <option value="US_LETTER">US Letter</option>
-                </select></label
-              >
-            </div>
-            <div class="sheet-details" aria-live="polite" aria-atomic="true">
-              <strong id="sheet-contents" data-t="defaultContents">3 страницы · Выкройка, оборот и схема сгибов</strong>
-              <p id="sheet-note" data-t="k2Note">Возьми бумагу 120 г/м² и две скрепки по 33 мм.</p>
-            </div>
-            <a class="text-link" id="monarch-trial" href="./book.html?lang=ru&p=4#m=monarch-k1,monarch-k2&paper=a4" data-t="monarchTrial">Сравнить монархов K1 и K2 в одной Книге полётов</a>
-            <p class="print-reminder" data-print-reminder></p>
-            <a id="download" class="button primary" download href="./library/monarch-k2-A4-ru.pdf"><span data-t="download">Скачать PDF</span><b aria-hidden="true">↓</b></a
-            >
-            <a
-              class="all-sheets"
-              data-t="allSheets"
-              href="https://github.com/kevinmamaqi/open-flight/releases/download/v0.9.3/open-flight-print-library.zip"
-              >Скачать библиотеку версии 0.9.3 (ZIP) ↓</a
-            >
-          </article>
-          <div class="source-list">
-            <a id="classroom-link" href="./classroom.html?lang=ru"><span><strong data-t="classTitle">Распечатать для класса</strong><small data-t="classIntro">Рассчитайте число копий для каждой команды и возьмите инструкцию в копицентр.</small></span><b>↗</b></a>
-            <a href="https://github.com/kevinmamaqi/open-flight"
-              ><span
-                ><strong data-t="code">Код и исходники моделей</strong
-                ><small data-t="codeInfo">Запустите мастерскую у себя или измените оригинальные модели.</small></span
-              ><b>↗</b></a
-            ><a id="references" href="./references.html?lang=ru"><span
-                ><strong data-t="sources">Источники и авторы</strong
-                ><small data-t="sourceInfo"
-                  >Фотографии бабочек, история самолётов и физика полёта.</small
-                ></span
-              ><b>↗</b></a
-            ><a
-              id="feedback"
-              href="https://github.com/kevinmamaqi/open-flight/issues/new?template=flight-report.yml"
-              ><span
-                ><strong data-t="feedback">Рассказать о полёте</strong
-                ><small data-t="feedbackInfo"
-                  >Взрослые могут отметить удачный сгиб или непонятный шаг.</small
-                ></span
-              ><b>↗</b></a
-            >
-          </div>
-        </div>
-      </section>
-      <section class="horizon wrap">
-        <div>
-          <p class="eyebrow" data-t="futureTag">Лаборатория мотора</p>
-          <h2 data-t="future">Что изменит мотор?</h2>
-          <p data-t="futureBody">Посмотри, как выглядит модуль с управлением со смартфона, изучи детали открытого варианта и распечатай макет, чтобы примерить его к бумажному самолёту.</p>
-        </div>
-        <a class="text-link" id="motor-link" href="./motor.html?lang=ru" data-t="motorAction">Открыть лабораторию мотора ↗</a>
-      </section>
-    </main>
-    <footer class="site-footer wrap">
-      <a class="wordmark" href="./"
-        ><img src="./assets/brand/logo.svg" width="245" height="59" alt="Open Flight" /></a
-      ><span data-t="footer">Открытая мастерская бумажных полётов.</span
-      ><a id="previous-site" data-t="previousSite" href="https://kevinmamaqi.github.io/open-flight/ru.html?previous=1">Открыть модели, сохранённые на прежнем сайте</a
-      ><a href="https://github.com/kevinmamaqi/open-flight">GitHub ↗</a>
-    </footer>
-  </body>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#fbf9f4">
+  <title>Один лист · Open Flight</title>
+  <meta name="description" content="Десять летающих моделей, каждая из одного листа бумаги. Как их сделать, как они летают и откуда взялась их идея. Читать и печатать бесплатно.">
+  <link rel="canonical" href="https://openflight.design/ru">
+  <link rel="alternate" hreflang="en" href="https://openflight.design/">
+  <link rel="alternate" hreflang="es" href="https://openflight.design/es">
+  <link rel="alternate" hreflang="ru" href="https://openflight.design/ru">
+  <link rel="alternate" hreflang="x-default" href="https://openflight.design/">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Open Flight">
+  <meta property="og:title" content="Один лист · Open Flight">
+  <meta property="og:description" content="Десять летающих моделей, каждая из одного листа бумаги. Как их сделать, как они летают и откуда взялась их идея. Читать и печатать бесплатно.">
+  <meta property="og:url" content="https://openflight.design/ru">
+  <meta property="og:locale" content="ru_RU">
+  <meta property="og:image" content="https://openflight.design/assets/brand/social-ru.png">
+  <meta property="og:image:alt" content="Open Flight">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="icon" href="./assets/brand/favicon.ico" sizes="32x32">
+  <link rel="icon" href="./assets/brand/favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="./assets/brand/apple-touch-icon.png">
+  <link rel="manifest" href="./site.webmanifest">
+  <link rel="preload" href="./assets/fonts/OpenFlightText-Regular.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="./tokens.css">
+  <link rel="stylesheet" href="./system.css">
+  <link rel="stylesheet" href="./home.css">
+  <script type="module" src="./atlas-nav.js"></script>
+  <script type="module" src="./home.js"></script>
+</head>
+<body>
+  <a class="skip-link" href="#contents" data-site-skip>Перейти к содержанию</a>
+  <header class="mast" data-site-page="home"></header>
+  <main>
+    <section class="book-hero wrap" aria-labelledby="book-title">
+      <div class="book-hero-copy">
+        <p class="eyebrow">Open Flight · Полевой блокнот бумажного полёта</p>
+        <h1 id="book-title">Один лист</h1>
+        <p class="lede">Десять летающих моделей, каждая из одного листа бумаги. Как их сделать, как они летают и откуда взялась их идея. Читать и печатать бесплатно.</p>
+        <div class="actions"><a class="button primary" href="./ru/print/">Распечатать и запустить</a>
+          <a class="text-link" href="#contents">Открыть содержание ↓</a></div>
+        <p class="hint">Выберите до трёх моделей. Один PDF. Для всех, кому интересен полёт, — от пяти до девяноста пяти лет. Без регистрации.</p>
+      </div>
+      <figure class="book-cover stage-grid" data-cover>
+        <p class="book-cover-title" aria-hidden="true">Один лист</p>
+        <a class="book-cover-art" href="./ru/butterflies/monarch/" data-cover-link><img src="./assets/atlas/monarch-k2-natural.svg" alt="Монарх" width="440" height="245" fetchpriority="high" data-cover-image></a>
+        <figcaption><span><small data-cover-id>Таблица B1</small> <strong data-cover-name>Монарх</strong><i data-cover-lineage>Экспериментальный бумажный планёр с крыльями монарха</i></span>
+          <span class="turn"><button type="button" data-cover-step="-1" aria-label="Предыдущая таблица">←</button><button type="button" data-cover-step="1" aria-label="Следующая таблица">→</button></span></figcaption>
+        <script type="application/json" data-cover-plates>{"label":"Таблица","plates":[{"id":"A1","name":"Две палубы","lineage":"Широкий бумажный планёр по мотивам Boeing 747","src":"./assets/viewer/boeing-747-heritage.webp","href":"./ru/airplanes/boeing-747/"},{"id":"A2","name":"Луговой планёр","lineage":"Медленный ширококрылый планёр по мотивам Douglas DC-3","src":"./assets/viewer/douglas-dc3-heritage.webp","href":"./ru/airplanes/douglas-dc3/"},{"id":"A3","name":"Попутный ветер","lineage":"Устойчивый самолёт со стреловидным крылом по мотивам Ил-62","src":"./assets/viewer/ilyushin-il62-heritage.webp","href":"./ru/airplanes/ilyushin-il62/"},{"id":"A4","name":"Дельта-комета","lineage":"Классический бумажный дротик по мотивам Ту-144","src":"./assets/viewer/tupolev-tu144-heritage.webp","href":"./ru/airplanes/tupolev-tu144/"},{"id":"B1","name":"Монарх","lineage":"Экспериментальный бумажный планёр с крыльями монарха","src":"./assets/atlas/monarch-k2-natural.svg","href":"./ru/butterflies/monarch/"},{"id":"B2","name":"Голубой морфо","lineage":"Экспериментальный бумажный планёр с крыльями голубой морфо","src":"./assets/atlas/morpho-k2-natural.svg","href":"./ru/butterflies/morpho/"},{"id":"B3","name":"Махаон","lineage":"Экспериментальный бумажный планёр с крыльями махаона","src":"./assets/atlas/swallowtail-k2-natural.svg","href":"./ru/butterflies/swallowtail/"},{"id":"F1","name":"Кольцеплан","lineage":"Кольцевое крыло из одного листа","src":"./assets/viewer/ring-field.webp","href":"./ru/flying-objects/ring/"},{"id":"F2","name":"Кленовая крылатка","lineage":"Бумажная крылатка клёна, которая вращается при падении","src":"./assets/viewer/samara-field.webp","href":"./ru/flying-objects/samara/"},{"id":"F3","name":"Планер-тандем Уильямса","lineage":"Двукрылый планёр из книги 1918 года","src":"./assets/viewer/tandem-field.webp","href":"./ru/flying-objects/tandem/"}]}</script>
+      </figure>
+    </section>
+    <section class="contents wrap" id="contents" aria-labelledby="contents-title">
+      <h2 id="contents-title">Содержание</h2>
+      <ol class="contents-list"><li class="contents-chapter" id="chapter-one-sheet">
+      <span class="contents-number">01</span>
+      <div><h3><a href="#one-sheet">Один лист</a></h3>
+      <p>Зачем запускать бумагу и как читать эту книгу вместе.</p>
+      </div>
+    </li><li class="contents-chapter" id="chapter-how-it-flies">
+      <span class="contents-number">02</span>
+      <div><h3><a href="./ru/how-it-flies/">Как устроен полёт</a></h3>
+      <p>Подъёмная сила, вес, балансировка и сопротивление на примере бумаги.</p>
+      </div>
+    </li><li class="contents-chapter" id="chapter-nature">
+      <span class="contents-number">03</span>
+      <div><h3><a href="./ru/nature/">Летуны природы</a></h3>
+      <p>Семена, насекомые, птерозавры, птицы и летучие мыши: как появился полёт и что может повторить бумага.</p>
+      </div>
+    </li><li class="contents-chapter" id="chapter-airplanes">
+      <span class="contents-number">04</span>
+      <div><h3><a href="./ru/airplanes/">Самолёты</a></h3>
+      <p>Один лист на каждый. Четыре сгиба, у каждого есть настоящий прототип.</p>
+      <ul class="contents-plates"><li><a class="contents-plate" href="./ru/airplanes/boeing-747/">
+    <img src="./assets/viewer/boeing-747-heritage.webp" alt="" loading="lazy" decoding="async">
+    <span><small>A1</small> Две палубы</span></a></li><li><a class="contents-plate" href="./ru/airplanes/douglas-dc3/">
+    <img src="./assets/viewer/douglas-dc3-heritage.webp" alt="" loading="lazy" decoding="async">
+    <span><small>A2</small> Луговой планёр</span></a></li><li><a class="contents-plate" href="./ru/airplanes/ilyushin-il62/">
+    <img src="./assets/viewer/ilyushin-il62-heritage.webp" alt="" loading="lazy" decoding="async">
+    <span><small>A3</small> Попутный ветер</span></a></li><li><a class="contents-plate" href="./ru/airplanes/tupolev-tu144/">
+    <img src="./assets/viewer/tupolev-tu144-heritage.webp" alt="" loading="lazy" decoding="async">
+    <span><small>A4</small> Дельта-комета</span></a></li></ul></div>
+    </li><li class="contents-chapter" id="chapter-butterflies">
+      <span class="contents-number">05</span>
+      <div><h3><a href="./ru/butterflies/">Бабочки</a></h3>
+      <p>Три экспериментальных планёра. Вырежьте, сложите, наденьте скрепки и настройте, а потом расскажите, как они летали.</p>
+      <ul class="contents-plates"><li><a class="contents-plate" href="./ru/butterflies/monarch/">
+    <img src="./assets/atlas/monarch-k2-natural.svg" alt="" loading="lazy" decoding="async">
+    <span><small>B1</small> Монарх</span></a></li><li><a class="contents-plate" href="./ru/butterflies/morpho/">
+    <img src="./assets/atlas/morpho-k2-natural.svg" alt="" loading="lazy" decoding="async">
+    <span><small>B2</small> Голубой морфо</span></a></li><li><a class="contents-plate" href="./ru/butterflies/swallowtail/">
+    <img src="./assets/atlas/swallowtail-k2-natural.svg" alt="" loading="lazy" decoding="async">
+    <span><small>B3</small> Махаон</span></a></li></ul></div>
+    </li><li class="contents-chapter" id="chapter-flying-objects">
+      <span class="contents-number">06</span>
+      <div><h3><a href="./ru/flying-objects/">Летающие модели</a></h3>
+      <p>Кольцо, крылатка клёна и двукрылый планёр 1918 года.</p>
+      <ul class="contents-plates"><li><a class="contents-plate" href="./ru/flying-objects/ring/">
+    <img src="./assets/viewer/ring-field.webp" alt="" loading="lazy" decoding="async">
+    <span><small>F1</small> Кольцеплан</span></a></li><li><a class="contents-plate" href="./ru/flying-objects/samara/">
+    <img src="./assets/viewer/samara-field.webp" alt="" loading="lazy" decoding="async">
+    <span><small>F2</small> Кленовая крылатка</span></a></li><li><a class="contents-plate" href="./ru/flying-objects/tandem/">
+    <img src="./assets/viewer/tandem-field.webp" alt="" loading="lazy" decoding="async">
+    <span><small>F3</small> Планер-тандем Уильямса</span></a></li></ul></div>
+    </li><li class="contents-chapter" id="chapter-history">
+      <span class="contents-number">07</span>
+      <div><h3><a href="./ru/history/">Краткая история полёта</a></h3>
+      <p>От воздушных змеев и шаров к планёрам, первому самолёту и конкурсам бумажных самолётов.</p>
+      </div>
+    </li><li class="contents-chapter" id="chapter-space">
+      <span class="contents-number">08</span>
+      <div><h3><a href="./ru/space/">За пределами неба</a></h3>
+      <p>Зачем крыльям воздух, как шаттл возвращался планированием и что нужно, чтобы летать на Марсе.</p>
+      </div>
+    </li><li class="contents-chapter" id="chapter-contests">
+      <span class="contents-number">09</span>
+      <div><h3><a href="./ru/contests/">Соревнования и рекорды</a></h3>
+      <p>Как измеряют полёт бумажной модели и как устроить соревнование дома.</p>
+      </div>
+    </li><li class="contents-chapter" id="chapter-experiments">
+      <span class="contents-number">10</span>
+      <div><h3><a href="./ru/experiments/">Лётная лаборатория</a></h3>
+      <p>Предскажите, запустите, измените одно и сравните.</p>
+      </div>
+    </li><li class="contents-chapter"><span class="contents-number">A</span>
+    <div><h3>Приложение</h3><p><a href="./ru/print/">Распечатать и запустить</a> · <a href="./references.html?lang=ru">Источники и авторы</a> · <a href="./ru/motor-lab/">За пределами бумаги</a></p></div></li></ol>
+    </section>
+    <section class="one-sheet wrap" id="one-sheet" aria-labelledby="one-sheet-title">
+      <div><p class="eyebrow">1 · Один лист</p>
+        <h2 id="one-sheet-title">Один лист</h2>
+        <p>Каждая модель в этой книге начинается с одного листа бумаги. Сложите его, запустите, измените что-то одно и запустите снова. В этом весь метод, и он работает и на кухонном столе, и в классе.</p><p>Мы говорим, что знаем и чего не знаем. Числа с пометкой «оценка» получены из геометрии. «Ещё не измерено» значит, что никто пока не проверял. Ваши полёты могут это изменить.</p></div>
+      <dl class="reading-together"><div><dt>5–7 лет · делаем вместе</dt><dd>Выберите модель и её окраску. Вдвоём сложные сгибы и надрезы получаются легче. Покажите, где, по-вашему, она приземлится.</dd></div><div><dt>8–12 лет · лётное испытание</dt><dd>Отметьте, где приземлятся пять полётов. Измените один сгиб и сделайте ещё пять запусков с того же места. Что изменилось?</dd></div><div><dt>Любой возраст · копнём глубже</dt><dd>Откройте раздел «Копнём глубже» на каждой таблице: настоящая физика, цифры и откуда они взялись. Потом спросите, что может показать следующий полёт, и дайте конструктору выбрать следующее изменение.</dd></div></dl>
+    </section>
+    <section class="home-notes wrap">
+      <div><h2>Для учителей</h2><p>Рассчитайте тираж для класса, распечатайте лист честного опыта и устройте соревнование вместе.</p>
+        <a class="text-link" href="./ru/teachers/">Спланировать урок →</a></div>
+      <div><h2>Книга</h2><p>Мы готовим «Один лист» как печатную книгу: около 160 страниц в шитом переплёте, в формате, который можно напечатать дома на A4 и US Letter. Главы на этом сайте — её бесплатное веб-издание.</p>
+        <a class="text-link" href="./ru/flight-book/">О книге →</a></div>
+    </section>
+  </main>
+  <footer class="site-footer wrap"><a class="wordmark" href="./ru.html"><img src="./assets/brand/logo.svg" width="245" height="59" alt="Open Flight"></a><span>Печать бесплатно. Открытый код. Без регистрации.</span><a href="./ru/print/">Распечатать и запустить</a><a href="./ru/flight-book/">Книга</a><a href="./ru/teachers/">Для учителей</a><a href="./references.html?lang=ru">Источники и авторы</a><a href="https://github.com/kevinmamaqi/open-flight">Исходный код ↗</a><a href="https://github.com/kevinmamaqi/open-flight/issues/new?template=flight-report.yml">Поделиться наблюдением ↗</a></footer>
+</body>
 </html>

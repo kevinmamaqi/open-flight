@@ -1,9 +1,9 @@
-import { k2Facts } from './assets/atlas/k2-facts.js?v=3b57e65abbf7'
-import { appearanceArtPath } from './model-appearance.js?v=3b57e65abbf7'
-import { objects } from './assets/objects/activities.js?v=3b57e65abbf7'
-import { flightPhysics } from './atlas-physics.js?v=3b57e65abbf7'
-import { baselines } from './assets/atlas/baselines.js?v=3b57e65abbf7'
-import { planeCatalog } from './assets/planes/catalog.js?v=3b57e65abbf7'
+import { k2Facts } from './assets/atlas/k2-facts.js?v=827c6a6b1e8f'
+import { appearanceArtPath } from './model-appearance.js?v=827c6a6b1e8f'
+import { objects } from './assets/objects/activities.js?v=827c6a6b1e8f'
+import { flightPhysics } from './atlas-physics.js?v=827c6a6b1e8f'
+import { baselines } from './assets/atlas/baselines.js?v=827c6a6b1e8f'
+import { planeCatalog } from './assets/planes/catalog.js?v=827c6a6b1e8f'
 
 export const languages = ['en', 'es', 'ru']
 export const words = (en, es, ru) => ({ en, es, ru })
@@ -20,9 +20,9 @@ const shapes = {
     'Обведи широкое синее переднее крыло и округлое заднее. Крылья поднимаются от узкого корпуса.',
   ),
   swallowtail: w(
-    'Find the two long tails behind the yellow wings. The adjustable tabs sit closer to the body.',
-    'Busca las dos colas largas detrás de las alas amarillas. Las aletas de cola ajustables están más cerca del cuerpo.',
-    'Найди два длинных хвостика за жёлтыми крыльями. Регулируемые язычки расположены ближе к корпусу.',
+    'Find the short tail on each hindwing. The adjustable tabs sit closer to the body.',
+    'Busca la cola corta de cada ala trasera. Las aletas ajustables están más cerca del cuerpo.',
+    'Найдите короткий хвостик на каждом заднем крыле. Регулируемые язычки расположены ближе к корпусу.',
   ),
 }
 const copy = {
@@ -40,9 +40,9 @@ const copy = {
   ),
   span: w('Wingspan', 'Envergadura', 'Размах крыльев'),
   rootAngle: w(
-    'Wing lift at the body',
-    'Ángulo del ala con la horizontal',
-    'Подъём крыла над горизонталью',
+    'Wing angle (V)',
+    'Ángulo de las alas (V)',
+    'Угол крыльев (V)',
   ),
   tab: w('Rear tab depth', 'Profundidad de la aleta de cola', 'Глубина заднего язычка'),
   tip: w('Wingtip height','Altura de las puntas','Высота кончиков'),

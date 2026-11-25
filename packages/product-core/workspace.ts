@@ -4,6 +4,7 @@ import { motorRoadmap } from '../../apps/editor/atlas-roadmap.js'
 import { flightCircuit, simulateFlight } from '../../apps/editor/flight-model.js'
 import { planeCatalog, sheetSizes, liveries, sheetEdges, revision as planeRevision } from '../planes/index.ts'
 import { motorLab, renderFamilyBook } from './family-publications.ts'
+import { printAndPlay } from './print-and-play.ts'
 import { foldedButterflyPlan } from './folded-butterflies.ts'
 import { airplanePlan } from './airplanes.ts'
 import { DatabaseSync } from 'node:sqlite'
@@ -224,6 +225,8 @@ export class Workspace {
         return motorLab(a.locale)
       case 'renderFamilyBook':
         return renderFamilyBook(a.settings, a.output, a.offset, a.classroom)
+      case 'printAndPlay':
+        return printAndPlay(a as Parameters<typeof printAndPlay>[0])
       case 'getMotorRoadmap':
         return motorRoadmap(a.locale)
       case 'getFlightObjects':

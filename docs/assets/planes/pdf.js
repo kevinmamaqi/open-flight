@@ -1,10 +1,11 @@
-import { aircraftPortrait } from './field-portraits.js?v=3b57e65abbf7'
-import { backScene, pageSize, sheetScene, specimenScene } from './drawing.js?v=3b57e65abbf7'
-import { foldScene } from './guide.js?v=3b57e65abbf7'
-import { planeCredits, creditText } from './credits.js?v=3b57e65abbf7'
-import { atLeastLine, atLeastText, fontNotice as printFontNotice, ink, muted, registerFonts, textMm, useFont } from '../brand/print.js?v=3b57e65abbf7'
+import { aircraftPortrait } from './field-portraits.js?v=827c6a6b1e8f'
+import { backScene, pageSize, sheetScene, specimenScene } from './drawing.js?v=827c6a6b1e8f'
+import { foldScene } from './guide.js?v=827c6a6b1e8f'
+import { planeCredits, creditText } from './credits.js?v=827c6a6b1e8f'
+import { atLeastLine, atLeastText, fontNotice as printFontNotice, ink, muted, registerFonts, textMm, useFont } from '../brand/print.js?v=827c6a6b1e8f'
 
-function draw(doc, parts, offset = [0, 0], scale = 1) {
+// Shared with the one-page quick guide (packages/print-export/quick-guide.js).
+export function draw(doc, parts, offset = [0, 0], scale = 1) {
   const pt = ([x, y]) => [offset[0] + x * scale, offset[1] + y * scale]
   for (const e of parts) {
     if (e.type === 'text') {

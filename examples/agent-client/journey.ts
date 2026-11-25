@@ -47,11 +47,12 @@ async function http(path: string, options: RequestInit = {}) {
 }
 try {
   const tools = (await client.listTools()).tools
-  assert.equal(tools.length, 23)
+  assert.equal(tools.length, 24)
   assert.equal((await client.listResourceTemplates()).resourceTemplates.length, 1)
   const caps = await call('get_capabilities')
-  assert.equal(caps.enabled_operations.length, 24)
+  assert.equal(caps.enabled_operations.length, 25)
   assert.ok(caps.enabled_operations.includes('getFlightObjects'))
+  assert.ok(caps.enabled_operations.includes('printAndPlay'))
   assert.deepEqual(caps.locales, ['en', 'ru', 'es'])
   const k1 = {settings:{species:'morpho',span_mm:168,appearance_id:'twilight',paper:'US_LETTER'},locale:'es',output:'source_json'}
   const folded = await call('plan_folded_butterfly', k1)
@@ -78,7 +79,7 @@ try {
   assert.equal(lab.evidenceState, 'concept')
   assert.equal(lab.locale, 'es')
   assert.ok(lab.bom.length && lab.files.some((f: { id: string }) => f.id === 'source'))
-  const bookSettings = { lang: 'es', paper: 'US_LETTER', cover: 'Alas de papel', pilot: 'Lucía', style: 'studio', theme: 'meadow', edge: 'whole', coverModel: 'boeing-747', appearances: { morpho: 'twilight', 'boeing-747': 'flag' }, sheets: ['morpho-k1', 'swallowtail-k1', 'boeing-747'] }
+  const bookSettings = { lang: 'es', paper: 'US_LETTER', cover: 'Alas de papel', pilot: 'Lucía', style: 'studio', theme: 'meadow', edge: 'whole', coverModel: 'boeing-747', appearances: { morpho: 'twilight', 'boeing-747': 'airshow' }, sheets: ['morpho-k1', 'swallowtail-k1', 'boeing-747'] }
   const manifest = await call('render_family_book', { settings: bookSettings })
   assert.deepEqual(manifest.settings, bookSettings)
   assert.equal(manifest.page_count, 15)
@@ -88,7 +89,7 @@ try {
   assert.equal(manifest.atlas[2].field_note.first_flight, '1969-02-09')
   assert.equal(manifest.atlas[0].field_note.scientific_name, 'Morpho peleides')
   assert.ok(manifest.atlas[0].field_note.illustration.credit)
-  assert.match(manifest.sheets[2].studio_url, /livery=flag/)
+  assert.match(manifest.sheets[2].studio_url, /livery=airshow/)
   assert.equal(manifest.shared_guide_page, 7)
   assert.equal(manifest.sheets[1].guide_page, 7)
   const classroomArgs = { settings: { lang: 'es', paper: 'US_LETTER' }, classroom: { learners: 31, team_size: 3 } }
@@ -143,6 +144,31 @@ try {
   assert.equal(book.subarray(0, 5).toString(), '%PDF-')
   assert.equal((await invoke('render_family_book', { settings: { sheets: [] } })).error.code, 'invalid_input')
   assert.equal((await invoke('render_family_book', { settings: bookSettings, output: 'pdf', offset: bookLength })).error.code, 'invalid_input')
+  // Print & Play: the same PDF the website downloads for the same designs, paper and language.
+  const playArgs = { designs: ['B1', 'boeing-747', 'ring'], paper: 'US_LETTER', lang: 'es' }
+  const playPlan = await call('print_and_play', playArgs)
+  assert.equal(playPlan.page_count, 7)
+  assert.deepEqual(playPlan.settings.designs, ['B1', 'A1', 'F1'])
+  assert.equal(playPlan.static_path, 'print/sets/first-flight-letter-es.pdf')
+  assert.equal(playPlan.filename, 'open-flight-print-and-play-B1-A1-F1-letter-es.pdf')
+  assert.ok(playPlan.booklet_hash.startsWith('#m=monarch-k2,boeing-747'))
+  const playParts: Buffer[] = []
+  let playOffset: number | null = 0
+  let playHash = ''
+  while (playOffset !== null) {
+    const args = { ...playArgs, output: 'pdf', offset: playOffset }
+    const part: { next_offset: number | null; sha256: string; content: string } = (await call('print_and_play', args)).pdf
+    playHash = part.sha256
+    playParts.push(Buffer.from(part.content, 'base64'))
+    if (origin) {
+      const res = await http('/v1/print-and-play', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(args) })
+      assert.deepEqual((await res.json()).pdf, part)
+    }
+    playOffset = part.next_offset
+  }
+  assert.equal(hash(Buffer.concat(playParts)), playHash)
+  assert.equal((await invoke('print_and_play', { designs: [] })).error.code, 'invalid_input')
+  assert.equal((await invoke('print_and_play', { designs: ['A1', 'A2', 'A3', 'A4'] })).error.code, 'invalid_input')
   const roadmap = await call('get_motor_roadmap', { locale: 'es' })
   assert.equal(roadmap.locale, 'es')
   assert.ok(roadmap.stages.length)

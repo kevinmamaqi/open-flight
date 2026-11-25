@@ -1,6 +1,6 @@
-import { planeCatalog, sheetSizes, liveries, revision, revisions, trimMm, sheetEdges, planeColors, referenceForLocale } from './catalog.js?v=3b57e65abbf7'
-import { applyFolds, openSheet, outlineOf, publicPanels, wingShape, dedupeCreases } from './geometry.js?v=3b57e65abbf7'
-export { planeCatalog, sheetSizes, liveries, revision, revisions, trimMm, sheetEdges } from './catalog.js?v=3b57e65abbf7'
+import { planeCatalog, sheetSizes, liveries, revision, revisions, trimMm, sheetEdges, planeColors, referenceForLocale, planeFinish } from './catalog.js?v=827c6a6b1e8f'
+import { applyFolds, openSheet, outlineOf, publicPanels, wingShape, dedupeCreases } from './geometry.js?v=827c6a6b1e8f'
+export { planeCatalog, sheetSizes, liveries, revision, revisions, trimMm, sheetEdges } from './catalog.js?v=827c6a6b1e8f'
 
 function whole(value, min, max, fallback, label) {
   if (value === undefined) return fallback
@@ -169,7 +169,7 @@ export function makePlane(input, locale = 'en') {
     )
     const shoulder = 56
     add(
-      t('Clip the shoulders with folds', 'Сложите небольшие плечи', 'Dobla las esquinas de la tira'),
+      t('Fold in the shoulders', 'Сложите небольшие плечи', 'Dobla las esquinas de la tira'),
       t(
         'On each side fold the cuff corner diagonally inwards on line 4. The marked diagonal joins two points 56 mm from that corner. A straight strip stays across the middle of the nose.',
         'С каждой стороны загните уголок подгиба внутрь по линии 4. Диагональ соединяет две точки в 56 мм от угла. Посередине сохранится прямой участок носа.',
@@ -253,20 +253,20 @@ export function makePlane(input, locale = 'en') {
       : t('Open the wings', 'Раскройте крылья', 'Abre las alas'),
     tips
       ? t(
-          'Open the wings to a shallow V. Turn up the outer ' +
+          'Lift each wingtip about 10 mm above the body fold. Turn up the outer ' +
             mm(tips) +
             ' mm of each long side until both tips stand upright. Sight from the tail and match the heights.',
-          'Раскройте крылья неглубокой буквой V. Отогните вверх по ' +
+          'Поднимите каждый конец крыла примерно на 10 мм над сгибом корпуса. Отогните вверх по ' +
             mm(tips) +
             ' мм вдоль внешнего края каждого крыла. Посмотрите с хвоста и выровняйте законцовки.',
-          'Abre las alas formando una V poco profunda. Dobla hacia arriba los ' +
+          'Levanta cada punta del ala unos 10 mm por encima del pliegue del cuerpo. Dobla hacia arriba los ' +
             mm(tips) +
             ' mm exteriores de cada ala hasta que las dos puntas queden verticales. Mira desde la cola y comprueba que tienen la misma altura.',
         )
       : t(
-          'Open the wings to a shallow V. Keep the outer edges flat. From the tail, check that the two tips sit at the same height.',
-          'Раскройте крылья неглубокой буквой V. Внешние кромки оставьте плоскими. Посмотрите с хвоста и проверьте, что оба конца на одной высоте.',
-          'Abre las alas formando una V poco profunda. Deja planos los bordes exteriores. Mira desde la cola y comprueba que los dos extremos queden a la misma altura.',
+          'Lift each wingtip about 10 mm above the body fold. Keep the outer edges flat. From the tail, check that the two tips sit at the same height.',
+          'Поднимите каждый конец крыла примерно на 10 мм над сгибом корпуса. Внешние кромки оставьте плоскими. Посмотрите с хвоста и проверьте, что оба конца на одной высоте.',
+          'Levanta cada punta del ala unos 10 mm por encima del pliegue del cuerpo. Deja planos los bordes exteriores. Mira desde la cola y comprueba que los dos extremos queden a la misma altura.',
         ),
     tips ? [opsX(tips, 'tip'), opsX(w - tips, 'tip')] : [],
     { base: stock, reopen: true, independent: true, kind: 'tips' },
@@ -306,13 +306,7 @@ export function makePlane(input, locale = 'en') {
       landmark: model.field.landmark[locale],
       look: model.field.look[locale],
       fold: model.field.fold[locale],
-      finish: livery === 'flag'
-        ? t(
-            'Find the country flags on the wings. These are classroom markings for the paper model.',
-            'Найдите флаги страны на крыльях. Эти флаги добавлены для занятий с бумажной моделью.',
-            'Busca las banderas en las alas. Estas marcas se añadieron al modelo de papel para el taller.',
-          )
-        : model.field.finish[locale],
+      finish: planeFinish(model, livery, locale),
       museum: referenceForLocale(model.field.museum ?? model.reference, locale),
     },
     dimensions: { width_mm: w, height_mm: h },

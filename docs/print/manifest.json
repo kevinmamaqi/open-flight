@@ -1,0 +1,321 @@
+{
+ "edition": "print-and-play-1",
+ "papers": [
+  "a4",
+  "letter"
+ ],
+ "files": {
+  "singles/A1-a4-en.pdf": {
+   "bytes": 90433,
+   "pages": 2
+  },
+  "singles/A2-a4-en.pdf": {
+   "bytes": 87489,
+   "pages": 2
+  },
+  "singles/A3-a4-en.pdf": {
+   "bytes": 87785,
+   "pages": 2
+  },
+  "singles/A4-a4-en.pdf": {
+   "bytes": 87048,
+   "pages": 2
+  },
+  "singles/B1-a4-en.pdf": {
+   "bytes": 207542,
+   "pages": 3
+  },
+  "singles/B2-a4-en.pdf": {
+   "bytes": 216086,
+   "pages": 3
+  },
+  "singles/B3-a4-en.pdf": {
+   "bytes": 206426,
+   "pages": 3
+  },
+  "singles/F1-a4-en.pdf": {
+   "bytes": 280521,
+   "pages": 2
+  },
+  "singles/F2-a4-en.pdf": {
+   "bytes": 212246,
+   "pages": 2
+  },
+  "singles/F3-a4-en.pdf": {
+   "bytes": 165837,
+   "pages": 2
+  },
+  "sets/first-flight-a4-en.pdf": {
+   "bytes": 573893,
+   "pages": 7
+  },
+  "sets/no-scissors-a4-en.pdf": {
+   "bytes": 454820,
+   "pages": 6
+  },
+  "sets/spin-and-glide-a4-en.pdf": {
+   "bytes": 606003,
+   "pages": 6
+  },
+  "singles/A1-a4-es.pdf": {
+   "bytes": 91913,
+   "pages": 2
+  },
+  "singles/A2-a4-es.pdf": {
+   "bytes": 89351,
+   "pages": 2
+  },
+  "singles/A3-a4-es.pdf": {
+   "bytes": 90370,
+   "pages": 2
+  },
+  "singles/A4-a4-es.pdf": {
+   "bytes": 88286,
+   "pages": 2
+  },
+  "singles/B1-a4-es.pdf": {
+   "bytes": 209217,
+   "pages": 3
+  },
+  "singles/B2-a4-es.pdf": {
+   "bytes": 218281,
+   "pages": 3
+  },
+  "singles/B3-a4-es.pdf": {
+   "bytes": 207335,
+   "pages": 3
+  },
+  "singles/F1-a4-es.pdf": {
+   "bytes": 281687,
+   "pages": 2
+  },
+  "singles/F2-a4-es.pdf": {
+   "bytes": 213760,
+   "pages": 2
+  },
+  "singles/F3-a4-es.pdf": {
+   "bytes": 167663,
+   "pages": 2
+  },
+  "sets/first-flight-a4-es.pdf": {
+   "bytes": 578186,
+   "pages": 7
+  },
+  "sets/no-scissors-a4-es.pdf": {
+   "bytes": 459389,
+   "pages": 6
+  },
+  "sets/spin-and-glide-a4-es.pdf": {
+   "bytes": 609669,
+   "pages": 6
+  },
+  "singles/A1-a4-ru.pdf": {
+   "bytes": 100298,
+   "pages": 2
+  },
+  "singles/A2-a4-ru.pdf": {
+   "bytes": 97880,
+   "pages": 2
+  },
+  "singles/A3-a4-ru.pdf": {
+   "bytes": 98629,
+   "pages": 2
+  },
+  "singles/A4-a4-ru.pdf": {
+   "bytes": 96648,
+   "pages": 2
+  },
+  "singles/B1-a4-ru.pdf": {
+   "bytes": 215319,
+   "pages": 3
+  },
+  "singles/B2-a4-ru.pdf": {
+   "bytes": 224597,
+   "pages": 3
+  },
+  "singles/B3-a4-ru.pdf": {
+   "bytes": 213066,
+   "pages": 3
+  },
+  "singles/F1-a4-ru.pdf": {
+   "bytes": 290259,
+   "pages": 2
+  },
+  "singles/F2-a4-ru.pdf": {
+   "bytes": 223186,
+   "pages": 2
+  },
+  "singles/F3-a4-ru.pdf": {
+   "bytes": 176544,
+   "pages": 2
+  },
+  "sets/first-flight-a4-ru.pdf": {
+   "bytes": 601281,
+   "pages": 7
+  },
+  "sets/no-scissors-a4-ru.pdf": {
+   "bytes": 484881,
+   "pages": 6
+  },
+  "sets/spin-and-glide-a4-ru.pdf": {
+   "bytes": 628598,
+   "pages": 6
+  },
+  "singles/A1-letter-en.pdf": {
+   "bytes": 90366,
+   "pages": 2
+  },
+  "singles/A2-letter-en.pdf": {
+   "bytes": 87490,
+   "pages": 2
+  },
+  "singles/A3-letter-en.pdf": {
+   "bytes": 87783,
+   "pages": 2
+  },
+  "singles/A4-letter-en.pdf": {
+   "bytes": 86992,
+   "pages": 2
+  },
+  "singles/B1-letter-en.pdf": {
+   "bytes": 207512,
+   "pages": 3
+  },
+  "singles/B2-letter-en.pdf": {
+   "bytes": 216073,
+   "pages": 3
+  },
+  "singles/B3-letter-en.pdf": {
+   "bytes": 206405,
+   "pages": 3
+  },
+  "singles/F1-letter-en.pdf": {
+   "bytes": 280468,
+   "pages": 2
+  },
+  "singles/F2-letter-en.pdf": {
+   "bytes": 212170,
+   "pages": 2
+  },
+  "singles/F3-letter-en.pdf": {
+   "bytes": 165768,
+   "pages": 2
+  },
+  "sets/first-flight-letter-en.pdf": {
+   "bytes": 573743,
+   "pages": 7
+  },
+  "sets/no-scissors-letter-en.pdf": {
+   "bytes": 454582,
+   "pages": 6
+  },
+  "sets/spin-and-glide-letter-en.pdf": {
+   "bytes": 605805,
+   "pages": 6
+  },
+  "singles/A1-letter-es.pdf": {
+   "bytes": 91835,
+   "pages": 2
+  },
+  "singles/A2-letter-es.pdf": {
+   "bytes": 89362,
+   "pages": 2
+  },
+  "singles/A3-letter-es.pdf": {
+   "bytes": 90381,
+   "pages": 2
+  },
+  "singles/A4-letter-es.pdf": {
+   "bytes": 88244,
+   "pages": 2
+  },
+  "singles/B1-letter-es.pdf": {
+   "bytes": 209223,
+   "pages": 3
+  },
+  "singles/B2-letter-es.pdf": {
+   "bytes": 218281,
+   "pages": 3
+  },
+  "singles/B3-letter-es.pdf": {
+   "bytes": 207303,
+   "pages": 3
+  },
+  "singles/F1-letter-es.pdf": {
+   "bytes": 281614,
+   "pages": 2
+  },
+  "singles/F2-letter-es.pdf": {
+   "bytes": 213710,
+   "pages": 2
+  },
+  "singles/F3-letter-es.pdf": {
+   "bytes": 167614,
+   "pages": 2
+  },
+  "sets/first-flight-letter-es.pdf": {
+   "bytes": 578041,
+   "pages": 7
+  },
+  "sets/no-scissors-letter-es.pdf": {
+   "bytes": 459112,
+   "pages": 6
+  },
+  "sets/spin-and-glide-letter-es.pdf": {
+   "bytes": 609497,
+   "pages": 6
+  },
+  "singles/A1-letter-ru.pdf": {
+   "bytes": 100325,
+   "pages": 2
+  },
+  "singles/A2-letter-ru.pdf": {
+   "bytes": 97933,
+   "pages": 2
+  },
+  "singles/A3-letter-ru.pdf": {
+   "bytes": 98723,
+   "pages": 2
+  },
+  "singles/A4-letter-ru.pdf": {
+   "bytes": 96659,
+   "pages": 2
+  },
+  "singles/B1-letter-ru.pdf": {
+   "bytes": 215296,
+   "pages": 3
+  },
+  "singles/B2-letter-ru.pdf": {
+   "bytes": 224570,
+   "pages": 3
+  },
+  "singles/B3-letter-ru.pdf": {
+   "bytes": 213039,
+   "pages": 3
+  },
+  "singles/F1-letter-ru.pdf": {
+   "bytes": 290177,
+   "pages": 2
+  },
+  "singles/F2-letter-ru.pdf": {
+   "bytes": 223112,
+   "pages": 2
+  },
+  "singles/F3-letter-ru.pdf": {
+   "bytes": 176470,
+   "pages": 2
+  },
+  "sets/first-flight-letter-ru.pdf": {
+   "bytes": 601203,
+   "pages": 7
+  },
+  "sets/no-scissors-letter-ru.pdf": {
+   "bytes": 484756,
+   "pages": 6
+  },
+  "sets/spin-and-glide-letter-ru.pdf": {
+   "bytes": 628368,
+   "pages": 6
+  }
+ }
+}

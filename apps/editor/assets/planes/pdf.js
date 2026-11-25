@@ -4,7 +4,8 @@ import { foldScene } from './guide.js'
 import { planeCredits, creditText } from './credits.js'
 import { atLeastLine, atLeastText, fontNotice as printFontNotice, ink, muted, registerFonts, textMm, useFont } from '../brand/print.js'
 
-function draw(doc, parts, offset = [0, 0], scale = 1) {
+// Shared with the one-page quick guide (packages/print-export/quick-guide.js).
+export function draw(doc, parts, offset = [0, 0], scale = 1) {
   const pt = ([x, y]) => [offset[0] + x * scale, offset[1] + y * scale]
   for (const e of parts) {
     if (e.type === 'text') {

@@ -20,7 +20,7 @@ const variants = [
   { sheets: sheetCatalog.filter(({ family }) => family === 'airplane').map(({ id }) => id), style: 'studio' },
   { sheets: defaultSheets, style: 'illustrated' },
   { sheets: [...sheetIds].reverse(), style: 'ink' },
-  { sheets: ['morpho-k1','boeing-747','ilyushin-il62'], style:'illustrated', coverModel:'boeing-747', appearances:{morpho:'twilight','boeing-747':'flag','ilyushin-il62':'flag'} },
+  { sheets: ['morpho-k1','boeing-747','ilyushin-il62'], style:'illustrated', coverModel:'boeing-747', appearances:{morpho:'twilight','boeing-747':'airshow','ilyushin-il62':'airshow'} },
 ]
 
 test('estimates rendered Flight Book sizes within 4% across locales, paper, styles and mixed legacy editions', async t => {

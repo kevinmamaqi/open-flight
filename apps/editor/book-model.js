@@ -23,8 +23,8 @@ export const bookStyles = appearanceArtStyles
 
 // Editorial teaching sequence. Time ranges are planning allowances for a first build.
 const levels = Object.freeze({
-  monarch: 1, 'boeing-747': 1, 'douglas-dc3': 1, morpho: 2,
-  'ilyushin-il62': 2, swallowtail: 3, 'tupolev-tu144': 3,
+  monarch: 1, 'boeing-747': 2, 'douglas-dc3': 2, morpho: 2,
+  'ilyushin-il62': 2, swallowtail: 3, 'tupolev-tu144': 1,
 })
 export const modelOrder = Object.freeze([...Object.keys(levels), ...objects.map(item => item.id)])
 export const starterModels = Object.freeze(['monarch', 'boeing-747', 'morpho'])

@@ -3,7 +3,7 @@ import { readFile } from 'node:fs/promises'
 import test from 'node:test'
 import { PDFDocument } from 'pdf-lib'
 import { sheetCatalog, sheetLocales, sheetPath, paperSizes } from '../apps/editor/family-sheets.js'
-import { appearanceArtPath, appearanceArtStyles, appearanceChoices } from '../apps/editor/model-appearance.js'
+import { appearanceArtPath, appearanceArtStyles, appearanceChoices, appearanceCaption } from '../apps/editor/model-appearance.js'
 import { makePlane, planePdf, planeSpecimen, planeSvg, sheetSizes } from '../packages/planes/index.ts'
 import { foldedPdf, makeFoldedButterfly } from '../packages/folded-butterfly/index.ts'
 import { k2Pdf, makeK2 } from '../packages/folded-butterfly/k2-sheet.ts'
@@ -32,7 +32,7 @@ test('every appearance has localized labels and matching model art', async () =>
     const choices = appearanceChoices(sheet.model)
     assert.deepEqual(choices.map(choice => choice.id), sheet.family === 'butterfly'
       ? ['natural', 'carnival', 'twilight', 'coloring']
-      : ['heritage', 'festival', 'pencil', 'flag', 'airshow'])
+      : ['heritage', 'festival', 'pencil', 'airshow'])
     for (const lang of sheetLocales) {
       for (const { label, colors } of appearanceChoices(sheet.model, lang)) {
         assert.ok(label)
@@ -50,8 +50,8 @@ test('every appearance has localized labels and matching model art', async () =>
       }
     }
   }
-  assert.equal(paths.size, 129)
-  assert.equal(appearanceChoices('tupolev-tu144', 'ru').find(choice=>choice.id==='flag').label, 'Флаг СССР')
+  assert.equal(paths.size, 117)
+  assert.equal(appearanceChoices('tupolev-tu144', 'ru').some(choice => /флаг/i.test(choice.label)), false)
   assert.throws(() => appearanceArtPath('monarch-k1', 'studio', 'flag'), RangeError)
 })
 
@@ -70,7 +70,7 @@ test('the 78 original PDFs are read directly and colored sheets use the studio r
     }
     const paper = 'US_LETTER'
     const lang = 'es'
-    const appearance = sheet.family === 'butterfly' ? 'carnival' : 'flag'
+    const appearance = sheet.family === 'butterfly' ? 'carnival' : 'airshow'
     const colored = await loadAppearanceSheet(sheet.id, paper, lang, appearance, unexpectedAsset)
     assert.notDeepEqual(colored, await asset(sheetPath(sheet.id, paper, lang)))
     await verifyPages(colored, sheet.pages, paper, sheet.construction === 'k2')
@@ -95,22 +95,22 @@ test('an airplane with original colors and a whole-sheet edge is drawn instead o
   }
 })
 
-test('country flags render on airplane stock and exposed wing panels without changing folds', () => {
+test('airplane liveries keep the folds, print no flags, and the caption follows the livery', () => {
   for (const sheet of sheetCatalog.filter(item => item.family === 'airplane')) {
+    assert.throws(() => makePlane({ model_id: sheet.model, livery: 'flag' }), RangeError)
     for (const paper of paperSizes) {
       const baseline = makePlane({ model_id: sheet.model, paper })
-      const flagged = makePlane({ model_id: sheet.model, paper, livery: 'flag' })
-      assert.deepEqual(flagged.creases, baseline.creases)
-      assert.deepEqual(flagged.wingPolygon, baseline.wingPolygon)
-      const flagColor = ['tupolev-tu144', 'ilyushin-il62'].includes(sheet.model)
-        ? ['#CC0000', '#FFD700']
-        : ['#B31942', '#0A3161']
-      const svg = planeSvg(flagged)
-      const specimen = planeSpecimen(flagged)
-      for (const color of flagColor) {
-        assert.ok(svg.includes('fill="' + color + '"'))
-        assert.ok(specimen.includes('fill="' + color + '"'))
+      for (const { id } of appearanceChoices(sheet.model)) {
+        const plan = makePlane({ model_id: sheet.model, paper, livery: id })
+        assert.deepEqual(plan.creases, baseline.creases)
+        assert.deepEqual(plan.wingPolygon, baseline.wingPolygon)
+        for (const lang of sheetLocales) {
+          const caption = appearanceCaption(sheet.model, id, lang)
+          assert.equal(makePlane({ model_id: sheet.model, paper, livery: id }, lang).field.finish, caption)
+          assert.doesNotMatch(caption, /flag|bandera|флаг/i)
+        }
       }
     }
+    assert.notEqual(appearanceCaption(sheet.model, 'pencil', 'en'), appearanceCaption(sheet.model, 'heritage', 'en'))
   }
 })

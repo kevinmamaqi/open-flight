@@ -1,5 +1,5 @@
 export type ButterflyAppearance = 'natural' | 'carnival' | 'twilight' | 'coloring'
-export type AirplaneAppearance = 'heritage' | 'festival' | 'pencil' | 'flag' | 'airshow'
+export type AirplaneAppearance = 'heritage' | 'festival' | 'pencil' | 'airshow'
 export type FlyerAppearance = ButterflyAppearance | AirplaneAppearance | 'field' | 'sunset' | 'indigo'
 export type ArtworkStyle = 'studio' | 'illustrated' | 'ink'
 export const appearanceArtStyles: readonly ArtworkStyle[]
@@ -12,3 +12,4 @@ export function sheetAppearance(sheetId: string, appearance?: string): {
 }
 export function specimenPath(modelId: string, appearance?: string): string
 export function appearanceArtPath(sheetId: string, style?: string, appearance?: string): string
+export function appearanceCaption(modelId: string, appearance: string, lang?: string): string
