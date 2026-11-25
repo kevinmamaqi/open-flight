@@ -1,4 +1,5 @@
 export const ru = {
+  previousSite: 'Открыть модели, сохранённые на прежнем сайте',
   objectTag: 'Экспериментальные модели',
   objectFamily: 'Летающие модели',
   objectDesc: 'Сверни лист в кольцо, отпусти бумажную крылатку или сложи планер с двумя парами крыльев. Какая модель закрутится при падении?',
@@ -38,7 +39,7 @@ export const ru = {
   intro:
     'Бесплатная мастерская для детей 5–12 лет и взрослых. Для самолёта или кольцеплана хватит листа бумаги. Для бабочки или крылатки понадобятся распечатка, ножницы и скрепка. Можно начать без регистрации.',
   choose: 'Выбрать модель',
-  allSheets: 'Скачать библиотеку версии 0.9.2 (ZIP) ↓',
+  allSheets: 'Скачать библиотеку версии 0.9.3 (ZIP) ↓',
   getSheets: 'Листы для печати',
   bench: 'На рабочем столе',
   collections: 'Коллекция',
@@ -89,6 +90,7 @@ export const ru = {
   footer: 'Открытая мастерская бумажных полётов.',
 }
 export const es = {
+  previousSite: 'Abrir diseños guardados en el sitio anterior',
   objectTag: 'Diseños experimentales',
   objectFamily: 'Objetos voladores',
   objectDesc: 'Forma un anillo con una hoja, deja caer una semilla de arce de papel o pliega un planeador con dos pares de alas. ¿Cuál gira al caer?',
@@ -122,7 +124,7 @@ export const es = {
   choose: 'Elegir un diseño',
   cutStart: 'Hacer una mariposa',
   foldStart: 'Plegar un avión',
-  allSheets: 'Descargar la biblioteca de la versión 0.9.2 (ZIP) ↓',
+  allSheets: 'Descargar la biblioteca de la versión 0.9.3 (ZIP) ↓',
   getSheets: 'Plantillas para imprimir',
   bench: 'En la mesa de trabajo',
   collections: 'La colección',

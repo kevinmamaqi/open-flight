@@ -2,8 +2,23 @@ import test from 'node:test'
 import assert from 'node:assert/strict'
 import { bookURL, readBookURL, normalizeBook, bookPlan } from '../apps/editor/book-model.js'
 import { applyStudioColors, bookFromStudio, studioForBookSheet } from '../apps/editor/model-studio.js'
+import { movedPage, previousHome } from '../apps/editor/assets/workshop-address.js'
 
-const page = 'https://kevinmamaqi.github.io/open-flight/book.html'
+const page = 'https://openflight.design/book'
+test('old shared books retain their settings while saved work stays accessible at its original address', () => {
+  const chosen = {lang:'ru', paper:'US_LETTER', sheets:['monarch-k1','monarch-k2'], pilot:'Ира'}
+  assert.equal(new URL(bookURL(chosen)).origin, 'https://openflight.design')
+  const old = new URL(bookURL(chosen, previousHome + 'book.html'))
+  old.searchParams.set('p', '4')
+  const next = new URL(movedPage(old))
+  assert.equal(next.search, old.search)
+  assert.equal(next.hash, old.hash)
+  assert.deepEqual(normalizeBook(readBookURL(next)), normalizeBook(chosen))
+  for (const path of ['?previous=1', 'book.html', 'planes.html', 'studio.html#design=d-local&revision=r1']) {
+    assert.equal(movedPage(previousHome + path), null)
+  }
+  assert.equal(movedPage('https://kevinmamaqi.github.io/another-project/'), null)
+})
 test('a cover, palettes and model order survive the printed link as independent choices', () => {
   const chosen = { lang:'es', paper:'US_LETTER', sheets:['morpho','morpho-k1','boeing-747'], coverModel:'boeing-747',
     appearances:{'boeing-747':'flag',morpho:'twilight'}, pilot:'Ana', cover:'Mi atlas' }

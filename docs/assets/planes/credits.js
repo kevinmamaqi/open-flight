@@ -8,7 +8,7 @@ export const planeCredits = {
     name: 'CC BY-SA 4.0',
     url: 'https://creativecommons.org/licenses/by-sa/4.0/',
   },
-  url: 'https://kevinmamaqi.github.io/open-flight/references.html',
+  url: 'https://openflight.design/references',
 }
 export function creditText(locale) {
   const t = (en, ru, es) => ({ en, ru, es })[locale]

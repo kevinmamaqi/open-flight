@@ -4,7 +4,7 @@
 
 ## English
 
-Pick a paper monarch, blue morpho or swallowtail. What will happen if you raise just one little tab at the back of its wing? Try the two settings on the same glider and use the landing marks to tell the story. [Open the English workshop](https://kevinmamaqi.github.io/open-flight/?lang=en)
+Pick a paper monarch, blue morpho or swallowtail. What will happen if you raise just one little tab at the back of its wing? Try the two settings on the same glider and use the landing marks to tell the story. [Open the English workshop](https://openflight.design/?lang=en)
 
 **Gather** one sheet of A4 or US Letter paper, the matching butterfly pattern, scissors, a ruler, a small blunt paper clip, a pencil and ten little slips of paper. Find a clear indoor space.
 
@@ -21,11 +21,11 @@ Pick a paper monarch, blue morpho or swallowtail. What will happen if you raise 
 
 Write *left, ahead* or *right* as seen from the launch line, or draw a dot for each first landing. Nearby dots can overlap. Adults and older children can measure sideways distance from an imaginary straight line through the launch point. A young builder can point, fly and mark the spots while someone else reads and folds.
 
-For the adult leading the activity, a useful closing question is “Which mark makes you think so?” The onscreen trajectory illustrates a prediction. The marks record what this paper model did. To share an observation, include the model, paper size, tab setting and what happened. [English workshop](https://kevinmamaqi.github.io/open-flight/?lang=en) · [Public source and feedback](https://github.com/kevinmamaqi/open-flight)
+For the adult leading the activity, a useful closing question is “Which mark makes you think so?” The onscreen trajectory illustrates a prediction. The marks record what this paper model did. To share an observation, include the model, paper size, tab setting and what happened. [English workshop](https://openflight.design/?lang=en) · [Public source and feedback](https://github.com/kevinmamaqi/open-flight)
 
 ## По-русски
 
-Выбери бумажного монарха, голубого морфо или махаона. Что произойдёт, если чуть поднять один язычок на заднем крае крыла? Запусти одну и ту же модель с двумя разными настройками и сравни места посадки. [Открыть мастерскую на русском](https://kevinmamaqi.github.io/open-flight/?lang=ru)
+Выбери бумажного монарха, голубого морфо или махаона. Что произойдёт, если чуть поднять один язычок на заднем крае крыла? Запусти одну и ту же модель с двумя разными настройками и сравни места посадки. [Открыть мастерскую на русском](https://openflight.design/?lang=ru)
 
 **Приготовь** лист бумаги формата А4 или US Letter, подходящую выкройку бабочки, ножницы, линейку, небольшую скрепку с закруглёнными концами, карандаш и десять бумажных меток. Выбери свободное место в помещении.
 
@@ -42,7 +42,7 @@ For the adult leading the activity, a useful closing question is “Which mark m
 
 Запиши «слева», «прямо» или «справа», глядя с линии старта, или нарисуй точки посадки. Точки могут совпасть. Взрослые и старшие дети могут измерить, на сколько сантиметров модель отклонилась вбок от воображаемой прямой. Младший участник может сам делать прогноз, запускать бабочку и ставить метки, пока другой человек читает и помогает со сгибами.
 
-Для взрослого, который ведёт занятие, подойдёт вопрос «Какая отметка подсказала тебе эту мысль?». На экране виден возможный путь, а ваши отметки показывают, как летала именно эта бумажная бабочка. Если захотите поделиться наблюдением, укажите модель, формат бумаги, положение язычка и результат. [Мастерская на русском](https://kevinmamaqi.github.io/open-flight/?lang=ru) · [Исходники и обратная связь](https://github.com/kevinmamaqi/open-flight)
+Для взрослого, который ведёт занятие, подойдёт вопрос «Какая отметка подсказала тебе эту мысль?». На экране виден возможный путь, а ваши отметки показывают, как летала именно эта бумажная бабочка. Если захотите поделиться наблюдением, укажите модель, формат бумаги, положение язычка и результат. [Мастерская на русском](https://openflight.design/?lang=ru) · [Исходники и обратная связь](https://github.com/kevinmamaqi/open-flight)
 
 Original lesson text and tables © Open Flight contributors, licensed under CC BY-SA 4.0. An AI assistant helped draft the wording in both languages. Readers may translate, share and adapt the lesson with attribution and the same license. Project code, aircraft designs and credited photographs have their own notices. [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/) · [Open Flight](https://github.com/kevinmamaqi/open-flight)
 

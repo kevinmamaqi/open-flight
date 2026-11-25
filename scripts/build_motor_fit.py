@@ -48,7 +48,7 @@ def drawing(width, height):
     <text x="16" y="177" font-size="3.4">Added mass / Masa añadida / Добавленная масса __________________ g</text>
     <text x="16" y="194" font-size="4">First contact / Primer contacto / Первое касание</text>
     <text x="16" y="205" font-size="3.2">1 ____________  2 ____________  3 ____________  4 ____________  5 ____________</text>
-    <text x="16" y="228" font-size="3">https://kevinmamaqi.github.io/open-flight/motor.html · Apache-2.0</text>
+    <text x="16" y="228" font-size="3">https://openflight.design/motor · Apache-2.0</text>
   </g>
   <g fill="none" stroke="#202b25" stroke-width=".35">
     <rect id="cut-outline" x="16" y="57" width="{length}" height="{2 * wing + bridge}"/>

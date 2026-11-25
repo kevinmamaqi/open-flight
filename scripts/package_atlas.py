@@ -30,9 +30,9 @@ Imprime el PDF a tamaño real. Comprueba con una regla la línea de 50 mm de cad
 El taller completo incluye el Libro de vuelo gratuito con las portadas Modelo de estudio, Ilustrado y Ahorro de tinta. Recorre las páginas, elige una mariposa o un avión, cambia sus colores o ponlo en la portada. Descubre en el mapa los lugares de su historia. Imprime la página 2 al 100 % y comprueba la línea de 50 mm. La guía para el aula calcula páginas y copias por una cara para enviar con el PDF a una copistería. El laboratorio de motores incluye una maqueta imprimible y una hoja de observación.
 Para usar el taller completo sin conexión, descomprime el archivo, abre una terminal en esa carpeta, ejecuta python3 -m http.server 8000 y visita http://localhost:8000/es.html en el navegador. Abre /book.html?lang=es para el Libro de vuelo o /classroom.html?lang=es para el aula. Los PDF y las actividades HTML independientes se abren directamente. Consulta las licencias y los créditos en NOTICES.md.
 
-Website / Мастерская     https://kevinmamaqi.github.io/open-flight/
-Русская версия           https://kevinmamaqi.github.io/open-flight/ru.html
-Taller en español        https://kevinmamaqi.github.io/open-flight/es.html
+Website / Мастерская     https://openflight.design/
+Русская версия           https://openflight.design/ru
+Taller en español        https://openflight.design/es
 Source / Исходники       https://github.com/kevinmamaqi/open-flight
 """
 catalog = json.loads((site / 'assets/atlas/print-catalog.json').read_text())

@@ -177,7 +177,7 @@ test('recipes have different real outlines, crease sets, printable source and li
     for (const url of [
       'https://spdx.org/licenses/CERN-OHL-W-2.0.html',
       'https://creativecommons.org/licenses/by-sa/4.0/',
-      'https://kevinmamaqi.github.io/open-flight/references.html',
+      'https://openflight.design/references',
     ]) {
       assert.ok(svg.includes('href="' + url + '"'))
       assert.ok(planeGuide(plan).includes('href="' + url + '"'))

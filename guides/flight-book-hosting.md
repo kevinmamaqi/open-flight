@@ -1,6 +1,6 @@
 # Flight Book services on Cloudflare Pages
 
-The static GitHub Pages release and offline kit include the free Flight Book and individual sheets. The bundled service configuration is inactive. Hosted checkout and metrics can be enabled independently on a configured HTTPS origin.
+The public workshop and offline kit include the free Flight Book and individual sheets. The bundled service configuration is inactive. Hosted checkout and metrics can be enabled independently on a configured HTTPS origin.
 
 ## Prepare the Pages build
 
@@ -8,7 +8,9 @@ The static GitHub Pages release and offline kit include the free Flight Book and
 2. The Cloudflare build places the [Functions route template](../public-release/flight-book-routes.json) at `dist/cloudflare/_routes.json`. This sends only the service configuration, event and confirmation endpoints through Pages Functions.
 3. Use the public checkout as the Pages project root, with `npm run build:cloudflare` as the build command and `dist/cloudflare` as its output. Keep the [Functions source](../functions/_flight-book.js) and editor modules available to the bundler. If you choose Direct Upload, use Wrangler from the source checkout root so it bundles the Functions with the static folder. [Pages routing](https://developers.cloudflare.com/pages/functions/routing/) · [Direct Upload](https://developers.cloudflare.com/pages/get-started/direct-upload/)
 
-The current printable QR code, sitemap and social metadata use the GitHub Pages workshop address. If a custom domain becomes the main address, update the canonical URL in the [book model](../apps/editor/book-model.js), the [localized site build](../scripts/build_site.mjs), the home metadata and public links, then regenerate the site and sample. Keep the old GitHub Pages book route available for existing printed QR codes.
+The production workshop is hosted on Cloudflare Pages at openflight.design. The Git-connected project `openflight-design` watches `main` in `kevinmamaqi/open-flight`. Its root directory is `docs`, build command is `node ../scripts/prepare_pages.mjs` and output directory is `.pages-output`. It deploys the reviewed static release with each main-branch push. The apex and `www` are proxied CNAME records pointing to `openflight-design.pages.dev`. The `www` hostname redirects to the apex. [Public workshop](https://openflight.design/) · [Cloudflare Pages routing](https://developers.cloudflare.com/pages/configuration/serving-pages/)
+
+Older printed QR codes and shared bookmarks still work through the GitHub Pages copy. A link in the workshop footer opens that copy in the same browser to recover earlier saved models and book drafts. Browser storage is tied to the origin where the work was saved. New printed certificate links use the custom domain. [Open the earlier workshop](https://kevinmamaqi.github.io/open-flight/?previous=1)
 
 For an offline compilation check, run `wrangler pages functions build --outdir /tmp/open-flight-functions` from the source root. Wrangler's generated routes should agree with the template above.
 

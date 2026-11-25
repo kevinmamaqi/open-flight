@@ -83,7 +83,7 @@ for (const locale of sheetLocales) {
       title +
       ' · Open Flight</title><style>' +
       documentCss({ fontsBase: '../assets/fonts/' }) +
-      '</style><main><header><a href="https://kevinmamaqi.github.io/open-flight/' +
+      '</style><main><header><a href="https://openflight.design/' +
       home +
       '">Open Flight</a></header><h1>' +
       title +

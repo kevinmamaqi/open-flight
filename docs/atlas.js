@@ -1,10 +1,11 @@
-import { flightObjects } from './assets/objects/activities.js?v=12d2669e2f41'
-import { ru, es } from './atlas-copy.js?v=12d2669e2f41'
-import { currentLocale, homeURL, localizedLinks } from './atlas-nav.js?v=12d2669e2f41'
-import { fieldModel, studioLink, foldedLink } from './atlas-guide.js?v=12d2669e2f41'
-import { sheetCatalog, sheetIdFor, sheetPath } from './family-sheets.js?v=12d2669e2f41'
-import { bookURL, monarchTrialSheets, normalizeBook } from './book-model.js?v=12d2669e2f41'
-import { recordBookEvent } from './book-metrics.js?v=12d2669e2f41'
+import { flightObjects } from './assets/objects/activities.js?v=8a5cae46106b'
+import { ru, es } from './atlas-copy.js?v=8a5cae46106b'
+import { currentLocale, homeURL, languageInPath, localizedLinks } from './atlas-nav.js?v=8a5cae46106b'
+import { fieldModel, studioLink, foldedLink } from './atlas-guide.js?v=8a5cae46106b'
+import { sheetCatalog, sheetIdFor, sheetPath } from './family-sheets.js?v=8a5cae46106b'
+import { bookURL, monarchTrialSheets, normalizeBook } from './book-model.js?v=8a5cae46106b'
+import { recordBookEvent } from './book-metrics.js?v=8a5cae46106b'
+import { previousHome, workshopHome } from './assets/workshop-address.js?v=8a5cae46106b'
 
 const assetVersion = new URL(import.meta.url).search
 const fragment = new URLSearchParams(location.hash.slice(1))
@@ -12,7 +13,7 @@ if (fragment.has('grant') || (fragment.has('design') && fragment.has('revision')
   location.replace(new URL('./studio.html' + location.search + location.hash, import.meta.url))
 }
 const lang = currentLocale()
-const staticLanguage = location.pathname.match(/\/(es|ru)\.html$/)?.[1]
+const staticLanguage = languageInPath(location.pathname)
 if (staticLanguage && staticLanguage !== lang) {
   location.replace(homeURL(lang) + location.hash)
 }
@@ -31,6 +32,16 @@ if (translation) {
     if (translation[node.dataset.t]) node.textContent = translation[node.dataset.t]
 }
 localizedLinks(lang)
+const previousSite = $('previous-site')
+const onPreviousSite = location.href.startsWith(previousHome)
+previousSite.href = new URL(homeURL(lang), onPreviousSite ? workshopHome : previousHome).href
+if (onPreviousSite) {
+  previousSite.textContent = t('Go to openflight.design', 'Ir a openflight.design', 'Перейти на openflight.design')
+} else {
+  const saved = new URL(previousSite.href)
+  saved.searchParams.set('previous', '1')
+  previousSite.href = saved.href
+}
 for (const a of document.querySelectorAll('.wordmark')) a.href = homeURL(lang)
 for (const a of document.querySelectorAll('[data-route]'))
   a.href = a.dataset.route === 'airplane' ? studioLink('boeing-747', lang) : studioLink('monarch', lang)

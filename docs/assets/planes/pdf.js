@@ -1,8 +1,8 @@
-import { aircraftPortrait } from './field-portraits.js?v=12d2669e2f41'
-import { backScene, pageSize, sheetScene, specimenScene } from './drawing.js?v=12d2669e2f41'
-import { foldScene } from './guide.js?v=12d2669e2f41'
-import { planeCredits, creditText } from './credits.js?v=12d2669e2f41'
-import { atLeastLine, atLeastText, fontNotice as printFontNotice, ink, muted, registerFonts, textMm, useFont } from '../brand/print.js?v=12d2669e2f41'
+import { aircraftPortrait } from './field-portraits.js?v=8a5cae46106b'
+import { backScene, pageSize, sheetScene, specimenScene } from './drawing.js?v=8a5cae46106b'
+import { foldScene } from './guide.js?v=8a5cae46106b'
+import { planeCredits, creditText } from './credits.js?v=8a5cae46106b'
+import { atLeastLine, atLeastText, fontNotice as printFontNotice, ink, muted, registerFonts, textMm, useFont } from '../brand/print.js?v=8a5cae46106b'
 
 function draw(doc, parts, offset = [0, 0], scale = 1) {
   const pt = ([x, y]) => [offset[0] + x * scale, offset[1] + y * scale]

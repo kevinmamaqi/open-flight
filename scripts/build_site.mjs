@@ -2,6 +2,7 @@ import { flightObjects } from '../apps/editor/assets/objects/activities.js'
 import { monarchTrialSheets } from '../apps/editor/book-model.js'
 import { paperSizes, sheetLocales } from '../apps/editor/family-sheets.js'
 import { createBook } from '../packages/print-export/family-book.js'
+import { previousHome, workshopHome as domain } from '../apps/editor/assets/workshop-address.js'
 import { createHash } from 'node:crypto'
 import { readFile } from 'node:fs/promises'
 import { ru, es } from '../apps/editor/atlas-copy.js'
@@ -12,7 +13,6 @@ const root = fileURLToPath(new URL('../', import.meta.url)),
   editor = join(root, 'apps/editor')
 const out = resolve(root, process.argv[2] ?? 'dist/site')
 mkdirSync(out, { recursive: true })
-const domain = 'https://kevinmamaqi.github.io/open-flight/'
 const updateAttr = (name, value) => ({ element: (el) => el.setAttribute(name, value) })
 const replaceText = (value) => ({ element: (el) => el.setInnerContent(value) })
 // Pages caches files independently. Link each release's HTML and ES module graph
@@ -76,12 +76,14 @@ for (const [lang, copy, title, region, photoAlt, name, family] of [
       updateAttr('content', domain + 'assets/brand/social-' + lang + '.png'),
     )
     .on('meta[property="og:image:alt"]', updateAttr('content', photoAlt))
-    .on('link[rel="canonical"]', updateAttr('href', domain + lang + '.html'))
+    .on('link[rel="canonical"]', updateAttr('href', domain + lang))
+    .on('meta[property="og:url"]', updateAttr('content', domain + lang))
     .on('#book-log-image', updateAttr('src', './assets/atlas/book-log-' + lang + '.png'))
     .on('#book-cover-image', updateAttr('src', './assets/atlas/book-cover-' + lang + '.png'))
     .on('#specimen', updateAttr('alt', photoAlt))
     .on('#specimen-name', replaceText(name + ' ↗'))
     .on('#specimen-family', replaceText(family))
+    .on('#previous-site', updateAttr('href', previousHome + lang + '.html?previous=1'))
   for (const item of flightObjects(lang).activities) {
     const selector = '[data-object="' + item.id + '"]'
     rewrite = rewrite.on(selector, replaceText(item.title)).on(selector, updateAttr('href', './flight-objects.html?model=' + item.id + '&lang=' + lang))
@@ -159,21 +161,20 @@ writeFileSync(
   "location.replace(document.getElementById('route').href+location.search+location.hash)\n",
 )
 writeFileSync(join(out, '.nojekyll'), '')
-const origin = 'https://kevinmamaqi.github.io/open-flight/'
 const pages = ['book.html','classroom.html','motor.html','keel.html','costa.html','studio.html', 'planes.html', 'references.html', 'compare.html', 'next.html', 'flight-objects.html']
 writeFileSync(
   join(out, 'sitemap.xml'),
   '<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">' +
     '<url><loc>' +
-    origin +
+    domain +
     '</loc></url><url><loc>' +
-    origin +
-    'ru.html</loc></url><url><loc>' +
-    origin +
-    'es.html</loc></url>' +
+    domain +
+    'ru</loc></url><url><loc>' +
+    domain +
+    'es</loc></url>' +
     pages
       .flatMap((page) =>
-        ['en', 'ru', 'es'].map((lang) => '<url><loc>' + origin + page + '?lang=' + lang + '</loc></url>'),
+        ['en', 'ru', 'es'].map((lang) => '<url><loc>' + domain + page.replace(/\.html$/, '') + '?lang=' + lang + '</loc></url>'),
       )
       .join('') +
     '</urlset>',

@@ -1,5 +1,5 @@
-import { compareModels, designIds, fieldModel } from './atlas-guide.js?v=12d2669e2f41'
-import { currentLocale, homeURL, localizedLinks } from './atlas-nav.js?v=12d2669e2f41'
+import { compareModels, designIds, fieldModel } from './atlas-guide.js?v=8a5cae46106b'
+import { currentLocale, homeURL, localizedLinks } from './atlas-nav.js?v=8a5cae46106b'
 const lang = currentLocale(),
   i = { en: 0, es: 1, ru: 2 }[lang]
 const t = (en, es, ru) => [en, es, ru][i],

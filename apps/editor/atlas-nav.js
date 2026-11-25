@@ -1,7 +1,27 @@
+import { movedPage, previousHome, workshopHome } from './assets/workshop-address.js'
+
+if (location.href.startsWith(previousHome)) {
+  let keepPrevious = new URLSearchParams(location.search).get('previous') === '1'
+  try {
+    if (keepPrevious) sessionStorage.setItem('open-flight-previous-site', '1')
+    else keepPrevious = sessionStorage.getItem('open-flight-previous-site') === '1'
+  } catch {}
+  const destination = !keepPrevious && movedPage(location.href)
+  if (destination) {
+    // Keep old links usable while DNS or TLS is still propagating.
+    fetch(new URL('assets/atlas/print-catalog.json', workshopHome), {
+      method: 'HEAD', credentials: 'omit', referrerPolicy: 'no-referrer',
+    }).then(response => {
+      if (response.ok && response.headers.get('content-type')?.includes('application/json')) location.replace(destination)
+    }).catch(() => {})
+  }
+}
+
 const locales = ['en', 'es', 'ru']
+export const languageInPath = path => path.match(/\/(es|ru)(?:\.html)?$/)?.[1]
 export function currentLocale() {
   const forced = new URLSearchParams(location.search).get('lang')
-  const pathLang = location.pathname.match(/\/(es|ru)\.html$/)?.[1]
+  const pathLang = languageInPath(location.pathname)
   let saved
   try {
     saved = sessionStorage.getItem('open-flight-language')
@@ -28,7 +48,7 @@ export function localizedLinks(lang) {
   for (const l of locales) {
     const a = document.getElementById(l)
     if (!a) continue
-    const home = /\/(es|ru|atlas|index)\.html$/.test(location.pathname) || location.pathname.endsWith('/')
+    const home = /\/(es|ru|atlas|index)(?:\.html)?$/.test(location.pathname) || location.pathname.endsWith('/')
     const url = new URL(home ? homeURL(l) : location.href, location.href)
     if (!home) url.searchParams.set('lang', l)
     url.hash = location.hash
@@ -97,9 +117,10 @@ if (markers.length) {
         home = homeURL(lang),
         page = new URL(location.href),
         hash = new URLSearchParams(page.hash.slice(1))
-      const plane = page.pathname.endsWith('/planes.html')
-      const butterfly = page.pathname.endsWith('/studio.html')
-      const folded = page.pathname.endsWith('/keel.html')
+      const path = page.pathname.replace(/\.html$/, '')
+      const plane = path.endsWith('/planes')
+      const butterfly = path.endsWith('/studio')
+      const folded = path.endsWith('/keel')
       const id = plane
         ? page.searchParams.get('model')
         : butterfly

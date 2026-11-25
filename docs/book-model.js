@@ -1,13 +1,14 @@
-import { objects } from './assets/objects/activities.js?v=12d2669e2f41'
-import { appearanceChoices, appearanceArtPath, appearanceArtStyles } from './model-appearance.js?v=12d2669e2f41'
-import { paperSizes, sheetCatalog, sheetIdFor, sheetLocales } from './family-sheets.js?v=12d2669e2f41'
-import { sheetEdges } from './assets/print-faces.js?v=12d2669e2f41'
+import { objects } from './assets/objects/activities.js?v=8a5cae46106b'
+import { appearanceChoices, appearanceArtPath, appearanceArtStyles } from './model-appearance.js?v=8a5cae46106b'
+import { paperSizes, sheetCatalog, sheetIdFor, sheetLocales } from './family-sheets.js?v=8a5cae46106b'
+import { sheetEdges } from './assets/print-faces.js?v=8a5cae46106b'
+import { workshopHome } from './assets/workshop-address.js?v=8a5cae46106b'
 
 export const monarchTrialSheets = Object.freeze(['monarch-k1', 'monarch-k2'])
 
 const entries = new Map(sheetCatalog.map(item => [item.id, item]))
 const titles = { en: 'Flight Book', es: 'Libro de vuelo', ru: 'Книга полётов' }
-const canonicalBook = 'https://kevinmamaqi.github.io/open-flight/book.html'
+const canonicalBook = new URL('book', workshopHome).href
 export const bookTitle = lang => titles[lang] || titles.en
 export function bookEdition(lang, count, paper) {
   const plural = new Intl.PluralRules(lang).select(count)
