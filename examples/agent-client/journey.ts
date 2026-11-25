@@ -77,7 +77,7 @@ try {
   assert.equal(lab.evidenceState, 'concept')
   assert.equal(lab.locale, 'es')
   assert.ok(lab.bom.length && lab.files.some((f: { id: string }) => f.id === 'source'))
-  const bookSettings = { lang: 'es', paper: 'US_LETTER', cover: 'Alas de papel', pilot: 'Lucía', style: 'studio', theme: 'meadow', coverModel: 'boeing-747', appearances: { morpho: 'twilight', 'boeing-747': 'flag' }, sheets: ['morpho-k1', 'swallowtail-k1', 'boeing-747'] }
+  const bookSettings = { lang: 'es', paper: 'US_LETTER', cover: 'Alas de papel', pilot: 'Lucía', style: 'studio', theme: 'meadow', edge: 'whole', coverModel: 'boeing-747', appearances: { morpho: 'twilight', 'boeing-747': 'flag' }, sheets: ['morpho-k1', 'swallowtail-k1', 'boeing-747'] }
   const manifest = await call('render_family_book', { settings: bookSettings })
   assert.deepEqual(manifest.settings, bookSettings)
   assert.equal(manifest.page_count, 15)

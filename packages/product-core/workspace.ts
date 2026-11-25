@@ -1,7 +1,7 @@
 import { compareModels } from '../../apps/editor/atlas-guide.js'
 import { motorRoadmap } from '../../apps/editor/atlas-roadmap.js'
 import { flightCircuit, simulateFlight } from '../../apps/editor/flight-model.js'
-import { planeCatalog, sheetSizes, liveries, revision as planeRevision } from '../planes/index.ts'
+import { planeCatalog, sheetSizes, liveries, sheetEdges, revision as planeRevision } from '../planes/index.ts'
 import { motorLab, renderFamilyBook } from './family-publications.ts'
 import { foldedButterflyPlan } from './folded-butterflies.ts'
 import { airplanePlan } from './airplanes.ts'
@@ -230,7 +230,7 @@ export class Workspace {
       case 'simulateFlight':
         return simulateFlight(a)
       case 'listAirplanes':
-        return { revision: planeRevision, papers: Object.keys(sheetSizes), liveries, items: planeCatalog }
+        return { revision: planeRevision, papers: Object.keys(sheetSizes), edges: sheetEdges, liveries, items: planeCatalog }
       case 'planFoldedButterfly':
         return foldedButterflyPlan(a.settings, a.locale, a.output)
       case 'planAirplane':

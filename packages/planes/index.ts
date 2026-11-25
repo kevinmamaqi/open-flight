@@ -10,9 +10,12 @@ export {
   planeSource,
   sheetSizes,
   revision,
+  revisions,
+  sheetEdges,
+  trimMm,
   liveries,
 } from '../../apps/editor/assets/planes/core.js'
-export { planeSvg, planeSpecimen } from '../../apps/editor/assets/planes/drawing.js'
+export { planeSvg, planeBackSvg, planeSpecimen, printSafeMm } from '../../apps/editor/assets/planes/drawing.js'
 export { foldSvg, planeGuide } from '../../apps/editor/assets/planes/guide.js'
 const require = createRequire(import.meta.url)
 let font: string | undefined

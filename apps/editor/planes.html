@@ -149,6 +149,14 @@
               <option value="A4">A4 · 210 × 297 mm</option>
               <option value="US_LETTER">US Letter · 8½ × 11 in</option>
             </select>
+            <label for="edge" data-copy="edge">Sheet edge</label
+            ><select id="edge">
+              <option value="cut">Cut border · any printer</option>
+              <option value="whole">Whole sheet · edge-to-edge printing</option>
+            </select>
+            <p id="edge-hint" class="hint">
+              A thick line 7 mm inside the paper. Cut along it first; the fold lines run to it, so any print scale works.
+            </p>
             <label for="livery" data-copy="livery">Printed colors</label
             ><select id="livery"></select>
             <p id="flag-help" class="hint" data-copy="flagHelp" hidden>
@@ -172,7 +180,7 @@
           <p class="eyebrow" data-copy="build">Build at home</p>
           <h2 data-copy="files">The print pack</h2>
           <p data-copy="printHelp">
-            Print page 1 at 100%. The diagram pages can stay on screen. Check the 20 mm line with a ruler.
+            Print page 1, or pages 1–2 double-sided (flip on long edge) to see the folds on both faces. With a cut border, cut along the thick line before folding.
           </p>
           <div class="resource-actions">
             <button type="button" class="button primary pdf" data-copy="print">Download build PDF</button

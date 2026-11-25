@@ -3983,7 +3983,11 @@
             "const": "open-flight-plane"
           },
           "revision": {
-            "const": "1"
+            "enum": ["1", "2"]
+          },
+          "edge": {
+            "enum": ["cut", "whole"],
+            "description": "cut prints a thick border 7 mm inside the paper and folds the cut-out sheet. whole folds the full paper. Revision 2 only; defaults to cut."
           },
           "model_id": {
             "$ref": "#/components/schemas/AirplaneModelId"
@@ -4019,7 +4023,11 @@
             "const": "open-flight-plane"
           },
           "revision": {
-            "const": "1"
+            "enum": ["1", "2"]
+          },
+          "edge": {
+            "enum": ["cut", "whole"],
+            "description": "cut prints a thick border 7 mm inside the paper and folds the cut-out sheet. whole folds the full paper. Revision 2 only; defaults to cut."
           },
           "model_id": {
             "$ref": "#/components/schemas/AirplaneModelId"
@@ -4168,7 +4176,11 @@
         "additionalProperties": false,
         "properties": {
           "revision": {
-            "const": "1"
+            "const": "2"
+          },
+          "edges": {
+            "type": "array",
+            "items": { "enum": ["cut", "whole"] }
           },
           "papers": {
             "type": "array",
@@ -5472,6 +5484,13 @@
               "meadow"
             ]
           },
+          "edge": {
+            "enum": [
+              "cut",
+              "whole"
+            ],
+            "description": "Airplane pages. cut prints a thick border 7 mm inside the paper to cut along before folding and works on every printer. whole folds the full page, for edge-to-edge printers or trimmed print-shop pages. Butterflies are always cut along their outline."
+          },
           "cover": {
             "type": "string",
             "maxLength": 64
@@ -5489,7 +5508,10 @@
                 "boeing-747",
                 "douglas-dc3",
                 "tupolev-tu144",
-                "ilyushin-il62"
+                "ilyushin-il62",
+                "monarch-k2",
+                "morpho-k2",
+                "swallowtail-k2"
               ]
             },
             "uniqueItems": true,
@@ -5518,7 +5540,10 @@
               "boeing-747",
               "douglas-dc3",
               "tupolev-tu144",
-              "ilyushin-il62"
+              "ilyushin-il62",
+              "monarch-k2",
+              "morpho-k2",
+              "swallowtail-k2"
             ]
           },
           "appearances": {
@@ -5661,6 +5686,13 @@
                   "meadow"
                 ]
               },
+              "edge": {
+                "enum": [
+                  "cut",
+                  "whole"
+                ],
+                "description": "Airplane pages. cut prints a thick border 7 mm inside the paper to cut along before folding and works on every printer. whole folds the full page, for edge-to-edge printers or trimmed print-shop pages. Butterflies are always cut along their outline."
+              },
               "cover": {
                 "type": "string",
                 "maxLength": 64
@@ -5678,7 +5710,10 @@
                     "boeing-747",
                     "douglas-dc3",
                     "tupolev-tu144",
-                    "ilyushin-il62"
+                    "ilyushin-il62",
+                    "monarch-k2",
+                    "morpho-k2",
+                    "swallowtail-k2"
                   ]
                 },
                 "uniqueItems": true,
@@ -5707,7 +5742,10 @@
                   "boeing-747",
                   "douglas-dc3",
                   "tupolev-tu144",
-                  "ilyushin-il62"
+                  "ilyushin-il62",
+                  "monarch-k2",
+                  "morpho-k2",
+                  "swallowtail-k2"
                 ]
               },
               "appearances": {
@@ -5777,6 +5815,7 @@
               "lang",
               "paper",
               "theme",
+              "edge",
               "cover",
               "sheets",
               "pilot",
@@ -5802,7 +5841,10 @@
                     "boeing-747",
                     "douglas-dc3",
                     "tupolev-tu144",
-                    "ilyushin-il62"
+                    "ilyushin-il62",
+                    "monarch-k2",
+                    "morpho-k2",
+                    "swallowtail-k2"
                   ]
                 },
                 "path": {
@@ -5922,7 +5964,10 @@
                     "boeing-747",
                     "douglas-dc3",
                     "tupolev-tu144",
-                    "ilyushin-il62"
+                    "ilyushin-il62",
+                    "monarch-k2",
+                    "morpho-k2",
+                    "swallowtail-k2"
                   ]
                 },
                 "field_note": {
@@ -6155,7 +6200,10 @@
                         "boeing-747",
                         "douglas-dc3",
                         "tupolev-tu144",
-                        "ilyushin-il62"
+                        "ilyushin-il62",
+                        "monarch-k2",
+                        "morpho-k2",
+                        "swallowtail-k2"
                       ]
                     },
                     "pages": {

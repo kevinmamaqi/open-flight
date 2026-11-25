@@ -133,7 +133,7 @@ writeFileSync(
 )
 writeFileSync(join(out, '.nojekyll'), '')
 const origin = 'https://kevinmamaqi.github.io/open-flight/'
-const pages = ['book.html','classroom.html','motor.html','keel.html','studio.html', 'planes.html', 'references.html', 'compare.html', 'next.html']
+const pages = ['book.html','classroom.html','motor.html','keel.html','costa.html','studio.html', 'planes.html', 'references.html', 'compare.html', 'next.html']
 writeFileSync(
   join(out, 'sitemap.xml'),
   '<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">' +
@@ -159,6 +159,7 @@ for (const path of [
   'studio.html',
   'planes.html',
   'flight-viewer.js', 'keel.js','keel-guide.js','library/monarch-k1-US_LETTER-es.pdf',
+  'costa.html', 'costa.js', 'library/monarch-k2-A4-ru.pdf', 'assets/print-faces.js',
   'browser-workshop.js',
   'references.html',
   'library/boeing-747-US_LETTER-ru.pdf',

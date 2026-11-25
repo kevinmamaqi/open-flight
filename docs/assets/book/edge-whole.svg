@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 84 64" role="img" aria-label="Whole page; fold lines run to the paper edge">
+  <rect x="21" y="2" width="42" height="60" fill="#fff" stroke="#233e46" stroke-width="0.8"/>
+  <g fill="none" stroke="#233e46" stroke-width="0.7" stroke-dasharray="2 1.4">
+    <path d="M42 2V62M42 2L21 22.5M42 2L63 22.5M37.5 62V22M46.5 62V22"/>
+  </g>
+</svg>

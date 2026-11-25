@@ -2,6 +2,8 @@ export type PlaneModelId = 'boeing-747' | 'douglas-dc3' | 'tupolev-tu144' | 'ily
 export type PlanePaper = 'A4' | 'US_LETTER'
 export type PlaneLivery = 'heritage' | 'festival' | 'pencil' | 'flag'
 export type PlaneLocale = 'en' | 'ru' | 'es'
+// 'cut': fold the sheet inside a printed cut border. 'whole': fold the full paper.
+export type PlaneEdge = 'cut' | 'whole'
 export type Point = [number, number]
 export interface PlaneOptions {
   model_id: PlaneModelId
@@ -10,9 +12,11 @@ export interface PlaneOptions {
   winglet_mm?: number
   livery?: PlaneLivery
   revision?: string
+  edge?: PlaneEdge
 }
-export interface PlaneSource extends Required<PlaneOptions> {
+export interface PlaneSource extends Required<Omit<PlaneOptions, 'edge'>> {
   format: 'open-flight-plane'
+  edge?: PlaneEdge
 }
 export interface PlaneReference {
   label: string
@@ -93,6 +97,9 @@ export interface PlanePlan extends PlaneSource {
   experiment: string
   reference: PlaneReference
   dimensions: { width_mm: number; height_mm: number }
+  page: { width_mm: number; height_mm: number }
+  edge: PlaneEdge
+  trim_mm: number
   colors: [string, string, string]
   code: string
   motif: string

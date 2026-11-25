@@ -48,6 +48,7 @@ library_lessons = {f'family-lesson-{locale}.html' for locale in locales}
 workshop_files = {
     'index.html', 'ru.html', 'es.html', 'studio.html', 'planes.html', 'compare.html', 'next.html', 'references.html',
     'keel.html','keel.js','keel.css','keel-guide.js', 'studio-folded.js', 'fold-lesson.js', 'fold-lesson.css',
+    'costa.html', 'costa.js', 'costa.css', 'assets/print-faces.js', 'assets/book/edge-cut.svg', 'assets/book/edge-whole.svg',
     'book.html', 'book.js', 'book.css', 'book-engine.js', 'book-support.js', 'family-sheets.js',
     'model-origins.js', 'model-map.js', 'model-map.css', 'model-appearance.js', 'model-studio.js',
     'studio-origins.js', 'appearance-sheet-browser.js', 'book-reader.js', 'assets/book/art-catalog.json', 'assets/origins/world-land.png',

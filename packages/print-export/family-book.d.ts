@@ -2,6 +2,7 @@ export type BookOptions = {
   lang?: "en" | "es" | "ru";
   paper?: "A4" | "US_LETTER";
   theme?: "sky" | "sunset" | "meadow";
+  edge?: "cut" | "whole";
   cover?: string;
   pilot?: string;
   style?: "studio" | "illustrated" | "ink";

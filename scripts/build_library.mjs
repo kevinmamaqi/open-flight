@@ -13,6 +13,7 @@ import { pdf } from "../packages/print-export/sheets.ts";
 import { workshopModels } from "../packages/geometry/workshop.ts";
 import { makeFoldedButterfly, foldedPdf } from "../packages/folded-butterfly/index.ts";
 import { makePlane, planePdf, planeCatalog } from "../packages/planes/index.ts";
+import { makeK2, k2Pdf } from "../packages/folded-butterfly/k2-sheet.ts";
 
 const root = fileURLToPath(new URL("../", import.meta.url));
 const editor = join(root, "apps/editor"),
@@ -106,6 +107,10 @@ for (const locale of sheetLocales) {
         join(editor, sheetPath(sheetIdFor(m.species, 'w1'), paper, locale)),
         pdf(sheetFor(seed.dto, paper, locale)),
       );
+      writeFileSync(
+        join(editor, sheetPath(sheetIdFor(m.species, 'k2'), paper, locale)),
+        k2Pdf(makeK2({ species: m.species, paper, locale })),
+      );
     }
     for (const m of planeCatalog) {
       const plan = makePlane({ model_id: m.model_id, paper }, locale);
@@ -116,4 +121,4 @@ for (const locale of sheetLocales) {
     }
   }
 }
-console.log("Built 60 calibrated starter PDFs and three offline family lessons.");
+console.log("Built " + sheetCatalog.length * paperSizes.length * sheetLocales.length + " calibrated starter PDFs and three offline family lessons.");

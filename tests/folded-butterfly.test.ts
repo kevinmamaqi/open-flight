@@ -148,12 +148,11 @@ test('editable K1 source is locale-independent and validates saved revision and 
 
 function pdfPaths(bytes: Uint8Array) {
   const binary = Buffer.from(bytes).toString('latin1')
-  const stream =
-    /\/Filter \/FlateDecode\s*>>\s*stream\r?\n([\s\S]*?)\r?\nendstream/.exec(
-      binary,
-    )
-  assert.ok(stream, 'find the compressed page paths')
-  return inflateSync(Buffer.from(stream[1], 'latin1')).toString('latin1')
+  // Read exactly /Length bytes: compressed data may itself end in a carriage return.
+  const head = /\/Length (\d+)[^>]*\/Filter \/FlateDecode\s*>>\s*stream\r?\n/.exec(binary)
+  assert.ok(head, 'find the compressed page paths')
+  const start = head.index + head[0].length
+  return inflateSync(Buffer.from(binary.slice(start, start + Number(head[1])), 'latin1')).toString('latin1')
 }
 
 test('SVG and PDF use actual-size paper and the same 50 mm ruler', () => {
@@ -185,7 +184,7 @@ test('SVG and PDF use actual-size paper and the same 50 mm ruler', () => {
       assert.ok(!preview.includes('id="ruler"'))
       const bytes = foldedPdf(plan)
       const pdf = Buffer.from(bytes).toString('latin1')
-      assert.match(pdf, /\/Count 2\b/)
+      assert.match(pdf, /\/Count 3\b/)
       const box = /\/MediaBox \[0 0 ([\d.]+) ([\d.]+)\]/.exec(pdf)
       assert.ok(box, 'includes the calibrated page box')
       const ptToMM = 25.4 / 72

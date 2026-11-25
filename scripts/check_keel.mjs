@@ -119,7 +119,7 @@ try {
   assert.match((await download("svg")).toString(), /<svg\b/);
   const printable = await download("pdf");
   assert.equal(printable.subarray(0, 5).toString(), "%PDF-");
-  assert.equal(pagesIn(printable), 2, "downloaded PDF page count");
+  assert.equal(pagesIn(printable), 3, "downloaded PDF page count: sheet, back face and guide");
   for (const [paper, mediaBox] of [
     ["US_LETTER", /\/MediaBox\s*\[0 0 612 792\]/],
     ["A4", /\/MediaBox\s*\[0 0 594(?:\.\d+)? 841(?:\.\d+)?\]/],

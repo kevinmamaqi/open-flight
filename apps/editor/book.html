@@ -205,6 +205,22 @@
                       /><strong data-book="tabs">Rear wing tabs</strong></span
                     >
                   </label>
+                  <label>
+                    <input
+                      type="radio"
+                      name="construction"
+                      value="k2"
+                      aria-describedby="costa-hint"
+                    />
+                    <span
+                      ><img
+                        id="costa-example"
+                        alt=""
+                        width="288"
+                        height="180"
+                      /><strong data-book="costa">Costa glider</strong></span
+                    >
+                  </label>
                 </div>
                 <p id="spine-hint" class="hint" data-book="spineHint">
                   Pinch the center crease to make a stiff spine to hold.
@@ -213,9 +229,12 @@
                   Bend the small tabs at the back of the wings up or down to
                   adjust the glide.
                 </p>
+                <p id="costa-hint" class="hint" data-book="costaHint">
+                  Experimental: a stiff folded front edge, a longer head for two clips and a balance check. Use 120 g/m² paper.
+                </p>
                 <p id="mixed-builds" class="hint" data-book="mixed" hidden>
-                  This book has both folds. Open print order to remove an
-                  individual sheet.
+                  This book mixes butterfly folds. Open print order to remove
+                  an individual sheet.
                 </p>
               </fieldset>
               <a
@@ -278,6 +297,36 @@
                   <span data-book="letter">US Letter</span></label
                 >
               </div>
+            </fieldset>
+            <fieldset id="edge-choice" class="edge-choice">
+              <legend data-book="edgeLabel">Airplane pages</legend>
+              <div class="fold-options">
+                <label>
+                  <input type="radio" name="edge" value="cut" checked aria-describedby="edge-cut-hint" />
+                  <span
+                    ><img src="./assets/book/edge-cut.svg" alt="" width="168" height="128" /><strong
+                      data-book="edgeCut"
+                      >Cut border</strong
+                    ><small id="edge-cut-hint" data-book="edgeCutHint"
+                      >Works on every printer. Cut along the thick line, then fold.</small
+                    ></span
+                  >
+                </label>
+                <label>
+                  <input type="radio" name="edge" value="whole" aria-describedby="edge-whole-hint" />
+                  <span
+                    ><img src="./assets/book/edge-whole.svg" alt="" width="168" height="128" /><strong
+                      data-book="edgeWhole"
+                      >Whole sheet</strong
+                    ><small id="edge-whole-hint" data-book="edgeWholeHint"
+                      >No cutting. Only if your printer prints to the very edge.</small
+                    ></span
+                  >
+                </label>
+              </div>
+              <p class="hint" data-book="edgeHint">
+                Butterflies are always cut along their outline, so this only changes the airplane pages.
+              </p>
             </fieldset>
             <details class="advanced">
               <summary data-book="advanced">Artwork and print order</summary>

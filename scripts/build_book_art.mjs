@@ -13,6 +13,7 @@ import {
   foldedPreview,
   makeFoldedButterfly,
 } from '../packages/folded-butterfly/index.ts'
+import { k2Flat, k2Preview, makeK2 } from '../packages/folded-butterfly/k2-sheet.ts'
 
 function keel(model, appearance) {
   const plan = makeFoldedButterfly({ species: model, appearance_id: appearance })
@@ -61,8 +62,48 @@ function keel(model, appearance) {
   return { world: { faces, lines: [{ points: clip }] }, svg, inkSvg }
 }
 
+// K2: the same folded body under swept forewings, with the clips in the longer head.
+function costa(model, appearance) {
+  const plan = makeK2({ species: model, appearance_id: appearance })
+  const flat = k2Flat(plan)
+  const { keel_depth_mm: depth, nose_y_mm: nose, tail_y_mm: tail } = plan
+  const outline = flat.outline
+  const top = Math.min(...outline.map(([, y]) => y))
+  const bottom = Math.max(...outline.map(([, y]) => y))
+  const xs = outline.map(([x]) => x)
+  const width = Math.max(...xs) - Math.min(...xs) + 6
+  const height = bottom - top + 6
+  const center = (top + bottom) / 2
+  // The finished wings are the top outline beside the body web; the hem is folded underneath.
+  const half = plan.outline.top.slice(0, plan.outline.top.findIndex(([x], i) => i > 0 && x === 0) + 1)
+  const faces = [-1, 1].flatMap((side) => {
+    const wing = half.map(([x, y]) => [side * x + side * depth, y])
+    const wall = [[side * depth, nose], [0, nose], [0, tail], [side * depth, tail]]
+    return [
+      { flat: wing, points: wing.map(([x, y]) => [x - side * depth, 0, y - center]) },
+      { flat: wall, points: wall.map(([x, y]) => [0.12 * side, Math.abs(x) - depth, y - center]) },
+    ].map((face) => ({
+      ...face,
+      uv: face.flat.map(([x, y]) => [0.5 + x / width, 1 - (y - top + 3) / height]),
+      image: 'keel',
+    }))
+  })
+  const clipNose = nose - center - 1.3
+  const clipStop = plan.wing_root_y_mm - 3 - center
+  const clip = [
+    [clipStop - 4, 0], [clipNose + 3, 0], [clipNose + 1, 0.7], [clipNose, 2.5], [clipNose + 0.3, 4.6],
+    [clipNose + 2, 6.5], [clipNose + 4, 7], [clipStop - 3, 7], [clipStop - 1, 5.9], [clipStop, 3.7],
+    [clipStop - 0.7, 1.5], [clipStop - 2.8, 0.8],
+  ].map(([z, rise]) => [0.55, rise - depth - 0.3, z])
+  const sized = (svg) => svg.replace('<svg ', `<svg width="${Math.round(width * 7)}" height="${Math.round(height * 7)}" `)
+  const svg = sized(k2Preview(plan))
+  const inkSvg = sized(k2Preview(makeK2({ species: model, appearance_id: 'coloring' })))
+  return { world: { faces, lines: [{ points: clip }] }, svg, inkSvg }
+}
+
 function modelFor(entry, appearance) {
   if (entry.construction === 'k1') return keel(entry.model, appearance)
+  if (entry.construction === 'k2') return costa(entry.model, appearance)
   if (entry.construction === 'w1') {
     const world = makeWorld({
       family: entry.family,
@@ -108,7 +149,10 @@ try {
   await page.goto(documentUrl.href)
   await page.evaluate(async (url) => { window.renderBookArt = (await import(url)).renderBookArt }, renderUrl)
   await mkdir(output, { recursive: true })
+  // OPENFLIGHT_ART_ONLY=k2 renders one construction (or one sheet id) and leaves the rest untouched.
+  const only = process.env.OPENFLIGHT_ART_ONLY
   for (const entry of sheetCatalog) {
+    if (only && entry.construction !== only && entry.id !== only) continue
     for (const [index, { id: appearance }] of appearanceChoices(entry.model).entries()) {
       const model = modelFor(entry, appearance)
       const styles = appearanceArtStyles.filter((style) =>

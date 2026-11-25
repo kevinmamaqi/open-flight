@@ -1,5 +1,5 @@
-import { originCountryName } from './heritage.js?v=703c9111bd20'
-import { planeFlagColors } from './country-markings.js?v=703c9111bd20'
+import { originCountryName } from './heritage.js?v=317e8ae67356'
+import { planeFlagColors } from './country-markings.js?v=317e8ae67356'
 
 const local = (en, ru, es) => ({ en, ru, es })
 
@@ -233,7 +233,11 @@ export function referenceForLocale(reference, locale) {
 
 export const sheetSizes = { A4: [210, 297], US_LETTER: [215.9, 279.4] }
 export const liveries = ['heritage', 'festival', 'pencil', 'flag']
-export const revision = '1'
+// Revision 1 always folds the whole sheet. Revision 2 adds the sheet edge choice: 'cut' prints a
+// thick border trimMm inside the paper and folds the cut-out sheet; 'whole' folds the full paper.
+export { trimMm, sheetEdges } from '../print-faces.js?v=317e8ae67356'
+export const revision = '2'
+export const revisions = ['1', '2']
 export function planeColors(model, livery) {
   if (livery === 'pencil') return ['#687481', '#a3a9ad', '#6c7d84']
   if (livery === 'festival') return ['#e44f75', '#148d89', '#e8a323']

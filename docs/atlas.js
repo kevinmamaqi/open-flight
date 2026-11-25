@@ -1,9 +1,9 @@
-import { ru, es } from './atlas-copy.js?v=703c9111bd20'
-import { currentLocale, homeURL, localizedLinks } from './atlas-nav.js?v=703c9111bd20'
-import { fieldModel, studioLink, foldedLink } from './atlas-guide.js?v=703c9111bd20'
-import { sheetIdFor, sheetPath } from './family-sheets.js?v=703c9111bd20'
-import { normalizeBook } from './book-model.js?v=703c9111bd20'
-import { recordBookEvent } from './book-metrics.js?v=703c9111bd20'
+import { ru, es } from './atlas-copy.js?v=317e8ae67356'
+import { currentLocale, homeURL, localizedLinks } from './atlas-nav.js?v=317e8ae67356'
+import { fieldModel, studioLink, foldedLink } from './atlas-guide.js?v=317e8ae67356'
+import { sheetIdFor, sheetPath } from './family-sheets.js?v=317e8ae67356'
+import { normalizeBook } from './book-model.js?v=317e8ae67356'
+import { recordBookEvent } from './book-metrics.js?v=317e8ae67356'
 
 const assetVersion = new URL(import.meta.url).search
 const fragment = new URLSearchParams(location.hash.slice(1))

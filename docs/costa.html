@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#f9f7ee" />
+    <title>Costa butterfly glider · Open Flight</title>
+    <link rel="icon" href="./assets/wing-mark.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="./atlas-nav.css?v=317e8ae67356" />
+    <link rel="stylesheet" href="./atlas.css?v=317e8ae67356" />
+    <link rel="stylesheet" href="./costa.css?v=317e8ae67356" />
+    <script type="module" src="./costa.js?v=317e8ae67356"></script>
+  </head>
+  <body>
+    <a class="skip" href="#main" data-word="skip">Skip to the butterfly</a>
+    <header class="mast">
+      <div class="mast-in">
+        <a class="wordmark" id="home" href="./">
+          <img src="./assets/wing-mark.svg" width="40" height="40" alt="" />Open Flight
+        </a>
+        <span data-workshop-menu></span>
+        <div class="lang">
+          <a id="en" href="?lang=en" lang="en" hreflang="en" aria-label="English">EN</a>
+          <a id="es" href="?lang=es" lang="es" hreflang="es" aria-label="Español">ES</a>
+          <a id="ru" href="?lang=ru" lang="ru" hreflang="ru" aria-label="Русский">РУ</a>
+        </div>
+      </div>
+    </header>
+    <main id="main" class="wrap costa-main">
+      <p class="eyebrow" data-word="eyebrow">Experimental butterfly · K2</p>
+      <h1 data-word="title">Costa butterfly glider</h1>
+      <p class="costa-intro" data-word="intro">
+        Swept-back forewings, a stiff folded front edge and a longer head for two paper clips. It balances
+        before it flies.
+      </p>
+      <noscript>This page needs JavaScript. · Esta página necesita JavaScript. · Для этой страницы нужен JavaScript.</noscript>
+      <section class="costa-grid">
+        <figure class="costa-finished">
+          <div id="finished" aria-hidden="true"></div>
+          <figcaption id="finished-caption"></figcaption>
+        </figure>
+        <form class="costa-controls" id="controls">
+          <label for="species" data-word="species">Butterfly</label>
+          <select id="species" name="species"></select>
+          <label for="span"><span data-word="span">Finished wingspan</span> <output id="span-value" for="span"></output></label>
+          <input id="span" name="span" type="range" />
+          <label for="colors" data-word="colors">Wing colors</label>
+          <select id="colors" name="colors"></select>
+          <label for="paper" data-word="paper">Paper size</label>
+          <select id="paper" name="paper">
+            <option value="A4">A4</option>
+            <option value="US_LETTER">US Letter</option>
+          </select>
+          <button type="button" id="download" class="button primary" data-word="download">Download PDF</button>
+          <a id="book" class="button secondary" href="./book.html" data-word="book">Add to a Flight Book</a>
+          <p id="status" class="hint" role="status"></p>
+        </form>
+      </section>
+      <section class="costa-facts" aria-labelledby="facts-title">
+        <h2 id="facts-title" data-word="factsTitle">Paper, clips and balance</h2>
+        <dl id="facts"></dl>
+        <p class="hint" data-word="estimate">
+          Estimates from a first-order model. Nobody has flown this paper model yet.
+        </p>
+      </section>
+      <section class="costa-sheet" aria-labelledby="sheet-title">
+        <h2 id="sheet-title" data-word="sheetTitle">Printed sheet</h2>
+        <p data-word="sheetHelp">
+          Page 1 is the cut sheet, page 2 its back for double-sided printing (flip on the short edge), page 3 the
+          build steps.
+        </p>
+        <div id="sheet" class="sheet-preview"></div>
+      </section>
+    </main>
+  </body>
+</html>

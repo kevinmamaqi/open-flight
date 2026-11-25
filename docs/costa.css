@@ -1,0 +1,105 @@
+.costa-main {
+  padding-block: 24px 56px;
+}
+.costa-intro {
+  max-width: 62ch;
+}
+.costa-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 2fr) minmax(240px, 1fr);
+  gap: 20px;
+  align-items: start;
+  margin-block: 18px;
+}
+.costa-finished {
+  margin: 0;
+  padding: 12px;
+  border: 1px solid var(--rule, #d8d2c3);
+  border-radius: 6px;
+  background: #fffef7;
+}
+.costa-finished svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-height: 420px;
+}
+.costa-finished figcaption {
+  font-size: 0.85rem;
+  color: #4f5d5a;
+}
+.costa-controls {
+  display: grid;
+  gap: 6px;
+}
+.costa-controls label {
+  margin-top: 6px;
+  font-weight: 600;
+}
+.costa-controls .button {
+  margin-top: 10px;
+  text-align: center;
+}
+.costa-facts dl {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+  gap: 10px;
+  margin: 0;
+}
+.costa-facts dl div {
+  padding: 10px;
+  border: 1px solid var(--rule, #d8d2c3);
+  border-radius: 6px;
+  background: #fff;
+}
+.costa-facts dt {
+  font-size: 0.8rem;
+  color: #4f5d5a;
+}
+.costa-facts dd {
+  margin: 2px 0 0;
+  font-size: 1.05rem;
+  font-weight: 600;
+}
+.sheet-preview svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  background: #fff;
+  border: 1px solid var(--rule, #d8d2c3);
+}
+@media (max-width: 720px) {
+  .costa-grid {
+    grid-template-columns: 1fr;
+  }
+}
+.costa-controls .button {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 43px;
+  padding: 10px 16px;
+  border: 1px solid var(--line, #c9c2b1);
+  border-radius: 9px;
+  font: inherit;
+  font-weight: 600;
+  text-decoration: none;
+  cursor: pointer;
+}
+.costa-controls .button.primary {
+  background: var(--green, #13594a);
+  border-color: var(--green, #13594a);
+  color: #fff;
+}
+.costa-controls .button.primary:hover {
+  background: #0d493a;
+}
+.costa-controls .button.secondary {
+  background: var(--card, #fffef7);
+  color: inherit;
+}
+.costa-controls select,
+.costa-controls input[type='range'] {
+  font: inherit;
+  width: 100%;
+}

@@ -375,7 +375,7 @@ export async function createBook(input, { loadAsset }) {
     Promise.all(
       book.sheets.map(async (id) =>
         PDFDocument.load(
-          await loadAppearanceSheet(id, book.paper, book.lang, book.appearances[sheetCatalog.find(sheet => sheet.id === id).model], loadAsset),
+          await loadAppearanceSheet(id, book.paper, book.lang, book.appearances[sheetCatalog.find(sheet => sheet.id === id).model], loadAsset, book.edge),
           { updateMetadata: false },
         ),
       ),
@@ -402,10 +402,9 @@ export async function createBook(input, { loadAsset }) {
     const airplane = sheetCatalog.find((sheet) => sheet.id === entry.id).family === "airplane";
     for (const page of original.getPages()) {
       const size = page.getSize();
-      if (
-        Math.abs(size.width - width) > 1 ||
-        Math.abs(size.height - height) > 1
-      ) {
+      // Landscape sheets (the K2 butterfly) use the same paper turned sideways.
+      const fits = (w, h) => Math.abs(size.width - w) <= 1 && Math.abs(size.height - h) <= 1;
+      if (!fits(width, height) && !fits(height, width)) {
         throw new Error("A sheet does not match the selected book paper size.");
       }
     }

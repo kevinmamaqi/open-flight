@@ -1,5 +1,6 @@
-import { planeCredits, creditText } from './credits.js?v=703c9111bd20'
-import { flagDecals } from './country-markings.js?v=703c9111bd20'
+import { planeCredits, creditText } from './credits.js?v=317e8ae67356'
+import { flagDecals } from './country-markings.js?v=317e8ae67356'
+import { backFaceWords, backKind, printSafeMm } from '../print-faces.js?v=317e8ae67356'
 
 export const esc = (value) =>
   String(value).replace(
@@ -174,28 +175,150 @@ export function stripes(plan) {
 function creaseDash(kind) {
   return kind === 'mountain' ? [3.4, 1, 0.7, 1] : [2.3, 1.4]
 }
-// Page and SVG viewports clip the outer half of these strokes at the physical paper edge.
-function paperFrame(w, h) {
-  const outline = [[0, 0], [w, 0], [w, h], [0, h], [0, 0]]
-  const parts = [line(outline, '#7c898b', 0.36)]
+export { printSafeMm }
+const guideInk = '#233e46'
+
+// Liang–Barsky clip of one segment to a rectangle. Returns null when nothing is inside.
+function clipSegment([p, q], x0, y0, x1, y1) {
+  let t0 = 0,
+    t1 = 1
+  const dx = q[0] - p[0],
+    dy = q[1] - p[1]
+  for (const [d, room] of [
+    [-dx, p[0] - x0],
+    [dx, x1 - p[0]],
+    [-dy, p[1] - y0],
+    [dy, y1 - p[1]],
+  ]) {
+    if (Math.abs(d) < 1e-9) {
+      if (room < 0) return null
+      continue
+    }
+    const r = room / d
+    if (d < 0) {
+      if (r > t1) return null
+      if (r > t0) t0 = r
+    } else {
+      if (r < t0) return null
+      if (r < t1) t1 = r
+    }
+  }
+  if (t1 - t0 < 1e-6) return null
+  return [
+    [p[0] + t0 * dx, p[1] + t0 * dy],
+    [p[0] + t1 * dx, p[1] + t1 * dy],
+  ]
+}
+
+// Corner brackets sit inside the printable area, with a short arrow toward each real corner.
+function cornerMarks(w, h, m = printSafeMm) {
+  const parts = []
   for (const [x, dx] of [[0, 1], [w, -1]]) {
     for (const [y, dy] of [[0, 1], [h, -1]]) {
-      const corner = [[x + dx * 5.5, y], [x, y], [x, y + dy * 5.5]]
-      parts.push(line(corner, '#233e46', 1.8))
+      const at = (a, b) => [x + dx * a, y + dy * b]
+      parts.push(
+        line([at(m + 9, m), at(m, m), at(m, m + 9)], guideInk, 0.9),
+        line([at(m + 5.5, m + 5.5), at(m + 1.6, m + 1.6)], guideInk, 0.35),
+        line([at(m + 1.6, m + 3.6), at(m + 1.6, m + 1.6), at(m + 3.6, m + 1.6)], guideInk, 0.35),
+      )
     }
   }
   return parts
 }
 
-export function sheetScene(plan) {
+// Where a fold line reaches the paper edge, a small triangle on the safe line points at that spot.
+function edgeMarker(point, w, h, m) {
+  const [x, y] = point
+  const near = (v, limit) => v <= m + 1e-6 || v >= limit - m - 1e-6
+  if (near(x, w) && near(y, h)) return null
+  let tip, base
+  if (y <= m) (tip = [x, m - 0.2]), (base = [[x - 1.1, m + 1.7], [x + 1.1, m + 1.7]])
+  else if (y >= h - m) (tip = [x, h - m + 0.2]), (base = [[x - 1.1, h - m - 1.7], [x + 1.1, h - m - 1.7]])
+  else if (x <= m) (tip = [m - 0.2, y]), (base = [[m + 1.7, y - 1.1], [m + 1.7, y + 1.1]])
+  else if (x >= w - m) (tip = [w - m + 0.2, y]), (base = [[w - m - 1.7, y - 1.1], [w - m - 1.7, y + 1.1]])
+  else return null
+  return poly([tip, ...base], guideInk)
+}
+
+const creaseKey = (kind, back) => (back ? backKind(kind) : kind)
+// Fold lines for one face. The back face mirrors left and right (long-edge duplex) and swaps
+// mountain and valley, because a fold seen from the other side turns the other way.
+function creaseScene(plan, back) {
   const { width_mm: w, height_mm: h } = plan.dimensions,
-    ru = plan.locale === 'ru'
-  const parts = [...stripes(plan), ...paperFrame(w, h)]
-  const ink = '#233e46'
-  const credit = creditText(plan.locale)
-  for (const crease of plan.creases) parts.push(line(crease.line, ink, 0.32, creaseDash(crease.kind)))
-  // Place at most two small numbered targets per action, on different slopes when possible.
-  const taken = []
+    m = plan.trim_mm ? 0 : printSafeMm
+  const flip = (p) => (back ? [w - p[0], p[1]] : p)
+  const parts = [],
+    markers = new Map()
+  for (const crease of plan.creases) {
+    const [p, q] = crease.line.map(flip)
+    const dash = creaseDash(creaseKey(crease.kind, back))
+    const inside = clipSegment([p, q], m, m, w - m, h - m)
+    if (inside) {
+      parts.push(line(inside, guideInk, 0.32, dash))
+      if (plan.trim_mm) continue
+      for (const end of [p, q]) {
+        const key = end.map((v) => v.toFixed(1)).join(',')
+        if (!markers.has(key)) markers.set(key, edgeMarker(end, w, h, m))
+      }
+      continue
+    }
+    // A fold parallel to a long edge inside the blank strip (a narrow winglet): print the line
+    // where the printer allows it and label its distance from the edge inside the safe area.
+    if (Math.abs(p[0] - q[0]) < 1e-6) {
+      const x = p[0],
+        fromEdge = Math.min(x, w - x),
+        side = x < w / 2 ? 1 : -1
+      parts.push(line([[x, m], [x, h - m]], guideInk, 0.32, dash))
+      for (const y of [h * 0.3]) {
+        const edge = side > 0 ? m : w - m
+        parts.push(
+          line([[edge + side * 7, y], [edge + side * 0.4, y]], guideInk, 0.3),
+          line([[edge + side * 1.8, y - 1], [edge + side * 0.4, y], [edge + side * 1.8, y + 1]], guideInk, 0.3),
+          label([edge + side * 8, y + 1], Number(fromEdge.toFixed(1)) + ' mm', 2.3, guideInk, side > 0 ? 'start' : 'end'),
+        )
+      }
+    }
+  }
+  for (const marker of markers.values()) if (marker) parts.push(marker)
+  return parts
+}
+
+// Two crosses at the same physical spots on both faces. Hold the printed sheet to a window:
+// when the printer registered both sides, each pair overlaps.
+function registrationMarks(plan, back) {
+  const { width_mm: w, height_mm: h } = plan.dimensions
+  // Choose a height near the top where neither cross touches a fold line.
+  const clear = ([x, y]) =>
+    plan.creases.every(({ line: [p, q] }) => {
+      const dx = q[0] - p[0],
+        dy = q[1] - p[1],
+        t = Math.max(0, Math.min(1, ((x - p[0]) * dx + (y - p[1]) * dy) / (dx * dx + dy * dy)))
+      return Math.hypot(x - p[0] - t * dx, y - p[1] - t * dy) > 4.5
+    })
+  let y = printSafeMm + 13
+  for (let candidate = printSafeMm + 9; candidate < h * 0.3; candidate += 1) {
+    if ([0.27, 0.73].every((f) => clear([w * f, candidate]))) {
+      y = candidate
+      break
+    }
+  }
+  const spots = [[w * 0.27, y], [w * 0.73, y]]
+  return spots.flatMap(([x0, y]) => {
+    const x = back ? w - x0 : x0
+    return [
+      dot([x, y], 2.1, '#ffffff', guideInk, 0.3),
+      line([[x - 3, y], [x + 3, y]], guideInk, 0.3),
+      line([[x, y - 3], [x, y + 3]], guideInk, 0.3),
+    ]
+  })
+}
+
+// Place at most two small numbered targets per action, on different slopes when possible.
+function stepTargets(plan) {
+  const { width_mm: w, height_mm: h } = plan.dimensions,
+    keep = printSafeMm + 4
+  const taken = [],
+    targets = []
   for (const s of plan.steps) {
     const list = plan.creases
       .filter((c) => c.step === s.index)
@@ -214,23 +337,86 @@ export function sheetScene(plan) {
       for (const f of [0.35, 0.53, 0.67, 0.22, 0.8]) {
         const at = [p[0] + (q[0] - p[0]) * f, p[1] + (q[1] - p[1]) * f]
         if (
-          at[0] < 5 ||
-          at[0] > w - 5 ||
-          at[1] < 5 ||
+          at[0] < keep ||
+          at[0] > w - keep ||
+          at[1] < keep ||
           at[1] > h - 21 ||
           taken.some((a) => Math.hypot(a[0] - at[0], a[1] - at[1]) < 8)
         )
           continue
         taken.push(at)
         directions.add(key)
-        parts.push(
-          dot(at, 2.5, '#ffffff', ink, 0.35),
-          label([at[0], at[1] + 1], String(s.index + 1), 2.8, ink, 'middle'),
-        )
+        targets.push({ at, index: s.index })
+        break
+      }
+    }
+    // A fold close to the edge (a narrow winglet) gets its number just inside the safe area.
+    if (!directions.size && list.length) {
+      const [p, q] = list[0].line
+      for (const f of [0.35, 0.53, 0.67, 0.22]) {
+        const raw = [p[0] + (q[0] - p[0]) * f, p[1] + (q[1] - p[1]) * f]
+        const at = [Math.min(w - keep, Math.max(keep, raw[0])), Math.min(h - 21, Math.max(keep, raw[1]))]
+        if (taken.some((a) => Math.hypot(a[0] - at[0], a[1] - at[1]) < 8)) continue
+        taken.push(at)
+        targets.push({ at, index: s.index })
         break
       }
     }
   }
+  return targets
+}
+function targetParts(targets, flip = (p) => p) {
+  return targets.flatMap(({ at, index }) => {
+    const p = flip(at)
+    return [dot(p, 2.5, '#ffffff', guideInk, 0.35), label([p[0], p[1] + 1], String(index + 1), 2.8, guideInk, 'middle')]
+  })
+}
+
+// Shift sheet coordinates onto the printed page. Revision 2 sits trim_mm inside the paper.
+function onPage(plan, parts) {
+  const d = plan.trim_mm ?? 0
+  if (!d) return parts
+  const move = ([x, y]) => [x + d, y + d]
+  return parts.map((e) => ({
+    ...e,
+    ...(e.points ? { points: e.points.map(move) } : {}),
+    ...(e.pos ? { pos: move(e.pos) } : {}),
+  }))
+}
+// The thick cut border is the edge of the sheet the builder folds. Fold lines meet it exactly.
+function cutBorder(w, h) {
+  return [line([[0, 0], [w, 0], [w, h], [0, h], [0, 0]], guideInk, 0.9)]
+}
+const cutWords = {
+  en: 'Cut along the thick border first.',
+  ru: 'Сначала вырежьте лист по толстой рамке.',
+  es: 'Primero recorta por el borde grueso.',
+}
+export function pageSize(plan) {
+  const page = plan.page ?? plan.dimensions
+  return [page.width_mm, page.height_mm]
+}
+function clipArtwork(parts, w, h) {
+  // Artwork stops at the cut border so nothing is printed outside the sheet being cut out.
+  const box = [[0, 0], [w, 0], [w, h], [0, h]]
+  return parts
+    .map((e) => (e.type === 'polygon' ? { ...e, points: cropConvex(e.points, box) } : e))
+    .filter((e) => e.type !== 'polygon' || e.points.length >= 3)
+}
+
+export function sheetScene(plan) {
+  const { width_mm: w, height_mm: h } = plan.dimensions,
+    ru = plan.locale === 'ru'
+  const trimmed = !!plan.trim_mm
+  const parts = [
+    ...(trimmed ? clipArtwork(stripes(plan), w, h) : stripes(plan)),
+    ...(trimmed ? cutBorder(w, h) : cornerMarks(w, h)),
+    ...creaseScene(plan, false),
+    ...registrationMarks(plan, false),
+    ...targetParts(stepTargets(plan)),
+  ]
+  const ink = guideInk
+  const credit = creditText(plan.locale)
   const scaleX = w - 49,
     scaleY = h - 18.5
   parts.push(
@@ -243,6 +429,12 @@ export function sheetScene(plan) {
       ],
       '#ffffff',
     ),
+    ...(trimmed
+      ? [
+          poly([[21, h - 36.5], [w / 2 - 29, h - 36.5], [w / 2 - 29, h - 32], [21, h - 32]], '#ffffff'),
+          label([22, h - 33.2], cutWords[plan.locale] ?? cutWords.en, 2.6, '#9b3a2c'),
+        ]
+      : []),
     label([22, h - 29], plan.name, 3.2),
     label([22, h - 25.6], credit.creator, 2.3),
     {
@@ -284,10 +476,34 @@ export function sheetScene(plan) {
       0.5,
     ),
   )
-  return parts
+  return onPage(plan, parts)
+}
+// The back face for double-sided printing: the same folds seen from behind, no artwork.
+export function backScene(plan) {
+  const { width_mm: w, height_mm: h } = plan.dimensions
+  const words = backFaceWords(plan.locale)
+  const flip = (p) => [w - p[0], p[1]]
+  const parts = [
+    ...(plan.trim_mm ? cutBorder(w, h) : cornerMarks(w, h)),
+    ...creaseScene(plan, true),
+    ...registrationMarks(plan, true),
+    ...targetParts(stepTargets(plan), flip),
+    poly([[21, h - 33], [w - 21, h - 33], [w - 21, h - 15.7], [21, h - 15.7]], '#ffffff'),
+    label([22, h - 29], plan.name + '  ·  ' + words.title, 3.2),
+  ]
+  words.lines.forEach((text, i) => parts.push(label([22, h - 25.4 + i * 3.3], text, 2.3)))
+  return onPage(plan, parts)
+}
+export function planeBackSvg(plan) {
+  const [w, h] = pageSize(plan)
+  return (
+    '<svg xmlns="http://www.w3.org/2000/svg" width="' + w + 'mm" height="' + h + 'mm" viewBox="0 0 ' + w + ' ' + h +
+    '" overflow="hidden" role="img" xml:lang="' + plan.locale + '"><title>' + esc(plan.name) + '</title>' +
+    svgParts(backScene(plan)) + '</svg>'
+  )
 }
 export function planeSvg(plan) {
-  const { width_mm: w, height_mm: h } = plan.dimensions
+  const [w, h] = pageSize(plan)
   const credit = creditText(plan.locale)
   return (
     '<svg xmlns="http://www.w3.org/2000/svg" width="' +
@@ -305,9 +521,15 @@ export function planeSvg(plan) {
     '</title><desc>' +
     esc(
       {
-        en: 'Printed face. Print at actual size. A fine border connects four bold corners. Fold along the numbered dashed lines.',
-        ru: 'Лицевая сторона. Печатайте в масштабе 100%. Тонкая рамка соединяет четыре жирных уголка. Сгибайте по пронумерованным пунктирным линиям.',
-        es: 'Cara impresa. Imprime a tamaño real. Una línea fina une las cuatro esquinas gruesas. Dobla por las líneas discontinuas numeradas.',
+        en: plan.trim_mm
+          ? 'Printed face. Cut out the sheet along the thick border, which sits ' + plan.trim_mm + ' mm inside the paper where every printer can print. The fold lines run to that border. Fold along the numbered dashed lines.'
+          : 'Printed face. Print at actual size. Guides stay 6 mm inside the paper, where office printers can print, and corner brackets point to the real corners. Fold along the numbered dashed lines.',
+        ru: plan.trim_mm
+          ? 'Лицевая сторона. Вырежьте лист по толстой рамке: она в ' + plan.trim_mm + ' мм от края, где печатает любой принтер. Линии сгибов доходят до рамки. Сгибайте по пронумерованным пунктирным линиям.'
+          : 'Лицевая сторона. Печатайте в масштабе 100%. Все линии отстоят на 6 мм от края, где печатает любой принтер, а уголки указывают на настоящие углы листа. Сгибайте по пронумерованным пунктирным линиям.',
+        es: plan.trim_mm
+          ? 'Cara impresa. Recorta la hoja por el borde grueso, que está a ' + plan.trim_mm + ' mm del borde del papel, donde imprime cualquier impresora. Las líneas de doblez llegan hasta ese borde. Dobla por las líneas discontinuas numeradas.'
+          : 'Cara impresa. Imprime a tamaño real. Las guías quedan a 6 mm del borde, donde imprime cualquier impresora, y las esquinas marcadas señalan las esquinas reales. Dobla por las líneas discontinuas numeradas.',
       }[plan.locale],
     ) +
     ' ' +

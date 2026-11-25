@@ -1,5 +1,6 @@
-import { appearanceChoices, appearanceArtPath, appearanceArtStyles } from './model-appearance.js?v=703c9111bd20'
-import { paperSizes, sheetCatalog, sheetIdFor, sheetLocales } from './family-sheets.js?v=703c9111bd20'
+import { appearanceChoices, appearanceArtPath, appearanceArtStyles } from './model-appearance.js?v=317e8ae67356'
+import { paperSizes, sheetCatalog, sheetIdFor, sheetLocales } from './family-sheets.js?v=317e8ae67356'
+import { sheetEdges } from './assets/print-faces.js?v=317e8ae67356'
 
 const entries = new Map(sheetCatalog.map(item => [item.id, item]))
 const titles = { en: 'Flight Book', es: 'Libro de vuelo', ru: 'Книга полётов' }
@@ -46,15 +47,17 @@ function bookAppearances(choices = {}) {
 export function normalizeBook(input = {}) {
   if (!input || typeof input !== 'object' || Array.isArray(input)) throw new TypeError('Expected book options.')
   const { lang = 'en', paper = 'A4', sheets = defaultSheets, pilot = '', style = 'studio',
-    cover = '', theme = 'sky' } = input
+    cover = '', theme = 'sky', edge = 'cut' } = input
   if (!sheetLocales.includes(lang) || !paperSizes.includes(paper)) throw new RangeError('Invalid book language or paper.')
   if (!bookStyles.includes(style) || !['sky', 'sunset', 'meadow'].includes(theme)) throw new RangeError('Invalid cover style or theme.')
+  // Airplane pages: 'cut' prints a border to cut along (any printer); 'whole' folds the full page.
+  if (!sheetEdges.includes(edge)) throw new RangeError('Invalid airplane sheet edge.')
   if (!Array.isArray(sheets) || !sheets.length || !Array.from(sheets).every(id => entries.has(id))
       || new Set(sheets).size !== sheets.length) throw new RangeError('Select 1 to 10 distinct sheets.')
   const coverModel = input.coverModel === undefined || input.coverModel === '' ? sheets[0] : input.coverModel
   if (!sheets.includes(coverModel)) throw new RangeError('Select a cover model included in the book.')
   return { lang, paper, sheets: [...sheets], coverModel, appearances: bookAppearances(input.appearances), pilot: label(pilot,pilotLimit,'pilot name'), style,
-    theme, cover: label(cover,coverLimit,'cover title') || bookTitle(lang) }
+    theme, edge, cover: label(cover,coverLimit,'cover title') || bookTitle(lang) }
 }
 
 export function modelDetails(id) {
@@ -72,9 +75,9 @@ export function bookPlan(input = {}) {
   const keeps = 5, shared = new Map()
   let number = keeps
   const items = sheets.map(id => {
-    const { pages: count, sharedGuide } = entries.get(id)
+    const { pages: count, bookPages, sharedGuide } = entries.get(id)
     const pages = []
-    for (let index = 0; index < count; index++) {
+    for (const index of bookPages ?? Array.from({ length: count }, (_, i) => i)) {
       if (sharedGuide?.index === index) {
         if (shared.has(sharedGuide.key)) continue
         shared.set(sharedGuide.key, number + 1)
@@ -116,6 +119,7 @@ export function bookURL(input, base = canonicalBook) {
   if (book.pilot) fields.set('pilot',book.pilot)
   if (book.cover !== bookTitle(book.lang)) fields.set('title',book.cover)
   if (book.theme !== 'sky') fields.set('theme',book.theme)
+  if (book.edge !== 'cut') fields.set('edge',book.edge)
   url.hash = fields.toString()
   return url.href
 }
@@ -143,6 +147,7 @@ export function readBookURL(address) {
   if (paper && paperSizes.includes(paper)) partial.paper = paper
   if (bookStyles.includes(fields.get('style'))) partial.style = fields.get('style')
   if (['sky','sunset','meadow'].includes(fields.get('theme'))) partial.theme = fields.get('theme')
+  if (sheetEdges.includes(fields.get('edge'))) partial.edge = fields.get('edge')
   for (const [key,field,limit] of [['pilot','pilot',pilotLimit],['title','cover',coverLimit]]) {
     if (!fields.has(key)) continue
     try { partial[field] = label(fields.get(key),limit,field) } catch { /* Ignore an invalid shared label. */ }

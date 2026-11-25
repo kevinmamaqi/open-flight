@@ -540,7 +540,7 @@ legend,
 }
 .fold-options {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(92px, 1fr));
   gap: 6px;
 }
 .fold-options label {
@@ -571,6 +571,13 @@ legend,
 .fold-options input:focus-visible + span {
   outline: 2px solid #be5a27;
   outline-offset: 2px;
+}
+.fold-options small {
+  display: block;
+  padding: 0 2px 2px;
+  color: var(--muted, #4f5d5a);
+  font-size: 0.68rem;
+  line-height: 1.25;
 }
 .fold-options img {
   display: block;

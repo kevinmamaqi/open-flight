@@ -6,6 +6,7 @@ import { sheetCatalog, sheetLocales, sheetPath, paperSizes } from '../apps/edito
 import { appearanceArtPath, appearanceArtStyles, appearanceChoices } from '../apps/editor/model-appearance.js'
 import { makePlane, planePdf, planeSpecimen, planeSvg, sheetSizes } from '../packages/planes/index.ts'
 import { foldedPdf, makeFoldedButterfly } from '../packages/folded-butterfly/index.ts'
+import { k2Pdf, makeK2 } from '../packages/folded-butterfly/k2-sheet.ts'
 import { classicComparisonPdf } from '../packages/product-core/folded-butterflies.ts'
 import { loadAppearanceSheet } from '../packages/print-export/appearance-sheet.js'
 
@@ -13,10 +14,12 @@ const asset = path => readFile(new URL('../apps/editor/' + path, import.meta.url
 const unexpectedAsset = path => assert.fail('Customized PDF tried to read ' + path)
 const mmToPt = 72 / 25.4
 
-async function verifyPages(bytes, count, paper) {
+async function verifyPages(bytes, count, paper, landscape = false) {
   const document = await PDFDocument.load(bytes)
   assert.equal(document.getPageCount(), count)
-  const [width, height] = sheetSizes[paper]
+  const [portraitWidth, portraitHeight] = sheetSizes[paper]
+  // The K2 butterfly sheet turns the same paper sideways so the wings run along the grain.
+  const [width, height] = landscape ? [portraitHeight, portraitWidth] : [portraitWidth, portraitHeight]
   for (const page of document.getPages()) {
     assert.ok(Math.abs(page.getWidth() - width * mmToPt) < 0.01)
     assert.ok(Math.abs(page.getHeight() - height * mmToPt) < 0.01)
@@ -47,12 +50,12 @@ test('every appearance has localized labels and matching model art', async () =>
       }
     }
   }
-  assert.equal(paths.size, 94)
+  assert.equal(paths.size, 121)
   assert.equal(appearanceChoices('tupolev-tu144', 'ru').at(-1).label, 'Флаг СССР')
   assert.throws(() => appearanceArtPath('monarch-k1', 'studio', 'flag'), RangeError)
 })
 
-test('the 60 original PDFs are read directly and colored sheets use the studio renderers', async () => {
+test('the 78 original PDFs are read directly and colored sheets use the studio renderers', async () => {
   for (const sheet of sheetCatalog) {
     for (const paper of paperSizes) {
       for (const lang of sheetLocales) {
@@ -70,14 +73,25 @@ test('the 60 original PDFs are read directly and colored sheets use the studio r
     const appearance = sheet.family === 'butterfly' ? 'carnival' : 'flag'
     const colored = await loadAppearanceSheet(sheet.id, paper, lang, appearance, unexpectedAsset)
     assert.notDeepEqual(colored, await asset(sheetPath(sheet.id, paper, lang)))
-    await verifyPages(colored, sheet.pages, paper)
-    if (sheet.family === 'butterfly') {
+    await verifyPages(colored, sheet.pages, paper, sheet.construction === 'k2')
+    if (sheet.construction === 'k2') {
+      assert.deepEqual(colored, k2Pdf(makeK2({ species: sheet.model, paper, appearance_id: appearance, locale: lang })))
+    } else if (sheet.family === 'butterfly') {
       const plan = makeFoldedButterfly({ species: sheet.model, paper, appearance_id: appearance }, lang)
       assert.deepEqual(colored, sheet.construction === 'k1' ? foldedPdf(plan) : classicComparisonPdf(plan))
     } else {
       const plan = makePlane({ model_id: sheet.model, paper, livery: appearance }, lang)
       assert.deepEqual(colored, planePdf(plan))
     }
+  }
+})
+
+test('an airplane with original colors and a whole-sheet edge is drawn instead of read from the cut-border library', async () => {
+  for (const sheet of sheetCatalog.filter(item => item.family === 'airplane')) {
+    const [baseline] = appearanceChoices(sheet.model)
+    const whole = await loadAppearanceSheet(sheet.id, 'A4', 'en', baseline.id, unexpectedAsset, 'whole')
+    assert.deepEqual(whole, planePdf(makePlane({ model_id: sheet.model, paper: 'A4', edge: 'whole' }, 'en')))
+    assert.notDeepEqual(whole, await asset(sheetPath(sheet.id, 'A4', 'en')))
   }
 })
 

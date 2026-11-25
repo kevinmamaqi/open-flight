@@ -57,7 +57,7 @@ for (const entry of readdirSync(editorRoot, {
   const path = relative(editorRoot, join(entry.parentPath, entry.name))
   const mime = publicTypes[extname(path)]
   const appFile =
-    /^(?:editor|atlas|planes|references|flight|keel|compare|next|browser-workshop|studio-folded|fold|family|book|classroom|model|studio-origins|appearance-sheet-browser|motor)(?:-[a-z0-9-]+)?\.(js|css|html|svg)$/.test(
+    /^(?:editor|atlas|planes|references|flight|keel|costa|compare|next|browser-workshop|studio-folded|fold|family|book|classroom|model|studio-origins|appearance-sheet-browser|motor)(?:-[a-z0-9-]+)?\.(js|css|html|svg)$/.test(
       path,
     )
   if (mime && (path.startsWith('assets/') || path.startsWith('library/') || appFile))

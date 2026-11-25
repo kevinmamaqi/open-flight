@@ -142,7 +142,7 @@ try {
     await pageSurface(page, 6)
       .locator('a[href^="./library"]')
       .getAttribute("href"),
-    /monarch-k1-US_LETTER-es\.pdf#page=1$/,
+    /monarch-k1-US_LETTER-es\.pdf(?:\?v=[0-9a-f]+)?#page=1$/,
   );
   await pageSurface(page, 7).evaluate((figure) => figure.scrollIntoView());
   await page.waitForFunction(
@@ -158,7 +158,8 @@ try {
     "monarch",
   );
   assert.ok(await page.locator("#construction").isVisible());
-  assert.equal(await page.locator(".fold-options img").count(), 2);
+  assert.equal(await page.locator("#construction .fold-options img").count(), 3);
+  assert.equal(await page.locator("#edge-choice .fold-options img").count(), 2);
   assert.match(
     await page.locator("#tabs-hint").textContent(),
     /pestañas traseras/,

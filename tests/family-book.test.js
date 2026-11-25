@@ -7,7 +7,8 @@ import {
   PDFRawStream,
   decodePDFRawStream,
 } from "pdf-lib";
-import { bookPlan, bookURL } from "../apps/editor/book-model.js";
+import { bookPlan, bookURL, readBookURL } from "../apps/editor/book-model.js";
+import { sheetCatalog } from "../apps/editor/family-sheets.js";
 import {
   createBook,
   normalizeBook,
@@ -116,7 +117,10 @@ for (const [lang, paper] of editions) {
         { updateMetadata: false },
       );
       for (const [index, source] of original.getPages().entries()) {
-        if (id.endsWith("-k1") && index === 1 && sharedGuides++) continue;
+        if (id.endsWith("-k1") && index === 2 && sharedGuides++) continue;
+        // The airplane back face is for loose double-sided sheets and stays out of the book.
+        const bookPages = sheetCatalog.find((sheet) => sheet.id === id).bookPages;
+        if (bookPages && !bookPages.includes(index)) continue;
         const actual = document.getPage(pageNumber - 1);
         for (const box of [
           "MediaBox",
@@ -170,4 +174,36 @@ test("flight book reports a substituted wrong-size sheet", async () => {
     ),
     /paper size/,
   );
+});
+
+test("the airplane edge choice is explicit, shareable and changes only airplane pages", async () => {
+  assert.equal(normalizeBook({}).edge, "cut");
+  assert.throws(() => normalizeBook({ edge: "borderless" }), /edge/);
+  const whole = normalizeBook({ edge: "whole", sheets: ["boeing-747", "monarch-k1"] });
+  assert.equal(readBookURL(bookURL(whole)).edge, "whole");
+  assert.ok(!bookURL(normalizeBook({})).includes("edge="), "the default leaves old links unchanged");
+  const pagesOf = async (edge) => {
+    const bytes = await createBook({ edge, sheets: ["boeing-747", "monarch-k1"] }, { loadAsset });
+    const document = await PDFDocument.load(bytes, { updateMetadata: false });
+    return document.getPages().map((page) => streams(page).map(content).join("\n"));
+  };
+  const [cut, uncut] = await Promise.all([pagesOf("cut"), pagesOf("whole")]);
+  assert.equal(cut.length, uncut.length);
+  const plan = bookPlan(normalizeBook({ sheets: ["boeing-747", "monarch-k1"] }));
+  const [airplane, butterfly] = plan.entries;
+  const template = airplane.pages.find(({ index }) => index === 0).number - 1;
+  assert.notEqual(cut[template], uncut[template], "the airplane template changes with the edge");
+  // Butterfly pages are cut along their outline either way. (The certificate link records the edge.)
+  for (const { number } of butterfly.pages)
+    assert.equal(cut[number - 1], uncut[number - 1], `butterfly page ${number} is unchanged`);
+});
+
+test("a K2 butterfly enters the book on its landscape sheet with its own guide", async () => {
+  const book = normalizeBook({ sheets: ["monarch-k2"], paper: "A4" });
+  const plan = bookPlan(book);
+  assert.deepEqual(plan.entries[0].pages.map(({ index }) => index), [0, 2]);
+  const document = await PDFDocument.load(await createBook(book, { loadAsset }), { updateMetadata: false });
+  const sheet = document.getPage(plan.entries[0].pages[0].number - 1);
+  assert.ok(Math.abs(sheet.getWidth() - (297 * 72) / 25.4) < 0.1, "landscape sheet");
+  assert.ok(Math.abs(sheet.getHeight() - (210 * 72) / 25.4) < 0.1);
 });

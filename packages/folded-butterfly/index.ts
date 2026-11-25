@@ -18,6 +18,7 @@ import {
   type Paper,
 } from '../print-export/sheets.ts'
 import { keelDiagram, keelSteps, type KeelStep } from '../../apps/editor/keel-guide.js'
+import { backFaceWords, printSafeMm } from '../../apps/editor/assets/print-faces.js'
 
 type Appearance = keyof WorkshopModel['palettes']
 export type FoldedSettings = {
@@ -572,6 +573,7 @@ function drawing(
     color = dark,
   ) => labels.push({ x, y, text: copy, size, color })
   label(9, 10, 'OPEN FLIGHT  /  K1', 3.2, clipInk)
+  lines.push(...registrationCrosses(width, false))
   label(9, 18, text.names[plan.species], 6.1)
   label(9, 24, text.note, 2.8)
   label(
@@ -693,7 +695,7 @@ function drawing(
       }
     }
   }
-  label(9, height - 5.5, 'Open Flight  /  CERN-OHL-W-2.0  /  CC BY-SA 4.0', 2.2)
+  label(9, height - printSafeMm - 1.5, 'Open Flight  /  CERN-OHL-W-2.0  /  CC BY-SA 4.0', 2.2)
   return { width, height, lines, labels, locale: plan.locale }
 }
 
@@ -745,11 +747,65 @@ function guideDrawing(
   }
   labels.push({
     x: 9,
-    y: height - 5.5,
+    y: height - printSafeMm - 1.5,
     text: 'Open Flight  /  CERN-OHL-W-2.0  /  CC BY-SA 4.0',
     size: 2.2,
   })
   return { width, height, lines, labels }
+}
+
+// Two crosses at the same physical spots on both faces of a double-sided print.
+const crossSpots = (width: number): Point[] => [[width - 14, 12], [width - 30, 12]]
+function registrationCrosses(width: number, back: boolean): Line[] {
+  return crossSpots(width).flatMap(([x0, y], i): Line[] => {
+    const x = back ? width - x0 : x0
+    return [
+      { id: `register-ring-${i}`, points: Array.from({ length: 16 }, (_, k): Point => [rounded(x + 2.1 * Math.cos((k * Math.PI) / 8)), rounded(y + 2.1 * Math.sin((k * Math.PI) / 8))]), closed: true, fill: '#FFFFFF', stroke: dark, weight: 0.3 },
+      { id: `register-h-${i}`, points: [[x - 3, y], [x + 3, y]], stroke: dark, weight: 0.3 },
+      { id: `register-v-${i}`, points: [[x, y - 3], [x, y + 3]], stroke: dark, weight: 0.3 },
+    ]
+  })
+}
+
+// The back of the cut sheet for long-edge double-sided printing. Each fold appears where it
+// meets the paper from behind: left and right swap, and valleys become mountains. The outline
+// is drawn thin so a builder can check that both faces line up after cutting.
+function backDrawing(plan: FoldedPlan, geometry: ReturnType<typeof foldedGeometry>): Drawing & { locale: Locale } {
+  const [width, height] = sizes[plan.paper]
+  const back = backFaceWords(plan.locale)
+  const mirror = (line: Line): Line => ({ ...line, points: line.points.map(([x, y]): Point => [-x, y]) })
+  const swapped = (line: Line): Line => ({
+    ...mirror(line),
+    dash: line.dash === valleyDash ? mountainDash : line.dash === mountainDash ? valleyDash : line.dash,
+  })
+  const sheet: Line[] = [
+    { id: 'back-outline', points: geometry.outline.map(([x, y]): Point => [-x, y]), closed: true, stroke: '#8C8898', weight: 0.3 },
+  ]
+  for (const line of [...geometry.creases, ...geometry.clipStops]) {
+    sheet.push({ ...mirror(line), id: line.id + '-back-halo', weight: 1.25, stroke: halo, dash: undefined })
+    sheet.push({ ...swapped(line), id: line.id + '-back' })
+  }
+  sheet.push(...geometry.shoulders.map((line) => ({ ...mirror(line), id: line.id + '-back' })))
+  const lines = [...placed(sheet, width / 2, 29), ...registrationCrosses(width, true)]
+  const text = words[plan.locale]
+  const labels: Drawing['labels'] = [
+    // The registration crosses mirror to the top left on this face, so the header starts after them.
+    { x: 40, y: 10, text: 'OPEN FLIGHT  /  K1', size: 3.2, color: clipInk },
+    { x: 40, y: 18, text: text.names[plan.species] + '  ·  ' + back.title, size: 5.2, color: dark },
+    ...back.lines.map((line, i) => ({ x: 9, y: 140 + i * 4.4, text: line, size: 2.8, color: dark })),
+    { x: 9, y: height - printSafeMm - 1.5, text: 'Open Flight  /  CERN-OHL-W-2.0  /  CC BY-SA 4.0', size: 2.2, color: dark },
+  ]
+  return { width, height, lines, labels, locale: plan.locale }
+}
+
+// The three printed pages as drawings: cut sheet, its back face and the guide.
+export function foldedPages(plan: FoldedPlan): Drawing[] {
+  const geometry = foldedGeometry(plan)
+  return [drawing(plan, geometry, true), backDrawing(plan, geometry), guideDrawing(plan, geometry)]
+}
+
+export function foldedBackSvg(plan: FoldedPlan): string {
+  return svg(backDrawing(plan, foldedGeometry(plan))).toString('utf8')
 }
 
 export function foldedSvg(plan: FoldedPlan, quickStart = false): string {
@@ -762,7 +818,8 @@ export function foldedGuideSvg(plan: FoldedPlan): string {
 
 export function foldedPdf(plan: FoldedPlan): Uint8Array {
   const geometry = foldedGeometry(plan)
-  return pdf(drawing(plan, geometry, true), [guideDrawing(plan, geometry)])
+  // Page 2 is the back of the cut sheet for double-sided printing; page 3 is the guide.
+  return pdf(drawing(plan, geometry, true), [backDrawing(plan, geometry), guideDrawing(plan, geometry)])
 }
 
 export function foldedSource(plan: FoldedPlan): string {

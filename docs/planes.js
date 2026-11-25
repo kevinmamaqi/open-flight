@@ -1,9 +1,9 @@
-import { foldArtwork, showFoldStep } from './fold-lesson.js?v=703c9111bd20'
-import { makePlane, planeCatalog, planeSource, sheetSizes, liveries } from './assets/planes/core.js?v=703c9111bd20'
-import { planeSvg, planeSpecimen, esc, stripes } from './assets/planes/drawing.js?v=703c9111bd20'
-import { foldSvg, planeGuide } from './assets/planes/guide.js?v=703c9111bd20'
-import { planeBrowserPdf } from './assets/planes/print.js?v=703c9111bd20'
-import { appearanceChoices } from './model-appearance.js?v=703c9111bd20'
+import { foldArtwork, showFoldStep } from './fold-lesson.js?v=317e8ae67356'
+import { makePlane, planeCatalog, planeSource, sheetSizes, liveries, sheetEdges, revision } from './assets/planes/core.js?v=317e8ae67356'
+import { planeSvg, planeSpecimen, esc, stripes } from './assets/planes/drawing.js?v=317e8ae67356'
+import { foldSvg, planeGuide } from './assets/planes/guide.js?v=317e8ae67356'
+import { planeBrowserPdf } from './assets/planes/print.js?v=317e8ae67356'
+import { appearanceChoices } from './model-appearance.js?v=317e8ae67356'
 
 const words = {
   fieldTitle: ['From aircraft to paper', 'От самолёта к бумаге', 'Del avión real al papel'],
@@ -55,6 +55,19 @@ const words = {
   experiment: ['Flight experiment', 'Опыт с полётом', 'Prueba de vuelo'],
   settings: ['Your design', 'Ваша модель', 'Tu diseño'],
   paper: ['Paper size', 'Формат листа', 'Tamaño de la hoja'],
+  edge: ['Sheet edge', 'Край листа', 'Borde de la hoja'],
+  edgeCut: ['Cut border · any printer', 'Рамка для вырезания · любой принтер', 'Borde para recortar · cualquier impresora'],
+  edgeWhole: ['Whole sheet · edge-to-edge printing', 'Целый лист · печать до края', 'Hoja entera · impresión hasta el borde'],
+  edgeCutHint: [
+    'A thick line 7 mm inside the paper. Cut along it first; the fold lines run to it, so any print scale works.',
+    'Толстая линия в 7 мм от края. Сначала вырежьте лист по ней: линии сгибов доходят до неё, поэтому подойдёт любой масштаб печати.',
+    'Una línea gruesa a 7 mm del borde. Recorta primero por ella: las líneas de doblez llegan hasta ella, así que sirve cualquier escala.',
+  ],
+  edgeWholeHint: [
+    'No border: fold the full page. Choose this only if your printer prints to the very edge, or a print shop trims the pages.',
+    'Без рамки: складывайте весь лист. Выбирайте, только если принтер печатает до самого края или типография обрезает листы.',
+    'Sin borde: dobla la hoja entera. Elígelo solo si tu impresora imprime hasta el borde o una imprenta recorta las hojas.',
+  ],
   livery: ['Printed colors', 'Расцветка', 'Colores del avión'],
   flagHelp: [
     'These wing markings show where the passenger airplane was designed.',
@@ -77,9 +90,9 @@ const words = {
   build: ['Build at home', 'Для сборки дома', 'Arma tu avión en casa'],
   files: ['The print pack', 'Файлы для печати', 'Archivos para imprimir'],
   printHelp: [
-    'Print page 1 at 100%. The diagram pages can stay on screen. Check the 20 mm line with a ruler.',
-    'Печатайте страницу 1 в масштабе 100%. Схемы можно оставить на экране. Проверьте линейкой контрольные 20 мм.',
-    'Imprime la primera página al 100 % (tamaño real). Puedes consultar los dibujos en pantalla. Mide la línea de 20 mm con una regla.',
+    'Print page 1, or pages 1–2 double-sided (flip on long edge) to see the folds on both faces. With a cut border, cut along the thick line before folding.',
+    'Печатайте страницу 1 или страницы 1–2 с двух сторон (переворот по длинному краю), чтобы сгибы были видны с обеих сторон. Если есть рамка, сначала вырежьте лист по толстой линии.',
+    'Imprime la página 1, o las páginas 1–2 a doble cara (girando por el borde largo) para ver los dobleces en las dos caras. Si tiene borde, recórtalo por la línea gruesa antes de doblar.',
   ],
   svg: ['Full-size SVG sheet', 'Полноразмерный лист SVG', 'Hoja SVG a tamaño real'],
   guideFile: ['Offline illustrated guide', 'Схемы для работы офлайн', 'Guía ilustrada sin conexión'],
@@ -141,10 +154,10 @@ const words = {
   mm: ['mm', 'мм', 'mm'],
   airplane: ['Paper airplane studio', 'Мастерская бумажных самолётов', 'Taller de aviones de papel'],
 }
-import { flightPhysics,physicsTitle } from './atlas-physics.js?v=703c9111bd20'
-import { currentLocale } from './atlas-nav.js?v=703c9111bd20'
-import { studioOrigins, bookColorAction } from './studio-origins.js?v=703c9111bd20'
-import { bookFromStudio } from './model-studio.js?v=703c9111bd20'
+import { flightPhysics,physicsTitle } from './atlas-physics.js?v=317e8ae67356'
+import { currentLocale } from './atlas-nav.js?v=317e8ae67356'
+import { studioOrigins, bookColorAction } from './studio-origins.js?v=317e8ae67356'
+import { bookFromStudio } from './model-studio.js?v=317e8ae67356'
 const $ = (id) => document.getElementById(id)
 const updateAtlas = studioOrigins($('origin-atlas'))
 const params = new URLSearchParams(location.search)
@@ -158,8 +171,10 @@ const selectInitial = () => {
   const model = chooseModel(params.get('model'))
   const source = { model_id: model.model_id }
   const paper = params.get('paper'),
-    livery = params.get('livery')
+    livery = params.get('livery'),
+    edge = params.get('edge')
   if (Object.hasOwn(sheetSizes, paper)) source.paper = paper
+  if (sheetEdges.includes(edge)) source.edge = edge
   if (liveries.includes(livery)) source.livery = livery
   for (const [key, field, lo, hi] of [
     ['keel', 'keel_mm', 12, 28],
@@ -191,6 +206,7 @@ function urlForPlan() {
     model: plan.model_id,
     lang: locale,
     paper: plan.paper,
+    edge: plan.edge,
     keel: plan.keel_mm,
     tips: plan.winglet_mm,
     livery: plan.livery,
@@ -226,6 +242,8 @@ function translate() {
     ru: 'US Letter · 215,9 × 279,4 мм',
     es: 'Carta · 215,9 × 279,4 mm',
   }[locale]
+  $('edge').options[0].textContent = tr('edgeCut')
+  $('edge').options[1].textContent = tr('edgeWhole')
 }
 function renderModels() {
   const current = document.activeElement?.dataset?.model
@@ -330,6 +348,8 @@ function renderPlan() {
   $('sample-number').textContent = 'OF / ' + plan.code
   $('aircraft').innerHTML = planeSpecimen(plan)
   $('paper').value = plan.paper
+  $('edge').value = plan.edge
+  $('edge-hint').textContent = tr(plan.edge === 'cut' ? 'edgeCutHint' : 'edgeWholeHint')
   if ($('livery').dataset.model !== plan.model_id) {
     $('livery').replaceChildren(...appearanceChoices(plan.model_id, locale).map(
       ({ id, label }) => new Option(label, id),
@@ -395,7 +415,7 @@ function renderStep() {
 }
 async function updateViewer() {
   try {
-    loadingViewer ??= import('./flight-viewer.js?v=703c9111bd20')
+    loadingViewer ??= import('./flight-viewer.js?v=317e8ae67356')
       .then(({ mountFlightViewer }) => mountFlightViewer($('three')))
       .catch((error) => {
         loadingViewer = undefined
@@ -443,6 +463,7 @@ function acceptDesign(options, first = false) {
 }
 for (const [control, field] of [
   ['paper', 'paper'],
+  ['edge', 'edge'],
   ['livery', 'livery'],
   ['keel', 'keel_mm'],
   ['tips', 'winglet_mm'],
@@ -452,6 +473,8 @@ for (const [control, field] of [
     plan = makePlane(
       {
         ...plan.source,
+        // Only revision 2 offers the cut border; a saved revision 1 copy moves up when edited.
+        ...(field === 'edge' ? { revision } : {}),
         [field]: field.endsWith('_mm') ? Number(value) : value,
       },
       locale,
@@ -466,6 +489,7 @@ $('models').addEventListener('click', (e) => {
       {
         model_id: button.dataset.model,
         paper: plan.paper,
+        edge: plan.edge,
         livery: plan.livery,
       },
       true,

@@ -1,6 +1,6 @@
-import { flightPhysics } from './atlas-physics.js?v=703c9111bd20'
-import { baselines } from './assets/atlas/baselines.js?v=703c9111bd20'
-import { planeCatalog } from './assets/planes/catalog.js?v=703c9111bd20'
+import { flightPhysics } from './atlas-physics.js?v=317e8ae67356'
+import { baselines } from './assets/atlas/baselines.js?v=317e8ae67356'
+import { planeCatalog } from './assets/planes/catalog.js?v=317e8ae67356'
 
 export const languages = ['en', 'es', 'ru']
 export const words = (en, es, ru) => ({ en, es, ru })

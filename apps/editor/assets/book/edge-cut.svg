@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 84 64" role="img" aria-label="Page with a thick cut border; fold lines end at the border">
+  <rect x="21" y="2" width="42" height="60" fill="#fff" stroke="#b9c4c2" stroke-width="0.8"/>
+  <rect x="24.5" y="5.5" width="35" height="53" fill="none" stroke="#233e46" stroke-width="1.6"/>
+  <g fill="none" stroke="#233e46" stroke-width="0.7" stroke-dasharray="2 1.4">
+    <path d="M42 5.5V58.5M42 5.5L24.5 22.5M42 5.5L59.5 22.5M38 58.5V22M46 58.5V22"/>
+  </g>
+  <g fill="none" stroke="#9b3a2c" stroke-width="0.9" stroke-linecap="round">
+    <circle cx="9" cy="54" r="2.2"/><circle cx="9" cy="47" r="2.2"/>
+    <path d="M10.8 53 19 46.5M10.8 48 19 54.5"/>
+  </g>
+</svg>

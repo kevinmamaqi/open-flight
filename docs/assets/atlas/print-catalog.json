@@ -5,10 +5,14 @@
       "model": "monarch",
       "family": "butterfly",
       "construction": "k1",
-      "pages": 2,
+      "pages": 3,
+      "bookPages": [
+        0,
+        2
+      ],
       "sharedGuide": {
         "key": "folded-butterfly",
-        "index": 1
+        "index": 2
       }
     },
     {
@@ -16,10 +20,14 @@
       "model": "morpho",
       "family": "butterfly",
       "construction": "k1",
-      "pages": 2,
+      "pages": 3,
+      "bookPages": [
+        0,
+        2
+      ],
       "sharedGuide": {
         "key": "folded-butterfly",
-        "index": 1
+        "index": 2
       }
     },
     {
@@ -27,10 +35,14 @@
       "model": "swallowtail",
       "family": "butterfly",
       "construction": "k1",
-      "pages": 2,
+      "pages": 3,
+      "bookPages": [
+        0,
+        2
+      ],
       "sharedGuide": {
         "key": "folded-butterfly",
-        "index": 1
+        "index": 2
       }
     },
     {
@@ -62,7 +74,13 @@
       "model": "boeing-747",
       "family": "airplane",
       "construction": "whole-sheet",
-      "pages": 4,
+      "pages": 5,
+      "bookPages": [
+        0,
+        2,
+        3,
+        4
+      ],
       "sharedGuide": null
     },
     {
@@ -70,7 +88,13 @@
       "model": "douglas-dc3",
       "family": "airplane",
       "construction": "whole-sheet",
-      "pages": 4,
+      "pages": 5,
+      "bookPages": [
+        0,
+        2,
+        3,
+        4
+      ],
       "sharedGuide": null
     },
     {
@@ -78,7 +102,13 @@
       "model": "tupolev-tu144",
       "family": "airplane",
       "construction": "whole-sheet",
-      "pages": 4,
+      "pages": 5,
+      "bookPages": [
+        0,
+        2,
+        3,
+        4
+      ],
       "sharedGuide": null
     },
     {
@@ -86,7 +116,49 @@
       "model": "ilyushin-il62",
       "family": "airplane",
       "construction": "whole-sheet",
-      "pages": 4,
+      "pages": 5,
+      "bookPages": [
+        0,
+        2,
+        3,
+        4
+      ],
+      "sharedGuide": null
+    },
+    {
+      "id": "monarch-k2",
+      "model": "monarch",
+      "family": "butterfly",
+      "construction": "k2",
+      "pages": 3,
+      "bookPages": [
+        0,
+        2
+      ],
+      "sharedGuide": null
+    },
+    {
+      "id": "morpho-k2",
+      "model": "morpho",
+      "family": "butterfly",
+      "construction": "k2",
+      "pages": 3,
+      "bookPages": [
+        0,
+        2
+      ],
+      "sharedGuide": null
+    },
+    {
+      "id": "swallowtail-k2",
+      "model": "swallowtail",
+      "family": "butterfly",
+      "construction": "k2",
+      "pages": 3,
+      "bookPages": [
+        0,
+        2
+      ],
       "sharedGuide": null
     }
   ],

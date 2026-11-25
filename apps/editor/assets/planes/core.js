@@ -1,6 +1,6 @@
-import { planeCatalog, sheetSizes, liveries, revision, planeColors, referenceForLocale } from './catalog.js'
+import { planeCatalog, sheetSizes, liveries, revision, revisions, trimMm, sheetEdges, planeColors, referenceForLocale } from './catalog.js'
 import { applyFolds, openSheet, outlineOf, publicPanels, wingShape, dedupeCreases } from './geometry.js'
-export { planeCatalog, sheetSizes, liveries, revision } from './catalog.js'
+export { planeCatalog, sheetSizes, liveries, revision, revisions, trimMm, sheetEdges } from './catalog.js'
 
 function whole(value, min, max, fallback, label) {
   if (value === undefined) return fallback
@@ -13,15 +13,22 @@ export function makePlane(input, locale = 'en') {
   const model = planeCatalog.find((p) => p.model_id === input.model_id)
   if (!model) throw new RangeError('Unknown plane model')
   if (!['en', 'ru', 'es'].includes(locale)) throw new RangeError('Unknown plane language')
-  if (input.revision !== undefined && input.revision !== revision)
-    throw new RangeError('Unknown plane revision')
+  const rev = input.revision ?? revision
+  if (!revisions.includes(rev)) throw new RangeError('Unknown plane revision')
   const paper = input.paper ?? 'A4',
     livery = input.livery ?? 'heritage'
   if (!Object.hasOwn(sheetSizes, paper)) throw new RangeError('Unknown plane paper')
   if (!liveries.includes(livery)) throw new RangeError('Unknown plane livery')
   const keel = whole(input.keel_mm, 12, 28, model.keel_mm, 'keel_mm')
   const tips = whole(input.winglet_mm, 0, 12, model.winglet_mm, 'winglet_mm')
-  const [w, h] = sheetSizes[paper],
+  const edge = input.edge ?? (rev === '1' ? 'whole' : 'cut')
+  if (!sheetEdges.includes(edge)) throw new RangeError('Unknown plane sheet edge')
+  if (rev === '1' && edge !== 'whole') throw new RangeError('Revision 1 folds the whole sheet')
+  const [pageW, pageH] = sheetSizes[paper]
+  const trim = edge === 'cut' ? trimMm : 0
+  // Fold geometry uses the sheet the builder actually folds: the cut-out sheet in revision 2.
+  const w = Math.round((pageW - 2 * trim) * 1000) / 1000,
+    h = Math.round((pageH - 2 * trim) * 1000) / 1000,
     c = w / 2
   const t = (en, ru, es) => ({ en, ru, es })[locale]
   const mm = (n) =>
@@ -92,9 +99,16 @@ export function makePlane(input, locale = 'en') {
     layers = after
     return frame
   }
+  const cutFirst = trim
+    ? t(
+        'Cut out the sheet along the thick border. ',
+        'Вырежьте лист по толстой рамке. ',
+        'Recorta la hoja por el borde grueso. ',
+      )
+    : ''
   add(
     t('Find the centre', 'Наметьте середину', 'Marca el centro'),
-    t(
+    cutFirst + t(
       'Print side up. Put the short edge at the top. Bring the two long edges together, press the middle crease, then open the sheet again.',
       'Положите лист печатью вверх, короткой стороной от себя. Совместите длинные края, проведите по сгибу и раскройте лист.',
       'Coloca la cara impresa hacia arriba y un borde corto lejos de ti. Junta los bordes largos, marca el doblez del centro y vuelve a abrir la hoja.',
@@ -267,9 +281,11 @@ export function makePlane(input, locale = 'en') {
   }
   const source = {
     format: 'open-flight-plane',
-    revision,
+    revision: rev,
     model_id: model.model_id,
     paper,
+    // Revision 1 sources keep their original fields so saved files stay byte-identical.
+    ...(rev === '1' ? {} : { edge }),
     keel_mm: keel,
     winglet_mm: tips,
     livery,
@@ -300,6 +316,9 @@ export function makePlane(input, locale = 'en') {
       museum: referenceForLocale(model.field.museum ?? model.reference, locale),
     },
     dimensions: { width_mm: w, height_mm: h },
+    page: { width_mm: pageW, height_mm: pageH },
+    edge,
+    trim_mm: trim,
     colors: planeColors(model, livery),
     motif: model.motif,
     code: model.code,

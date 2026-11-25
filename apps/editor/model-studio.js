@@ -11,6 +11,8 @@ export function studioForBookSheet(book, sheetId) {
   const color = book.appearances?.[entry.model] || appearanceChoices(entry.model, book.lang)[0].id
   if (entry.construction === 'k1')
     return foldedLink(entry.model, book.lang, { appearance_id: color, paper: book.paper })
+  if (entry.construction === 'k2')
+    return './costa.html?' + new URLSearchParams({ lang: book.lang, species: entry.model, colors: color, paper: book.paper })
   const path = studioLink(entry.model, book.lang)
   const [address, hash] = path.split('#')
   const field = entry.family === 'airplane' ? 'livery' : 'appearance_id'

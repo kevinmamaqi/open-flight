@@ -1,5 +1,5 @@
-import { currentLocale, homeURL, localizedLinks } from "./atlas-nav.js?v=703c9111bd20";
-import { recordBookEvent } from "./book-metrics.js?v=703c9111bd20";
+import { currentLocale, homeURL, localizedLinks } from "./atlas-nav.js?v=317e8ae67356";
+import { recordBookEvent } from "./book-metrics.js?v=317e8ae67356";
 import {
   bookFilename,
   bookPlan,
@@ -11,24 +11,24 @@ import {
   normalizeBook,
   pilotLimit,
   readBookURL,
-} from "./book-model.js?v=703c9111bd20";
+} from "./book-model.js?v=317e8ae67356";
 import {
   loadBookServices,
   recoverBookCheckout,
   supportChoices,
-} from "./book-support.js?v=703c9111bd20";
-import { estimateBookBytes } from "./book-size.js?v=703c9111bd20";
-import { mountBookReader } from "./book-reader.js?v=703c9111bd20";
-import { applyStudioColors, studioForBookSheet } from "./model-studio.js?v=703c9111bd20";
-import { mountModelMap } from "./model-map.js?v=703c9111bd20";
-import { appearanceArtPath, appearanceChoices } from "./model-appearance.js?v=703c9111bd20";
-import { builderCopy } from "./book-ui-copy.js?v=703c9111bd20";
+} from "./book-support.js?v=317e8ae67356";
+import { estimateBookBytes } from "./book-size.js?v=317e8ae67356";
+import { mountBookReader } from "./book-reader.js?v=317e8ae67356";
+import { applyStudioColors, studioForBookSheet } from "./model-studio.js?v=317e8ae67356";
+import { mountModelMap } from "./model-map.js?v=317e8ae67356";
+import { appearanceArtPath, appearanceChoices } from "./model-appearance.js?v=317e8ae67356";
+import { builderCopy } from "./book-ui-copy.js?v=317e8ae67356";
 import {
   sheetCatalog,
   sheetIdFor,
   sheetName,
   sheetPath,
-} from "./family-sheets.js?v=703c9111bd20";
+} from "./family-sheets.js?v=317e8ae67356";
 
 const sheetVersion = new URL(import.meta.url).search;
 const byId = (id) => document.getElementById(id);
@@ -111,7 +111,9 @@ const firstButterfly = state.sheets.find(
 );
 const initialFold =
   entries.get(firstButterfly)?.construction ||
-  (preferences.construction === "w1" ? "w1" : "k1");
+  (["w1", "k2"].includes(preferences.construction)
+    ? preferences.construction
+    : "k1");
 const folds = new Map();
 const studioSheet = new URLSearchParams(location.hash.slice(1)).get("flyer");
 const studioEntry = studioChanges.sheets && entries.get(studioSheet);
@@ -209,7 +211,8 @@ function namedSheet(id) {
   const { family, construction } = entries.get(id);
   if (family !== "butterfly") return name;
   const t = copy();
-  return `${name} · ${construction === "k1" ? t.folded : t.tabs} (${construction.toUpperCase()})`;
+  const fold = { k1: t.folded, w1: t.tabs, k2: t.costa }[construction];
+  return `${name} · ${fold} (${construction.toUpperCase()})`;
 }
 
 function syncFlyer() {
@@ -235,8 +238,10 @@ function syncFlyer() {
     family === "butterfly" ? t.butterflyTools : t.planeTools;
   picture(byId("flyer-image"), id, "studio");
   byId("flyer-studio").href = studioForBookSheet(state, id);
-  if (family === "butterfly")
+  if (family === "butterfly") {
     picture(byId("spine-example"), sheetIdFor(activeModel), "studio", true);
+    picture(byId("costa-example"), sheetIdFor(activeModel, "k2"), "studio", true);
+  }
   byId("construction").hidden = family !== "butterfly";
   byId("mixed-builds").hidden =
     new Set(
@@ -391,6 +396,10 @@ function refresh({ lazy = false } = {}) {
   pilot.hidden = !state.pilot;
   pilot.textContent = state.pilot;
   byId("preview-paper").textContent = state.paper === "A4" ? "A4" : t.letter;
+  // The edge choice only affects airplane pages, so it appears once the book has one.
+  byId("edge-choice").hidden = !state.sheets.some(
+    (id) => entries.get(id).family === "airplane",
+  );
   reader.render(book, previewOptions(book), t, {
     coverLabel: state.cover || t.title,
     lazy,
@@ -605,7 +614,7 @@ document.addEventListener("change", ({ target }) => {
       : state.coverModel;
     applySheets(next, featured);
   }
-  if (name === "style" || name === "paper") {
+  if (name === "style" || name === "paper" || name === "edge") {
     state[name] = value;
     syncFlyer();
     refresh();
@@ -729,8 +738,8 @@ function readyPDF(book) {
   const key = JSON.stringify(book);
   if (activePDF?.key === key) return activePDF.promise;
   const promise = Promise.all([
-    import("./book-engine.js?v=703c9111bd20"),
-    import("./assets/planes/vendor/jspdf.js?v=703c9111bd20"),
+    import("./book-engine.js?v=317e8ae67356"),
+    import("./assets/planes/vendor/jspdf.js?v=317e8ae67356"),
   ]).then(async ([{ createBook }]) => {
     const data = await createBook(book, { loadAsset });
     return new File([data], bookFilename(book), { type: "application/pdf" });

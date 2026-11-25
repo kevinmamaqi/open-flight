@@ -15,8 +15,11 @@ export const builderCopy = {
       "Pinch the crease down the middle to make a stiff spine you can hold.",
     tabsHint:
       "Bend the small tabs at the back of the wings up or down to adjust the glide.",
+    costa: "Costa glider",
+    costaHint:
+      "Experimental: a stiff folded front edge, a longer head for two clips and a balance check. Use 120 g/m² paper.",
     mixed:
-      "This book has both folds. Open print order to remove an individual sheet.",
+      "This book mixes butterfly folds. Open print order to remove an individual sheet.",
     orderHint: "Drag a sheet or move it with the arrow buttons.",
     settings: "Title, pilot and paper",
     titleLabel: "Book title (optional)",
@@ -65,6 +68,13 @@ export const builderCopy = {
     ink: "Ink saver",
     paperLabel: "Printer paper",
     letter: "US Letter",
+    edgeLabel: "Airplane pages",
+    edgeCut: "Cut border",
+    edgeCutHint: "Works on every printer. Cut along the thick line, then fold.",
+    edgeWhole: "Whole sheet",
+    edgeWholeHint: "No cutting. Only if your printer prints to the very edge.",
+    edgeHint:
+      "Butterflies are always cut along their outline, so this only changes the airplane pages.",
     printTitle: "Before you print",
     printHint:
       "Print on one side at actual size (100%). Check the scale mark with a ruler before building.",
@@ -115,8 +125,11 @@ export const builderCopy = {
       "Aprieta el pliegue del centro para formar un nervio firme por donde sujetar la mariposa.",
     tabsHint:
       "Dobla un poco hacia arriba o hacia abajo las pestañas traseras de las alas para ajustar el planeo.",
+    costa: "Planeador con costa",
+    costaHint:
+      "Experimental: borde delantero doblado y rígido, cabeza más larga para dos clips y prueba de equilibrio. Usa papel de 120 g/m².",
     mixed:
-      "El libro incluye los dos tipos de pliegue. Abre el orden de impresión para quitar una hoja.",
+      "El libro mezcla tipos de pliegue. Abre el orden de impresión para quitar una hoja.",
     orderHint: "Arrastra una hoja o muévela con los botones de flecha.",
     settings: "Título, piloto y papel",
     titleLabel: "Título del libro (opcional)",
@@ -165,6 +178,13 @@ export const builderCopy = {
     ink: "Ahorro de tinta",
     paperLabel: "Formato del papel",
     letter: "Carta",
+    edgeLabel: "Páginas de aviones",
+    edgeCut: "Borde para recortar",
+    edgeCutHint: "Sirve en cualquier impresora. Recorta por la línea gruesa y luego dobla.",
+    edgeWhole: "Hoja entera",
+    edgeWholeHint: "Sin recortar. Solo si tu impresora imprime hasta el borde.",
+    edgeHint:
+      "Las mariposas siempre se recortan por su contorno, así que esto solo cambia las páginas de aviones.",
     printTitle: "Antes de imprimir",
     printHint:
       "Imprime por una cara a tamaño real (100 %). Comprueba la marca de escala con una regla antes de construir.",
@@ -215,8 +235,11 @@ export const builderCopy = {
       "Сожми сгиб посередине, чтобы получилось жёсткое ребро, за которое удобно держать бабочку.",
     tabsHint:
       "Чуть подними или опусти маленькие язычки на заднем крае крыльев, чтобы изменить планирование.",
+    costa: "Планер с жилкой",
+    costaHint:
+      "Опытная модель: жёсткий подогнутый передний край, длинная голова для двух скрепок и проверка баланса. Нужна бумага 120 г/м².",
     mixed:
-      "В книге есть оба вида сгибов. Открой порядок печати, чтобы убрать отдельный лист.",
+      "В книге разные виды сгибов. Открой порядок печати, чтобы убрать отдельный лист.",
     orderHint: "Перетащи лист или перемести его кнопками со стрелками.",
     settings: "Название, пилот и бумага",
     titleLabel: "Название книги (необязательно)",
@@ -265,6 +288,13 @@ export const builderCopy = {
     ink: "Экономия чернил",
     paperLabel: "Формат бумаги",
     letter: "US Letter",
+    edgeLabel: "Страницы с самолётами",
+    edgeCut: "Рамка для вырезания",
+    edgeCutHint: "Подходит для любого принтера. Вырежьте по толстой линии, затем складывайте.",
+    edgeWhole: "Целый лист",
+    edgeWholeHint: "Без вырезания. Только если принтер печатает до самого края.",
+    edgeHint:
+      "Бабочек всегда вырезают по контуру, поэтому выбор влияет только на страницы с самолётами.",
     printTitle: "Перед печатью",
     printHint:
       "Печатай с одной стороны в масштабе 100 %. Перед сборкой проверь контрольную шкалу линейкой.",

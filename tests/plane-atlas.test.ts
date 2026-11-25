@@ -10,9 +10,11 @@ import {
   planeSource,
   planeSpecimen,
   planeSvg,
+  printSafeMm,
   sheetSizes,
 } from '../packages/planes/index.ts'
-import type { PlaneOptions, PlanePaper, Point } from '../packages/planes/types.ts'
+import type { PlaneOptions, PlanePaper, PlanePlan, Point } from '../packages/planes/types.ts'
+import { backScene, sheetScene, stripes } from '../apps/editor/assets/planes/drawing.js'
 
 function polygonArea(polygon: Point[]): number {
   return (
@@ -27,31 +29,82 @@ function polygonArea(polygon: Point[]): number {
 function close(actual: number, expected: number, tolerance = 0.0001) {
   assert.ok(Math.abs(actual - expected) < tolerance, `${actual} differs from ${expected}`)
 }
-function assertPrintReferences(svg: string, drawing: string, width: number, height: number) {
-  const toMm = (value: string) => Number(value) * 25.4 / 72
-  const border = [[0, 0], [width, 0], [width, height], [0, height], [0, 0]]
-  assert.ok(svg.includes('points="' + border.map((point) => point.join(',')).join(' ') + '"'))
-  const paths = drawing.match(/^[\d.]+ [\d.]+ m(?:\n[\d.]+ [\d.]+ l){4}\nS$/gm) ?? []
-  assert.ok(paths.some((path) => {
-    const coords = (path.match(/[\d.]+/g) ?? []).map(toMm)
-    return border.every(([x, y], i) =>
-      Math.abs(coords[i * 2] - x) < 0.01 && Math.abs(coords[i * 2 + 1] - (height - y)) < 0.01,
-    )
-  }), 'One continuous path follows the physical paper edges')
-  const elbows = Array.from(
-    drawing.matchAll(/^([\d.]+) ([\d.]+) m\n([\d.]+) ([\d.]+) l\n([\d.]+) ([\d.]+) l\nS$/gm),
-    (match) => match.slice(1).map(toMm),
-  )
-  for (const x of [0, width]) {
-    for (const y of [0, height]) {
-      // SVG has a top-left origin. PDF has a bottom-left origin.
-      assert.ok(svg.includes(` ${x},${y} `))
-      assert.ok(elbows.some(([leftX, leftY, elbowX, elbowY, endX, endY]) =>
-        Math.abs(elbowX - x) < 0.01 && Math.abs(elbowY - (height - y)) < 0.01 &&
-        leftY === elbowY && endX === elbowX && leftX !== elbowX && endY !== elbowY,
-      ), `Missing corner mark at ${x}, ${y} mm`)
-    }
+type Part = {
+  type: string
+  points?: Point[]
+  pos?: Point
+  radius?: number
+  value?: string
+  dash?: number[]
+  stroke?: string
+}
+// Office printers leave the outer few millimetres blank. Every guide must sit inside the safe
+// area on both faces, except artwork and a labelled winglet fold that lies within the strip.
+function assertSafeFace(parts: Part[], plan: PlanePlan, artwork: number) {
+  const W = plan.page.width_mm,
+    H = plan.page.height_mm,
+    d = plan.trim_mm
+  // Revision 2 prints a cut border trim_mm inside the paper. Revision 1 keeps guides printSafeMm in.
+  const m = d || printSafeMm,
+    slack = d ? 0.5 : 0.25
+  const inside = ([x, y]: Point) => x >= m - slack && x <= W - m + slack && y >= m - slack && y <= H - m + slack
+  const distances = parts.filter((p) => p.type === 'text' && / mm$/.test(p.value ?? '')).map((p) => p.value)
+  for (const part of parts.slice(d ? 0 : artwork)) {
+    const points = part.points ?? (part.pos ? [part.pos] : [])
+    if (points.every(inside)) continue
+    assert.ok(!d, `${plan.model_id} ${plan.paper}: ${part.type} outside the cut border at ${JSON.stringify(points[0])}`)
+    const x = points[0][0]
+    const winglet = part.type === 'polyline' && points.every((p) => Math.abs(p[0] - x) < 1e-6) && (x < m || x > W - m)
+    assert.ok(winglet, `${plan.model_id} ${plan.paper}: ${part.type} outside the printable area at ${JSON.stringify(points[0])}`)
+    assert.ok(distances.includes(Number(Math.min(x, W - x).toFixed(1)) + ' mm'), 'Winglet distance label')
   }
+  if (d) {
+    const border = [[d, d], [W - d, d], [W - d, H - d], [d, H - d], [d, d]]
+    assert.ok(
+      parts.some((p) => p.type === 'polyline' && !p.dash && JSON.stringify(p.points?.map((q) => q.map((v) => Number(v.toFixed(3))))) === JSON.stringify(border.map((q) => q.map((v) => Number(v.toFixed(3)))))),
+      'Thick cut border',
+    )
+    // Every fold that reaches the edge of the folded sheet ends exactly on the cut border.
+    const onBorder = ([x, y]: Point) => [x - d, W - d - x, y - d, H - d - y].some((v) => Math.abs(v) < 1e-6)
+    for (const crease of plan.creases)
+      for (const [x, y] of crease.line) {
+        const atEdge = [x, plan.dimensions.width_mm - x, y, plan.dimensions.height_mm - y].some((v) => Math.abs(v) < 1e-6)
+        if (!atEdge) continue
+        assert.ok(
+          parts.some((p) => p.dash && p.points?.some((q) => onBorder(q) && Math.abs(q[1] - (y + d)) < 1e-6 && (Math.abs(q[0] - (x + d)) < 1e-6 || Math.abs(q[0] - (W - x - d)) < 1e-6))),
+          `${plan.model_id}: fold ends at the cut border`,
+        )
+      }
+  } else {
+    for (const [x, y] of [[m, m], [W - m, m], [m, H - m], [W - m, H - m]])
+      assert.ok(
+        parts.some((p) => p.type === 'polyline' && p.points?.length === 3 && Math.abs(p.points[1][0] - x) < 1e-6 && Math.abs(p.points[1][1] - y) < 1e-6),
+        `Missing corner bracket at ${x}, ${y} mm`,
+      )
+  }
+  const numbered = new Set(parts.filter((p) => p.type === 'circle' && p.radius === 2.5).map((p) => p.pos))
+  const labels = new Set(parts.filter((p) => p.type === 'text' && /^\d+$/.test(p.value ?? '')).map((p) => Number(p.value)))
+  for (const step of plan.steps)
+    if (plan.creases.some((c) => c.step === step.index)) assert.ok(labels.has(step.index + 1), `${plan.model_id}: step ${step.index + 1} has no number on the sheet`)
+  assert.ok(numbered.size >= labels.size)
+}
+function assertMirroredBack(front: Part[], back: Part[], plan: PlanePlan) {
+  const w = plan.page.width_mm
+  const key = (p: Part, mirror: boolean) =>
+    JSON.stringify([
+      p.points!.map(([x, y]) => [Number((mirror ? w - x : x).toFixed(2)), Number(y.toFixed(2))]).sort(),
+      p.dash!.length === 4 ? (mirror ? 'valley' : 'mountain') : mirror ? 'mountain' : 'valley',
+    ])
+  const folds = (parts: Part[], mirror: boolean) => parts.filter((p) => p.dash).map((p) => key(p, mirror)).sort()
+  assert.deepEqual(folds(back, false), folds(front, true), 'Back folds mirror the front with mountain and valley swapped')
+  const crosses = (parts: Part[], mirror: boolean) =>
+    parts.filter((p) => p.type === 'circle' && p.radius === 2.1).map((p) => [Number((mirror ? w - p.pos![0] : p.pos![0]).toFixed(2)), p.pos![1]]).sort()
+  assert.equal(crosses(front, false).length, 2)
+  assert.deepEqual(crosses(back, true), crosses(front, false), 'Registration crosses meet through the paper')
+  assert.ok(!back.some((p) => p.type === 'polygon' && p.stroke === 'none' && (p as { fill?: string }).fill !== '#ffffff' && (p.points?.length ?? 0) > 3), 'No artwork on the back')
+}
+function assertScaleBar(drawing: string, width: number, height: number) {
+  const toMm = (value: string) => Number(value) * 25.4 / 72
   const lines = Array.from(
     drawing.matchAll(/^([\d.]+) ([\d.]+) m\n([\d.]+) ([\d.]+) l\nS$/gm),
     (match) => match.slice(1).map(toMm),
@@ -66,13 +119,15 @@ const papers: PlanePaper[] = ['A4', 'US_LETTER']
 test('every fold preserves every square millimetre and maps its vertices back to the full printable sheet', () => {
   for (const model of planeCatalog)
     for (const paper of papers)
-      for (const [keel_mm, winglet_mm] of [
-        [12, 0],
-        [19, 7],
-        [28, 12],
-      ]) {
-        const plan = makePlane({ model_id: model.model_id, paper, keel_mm, winglet_mm })
-        const [w, h] = sheetSizes[paper]
+      for (const [keel_mm, winglet_mm, revision] of [
+        [12, 0, '2'],
+        [19, 7, '2'],
+        [28, 12, '2'],
+        [19, 7, '1'],
+      ] as const) {
+        const plan = makePlane({ model_id: model.model_id, paper, keel_mm, winglet_mm, revision })
+        // Revision 2 folds the sheet inside the cut border; revision 1 folds the whole paper.
+        const [w, h] = revision === '1' ? sheetSizes[paper] : [plan.dimensions.width_mm, plan.dimensions.height_mm]
         for (const { frame } of plan.steps) {
           for (const layers of [frame.before, frame.panels]) {
             close(
@@ -153,19 +208,19 @@ test('a 100% physical sheet and trilingual illustrated guides export determinist
         assert.equal(text.slice(0, 5), '%PDF-')
         const box = /\/MediaBox\s*\[\s*0\s+0\s+([\d.]+)\s+([\d.]+)/.exec(text)
         assert.ok(box)
-        close((Number(box[1]) * 25.4) / 72, plan.dimensions.width_mm)
-        close((Number(box[2]) * 25.4) / 72, plan.dimensions.height_mm)
+        close((Number(box[1]) * 25.4) / 72, plan.page.width_mm)
+        close((Number(box[2]) * 25.4) / 72, plan.page.height_mm)
         assert.equal(
           (text.match(/\/Type \/Page\b/g) || []).length,
-          1 + Math.ceil(plan.steps.length / 3) + (plan.steps.length % 3 === 1 ? 0 : 1),
+          2 + Math.ceil(plan.steps.length / 3) + (plan.steps.length % 3 === 1 ? 0 : 1),
         )
         const page = (await PDFDocument.load(pdf)).getPage(0)
         const content = page.node.Contents()
         assert.ok(content instanceof PDFRawStream)
         const drawing = Buffer.from(decodePDFRawStream(content).decode()).toString('latin1')
-        assertPrintReferences(planeSvg(plan), drawing, plan.dimensions.width_mm, plan.dimensions.height_mm)
+        assertScaleBar(drawing, plan.page.width_mm, plan.page.height_mm)
         assert.match(text, /\/PrintScaling \/None/)
-        assert.match(text, /\/Duplex \/Simplex/)
+        assert.match(text, /\/Duplex \/DuplexFlipLongEdge/)
         const guide = planeGuide(plan)
         assert.match(guide, new RegExp('<html lang="' + locale + '">'))
         assert.equal((guide.match(/<article>/g) || []).length, plan.steps.length)
@@ -195,6 +250,45 @@ test('a 100% physical sheet and trilingual illustrated guides export determinist
   const p = makePlane({ model_id: 'douglas-dc3' })
   assert.deepEqual(planePdf(p), planePdf(p))
 })
+test('every guide prints inside office-printer margins on both faces, and the back mirrors the front', () => {
+  for (const model of planeCatalog)
+    for (const paper of papers)
+      for (const [keel_mm, winglet_mm] of [[12, 0], [20, 4], [28, 12], [16, 6]])
+        for (const livery of ['heritage', 'flag'] as const)
+        for (const sheet of [{ revision: '1' }, { revision: '2', edge: 'cut' }, { revision: '2', edge: 'whole' }] as const) {
+          const plan = makePlane({ model_id: model.model_id, paper, keel_mm, winglet_mm, livery, ...sheet }) as PlanePlan
+          const front = sheetScene(plan) as Part[],
+            back = backScene(plan) as Part[]
+          assertSafeFace(front, plan, stripes(plan).length)
+          assertSafeFace(back, plan, 0)
+          assertMirroredBack(front, back, plan)
+        }
+})
+test('revision 2 folds the cut-out sheet by default, offers the whole sheet, and saved revision 1 designs still open', () => {
+  for (const paper of papers) {
+    const current = makePlane({ model_id: 'boeing-747', paper })
+    assert.equal(current.revision, '2')
+    assert.equal(current.trim_mm, 7)
+    close(current.dimensions.width_mm, current.page.width_mm - 14)
+    close(current.dimensions.height_mm, current.page.height_mm - 14)
+    assert.match(current.steps[0].instruction, /^Cut out the sheet along the thick border/)
+    const saved = makePlane({ model_id: 'boeing-747', paper, revision: '1' })
+    assert.equal(saved.trim_mm, 0)
+    assert.deepEqual(saved.page, saved.dimensions)
+    assert.deepEqual(makePlane(JSON.parse(planeSource(saved))).source, saved.source)
+    assert.notDeepEqual(saved.creases, current.creases)
+    // Revision 2 with a whole-sheet edge folds exactly what revision 1 folds.
+    const whole = makePlane({ model_id: 'boeing-747', paper, edge: 'whole' })
+    assert.equal(whole.trim_mm, 0)
+    assert.equal(whole.source.edge, 'whole')
+    assert.deepEqual(whole.creases, saved.creases)
+    assert.equal(current.source.edge, 'cut')
+    assert.equal('edge' in saved.source, false)
+    assert.deepEqual(makePlane(JSON.parse(planeSource(whole))).source, whole.source)
+  }
+  assert.throws(() => makePlane({ model_id: 'boeing-747', revision: '1', edge: 'cut' }), /whole sheet/)
+  assert.throws(() => makePlane({ model_id: 'boeing-747', edge: 'borderless' as never }), /sheet edge/)
+})
 test('unknown formats, paper revisions and invalid dimensions are rejected before export', () => {
   for (const update of [
     { model_id: 'other' },
@@ -203,7 +297,7 @@ test('unknown formats, paper revisions and invalid dimensions are rejected befor
     { keel_mm: 11 },
     { keel_mm: 28.1 },
     { winglet_mm: 13 },
-    { revision: '2' },
+    { revision: '3' },
   ]) {
     assert.throws(() => makePlane({ model_id: 'boeing-747', ...update } as PlaneOptions), RangeError)
   }

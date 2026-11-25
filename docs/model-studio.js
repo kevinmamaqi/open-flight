@@ -1,7 +1,7 @@
-import { foldedLink, studioLink } from './atlas-guide.js?v=703c9111bd20'
-import { defaultSheets } from './book-model.js?v=703c9111bd20'
-import { sheetCatalog } from './family-sheets.js?v=703c9111bd20'
-import { appearanceChoices } from './model-appearance.js?v=703c9111bd20'
+import { foldedLink, studioLink } from './atlas-guide.js?v=317e8ae67356'
+import { defaultSheets } from './book-model.js?v=317e8ae67356'
+import { sheetCatalog } from './family-sheets.js?v=317e8ae67356'
+import { appearanceChoices } from './model-appearance.js?v=317e8ae67356'
 
 const sheets = new Map(sheetCatalog.map(entry => [entry.id, entry]))
 
@@ -11,6 +11,8 @@ export function studioForBookSheet(book, sheetId) {
   const color = book.appearances?.[entry.model] || appearanceChoices(entry.model, book.lang)[0].id
   if (entry.construction === 'k1')
     return foldedLink(entry.model, book.lang, { appearance_id: color, paper: book.paper })
+  if (entry.construction === 'k2')
+    return './costa.html?' + new URLSearchParams({ lang: book.lang, species: entry.model, colors: color, paper: book.paper })
   const path = studioLink(entry.model, book.lang)
   const [address, hash] = path.split('#')
   const field = entry.family === 'airplane' ? 'livery' : 'appearance_id'

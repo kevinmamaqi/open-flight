@@ -1,5 +1,5 @@
 import { aircraftPortrait } from './field-portraits.js'
-import { sheetScene, specimenScene } from './drawing.js'
+import { backScene, pageSize, sheetScene, specimenScene } from './drawing.js'
 import { foldScene } from './guide.js'
 import { planeCredits, creditText } from './credits.js'
 
@@ -46,7 +46,8 @@ function fixedId(value) {
 }
 // jsPDF and the embedded typeface are supplied by the local Node package or the offline browser bundle.
 export function planePdfBytes(plan, JsPDF, fontBase64, fontNotice) {
-  const { width_mm: w, height_mm: h } = plan.dimensions
+  // Pages are always the real paper size. In revision 2 the sheet to fold sits inside it.
+  const [w, h] = pageSize(plan)
   const ru = plan.locale === 'ru',
     t = (en, ruText, es) => ({ en, ru: ruText, es })[plan.locale]
   const credit = creditText(plan.locale)
@@ -62,7 +63,7 @@ export function planePdfBytes(plan, JsPDF, fontBase64, fontNotice) {
   doc.addFont('DejaVuSans.ttf', 'Flight', 'normal')
   doc.setFont('Flight', 'normal')
   doc.setLanguage(plan.locale)
-  doc.viewerPreferences({ PrintScaling: 'None', Duplex: 'Simplex' })
+  doc.viewerPreferences({ PrintScaling: 'None', Duplex: 'DuplexFlipLongEdge' })
   doc.setProperties({
     title: plan.name + ' · Open Flight',
     author: planeCredits.creator,
@@ -85,8 +86,11 @@ export function planePdfBytes(plan, JsPDF, fontBase64, fontNotice) {
     keywords: ['Open Flight', credit.geometry, credit.artwork].join(', '),
   })
   doc.setCreationDate("D:20260101000000+00'00'")
-  doc.setFileId(fixedId('airplane-print-edge/' + JSON.stringify(plan.source) + plan.locale + planeCredits.url))
+  doc.setFileId(fixedId('airplane-print-safe/' + JSON.stringify(plan.source) + plan.locale + planeCredits.url))
   draw(doc, sheetScene(plan))
+  // Page 2 is the back of the same sheet, for double-sided printing.
+  doc.addPage([w, h], 'portrait')
+  draw(doc, backScene(plan))
   const write = (value, x, y, size, color = '#243f48') => {
     doc.setFontSize(size)
     doc.setTextColor(color)
@@ -179,14 +183,21 @@ export function planePdfBytes(plan, JsPDF, fontBase64, fontNotice) {
     doc.setFontSize(8)
     doc.text(label, w - 12, 13, { align: 'right' })
     block(
-      t(
-        'Print page 1 only at actual size for the model. Its scale line should measure 20 mm.',
-        'Для самолёта распечатайте только страницу 1 в масштабе 100%. Контрольная линия должна быть ровно 20 мм.',
-        'Para armar el avión, imprime solo la primera página a tamaño real. La línea de escala debe medir 20 mm.',
-      ),
+      plan.trim_mm
+        ? t(
+            'For the model, print page 1, or pages 1–2 double-sided (flip on the long edge) to see the fold lines on both faces. Cut along the thick border, then fold. Any print scale works because the lines meet the border you cut.',
+            'Для самолёта распечатайте страницу 1 или страницы 1–2 с двух сторон (переворот по длинному краю), чтобы линии были видны с обеих сторон. Вырежьте лист по толстой рамке и складывайте. Подойдёт любой масштаб печати: линии доходят до вырезанного края.',
+            'Para el avión, imprime la página 1, o las páginas 1–2 a doble cara (girando por el borde largo) para ver las líneas en las dos caras. Recorta por el borde grueso y luego dobla. Sirve cualquier escala de impresión, porque las líneas llegan al borde que recortas.',
+          )
+        : t(
+            'For the model, print page 1, or pages 1–2 double-sided (flip on the long edge) to see the fold lines on both faces. Actual size is best: the 20 mm line measures 20 mm. Fit to page also works; the line then measures about 19 mm, so fold to the paper edges.',
+            'Для самолёта распечатайте страницу 1 или страницы 1–2 с двух сторон (переворот по длинному краю), чтобы линии были видны с обеих сторон. Лучше всего масштаб 100%: контрольная линия будет ровно 20 мм. «По размеру страницы» тоже подойдёт: линия будет около 19 мм, сгибайте по краям листа.',
+            'Para el avión, imprime la página 1, o las páginas 1–2 a doble cara (girando por el borde largo) para ver las líneas en las dos caras. Lo mejor es el tamaño real: la línea mide 20 mm. «Ajustar a la página» también sirve; la línea medirá unos 19 mm, así que dobla siguiendo los bordes del papel.',
+          ),
       12,
-      40,
+      38.5,
       w - 24,
+      7.6,
     )
     const panels = plan.steps.slice(page * perPage, (page + 1) * perPage)
     const lane = (h - 72) / 3

@@ -1,9 +1,9 @@
-import { makeWorld, clamp, butterflyGeometry, flightRun, practiceTabs } from './flight-geometry.js?v=703c9111bd20'
-import { diagramRenderer, framing, spatialRenderer } from './flight-render.js?v=703c9111bd20'
-import { flightCircuit, sampleFlight } from './flight-model.js?v=703c9111bd20'
-import { circuitWords } from './flight-circuit-copy.js?v=703c9111bd20'
-import { printFlightScorecard } from './flight-scorecard.js?v=703c9111bd20'
-import { viewerWords } from './flight-words.js?v=703c9111bd20'
+import { makeWorld, clamp, butterflyGeometry, flightRun, practiceTabs } from './flight-geometry.js?v=317e8ae67356'
+import { diagramRenderer, framing, spatialRenderer } from './flight-render.js?v=317e8ae67356'
+import { flightCircuit, sampleFlight } from './flight-model.js?v=317e8ae67356'
+import { circuitWords } from './flight-circuit-copy.js?v=317e8ae67356'
+import { printFlightScorecard } from './flight-scorecard.js?v=317e8ae67356'
+import { viewerWords } from './flight-words.js?v=317e8ae67356'
 
 const views = {
   orbit: [0.46, 0.69],
