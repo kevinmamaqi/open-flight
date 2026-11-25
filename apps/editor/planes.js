@@ -56,12 +56,12 @@ const words = {
   settings: ['Your design', 'Ваша модель', 'Tu diseño'],
   paper: ['Paper size', 'Формат листа', 'Tamaño de la hoja'],
   edge: ['Sheet edge', 'Край листа', 'Borde de la hoja'],
-  edgeCut: ['Cut border · any printer', 'Рамка для вырезания · любой принтер', 'Borde para recortar · cualquier impresora'],
+  edgeCut: ['Cut border · 7 mm inset', 'Рамка для вырезания · 7 мм от края', 'Borde para recortar · margen de 7 mm'],
   edgeWhole: ['Whole sheet · edge-to-edge printing', 'Целый лист · печать до края', 'Hoja entera · impresión hasta el borde'],
   edgeCutHint: [
-    'A thick line 7 mm inside the paper. Cut along it first; the fold lines run to it, so any print scale works.',
-    'Толстая линия в 7 мм от края. Сначала вырежьте лист по ней: линии сгибов доходят до неё, поэтому подойдёт любой масштаб печати.',
-    'Una línea gruesa a 7 mm del borde. Recorta primero por ella: las líneas de doblez llegan hasta ella, así que sirve cualquier escala.',
+    'Print at 100%. Check that all four sides of the thick border are visible, then cut along it.',
+    'Печатайте в масштабе 100 %. Проверьте, что видны все четыре стороны толстой рамки, и вырежьте лист по ней.',
+    'Imprime al 100 %. Comprueba que se ven los cuatro lados de la línea gruesa y recorta por ella.',
   ],
   edgeWholeHint: [
     'No border: fold the full page. Choose this only if your printer prints to the very edge, or a print shop trims the pages.',

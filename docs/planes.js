@@ -1,9 +1,9 @@
-import { foldArtwork, showFoldStep } from './fold-lesson.js?v=b1a9665ab855'
-import { makePlane, planeCatalog, planeSource, sheetSizes, liveries, sheetEdges, revision } from './assets/planes/core.js?v=b1a9665ab855'
-import { planeSvg, planeSpecimen, esc, stripes } from './assets/planes/drawing.js?v=b1a9665ab855'
-import { foldSvg, planeGuide } from './assets/planes/guide.js?v=b1a9665ab855'
-import { planeBrowserPdf } from './assets/planes/print.js?v=b1a9665ab855'
-import { appearanceChoices } from './model-appearance.js?v=b1a9665ab855'
+import { foldArtwork, showFoldStep } from './fold-lesson.js?v=38199683889a'
+import { makePlane, planeCatalog, planeSource, sheetSizes, liveries, sheetEdges, revision } from './assets/planes/core.js?v=38199683889a'
+import { planeSvg, planeSpecimen, esc, stripes } from './assets/planes/drawing.js?v=38199683889a'
+import { foldSvg, planeGuide } from './assets/planes/guide.js?v=38199683889a'
+import { planeBrowserPdf } from './assets/planes/print.js?v=38199683889a'
+import { appearanceChoices } from './model-appearance.js?v=38199683889a'
 
 const words = {
   fieldTitle: ['From aircraft to paper', 'От самолёта к бумаге', 'Del avión real al papel'],
@@ -56,12 +56,12 @@ const words = {
   settings: ['Your design', 'Ваша модель', 'Tu diseño'],
   paper: ['Paper size', 'Формат листа', 'Tamaño de la hoja'],
   edge: ['Sheet edge', 'Край листа', 'Borde de la hoja'],
-  edgeCut: ['Cut border · any printer', 'Рамка для вырезания · любой принтер', 'Borde para recortar · cualquier impresora'],
+  edgeCut: ['Cut border · 7 mm inset', 'Рамка для вырезания · 7 мм от края', 'Borde para recortar · margen de 7 mm'],
   edgeWhole: ['Whole sheet · edge-to-edge printing', 'Целый лист · печать до края', 'Hoja entera · impresión hasta el borde'],
   edgeCutHint: [
-    'A thick line 7 mm inside the paper. Cut along it first; the fold lines run to it, so any print scale works.',
-    'Толстая линия в 7 мм от края. Сначала вырежьте лист по ней: линии сгибов доходят до неё, поэтому подойдёт любой масштаб печати.',
-    'Una línea gruesa a 7 mm del borde. Recorta primero por ella: las líneas de doblez llegan hasta ella, así que sirve cualquier escala.',
+    'Print at 100%. Check that all four sides of the thick border are visible, then cut along it.',
+    'Печатайте в масштабе 100 %. Проверьте, что видны все четыре стороны толстой рамки, и вырежьте лист по ней.',
+    'Imprime al 100 %. Comprueba que se ven los cuatro lados de la línea gruesa y recorta por ella.',
   ],
   edgeWholeHint: [
     'No border: fold the full page. Choose this only if your printer prints to the very edge, or a print shop trims the pages.',
@@ -154,10 +154,10 @@ const words = {
   mm: ['mm', 'мм', 'mm'],
   airplane: ['Paper airplane studio', 'Мастерская бумажных самолётов', 'Taller de aviones de papel'],
 }
-import { flightPhysics,physicsTitle } from './atlas-physics.js?v=b1a9665ab855'
-import { currentLocale, languageSwitch, localizedLinks } from './atlas-nav.js?v=b1a9665ab855'
-import { studioOrigins, bookColorAction } from './studio-origins.js?v=b1a9665ab855'
-import { bookFromStudio } from './model-studio.js?v=b1a9665ab855'
+import { flightPhysics,physicsTitle } from './atlas-physics.js?v=38199683889a'
+import { currentLocale, languageSwitch, localizedLinks } from './atlas-nav.js?v=38199683889a'
+import { studioOrigins, bookColorAction } from './studio-origins.js?v=38199683889a'
+import { bookFromStudio } from './model-studio.js?v=38199683889a'
 const $ = (id) => document.getElementById(id)
 const updateAtlas = studioOrigins($('origin-atlas'))
 const params = new URLSearchParams(location.search)
@@ -415,7 +415,7 @@ function renderStep() {
 }
 async function updateViewer() {
   try {
-    loadingViewer ??= import('./flight-viewer.js?v=b1a9665ab855')
+    loadingViewer ??= import('./flight-viewer.js?v=38199683889a')
       .then(({ mountFlightViewer }) => mountFlightViewer($('three')))
       .catch((error) => {
         loadingViewer = undefined

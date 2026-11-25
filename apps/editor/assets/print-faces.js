@@ -5,7 +5,7 @@ export const printSafeMm = 6
 // A whole-sheet model can print a thick cut border this far inside the paper. The builder cuts
 // along it, and the folds are computed for the cut-out sheet.
 export const trimMm = 7
-// 'cut': print the cut border and fold the cut-out sheet (works on every printer).
+// 'cut': print the cut border and fold the cut-out sheet.
 // 'whole': fold the whole paper (for printers that print to the edge, or trimmed print-shop pages).
 export const sheetEdges = Object.freeze(['cut', 'whole'])
 

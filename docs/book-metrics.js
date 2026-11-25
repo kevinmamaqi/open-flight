@@ -1,4 +1,4 @@
-import { loadBookServices } from './book-support.js?v=b1a9665ab855'
+import { loadBookServices } from './book-support.js?v=38199683889a'
 
 export async function recordBookEvent(kind) {
   if (!['home', 'book', 'download'].includes(kind)) return

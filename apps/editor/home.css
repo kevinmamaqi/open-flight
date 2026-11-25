@@ -6,7 +6,7 @@ main > section:first-child {
   margin-top: var(--space-6);
 }
 
-/* ---------- Hero: one question, two ways in ---------- */
+/* ---------- Hero ---------- */
 .hero {
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr);
@@ -29,32 +29,6 @@ main > section:first-child {
 .hero .lede {
   margin-block: var(--space-4) var(--space-5);
 }
-.routes {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(12rem, 1fr));
-  gap: var(--space-3);
-  max-width: 34rem;
-  margin-bottom: var(--space-3);
-}
-.button.route {
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 0;
-  padding-block: var(--space-3);
-  font-size: var(--text-md);
-  text-align: start;
-}
-.button.route small {
-  font-weight: var(--weight-regular);
-  font-size: var(--text-xs);
-}
-.button.route.primary small {
-  color: var(--color-action-text);
-}
-.button.route.secondary small {
-  color: var(--color-text-muted);
-}
-
 /* The specimen on the drawing stage. */
 .showcase {
   position: relative;
@@ -78,18 +52,6 @@ main > section:first-child {
 }
 .counter {
   font-variant-numeric: tabular-nums;
-}
-.draft-lines {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  fill: none;
-  stroke: var(--color-line-valley);
-  stroke-width: var(--line-control);
-  stroke-dasharray: var(--dash-valley);
-  opacity: 0.55;
-  pointer-events: none;
 }
 .specimen-art {
   position: relative;
@@ -129,6 +91,11 @@ main > section:first-child {
   color: var(--color-text);
   text-decoration: none;
   line-height: var(--leading-snug);
+}
+.board-footer .sheet-preview {
+  font: inherit;
+  color: var(--color-text-link);
+  text-decoration: underline;
 }
 .board-footer a:hover {
   text-decoration: underline;
@@ -171,7 +138,7 @@ main > section:first-child {
 /* ---------- Flight Book ---------- */
 .home-book {
   display: grid;
-  grid-template-columns: minmax(12rem, 0.75fr) minmax(0, 1.25fr);
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   align-items: center;
   overflow: hidden;
   border: var(--line-hair) solid var(--color-rule);
@@ -181,6 +148,8 @@ main > section:first-child {
 }
 .book-display {
   display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-2);
   place-items: center;
   align-self: stretch;
   min-height: 19rem;
@@ -188,21 +157,17 @@ main > section:first-child {
   border-inline-end: var(--line-hair) dashed var(--color-rule);
 }
 .book-jacket,
-.book-underlay {
-  grid-area: 1 / 1;
-  width: clamp(10rem, 15vw, 14rem);
+.book-log {
+  width: min(100%, 14rem);
   aspect-ratio: 210 / 297;
 }
 .book-jacket {
   position: relative;
   container-type: inline-size;
-  transform: rotate(-4deg);
   box-shadow: var(--shadow-float);
 }
-.book-underlay {
-  transform: rotate(5deg) translate(var(--space-3), 0);
-  background: var(--color-surface);
-  border: var(--line-hair) solid var(--color-rule);
+.book-log {
+  box-shadow: var(--shadow-sheet);
 }
 .book-cover-image {
   display: block;
@@ -358,6 +323,7 @@ main > section:first-child {
 }
 .download-panel {
   display: grid;
+  grid-template-columns: minmax(0, 1fr);
   gap: var(--space-4);
   padding: var(--space-5);
   border: var(--line-hair) solid var(--color-rule);
@@ -374,13 +340,26 @@ main > section:first-child {
   grid-template-columns: repeat(auto-fit, minmax(10rem, 1fr));
   gap: var(--space-3);
 }
+.download-fields select {
+  width: 100%;
+}
 .download-fields label {
+  grid-template-columns: minmax(0, 1fr);
   display: grid;
   gap: var(--space-1);
   font-weight: var(--weight-bold);
 }
 .download-panel .button {
   justify-self: start;
+}
+.sheet-details {
+  border-inline-start: var(--line-strong) solid var(--color-rule);
+  padding-inline-start: var(--space-3);
+}
+.sheet-details p, #home-pilot-hint {
+  margin-block: var(--space-2);
+  color: var(--color-text-muted);
+  font-size: var(--text-sm);
 }
 .all-sheets {
   font-size: var(--text-sm);
@@ -455,10 +434,6 @@ main > section:first-child {
     min-height: 13rem;
     border-inline-end: 0;
     border-bottom: var(--line-hair) dashed var(--color-rule);
-  }
-  .book-jacket,
-  .book-underlay {
-    width: 9rem;
   }
   .home-book-copy,
   .family,

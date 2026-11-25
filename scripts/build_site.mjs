@@ -72,6 +72,7 @@ for (const [lang, copy, title, region, photoAlt, name, family] of [
     )
     .on('meta[property="og:image:alt"]', updateAttr('content', photoAlt))
     .on('link[rel="canonical"]', updateAttr('href', domain + lang + '.html'))
+    .on('#book-log-image', updateAttr('src', './assets/atlas/book-log-' + lang + '.png'))
     .on('#book-cover-image', updateAttr('src', './assets/atlas/book-cover-' + lang + '.png'))
     .on('#specimen', updateAttr('alt', photoAlt))
     .on('#specimen-name', replaceText(name + ' ↗'))
@@ -82,7 +83,8 @@ for (const [lang, copy, title, region, photoAlt, name, family] of [
     '#folded-butterfly': 'studio.html?construction=k1&species=monarch&lang=' + lang,
     '#book-link': 'book.html?lang=' + lang,
     '#nav-book': 'book.html?lang=' + lang,
-    '#hero-book': 'book.html?lang=' + lang,
+    '#book-sample': 'book.html?lang=' + lang + '&p=4',
+    '#specimen-sheet': 'library/monarch-A4-' + lang + '.pdf',
     '#classroom-link': 'classroom.html?lang=' + lang,
     '#objects-link': 'flight-objects.html?lang=' + lang,
     '#download': 'library/monarch-k1-A4-' + lang + '.pdf',

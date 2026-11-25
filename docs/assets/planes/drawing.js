@@ -1,7 +1,7 @@
-import { planeCredits, creditText } from './credits.js?v=b1a9665ab855'
-import { flagDecals } from './country-markings.js?v=b1a9665ab855'
-import { backFaceWords, backKind, printSafeMm } from '../print-faces.js?v=b1a9665ab855'
-import { atLeastText, calibration, calibrationShort, ink as paperInk, lineStyle, muted as paperMuted, textMm } from '../brand/print.js?v=b1a9665ab855'
+import { planeCredits, creditText } from './credits.js?v=38199683889a'
+import { flagDecals } from './country-markings.js?v=38199683889a'
+import { backFaceWords, backKind, printSafeMm } from '../print-faces.js?v=38199683889a'
+import { atLeastText, calibration, calibrationShort, ink as paperInk, lineStyle, muted as paperMuted, textMm } from '../brand/print.js?v=38199683889a'
 
 export const esc = (value) =>
   String(value).replace(
@@ -509,14 +509,14 @@ export function planeSvg(plan) {
     esc(
       {
         en: plan.trim_mm
-          ? 'Printed face. Cut out the sheet along the thick border, which sits ' + plan.trim_mm + ' mm inside the paper where every printer can print. The fold lines run to that border. Fold along the numbered dashed lines.'
-          : 'Printed face. Print at actual size. Guides stay 6 mm inside the paper, where office printers can print, and corner brackets point to the real corners. Fold along the numbered dashed lines.',
+          ? 'Printed face. Cut out the sheet along the thick border, which sits ' + plan.trim_mm + ' mm inside the paper. The fold lines run to that border. Fold along the numbered dashed lines.'
+          : 'Printed face. Print at actual size. Guides stay 6 mm inside the paper, and corner brackets point to the real corners. Fold along the numbered dashed lines.',
         ru: plan.trim_mm
-          ? 'Лицевая сторона. Вырежьте лист по толстой рамке: она в ' + plan.trim_mm + ' мм от края, где печатает любой принтер. Линии сгибов доходят до рамки. Сгибайте по пронумерованным пунктирным линиям.'
-          : 'Лицевая сторона. Печатайте в масштабе 100%. Все линии отстоят на 6 мм от края, где печатает любой принтер, а уголки указывают на настоящие углы листа. Сгибайте по пронумерованным пунктирным линиям.',
+          ? 'Лицевая сторона. Вырежьте лист по толстой рамке: она в ' + plan.trim_mm + ' мм от края. Линии сгибов доходят до рамки. Сгибайте по пронумерованным пунктирным линиям.'
+          : 'Лицевая сторона. Печатайте в масштабе 100%. Все линии отстоят на 6 мм от края, а уголки указывают на настоящие углы листа. Сгибайте по пронумерованным пунктирным линиям.',
         es: plan.trim_mm
-          ? 'Cara impresa. Recorta la hoja por el borde grueso, que está a ' + plan.trim_mm + ' mm del borde del papel, donde imprime cualquier impresora. Las líneas de doblez llegan hasta ese borde. Dobla por las líneas discontinuas numeradas.'
-          : 'Cara impresa. Imprime a tamaño real. Las guías quedan a 6 mm del borde, donde imprime cualquier impresora, y las esquinas marcadas señalan las esquinas reales. Dobla por las líneas discontinuas numeradas.',
+          ? 'Cara impresa. Recorta la hoja por el borde grueso, que está a ' + plan.trim_mm + ' mm del borde del papel. Las líneas de doblez llegan hasta ese borde. Dobla por las líneas discontinuas numeradas.'
+          : 'Cara impresa. Imprime a tamaño real. Las guías quedan a 6 mm del borde, y las esquinas marcadas señalan las esquinas reales. Dobla por las líneas discontinuas numeradas.',
       }[plan.locale],
     ) +
     ' ' +

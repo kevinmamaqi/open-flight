@@ -70,7 +70,7 @@ export const builderCopy = {
     letter: "US Letter",
     edgeLabel: "Airplane pages",
     edgeCut: "Cut border",
-    edgeCutHint: "Works on every printer. Cut along the thick line, then fold.",
+    edgeCutHint: "Check that all four sides of the 7 mm inset border printed. Cut along the line, then fold.",
     edgeWhole: "Whole sheet",
     edgeWholeHint: "No cutting. Only if your printer prints to the very edge.",
     edgeHint:
@@ -180,7 +180,7 @@ export const builderCopy = {
     letter: "Carta",
     edgeLabel: "Páginas de aviones",
     edgeCut: "Borde para recortar",
-    edgeCutHint: "Sirve en cualquier impresora. Recorta por la línea gruesa y luego dobla.",
+    edgeCutHint: "Comprueba que se ven los cuatro lados del marco, a 7 mm del borde. Recorta por la línea y dobla.",
     edgeWhole: "Hoja entera",
     edgeWholeHint: "Sin recortar. Solo si tu impresora imprime hasta el borde.",
     edgeHint:
@@ -290,7 +290,7 @@ export const builderCopy = {
     letter: "US Letter",
     edgeLabel: "Страницы с самолётами",
     edgeCut: "Рамка для вырезания",
-    edgeCutHint: "Подходит для любого принтера. Вырежьте по толстой линии, затем складывайте.",
+    edgeCutHint: "Проверь, что видны все четыре стороны рамки в 7 мм от края. Вырежи по линии и сложи.",
     edgeWhole: "Целый лист",
     edgeWholeHint: "Без вырезания. Только если принтер печатает до самого края.",
     edgeHint:

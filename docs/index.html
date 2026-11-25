@@ -6,12 +6,12 @@
     <meta name="theme-color" content="#fbf9f4" />
     <meta
       name="description"
-      content="A free paper flight workshop for kids and grown-ups. Make butterfly gliders and whole-sheet airplanes, follow visual folds and experiment with flight."
+      content="A free paper flight workshop for families. Choose a butterfly or airplane, preview the pattern and print it on A4 or US Letter."
     />
     <meta property="og:title" content="Open Flight · The paper flight workshop" />
     <meta
       property="og:description"
-      content="Seven original gliders. Change a wing, follow the folds and take a real flight experiment home. Free in English, Spanish and Russian."
+      content="Choose a butterfly or airplane, print the pattern and mark where it lands. A free family workshop in English, Spanish and Russian."
     />
     <meta property="og:type" content="website" />
     <meta property="og:locale" content="en_US" />
@@ -34,10 +34,10 @@
     <link rel="apple-touch-icon" href="./assets/brand/apple-touch-icon.png" />
     <link rel="manifest" href="./site.webmanifest" />
     <link rel="preload" href="./assets/fonts/OpenFlightText-Regular.woff2" as="font" type="font/woff2" crossorigin />
-    <link rel="stylesheet" href="./tokens.css?v=b1a9665ab855" />
-    <link rel="stylesheet" href="./system.css?v=b1a9665ab855" />
-    <link rel="stylesheet" href="./home.css?v=b1a9665ab855" />
-    <script type="module" src="./atlas.js?v=b1a9665ab855"></script>
+    <link rel="stylesheet" href="./tokens.css?v=38199683889a" />
+    <link rel="stylesheet" href="./system.css?v=38199683889a" />
+    <link rel="stylesheet" href="./home.css?v=38199683889a" />
+    <script type="module" src="./atlas.js?v=38199683889a"></script>
   </head>
   <body>
     <a class="skip-link" href="#designs" data-t="skip">Skip to the designs</a>
@@ -67,35 +67,22 @@
             <em data-t="headline2">Change its flight.</em>
           </h1>
           <p class="lede" data-t="intro">
-            A free design-and-fly workshop for kids aged 5–12 and their grown-ups. Turn one sheet into a
-            butterfly or airplane, then change a fold and see where it lands.
+            Free for kids aged 5–12 and their grown-ups. Fold an airplane from plain paper, or make a butterfly with a printed sheet, scissors and a paper clip. No account needed.
           </p>
-          <div class="routes">
-            <a href="./studio.html?lang=en#design=butterfly-monarch&amp;revision=w1" data-route="butterfly" class="button primary route"
-              ><span data-t="cutStart">Make a butterfly</span><small data-t="butterTech">Cut + fold</small></a
-            ><a class="button secondary route" data-route="airplane" href="./planes.html"
-              ><span data-t="foldStart">Fold an airplane</span><small data-t="planeTech">Whole sheet · folds only</small></a>
-          </div>
-          <a class="text-link" id="hero-book" href="./book.html?lang=en" data-t="bookQuick">Get your Flight Book ↗</a>
+          <a href="#designs" class="button primary" data-t="choose">Choose a design</a>
         </div>
         <div class="showcase stage-grid">
           <div class="board-header">
             <span data-t="bench">On the worktable</span
             ><span class="counter" id="specimen-count">01 / 07</span>
           </div>
-          <svg class="draft-lines" viewBox="0 0 600 380" preserveAspectRatio="none" aria-hidden="true">
-            <path d="M-12 293 C95 323 112 147 258 166 S475 227 552 50" />
-            <path d="M-22 305 C95 337 125 159 252 178 S475 239 558 71" />
-            <circle cx="92" cy="270" r="9" />
-            <path d="M81 270h22m-11-11v22" />
-          </svg>
           <a
             id="hero-link"
             class="specimen-art"
             href="./studio.html?lang=en#design=butterfly-monarch&amp;revision=w1"
             ><img
               id="specimen"
-              src="./assets/atlas/monarch.svg"
+              src="./assets/viewer/monarch-natural.webp"
               width="440"
               height="245"
               alt="Open the Monarch butterfly glider"
@@ -107,25 +94,13 @@
               ><a id="specimen-name" href="./studio.html?lang=en#design=butterfly-monarch&amp;revision=w1"
                 >Monarch <span aria-hidden="true">↗</span></a
               ><i id="specimen-detail">Danaus plexippus</i>
+              <a class="sheet-preview" id="specimen-sheet" href="./library/monarch-A4-en.pdf" data-t="sampleSheet">See the pattern (A4 PDF)</a>
             </div>
             <div class="turn">
               <button id="back" type="button" aria-label="Previous design">←</button
               ><button id="next" type="button" aria-label="Next design">→</button>
             </div>
           </div>
-        </div>
-      </section>
-      <section class="home-book wrap" id="family-book" aria-labelledby="book-heading">
-        <div class="book-display" aria-hidden="true">
-          <div class="book-underlay"></div>
-          <div class="book-jacket"><img class="book-cover-image" id="book-cover-image" src="./assets/atlas/book-cover-en.png" alt="" width="395" height="559" loading="lazy" /><span id="home-cover-pilot" hidden></span></div>
-        </div>
-        <div class="home-book-copy">
-          <p class="eyebrow" data-t="bookFormat">For families and classrooms</p>
-          <h2 id="book-heading" data-t="bookHeadline">Your Flight Book</h2>
-          <p data-t="bookPitch">Read the book, pick a flyer and try its colors. Find its story on the world map, then print the pattern at full size.</p>
-          <form id="home-book-form" action="./book.html"><label class="home-pilot"><span data-t="bookPilot">Pilot name (optional)</span><input id="home-pilot" maxlength="40" autocomplete="off" dir="auto" /></label>
-          <div class="actions"><a class="button primary" id="book-link" href="./book.html?lang=en" data-t="bookAction">Make my book ↗</a><a class="text-link" href="#library" data-t="bookSheets">Get individual sheets free</a></div></form>
         </div>
       </section>
       <section class="collections wrap" id="designs" aria-labelledby="choose-title">
@@ -148,7 +123,7 @@
                   Pick a real butterfly, color its wings, and follow its picture guide. In the same studio you can choose adjustable rear tabs or a folded body you can pinch at launch.
                 </p>
               </div>
-              <img src="./assets/atlas/morpho.svg" alt="" width="180" height="114" loading="lazy" />
+              <img src="./assets/viewer/morpho-natural.webp" alt="" width="180" height="114" loading="lazy" />
             </div>
             <div class="family-links" id="butter-links"></div>
             <a class="family-cta" href="./studio.html" data-route="butterfly"
@@ -177,6 +152,21 @@
               <span aria-hidden="true">↗</span></a
             >
           </article>
+        </div>
+      </section>
+      <section class="home-book wrap" id="family-book" aria-labelledby="book-heading">
+        <div class="book-display" aria-hidden="true">
+          <div class="book-jacket"><img class="book-cover-image" id="book-cover-image" src="./assets/atlas/book-cover-en.png" alt="" width="395" height="559" loading="lazy" /><span id="home-cover-pilot" hidden></span></div>
+          <img class="book-log" id="book-log-image" src="./assets/atlas/book-log-en.png" alt="" width="395" height="559" loading="lazy" />
+        </div>
+        <div class="home-book-copy">
+          <p class="eyebrow" data-t="bookFormat">For families and classrooms</p>
+          <h2 id="book-heading" data-t="bookHeadline">Your Flight Book</h2>
+          <p data-t="bookPitch">Page 3 lists your models and their page numbers. On page 4, mark five landings, change one fold and try five more. Download your book free for A4 or US Letter.</p>
+          <a class="text-link" id="book-sample" href="./book.html?lang=en&amp;p=4" data-t="bookQuick">Look inside on page 4 ↗</a>
+          <form id="home-book-form" action="./book.html"><label class="home-pilot"><span data-t="bookPilot">Pilot name (optional)</span><input id="home-pilot" maxlength="40" autocomplete="off" dir="auto" aria-describedby="home-pilot-hint" /></label>
+            <p class="hint" id="home-pilot-hint" data-t="pilotHint">The name appears on the cover, certificate and shared book link. You can leave it blank.</p>
+          <div class="actions"><a class="button primary" id="book-link" href="./book.html?lang=en" data-t="bookAction">Make my book ↗</a><a class="text-link" href="#library" data-t="bookSheets">Get individual sheets free</a></div></form>
         </div>
       </section>
       <section class="home-compare wrap">
@@ -236,8 +226,7 @@
             <h2 data-t="takeAway">Take it to the table.</h2>
           </div>
           <p data-t="resourceIntro">
-            Print at actual size. Check the line marked 50 mm on every sheet with a ruler.
-            Every design also opens in an editable studio.
+            Print one copy first. Measure the 50 mm line with a ruler. If it comes out short or long, choose Actual size (100%) in the print dialog and try again before printing a class set.
           </p>
         </div>
         <div class="library-grid">
@@ -249,7 +238,7 @@
             <div class="download-fields">
               <label
                 ><span data-t="designLabel">Design</span
-                ><select id="download-model"></select></label><label id="construction-field"><span data-t="bodyStyle">Butterfly build</span><select id="construction"><option value="k1" data-t="keelBuild">Folded body · K1</option><option value="w1" data-t="flatBuild">Adjustable tabs · W1</option></select></label
+                ><select id="download-model"></select></label><label id="construction-field"><span data-t="bodyStyle">Butterfly build</span><select id="construction"><option value="k1" data-t="keelBuild">Folded body · K1</option><option value="w1" data-t="flatBuild">Adjustable tabs · W1</option><option value="k2" data-t="costaBuild">Experimental costa fold · K2</option></select></label
               ><label
                 ><span data-t="paperLabel">Paper</span
                 ><select id="download-paper">
@@ -257,6 +246,10 @@
                   <option value="US_LETTER">US Letter</option>
                 </select></label
               >
+            </div>
+            <div class="sheet-details" aria-live="polite" aria-atomic="true">
+              <strong id="sheet-contents" data-t="defaultContents">3 pages · Pattern, reverse side and fold guide</strong>
+              <p id="sheet-note" data-t="k1Note">In two early K1 builds the wings flexed and the butterflies glided poorly. Try yours with a paper clip and mark where it lands.</p>
             </div>
             <p class="print-reminder" data-print-reminder></p>
             <a id="download" class="button primary" download href="./library/monarch-k1-A4-en.pdf"
@@ -266,7 +259,7 @@
               class="all-sheets"
               data-t="allSheets"
               href="https://github.com/kevinmamaqi/open-flight/releases/download/v0.8.0/open-flight-print-library.zip"
-              >Get the complete print library (ZIP) ↓</a
+              >Download the v0.8.0 print library (ZIP) ↓</a
             >
           </article>
           <div class="source-list">

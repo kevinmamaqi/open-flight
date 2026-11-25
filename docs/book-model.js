@@ -1,6 +1,6 @@
-import { appearanceChoices, appearanceArtPath, appearanceArtStyles } from './model-appearance.js?v=b1a9665ab855'
-import { paperSizes, sheetCatalog, sheetIdFor, sheetLocales } from './family-sheets.js?v=b1a9665ab855'
-import { sheetEdges } from './assets/print-faces.js?v=b1a9665ab855'
+import { appearanceChoices, appearanceArtPath, appearanceArtStyles } from './model-appearance.js?v=38199683889a'
+import { paperSizes, sheetCatalog, sheetIdFor, sheetLocales } from './family-sheets.js?v=38199683889a'
+import { sheetEdges } from './assets/print-faces.js?v=38199683889a'
 
 const entries = new Map(sheetCatalog.map(item => [item.id, item]))
 const titles = { en: 'Flight Book', es: 'Libro de vuelo', ru: 'Книга полётов' }
@@ -50,7 +50,7 @@ export function normalizeBook(input = {}) {
     cover = '', theme = 'sky', edge = 'cut' } = input
   if (!sheetLocales.includes(lang) || !paperSizes.includes(paper)) throw new RangeError('Invalid book language or paper.')
   if (!bookStyles.includes(style) || !['sky', 'sunset', 'meadow'].includes(theme)) throw new RangeError('Invalid cover style or theme.')
-  // Airplane pages: 'cut' prints a border to cut along (any printer); 'whole' folds the full page.
+  // Airplane pages: 'cut' prints a border to cut along; 'whole' folds the full page.
   if (!sheetEdges.includes(edge)) throw new RangeError('Invalid airplane sheet edge.')
   if (!Array.isArray(sheets) || !sheets.length || !Array.from(sheets).every(id => entries.has(id))
       || new Set(sheets).size !== sheets.length) throw new RangeError('Select 1 to 10 distinct sheets.')

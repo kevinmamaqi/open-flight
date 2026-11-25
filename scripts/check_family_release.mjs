@@ -22,7 +22,7 @@ const { createBook } = await import(
 );
 const { bookFilename, bookPlan, defaultSheets, normalizeBook, starterModels } =
   await import(new URL("apps/editor/book-model.js", source));
-const { sheetIdFor, sheetPath } = await import(
+const { sheetCatalog, sheetIdFor, sheetPath } = await import(
   new URL("apps/editor/family-sheets.js", source)
 );
 const browser = await chromium.launch({
@@ -189,7 +189,11 @@ async function inspectBook(page, config) {
   const sourcePageCounts = await Promise.all(
     sheets.map(async (id) => {
       const original = await loadAsset(sheetPath(id, paper, lang));
-      return (await PDFDocument.load(original)).getPageCount();
+      const pages = (await PDFDocument.load(original)).getPageCount();
+      const { bookPages } = sheetCatalog.find((sheet) => sheet.id === id);
+      if (!bookPages) return pages;
+      assert.ok(bookPages.every((index) => index >= 0 && index < pages));
+      return bookPages.length;
     }),
   );
   const folded = sheets.filter((id) => id.endsWith("-k1"));
@@ -275,11 +279,12 @@ try {
     const { context, page } = await openContext(locale);
     await page.goto(new URL(homepage, base).href);
     assert.equal(await page.locator("html").getAttribute("lang"), lang);
-    const hero = page.locator("#hero-book");
+    const hero = page.locator("#book-sample");
     const heroURL = new URL(await hero.getAttribute("href"), page.url());
     assert.equal(heroURL.pathname, new URL("book.html", base).pathname);
     assert.equal(heroURL.searchParams.get("lang"), lang);
     assert.equal(heroURL.hash, "");
+    assert.equal(heroURL.searchParams.get("p"), "4");
     let link = hero;
     if (pilot) {
       await page.locator("#home-pilot").fill(pilot);
@@ -322,7 +327,7 @@ try {
     assert.deepEqual(controls, {
       modelCards: 7,
       presets: 0,
-      constructionChoices: 2,
+      constructionChoices: 3,
       coverStyles: 3,
       paperChoices: 2,
       nameFields: 1,

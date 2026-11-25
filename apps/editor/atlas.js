@@ -1,7 +1,7 @@
 import { ru, es } from './atlas-copy.js'
 import { currentLocale, homeURL, localizedLinks } from './atlas-nav.js'
 import { fieldModel, studioLink, foldedLink } from './atlas-guide.js'
-import { sheetIdFor, sheetPath } from './family-sheets.js'
+import { sheetCatalog, sheetIdFor, sheetPath } from './family-sheets.js'
 import { normalizeBook } from './book-model.js'
 import { recordBookEvent } from './book-metrics.js'
 
@@ -35,7 +35,9 @@ for (const a of document.querySelectorAll('[data-route]'))
   a.href = a.dataset.route === 'airplane' ? studioLink('boeing-747', lang) : studioLink('monarch', lang)
 $('folded-butterfly').href = foldedLink('monarch', lang)
 const bookLink = './book.html?lang=' + lang
-$('hero-book').href = $('nav-book').href = bookLink
+$('nav-book').href = bookLink
+$('book-sample').href = bookLink + '&p=4'
+$('book-log-image').src = './assets/atlas/book-log-' + lang + '.png' + assetVersion
 $('book-cover-image').src = './assets/atlas/book-cover-' + lang + '.png' + assetVersion
 const pilot = $('home-pilot')
 function updateHomeBook() {
@@ -96,7 +98,8 @@ let pos = 0
 function display() {
   const m = models[pos],
     name = m.family === 'airplane' ? m.inspiration : m.name
-  $('specimen').src = m.image
+  $('specimen-sheet').href = './' + sheetPath(sheetIdFor(m.id, 'w1'), 'A4', lang) + assetVersion
+  $('specimen').src = m.family === 'butterfly' ? './assets/viewer/' + m.id + '-natural.webp' : m.image
   $('specimen').alt = t('Open design ', 'Abrir el diseño ', 'Открыть модель ') + name
   $('hero-link').href = $('specimen-name').href = m.studio
   $('specimen-name').textContent = name + ' ↗'
@@ -119,10 +122,32 @@ for (const [id, step, label] of [
   }
 }
 display()
+const k1Note = $('sheet-note').textContent
+const patternAndBack = t('Pattern, reverse side and fold guide', 'Plantilla, reverso y guía de pliegues', 'Выкройка, оборот и схема сгибов')
 function download() {
   const butterfly = models.find(m=>m.id===select.value)?.family==='butterfly'
   $('construction-field').hidden=!butterfly
   const id = sheetIdFor(select.value, $('construction').value)
+  const { pages, construction } = sheetCatalog.find(sheet => sheet.id === id)
+  const pageUnit = t(pages === 1 ? 'page' : 'pages', pages === 1 ? 'página' : 'páginas',
+    pages === 1 ? 'страница' : pages < 5 ? 'страницы' : 'страниц')
+  const contents = construction === 'w1'
+    ? t('Cut pattern with adjustable tabs', 'Plantilla con aletas ajustables', 'Выкройка с регулируемыми язычками')
+    : patternAndBack
+  const notes = {
+    k1: k1Note,
+    k2: t('Experimental fold. Use 120 g/m² paper and two 33 mm clips. A measured comparison with K1 is still pending.',
+      'Pliegue experimental. Usa papel de 120 g/m² y dos clips de 33 mm. Aún falta comparar sus vuelos con los del K1 y medirlos.',
+      'Экспериментальный сгиб. Возьми бумагу 120 г/м² и две скрепки по 33 мм. Сравнение с K1 в полёте ещё предстоит.'),
+    w1: t('Start with both tabs level. Mark five landings, raise one tab slightly and repeat from the same spot.',
+      'Empieza con las dos aletas a ras. Marca cinco aterrizajes, levanta un poco una aleta y repite desde el mismo sitio.',
+      'Выровняй оба язычка. Отметь пять посадок, чуть подними один язычок и повтори запуски с того же места.'),
+    'whole-sheet': t('Print page 1 at 100%. Check that all four sides of the cut border are visible before cutting.',
+      'Imprime la página 1 al 100 %. Comprueba que se ven los cuatro lados del borde antes de recortar.',
+      'Напечатай страницу 1 в масштабе 100 %. Перед тем как вырезать, проверь, что видны все четыре стороны рамки.'),
+  }
+  $('sheet-contents').textContent = pages + ' ' + pageUnit + ' · ' + contents
+  $('sheet-note').textContent = notes[construction]
   const path = sheetPath(id, $('download-paper').value, lang)
   $('download').href = './' + path + assetVersion
   $('download').download = path.split('/').pop()

@@ -4,9 +4,9 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="theme-color" content="#fbf9f4" />
-    <meta name="description" content="Бесплатная мастерская для детей 5–12 лет и взрослых. Сделайте из листа бумаги бабочку или самолёт, измените один сгиб и посмотрите, куда полетит планер." />
+    <meta name="description" content="Бесплатная мастерская для детей 5–12 лет и взрослых. Для самолёта хватит листа бумаги. Для бабочки понадобятся распечатка, ножницы и скрепка. Можно начать без регистрации." />
     <meta property="og:title" content="Open Flight · Мастерская бумажных полётов" />
-    <meta property="og:description" content="Бесплатная мастерская для детей 5–12 лет и взрослых. Сделайте из листа бумаги бабочку или самолёт, измените один сгиб и посмотрите, куда полетит планер." />
+    <meta property="og:description" content="Бесплатная мастерская для детей 5–12 лет и взрослых. Для самолёта хватит листа бумаги. Для бабочки понадобятся распечатка, ножницы и скрепка. Можно начать без регистрации." />
     <meta property="og:type" content="website" />
     <meta property="og:locale" content="ru_RU" />
     <meta property="og:image" content="https://kevinmamaqi.github.io/open-flight/assets/brand/social-ru.png" />
@@ -51,52 +51,30 @@
         <div class="hero-copy">
           <p class="eyebrow" data-t="eyebrow">Мастерская бумажных полётов</p>
           <h1 id="hero-title">
-            <span data-t="headline1">Сложите планер.</span>
-            <em data-t="headline2">Измените его полёт.</em>
+            <span data-t="headline1">Сложи планер.</span>
+            <em data-t="headline2">Измени его полёт.</em>
           </h1>
-          <p class="lede" data-t="intro">Бесплатная мастерская для детей 5–12 лет и взрослых. Сделайте из листа бумаги бабочку или самолёт, измените один сгиб и посмотрите, куда полетит планер.</p>
-          <div class="routes">
-            <a href="./studio.html?lang=ru#design=butterfly-monarch&revision=w1" data-route="butterfly" class="button primary route"><span data-t="cutStart">Сделать бабочку</span><small data-t="butterTech">Вырезать и сложить</small></a
-            ><a class="button secondary route" data-route="airplane" href="./planes.html?lang=ru"><span data-t="foldStart">Сложить самолёт</span><small data-t="planeTech">Целый лист · только сгибы</small></a>
-          </div>
-          <a class="text-link" id="hero-book" href="./book.html?lang=ru" data-t="bookQuick">Собрать Книгу полётов ↗</a>
+          <p class="lede" data-t="intro">Бесплатная мастерская для детей 5–12 лет и взрослых. Для самолёта хватит листа бумаги. Для бабочки понадобятся распечатка, ножницы и скрепка. Можно начать без регистрации.</p>
+          <a href="#designs" class="button primary" data-t="choose">Выбрать модель</a>
         </div>
         <div class="showcase stage-grid">
           <div class="board-header">
             <span data-t="bench">На рабочем столе</span
             ><span class="counter" id="specimen-count">01 / 07</span>
           </div>
-          <svg class="draft-lines" viewBox="0 0 600 380" preserveAspectRatio="none" aria-hidden="true">
-            <path d="M-12 293 C95 323 112 147 258 166 S475 227 552 50" />
-            <path d="M-22 305 C95 337 125 159 252 178 S475 239 558 71" />
-            <circle cx="92" cy="270" r="9" />
-            <path d="M81 270h22m-11-11v22" />
-          </svg>
-          <a id="hero-link" class="specimen-art" href="./studio.html?lang=ru#design=butterfly-monarch&revision=w1"><img id="specimen" src="./assets/atlas/monarch.svg" width="440" height="245" alt="Бумажный монарх в мастерской Open Flight" fetchpriority="high" /></a>
+          <a id="hero-link" class="specimen-art" href="./studio.html?lang=ru#design=butterfly-monarch&revision=w1"><img id="specimen" src="./assets/viewer/monarch-natural.webp" width="440" height="245" alt="Бумажный монарх в мастерской Open Flight" fetchpriority="high" /></a>
           <div class="board-footer">
             <div>
               <small id="specimen-family">Планер-бабочка</small
               ><a id="specimen-name" href="./studio.html?lang=ru#design=butterfly-monarch&revision=w1">Монарх ↗</a
               ><i id="specimen-detail">Danaus plexippus</i>
+              <a class="sheet-preview" id="specimen-sheet" href="./library/monarch-A4-ru.pdf" data-t="sampleSheet">Посмотреть выкройку (PDF, A4)</a>
             </div>
             <div class="turn">
               <button id="back" type="button" aria-label="Previous design">←</button
               ><button id="next" type="button" aria-label="Next design">→</button>
             </div>
           </div>
-        </div>
-      </section>
-      <section class="home-book wrap" id="family-book" aria-labelledby="book-heading">
-        <div class="book-display" aria-hidden="true">
-          <div class="book-underlay"></div>
-          <div class="book-jacket"><img class="book-cover-image" id="book-cover-image" src="./assets/atlas/book-cover-ru.png" alt="" width="395" height="559" loading="lazy" /><span id="home-cover-pilot" hidden></span></div>
-        </div>
-        <div class="home-book-copy">
-          <p class="eyebrow" data-t="bookFormat">Бумажная мастерская для дома и класса</p>
-          <h2 id="book-heading" data-t="bookHeadline">Твоя Книга полётов</h2>
-          <p data-t="bookPitch">Полистай книгу, выбери модель и попробуй разные расцветки. Найди её историю на карте мира и распечатай выкройку в натуральную величину.</p>
-          <form id="home-book-form" action="./book.html"><label class="home-pilot"><span data-t="bookPilot">Имя пилота (по желанию)</span><input id="home-pilot" maxlength="40" autocomplete="off" dir="auto" /></label>
-          <div class="actions"><a class="button primary" id="book-link" href="./book.html?lang=ru" data-t="bookAction">Собрать книгу ↗</a><a class="text-link" href="#library" data-t="bookSheets">Взять отдельные листы бесплатно</a></div></form>
         </div>
       </section>
       <section class="collections wrap" id="designs" aria-labelledby="choose-title">
@@ -117,7 +95,7 @@
                 </h3>
                 <p data-t="butterDesc">Выбери настоящую бабочку, раскрась крылья и следуй рисункам. В одной мастерской можно выбрать задние язычки или сложить корпус, за который удобно взяться при запуске.</p>
               </div>
-              <img src="./assets/atlas/morpho.svg" alt="" width="180" height="114" loading="lazy" />
+              <img src="./assets/viewer/morpho-natural.webp" alt="" width="180" height="114" loading="lazy" />
             </div>
             <div class="family-links" id="butter-links"></div>
             <a class="family-cta" href="./studio.html?lang=ru#design=butterfly-monarch&revision=w1" data-route="butterfly"><span data-t="openButter">Открыть мастерскую бабочек</span>
@@ -141,6 +119,21 @@
               <span aria-hidden="true">↗</span></a
             >
           </article>
+        </div>
+      </section>
+      <section class="home-book wrap" id="family-book" aria-labelledby="book-heading">
+        <div class="book-display" aria-hidden="true">
+          <div class="book-jacket"><img class="book-cover-image" id="book-cover-image" src="./assets/atlas/book-cover-ru.png" alt="" width="395" height="559" loading="lazy" /><span id="home-cover-pilot" hidden></span></div>
+          <img class="book-log" id="book-log-image" src="./assets/atlas/book-log-ru.png" alt="" width="395" height="559" loading="lazy" />
+        </div>
+        <div class="home-book-copy">
+          <p class="eyebrow" data-t="bookFormat">Бумажная мастерская для дома и класса</p>
+          <h2 id="book-heading" data-t="bookHeadline">Твоя Книга полётов</h2>
+          <p data-t="bookPitch">На странице 3 ты найдёшь свои модели и номера их страниц. На странице 4 отметь пять посадок, измени один сгиб и повтори ещё пять раз. Книгу можно бесплатно скачать для печати на A4 или US Letter.</p>
+          <a class="text-link" id="book-sample" href="./book.html?lang=ru&p=4" data-t="bookQuick">Открыть книгу на странице 4 ↗</a>
+          <form id="home-book-form" action="./book.html"><label class="home-pilot"><span data-t="bookPilot">Имя пилота (по желанию)</span><input id="home-pilot" maxlength="40" autocomplete="off" dir="auto" aria-describedby="home-pilot-hint" /></label>
+            <p class="hint" id="home-pilot-hint" data-t="pilotHint">Имя будет видно на обложке, в сертификате и в ссылке на книгу. Поле можно оставить пустым.</p>
+          <div class="actions"><a class="button primary" id="book-link" href="./book.html?lang=ru" data-t="bookAction">Собрать книгу ↗</a><a class="text-link" href="#library" data-t="bookSheets">Взять отдельные листы бесплатно</a></div></form>
         </div>
       </section>
       <section class="home-compare wrap">
@@ -184,7 +177,7 @@
             <p class="eyebrow" data-t="resources">Открытая библиотека</p>
             <h2 data-t="takeAway">Возьмите с собой.</h2>
           </div>
-          <p data-t="resourceIntro">Печатайте в натуральную величину. Проверьте линейкой отрезок «50 мм» на каждом листе. Любую модель можно изменить в мастерской.</p>
+          <p data-t="resourceIntro">Сначала напечатайте один экземпляр. Измерьте линейкой отрезок «50 мм». Если длина другая, выберите в настройках печати «Фактический размер» (100 %) и повторите проверку, прежде чем печатать для всего класса.</p>
         </div>
         <div class="library-grid">
           <article class="download-panel">
@@ -195,7 +188,7 @@
             <div class="download-fields">
               <label
                 ><span data-t="designLabel">Модель</span
-                ><select id="download-model"></select></label><label id="construction-field"><span data-t="bodyStyle">Конструкция бабочки</span><select id="construction"><option value="k1" data-t="keelBuild">Складной корпус · K1</option><option value="w1" data-t="flatBuild">Задние язычки · W1</option></select></label
+                ><select id="download-model"></select></label><label id="construction-field"><span data-t="bodyStyle">Конструкция бабочки</span><select id="construction"><option value="k1" data-t="keelBuild">Складной корпус · K1</option><option value="w1" data-t="flatBuild">Задние язычки · W1</option><option value="k2" data-t="costaBuild">Опытная модель · K2</option></select></label
               ><label
                 ><span data-t="paperLabel">Бумага</span
                 ><select id="download-paper">
@@ -204,6 +197,10 @@
                 </select></label
               >
             </div>
+            <div class="sheet-details" aria-live="polite" aria-atomic="true">
+              <strong id="sheet-contents" data-t="defaultContents">3 страницы · Выкройка, оборот и схема сгибов</strong>
+              <p id="sheet-note" data-t="k1Note">У двух первых бумажных моделей K1 крылья прогибались, и бабочки плохо планировали. Прикрепи скрепку к своей бабочке и отметь место посадки.</p>
+            </div>
             <p class="print-reminder" data-print-reminder></p>
             <a id="download" class="button primary" download href="./library/monarch-k1-A4-ru.pdf"><span data-t="download">Скачать PDF</span><b aria-hidden="true">↓</b></a
             >
@@ -211,7 +208,7 @@
               class="all-sheets"
               data-t="allSheets"
               href="https://github.com/kevinmamaqi/open-flight/releases/download/v0.8.0/open-flight-print-library.zip"
-              >Скачать все листы и занятия (ZIP) ↓</a
+              >Скачать библиотеку версии 0.8.0 (ZIP) ↓</a
             >
           </article>
           <div class="source-list">

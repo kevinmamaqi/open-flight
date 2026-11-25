@@ -1,7 +1,7 @@
-import { currentLocale, homeURL, localizedLinks } from './atlas-nav.js?v=b1a9665ab855'
-import { bookFilename, bookTitle, localePaper } from './book-model.js?v=b1a9665ab855'
-import { classroomPlan } from './classroom-plan.js?v=b1a9665ab855'
-import { sheetName } from './family-sheets.js?v=b1a9665ab855'
+import { currentLocale, homeURL, localizedLinks } from './atlas-nav.js?v=38199683889a'
+import { bookFilename, bookTitle, localePaper } from './book-model.js?v=38199683889a'
+import { classroomPlan } from './classroom-plan.js?v=38199683889a'
+import { sheetName } from './family-sheets.js?v=38199683889a'
 
 const translations = {
   en: {

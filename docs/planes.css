@@ -264,12 +264,11 @@ footer > a:hover,
   max-width: 65ch;
 }
 .step-progress {
-  display: flex;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(var(--size-target), 1fr));
   gap: var(--space-1);
 }
 .step-progress button {
-  flex: 1;
-  min-width: 0;
   min-height: var(--size-target);
   border: 0;
   position: relative;
