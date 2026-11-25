@@ -1,8 +1,8 @@
-import { objects } from './assets/objects/activities.js?v=c3029913b67f'
-import { appearanceChoices, appearanceArtPath, appearanceArtStyles } from './model-appearance.js?v=c3029913b67f'
-import { paperSizes, sheetCatalog, sheetIdFor, sheetLocales } from './family-sheets.js?v=c3029913b67f'
-import { sheetEdges } from './assets/print-faces.js?v=c3029913b67f'
-import { workshopHome } from './assets/workshop-address.js?v=c3029913b67f'
+import { objects } from './assets/objects/activities.js?v=51d4970dfb40'
+import { appearanceChoices, appearanceArtPath, appearanceArtStyles } from './model-appearance.js?v=51d4970dfb40'
+import { paperSizes, sheetCatalog, sheetIdFor, sheetLocales } from './family-sheets.js?v=51d4970dfb40'
+import { sheetEdges } from './assets/print-faces.js?v=51d4970dfb40'
+import { workshopHome } from './assets/workshop-address.js?v=51d4970dfb40'
 
 export const monarchTrialSheets = Object.freeze(['monarch-k1', 'monarch-k2'])
 
@@ -26,9 +26,9 @@ const levels = Object.freeze({
   monarch: 1, 'boeing-747': 1, 'douglas-dc3': 1, morpho: 2,
   'ilyushin-il62': 2, swallowtail: 3, 'tupolev-tu144': 3,
 })
-export const modelOrder = Object.freeze(Object.keys(levels))
+export const modelOrder = Object.freeze([...Object.keys(levels), ...objects.map(item => item.id)])
 export const starterModels = Object.freeze(['monarch', 'boeing-747', 'morpho'])
-export const defaultSheets = Object.freeze(modelOrder.map(model => sheetIdFor(model)))
+export const defaultSheets = Object.freeze(Object.keys(levels).map(model => sheetIdFor(model)))
 const textPattern = /^[\p{Script=Latin}\p{Script=Cyrillic}\p{M}\d .,!?'’“”«»()&+\-–#№:]*$/u
 function label(value, limit, field) {
   if (typeof value !== 'string') throw new TypeError('Invalid ' + field + '.')
@@ -60,12 +60,12 @@ export function normalizeBook(input = {}) {
   if (!bookStyles.includes(style) || !['sky', 'sunset', 'meadow'].includes(theme)) throw new RangeError('Invalid cover style or theme.')
   // Airplane pages: 'cut' prints a border to cut along; 'whole' folds the full page.
   if (!sheetEdges.includes(edge)) throw new RangeError('Invalid airplane sheet edge.')
-  if (!Array.isArray(sheets) || !sheets.length || !Array.from(sheets).every(id => entries.has(id))
+  if (!Array.isArray(sheets) || (!sheets.length && !input.activities?.length) || !Array.from(sheets).every(id => entries.has(id))
       || new Set(sheets).size !== sheets.length) throw new RangeError('Select 1 to ' + entries.size + ' distinct sheets.')
-  const activities = input.activities === undefined ? [] : input.activities
+  const activities = input.activities === undefined ? (input.sheets === undefined ? [...activityIds] : []) : input.activities
   if (!validActivities(activities)) throw new RangeError('Choose distinct flying object activities.')
-  const coverModel = input.coverModel === undefined || input.coverModel === '' ? sheets[0] : input.coverModel
-  if (!sheets.includes(coverModel)) throw new RangeError('Select a cover model included in the book.')
+  const coverModel = input.coverModel === undefined || input.coverModel === '' ? (sheets[0] ?? activities[0]) : input.coverModel
+  if (!sheets.includes(coverModel) && !activities.includes(coverModel)) throw new RangeError('Select a cover model included in the book.')
   return { lang, paper, ...(activities.length && { activities: [...activities] }), sheets: [...sheets], coverModel, appearances: bookAppearances(input.appearances), pilot: label(pilot,pilotLimit,'pilot name'), style,
     theme, edge, cover: label(cover,coverLimit,'cover title') || bookTitle(lang) }
 }
@@ -140,8 +140,8 @@ export function readBookURL(address) {
   for (const [key,value] of new URLSearchParams(url.hash.slice(1))) fields.set(key,value)
   const partial = {}, lang = fields.get('lang'), selection = fields.get('m')
   if (sheetLocales.includes(lang)) partial.lang = lang
-  if (selection) {
-    const ids = selection.split(',')
+  if (selection !== null) {
+    const ids = selection ? selection.split(',') : []
     if (ids.every(id=>entries.has(id)) && new Set(ids).size === ids.length) partial.sheets = ids
   }
   if (fields.has('activities')) {
@@ -149,7 +149,7 @@ export function readBookURL(address) {
     if (validActivities(ids)) partial.activities = ids
   }
   const hero = fields.get('hero')
-  if (hero && (partial.sheets || defaultSheets).includes(hero)) partial.coverModel = hero
+  if (hero && ((partial.sheets || defaultSheets).includes(hero) || partial.activities?.includes(hero))) partial.coverModel = hero
   if (fields.has('a')) {
     const pairs = []
     for (const token of fields.get('a').split(',').slice(0, modelOrder.length)) {

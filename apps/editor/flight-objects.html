@@ -10,6 +10,7 @@
     <link rel="preload" href="./assets/fonts/OpenFlightText-Regular.woff2" as="font" type="font/woff2" crossorigin />
     <link rel="stylesheet" href="./tokens.css" />
     <link rel="stylesheet" href="./system.css" />
+    <link rel="stylesheet" href="./product.css" />
     <link rel="stylesheet" href="./flight-objects.css" />
     <script type="module" src="./flight-objects.js"></script>
   </head>
@@ -26,14 +27,15 @@
           <div class="plate-copy"><h2 id="name"></h2><p id="question"></p></div>
           <img id="art" src="./assets/objects/ring.svg" alt="">
         </div>
+        <div id="object-workbench"></div>
         <section class="object-print">
-          <div><label for="paper-size" id="size">Paper size</label>
+          <div hidden><label for="paper-size" id="size">Paper size</label>
             <select id="paper-size"><option value="A4">A4</option><option value="US_LETTER">US Letter</option></select>
             <a class="button primary" id="packet" href="./assets/objects/flight-lab-A4-en.pdf" download>Download the three sheets</a>
           </div>
           <p class="print-reminder" data-print-reminder></p>
-          <p id="print-note"></p><p id="evidence"></p>
-          <div class="actions"><a id="activity-book" href="./book.html?lang=en&amp;addActivity=ring">Add this activity to my Flight Book</a>
+          <p id="print-note"></p>
+          <div class="actions"><a hidden id="activity-book" href="./book.html?lang=en&amp;addActivity=ring">Add this activity to my Flight Book</a>
             <a id="activity-classroom" href="./classroom.html?lang=en&amp;objects=1">Plan copies for a class</a></div>
         </section>
         <div class="object-details">

@@ -1,20 +1,15 @@
 import test from 'node:test'
 import assert from 'node:assert/strict'
 import { compareModels, designIds } from '../apps/editor/atlas-guide.js'
-import { workshopModels } from '../packages/geometry/workshop-models.ts'
+import { makeK2 } from '../packages/folded-butterfly/k2-sheet.ts'
 import { planeCatalog } from '../packages/planes/index.ts'
 
 test('each language can compare any distinct pair using the released fold and clip dimensions', () => {
   const expected = Object.fromEntries([
-    ...workshopModels.map(({ species, parameters, geometry }) => [
-      species,
-      [
-        parameters.span_mm,
-        geometry.target_dihedral_deg,
-        geometry.tab_depth_mm,
-        geometry.clip_rear_from_nose_mm,
-      ],
-    ]),
+    ...(['monarch','morpho','swallowtail'] as const).map(species=>{
+      const p = makeK2({species})
+      return [species,[p.span_mm,p.dihedral_deg,p.tip_height_mm]]
+    }),
     ...['ring', 'samara', 'tandem'].map(id => [id, []]),
     ...planeCatalog.map((p) => [p.model_id, [p.keel_mm, p.winglet_mm]]),
   ])
@@ -42,7 +37,7 @@ test('each language can compare any distinct pair using the released fold and cl
           const studio = new URL(m.studio, 'https://example.test/')
           assert.equal(studio.searchParams.get('lang'), locale)
           if (m.family !== 'butterfly') assert.equal(studio.searchParams.get('model'), m.id)
-          else assert.equal(new URLSearchParams(studio.hash.slice(1)).get('design'), 'butterfly-' + m.id)
+          else assert.equal(studio.searchParams.get('species'), m.id)
         }
       }
 })

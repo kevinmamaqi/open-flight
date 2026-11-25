@@ -16,7 +16,7 @@ export const siteLabels = {
   classroom: words('Classroom planner', 'Planificador de aula', 'Планировщик урока'),
   'flight-objects': words('Flying objects workshop', 'Taller de objetos voladores', 'Мастерская летающих моделей'),
   keel: words('Folded butterfly', 'Mariposa plegada', 'Складная бабочка'),
-  costa: words('Experimental K2', 'K2 experimental', 'Экспериментальная K2'),
+  costa: words('Costa K2', 'K2 con costa', 'Подогнутая кромка K2'),
   motor: words('Motor workbench', 'Banco de motores', 'Стенд для мотора'),
   compare: words('Compare designs', 'Comparar modelos', 'Сравнить модели'),
   circuit: words('Flight circuit', 'Circuito de vuelo', 'Лётная трасса'),

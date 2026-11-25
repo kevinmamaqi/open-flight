@@ -4934,7 +4934,8 @@
                         "heritage",
                         "festival",
                         "pencil",
-                        "flag"
+                        "flag",
+                        "airshow"
                       ]
                     }
                   },
@@ -5431,7 +5432,8 @@
                   "heritage",
                   "festival",
                   "pencil",
-                  "flag"
+                  "flag",
+                  "airshow"
                 ]
               }
             },
@@ -5532,7 +5534,8 @@
                           "heritage",
                           "festival",
                           "pencil",
-                          "flag"
+                          "flag",
+                          "airshow"
                         ]
                       }
                     },
@@ -7717,8 +7720,8 @@
                   ]
                 },
                 "uniqueItems": true,
-                "minItems": 1,
-                "maxItems": 10
+                "minItems": 0,
+                "maxItems": 13
               },
               "pilot": {
                 "type": "string",
@@ -7745,7 +7748,10 @@
                   "ilyushin-il62",
                   "monarch-k2",
                   "morpho-k2",
-                  "swallowtail-k2"
+                  "swallowtail-k2",
+                  "ring",
+                  "samara",
+                  "tandem"
                 ]
               },
               "appearances": {
@@ -7781,7 +7787,8 @@
                       "heritage",
                       "festival",
                       "pencil",
-                      "flag"
+                      "flag",
+                      "airshow"
                     ]
                   },
                   "douglas-dc3": {
@@ -7789,7 +7796,8 @@
                       "heritage",
                       "festival",
                       "pencil",
-                      "flag"
+                      "flag",
+                      "airshow"
                     ]
                   },
                   "tupolev-tu144": {
@@ -7797,7 +7805,8 @@
                       "heritage",
                       "festival",
                       "pencil",
-                      "flag"
+                      "flag",
+                      "airshow"
                     ]
                   },
                   "ilyushin-il62": {
@@ -7805,7 +7814,29 @@
                       "heritage",
                       "festival",
                       "pencil",
-                      "flag"
+                      "flag",
+                      "airshow"
+                    ]
+                  },
+                  "ring": {
+                    "enum": [
+                      "field",
+                      "sunset",
+                      "indigo"
+                    ]
+                  },
+                  "samara": {
+                    "enum": [
+                      "field",
+                      "sunset",
+                      "indigo"
+                    ]
+                  },
+                  "tandem": {
+                    "enum": [
+                      "field",
+                      "sunset",
+                      "indigo"
                     ]
                   }
                 }
@@ -7940,8 +7971,8 @@
                           ]
                         },
                         "uniqueItems": true,
-                        "minItems": 1,
-                        "maxItems": 10
+                        "minItems": 0,
+                        "maxItems": 13
                       },
                       "pilot": {
                         "type": "string",
@@ -7968,7 +7999,10 @@
                           "ilyushin-il62",
                           "monarch-k2",
                           "morpho-k2",
-                          "swallowtail-k2"
+                          "swallowtail-k2",
+                          "ring",
+                          "samara",
+                          "tandem"
                         ]
                       },
                       "appearances": {
@@ -8004,7 +8038,8 @@
                               "heritage",
                               "festival",
                               "pencil",
-                              "flag"
+                              "flag",
+                              "airshow"
                             ]
                           },
                           "douglas-dc3": {
@@ -8012,7 +8047,8 @@
                               "heritage",
                               "festival",
                               "pencil",
-                              "flag"
+                              "flag",
+                              "airshow"
                             ]
                           },
                           "tupolev-tu144": {
@@ -8020,7 +8056,8 @@
                               "heritage",
                               "festival",
                               "pencil",
-                              "flag"
+                              "flag",
+                              "airshow"
                             ]
                           },
                           "ilyushin-il62": {
@@ -8028,7 +8065,29 @@
                               "heritage",
                               "festival",
                               "pencil",
-                              "flag"
+                              "flag",
+                              "airshow"
+                            ]
+                          },
+                          "ring": {
+                            "enum": [
+                              "field",
+                              "sunset",
+                              "indigo"
+                            ]
+                          },
+                          "samara": {
+                            "enum": [
+                              "field",
+                              "sunset",
+                              "indigo"
+                            ]
+                          },
+                          "tandem": {
+                            "enum": [
+                              "field",
+                              "sunset",
+                              "indigo"
                             ]
                           }
                         }
@@ -9289,6 +9348,38 @@
                         "recovery": {
                           "type": "string",
                           "minLength": 1
+                        },
+                        "appearances": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "id": {
+                                "type": "string"
+                              },
+                              "colors": {
+                                "type": "array",
+                                "items": {
+                                  "type": "string"
+                                }
+                              },
+                              "drawing": {
+                                "type": "string"
+                              },
+                              "packets": {
+                                "type": "object",
+                                "additionalProperties": {
+                                  "type": "string"
+                                }
+                              }
+                            },
+                            "required": [
+                              "id",
+                              "colors",
+                              "drawing",
+                              "packets"
+                            ]
+                          }
                         }
                       },
                       "required": [

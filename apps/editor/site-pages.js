@@ -1,4 +1,8 @@
-import { designIds, fieldModel, foldedLink, words } from './atlas-guide.js'
+import { workbenchMarkup } from './model-workbench.js'
+import { appearanceArtPath } from './model-appearance.js'
+import { planeCatalog } from './assets/planes/catalog.js'
+import { objectCopy } from './flight-objects-copy.js'
+import { designIds, fieldModel, studioLink, words } from './atlas-guide.js'
 import { flightObjects } from './assets/objects/activities.js'
 import { workshopHome } from './assets/workshop-address.js'
 import { sheetIdFor, sheetPath } from './family-sheets.js'
@@ -17,16 +21,6 @@ const copy = {
     'Печатай в масштабе 100% («Фактический размер») и проверь линейкой отметку 50 мм.',
   ),
   letter: w('US Letter', 'Carta', 'US Letter'),
-  experimental: w(
-    'Experimental design. Use the flight test to record how your build behaves.',
-    'Diseño experimental. Usa la prueba de vuelo para registrar cómo se comporta tu modelo.',
-    'Экспериментальная модель. Запиши, как ведёт себя твоя модель в испытании.',
-  ),
-  k2: w(
-    'Experimental K2. Use 120 g/m² paper and two 33 mm clips. A measured comparison with K1 is pending.',
-    'K2 experimental. Usa papel de 120 g/m² y dos clips de 33 mm. Falta comparar sus vuelos con los del K1.',
-    'Экспериментальная K2. Возьми бумагу 120 г/м² и две скрепки по 33 мм. Сравнение с K1 в полёте ещё предстоит.',
-  ),
   paired: w('Monarch K1 and K2 trial PDF', 'PDF de la prueba del monarca K1 y K2', 'PDF для сравнения монарха K1 и K2'),
   variants: w('Other butterfly folds', 'Otros pliegues de mariposa', 'Другие варианты сгиба'),
   w1: w('Tabbed wings (W1)', 'Alas con aletas (W1)', 'Крылья с язычками (W1)'),
@@ -42,7 +36,7 @@ const products = {
     ),
   },
   butterflies: {
-    family: 'butterfly', image: 'assets/atlas/monarch.svg', tool: 'studio',
+    family: 'butterfly', image: appearanceArtPath('monarch-k2'), tool: 'costa',
     description: w(
       'Cut and fold three paper butterfly gliders with printable patterns. Change a fold, check the balance with a paper clip, and record where each glider lands.',
       'Recorta y pliega tres planeadores con forma de mariposa. Cambia un pliegue, comprueba el equilibrio con un clip y apunta dónde aterriza cada uno.',
@@ -50,7 +44,7 @@ const products = {
     ),
   },
   airplanes: {
-    family: 'airplane', image: 'assets/planes/boeing-747.svg', tool: 'planes',
+    family: 'airplane', image: appearanceArtPath('boeing-747'), tool: 'planes',
     description: w(
       'Fold a paper airplane from a single rectangular sheet. Pick one of four models and follow its illustrated guide, with printable patterns in A4 and US Letter.',
       'Pliega un avión de papel con una sola hoja rectangular. Elige uno de cuatro modelos y sigue su guía ilustrada, con plantillas en A4 y Carta.',
@@ -58,7 +52,7 @@ const products = {
     ),
   },
   'flying-objects': {
-    family: 'object', image: 'assets/objects/ring.svg', tool: 'flight-objects',
+    family: 'object', image: appearanceArtPath('ring'), tool: 'flight-objects',
     description: w(
       'Make a ring glider, a maple spinner and a Williams tandem glider. Each activity gives you a build, two settings to compare and a way to record the result.',
       'Construye un planeador de anillo, una semilla giratoria y un planeador tándem Williams. Cada actividad incluye instrucciones, dos variantes y una forma de anotar el resultado.',
@@ -74,6 +68,7 @@ const products = {
       'Собери бесплатную книгу с выбранными моделями, схемами сгибов и журналами полётов. Просмотри страницы, выбери A4 или US Letter, скачай PDF или поделись своей подборкой.',
     ),
     links: [
+      [w('Read the complete A4 book (PDF)', 'Leer el libro completo en A4 (PDF)', 'Открыть полную книгу A4 (PDF)'), lang=>'assets/book/samples/flight-book-A4-'+lang+'.pdf'],
       [w('Preview the flight log', 'Ver el registro de vuelo', 'Посмотреть журнал полётов'), lang => 'book.html?lang=' + lang + '&p=4'],
       [siteLabels.teachers, lang => publicPath('teachers', lang)],
     ],
@@ -162,7 +157,7 @@ function modelCards(category, ids, lang, base) {
   return `<ul class="product-grid">${ids.map(id => {
     const model = fieldModel(id, lang)
     return `<li class="product-card panel">
-      ${photo(model.image, base, true)}
+      ${photo(appearanceArtPath(model.family==='object' ? id : sheetIdFor(id)), base, true)}
       <div class="product-card-copy"><h3>${link(base + publicPath(category + '/' + id, lang), nameOf(model))}</h3>
       <p>${e(model.technique)}</p></div>
     </li>`
@@ -175,7 +170,7 @@ function modelContent(model, lang, base, trialsBase) {
   const object = model.family === 'object'
   const lab = object ? flightObjects(lang) : null
   const activity = lab?.activities.find(item => item.id === model.id)
-  const files = (construction = 'k1') => ['A4', 'US_LETTER'].map(paper => {
+  const files = (construction = 'k2') => ['A4', 'US_LETTER'].map(paper => {
     const path = activity ? lab.packets[paper] + '#page=' + activity.page
       : sheetPath(sheetIdFor(model.id, construction), paper, lang)
     return link(base + path, (paper === 'A4' ? paper : t('letter')) + ' PDF', 'button secondary')
@@ -184,17 +179,21 @@ function modelContent(model, lang, base, trialsBase) {
     ? '<p>' + link(trialsBase + 'trials/monarch-k1-k2-A4-' + lang + '.pdf', t('paired'), 'text-link') + '</p>' : ''
   const variants = butterfly ? `<section aria-labelledby="variants">
     <h2 id="variants">${t('variants')}</h2>
-    <h3>${t('w1')}</h3><div class="actions">${files('w1')}</div>
-    <h3>${t('k2title')}</h3><p>${t('k2')}</p><div class="actions">${files('k2')}</div>${trial}
+    <h3>${link(base+studioLink(model.id,lang).slice(2),t('w1'),'text-link')}</h3><div class="actions">${files('w1')}</div>
+    <h3>${link(base+'keel.html?species='+model.id+'&lang='+lang,w('Pinched spine','Pliegue central','Складной корпус')[lang]+' (K1)','text-link')}</h3><div class="actions">${files('k1')}</div>${trial}
   </section>` : ''
+  const aircraft = planeCatalog.find(item=>item.model_id===model.id)
+  const materials = butterfly ? w('120 g/m² paper, scissors, a ruler and two 33 mm paper clips.', 'Papel de 120 g/m², tijeras, regla y dos clips de 33 mm.', 'Бумага 120 г/м², ножницы, линейка и две скрепки по 33 мм.')[lang] : model.materials
   return `<div class="product-sections">
-    <section aria-labelledby="materials"><h2 id="materials">${t('materials')}</h2><p>${e(model.materials)}</p></section>
-    <section aria-labelledby="downloads"><h2 id="downloads">${t('downloads')}${butterfly ? ' (K1)' : ''}</h2>
+    <section aria-labelledby="materials"><h2 id="materials">${t('materials')}</h2><p>${e(materials)}</p></section>
+    <section aria-labelledby="downloads"><h2 id="downloads">${t('downloads')}${butterfly ? ' (K2)' : ''}</h2>
       <div class="actions">${files()}</div><p class="hint">${t('print')}</p></section>
     <section aria-labelledby="experiment"><h2 id="experiment">${t('experiment')}</h2>
-      ${object ? '<p>' + t('experimental') + '</p>' : ''}<p>${e(model.experiment)}</p>
+      <p>${e(model.experiment)}</p>
       ${activity ? '<p>' + link(activity.source.url, model.inspiration, 'text-link') + '</p>' : ''}
-    </section>${variants}
+    </section>
+    ${activity ? '<section><h2>'+objectCopy[lang].build+'</h2><ol>'+activity.steps.map(step=>'<li>'+e(step)+'</li>').join('')+'</ol><p>'+e(activity.recovery)+'</p></section>' : ''}
+    ${aircraft ? '<section><h2>'+e(aircraft.field.landmark[lang])+'</h2><p>'+e(aircraft.field.look[lang])+'</p><p>'+e(aircraft.field.finish[lang])+'</p></section>' : ''}${variants}
   </div>`
 }
 
@@ -215,13 +214,26 @@ export function renderProduct(route, lang, assetKey = '', trialsBase = null) {
   const crumbs = trail.map(({ label, route }, index) => index === trail.length - 1
     ? { label } : { label, href: navHref(route, lang, base) })
   const image = model?.image ?? (typeof product.image === 'function' ? product.image(lang) : product.image)
-  const next = model ? (model.family === 'butterfly' ? foldedLink(id, lang) : model.studio).slice(2)
+  const next = model ? (model.family === 'butterfly' ? './costa.html?' + new URLSearchParams({species:id,lang}) : model.studio).slice(2)
     : product.tool ? navHref(product.tool, lang, '') : null
+  const metric = (label,value) => '<div><dt>'+e(label)+'</dt><dd>'+e(String(value))+'</dd></div>'
+  const objectFacts = {
+    ring:[w('Rim fold','Pliegue del borde','Подгиб обода'), '13 mm', w('Folds at rim','Pliegues del borde','Сгибы обода'), '2'],
+    samara:[w('Clip stations','Posiciones del clip','Положения скрепки'),'A / B',w('Wings','Alas','Крылья'),'1'],
+    tandem:[w('Front span before folding','Envergadura delantera antes de plegar','Передний размах до сгиба'),'80 mm',w('Rear span before folding','Envergadura trasera antes de plegar','Задний размах до сгиба'),'72 mm'],
+  }
+  function metrics() {
+    if(model.family === 'object'){
+      const [a,v,b,n] = objectFacts[id]
+      return metric(a[lang],v)+metric(b[lang],n)
+    }
+    return model.settings.map(({label,value,unit})=>metric(label,value+' '+unit)).join('')
+  }
   const hero = `<section class="product-hero${image ? '' : ' product-hero-text'}"><div>
     ${model ? '<p class="hint">' + e(model.family === 'airplane' ? model.name : model.technique) + '</p>' : ''}
     <h1>${e(label)}</h1><p class="lede">${e(desc)}</p>
-    ${next ? link(base + next, (product.action ?? copy.open)[lang], 'button primary') : ''}
-  </div>${image ? photo(image, base) : ''}</section>`
+    ${model ? '<dl class="model-facts">'+metrics()+'</dl><a class="text-link" data-model-studio href="'+e(base+next)+'">'+w('Build instructions','Instrucciones de montaje','Инструкция по сборке')[lang]+' ↗</a>' : next ? link(base + next, (product.action ?? copy.open)[lang], 'button primary') : ''}
+  </div>${model ? workbenchMarkup(id, lang, base) : image ? photo(image, base) : ''}</section>`
   let body = ''
   if (model) {
     body = modelContent(model, lang, base, trialsBase ?? base) +
@@ -239,6 +251,7 @@ export function renderProduct(route, lang, assetKey = '', trialsBase = null) {
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   ${productHead(route, lang, title, desc, trail)}
+  ${model ? '<script type="module" src="'+base+'model-workbench.js'+assetKey+'"></script>' : ''}
   <link rel="icon" href="${base}assets/brand/favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="${base}tokens.css${assetKey}">
   <link rel="stylesheet" href="${base}system.css${assetKey}">

@@ -1,11 +1,14 @@
-import { foldedLink, studioLink } from './atlas-guide.js?v=c3029913b67f'
-import { defaultSheets } from './book-model.js?v=c3029913b67f'
-import { sheetCatalog } from './family-sheets.js?v=c3029913b67f'
-import { appearanceChoices } from './model-appearance.js?v=c3029913b67f'
+import { objectIds } from './assets/objects/appearance.js?v=51d4970dfb40'
+import { foldedLink, studioLink } from './atlas-guide.js?v=51d4970dfb40'
+import { defaultSheets } from './book-model.js?v=51d4970dfb40'
+import { sheetCatalog } from './family-sheets.js?v=51d4970dfb40'
+import { appearanceChoices } from './model-appearance.js?v=51d4970dfb40'
 
 const sheets = new Map(sheetCatalog.map(entry => [entry.id, entry]))
 
 export function studioForBookSheet(book, sheetId) {
+  if (objectIds.includes(sheetId))
+    return './flight-objects.html?' + new URLSearchParams({model:sheetId, lang:book.lang, colors:book.appearances?.[sheetId] ?? 'field', paper:book.paper})
   const entry = sheets.get(sheetId)
   if (!entry) throw new RangeError('Unknown printable model.')
   const color = book.appearances?.[entry.model] || appearanceChoices(entry.model, book.lang)[0].id
@@ -28,8 +31,11 @@ export function bookFromStudio(sheetId, appearance, lang, paper) {
 // The link transfers only this model's color. A family's title and other choices stay in their saved book.
 export function applyStudioColors(draft, address) {
   const fields = new URLSearchParams(new URL(address).hash.slice(1))
-  const entry = sheets.get(fields.get('flyer'))
+  const flyer = fields.get('flyer')
+  const entry = sheets.get(flyer)
   const appearance = fields.get('paint')
+  if (objectIds.includes(flyer) && appearanceChoices(flyer).some(choice => choice.id === appearance))
+    return {activities:[...new Set([...(draft.activities ?? []), flyer])], appearances:{...draft.appearances,[flyer]:appearance}}
   if (!entry || !appearanceChoices(entry.model, 'en').some(choice => choice.id === appearance)) return {}
   const prior = Array.isArray(draft.sheets) ? draft.sheets.filter(id => sheets.has(id)) : defaultSheets
   const previousEdition = prior.find(id => sheets.get(id).model === entry.model)

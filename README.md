@@ -1,5 +1,7 @@
 # Open Flight
 
+All ten models have a color picker, a rotatable 3D view, an illustrated flight and a printable pattern. New Flight Books feature the long-headed K2 butterflies. The ring, spinner and tandem can each appear on the cover. [Explore the models](https://openflight.design/designs/)
+
 Make a paper glider with a child or a classroom, then change one fold and see where it lands. The free workshop runs in your browser. You can save a butterfly design on your device, download its editable source, or start with plain paper and a folding guide. [Open the workshop](https://openflight.design/?lang=en) · [По-русски](README.ru.md) · [Español](README.es.md)
 
 If you saved a design or a book draft before the move to openflight.design, use the same browser to open it on the previous site. You can also reach it from the workshop footer. [Open the previous workshop](https://kevinmamaqi.github.io/open-flight/?previous=1)

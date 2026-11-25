@@ -108,3 +108,24 @@
     gap: var(--space-4);
   }
 }
+
+.model-workbench { min-width: 0; background: var(--color-surface); border: 1px solid var(--color-rule); border-radius: var(--radius-md); overflow: hidden; }
+.model-stage { aspect-ratio: 8/5; background: radial-gradient(ellipse at 32% 28%, var(--color-surface), var(--color-surface-stage)); }
+.model-stage img, .model-canvas, .model-canvas canvas { width: 100%; height: 100%; display: block; object-fit: contain; }
+.model-workbench [hidden] { display: none !important; }
+.stage-actions, .orbit-controls, .model-tools, .model-palette { margin: 0; padding: var(--space-2) var(--space-4); display: flex; align-items: center; flex-wrap: wrap; gap: var(--space-2); }
+.stage-actions:has(.explore[hidden]):has(.stage-status:empty) { display: none; }
+.model-palette { border: 0; }
+.model-palette legend { padding-top: var(--space-2); font-weight: 700; }
+.model-palette button { display: inline-flex; align-items: center; gap: var(--space-2); min-height: 44px; background: transparent; border: 1px solid var(--color-rule); border-radius: var(--radius-sm); padding: var(--space-2) var(--space-3); font: inherit; cursor: pointer; }
+.model-palette button[aria-pressed="true"] { border-color: currentColor; box-shadow: inset 0 0 0 1px; }
+.palette-chip { width: 1.2rem; height: 1.2rem; border-radius: 50%; border: 1px solid var(--color-rule); }
+.model-tools { border-top: 1px solid var(--color-rule); padding-block: 1rem; }
+.model-tools label, .orbit-controls label { display: grid; gap: .2rem; font-size: var(--text-sm); }
+.model-workbench select, .model-workbench input { min-height: 44px; max-width: 100%; }
+.model-facts { display: flex; flex-wrap: wrap; gap: 1.2rem; padding: 1rem 0; border-block: 1px solid var(--color-rule); }
+.model-facts dt { font-size: var(--text-sm); } .model-facts dd { margin: .2rem 0 0; font-size: var(--text-lg); font-weight: 700; }
+.product-hero:has(.model-workbench) { grid-template-columns: minmax(0,.82fr) minmax(0,1.18fr); align-items: start; }
+@media(max-width:760px){ .product-hero:has(.model-workbench) { grid-template-columns: minmax(0,1fr); } }
+
+.model-workbench:not([data-ready]) :is(.model-palette,.stage-actions,.model-tools label) { display: none; }

@@ -1,3 +1,4 @@
+import { objectDrawing, coloredPacket } from "../../apps/editor/assets/objects/appearance.js";
 import { flightObjects } from "../../apps/editor/assets/objects/activities.js";
 import { Duplex, PDFDocument, PrintScaling } from "pdf-lib";
 import { jsPDF } from "jspdf";
@@ -163,38 +164,40 @@ function frontMatter(book, plan, regular, bold, display, art, artPaths, originAr
   // Low ink: the cover is paper with a fine frame 10 mm inside the edge, not a full-page fill.
   doc.setDrawColor(accent).setLineWidth(0.5).rect(10, 10, w - 20, h - 20, "S");
   brandLine(left + 3, 21);
-  byline(paperLabel, right - 3, 21, "right");
+  byline(bookEdition(lang, plan.modelCount, paper), right - 3, 21, "right");
   rule(left + 3, 26, right - 3, 26);
-  const [title, titleSize] = fit(cover, 37, width - 6, 2);
-  const titleTop = title.length === 1 ? 49 : 42;
+  const [title, titleSize] = fit(cover, 43, width - 6, 2);
+  const titleTop = title.length === 1 ? 52 : 42;
   text(title, left + 3, titleTop, titleSize, { weight: "display" });
-  byline(copy.pilot.toUpperCase(), left + 3, 66);
-  if (pilot) {
-    const [name, nameSize] = fit(pilot, 15, width - 38, 2, "bold");
-    text(name, left + 28, name.length > 1 ? 63 : 66, nameSize, {
-      weight: "bold",
-    });
-  } else {
-    rule(left + 28, 66.5, left + 107, 66.5);
-  }
   const heroWidth = width - 6;
-  image(book.coverModel, left + 3, 76, heroWidth);
-  const heroBottom = 76 + (heroWidth * 5) / 8;
-  byline(sheetName(book.coverModel, lang), left + 3, heroBottom + 8);
-  if (style === "studio") {
-    text(copy.studio, right - 3, heroBottom + 8, 8, { align: "right" });
+  const heroTop = 66;
+  image(book.coverModel, left + 3, heroTop, heroWidth);
+  const heroBottom = heroTop + (heroWidth * 5) / 8;
+  doc.setFillColor(wash).rect(left + 3, heroBottom, heroWidth, 12, "F");
+  const heroLabel = sheetName(book.coverModel, lang) + (book.coverModel.endsWith('-k2') ? '  ·  K2' : '');
+  text(heroLabel, left + 6, heroBottom + 8, 14, { weight: "display" });
+  const fleet = [...sheets, ...(book.activities ?? [])].filter(id => id !== book.coverModel);
+  const rows = Math.ceil(fleet.length / 5);
+  const galleryTop = heroBottom + 17;
+  const available = h - 44 - galleryTop;
+  const tileRowHeight = Math.min(30, available / Math.max(1, rows));
+  const columnWidth = heroWidth / Math.min(5, Math.max(1,fleet.length));
+  const tileWidth = Math.min(columnWidth - 3, (tileRowHeight - 3) * 8 / 5, 45);
+  fleet.forEach((id, index) => {
+    const x = left + 3 + (index % 5) * columnWidth;
+    image(id, x, galleryTop + Math.floor(index / 5) * tileRowHeight, tileWidth);
+  });
+  const subtitleY = Math.min(h - 39, galleryTop + rows * tileRowHeight + 4);
+  text(wrap(instructions.subtitle, 11, heroWidth), left + 3, subtitleY, 11);
+  rule(left + 3, h - 33, right - 3, h - 33);
+  byline(copy.pilot.toUpperCase(), left + 3, h - 23);
+  if (pilot) {
+    const [name, nameSize] = fit(pilot, 14, width - 43, 1, "bold");
+    text(name, left + 31, h - 23, nameSize, {weight:"bold"});
+  } else {
+    rule(left + 31, h - 22.5, right - 17, h - 22.5);
   }
-  const fleet = sheets.filter(id => id !== book.coverModel);
-  const tileWidth = Math.min(
-    31,
-    (heroWidth - 2 * Math.max(0, fleet.length - 1)) / Math.max(1, fleet.length),
-  );
-  fleet.forEach((id, index) =>
-    image(id, left + 3 + index * (tileWidth + 2), heroBottom + 14, tileWidth),
-  );
-  const taglineY = heroBottom + (fleet.length ? 22 + (tileWidth * 5) / 8 : 19);
-  text(wrap(instructions.subtitle, 11, heroWidth), left + 3, taglineY, 11);
-  folio(1, bookEdition(lang, plan.modelCount, paper));
+  byline("01", right - 3, h - 23, "right");
 
   doc.addPage();
   heading(instructions.print, 2);
@@ -240,7 +243,7 @@ function frontMatter(book, plan, regular, bold, display, art, artPaths, originAr
   // Reserve one line per named activity, even with every sheet variant selected.
   const activityRow = 6;
   const lastIndexLine = 78 + activityRow * plan.activityPages.length;
-  const rowHeight = Math.min(17.8, (h - 25 - lastIndexLine) / plan.entries.length);
+  const rowHeight = Math.min(17.8, (h - 25 - lastIndexLine) / Math.max(1,plan.entries.length));
   plan.entries.forEach(({ id, start, end, guidePage }, index) => {
     const entry = sheetCatalog.find((item) => item.id === id);
     const details = modelDetails(id);
@@ -282,7 +285,7 @@ function frontMatter(book, plan, regular, bold, display, art, artPaths, originAr
     );
   });
   const atlasLabel = {en:"Flight atlas", es:"Atlas de vuelo", ru:"Атлас полётов"}[lang];
-  byline(atlasLabel + " · " + plan.originPages[0].number + (plan.originPages.length > 1 ? "–" + plan.originPages.at(-1).number : ""), right, 78 + plan.entries.length * rowHeight, "right");
+  if (plan.originPages.length) byline(atlasLabel + " · " + plan.originPages[0].number + (plan.originPages.length > 1 ? "–" + plan.originPages.at(-1).number : ""), right, 78 + plan.entries.length * rowHeight, "right");
   if (plan.activityPages.length) {
     const { activities } = flightObjects(lang);
     plan.activityPages.forEach(({ id, number }, i) => {
@@ -383,8 +386,8 @@ export async function createBook(input, { loadAsset }) {
   const book = normalizeBook(input);
   const plan = bookPlan(book);
   const artPaths = new Map(
-    book.sheets.map((id) => {
-      const { model } = sheetCatalog.find(sheet => sheet.id === id);
+    [...book.sheets, ...(book.activities ?? [])].map((id) => {
+      const model = sheetCatalog.find(sheet => sheet.id === id)?.model ?? id;
       return [id, appearanceArtPath(id, book.style, book.appearances[model])];
     }),
   );
@@ -465,14 +468,17 @@ export async function createBook(input, { loadAsset }) {
   }
   if (plan.activityPages.length) {
     const lab = flightObjects(book.lang);
-    const packet = await PDFDocument.load(await loadAsset(lab.packets[book.paper]), { updateMetadata: false });
+    const packets = new Map();
     const selected = plan.activityPages.map(({ id }) => lab.activities.find(activity => activity.id === id));
-    const activitySheets = await output.copyPages(packet, selected.map(item => item.page - 1));
-    for (const [i, item] of selected.entries()) {
-      const page = output.addPage(activitySheets[i]);
-      // Align the number with the activity header, 12 mm from the top and right edges.
+    for (const item of selected) {
+      const appearance = book.appearances[item.id];
+      const packetPath = coloredPacket(lab.packets[book.paper], appearance);
+      if (!packets.has(packetPath)) packets.set(packetPath, await PDFDocument.load(await loadAsset(packetPath), {updateMetadata:false}));
+      const [copied] = await output.copyPages(packets.get(packetPath), [item.page - 1]);
+      const page = output.addPage(copied);
       drawFolio(page, page.getWidth() - 11 * mm, page.getHeight() - 13.5 * mm);
-      await output.attach(await loadAsset(item.illustration), item.illustration.split("/").at(-1), {
+      const drawing = objectDrawing(item.id, appearance);
+      await output.attach(await loadAsset(drawing), drawing.split("/").at(-1), {
         mimeType: "image/svg+xml", description: item.title,
         creationDate: new Date("2026-11-25T00:00:00Z"), modificationDate: new Date("2026-11-25T00:00:00Z"),
       });

@@ -11,7 +11,7 @@ function loadAsset(path) {
   return assets.get(path)
 }
 const coverSizes = {}
-for (const {id,model} of sheetCatalog) {
+for (const {id,model} of [...sheetCatalog, ...objects.map(({id})=>({id,model:id}))]) {
   for (const {id:color} of appearanceChoices(model)) for (const style of appearanceArtStyles) {
     const path = appearanceArtPath(id,style,color)
     coverSizes[path] ??= (await stat(new URL(path,editor))).size
@@ -42,7 +42,11 @@ for (const lang of sheetLocales) {
       if (classic) duplicateNotes[model] = await overlap([classic.id, id]) - frontMatter
     }
     const activityBytes = {}
-    for (const { id } of objects) activityBytes[id] = await measure([pair[0]], {}, [id]) - singles[pair[0]]
+    for (const {id} of objects) {
+      activityBytes[id] = await measure([pair[0]], {}, [id]) - singles[pair[0]]
+      for (const {id:color} of appearanceChoices(id).slice(1))
+        colored[id+'/'+color] = await measure([pair[0]], {[id]:color}, [id]) - singles[pair[0]] - activityBytes[id]
+    }
     const activitiesTogether = await measure([pair[0]], {}, objects.map(item => item.id)) - singles[pair[0]]
     const activityOverlap = (Object.values(activityBytes).reduce((sum, size) => sum + size, 0) - activitiesTogether) / (objects.length - 1)
     sizes[lang][paper] = { singles, frontMatter, sharedGuide, colored, duplicateNotes, activityBytes, activityOverlap }

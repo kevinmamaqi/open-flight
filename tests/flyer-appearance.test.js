@@ -32,7 +32,7 @@ test('every appearance has localized labels and matching model art', async () =>
     const choices = appearanceChoices(sheet.model)
     assert.deepEqual(choices.map(choice => choice.id), sheet.family === 'butterfly'
       ? ['natural', 'carnival', 'twilight', 'coloring']
-      : ['heritage', 'festival', 'pencil', 'flag'])
+      : ['heritage', 'festival', 'pencil', 'flag', 'airshow'])
     for (const lang of sheetLocales) {
       for (const { label, colors } of appearanceChoices(sheet.model, lang)) {
         assert.ok(label)
@@ -50,8 +50,8 @@ test('every appearance has localized labels and matching model art', async () =>
       }
     }
   }
-  assert.equal(paths.size, 121)
-  assert.equal(appearanceChoices('tupolev-tu144', 'ru').at(-1).label, 'Флаг СССР')
+  assert.equal(paths.size, 129)
+  assert.equal(appearanceChoices('tupolev-tu144', 'ru').find(choice=>choice.id==='flag').label, 'Флаг СССР')
   assert.throws(() => appearanceArtPath('monarch-k1', 'studio', 'flag'), RangeError)
 })
 

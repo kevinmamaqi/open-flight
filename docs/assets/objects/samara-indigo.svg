@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="132mm" height="42mm" viewBox="0 0 132 42">
+  <title>Full-size Open Flight maple spinner with two clip positions and a dotted curl edge</title>
+  <metadata>Open Flight contributors, samara-1. Editable geometry: CERN-OHL-W-2.0, https://spdx.org/licenses/CERN-OHL-W-2.0.html. Original artwork: CC BY-SA 4.0, https://creativecommons.org/licenses/by-sa/4.0/. Experiment reference: Gregory Vogt, https://www.grc.nasa.gov/www/k-12/TRC/Aeronautics/Maple_Seed.html</metadata>
+  <path d="M6.3 20.5C8 13.8 14 13 22 15C39 18 65 4.2 111 3.3C127 2.9 131 9.5 124 16.5C108 32.2 62 34 29 35.4C14 40 4 35.8 6.3 20.5Z"
+    fill="#b9bbeb" stroke="#302c27" stroke-width=".65"/>
+  <path d="M25 23C55 23 75 9 116 7M26 26C60 26 90 15 119 10M26 29C56 30 93 22 111 17"
+    fill="none" stroke="#514d8d" stroke-width=".38"/>
+  <path d="M38 32C66 30 99 29 121 16" fill="none" stroke="#4a302d" stroke-width=".65" stroke-dasharray=".1 1.6" stroke-linecap="round"/>
+  <g fill="#352820"><circle cx="8.3" cy="21" r=".85"/><circle cx="8.2" cy="30" r=".85"/></g>
+  <g fill="#30201f" font-family="sans-serif" font-size="4.1" font-weight="bold"><text x="11" y="22.5">A</text><text x="11" y="31.5">B</text></g>
+</svg>

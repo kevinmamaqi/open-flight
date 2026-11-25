@@ -1,3 +1,6 @@
+import { mountWorkbench, workbenchMarkup } from './model-workbench.js'
+import { objectDrawing, coloredPacket } from './assets/objects/appearance.js'
+import { bookFromStudio } from './model-studio.js'
 import { currentLocale, localizedLinks } from './atlas-nav.js'
 import { flightObjects } from './assets/objects/activities.js'
 import { objectCopy } from './flight-objects-copy.js'
@@ -22,7 +25,7 @@ function link(label, url) {
   return a
 }
 
-for (const id of ['skip', 'title', 'intro', 'build', 'experiment', 'why', 'fix', 'size', 'more', 'nature', 'evidence'])
+for (const id of ['skip', 'title', 'intro', 'build', 'experiment', 'why', 'fix', 'size', 'more', 'nature'])
   $(id).textContent = copy[id]
 $('picker').setAttribute('aria-label', copy.select)
 for (const item of lab.activities) {
@@ -77,6 +80,21 @@ $('paper-size').addEventListener('change', () => {
   localizedLinks(lang)
 })
 choosePaper()
+const host = $('object-workbench')
+host.innerHTML = workbenchMarkup(selected.id,lang,'./')
+const workbench = host.firstElementChild
+function updatePrint() {
+  const paper = workbench.querySelector('.size').value
+  const paint = workbench.querySelector('[aria-pressed="true"][data-paint]').dataset.paint
+  $('paper-size').value = paper
+  choosePaper()
+  $('art').src = $('svg').href = './'+objectDrawing(selected.id,paint)
+  $('packet').href = './'+coloredPacket(lab.packets[paper],paint)+'#page='+selected.page
+  $('activity-book').href = bookFromStudio(selected.id,paint,lang,paper)
+}
+mountWorkbench(workbench)
+workbench.addEventListener('modelchange',updatePrint)
+updatePrint()
 $('activity').hidden = false
 localizedLinks(lang)
 $('more-intro').textContent = copy.moreIntro

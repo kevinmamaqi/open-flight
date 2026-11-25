@@ -10,7 +10,7 @@ const browser = await chromium.launch({
     process.env.CHROMIUM_PATH || process.env.OPENFLIGHT_CHROME || undefined,
 });
 const bookURL = (query = "") => new URL(`book.html${query}`, base);
-const starter = ["monarch-k1", "boeing-747", "morpho-k1"];
+const starter = ["monarch-k2", "boeing-747", "morpho-k2"];
 const readOrder = (page) =>
   page
     .locator("#order li")
@@ -93,12 +93,12 @@ try {
   assert.equal(response.status(), 200);
   await page.waitForFunction(() => document.documentElement.lang === "es");
   assert.equal(await page.locator("h1").textContent(), "Libro de vuelo");
-  assert.equal(await page.locator("#designs [data-edit]").count(), 7);
+  assert.equal(await page.locator("#designs [data-edit]").count(), 10);
   assert.equal(await page.locator("[data-preset]").count(), 0);
   assert.equal(await page.locator("#pilot-input").inputValue(), "Lucía");
   assert.match(
     await page.locator("#book-summary").textContent(),
-    /^32 páginas · 32 hojas$/,
+    /^37 páginas · 37 hojas$/,
   );
   assert.equal(
     await page.locator("#book-cover").getAttribute("data-paper"),
@@ -126,7 +126,7 @@ try {
     .locator("#cover-canvas")
     .waitFor({ state: "visible", timeout: 40_000 });
   assert.equal(await poster.isVisible(), false);
-  assert.equal(await page.locator("#reader-stack figure").count(), 31);
+  assert.equal(await page.locator("#reader-stack figure").count(), 36);
   assert.equal(await visibleCanvas(page, 30).count(), 0);
   if (process.env.BOOK_MOBILE_SCREENSHOT)
     await page.screenshot({ path: process.env.BOOK_MOBILE_SCREENSHOT });
@@ -142,7 +142,7 @@ try {
     await pageSurface(page, 6)
       .locator('a[href^="./library"]')
       .getAttribute("href"),
-    /monarch-k1-US_LETTER-es\.pdf(?:\?v=[0-9a-f]+)?#page=1$/,
+    /monarch-k2-US_LETTER-es\.pdf(?:\?v=[0-9a-f]+)?#page=1$/,
   );
   await pageSurface(page, 7).evaluate((figure) => figure.scrollIntoView());
   await page.waitForFunction(
@@ -194,10 +194,10 @@ try {
   assert.deepEqual(await readOrder(page), originalOrder);
   assert.equal(
     await page.locator("#book-cover").getAttribute("data-model"),
-    "morpho-k1",
+    "morpho-k2",
   );
   await page.locator("#include-model").click();
-  assert.ok(!(await readOrder(page)).includes("morpho-k1"));
+  assert.ok(!(await readOrder(page)).includes("morpho-k2"));
   assert.equal(await page.locator("#cover-model").isDisabled(), true);
   await page.locator("#include-model").click();
   assert.deepEqual(await readOrder(page), originalOrder);
@@ -207,7 +207,7 @@ try {
   await page.locator('#book-cover[aria-busy="false"]').waitFor();
   const oldCanvas = await coverImage(page);
   const pattern = page
-    .locator('.reader-page:has(a[href^="./library/morpho-k1-"])')
+    .locator('.reader-page:has(a[href^="./library/morpho-k2-"])')
     .first();
   const patternCanvas = pattern.locator("canvas");
   const patternImage = () => patternCanvas.evaluate((node) => node.toDataURL());
@@ -223,7 +223,7 @@ try {
   );
   assert.match(
     await page.locator("#flyer-image").getAttribute("src"),
-    /morpho-k1-carnival-studio\.jpg$/,
+    /morpho-k2-carnival-studio\.jpg$/,
   );
   await page.locator('.intro a[href="#reader"]').click();
   await page.locator('#book-cover[aria-busy="false"]').waitFor();
@@ -255,7 +255,7 @@ try {
   assert.equal(url.searchParams.has("pilot"), false);
   const saved = new URLSearchParams(url.hash.slice(1));
   assert.equal(saved.get("pilot"), "Patrulla del aire");
-  assert.equal(saved.get("hero"), "morpho-k1");
+  assert.equal(saved.get("hero"), "morpho-k2");
   assert.ok(saved.get("a")?.includes("carnival"));
 
   const output = await download(page);
@@ -263,7 +263,7 @@ try {
   const printed = await PDFDocument.load(output.bytes);
   assert.equal(printed.getTitle(), "Alas de fin de semana");
   assert.equal(printed.getPage(0).getWidth(), 612);
-  assert.equal(printed.getPageCount(), 32);
+  assert.equal(printed.getPageCount(), 37);
 
   await page.goto(bookURL().href);
   assert.equal(await page.locator("h1").textContent(), "Книга полётов");
@@ -282,7 +282,7 @@ try {
   assert.equal(await page.locator("#reader-select").inputValue(), "9");
   assert.equal(
     await page.locator("#book-cover").getAttribute("data-model"),
-    "morpho-k1",
+    "morpho-k2",
   );
   assert.equal(
     await page
@@ -312,7 +312,7 @@ try {
   assert.deepEqual(await readOrder(page), starter);
   assert.match(
     await page.locator("#book-summary").textContent(),
-    /^15 pages · 15 sheets$/,
+    /^16 pages · 16 sheets$/,
   );
   await page.locator("#share-pdf").click();
   await page.waitForFunction(() =>

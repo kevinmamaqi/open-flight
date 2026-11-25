@@ -1,6 +1,6 @@
-import { sampleFlight, simulateFlight } from './flight-model.js?v=c3029913b67f'
+import { sampleFlight, simulateFlight } from './flight-model.js?v=51d4970dfb40'
 // Paper coordinates are millimetres. Scene Y points up; the nose points towards negative Z.
-import { butterflies } from './flight-butterflies.js?v=c3029913b67f'
+import { butterflies } from './flight-butterflies.js?v=51d4970dfb40'
 
 export const clamp = (v, lo, hi) => Math.min(hi, Math.max(lo, v))
 const radians = (n) => (n * Math.PI) / 180

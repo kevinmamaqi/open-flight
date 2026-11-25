@@ -65,7 +65,11 @@ for (const route of routes) {
     for (const [locale, href] of languageAlternates(route))
       assert.ok(sitemapEntries.get(canonical).includes(`hreflang="${locale}" href="${href}"`), canonical)
     if (route !== 'home') {
-      assert.equal(got.externalScripts, 0, canonical + ' must work without client JavaScript')
+      assert.equal(got.externalScripts, route.includes('/') ? 1 : 0, canonical + ' unexpected script count')
+      if (route.includes('/')) {
+        assert.ok(document.includes('data-model-workbench=') && document.includes('model-workbench.js'), canonical)
+        assert.ok(got.resources.some(path=>path.includes('.pdf')), canonical+' needs a printable fallback')
+      }
       assert.equal(got.crumbs, 1, canonical)
       const json = document.match(/<script type="application\/ld\+json">([^<]+)<\/script>/)?.[1]
       const trail = JSON.parse(json)

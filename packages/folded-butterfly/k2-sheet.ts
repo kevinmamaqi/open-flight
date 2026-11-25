@@ -310,7 +310,7 @@ type Words = {
 const words: Record<K2Locale, Words> = {
   en: {
     names: { monarch: 'Monarch', morpho: 'Blue morpho', swallowtail: 'Swallowtail' },
-    note: 'K2 costa glider · Experimental · Flight not yet tested on paper',
+    note: 'K2 costa glider · Fold the leading edge under each wing',
     span: 'finished span',
     print: 'Print at 100% / actual size, landscape. Measure this line before cutting.',
     legend: ['Cut', 'Center valley', 'Wing and costa mountains', 'Edge strip folds under', 'Clip zone', 'Balance dot'],
@@ -369,7 +369,7 @@ const words: Record<K2Locale, Words> = {
   },
   es: {
     names: { monarch: 'Monarca', morpho: 'Morfo azul', swallowtail: 'Cola de golondrina' },
-    note: 'Planeador K2 con costa · Experimental · Vuelo aún sin probar en papel',
+    note: 'Planeador K2 con costa · Dobla el borde delantero bajo cada ala',
     span: 'envergadura final',
     print: 'Imprime al 100 % en tamaño real y en horizontal. Mide esta línea antes de recortar.',
     legend: ['Corte', 'Doblez central', 'Dobleces de alas y costa', 'La tira del borde va debajo', 'Zona del clip', 'Punto de equilibrio'],
@@ -428,7 +428,7 @@ const words: Record<K2Locale, Words> = {
   },
   ru: {
     names: { monarch: 'Монарх', morpho: 'Голубой морфо', swallowtail: 'Махаон' },
-    note: 'Планер K2 с костальной жилкой · Опытная модель · Полёт на бумаге ещё не проверен',
+    note: 'Планер K2 · Подогни переднюю кромку под каждое крыло',
     span: 'размах крыльев',
     print: 'Печатай в масштабе 100%, альбомная ориентация. Перед вырезанием измерь эту линию.',
     legend: ['Разрез', 'Сгиб в центре', 'Сгибы крыльев и края', 'Полоска края уходит вниз', 'Зона скрепок', 'Точка баланса'],

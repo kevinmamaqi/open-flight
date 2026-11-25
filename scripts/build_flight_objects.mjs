@@ -7,6 +7,7 @@ import { flightObjects, objectLocales, objectPapers, packetPath } from "../apps/
 import { calibrationWords, fontFiles, fontNotice as printFontNotice, print } from "../apps/editor/assets/brand/print.js";
 import { color } from "../apps/editor/assets/brand/tokens.js";
 
+import { objectDrawing, objectPalettes, coloredPacket } from '../apps/editor/assets/objects/appearance.js';
 const editor = new URL("../apps/editor/", import.meta.url);
 const paperSizes = { A4: [210, 297], US_LETTER: [215.9, 279.4] };
 const rgb = (hex) => [1, 3, 5].map((i) => parseInt(hex.slice(i, i + 2), 16));
@@ -23,7 +24,7 @@ const fontNotice = printFontNotice;
 
 const copy = {
   en: {
-    lab: "Open Flight · Flying objects · Experimental build",
+    lab: "Open Flight · Flying objects",
     materials: "Materials",
     print: "Print single-sided at 100%. Check the 50 mm line with a ruler.",
     ring: "Folding guide · Use a separate plain sheet for the glider.",
@@ -41,7 +42,7 @@ const copy = {
     },
   },
   es: {
-    lab: "Open Flight · Objetos voladores · Modelo experimental",
+    lab: "Open Flight · Objetos voladores",
     materials: "Materiales",
     print: "Imprime por una cara al 100 %. Comprueba la línea de 50 mm con una regla.",
     ring: "Guía de plegado · Usa otra hoja en blanco para el planeador.",
@@ -59,7 +60,7 @@ const copy = {
     },
   },
   ru: {
-    lab: "Open Flight · Летающие модели · Опытный образец",
+    lab: "Open Flight · Летающие модели",
     materials: "Материалы",
     print: "Печатай с одной стороны в масштабе 100 %. Проверь линию 50 мм по линейке.",
     ring: "Схема складывания · Для кольцеплана возьми отдельный чистый лист.",
@@ -218,14 +219,27 @@ function drawPage(doc, labels, activity, illustration, pageWidth, pageHeight, lo
   if (creditX - 6 > pageWidth - margin) throw new Error(`License links would overflow: ${activity.id} ${labels.lab}`);
 }
 
-const illustrations = new Map(await Promise.all(
-  flightObjects(objectLocales[0]).activities.map(async ({ illustration }) => [illustration, await readIllustration(illustration)]),
-));
-const sources = await Promise.all([...illustrations.keys()].map(async path => ({
-  name: path.split("/").at(-1), bytes: await readFile(new URL(path, editor)),
-})));
 const attachmentDate = new Date("2026-11-25T00:00:00Z");
 
+for (const appearance of Object.keys(objectPalettes.ring)) {
+  const illustrations = new Map();
+  const sources = [];
+  for (const activity of flightObjects().activities) {
+    const path = objectDrawing(activity.id, appearance);
+    let svg = await readFile(new URL(activity.illustration, editor), "utf8");
+    if (appearance !== 'field') {
+      const colors = objectPalettes[activity.id][appearance];
+      const replacements = new Map(objectPalettes[activity.id].field.map((old,i)=>[old,colors[i]]));
+      if (activity.id === 'ring') {
+        for (const tint of ['#9cdcd9','#b7ece8','#74c6c8']) replacements.set(tint,colors[0]);
+        replacements.set('#176474',colors[1]);
+      }
+      svg = svg.replace(/#[a-f0-9]{6}/gi, hex => replacements.get(hex.toLowerCase()) ?? hex);
+      await writeFile(new URL(path,editor), svg);
+    }
+    illustrations.set(activity.illustration, await readIllustration(path));
+    sources.push({name:path.split('/').at(-1),bytes:Buffer.from(svg)});
+  }
 for (const locale of objectLocales) {
   const labels = copy[locale];
   const { edition, activities } = flightObjects(locale);
@@ -233,7 +247,7 @@ for (const locale of objectLocales) {
     const [width, height] = paperSizes[paper];
     const doc = new jsPDF({ format: [width, height], unit: "mm", compress: true, putOnlyUsedFonts: true });
     doc.setCreationDate("D:20261125000000+00'00'");
-    doc.setFileId(createHash("sha256").update(`${edition}:${paper}:${locale}`).digest("hex").slice(0, 32));
+    doc.setFileId(createHash("sha256").update(`${edition}:${paper}:${locale}:${appearance}`).digest("hex").slice(0, 32));
     doc.setProperties({
       title: labels.lab,
       author: "Open Flight contributors",
@@ -250,11 +264,12 @@ for (const locale of objectLocales) {
       drawPage(doc, labels, activity, illustrations.get(activity.illustration), width, height, locale);
     }
 
-    const destination = new URL(packetPath(paper, locale), editor);
+    const destination = new URL(coloredPacket(packetPath(paper, locale), appearance), editor);
     await mkdir(new URL(".", destination), { recursive: true });
     const packet = await PDFDocument.load(doc.output("arraybuffer"), { updateMetadata: false });
     for (const { name, bytes } of sources)
       await packet.attach(bytes, name, { mimeType: "image/svg+xml", creationDate: attachmentDate, modificationDate: attachmentDate });
     await writeFile(destination, await packet.save());
   }
+}
 }

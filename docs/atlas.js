@@ -1,12 +1,13 @@
-import { publicPath } from './site-navigation.js?v=c3029913b67f'
-import { flightObjects } from './assets/objects/activities.js?v=c3029913b67f'
-import { ru, es } from './atlas-copy.js?v=c3029913b67f'
-import { currentLocale, homeURL, languageInPath, localizedLinks } from './atlas-nav.js?v=c3029913b67f'
-import { fieldModel, studioLink, foldedLink } from './atlas-guide.js?v=c3029913b67f'
-import { sheetCatalog, sheetIdFor, sheetPath } from './family-sheets.js?v=c3029913b67f'
-import { bookURL, monarchTrialSheets, normalizeBook } from './book-model.js?v=c3029913b67f'
-import { recordBookEvent } from './book-metrics.js?v=c3029913b67f'
-import { previousHome, workshopHome } from './assets/workshop-address.js?v=c3029913b67f'
+import { appearanceArtPath } from './model-appearance.js?v=51d4970dfb40'
+import { publicPath } from './site-navigation.js?v=51d4970dfb40'
+import { flightObjects } from './assets/objects/activities.js?v=51d4970dfb40'
+import { ru, es } from './atlas-copy.js?v=51d4970dfb40'
+import { currentLocale, homeURL, languageInPath, localizedLinks } from './atlas-nav.js?v=51d4970dfb40'
+import { fieldModel, studioLink, foldedLink } from './atlas-guide.js?v=51d4970dfb40'
+import { sheetCatalog, sheetIdFor, sheetPath } from './family-sheets.js?v=51d4970dfb40'
+import { bookURL, monarchTrialSheets, normalizeBook } from './book-model.js?v=51d4970dfb40'
+import { recordBookEvent } from './book-metrics.js?v=51d4970dfb40'
+import { previousHome, workshopHome } from './assets/workshop-address.js?v=51d4970dfb40'
 
 const assetVersion = new URL(import.meta.url).search
 const fragment = new URLSearchParams(location.hash.slice(1))
@@ -45,7 +46,7 @@ if (onPreviousSite) {
 }
 for (const a of document.querySelectorAll('[data-product]')) a.href = './' + publicPath(a.dataset.product, lang)
 for (const a of document.querySelectorAll('[data-route]'))
-  a.href = a.dataset.route === 'airplane' ? studioLink('boeing-747', lang) : studioLink('monarch', lang)
+  a.href = a.dataset.route === 'airplane' ? studioLink('boeing-747', lang) : './costa.html?lang=' + lang
 $('folded-butterfly').href = foldedLink('monarch', lang)
 const bookLink = './book.html?lang=' + lang
 $('book-sample').href = bookLink + '&p=4'
@@ -120,17 +121,17 @@ function display() {
   const activity = activities.get(m.id)
   $('specimen-sheet').href = activity
     ? './' + lab.packets.A4 + assetVersion + '#page=' + activity.page
-    : './' + sheetPath(sheetIdFor(m.id, 'w1'), 'A4', lang) + assetVersion
+    : './' + sheetPath(sheetIdFor(m.id), 'A4', lang) + assetVersion
   $('specimen-sheet').textContent = activity ? t('Open the activity (A4 PDF)', 'Ver la actividad (PDF A4)', 'Открыть задание (PDF, A4)') : patternLabel
-  $('specimen').src = m.family === 'butterfly' ? './assets/viewer/' + m.id + '-natural.webp' : m.image
+  $('specimen').src = './' + appearanceArtPath(activity ? m.id : sheetIdFor(m.id))
   $('specimen').alt = t('Open design ', 'Abrir el diseño ', 'Открыть модель ') + name
-  $('hero-link').href = $('specimen-name').href = m.studio
+  $('hero-link').href = $('specimen-name').href = './' + publicPath(({butterfly:'butterflies',airplane:'airplanes',object:'flying-objects'})[m.family]+'/'+m.id,lang)
   $('specimen-name').textContent = name + ' ↗'
   $('specimen-family').textContent =
     m.family === 'airplane'
       ? t('Paper airplane', 'Avión de papel', 'Бумажный самолёт')
       : t('Butterfly glider', 'Planeador mariposa', 'Планер-бабочка')
-  if (activity) $('specimen-family').textContent = t('Experimental design', 'Diseño experimental', 'Экспериментальная модель')
+  if (activity) $('specimen-family').textContent = activity.verb
   $('specimen-detail').textContent = m.family === 'airplane' ? m.name : m.inspiration
   $('specimen-count').textContent = String(pos + 1).padStart(2, '0') + ' / ' + models.length
   document.querySelector('.showcase').dataset.family = m.family
@@ -146,7 +147,7 @@ for (const [id, step, label] of [
   }
 }
 display()
-const k1Note = $('sheet-note').textContent
+const k1Note = t('In two early K1 builds the wings flexed and the butterflies glided poorly. Try yours with a paper clip and mark where it lands.',es.k1Note,ru.k1Note)
 const patternAndBack = t('Pattern, reverse side and fold guide', 'Plantilla, reverso y guía de pliegues', 'Выкройка, оборот и схема сгибов')
 function download() {
   const butterfly = models.find(m=>m.id===select.value)?.family==='butterfly'
@@ -163,7 +164,7 @@ function download() {
   if (activity) {
     const path = lab.packets[$('download-paper').value]
     $('sheet-contents').textContent = activity.title + ' · ' + t('Page ', 'Página ', 'Страница ') + activity.page + t(' of 3', ' de 3', ' из 3')
-    $('sheet-note').textContent = activity.materials + ' ' + t('Experimental design. The PDF includes all three activities.', 'Diseño experimental. El PDF incluye las tres actividades.', 'Экспериментальная модель. В PDF входят все три задания.')
+    $('sheet-note').textContent = activity.materials + ' ' + t('The PDF includes all three activities.', 'El PDF incluye las tres actividades.', 'В PDF входят все три задания.')
     $('download').href = './' + path + assetVersion + '#page=' + activity.page
     $('download').download = path.split('/').pop()
     return
@@ -177,9 +178,9 @@ function download() {
     : patternAndBack
   const notes = {
     k1: k1Note,
-    k2: t('Experimental fold. Use 120 g/m² paper and two 33 mm clips. A measured comparison with K1 is still pending.',
-      'Pliegue experimental. Usa papel de 120 g/m² y dos clips de 33 mm. Aún falta comparar sus vuelos con los del K1 y medirlos.',
-      'Экспериментальный сгиб. Возьми бумагу 120 г/м² и две скрепки по 33 мм. Сравнение с K1 в полёте ещё предстоит.'),
+    k2: t('Use 120 g/m² paper and two 33 mm clips.',
+      'Usa papel de 120 g/m² y dos clips de 33 mm.',
+      'Возьми бумагу 120 г/м² и две скрепки по 33 мм.'),
     w1: t('Start with both tabs level. Mark five landings, raise one tab slightly and repeat from the same spot.',
       'Empieza con las dos aletas a ras. Marca cinco aterrizajes, levanta un poco una aleta y repite desde el mismo sitio.',
       'Выровняй оба язычка. Отметь пять посадок, чуть подними один язычок и повтори запуски с того же места.'),

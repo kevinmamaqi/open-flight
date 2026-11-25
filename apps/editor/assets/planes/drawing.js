@@ -174,6 +174,23 @@ export function stripes(plan) {
     ribbon(0.876, 4, 18, a)
     ribbon(0.906, 4, 18, c)
   }
+  if (plan.livery === 'airshow') {
+    // Coloured landmarks on the outer wing survive the folds on both faces.
+    const tile = (points,fill) => shapes.push(poly(points.map(([x,y])=>[x*w,y*h]),fill))
+    if (plan.motif === 'steps') {
+      for (let row=0;row<2;row++) for(let i=0;i<4-row;i++) {
+        const x=.035+i*.031, y=.64+row*.026+x*.35
+        tile([[x,y],[x+.021,y+.006],[x+.021,y+.017],[x,y+.011]],b)
+      }
+    } else if (plan.motif === 'rays') {
+      for (const y of [.55,.67,.79]) tile([[.025,y],[.13,y+.018],[.18,y+.054],[.11,y+.037]],c)
+    } else if (plan.motif === 'chevrons') {
+      for (const x of [.03,.11,.19]) tile([[x,.64],[x+.04,.58],[x+.013,.65],[x+.05,.68]],b)
+    } else {
+      for (const y of [.55,.72]) for (const dy of [0,.025])
+        tile([[.018,y+dy],[.18,y+dy+.045],[.23,y+dy+.062],[.018,y+dy+.014]],c)
+    }
+  }
   const reflect = (p) => [w - p[0], p[1]]
   return [...shapes, ...shapes.map((s) => ({ ...s, points: s.points.map(reflect) }))]
 }

@@ -1,3 +1,4 @@
+import { objectPalettes, objectDrawing, coloredPacket } from './appearance.js'
 import { tandem } from './tandem.js'
 import { linkedFlyers } from './references.js'
 // Open Flight's original field cards. All paths are relative to the workshop root.
@@ -93,7 +94,9 @@ export function flightObjects(locale = 'en') {
   return {
     locale, edition: 'flight-objects-1', evidence: 'untested_open_flight_builds',
     packets: Object.fromEntries(objectPapers.map(paper => [paper, packetPath(paper, locale)])),
-    activities: objects.map(({ en, es, ru, ...identity }) => ({ ...identity, ...{ en, es, ru }[locale] })),
+    activities: objects.map(({ en, es, ru, ...identity }) => ({ ...identity, ...{ en, es, ru }[locale],
+      appearances: Object.keys(objectPalettes[identity.id]).map(id=>({id, colors:objectPalettes[identity.id][id],
+        drawing:objectDrawing(identity.id,id), packets:Object.fromEntries(objectPapers.map(paper=>[paper,coloredPacket(packetPath(paper,locale),id)]))})) })),
     references: linkedFlyers(locale),
   }
 }

@@ -101,9 +101,9 @@ const copy = {
   prev: ["Previous step", "Paso anterior", "Предыдущий шаг"],
   next: ["Next step", "Paso siguiente", "Следующий шаг"],
   evidence: [
-    "Folded-body prototype K1. Paper flight performance is still unverified.",
-    "Prototipo K1 de cuerpo plegado. Su vuelo en papel está por comprobar.",
-    "Прототип K1 со сложенным корпусом. Полёт бумажной модели ещё предстоит проверить.",
+    "K1 · Pinch the folded body before launch.",
+    "K1 · Sujeta el pliegue central antes del lanzamiento.",
+    "K1 · Перед запуском возьмись за сложенный корпус.",
   ],
   original: [
     "Original flat sheet (PDF)",

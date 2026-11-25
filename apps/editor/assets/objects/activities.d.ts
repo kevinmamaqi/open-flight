@@ -10,6 +10,7 @@ interface FlightObjectActivity {
   motion: string
   sheet: string
   page: number
+  appearances: {id:string; colors:string[]; drawing:string; packets: Record<Paper,string>}[]
   illustration: string
   source: { label: string; url: string }
   title: string

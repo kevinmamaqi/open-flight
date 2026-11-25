@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="174mm" height="50mm" viewBox="0 0 522 150">
+  <title>Fold a diagonal, fold the rim twice, then curl and tuck the ring</title>
+  <metadata>Original diagram by Open Flight contributors. CC BY-SA 4.0, https://creativecommons.org/licenses/by-sa/4.0/. Activity reference: NASA/JPL Education, https://www.jpl.nasa.gov/edu/resources/project/make-a-paper-glider/</metadata>
+  <g stroke="#214c58" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M8 32h130v90H8z" fill="#fcf9ee"/>
+    <path d="M8 122l130-90v90z" fill="#ffc897" stroke="none"/>
+    <path d="M8 122l130-90" stroke-dasharray="6 5"/>
+    <path d="M42 52q22 4 27 30m-8-5 8 5 3-9" fill="none"/>
+    <path d="M166 117l55-91 82 91z" fill="#ffc897"/>
+    <path d="M166 117l87-91 50 91z" fill="#ffc897"/>
+    <path d="M166 117h137l-8-12H174z" fill="#a73d36"/>
+    <path d="M179 98h112" stroke-dasharray="5 4" fill="none"/>
+    <path d="M239 136q-19-3-15-23m-5 6 5-6 4 7" fill="none"/>
+    <path d="M351 101q3-41 30-75l28 26 29-34q33 40 55 75c-11 30-108 43-142 8z" fill="#ffc897"/>
+    <path d="M351 101c5-32 132-50 142-8s-139 56-142 8z" fill="#a73d36"/>
+    <path d="M359 101c6-20 114-39 125-12 6 24-117 44-125 12z" fill="#fff3cf"/>
+    <path d="M308 85h21m-5-4 5 4-5 4" fill="none" opacity=".6"/>
+  </g>
+  <g font-family="sans-serif" font-weight="bold" font-size="13" fill="#143e48">
+    <text x="7" y="20">1</text><text x="166" y="20">2</text><text x="351" y="20">3</text>
+  </g>
+</svg>

@@ -1,5 +1,6 @@
-import { tandem } from './tandem.js?v=c3029913b67f'
-import { linkedFlyers } from './references.js?v=c3029913b67f'
+import { objectPalettes, objectDrawing, coloredPacket } from './appearance.js?v=51d4970dfb40'
+import { tandem } from './tandem.js?v=51d4970dfb40'
+import { linkedFlyers } from './references.js?v=51d4970dfb40'
 // Open Flight's original field cards. All paths are relative to the workshop root.
 const ringSource = 'https://www.jpl.nasa.gov/edu/resources/project/make-a-paper-glider/'
 const seedSource = 'https://www.grc.nasa.gov/www/k-12/TRC/Aeronautics/Maple_Seed.html'
@@ -93,7 +94,9 @@ export function flightObjects(locale = 'en') {
   return {
     locale, edition: 'flight-objects-1', evidence: 'untested_open_flight_builds',
     packets: Object.fromEntries(objectPapers.map(paper => [paper, packetPath(paper, locale)])),
-    activities: objects.map(({ en, es, ru, ...identity }) => ({ ...identity, ...{ en, es, ru }[locale] })),
+    activities: objects.map(({ en, es, ru, ...identity }) => ({ ...identity, ...{ en, es, ru }[locale],
+      appearances: Object.keys(objectPalettes[identity.id]).map(id=>({id, colors:objectPalettes[identity.id][id],
+        drawing:objectDrawing(identity.id,id), packets:Object.fromEntries(objectPapers.map(paper=>[paper,coloredPacket(packetPath(paper,locale),id)]))})) })),
     references: linkedFlyers(locale),
   }
 }

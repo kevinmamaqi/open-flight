@@ -12,20 +12,19 @@ test('the classroom manifest matches the browser copy plan for the Starter 3 ink
   assert.ok('classroom' in result)
   assert.deepEqual(result.classroom, plan)
   assert.deepEqual(result.settings, settings)
-  assert.equal(result.page_count, 15)
-  assert.deepEqual(result.settings.sheets, ['monarch-k1', 'boeing-747', 'morpho-k1'])
+  assert.equal(result.page_count, 16)
+  assert.deepEqual(result.settings.sheets, ['monarch-k2', 'boeing-747', 'morpho-k2'])
   assert.equal(result.settings.style, 'ink')
   assert.equal(plan.teams, 11)
-  assert.equal(plan.total_sheets, 89)
+  assert.equal(plan.total_sheets, 100)
   assert.deepEqual(plan.rows, [
     { kind: 'scale_check', pages: [2], copies: 1 },
-    { kind: 'model', sheet_id: 'monarch-k1', pages: [6], copies: 11 },
+    { kind: 'model', sheet_id: 'monarch-k2', pages: [6, 7], copies: 11 },
     { kind: 'model', sheet_id: 'boeing-747', pages: [8, 9, 10, 11], copies: 11 },
-    { kind: 'model', sheet_id: 'morpho-k1', pages: [12], copies: 11 },
-    { kind: 'shared_guide', pages: [7], copies: 11 },
+    { kind: 'model', sheet_id: 'morpho-k2', pages: [12, 13], copies: 11 },
     { kind: 'flight_log', pages: [4], copies: 11 },
   ])
-  assert.deepEqual(plan.optional_pages, [1, 3, 5, 13, 14, 15])
+  assert.deepEqual(plan.optional_pages, [1, 3, 5, 14, 15, 16])
   assert.equal(new URL(plan.book_url).searchParams.get('lang'), 'es')
   assert.equal(new URLSearchParams(new URL(plan.book_url).hash.slice(1)).get('paper'), 'letter')
   assert.equal(new URL(plan.guide_url).origin, 'https://openflight.design')
@@ -38,7 +37,7 @@ test('the classroom manifest matches the browser copy plan for the Starter 3 ink
 
 test('classroom print planning validates the dimensions and leaves PDF downloads separate', async () => {
   const options = { learners: 1, team_size: 4 } as const
-  assert.equal(classroomPlan(options).total_sheets, 9)
+  assert.equal(classroomPlan(options).total_sheets, 10)
   assert.throws(() => classroomPlan({ ...options, learners: 301 }), /class size/)
   await assert.rejects(renderFamilyBook({ pilot: 'Ada' }, 'manifest', 0, options), /only language and paper/)
   await assert.rejects(renderFamilyBook({}, 'pdf', 0, options), /manifest output/)

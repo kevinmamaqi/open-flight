@@ -106,17 +106,17 @@ for (const [lang, copy, title, region, photoAlt, name, family] of [
   for (const route of ['butterflies', 'airplanes', 'flying-objects'])
     rewrite = rewrite.on('[data-product="' + route + '"]', updateAttr('href', './' + publicPath(route, lang)))
   for (const [selector, href] of Object.entries({
-    '#hero-link': 'studio.html?lang=' + lang + '#design=butterfly-monarch&revision=w1',
-    '#specimen-name': 'studio.html?lang=' + lang + '#design=butterfly-monarch&revision=w1',
+    '#hero-link': publicPath('butterflies/monarch',lang),
+    '#specimen-name': publicPath('butterflies/monarch',lang),
     '#folded-butterfly': 'studio.html?construction=k1&species=monarch&lang=' + lang,
     '#book-link': 'book.html?lang=' + lang,
     '#book-sample': 'book.html?lang=' + lang + '&p=4',
     '#monarch-trial': 'book.html?lang=' + lang + '&p=4#m=monarch-k1,monarch-k2&paper=a4',
-    '#specimen-sheet': 'library/monarch-A4-' + lang + '.pdf',
+    '#specimen-sheet': 'library/monarch-k2-A4-' + lang + '.pdf',
     '#classroom-link': 'classroom.html?lang=' + lang,
     '#objects-link': 'flight-objects.html?lang=' + lang,
-    '#download': 'library/monarch-k1-A4-' + lang + '.pdf',
-    '[data-route=butterfly]': 'studio.html?lang=' + lang + '#design=butterfly-monarch&revision=w1',
+    '#download': 'library/monarch-k2-A4-' + lang + '.pdf',
+    '[data-route=butterfly]': 'costa.html?lang=' + lang,
     '[data-route=airplane]': 'planes.html?lang=' + lang,
     '#lesson-file': 'library/family-lesson-' + lang + '.html',
     '#references': 'references.html?lang=' + lang,

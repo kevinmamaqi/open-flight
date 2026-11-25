@@ -25,7 +25,11 @@ export function estimateBookBytes({ lang, paper, sheets, style, appearances = {}
   }
   if (activities.length) {
     const { activityBytes, activityOverlap } = measuredSizes[lang][paper]
-    for (const id of activities) bytes += activityBytes[id]
+    for (const id of activities) {
+      const color = appearances[id]
+      bytes += activityBytes[id] + (colored[id+'/'+color] ?? 0)
+      bytes += coverSizes[appearanceArtPath(id,style,color)] - coverSizes[appearanceArtPath(id,'studio',color)]
+    }
     bytes -= (activities.length - 1) * activityOverlap
   }
   return bytes

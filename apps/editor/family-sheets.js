@@ -1,3 +1,4 @@
+import { objects } from './assets/objects/activities.js'
 import { baselines } from './assets/atlas/baselines.js'
 import { planeCatalog, sheetSizes } from './assets/planes/catalog.js'
 
@@ -30,6 +31,8 @@ export const sheetCatalog = Object.freeze([
 export const sheetIds = Object.freeze(sheetCatalog.map(entry => entry.id))
 
 export function sheetName(id, lang) {
+  const object = objects.find(item => item.id === id)
+  if (object && sheetLocales.includes(lang)) return object[lang].title
   const item = sheetCatalog.find(entry => entry.id === id)
   if (!item || !sheetLocales.includes(lang)) throw new RangeError('Unknown sheet or language')
   return item.family === 'butterfly'
@@ -37,7 +40,7 @@ export function sheetName(id, lang) {
     : planeCatalog.find(plane => plane.model_id === item.model).inspiration[lang]
 }
 
-export function sheetIdFor(model, construction = 'k1') {
+export function sheetIdFor(model, construction = 'k2') {
   const item = sheetCatalog.find(entry => entry.model === model &&
     (entry.family === 'airplane' || entry.construction === construction))
   if (!item) throw new RangeError('Unknown model or construction')

@@ -1,6 +1,7 @@
-import { flightObjects } from "./assets/objects/activities.js?v=c3029913b67f";
-import { currentLocale, homeURL, localizedLinks } from "./atlas-nav.js?v=c3029913b67f";
-import { recordBookEvent } from "./book-metrics.js?v=c3029913b67f";
+import { coloredPacket, objectIds } from "./assets/objects/appearance.js?v=51d4970dfb40";
+import { flightObjects } from "./assets/objects/activities.js?v=51d4970dfb40";
+import { currentLocale, homeURL, localizedLinks } from "./atlas-nav.js?v=51d4970dfb40";
+import { recordBookEvent } from "./book-metrics.js?v=51d4970dfb40";
 import {
   bookFilename,
   bookPlan,
@@ -12,24 +13,24 @@ import {
   normalizeBook,
   pilotLimit,
   readBookURL,
-} from "./book-model.js?v=c3029913b67f";
+} from "./book-model.js?v=51d4970dfb40";
 import {
   loadBookServices,
   recoverBookCheckout,
   supportChoices,
-} from "./book-support.js?v=c3029913b67f";
-import { estimateBookBytes } from "./book-size.js?v=c3029913b67f";
-import { mountBookReader } from "./book-reader.js?v=c3029913b67f";
-import { applyStudioColors, studioForBookSheet } from "./model-studio.js?v=c3029913b67f";
-import { mountModelMap } from "./model-map.js?v=c3029913b67f";
-import { appearanceArtPath, appearanceChoices } from "./model-appearance.js?v=c3029913b67f";
-import { builderCopy } from "./book-ui-copy.js?v=c3029913b67f";
+} from "./book-support.js?v=51d4970dfb40";
+import { estimateBookBytes } from "./book-size.js?v=51d4970dfb40";
+import { mountBookReader } from "./book-reader.js?v=51d4970dfb40";
+import { applyStudioColors, studioForBookSheet } from "./model-studio.js?v=51d4970dfb40";
+import { mountModelMap } from "./model-map.js?v=51d4970dfb40";
+import { appearanceArtPath, appearanceChoices } from "./model-appearance.js?v=51d4970dfb40";
+import { builderCopy } from "./book-ui-copy.js?v=51d4970dfb40";
 import {
   sheetCatalog,
   sheetIdFor,
   sheetName,
   sheetPath,
-} from "./family-sheets.js?v=c3029913b67f";
+} from "./family-sheets.js?v=51d4970dfb40";
 
 const sheetVersion = new URL(import.meta.url).search;
 const byId = (id) => document.getElementById(id);
@@ -45,6 +46,7 @@ const cover = byId("book-cover");
 const draftKey = "open-flight-flight-book-1";
 const legacyKey = "open-flight-family-book-1";
 const entries = new Map(sheetCatalog.map((item) => [item.id, item]));
+for (const id of objectIds) entries.set(id, {id, model:id, family:"object", construction:"activity"});
 const locales = ["en", "es", "ru"];
 const previousTitles = [
   "Our family flight book",
@@ -78,7 +80,7 @@ const requestedActivity = new URL(location.href).searchParams.get("addActivity")
 if (requestedActivity && flightObjects().activities.some(item => item.id === requestedActivity)) {
   const previous = Array.isArray(draft.activities) ? draft.activities : [];
   draft.activities = [...new Set([...previous, requestedActivity])];
-  if (!draft.sheets?.length) delete draft.sheets;
+
 }
 const studioChanges = applyStudioColors(draft, location.href);
 const preferences = { ...draft, ...studioChanges };
@@ -96,7 +98,7 @@ let payment = supportChoices();
 let amount = 0;
 let state;
 try {
-  const empty = Array.isArray(preferences.sheets) && !preferences.sheets.length;
+  const empty = Array.isArray(preferences.sheets) && !preferences.sheets.length && !preferences.activities?.length;
   state = normalizeBook({
     ...defaults,
     ...preferences,
@@ -118,12 +120,12 @@ const firstButterfly = state.sheets.find(
 );
 const initialFold =
   entries.get(firstButterfly)?.construction ||
-  (["w1", "k2"].includes(preferences.construction)
+  (["w1", "k1", "k2"].includes(preferences.construction)
     ? preferences.construction
-    : "k1");
+    : "k2");
 const folds = new Map();
 const studioSheet = new URLSearchParams(location.hash.slice(1)).get("flyer");
-const studioEntry = studioChanges.sheets && entries.get(studioSheet);
+const studioEntry = (studioChanges.sheets || studioChanges.activities) && entries.get(studioSheet);
 if (studioEntry?.family === "butterfly")
   folds.set(studioEntry.model, studioEntry.construction);
 let activeModel =
@@ -155,7 +157,7 @@ function persist() {
 }
 
 function currentBook() {
-  return state.sheets.length ? normalizeBook(state) : null;
+  return state.sheets.length || state.activities?.length ? normalizeBook(state) : null;
 }
 
 function picture(image, id, style, small = false) {
@@ -180,10 +182,12 @@ function picture(image, id, style, small = false) {
 }
 
 function editionsFor(model) {
+  if (objectIds.includes(model)) return state.activities?.includes(model) ? [model] : [];
   return state.sheets.filter((id) => entries.get(id).model === model);
 }
 
 function selectedSheet(model) {
+  if (objectIds.includes(model)) return model;
   const editions = editionsFor(model);
   const preferred = sheetIdFor(model, folds.get(model) ?? initialFold);
   if (folds.has(model) && editions.includes(preferred)) return preferred;
@@ -243,11 +247,11 @@ function syncFlyer() {
   byId("flyer-name").textContent = name;
   const planeTools = state.edge === "cut" ? t.planeCutTools : t.planeTools;
   const butterflyTools = construction === "k2" ? t.costaTools : t.butterflyTools;
-  byId("flyer-tools").textContent = family === "butterfly" ? butterflyTools : planeTools;
+  byId("flyer-tools").textContent = family === "object" ? flightObjects(state.lang).activities.find(item=>item.id===id).materials : family === "butterfly" ? butterflyTools : planeTools;
   picture(byId("flyer-image"), id, "studio");
   byId("flyer-studio").href = studioForBookSheet(state, id);
   if (family === "butterfly") {
-    picture(byId("spine-example"), sheetIdFor(activeModel), "studio", true);
+    picture(byId("spine-example"), sheetIdFor(activeModel, "k1"), "studio", true);
     picture(byId("costa-example"), sheetIdFor(activeModel, "k2"), "studio", true);
   }
   byId("construction").hidden = family !== "butterfly";
@@ -297,7 +301,8 @@ function syncFlyer() {
       "aria-pressed",
       String(button.dataset.appearance === activeChoice),
     );
-  activeMap?.select(activeModel);
+  byId("model-map").closest("details").hidden = family === "object";
+  if (family !== "object") activeMap?.select(activeModel);
 }
 
 function selectFlyer(model) {
@@ -309,7 +314,7 @@ function selectFlyer(model) {
 function renderOrder() {
   const t = copy();
   order.replaceChildren(
-    ...state.sheets.map((id, index) => {
+    ...[state.sheets, state.activities ?? []].flatMap(group => group.map((id, index) => {
       const item = document.createElement("li");
       const row = document.createElement("div");
       row.className = "order-item";
@@ -326,7 +331,7 @@ function renderOrder() {
         button.type = "button";
         button.dataset.delta = delta;
         button.textContent = arrow;
-        button.disabled = !state.sheets[index + delta];
+        button.disabled = !group[index + delta];
         button.setAttribute("aria-label", `${label} · ${name.textContent}`);
         row.append(button);
       }
@@ -338,7 +343,7 @@ function renderOrder() {
       row.append(remove);
       item.append(row);
       return item;
-    }),
+    })),
   );
 }
 
@@ -394,7 +399,7 @@ function previewOptions(book) {
     const lab = flightObjects(book.lang);
     for (const { id, number } of plan.activityPages) {
       const activity = lab.activities.find(item => item.id === id);
-      items.push({ number, label: activity.title, source: "./" + lab.packets[book.paper] + sheetVersion + "#page=" + activity.page });
+      items.push({ number, label: activity.title, source: "./" + coloredPacket(lab.packets[book.paper], book.appearances[id]) + sheetVersion + "#page=" + activity.page });
     }
   }
   return items;
@@ -423,7 +428,7 @@ function refresh({ lazy = false } = {}) {
   persist();
   const url = new URL(location.href);
   url.searchParams.delete("addActivity");
-  if (studioChanges.sheets && url.hash.includes("flyer=")) {
+  if ((studioChanges.sheets || studioChanges.activities) && url.hash.includes("flyer=")) {
     url.hash = "";
   } else if (fullShare && book) {
     url.hash = new URL(bookURL(state, url)).hash;
@@ -492,24 +497,13 @@ function renderLocale() {
   byId("classroom").href = `./classroom.html?lang=${state.lang}`;
   for (const item of document.querySelectorAll("[data-book]"))
     item.textContent = t[item.dataset.book];
-  const lab = flightObjects(state.lang);
-  byId("activity-choices").replaceChildren(...lab.activities.map(activity => {
-    const label = document.createElement("label");
-    const input = document.createElement("input");
-    input.type = "checkbox";
-    input.name = "activity";
-    input.value = activity.id;
-    input.checked = state.activities?.includes(activity.id) ?? false;
-    label.append(input, document.createTextNode(activity.title));
-    return label;
-  }));
   setWideReading(document.querySelector(".workbench").dataset.wide === "true");
   byId("customize").setAttribute("aria-label", t.customize);
   titleInput.placeholder = t.title;
   updateLabelHints();
   activeMap?.();
   activeMap = mountModelMap(byId("model-map"), {
-    model: activeModel,
+    model: objectIds.includes(activeModel) ? "monarch" : activeModel,
     lang: state.lang,
     onSelect: selectFlyer,
   });
@@ -522,7 +516,7 @@ function renderLocale() {
 
 function applySheets(sheets, coverModel = state.coverModel) {
   state.sheets = sheets;
-  state.coverModel = sheets.includes(coverModel) ? coverModel : undefined;
+  state.coverModel = sheets.includes(coverModel) || state.activities?.includes(coverModel) ? coverModel : sheets[0] ?? state.activities?.[0];
   syncFlyer();
   renderOrder();
   refresh();
@@ -595,6 +589,11 @@ byId("swatches").addEventListener("click", ({ target }) => {
 });
 byId("include-model").addEventListener("click", () => {
   const editions = editionsFor(activeModel);
+  if (objectIds.includes(activeModel)) {
+    state.activities = editions.length ? state.activities.filter(id=>id!==activeModel) : [...(state.activities ?? []), activeModel];
+    applySheets(state.sheets);
+    return;
+  }
   if (editions.length) {
     folds.set(
       activeModel,
@@ -622,11 +621,6 @@ byId("cover-model").addEventListener("click", () => {
 });
 document.addEventListener("change", ({ target }) => {
   const { name, value } = target;
-  if (name === "activity") {
-    state.activities = Array.from(byId("activity-choices").querySelectorAll("input:checked"), input => input.value);
-    refresh();
-    return;
-  }
   if (name === "construction") {
     const replacement = sheetIdFor(activeModel, value);
     const editions = editionsFor(activeModel);
@@ -682,12 +676,16 @@ function bindLabel(input, name, limit) {
 bindLabel(pilotInput, "pilot", pilotLimit);
 bindLabel(titleInput, "cover", coverLimit);
 
+function groupFor(id) {
+  return objectIds.includes(id) ? state.activities ?? [] : state.sheets;
+}
 function moveSheet(id, to) {
-  if (!state.sheets[to]) return;
-  const from = state.sheets.indexOf(id);
+  const group = groupFor(id);
+  if (!group[to]) return;
+  const from = group.indexOf(id);
   if (from < 0 || to === from) return;
-  state.sheets.splice(from, 1);
-  state.sheets.splice(to, 0, id);
+  group.splice(from, 1);
+  group.splice(to, 0, id);
   manualOrder = true;
   renderOrder();
   refresh();
@@ -696,7 +694,8 @@ function moveSheet(id, to) {
 order.addEventListener("click", ({ target }) => {
   const { delta, remove } = target.dataset;
   if (remove) {
-    const index = state.sheets.indexOf(remove);
+    const index = [...order.children].indexOf(target.closest("li"));
+    if (objectIds.includes(remove)) state.activities = state.activities.filter(id=>id!==remove);
     applySheets(state.sheets.filter((id) => id !== remove));
     const row = order.children[Math.min(index, order.children.length - 1)];
     (row?.querySelector("[data-remove]") || byId("order-summary")).focus();
@@ -704,9 +703,9 @@ order.addEventListener("click", ({ target }) => {
   }
   if (!delta) return;
   const { id } = target.closest("li").dataset;
-  const to = state.sheets.indexOf(id) + Number(delta);
+  const to = groupFor(id).indexOf(id) + Number(delta);
   moveSheet(id, to);
-  const row = order.children[to];
+  const row = order.querySelector('li[data-id="'+id+'"]');
   (
     row.querySelector(`[data-delta="${delta}"]:enabled`) ||
     row.querySelector("button:enabled")
@@ -729,7 +728,7 @@ order.addEventListener("drop", (event) => {
   if (!dragId) return;
   event.preventDefault();
   const target = event.target.closest("li")?.dataset.id;
-  moveSheet(dragId, state.sheets.indexOf(target));
+  moveSheet(dragId, groupFor(dragId).indexOf(target));
   dragId = undefined;
   order.querySelector(".drop-target")?.classList.remove("drop-target");
 });
@@ -764,8 +763,8 @@ function readyPDF(book) {
   const key = JSON.stringify(book);
   if (activePDF?.key === key) return activePDF.promise;
   const promise = Promise.all([
-    import("./book-engine.js?v=c3029913b67f"),
-    import("./assets/planes/vendor/jspdf.js?v=c3029913b67f"),
+    import("./book-engine.js?v=51d4970dfb40"),
+    import("./assets/planes/vendor/jspdf.js?v=51d4970dfb40"),
   ]).then(async ([{ createBook }]) => {
     const data = await createBook(book, { loadAsset });
     return new File([data], bookFilename(book), { type: "application/pdf" });

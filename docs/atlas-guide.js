@@ -1,7 +1,9 @@
-import { objects } from './assets/objects/activities.js?v=c3029913b67f'
-import { flightPhysics } from './atlas-physics.js?v=c3029913b67f'
-import { baselines } from './assets/atlas/baselines.js?v=c3029913b67f'
-import { planeCatalog } from './assets/planes/catalog.js?v=c3029913b67f'
+import { k2Facts } from './assets/atlas/k2-facts.js?v=51d4970dfb40'
+import { appearanceArtPath } from './model-appearance.js?v=51d4970dfb40'
+import { objects } from './assets/objects/activities.js?v=51d4970dfb40'
+import { flightPhysics } from './atlas-physics.js?v=51d4970dfb40'
+import { baselines } from './assets/atlas/baselines.js?v=51d4970dfb40'
+import { planeCatalog } from './assets/planes/catalog.js?v=51d4970dfb40'
 
 export const languages = ['en', 'es', 'ru']
 export const words = (en, es, ru) => ({ en, es, ru })
@@ -27,22 +29,23 @@ const copy = {
   butterfly: w('Cut and fold', 'Recortar y plegar', 'Вырезать и сложить'),
   plane: w('Fold a whole sheet', 'Plegar una hoja entera', 'Сложить целый лист'),
   butterflyTools: w(
-    'Printed sheet, scissors, ruler and a small blunt paper clip',
-    'Plantilla impresa, tijeras, regla y un clip pequeño de punta redondeada',
-    'Печатный шаблон, ножницы, линейка и маленькая скрепка с закруглённым концом',
+    '120 g/m² paper, scissors, ruler and two 33 mm clips',
+    'Papel de 120 g/m², tijeras, regla y dos clips de 33 mm',
+    'Бумага 120 г/м², ножницы, линейка и две скрепки по 33 мм',
   ),
   planeTools: w(
     'One rectangular sheet and a ruler. You can start with plain paper.',
     'Una hoja rectangular y una regla. Puedes usar papel sin imprimir.',
     'Прямоугольный лист и линейка. Подойдёт обычная бумага без рисунка.',
   ),
-  span: w('Cut wingspan', 'Envergadura del recorte', 'Размах вырезанных крыльев'),
+  span: w('Wingspan', 'Envergadura', 'Размах крыльев'),
   rootAngle: w(
     'Wing lift at the body',
     'Ángulo del ala con la horizontal',
     'Подъём крыла над горизонталью',
   ),
   tab: w('Rear tab depth', 'Profundidad de la aleta de cola', 'Глубина заднего язычка'),
+  tip: w('Wingtip height','Altura de las puntas','Высота кончиков'),
   clip: w(
     'Nose to rear of clip',
     'Del morro al extremo trasero del clip',
@@ -81,14 +84,13 @@ export function fieldModel(id, locale = 'en') {
       materials: t(copy.butterflyTools),
       shape: t(shapes[id]) + ' ' + flightPhysics(id, locale),
       experiment: t(copy.wingTrial),
-      image: './assets/atlas/' + id + '.svg',
+      image: './' + appearanceArtPath(id+'-k2'),
       settings: metrics([
-        ['span', b.span, 'mm'],
+        ['span', k2Facts[id].span, 'mm'],
         ['rootAngle', b.rootAngle, '°'],
-        ['tab', b.tab, 'mm'],
-        ['clip', b.clip, 'mm'],
+        ['tip', k2Facts[id].tip, 'mm'],
       ]),
-      studio: studioLink(id, locale),
+      studio: './costa.html?' + new URLSearchParams({species:id,lang:locale}),
     }
   }
   const activity = objects.find(item => item.id === id)
@@ -96,7 +98,7 @@ export function fieldModel(id, locale = 'en') {
     const words = activity[locale]
     return {
       id, name: words.title, inspiration: activity.source.label, family: 'object',
-      technique: t(w('Experimental design', 'Diseño experimental', 'Экспериментальная модель')) + ' · ' + words.verb, materials: words.materials, shape: words.physics, experiment: words.test,
+      technique: words.verb, materials: words.materials, shape: words.physics, experiment: words.test,
       image: './' + activity.illustration, settings: [],
       studio: './flight-objects.html?' + new URLSearchParams({ model: id, lang: locale }),
     }

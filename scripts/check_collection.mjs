@@ -60,8 +60,7 @@ try {
       const a = page.locator('[data-object="' + item.id + '"]')
       assert.equal(await a.textContent(), item.title)
       const link = new URL(await a.getAttribute('href'), base)
-      assert.equal(link.searchParams.get('model'), item.id)
-      assert.equal(link.searchParams.get('lang'), lang)
+      assert.equal(link.pathname, (lang==='en'?'':'/'+lang)+'/flying-objects/'+item.id+'/')
       await page.selectOption('#download-model', item.id)
       assert.equal(await page.locator('#construction-field').isVisible(), false)
       for (const paper of ['A4', 'US_LETTER']) {
@@ -75,12 +74,14 @@ try {
       }
     }
     await page.locator('[data-object="samara"]').click()
-    await page.selectOption('#paper-size', 'US_LETTER')
-    await page.click('#activity-book')
-    assert.equal(await page.locator('[name="activity"][value="samara"]').isChecked(), true)
-    await page.locator('[name="activity"][value="tandem"]').check()
+    await page.selectOption('.model-workbench .size', 'US_LETTER')
+    await page.click('.model-book')
+    await page.locator('#flyer-studio').waitFor()
+    assert.ok(await page.locator('#order li[data-id="samara"]').count())
+    await page.locator('[data-edit="tandem"]').click()
+    if (!(await page.locator('#order li[data-id="tandem"]').count())) await page.locator('#include-model').click()
     await page.reload()
-    assert.equal(await page.locator('[name="activity"][value="tandem"]').isChecked(), true)
+    assert.ok(await page.locator('#order li[data-id="tandem"]').count())
     const event = page.waitForEvent('download')
     await page.click('#download-book')
     const download = await event

@@ -1,5 +1,7 @@
 # Open Flight · Taller de vuelo en papel
 
+Los diez modelos tienen selector de colores, vista 3D giratoria, ilustración del vuelo y plantilla para imprimir. Los libros nuevos incluyen las mariposas K2 de cabeza alargada. El anillo, la semilla o el tándem pueden aparecer en la portada. [Explora los modelos](https://openflight.design/es/designs/)
+
 Elige un planeador de papel, cambia un doblez y observa dónde aterriza. El taller es gratuito y funciona en el navegador. Está pensado para niñas y niños de 5 a 12 años, sus familias y sus docentes. Puedes guardar tus diseños en el dispositivo y descargar hojas para imprimir y guías ilustradas. [Abrir el taller en español](https://openflight.design/es) · [English](README.md) · [По-русски](README.ru.md)
 
 Si guardaste un diseño o un borrador del libro antes del cambio a openflight.design, puedes recuperarlo en el taller anterior desde el mismo navegador. También encontrarás el enlace al pie del taller. [Abrir el taller anterior](https://kevinmamaqi.github.io/open-flight/es.html?previous=1)

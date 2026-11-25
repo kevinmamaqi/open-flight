@@ -19,7 +19,7 @@ export const builderCopy = {
       "Bend the small tabs at the back of the wings up or down to adjust the glide.",
     costa: "Costa glider",
     costaHint:
-      "Experimental: a stiff folded front edge, a longer head for two clips and a balance check. Use 120 g/m² paper.",
+      "A stiff folded front edge, a longer head for two clips and a balance check. Use 120 g/m² paper.",
     mixed:
       "This book mixes butterfly folds. Open print order to remove an individual sheet.",
     orderHint: "Drag a sheet or move it with the arrow buttons.",
@@ -133,7 +133,7 @@ export const builderCopy = {
       "Dobla un poco hacia arriba o hacia abajo las pestañas traseras de las alas para ajustar el planeo.",
     costa: "Planeador con costa",
     costaHint:
-      "Experimental: borde delantero doblado y rígido, cabeza más larga para dos clips y prueba de equilibrio. Usa papel de 120 g/m².",
+      "Borde delantero doblado y rígido, cabeza más larga para dos clips y prueba de equilibrio. Usa papel de 120 g/m².",
     mixed:
       "El libro mezcla tipos de pliegue. Abre el orden de impresión para quitar una hoja.",
     orderHint: "Arrastra una hoja o muévela con los botones de flecha.",
@@ -247,7 +247,7 @@ export const builderCopy = {
       "Чуть подними или опусти маленькие язычки на заднем крае крыльев, чтобы изменить планирование.",
     costa: "Планер с жилкой",
     costaHint:
-      "Опытная модель: жёсткий подогнутый передний край, длинная голова для двух скрепок и проверка баланса. Нужна бумага 120 г/м².",
+      "Жёсткий подогнутый передний край, длинная голова для двух скрепок и проверка баланса. Нужна бумага 120 г/м².",
     mixed:
       "В книге разные виды сгибов. Открой порядок печати, чтобы убрать отдельный лист.",
     orderHint: "Перетащи лист или перемести его кнопками со стрелками.",

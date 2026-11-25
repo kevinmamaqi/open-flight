@@ -5,12 +5,14 @@ import {createBook} from '../packages/print-export/family-book.js'
 import {sheetLocales, sheetCatalog} from '../apps/editor/family-sheets.js'
 import {appearanceArtPath, appearanceArtStyles, appearanceChoices} from '../apps/editor/model-appearance.js'
 
+import { objectIds } from '../apps/editor/assets/objects/appearance.js'
+
 // The workshop previews the cover and flight log from the actual printable book.
 const editor = new URL('../apps/editor/', import.meta.url)
 await mkdir(new URL('assets/book/thumbs/',editor),{recursive:true})
 const thumbnail = createCanvas(192,120)
 const artwork = new Set()
-for (const {id,model} of sheetCatalog) {
+for (const {id,model} of [...sheetCatalog, ...objectIds.map(id => ({ id, model:id }))]) {
   for (const choice of appearanceChoices(model)) {
     for (const style of appearanceArtStyles) artwork.add(appearanceArtPath(id,style,choice.id))
   }
@@ -23,8 +25,10 @@ for (const path of paths) {
   const destination = new URL(path.replace('/models/','/thumbs/'),editor)
   await writeFile(destination,thumbnail.toBuffer('image/jpeg',82))
 }
+await mkdir(new URL('assets/book/samples/',editor),{recursive:true})
 for (const lang of sheetLocales) {
   const bytes = await createBook({lang, paper:'A4'}, {loadAsset:path=>readFile(new URL(path,editor))})
+  await writeFile(new URL('assets/book/samples/flight-book-A4-'+lang+'.pdf',editor),bytes)
   const pdf = await getDocument({data:new Uint8Array(bytes), useSystemFonts:false, isEvalSupported:false}).promise
   try {
     for (const [number, label] of [[1, 'cover'], [4, 'log']]) {

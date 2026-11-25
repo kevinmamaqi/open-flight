@@ -1,6 +1,6 @@
-import { objects } from './assets/objects/activities.js?v=c3029913b67f'
-import { bookPlan, bookURL, normalizeBook, starterModels } from './book-model.js?v=c3029913b67f'
-import { sheetIdFor } from './family-sheets.js?v=c3029913b67f'
+import { objects } from './assets/objects/activities.js?v=51d4970dfb40'
+import { bookPlan, bookURL, normalizeBook, starterModels } from './book-model.js?v=51d4970dfb40'
+import { sheetIdFor } from './family-sheets.js?v=51d4970dfb40'
 
 const sheets = starterModels.map(model => sheetIdFor(model))
 
@@ -23,7 +23,7 @@ export function classroomPlan({ lang, paper, learners, team_size, include_activi
       pages: pages.map(({ number }) => number).filter(number => number !== guidePage),
       copies: teams,
     })),
-    { kind: 'shared_guide', pages: [guidePage], copies: teams },
+    ...(guidePage ? [{ kind: 'shared_guide', pages: [guidePage], copies: teams }] : []),
     { kind: 'flight_log', pages: [4], copies: teams },
     ...activityPages.map(({ id, number }) => ({ kind: 'activity', activity_id: id, pages: [number], copies: teams })),
   ]

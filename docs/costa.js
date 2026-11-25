@@ -1,15 +1,15 @@
 // K2 costa glider worktable: choose a species, span, colors and paper, read the balance
 // estimate and download the three-page sheet. Everything is drawn in the browser.
-import { currentLocale, localizedLinks } from './atlas-nav.js?v=c3029913b67f'
-import * as api from './browser-workshop.js?v=c3029913b67f'
-import { sheetName } from './family-sheets.js?v=c3029913b67f'
-import { appearanceChoices } from './model-appearance.js?v=c3029913b67f'
-import { bookFromStudio } from './model-studio.js?v=c3029913b67f'
+import { currentLocale, localizedLinks } from './atlas-nav.js?v=51d4970dfb40'
+import * as api from './browser-workshop.js?v=51d4970dfb40'
+import { sheetName } from './family-sheets.js?v=51d4970dfb40'
+import { appearanceChoices } from './model-appearance.js?v=51d4970dfb40'
+import { bookFromStudio } from './model-studio.js?v=51d4970dfb40'
 
 const languages = ['en', 'es', 'ru']
 const copy = {
   skip: ['Skip to the butterfly', 'Ir a la mariposa', 'К бабочке'],
-  eyebrow: ['Experimental butterfly · K2', 'Mariposa experimental · K2', 'Опытная бабочка · K2'],
+  eyebrow: ['Folded butterfly · K2', 'Mariposa plegada · K2', 'Складная бабочка · K2'],
   title: ['Costa butterfly glider', 'Mariposa planeadora con costa', 'Бабочка-планер с жилкой'],
   intro: [
     'Swept-back forewings, a stiff folded front edge and a longer head for two paper clips. It balances before it flies.',
@@ -37,9 +37,9 @@ const copy = {
   aboveBody: ['mm above the body', 'mm sobre el cuerpo', 'мм над корпусом'],
   speedFact: ['Glide speed', 'Velocidad de planeo', 'Скорость планирования'],
   estimate: [
-    'Estimates from a first-order model. Nobody has flown this paper model yet.',
-    'Estimaciones de un modelo simplificado. Nadie ha volado todavía este modelo de papel.',
-    'Оценки по упрощённой модели. Эту бумажную модель ещё никто не запускал.',
+    'Calculated for 120 g/m² paper and two clips. Measure your own balance point before launch.',
+    'Cálculos para papel de 120 g/m² y dos clips. Mide el punto de equilibrio antes del lanzamiento.',
+    'Расчёт для бумаги 120 г/м² и двух скрепок. Перед запуском найди точку равновесия.',
   ],
   sheetTitle: ['Printed sheet', 'Hoja impresa', 'Лист для печати'],
   sheetHelp: [

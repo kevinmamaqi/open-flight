@@ -1,8 +1,8 @@
-import { flightObjects } from './assets/objects/activities.js?v=c3029913b67f'
-import { currentLocale, localizedLinks } from './atlas-nav.js?v=c3029913b67f'
-import { bookFilename, localePaper } from './book-model.js?v=c3029913b67f'
-import { classroomPlan } from './classroom-plan.js?v=c3029913b67f'
-import { sheetName } from './family-sheets.js?v=c3029913b67f'
+import { flightObjects } from './assets/objects/activities.js?v=51d4970dfb40'
+import { currentLocale, localizedLinks } from './atlas-nav.js?v=51d4970dfb40'
+import { bookFilename, localePaper } from './book-model.js?v=51d4970dfb40'
+import { classroomPlan } from './classroom-plan.js?v=51d4970dfb40'
+import { sheetName } from './family-sheets.js?v=51d4970dfb40'
 
 const translations = {
   en: {
@@ -48,7 +48,7 @@ const translations = {
     copies: 'Copias',
     planNote: 'El cálculo corresponde al PDF 3 para empezar. Imprime por separado una copia de esta guía para quien dirija la actividad.',
     lesson: 'Haz una prueba justa',
-    supplies: 'Usa papel de impresora, dos clips pequeños de punta redondeada y unas tijeras por equipo. Comparte cinta y una regla. El avión se dobla con una hoja entera.',
+    supplies: 'Para cada mariposa K2 usa papel de 120 g/m² y dos clips de 33 mm. Comparte tijeras, una regla y un bolígrafo sin tinta para marcar los pliegues. Cada avión usa una hoja.',
     build: 'Construye un modelo con tu equipo. Pide ayuda a una persona adulta con los recortes difíciles y los clips. Quienes tienen menos experiencia pueden señalar un doblez o indicar con el dedo dónde creen que aterrizará.',
     test: 'Marca una línea de lanzamiento y un objetivo en un espacio despejado. Por turnos, lanza, marca el primer punto de contacto o apunta el resultado. Conserva el mismo modelo y la misma persona lanzadora en las dos series.',
     reflect: 'Haz cinco lanzamientos con el modelo horizontal. Cambia solo el ángulo en los cinco siguientes, con la punta un poco hacia abajo. Mantén la altura y un impulso parecido. Apunta también los intentos que fallen. ¿Quedaron las marcas más cerca del objetivo?',
@@ -96,7 +96,7 @@ const translations = {
     copies: 'Копии',
     planNote: 'Расчёт относится к PDF «3 для начала». Распечатайте эту памятку отдельно в одном экземпляре для ведущего.',
     lesson: 'Сравните два запуска',
-    supplies: 'На команду нужны обычная бумага, две небольшие скруглённые скрепки и ножницы. Линейку и клейкую ленту можно взять общие. Для самолёта нужен целый лист бумаги.',
+    supplies: 'Для каждой бабочки K2 нужны бумага 120 г/м² и две скрепки по 33 мм. Ножницы, линейку и пустую шариковую ручку для сгибов можно взять общие. Для самолёта нужен один лист.',
     build: 'Соберите одну модель в команде. Взрослый поможет с мелкими вырезами и скрепками. Младшие могут показать пальцем линию сгиба или место, куда, по их мнению, сядет модель.',
     test: 'Отметьте линию старта и цель на свободной площадке. По очереди запускайте модель, отмечайте место её первого касания и записывайте результат. В обеих сериях используйте одну модель и попросите запускать её одного и того же участника.',
     reflect: 'Сделайте пять горизонтальных запусков. В следующих пяти поменяйте только угол: чуть опустите нос. Сохраняйте высоту и силу толчка. Запишите и промахи. Стали ли отметки ближе к цели?',

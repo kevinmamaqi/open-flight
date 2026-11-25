@@ -19,7 +19,7 @@ import { preparePrintAssets } from "atlas:files";
 
 export { foldedSpanSpec, foldedSpecies, isFoldedSpan, foldedLessonSvg, makeFoldedButterfly, foldedSvg, foldedGuideSvg, foldedPdf, foldedPreview, foldedFinishedPreview, foldedSource } from "../../packages/folded-butterfly/index.ts";
 export { classicComparisonPdf } from "../../packages/product-core/folded-butterflies.ts";
-export { makeK2, k2Pdf, k2FinishedSvg, k2PageSvg, k2SpanRange, predict as k2Predict } from "../../packages/folded-butterfly/k2-sheet.ts";
+export { makeK2, k2Flat, k2Preview, k2Pdf, k2FinishedSvg, k2PageSvg, k2SpanRange, predict as k2Predict } from "../../packages/folded-butterfly/k2-sheet.ts";
 export const prepareFoldedPdf = () => preparePrintAssets(null, ["pdf"]);
 
 const seeds = new Map(

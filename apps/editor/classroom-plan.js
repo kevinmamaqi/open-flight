@@ -23,7 +23,7 @@ export function classroomPlan({ lang, paper, learners, team_size, include_activi
       pages: pages.map(({ number }) => number).filter(number => number !== guidePage),
       copies: teams,
     })),
-    { kind: 'shared_guide', pages: [guidePage], copies: teams },
+    ...(guidePage ? [{ kind: 'shared_guide', pages: [guidePage], copies: teams }] : []),
     { kind: 'flight_log', pages: [4], copies: teams },
     ...activityPages.map(({ id, number }) => ({ kind: 'activity', activity_id: id, pages: [number], copies: teams })),
   ]

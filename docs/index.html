@@ -36,10 +36,10 @@
     <link rel="apple-touch-icon" href="./assets/brand/apple-touch-icon.png" />
     <link rel="manifest" href="./site.webmanifest" />
     <link rel="preload" href="./assets/fonts/OpenFlightText-Regular.woff2" as="font" type="font/woff2" crossorigin />
-    <link rel="stylesheet" href="./tokens.css?v=c3029913b67f" />
-    <link rel="stylesheet" href="./system.css?v=c3029913b67f" />
-    <link rel="stylesheet" href="./home.css?v=c3029913b67f" />
-    <script type="module" src="./atlas.js?v=c3029913b67f"></script>
+    <link rel="stylesheet" href="./tokens.css?v=51d4970dfb40" />
+    <link rel="stylesheet" href="./system.css?v=51d4970dfb40" />
+    <link rel="stylesheet" href="./home.css?v=51d4970dfb40" />
+    <script type="module" src="./atlas.js?v=51d4970dfb40"></script>
   </head>
   <body>
     <a class="skip-link" href="#designs" data-t="skip">Skip to the designs</a>
@@ -63,7 +63,7 @@
             <em data-t="headline2">Change its flight.</em>
           </h1>
           <p class="lede" data-t="intro">
-            Free for kids aged 5–12 and their grown-ups. Start with a plain sheet for an airplane or ring glider. Add scissors and a paper clip for a butterfly or maple spinner. No account needed.
+            Free for kids aged 5–12 and their grown-ups. Start with a plain sheet for an airplane or ring glider. For a butterfly, add scissors and two paper clips. The maple spinner uses one clip. No account needed.
           </p>
           <a href="#designs" class="button primary" data-t="choose">Choose a design</a>
         </div>
@@ -75,10 +75,10 @@
           <a
             id="hero-link"
             class="specimen-art"
-            href="./studio.html?lang=en#design=butterfly-monarch&amp;revision=w1"
+            href="./butterflies/monarch/"
             ><img
               id="specimen"
-              src="./assets/viewer/monarch-natural.webp"
+              src="./assets/book/models/monarch-k2-studio.jpg"
               width="440"
               height="245"
               alt="Open the Monarch butterfly glider"
@@ -87,10 +87,10 @@
           <div class="board-footer">
             <div>
               <small id="specimen-family">Butterfly glider</small
-              ><a id="specimen-name" href="./studio.html?lang=en#design=butterfly-monarch&amp;revision=w1"
+              ><a id="specimen-name" href="./butterflies/monarch/"
                 >Monarch <span aria-hidden="true">↗</span></a
               ><i id="specimen-detail">Danaus plexippus</i>
-              <a class="sheet-preview" id="specimen-sheet" href="./library/monarch-A4-en.pdf" data-t="sampleSheet">See the pattern (A4 PDF)</a>
+              <a class="sheet-preview" id="specimen-sheet" href="./library/monarch-k2-A4-en.pdf" data-t="sampleSheet">See the pattern (A4 PDF)</a>
             </div>
             <div class="turn">
               <button id="back" type="button" aria-label="Previous design">←</button
@@ -116,17 +116,17 @@
                   <a data-product="butterflies" data-t="butterflies" href="./butterflies/">Butterflies</a>
                 </h3>
                 <p data-t="butterDesc">
-                  Pick a real butterfly, color its wings, and follow its picture guide. In the same studio you can choose adjustable rear tabs or a folded body you can pinch at launch.
+                  Choose a butterfly, color its wings and fold the leading edges underneath. Slide two clips onto the long head, then match the wingtip heights.
                 </p>
               </div>
-              <img src="./assets/viewer/morpho-natural.webp" alt="" width="180" height="114" loading="lazy" />
+              <img src="./assets/book/models/morpho-k2-studio.jpg" alt="" width="180" height="114" loading="lazy" />
             </div>
             <div class="family-links" id="butter-links"></div>
-            <a class="family-cta" href="./studio.html" data-route="butterfly"
+            <a class="family-cta" href="./costa.html" data-route="butterfly"
               ><span data-t="openButter">Open the butterfly studio</span>
               <span aria-hidden="true">↗</span></a
             >
-            <a class="classic-family" id="folded-butterfly" href="./studio.html?construction=k1&amp;species=monarch&amp;lang=en" data-t="foldedShortcut">Try the folded body ↗</a>
+            <a class="classic-family" id="folded-butterfly" href="./studio.html?construction=k1&amp;species=monarch&amp;lang=en" data-t="foldedShortcut">Build the earlier K1 fold ↗</a>
           </article>
           <article class="family airplanes">
             <div class="family-main">
@@ -150,7 +150,7 @@
           <article class="family objects" id="flying-objects">
             <div class="family-main">
               <div class="family-text">
-                <p class="eyebrow" data-t="objectTag">Experimental designs</p>
+                <p class="eyebrow" data-t="objectTag">Glide and spin</p>
                 <h3><a data-product="flying-objects" href="./flying-objects/" data-t="objectFamily">Flying objects</a></h3>
                 <p data-t="objectDesc">Roll a sheet into a ring, drop a paper maple seed, or fold a glider with two pairs of wings. Which one spins on the way down?</p>
               </div>
@@ -248,7 +248,7 @@
             <div class="download-fields">
               <label
                 ><span data-t="designLabel">Design</span
-                ><select id="download-model"></select></label><label id="construction-field"><span data-t="bodyStyle">Butterfly build</span><select id="construction"><option value="k1" data-t="keelBuild">Folded body · K1</option><option value="w1" data-t="flatBuild">Adjustable tabs · W1</option><option value="k2" data-t="costaBuild">Experimental costa fold · K2</option></select></label
+                ><select id="download-model"></select></label><label id="construction-field"><span data-t="bodyStyle">Butterfly build</span><select id="construction"><option value="k2" data-t="costaBuild">Folded leading edge · K2</option><option value="k1" data-t="keelBuild">Folded body · K1</option><option value="w1" data-t="flatBuild">Adjustable tabs · W1</option></select></label
               ><label
                 ><span data-t="paperLabel">Paper</span
                 ><select id="download-paper">
@@ -259,11 +259,11 @@
             </div>
             <div class="sheet-details" aria-live="polite" aria-atomic="true">
               <strong id="sheet-contents" data-t="defaultContents">3 pages · Pattern, reverse side and fold guide</strong>
-              <p id="sheet-note" data-t="k1Note">In two early K1 builds the wings flexed and the butterflies glided poorly. Try yours with a paper clip and mark where it lands.</p>
+              <p id="sheet-note" data-t="k2Note">Use 120 g/m² paper and two 33 mm clips.</p>
             </div>
             <a class="text-link" id="monarch-trial" href="./book.html?lang=en&amp;p=4#m=monarch-k1,monarch-k2&amp;paper=a4" data-t="monarchTrial">Compare the K1 and K2 Monarchs in one Flight Book</a>
             <p class="print-reminder" data-print-reminder></p>
-            <a id="download" class="button primary" download href="./library/monarch-k1-A4-en.pdf"
+            <a id="download" class="button primary" download href="./library/monarch-k2-A4-en.pdf"
               ><span data-t="download">Download PDF</span><b aria-hidden="true">↓</b></a
             >
             <a
