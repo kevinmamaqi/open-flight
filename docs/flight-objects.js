@@ -1,6 +1,6 @@
-import { currentLocale, homeURL, localizedLinks } from './atlas-nav.js?v=5ef7606d1b32'
-import { flightObjects } from './assets/objects/activities.js?v=5ef7606d1b32'
-import { objectCopy } from './flight-objects-copy.js?v=5ef7606d1b32'
+import { currentLocale, homeURL, localizedLinks } from './atlas-nav.js?v=b1a9665ab855'
+import { flightObjects } from './assets/objects/activities.js?v=b1a9665ab855'
+import { objectCopy } from './flight-objects-copy.js?v=b1a9665ab855'
 
 const $ = id => document.getElementById(id)
 const lang = currentLocale()

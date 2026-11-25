@@ -1,10 +1,10 @@
 // K2 costa glider worktable: choose a species, span, colors and paper, read the balance
 // estimate and download the three-page sheet. Everything is drawn in the browser.
-import { currentLocale, localizedLinks } from './atlas-nav.js?v=5ef7606d1b32'
-import * as api from './browser-workshop.js?v=5ef7606d1b32'
-import { sheetName } from './family-sheets.js?v=5ef7606d1b32'
-import { appearanceChoices } from './model-appearance.js?v=5ef7606d1b32'
-import { bookFromStudio } from './model-studio.js?v=5ef7606d1b32'
+import { currentLocale, localizedLinks } from './atlas-nav.js?v=b1a9665ab855'
+import * as api from './browser-workshop.js?v=b1a9665ab855'
+import { sheetName } from './family-sheets.js?v=b1a9665ab855'
+import { appearanceChoices } from './model-appearance.js?v=b1a9665ab855'
+import { bookFromStudio } from './model-studio.js?v=b1a9665ab855'
 
 const languages = ['en', 'es', 'ru']
 const copy = {

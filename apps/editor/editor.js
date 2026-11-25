@@ -482,7 +482,7 @@ function renderBoardCopy() {
   $('glide-view').setAttribute('aria-pressed', String(skating))
   $('art-board').hidden = skating
   $('glide-board').hidden = !skating
-  $('note-icon').setAttribute('href', '/editor-art.svg#' + (skating ? 'flight' : 'leaf'))
+  $('note-icon').setAttribute('href', './editor-art.svg#' + (skating ? 'flight' : 'leaf'))
   $('board-note').textContent = activeGuide?.[locale]?.flight_question || t('legacyNote')
   if (skating) drawGlide(draft.parameters, revision.species_id, t)
 }
