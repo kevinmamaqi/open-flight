@@ -3,7 +3,7 @@ import { ru, es } from './atlas-copy.js'
 import { currentLocale, homeURL, localizedLinks } from './atlas-nav.js'
 import { fieldModel, studioLink, foldedLink } from './atlas-guide.js'
 import { sheetCatalog, sheetIdFor, sheetPath } from './family-sheets.js'
-import { normalizeBook } from './book-model.js'
+import { bookURL, monarchTrialSheets, normalizeBook } from './book-model.js'
 import { recordBookEvent } from './book-metrics.js'
 
 const assetVersion = new URL(import.meta.url).search
@@ -118,7 +118,7 @@ function display() {
   $('specimen-name').textContent = name + ' ↗'
   $('specimen-family').textContent =
     m.family === 'airplane'
-      ? t('Whole-sheet airplane', 'Avión de hoja entera', 'Бумажный самолёт')
+      ? t('Paper airplane', 'Avión de papel', 'Бумажный самолёт')
       : t('Butterfly glider', 'Planeador mariposa', 'Планер-бабочка')
   if (activity) $('specimen-family').textContent = t('Experimental design', 'Diseño experimental', 'Экспериментальная модель')
   $('specimen-detail').textContent = m.family === 'airplane' ? m.name : m.inspiration
@@ -141,6 +141,14 @@ const patternAndBack = t('Pattern, reverse side and fold guide', 'Plantilla, rev
 function download() {
   const butterfly = models.find(m=>m.id===select.value)?.family==='butterfly'
   $('construction-field').hidden=!butterfly
+  const trial = $('monarch-trial')
+  trial.hidden = select.value !== 'monarch' || $('construction').value === 'w1'
+  if (!trial.hidden) {
+    const settings = { lang, paper: $('download-paper').value, sheets: monarchTrialSheets }
+    const url = new URL(bookURL(settings, new URL('./book.html', location.href)))
+    url.searchParams.set('p', '4')
+    trial.href = url.href
+  }
   const activity = activities.get(select.value)
   if (activity) {
     const path = lab.packets[$('download-paper').value]

@@ -1,7 +1,9 @@
-import { objects } from './assets/objects/activities.js?v=9b28ac5f5814'
-import { appearanceChoices, appearanceArtPath, appearanceArtStyles } from './model-appearance.js?v=9b28ac5f5814'
-import { paperSizes, sheetCatalog, sheetIdFor, sheetLocales } from './family-sheets.js?v=9b28ac5f5814'
-import { sheetEdges } from './assets/print-faces.js?v=9b28ac5f5814'
+import { objects } from './assets/objects/activities.js?v=12d2669e2f41'
+import { appearanceChoices, appearanceArtPath, appearanceArtStyles } from './model-appearance.js?v=12d2669e2f41'
+import { paperSizes, sheetCatalog, sheetIdFor, sheetLocales } from './family-sheets.js?v=12d2669e2f41'
+import { sheetEdges } from './assets/print-faces.js?v=12d2669e2f41'
+
+export const monarchTrialSheets = Object.freeze(['monarch-k1', 'monarch-k2'])
 
 const entries = new Map(sheetCatalog.map(item => [item.id, item]))
 const titles = { en: 'Flight Book', es: 'Libro de vuelo', ru: 'Книга полётов' }

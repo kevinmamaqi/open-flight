@@ -14,12 +14,12 @@
     <link rel="apple-touch-icon" href="./assets/brand/apple-touch-icon.png" />
     <link rel="manifest" href="./site.webmanifest" />
     <link rel="preload" href="./assets/fonts/OpenFlightText-Regular.woff2" as="font" type="font/woff2" crossorigin />
-    <link rel="stylesheet" href="./tokens.css?v=9b28ac5f5814" />
-    <link rel="stylesheet" href="./system.css?v=9b28ac5f5814" />
-    <link rel="stylesheet" href="./planes.css?v=9b28ac5f5814" />
-    <link rel="stylesheet" href="./flight-viewer.css?v=9b28ac5f5814" />
-    <script type="module" src="./atlas-nav.js?v=9b28ac5f5814"></script>
-    <script type="module" src="./planes.js?v=9b28ac5f5814"></script>
+    <link rel="stylesheet" href="./tokens.css?v=12d2669e2f41" />
+    <link rel="stylesheet" href="./system.css?v=12d2669e2f41" />
+    <link rel="stylesheet" href="./planes.css?v=12d2669e2f41" />
+    <link rel="stylesheet" href="./flight-viewer.css?v=12d2669e2f41" />
+    <script type="module" src="./atlas-nav.js?v=12d2669e2f41"></script>
+    <script type="module" src="./planes.js?v=12d2669e2f41"></script>
 </head>
   <body>
     <a class="skip-link" href="#main" data-copy="skip">Skip to design</a>
@@ -53,7 +53,7 @@
           </div>
         </div>
         <div class="specimen">
-          <div class="format"><span data-copy="oneSheet">One whole sheet</span><b id="format"></b></div>
+          <div class="format"><span data-copy="oneSheet">One sheet per airplane</span><b id="format"></b></div>
           <div id="aircraft"></div>
           <div class="plate-bottom">
             <span id="sample-number"></span><span data-copy="paperModel">Folded paper model</span>
@@ -153,7 +153,7 @@
             <label for="edge" data-copy="edge">Sheet edge</label
             ><select id="edge">
               <option value="cut">Cut border · 7 mm inset</option>
-              <option value="whole">Whole sheet · edge-to-edge printing</option>
+              <option value="whole">Whole sheet · no cutting</option>
             </select>
             <p id="edge-hint" class="hint">
               Print at 100%. Check that all four sides of the thick border are visible, then cut along it.

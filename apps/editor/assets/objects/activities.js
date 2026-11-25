@@ -46,8 +46,8 @@ export const objects = [
     illustration: 'assets/objects/samara.svg', source: { label: 'Gregory Vogt · NASA Glenn', url: seedSource },
     en: {
       title: 'Maple spinner', verb: 'Spin', question: 'Can you make one paper wing spin just by letting it fall?',
-      materials: 'The printed wing on page 2, scissors and one small metal paper clip. A helper can cut the outline.',
-      steps: ['Cut around the solid outline on page 2. Keep the wing and its rounded root in one piece.',
+      materials: 'The maple wing template, scissors and one small metal paper clip. A helper can cut the outline.',
+      steps: ['Cut along the solid line around the printed wing. Keep the wing and its rounded root in one piece.',
         'Slide the clip onto the short edge at dot A. Its long side should lie flat on the paper.',
         'With the printed side up, lift the dotted long edge slightly with your fingers to give the wing a shallow curl.',
         'Hold the wing at shoulder height with the clip pointing down. Open your fingers. Watch from above for a complete turn.'],
@@ -57,8 +57,8 @@ export const objects = [
     },
     es: {
       title: 'Semilla giratoria', verb: 'Girar', question: '¿Puedes hacer girar un ala de papel con solo dejarla caer?',
-      materials: 'El ala de la página 2, tijeras y un clip metálico pequeño. Pide ayuda para recortar el contorno.',
-      steps: ['Recorta el contorno continuo de la página 2. El ala y su base redondeada deben quedar en una sola pieza.',
+      materials: 'La plantilla del ala de arce, tijeras y un clip metálico pequeño. Pide ayuda para recortar el contorno.',
+      steps: ['Recorta el ala por la línea continua. El ala y su base redondeada deben quedar en una sola pieza.',
         'Coloca el clip en el borde corto, a la altura del punto A. Su lado largo debe quedar plano sobre el papel.',
         'Con la cara impresa hacia arriba, levanta un poco con los dedos el borde largo marcado con puntos para curvar el ala.',
         'Sujeta el ala a la altura del hombro con el clip hacia abajo. Abre la mano. Mira desde arriba si da una vuelta completa.'],
@@ -68,8 +68,8 @@ export const objects = [
     },
     ru: {
       title: 'Кленовая крылатка', verb: 'Вращение', question: 'Закрутится ли бумажное крыло, если просто разжать пальцы?',
-      materials: 'Крыло со страницы 2, ножницы и одна небольшая металлическая скрепка. Попроси взрослого помочь с вырезанием.',
-      steps: ['Вырежи крыло по сплошному контуру на странице 2. Крыло и закруглённое основание должны остаться одной деталью.',
+      materials: 'Шаблон крылатки, ножницы и одна небольшая металлическая скрепка. Попроси взрослого помочь с вырезанием.',
+      steps: ['Вырежи крыло по сплошной линии. Крыло и закруглённое основание должны остаться одной деталью.',
         'Надень скрепку на короткий край у точки A. Её длинная сторона должна плотно прилегать к бумаге.',
         'Поверни деталь рисунком вверх. Приподними пальцами длинный край, отмеченный точками, чтобы крыло слегка изогнулось.',
         'Держи крыло на высоте плеча скрепкой вниз. Разожми пальцы. Посмотри сверху, успеет ли крыло сделать полный оборот.'],

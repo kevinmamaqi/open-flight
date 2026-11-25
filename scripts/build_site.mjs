@@ -1,5 +1,9 @@
 import { flightObjects } from '../apps/editor/assets/objects/activities.js'
+import { monarchTrialSheets } from '../apps/editor/book-model.js'
+import { paperSizes, sheetLocales } from '../apps/editor/family-sheets.js'
+import { createBook } from '../packages/print-export/family-book.js'
 import { createHash } from 'node:crypto'
+import { readFile } from 'node:fs/promises'
 import { ru, es } from '../apps/editor/atlas-copy.js'
 import { cpSync, existsSync, mkdirSync, readdirSync, readFileSync, writeFileSync } from 'node:fs'
 import { join, resolve } from 'node:path'
@@ -89,6 +93,7 @@ for (const [lang, copy, title, region, photoAlt, name, family] of [
     '#book-link': 'book.html?lang=' + lang,
     '#nav-book': 'book.html?lang=' + lang,
     '#book-sample': 'book.html?lang=' + lang + '&p=4',
+    '#monarch-trial': 'book.html?lang=' + lang + '&p=4#m=monarch-k1,monarch-k2&paper=a4',
     '#specimen-sheet': 'library/monarch-A4-' + lang + '.pdf',
     '#classroom-link': 'classroom.html?lang=' + lang,
     '#object-family': 'flight-objects.html?lang=' + lang,
@@ -121,6 +126,15 @@ for (const entry of readdirSync(editor, { withFileTypes: true })) {
 for (const name of ['unusual-flyer-sources.md', 'williams-tandem.md']) {
   const research = join(root, 'docs/research', name)
   cpSync(existsSync(research) ? research : join(root, 'guides', name), join(out, 'assets/objects', name))
+}
+const trials = join(out, 'trials')
+mkdirSync(trials, { recursive: true })
+const loadAsset = path => readFile(join(editor, path))
+for (const lang of sheetLocales) {
+  for (const paper of paperSizes) {
+    const bytes = await createBook({ lang, paper, sheets: monarchTrialSheets }, { loadAsset })
+    writeFileSync(join(trials, 'monarch-k1-k2-' + paper + '-' + lang + '.pdf'), bytes)
+  }
 }
 // The bundled workshop has no ES imports. Third-party modules keep their published contents.
 const localModule = /(\b(?:from\s*|import\s*\(\s*|import\s+))(["'])(\.{1,2}\/[\w./-]+\.js)\2/g

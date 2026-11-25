@@ -34,7 +34,7 @@ export const bookCopy = {
       ],
       [
         "Pick a model and get ready",
-        "For a butterfly, bring paper, scissors and a paper clip. Ask a grown-up to help with tricky cuts. For an airplane, start with a whole sheet and follow its folding guide.",
+        "For butterflies, gather scissors and the clips listed on the pattern. For K2, score the folds with a ruler and an empty ballpoint pen. Ask a grown-up to help cut. Fold a plain airplane sheet whole. For a printed airplane with a thick border, cut along the border first.",
       ],
       [
         "Predict, launch and compare",
@@ -57,7 +57,7 @@ export const bookCopy = {
       ],
       [
         "Elige un modelo y prepárate",
-        "Para una mariposa, necesitas papel, tijeras y un clip. Pídele a una persona adulta que te ayude en los recortes difíciles. Para un avión, empieza con una hoja entera y sigue su guía de plegado.",
+        "Para las mariposas, prepara tijeras y los clips que indica la plantilla. Para K2, marca los dobleces con una regla y un bolígrafo sin tinta. Pide ayuda para recortar. Para un avión, dobla entera la hoja en blanco. Si la plantilla tiene un borde grueso, recorta primero por esa línea.",
       ],
       [
         "Predice, lanza y compara",
@@ -81,7 +81,7 @@ export const bookCopy = {
       ],
       [
         "Выбери модель и подготовься",
-        "Для бабочки пригодятся бумага, ножницы и скрепка. Попроси взрослого помочь со сложными надрезами. Для самолёта возьми целый лист и складывай его по инструкции.",
+        "Для бабочки возьми ножницы и столько скрепок, сколько указано на выкройке. Для K2 наметь сгибы по линейке шариковой ручкой без чернил. Попроси взрослого помочь с вырезанием. Чистый лист для самолёта складывай целиком. Если на выкройке есть толстая рамка, сначала вырежи по ней.",
       ],
       [
         "Угадай, запусти и сравни",
@@ -92,6 +92,36 @@ export const bookCopy = {
     pageAbbr: "с.",
     ruler: "Длина линии должна быть 50 мм (1,97 дюйма).",
     edition: "Издание для домашней печати",
+  },
+};
+
+export const monarchTrialCopy = {
+  en: {
+    title: "Monarch flight trial · K1 and K2",
+    materials: "Print both Monarchs at 100% on the same uncoated 120 g/m² paper. Check both 50 mm lines. Use scissors for both. K1 needs one small rounded clip. K2 needs two 33 mm clips, a ruler and an empty ballpoint pen.",
+    launch: "Use one launcher in still indoor air, with a clear path. From the same mark, give each model a gentle level push at shoulder height. Alternate K1 then K2 for five pairs of launches.",
+    measure: "Distance to first touchdown (cm) and flight outcome",
+    paper: "Paper brand and grain",
+    setup: "Clips and balance point",
+    record: "For every attempt, write the distance in cm and whether it glided, dived, stalled or rolled. Keep failed launches. Which build gave the more consistent glide?",
+  },
+  es: {
+    title: "Prueba de vuelo · Monarcas K1 y K2",
+    materials: "Imprime ambas monarcas al 100 % en el mismo papel sin estucar de 120 g/m². Comprueba las dos líneas de 50 mm. Usa tijeras para ambas. Para K1, un clip pequeño redondeado. Para K2, dos clips de 33 mm, una regla y un bolígrafo sin tinta.",
+    launch: "Una sola persona lanza en un espacio despejado, sin corrientes. Desde la misma marca, impulsa cada modelo en horizontal a la altura del hombro. Alterna K1 y K2 hasta completar cinco pares.",
+    measure: "Distancia al primer contacto (cm) y tipo de vuelo",
+    paper: "Marca y fibra del papel",
+    setup: "Clips y punto de equilibrio",
+    record: "En cada intento, anota la distancia en cm y si planeó, picó, entró en pérdida o rodó sobre un ala. Incluye los intentos fallidos. ¿Qué modelo planeó de forma más regular?",
+  },
+  ru: {
+    title: "Полёт монархов K1 и K2",
+    materials: "Напечатай обоих монархов в масштабе 100 % на одинаковой немелованной бумаге 120 г/м². Проверь обе линии 50 мм. Для обеих нужны ножницы. Для K1 возьми маленькую скрепку с округлым концом. Для K2 — две скрепки по 33 мм, линейку и шариковую ручку без чернил.",
+    launch: "Пусть один человек запускает модели в свободном помещении без сквозняка. С одной отметки мягко толкай модель горизонтально с высоты плеча. Чередуй K1 и K2, пока не сделаешь пять пар запусков.",
+    measure: "Расстояние до первого касания (см) и характер полёта",
+    paper: "Марка и направление волокон бумаги",
+    setup: "Скрепки и точка равновесия",
+    record: "Для каждой попытки запиши расстояние в см. Отметь планирование, пикирование, срыв или крен. Сохрани и неудачные запуски. Какая модель планировала устойчивее?",
   },
 };
 
@@ -129,12 +159,15 @@ export const flightBookCopy = {
     tools: {
       butterfly: "Paper, scissors, clip",
       airplane: "Whole sheet of paper",
+      cut: "Paper, scissors",
+      k2: "Scissors, two 33 mm clips",
     },
     construction: {
       k1: "Folded body",
       k2: "Folded front edge",
       w1: "Tabs",
       "whole-sheet": "Whole-sheet fold",
+      cut: "Cut border",
     },
     difficulty: ["Easy", "Medium", "Challenging"],
     estimate: "Build times are estimates.",
@@ -172,12 +205,15 @@ export const flightBookCopy = {
     tools: {
       butterfly: "Papel, tijeras, clip",
       airplane: "Hoja entera de papel",
+      cut: "Papel, tijeras",
+      k2: "Tijeras, dos clips de 33 mm",
     },
     construction: {
       k1: "Cuerpo plegado",
       k2: "Borde delantero plegado",
       w1: "Pestañas",
       "whole-sheet": "Plegado de hoja entera",
+      cut: "Borde para recortar",
     },
     difficulty: ["Fácil", "Medio", "Difícil"],
     estimate: "Los tiempos de montaje son orientativos.",
@@ -215,12 +251,15 @@ export const flightBookCopy = {
     tools: {
       butterfly: "Бумага, ножницы, скрепка",
       airplane: "Целый лист бумаги",
+      cut: "Бумага, ножницы",
+      k2: "Ножницы, две скрепки по 33 мм",
     },
     construction: {
       k1: "Складной корпус",
       k2: "Сложенный передний край",
       w1: "Язычки",
       "whole-sheet": "Сгибы на целом листе",
+      cut: "Вырезать рамку",
     },
     difficulty: ["Легко", "Средне", "Сложно"],
     estimate: "Время сборки указано примерно.",

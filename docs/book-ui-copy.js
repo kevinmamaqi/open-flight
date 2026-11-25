@@ -49,7 +49,9 @@ export const builderCopy = {
     inkHint:
       "Ink saver makes the cover and index grayscale. The folding sheets keep their chosen colors.",
     butterflyTools: "Scissors + paper clip",
+    costaTools: "Scissors, two 33 mm clips, ruler and empty ballpoint pen",
     planeTools: "One sheet of paper",
+    planeCutTools: "One sheet + scissors for the printed border",
     history: "Explore where the flyers come from",
     advanced: "Artwork and print order",
     openStudio: "Open in the workshop",
@@ -161,7 +163,9 @@ export const builderCopy = {
     inkHint:
       "El ahorro de tinta deja la portada y el índice en gris. Las hojas de plegado conservan los colores que elegiste.",
     butterflyTools: "Tijeras y clip",
+    costaTools: "Tijeras, dos clips de 33 mm, regla y bolígrafo sin tinta",
     planeTools: "Una hoja de papel",
+    planeCutTools: "Una hoja y tijeras para el borde impreso",
     history: "Descubre de dónde vienen los modelos",
     advanced: "Ilustraciones y orden de impresión",
     openStudio: "Abrir en el taller",
@@ -273,7 +277,9 @@ export const builderCopy = {
     inkHint:
       "В режиме экономии чернил обложка и оглавление станут серыми. На листах для сборки останутся выбранные цвета.",
     butterflyTools: "Ножницы и скрепка",
+    costaTools: "Ножницы, две скрепки по 33 мм, линейка и ручка без чернил",
     planeTools: "Один лист бумаги",
+    planeCutTools: "Лист и ножницы для вырезания по рамке",
     history: "Узнай, откуда появились модели",
     advanced: "Иллюстрации и порядок печати",
     openStudio: "Открыть в мастерской",

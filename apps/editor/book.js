@@ -241,8 +241,9 @@ function syncFlyer() {
   const editions = editionsFor(activeModel);
   const onCover = (state.coverModel ?? state.sheets[0]) === id;
   byId("flyer-name").textContent = name;
-  byId("flyer-tools").textContent =
-    family === "butterfly" ? t.butterflyTools : t.planeTools;
+  const planeTools = state.edge === "cut" ? t.planeCutTools : t.planeTools;
+  const butterflyTools = construction === "k2" ? t.costaTools : t.butterflyTools;
+  byId("flyer-tools").textContent = family === "butterfly" ? butterflyTools : planeTools;
   picture(byId("flyer-image"), id, "studio");
   byId("flyer-studio").href = studioForBookSheet(state, id);
   if (family === "butterfly") {

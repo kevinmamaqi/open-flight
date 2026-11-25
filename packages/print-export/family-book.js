@@ -11,12 +11,14 @@ import {
   bookPlan,
   bookURL,
   modelDetails,
+  monarchTrialSheets,
   normalizeBook,
 } from "../../apps/editor/book-model.js";
 import { sheetCatalog } from "../../apps/editor/family-sheets.js";
 import {
   bookCopy,
   flightBookCopy,
+  monarchTrialCopy,
   sheetName,
   themes,
 } from "./family-book-copy.js";
@@ -85,6 +87,8 @@ function frontMatter(book, plan, regular, bold, display, art, artPaths, originAr
   const { lang, paper, theme, cover, sheets, pilot, style } = book;
   const instructions = bookCopy[lang];
   const copy = flightBookCopy[lang];
+  const trial = sheets.length === monarchTrialSheets.length && !book.activities?.length
+    && monarchTrialSheets.every(id => sheets.includes(id)) ? monarchTrialCopy[lang] : null;
   const palette = themes[theme];
   const { ink, wash, accent } =
     style === "ink"
@@ -195,7 +199,12 @@ function frontMatter(book, plan, regular, bold, display, art, artPaths, originAr
   doc.addPage();
   heading(instructions.print, 2);
   let y = 59;
-  for (const [index, [title, body]] of instructions.notes.entries()) {
+  const notes = trial ? [
+    instructions.notes[0],
+    [instructions.notes[1][0], trial.materials],
+    [instructions.notes[2][0], trial.launch],
+  ] : instructions.notes;
+  for (const [index, [title, body]] of notes.entries()) {
     doc.setDrawColor(accent).setLineWidth(0.5).roundedRect(left, y - 6, 12, 12, 2, 2, "S");
     text(String(index + 1), left + 6, y + 2, 12, {
       align: "center",
@@ -228,8 +237,9 @@ function frontMatter(book, plan, regular, bold, display, art, artPaths, originAr
   if (plan.guidePage)
     text(wrap(copy.fleetGuide(plan.guidePage), 9.5, width), left, 59, 9.5);
   byline(copy.pages, right, 69, "right");
-  // Keep both index lines above the folio, even when every sheet variant is selected.
-  const lastIndexLine = plan.activityPages.length ? 85 : 78;
+  // Reserve one line per named activity, even with every sheet variant selected.
+  const activityRow = 6;
+  const lastIndexLine = 78 + activityRow * plan.activityPages.length;
   const rowHeight = Math.min(17.8, (h - 25 - lastIndexLine) / plan.entries.length);
   plan.entries.forEach(({ id, start, end, guidePage }, index) => {
     const entry = sheetCatalog.find((item) => item.id === id);
@@ -238,11 +248,15 @@ function frontMatter(book, plan, regular, bold, display, art, artPaths, originAr
     if (index % 2 === 0)
       doc.setFillColor(wash).rect(left, y, width, rowHeight, "F");
     image(id, left + 3, y + 1.5, Math.min(21, (rowHeight - 3) * 8 / 5));
-    text(sheetName(id, lang), left + 29, y + rowHeight * 0.39, 13, { weight: "bold" });
+    const name = sheetName(id, lang) + (trial ? " · " + entry.construction.toUpperCase() : "");
+    text(name, left + 29, y + rowHeight * 0.39, 13, { weight: "bold" });
     const minutes = details.minutes
       ? ` · ${details.minutes.join("–")} ${lang === "ru" ? "мин" : "min"}`
       : "";
-    const meta = `${copy.construction[entry.construction]} · ${copy.difficulty[details.level - 1]}${minutes} · ${copy.tools[entry.family]}`;
+    const cutBorder = entry.family === "airplane" && book.edge === "cut";
+    const construction = cutBorder ? "cut" : entry.construction;
+    const tools = copy.tools[construction] ?? copy.tools[entry.family];
+    const meta = `${copy.construction[construction]} · ${copy.difficulty[details.level - 1]}${minutes} · ${tools}`;
     text(meta, left + 29, y + rowHeight * 0.77, 9);
     for (let dot = 0; dot < 3; dot++) {
       doc
@@ -270,36 +284,40 @@ function frontMatter(book, plan, regular, bold, display, art, artPaths, originAr
   const atlasLabel = {en:"Flight atlas", es:"Atlas de vuelo", ru:"Атлас полётов"}[lang];
   byline(atlasLabel + " · " + plan.originPages[0].number + (plan.originPages.length > 1 ? "–" + plan.originPages.at(-1).number : ""), right, 78 + plan.entries.length * rowHeight, "right");
   if (plan.activityPages.length) {
-    const label = {en:"Flying objects", es:"Objetos voladores", ru:"Летающие модели"}[lang];
-    const range = plan.activityPages.map(item => item.number).join(", ");
-    byline(label + " · " + range, right, 85 + plan.entries.length * rowHeight, "right");
+    const { activities } = flightObjects(lang);
+    plan.activityPages.forEach(({ id, number }, i) => {
+      const item = activities.find(activity => activity.id === id);
+      const y = 78 + plan.entries.length * rowHeight + (i + 1) * activityRow;
+      byline(item.title, left + 3, y);
+      byline(String(number), right - 2.5, y, "right");
+    });
   }
   text(copy.estimate, left, 78 + plan.entries.length * rowHeight, 8, {
     color: accent,
   });
 
   doc.addPage();
-  heading(copy.log, 4);
-  text(wrap(copy.logIntro, 12, width), left, 52, 12);
+  heading(trial?.title ?? copy.log, 4);
+  text(wrap(trial?.launch ?? copy.logIntro, 12, width), left, 52, 12);
   const half = (width - 9) / 2;
   const rightCol = left + half + 9;
   function field(label, x, y, fieldWidth) {
     byline(label, x, y);
     rule(x, y + 10, x + fieldWidth, y + 10);
   }
-  field(copy.model, left, 69, half);
+  field(trial?.paper ?? copy.model, left, 69, half);
   field(copy.date, rightCol, 69, half);
   field(copy.predict, left, 90, half);
-  field(copy.change, rightCol, 90, half);
+  field(trial?.setup ?? copy.change, rightCol, 90, half);
   const tableTop = 116;
   const row = 14;
   const launchWidth = 34;
   const resultWidth = (width - launchWidth) / 2;
   doc.setFillColor(wash).rect(left, tableTop, width, row, "F");
   byline(copy.launch, left + 4, tableTop + 8.5);
-  byline(copy.baseline, left + launchWidth + 4, tableTop + 8.5);
-  byline(copy.changed, left + launchWidth + resultWidth + 4, tableTop + 8.5);
-  text(copy.land, left, tableTop - 4, 12, { weight: "bold" });
+  byline(trial ? "K1" : copy.baseline, left + launchWidth + 4, tableTop + 8.5);
+  byline(trial ? "K2" : copy.changed, left + launchWidth + resultWidth + 4, tableTop + 8.5);
+  text(trial?.measure ?? copy.land, left, tableTop - 4, 12, { weight: "bold" });
   for (let n = 1; n <= 5; n++)
     text(String(n), left + 5, tableTop + n * row + 9, 12);
   for (let n = 1; n <= 6; n++)
@@ -307,7 +325,7 @@ function frontMatter(book, plan, regular, bold, display, art, artPaths, originAr
   for (const x of [left + launchWidth, right - resultWidth])
     rule(x, tableTop, x, tableTop + 6 * row);
   field(copy.noticed, left, 211, width);
-  text(wrap(copy.example, 9.5, width), left, 232, 9.5);
+  text(wrap(trial?.record ?? copy.example, 9.5, width), left, 232, 9.5);
   byline(copy.next, left, 246);
 
   doc.addPage();
@@ -400,10 +418,8 @@ export async function createBook(input, { loadAsset }) {
   );
   const { width, height } = output.getPage(0).getSize();
   // Page numbers are set in the Open Flight text face: one small jsPDF page per stamp, placed with pdf-lib.
-  const stamps = [];
-  for (const [entryIndex] of sheetDocuments.entries())
-    for (const { number } of plan.entries[entryIndex].pages)
-      stamps.push(`${String(number).padStart(2, "0")} / ${plan.pageCount}`);
+  const numberedPages = [...plan.entries.flatMap(entry => entry.pages), ...plan.activityPages];
+  const stamps = numberedPages.map(({ number }) => `${String(number).padStart(2, "0")} / ${plan.pageCount}`);
   const stampDoc = new jsPDF({ unit: "mm", format: [24, 6], orientation: "landscape", compress: true, putOnlyUsedFonts: true });
   stampDoc.setCreationDate("D:20000101000000+00'00'");
   stampDoc.setFileId("6f70656e666c696768747374616d7073");
@@ -416,6 +432,14 @@ export async function createBook(input, { loadAsset }) {
   const stampPages = stamps.length ? await output.embedPdf(stampDoc.output("arraybuffer"), stamps.map((_, i) => i)) : [];
   const mm = 72 / 25.4;
   let stampIndex = 0;
+  function drawFolio(page, right, bottom) {
+    page.drawPage(stampPages[stampIndex++], {
+      x: right - 24 * mm,
+      y: bottom,
+      width: 24 * mm,
+      height: 6 * mm,
+    });
+  }
   for (const [entryIndex, original] of sheetDocuments.entries()) {
     const entry = plan.entries[entryIndex];
     const airplane = sheetCatalog.find((sheet) => sheet.id === entry.id).family === "airplane";
@@ -436,12 +460,7 @@ export async function createBook(input, { loadAsset }) {
       // On the first airplane page the folio sits under the calibration line, clear of its label.
       const airplaneTemplate = airplane && entry.pages[index].index === 0;
       const right = airplaneTemplate ? page.getWidth() - 58 * mm : page.getWidth() - 11 * mm;
-      page.drawPage(stampPages[stampIndex++], {
-        x: right - 24 * mm,
-        y: (airplaneTemplate ? 14.5 : 11) * mm,
-        width: 24 * mm,
-        height: 6 * mm,
-      });
+      drawFolio(page, right, (airplaneTemplate ? 14.5 : 11) * mm);
     }
   }
   if (plan.activityPages.length) {
@@ -450,7 +469,9 @@ export async function createBook(input, { loadAsset }) {
     const selected = plan.activityPages.map(({ id }) => lab.activities.find(activity => activity.id === id));
     const activitySheets = await output.copyPages(packet, selected.map(item => item.page - 1));
     for (const [i, item] of selected.entries()) {
-      output.addPage(activitySheets[i]);
+      const page = output.addPage(activitySheets[i]);
+      // Align the number with the activity header, 12 mm from the top and right edges.
+      drawFolio(page, page.getWidth() - 11 * mm, page.getHeight() - 13.5 * mm);
       await output.attach(await loadAsset(item.illustration), item.illustration.split("/").at(-1), {
         mimeType: "image/svg+xml", description: item.title,
         creationDate: new Date("2026-11-25T00:00:00Z"), modificationDate: new Date("2026-11-25T00:00:00Z"),

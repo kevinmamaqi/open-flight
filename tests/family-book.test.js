@@ -152,7 +152,17 @@ for (const [lang, paper] of editions) {
           `Unchanged source content for ${id} page ${index + 1}`,
         );
         const stamp = `${String(pageNumber).padStart(2, "0")} / ${plan.pageCount}`;
-        assert.ok((await pageText(pageNumber)).includes(stamp), `Page stamp ${stamp}`);
+        const printed = await pageText(pageNumber);
+        assert.ok(printed.includes(stamp), `Page stamp ${stamp}`);
+        if (id.endsWith("-k1") && index === 0) {
+          const heading = { en: "How to build and launch", es: "Cómo construir y lanzar", ru: "Сборка и запуск" }[lang];
+          assert.ok(printed.includes(heading), `K1 pattern identifies the shared guide by its title`);
+          assert.ok((await pageText(plan.guidePage)).includes(heading));
+        }
+        if (bookPages?.length === 4 && index === 2) {
+          const standalone = { en: "separate airplane PDF", es: "PDF individual del avión", ru: "отдельном PDF самолёта" }[lang];
+          assert.ok(printed.replace(/\s+/g, " ").includes(standalone), "Duplex instructions identify the standalone PDF");
+        }
         pageNumber++;
       }
     }
@@ -174,6 +184,37 @@ test("flight book reports a substituted wrong-size sheet", async () => {
     ),
     /paper size/,
   );
+});
+
+test("the two Monarch sheets produce a localized paired flight log, including in reversed print order", async () => {
+  const titles = { en: "Monarch flight trial", es: "Prueba de vuelo", ru: "Полёт монархов" };
+  for (const [lang, paper] of editions) {
+    const sheets = paper === "A4" ? ["monarch-k1", "monarch-k2"] : ["monarch-k2", "monarch-k1"];
+    const bytes = await createBook({ lang, paper, sheets }, { loadAsset });
+    const pdf = await getDocument({ data: bytes, verbosity: 0 }).promise;
+    try {
+      const text = async n => (await (await pdf.getPage(n)).getTextContent()).items.map(item => item.str.trim());
+      const materials = (await text(2)).join(" ");
+      assert.match(materials, /120/);
+      assert.match(materials, /33/);
+      const pen = { en: "empty ballpoint pen", es: "bolígrafo sin tinta", ru: "ручку без чернил" }[lang];
+      assert.ok(materials.replace(/\s+/g, " ").includes(pen));
+      const log = await text(4);
+      assert.ok(log.some(line => line.includes(titles[lang])));
+      assert.ok(log.includes("K1") && log.includes("K2"));
+      assert.deepEqual(log.filter(line => /^[1-5]$/.test(line)), ["1", "2", "3", "4", "5"]);
+    } finally {
+      await pdf.destroy();
+    }
+  }
+  const ordinary = await createBook({ sheets: ["monarch-k1", "monarch-k2"], activities: ["ring"] }, { loadAsset });
+  const pdf = await getDocument({ data: ordinary, verbosity: 0 }).promise;
+  try {
+    const log = await (await pdf.getPage(4)).getTextContent();
+    assert.ok(log.items.some(item => item.str === "Flight log"));
+  } finally {
+    await pdf.destroy();
+  }
 });
 
 test("the airplane edge choice is explicit, shareable and changes only airplane pages", async () => {

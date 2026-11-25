@@ -1,6 +1,6 @@
-import { flightObjects } from "./assets/objects/activities.js?v=9b28ac5f5814";
-import { currentLocale, homeURL, localizedLinks } from "./atlas-nav.js?v=9b28ac5f5814";
-import { recordBookEvent } from "./book-metrics.js?v=9b28ac5f5814";
+import { flightObjects } from "./assets/objects/activities.js?v=12d2669e2f41";
+import { currentLocale, homeURL, localizedLinks } from "./atlas-nav.js?v=12d2669e2f41";
+import { recordBookEvent } from "./book-metrics.js?v=12d2669e2f41";
 import {
   bookFilename,
   bookPlan,
@@ -12,24 +12,24 @@ import {
   normalizeBook,
   pilotLimit,
   readBookURL,
-} from "./book-model.js?v=9b28ac5f5814";
+} from "./book-model.js?v=12d2669e2f41";
 import {
   loadBookServices,
   recoverBookCheckout,
   supportChoices,
-} from "./book-support.js?v=9b28ac5f5814";
-import { estimateBookBytes } from "./book-size.js?v=9b28ac5f5814";
-import { mountBookReader } from "./book-reader.js?v=9b28ac5f5814";
-import { applyStudioColors, studioForBookSheet } from "./model-studio.js?v=9b28ac5f5814";
-import { mountModelMap } from "./model-map.js?v=9b28ac5f5814";
-import { appearanceArtPath, appearanceChoices } from "./model-appearance.js?v=9b28ac5f5814";
-import { builderCopy } from "./book-ui-copy.js?v=9b28ac5f5814";
+} from "./book-support.js?v=12d2669e2f41";
+import { estimateBookBytes } from "./book-size.js?v=12d2669e2f41";
+import { mountBookReader } from "./book-reader.js?v=12d2669e2f41";
+import { applyStudioColors, studioForBookSheet } from "./model-studio.js?v=12d2669e2f41";
+import { mountModelMap } from "./model-map.js?v=12d2669e2f41";
+import { appearanceArtPath, appearanceChoices } from "./model-appearance.js?v=12d2669e2f41";
+import { builderCopy } from "./book-ui-copy.js?v=12d2669e2f41";
 import {
   sheetCatalog,
   sheetIdFor,
   sheetName,
   sheetPath,
-} from "./family-sheets.js?v=9b28ac5f5814";
+} from "./family-sheets.js?v=12d2669e2f41";
 
 const sheetVersion = new URL(import.meta.url).search;
 const byId = (id) => document.getElementById(id);
@@ -241,8 +241,9 @@ function syncFlyer() {
   const editions = editionsFor(activeModel);
   const onCover = (state.coverModel ?? state.sheets[0]) === id;
   byId("flyer-name").textContent = name;
-  byId("flyer-tools").textContent =
-    family === "butterfly" ? t.butterflyTools : t.planeTools;
+  const planeTools = state.edge === "cut" ? t.planeCutTools : t.planeTools;
+  const butterflyTools = construction === "k2" ? t.costaTools : t.butterflyTools;
+  byId("flyer-tools").textContent = family === "butterfly" ? butterflyTools : planeTools;
   picture(byId("flyer-image"), id, "studio");
   byId("flyer-studio").href = studioForBookSheet(state, id);
   if (family === "butterfly") {
@@ -769,8 +770,8 @@ function readyPDF(book) {
   const key = JSON.stringify(book);
   if (activePDF?.key === key) return activePDF.promise;
   const promise = Promise.all([
-    import("./book-engine.js?v=9b28ac5f5814"),
-    import("./assets/planes/vendor/jspdf.js?v=9b28ac5f5814"),
+    import("./book-engine.js?v=12d2669e2f41"),
+    import("./assets/planes/vendor/jspdf.js?v=12d2669e2f41"),
   ]).then(async ([{ createBook }]) => {
     const data = await createBook(book, { loadAsset });
     return new File([data], bookFilename(book), { type: "application/pdf" });

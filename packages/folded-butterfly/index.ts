@@ -279,7 +279,7 @@ const words = {
     flat: 'flat span',
     rear: 'View from tail toward nose',
     guide: 'How to build and launch',
-    next: 'Open page 2 for illustrated steps.',
+    next: 'Follow the illustrated guide “How to build and launch”.',
     gauge: 'Full-size nose and clip gauge',
     gaugeHelp:
       'Place the folded body on its side. Match its nose to the left line.',
@@ -305,7 +305,7 @@ const words = {
     flat: 'envergadura en plano',
     rear: 'Vista de la cola a la punta',
     guide: 'Cómo construir y lanzar',
-    next: 'Consulta la página 2 para ver los pasos ilustrados.',
+    next: 'Sigue la guía ilustrada «Cómo construir y lanzar».',
     gauge: 'Guía del clip a tamaño real',
     gaugeHelp:
       'Apoya de lado el cuerpo plegado. Alinea su punta con la línea izquierda.',
@@ -330,7 +330,7 @@ const words = {
     flat: 'размах развёртки',
     rear: 'Вид от хвоста к носу',
     guide: 'Сборка и запуск',
-    next: 'На странице 2 — пошаговые рисунки.',
+    next: 'Смотри рисунки в разделе «Сборка и запуск».',
     gauge: 'Шкала для скрепки в натуральную величину',
     gaugeHelp: 'Положи сложенный корпус набок. Совмести нос с левой линией.',
     gaugeStop: 'Задний край скрепки должен совпасть с толстой линией упора.',

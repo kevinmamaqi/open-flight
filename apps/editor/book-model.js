@@ -3,6 +3,8 @@ import { appearanceChoices, appearanceArtPath, appearanceArtStyles } from './mod
 import { paperSizes, sheetCatalog, sheetIdFor, sheetLocales } from './family-sheets.js'
 import { sheetEdges } from './assets/print-faces.js'
 
+export const monarchTrialSheets = Object.freeze(['monarch-k1', 'monarch-k2'])
+
 const entries = new Map(sheetCatalog.map(item => [item.id, item]))
 const titles = { en: 'Flight Book', es: 'Libro de vuelo', ru: 'Книга полётов' }
 const canonicalBook = 'https://kevinmamaqi.github.io/open-flight/book.html'

@@ -1,8 +1,8 @@
-import { aircraftPortrait } from './field-portraits.js?v=9b28ac5f5814'
-import { backScene, pageSize, sheetScene, specimenScene } from './drawing.js?v=9b28ac5f5814'
-import { foldScene } from './guide.js?v=9b28ac5f5814'
-import { planeCredits, creditText } from './credits.js?v=9b28ac5f5814'
-import { atLeastLine, atLeastText, fontNotice as printFontNotice, ink, muted, registerFonts, textMm, useFont } from '../brand/print.js?v=9b28ac5f5814'
+import { aircraftPortrait } from './field-portraits.js?v=12d2669e2f41'
+import { backScene, pageSize, sheetScene, specimenScene } from './drawing.js?v=12d2669e2f41'
+import { foldScene } from './guide.js?v=12d2669e2f41'
+import { planeCredits, creditText } from './credits.js?v=12d2669e2f41'
+import { atLeastLine, atLeastText, fontNotice as printFontNotice, ink, muted, registerFonts, textMm, useFont } from '../brand/print.js?v=12d2669e2f41'
 
 function draw(doc, parts, offset = [0, 0], scale = 1) {
   const pt = ([x, y]) => [offset[0] + x * scale, offset[1] + y * scale]
@@ -188,14 +188,14 @@ export function planePdfBytes(plan, JsPDF, fonts) {
     block(
       plan.trim_mm
         ? t(
-            'For the model, print page 1, or pages 1–2 double-sided (flip on the long edge) to see the fold lines on both faces. Cut along the thick border, then fold. Any print scale works because the lines meet the border you cut.',
-            'Для самолёта распечатайте страницу 1 или страницы 1–2 с двух сторон (переворот по длинному краю), чтобы линии были видны с обеих сторон. Вырежьте лист по толстой рамке и складывайте. Подойдёт любой масштаб печати: линии доходят до вырезанного края.',
-            'Para el avión, imprime la página 1, o las páginas 1–2 a doble cara (girando por el borde largo) para ver las líneas en las dos caras. Recorta por el borde grueso y luego dobla. Sirve cualquier escala de impresión, porque las líneas llegan al borde que recortas.',
+            'Use the airplane template. For two printed faces, print the template and its reverse from the separate airplane PDF, flipping on the long edge. Cut along the thick border, then fold. Any print scale works because the lines meet the border you cut.',
+            'Возьмите выкройку самолёта. Для двусторонней печати выберите выкройку и её оборот в отдельном PDF самолёта, с переворотом по длинному краю. Вырежьте лист по толстой рамке и складывайте. Подойдёт любой масштаб печати: линии доходят до вырезанного края.',
+            'Usa la plantilla del avión. Para imprimir las dos caras, elige la plantilla y su reverso en el PDF individual del avión y gira por el borde largo. Recorta por el borde grueso y luego dobla. Sirve cualquier escala de impresión, porque las líneas llegan al borde que recortas.',
           )
         : t(
-            'For the model, print page 1, or pages 1–2 double-sided (flip on the long edge) to see the fold lines on both faces. Actual size is best: the 50 mm line measures 50 mm. Fit to page also works; the line then measures about 48 mm, so fold to the paper edges.',
-            'Для самолёта распечатайте страницу 1 или страницы 1–2 с двух сторон (переворот по длинному краю), чтобы линии были видны с обеих сторон. Лучше всего масштаб 100%: контрольная линия будет ровно 50 мм. «По размеру страницы» тоже подойдёт: линия будет около 48 мм, сгибайте по краям листа.',
-            'Para el avión, imprime la página 1, o las páginas 1–2 a doble cara (girando por el borde largo) para ver las líneas en las dos caras. Lo mejor es el tamaño real: la línea mide 50 mm. «Ajustar a la página» también sirve; la línea medirá unos 48 mm, así que dobla siguiendo los bordes del papel.',
+            'Use the airplane template. For two printed faces, print the template and its reverse from the separate airplane PDF, flipping on the long edge. Actual size is best: the 50 mm line measures 50 mm. Fit to page also works; the line then measures about 48 mm, so fold to the paper edges.',
+            'Возьмите выкройку самолёта. Для двусторонней печати выберите выкройку и её оборот в отдельном PDF самолёта, с переворотом по длинному краю. Лучше всего масштаб 100%: контрольная линия будет ровно 50 мм. «По размеру страницы» тоже подойдёт: линия будет около 48 мм, сгибайте по краям листа.',
+            'Usa la plantilla del avión. Para imprimir las dos caras, elige la plantilla y su reverso en el PDF individual del avión y gira por el borde largo. Lo mejor es el tamaño real: la línea mide 50 mm. «Ajustar a la página» también sirve; la línea medirá unos 48 mm, así que dobla siguiendo los bordes del papel.',
           ),
       12,
       38.5,

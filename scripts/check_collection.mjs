@@ -2,6 +2,7 @@ import assert from 'node:assert/strict'
 import { readFile } from 'node:fs/promises'
 import { chromium } from 'playwright-core'
 import { PDFDocument } from 'pdf-lib'
+import { getDocument } from 'pdfjs-dist/legacy/build/pdf.mjs'
 import { flightObjects } from '../apps/editor/assets/objects/activities.js'
 import { bookPlan, readBookURL } from '../apps/editor/book-model.js'
 
@@ -22,6 +23,38 @@ try {
     const home = new URL(lang === 'en' ? './' : lang + '.html', base)
     await page.goto(home.href)
     await page.locator('#plane-links a').first().waitFor()
+    for (const paper of ['A4', 'US_LETTER']) {
+      await page.selectOption('#download-paper', paper)
+      const trialURL = new URL(await page.locator('#monarch-trial').getAttribute('href'), base)
+      assert.deepEqual(readBookURL(trialURL).sheets, ['monarch-k1', 'monarch-k2'])
+      assert.equal(readBookURL(trialURL).paper, paper)
+      assert.equal(readBookURL(trialURL).lang, lang)
+      assert.equal(trialURL.searchParams.get('p'), '4')
+      await page.click('#monarch-trial')
+      await page.locator('#book-page-4 canvas:not([hidden])').waitFor()
+      const ready = page.waitForEvent('download')
+      await page.click('#download-book')
+      const trialDownload = await ready
+      const trialBytes = await readFile(await trialDownload.path())
+      const printable = await page.request.get(new URL('trials/monarch-k1-k2-' + paper + '-' + lang + '.pdf', base).href)
+      assert.equal(printable.status(), 200)
+      assert.ok(trialBytes.equals(await printable.body()), 'The direct printable and reader download must match')
+      const trial = await getDocument({data: new Uint8Array(trialBytes), verbosity: 0}).promise
+      try {
+        const instructions = await (await trial.getPage(2)).getTextContent()
+        const materials = instructions.items.map(item => item.str).join(' ')
+        assert.match(materials, /120/)
+        assert.match(materials, /33/)
+        const log = await (await trial.getPage(4)).getTextContent()
+        assert.ok(['K1', 'K2'].every(id => log.items.some(item => item.str === id)))
+      } finally {
+        await trial.destroy()
+      }
+      await page.goto(home.href)
+      await page.locator('#plane-links a').first().waitFor()
+    }
+    await page.selectOption('#construction', 'w1')
+    assert.equal(await page.locator('#monarch-trial').isVisible(), false)
     assert.equal(await page.locator('#object-links a').count(), 3)
     for (const item of lab.activities) {
       const a = page.locator('[data-object="' + item.id + '"]')
@@ -70,7 +103,7 @@ try {
     assert.deepEqual(await page.locator('.compare-card h2').allTextContents(), lab.activities.slice(0,2).map(item=>item.title))
     assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth <= innerWidth + 1), true)
     assert.deepEqual(errors,[])
-    console.log(lang + ': three designs, both paper sizes, book PDF, class copy plan and comparison passed')
+    console.log(lang + ': paired Monarch trial in both sizes, three activities, book PDF, class copy plan and comparison passed')
     await page.close()
   }
 } finally {

@@ -4,7 +4,9 @@
 
 Сложи кольцеплан, отпусти бумажную крылатку или сделай планер с двумя парами крыльев по книге 1918 года. В мастерской есть три листа для печати, редактируемые чертежи SVG и сведения об авторах. [Летающие модели](https://kevinmamaqi.github.io/open-flight/flight-objects.html?lang=ru) · [Источники и условия использования (на английском)](guides/unusual-flyer-sources.md)
 
-Выбери задания для своей Книги полётов или распечатай все три для каждой команды в классе. В комплект входят редактируемые выкройки экспериментальных моделей. [Скачать комплект летающих моделей](https://github.com/kevinmamaqi/open-flight/releases/download/v0.9.1/open-flight-flying-objects.zip)
+Напечатай обоих монархов на одинаковой бумаге 120 г/м². Чередуй K1 и K2, сделай по пять запусков и запиши каждую попытку. Книга открывается на дневнике. На странице 2 перечислены скрепки, а на странице 3 указаны номера выкроек. [Открыть опыт K1/K2](https://kevinmamaqi.github.io/open-flight/book.html?lang=ru&p=4#m=monarch-k1,monarch-k2&paper=a4) · [PDF для A4](https://kevinmamaqi.github.io/open-flight/trials/monarch-k1-k2-A4-ru.pdf) · [PDF для US Letter](https://kevinmamaqi.github.io/open-flight/trials/monarch-k1-k2-US_LETTER-ru.pdf)
+
+Выбери задания для своей Книги полётов или распечатай все три для каждой команды в классе. В комплект входят редактируемые выкройки экспериментальных моделей. [Скачать комплект летающих моделей](https://github.com/kevinmamaqi/open-flight/releases/download/v0.9.2/open-flight-flying-objects.zip)
 
 Полистайте Книгу полётов. Выберите модель, примерьте расцветку и решите, поместить ли её на обложку и взять ли выкройку. На карте можно увидеть места обитания бабочек и первых полётов самолётов. Печатный атлас содержит ссылки на музеи и научные учреждения, а также рассказы о Юрии Гагарине и Джоне Гленне. Выберите A4 или US Letter, проверьте отрезок 50 мм на странице 2 и распечатайте выкройки в натуральную величину. [Открыть Книгу полётов](https://kevinmamaqi.github.io/open-flight/book.html?lang=ru) · [Источники и фотографии атласа](guides/flight-book-origins.md) · [Авторы иллюстраций и шрифтов](guides/flight-book-art.md)
 
@@ -17,7 +19,7 @@
 
 У бабочки K1 корпус складывается из того же листа. Совмести кончики крыльев, сложи обе стенки корпуса и положи крылья на стол, чтобы выровнять их. Оригинальная модель с регулируемыми язычками тоже доступна. [Сложить бабочку K1](https://kevinmamaqi.github.io/open-flight/studio.html?construction=k1&species=monarch&lang=ru)
 
-Печатайте в натуральную величину. Контрольный отрезок на каждом листе должен быть 50 мм. Трёхмерная траектория и полёт через трое ворот показывают возможный ход полёта. Чтобы проверить его, запустите настоящую бумажную модель. У каждой модели есть редактируемый исходник. [78 PDF и три занятия для работы без интернета](docs/library/) · [Семейное занятие](guides/paper-flight-lesson.md) · [Версия 0.9.1](https://github.com/kevinmamaqi/open-flight/releases/tag/v0.9.1) · [Первоисточники и авторы](https://kevinmamaqi.github.io/open-flight/references.html?lang=ru)
+Печатайте в натуральную величину. Контрольный отрезок на каждом листе должен быть 50 мм. Трёхмерная траектория и полёт через трое ворот показывают возможный ход полёта. Чтобы проверить его, запустите настоящую бумажную модель. У каждой модели есть редактируемый исходник. [78 PDF и три занятия для работы без интернета](docs/library/) · [Семейное занятие](guides/paper-flight-lesson.md) · [Версия 0.9.2](https://github.com/kevinmamaqi/open-flight/releases/tag/v0.9.2) · [Первоисточники и авторы](https://kevinmamaqi.github.io/open-flight/references.html?lang=ru)
 
 [![Мастерская бумажных полётов, на рабочем столе монарх](apps/editor/assets/atlas/workshop-preview-ru.png)](https://kevinmamaqi.github.io/open-flight/ru.html)
 
@@ -25,7 +27,7 @@
 
 ## Запуск на своём компьютере
 
-В каталоге `docs/` лежит готовый сайт. Из корня проекта выполните `python3 -m http.server 8000 --directory docs` и откройте `http://localhost:8000/ru.html`. Полный ZIP-архив содержит Книгу полётов и памятку для класса. Распакуйте архив, запустите в этой папке `python3 -m http.server 8000` и откройте `http://localhost:8000/book.html?lang=ru` или `http://localhost:8000/classroom.html?lang=ru`. PDF и самостоятельные HTML-занятия открываются прямо из папки. [Скачать мастерскую и библиотеку](https://github.com/kevinmamaqi/open-flight/releases/tag/v0.9.1)
+В каталоге `docs/` лежит готовый сайт. Из корня проекта выполните `python3 -m http.server 8000 --directory docs` и откройте `http://localhost:8000/ru.html`. Полный ZIP-архив содержит Книгу полётов и памятку для класса. Распакуйте архив, запустите в этой папке `python3 -m http.server 8000` и откройте `http://localhost:8000/book.html?lang=ru` или `http://localhost:8000/classroom.html?lang=ru`. PDF и самостоятельные HTML-занятия открываются прямо из папки. [Скачать мастерскую и библиотеку](https://github.com/kevinmamaqi/open-flight/releases/tag/v0.9.2)
 
 Для локального редактора с историей и доступом по HTTP и MCP установите Node 24 или новее, выполните `npm ci`, затем `npm run editor -- --workspace ./local/studio --port 4180` и откройте файл запуска, путь к которому появится в терминале. [HTTP](api/openapi.json) · [MCP](api/mcp-tools.json)
 

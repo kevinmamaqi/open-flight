@@ -14,6 +14,10 @@ destination.mkdir(parents=True, exist_ok=True)
 site = root / 'docs'
 intro = """OPEN FLIGHT · МАСТЕРСКАЯ БУМАЖНЫХ ПОЛЁТОВ · TALLER DE VUELO EN PAPEL
 
+For the K1/K2 Monarch comparison, open the PDF for your language and paper in trials/. Record all five pairs of launches on page 4.
+Чтобы сравнить монархов K1 и K2, открой в папке trials/ PDF на своём языке для своего формата бумаги. Запиши все пять пар запусков на странице 4.
+Para comparar las monarcas K1 y K2, abre el PDF de tu idioma y formato de papel en trials/. Anota los cinco pares de lanzamientos en la página 4.
+
 Print a PDF from the library at actual size. Every sheet carries a line marked 50 mm: measure it before you cut. For a folded-body K1 butterfly, cut the first page and follow the fold guide on page three. Print only the first airplane page for the aircraft. Keep the picture guide and notebook at hand.
 The full workshop includes the free Flight Book with Studio model, Drawn and Ink saver covers. Scroll through the pages, pick a flyer to recolor its pattern or give it the cover, and find its home on the world map. Print the scale check on book page 2 at 100% and measure 50 mm. The classroom guide gives one-sided copy counts and page ranges to send with the book PDF to a print shop. The motor lab includes a printable fit model and observation sheet.
 To use the complete website archive offline, open a terminal in its expanded folder, start python3 -m http.server 8000 and open http://localhost:8000 in a browser. Open /book.html?lang=en for the Flight Book or /classroom.html?lang=en for the classroom guide. PDFs and standalone lesson HTML files open directly. See NOTICES.md for artwork, fonts and other credits.
@@ -39,6 +43,7 @@ expected_editions = len(catalog['sheets']) * len(catalog['papers']) * len(locale
 if len(library_pdfs) != expected_editions or not library_pdfs:
     raise ValueError('Missing or duplicate sheet editions in the print catalog')
 object_pdfs = {f'assets/objects/flight-lab-{paper}-{locale}.pdf' for paper in catalog['papers'] for locale in locales}
+trial_pdfs = {f'trials/monarch-k1-k2-{paper}-{locale}.pdf' for paper in catalog['papers'] for locale in locales}
 object_files = object_pdfs | {f'assets/objects/{name}' for name in (
     'ring.svg', 'tandem.svg', 'samara.svg', 'maple-keys.jpg', 'samara-study.png', 'CREDITS.md')}
 art_paths = json.loads((site / 'assets/book/art-catalog.json').read_text())
@@ -101,13 +106,13 @@ def archive(name: str, directory: Path, *, full_workshop: bool = False) -> None:
     members['licenses/OFL-Andika.txt'] = (root / 'apps/editor/assets/fonts/OFL-Andika.txt').read_bytes()
     members['licenses/OFL-Alegreya.txt'] = (root / 'apps/editor/assets/fonts/OFL-Alegreya.txt').read_bytes()
     if not full_workshop:
-        for path in object_files:
+        for path in object_files | trial_pdfs:
             members[path] = (site / path).read_bytes()
     notices = members['NOTICES.md'].decode().replace('](apps/editor/', '](https://github.com/kevinmamaqi/open-flight/tree/main/apps/editor/')
     members['NOTICES.md'] = notices.replace('](guides/', '](https://github.com/kevinmamaqi/open-flight/blob/main/guides/').encode()
     members['START-HERE.txt'] = intro.encode()
     library_prefix = 'library/' if full_workshop else ''
-    expected_pdfs = {library_prefix + item for item in library_pdfs} | object_pdfs
+    expected_pdfs = {library_prefix + item for item in library_pdfs} | object_pdfs | trial_pdfs
     expected_files = expected_pdfs | {library_prefix + item for item in library_lessons}
     if full_workshop:
         expected_files |= workshop_files

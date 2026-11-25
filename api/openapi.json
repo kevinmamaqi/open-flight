@@ -2,7 +2,7 @@
   "openapi": "3.1.2",
   "info": {
     "title": "Open Flight local product API",
-    "version": "0.9.1",
+    "version": "0.9.2",
     "description": "Account-free local product operations backed by the selected workspace. A loopback instance issues a private bearer grant. Export jobs and immutable artifact bytes are stored together in SQLite."
   },
   "x-contract-status": "implemented_local_experimental",

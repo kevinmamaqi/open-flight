@@ -1,10 +1,10 @@
-import { flightObjects } from './assets/objects/activities.js?v=9b28ac5f5814'
-import { ru, es } from './atlas-copy.js?v=9b28ac5f5814'
-import { currentLocale, homeURL, localizedLinks } from './atlas-nav.js?v=9b28ac5f5814'
-import { fieldModel, studioLink, foldedLink } from './atlas-guide.js?v=9b28ac5f5814'
-import { sheetCatalog, sheetIdFor, sheetPath } from './family-sheets.js?v=9b28ac5f5814'
-import { normalizeBook } from './book-model.js?v=9b28ac5f5814'
-import { recordBookEvent } from './book-metrics.js?v=9b28ac5f5814'
+import { flightObjects } from './assets/objects/activities.js?v=12d2669e2f41'
+import { ru, es } from './atlas-copy.js?v=12d2669e2f41'
+import { currentLocale, homeURL, localizedLinks } from './atlas-nav.js?v=12d2669e2f41'
+import { fieldModel, studioLink, foldedLink } from './atlas-guide.js?v=12d2669e2f41'
+import { sheetCatalog, sheetIdFor, sheetPath } from './family-sheets.js?v=12d2669e2f41'
+import { bookURL, monarchTrialSheets, normalizeBook } from './book-model.js?v=12d2669e2f41'
+import { recordBookEvent } from './book-metrics.js?v=12d2669e2f41'
 
 const assetVersion = new URL(import.meta.url).search
 const fragment = new URLSearchParams(location.hash.slice(1))
@@ -118,7 +118,7 @@ function display() {
   $('specimen-name').textContent = name + ' ↗'
   $('specimen-family').textContent =
     m.family === 'airplane'
-      ? t('Whole-sheet airplane', 'Avión de hoja entera', 'Бумажный самолёт')
+      ? t('Paper airplane', 'Avión de papel', 'Бумажный самолёт')
       : t('Butterfly glider', 'Planeador mariposa', 'Планер-бабочка')
   if (activity) $('specimen-family').textContent = t('Experimental design', 'Diseño experimental', 'Экспериментальная модель')
   $('specimen-detail').textContent = m.family === 'airplane' ? m.name : m.inspiration
@@ -141,6 +141,14 @@ const patternAndBack = t('Pattern, reverse side and fold guide', 'Plantilla, rev
 function download() {
   const butterfly = models.find(m=>m.id===select.value)?.family==='butterfly'
   $('construction-field').hidden=!butterfly
+  const trial = $('monarch-trial')
+  trial.hidden = select.value !== 'monarch' || $('construction').value === 'w1'
+  if (!trial.hidden) {
+    const settings = { lang, paper: $('download-paper').value, sheets: monarchTrialSheets }
+    const url = new URL(bookURL(settings, new URL('./book.html', location.href)))
+    url.searchParams.set('p', '4')
+    trial.href = url.href
+  }
   const activity = activities.get(select.value)
   if (activity) {
     const path = lab.packets[$('download-paper').value]

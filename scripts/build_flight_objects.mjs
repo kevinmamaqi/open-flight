@@ -147,12 +147,12 @@ function drawRecords(doc, labels, activity, pageWidth, y) {
   return y;
 }
 
-function drawPage(doc, labels, activity, illustration, pageWidth, pageHeight, pageCount, locale) {
+function drawPage(doc, labels, activity, illustration, pageWidth, pageHeight, locale) {
   const textWidth = pageWidth - 2 * margin;
   const rulerX = pageWidth - margin - print.calibration - 11;
   textStyle(doc, 9, "bold", muted);
+  // The collection number travels with the activity. A Flight Book supplies its own page number.
   doc.text(labels.lab, margin, 12);
-  doc.text(`${activity.page} / ${pageCount}`, pageWidth - margin, 12, { align: "right" });
 
   let y = paragraph(doc, activity.title, margin, 24, textWidth, 25, "display") + 0.5;
   y = paragraph(doc, activity.question, margin, y, textWidth, 12.4, "normal", accent) + 2.5;
@@ -247,7 +247,7 @@ for (const locale of objectLocales) {
     }
     for (const [index, activity] of activities.entries()) {
       if (index > 0) doc.addPage();
-      drawPage(doc, labels, activity, illustrations.get(activity.illustration), width, height, activities.length, locale);
+      drawPage(doc, labels, activity, illustrations.get(activity.illustration), width, height, locale);
     }
 
     const destination = new URL(packetPath(paper, locale), editor);

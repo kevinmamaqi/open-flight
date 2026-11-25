@@ -1,9 +1,9 @@
-import { foldArtwork, showFoldStep } from './fold-lesson.js?v=9b28ac5f5814'
-import { makePlane, planeCatalog, planeSource, sheetSizes, liveries, sheetEdges, revision } from './assets/planes/core.js?v=9b28ac5f5814'
-import { planeSvg, planeSpecimen, esc, stripes } from './assets/planes/drawing.js?v=9b28ac5f5814'
-import { foldSvg, planeGuide } from './assets/planes/guide.js?v=9b28ac5f5814'
-import { planeBrowserPdf } from './assets/planes/print.js?v=9b28ac5f5814'
-import { appearanceChoices } from './model-appearance.js?v=9b28ac5f5814'
+import { foldArtwork, showFoldStep } from './fold-lesson.js?v=12d2669e2f41'
+import { makePlane, planeCatalog, planeSource, sheetSizes, liveries, sheetEdges, revision } from './assets/planes/core.js?v=12d2669e2f41'
+import { planeSvg, planeSpecimen, esc, stripes } from './assets/planes/drawing.js?v=12d2669e2f41'
+import { foldSvg, planeGuide } from './assets/planes/guide.js?v=12d2669e2f41'
+import { planeBrowserPdf } from './assets/planes/print.js?v=12d2669e2f41'
+import { appearanceChoices } from './model-appearance.js?v=12d2669e2f41'
 
 const words = {
   fieldTitle: ['From aircraft to paper', 'От самолёта к бумаге', 'Del avión real al papel'],
@@ -33,7 +33,7 @@ const words = {
   hangar: ['Paper airplane studio', 'Мастерская бумажных самолётов', 'Taller de aviones de papel'],
   start: ['Start folding', 'Начать сборку', 'Empezar a doblar'],
   print: ['Download build PDF', 'Скачать PDF для сборки', 'Descargar PDF de montaje'],
-  oneSheet: ['One whole sheet', 'Один целый лист', 'Una hoja entera'],
+  oneSheet: ['One sheet per airplane', 'Один лист на самолёт', 'Una hoja por avión'],
   paperModel: ['Folded paper model', 'Бумажная модель', 'Modelo de papel doblado'],
   choose: ['Choose an aircraft', 'Выберите самолёт', 'Elige un avión'],
   workbench: ['Folding table', 'Стол для сборки', 'Mesa de trabajo'],
@@ -57,16 +57,16 @@ const words = {
   paper: ['Paper size', 'Формат листа', 'Tamaño de la hoja'],
   edge: ['Sheet edge', 'Край листа', 'Borde de la hoja'],
   edgeCut: ['Cut border · 7 mm inset', 'Рамка для вырезания · 7 мм от края', 'Borde para recortar · margen de 7 mm'],
-  edgeWhole: ['Whole sheet · edge-to-edge printing', 'Целый лист · печать до края', 'Hoja entera · impresión hasta el borde'],
+  edgeWhole: ['Whole sheet · no cutting', 'Целый лист без вырезания', 'Hoja entera sin recortar'],
   edgeCutHint: [
     'Print at 100%. Check that all four sides of the thick border are visible, then cut along it.',
     'Печатайте в масштабе 100 %. Проверьте, что видны все четыре стороны толстой рамки, и вырежьте лист по ней.',
     'Imprime al 100 %. Comprueba que se ven los cuatro lados de la línea gruesa y recorta por ella.',
   ],
   edgeWholeHint: [
-    'No border: fold the full page. Choose this only if your printer prints to the very edge, or a print shop trims the pages.',
-    'Без рамки: складывайте весь лист. Выбирайте, только если принтер печатает до самого края или типография обрезает листы.',
-    'Sin borde: dobla la hoja entera. Elígelo solo si tu impresora imprime hasta el borde o una imprenta recorta las hojas.',
+    'Fold a plain sheet whole using the diagrams. To print the fold marks all the way to the edges, use borderless printing or a print shop.',
+    'Складывай чистый лист целиком по схемам. Чтобы напечатать линии сгиба до самого края, выбери печать без полей или обратись в типографию.',
+    'Dobla la hoja en blanco entera con ayuda de los dibujos. Para imprimir las marcas hasta los bordes, usa impresión sin márgenes o acude a una copistería.',
   ],
   livery: ['Printed colors', 'Расцветка', 'Colores del avión'],
   flagHelp: [
@@ -154,10 +154,10 @@ const words = {
   mm: ['mm', 'мм', 'mm'],
   airplane: ['Paper airplane studio', 'Мастерская бумажных самолётов', 'Taller de aviones de papel'],
 }
-import { flightPhysics,physicsTitle } from './atlas-physics.js?v=9b28ac5f5814'
-import { currentLocale, languageSwitch, localizedLinks } from './atlas-nav.js?v=9b28ac5f5814'
-import { studioOrigins, bookColorAction } from './studio-origins.js?v=9b28ac5f5814'
-import { bookFromStudio } from './model-studio.js?v=9b28ac5f5814'
+import { flightPhysics,physicsTitle } from './atlas-physics.js?v=12d2669e2f41'
+import { currentLocale, languageSwitch, localizedLinks } from './atlas-nav.js?v=12d2669e2f41'
+import { studioOrigins, bookColorAction } from './studio-origins.js?v=12d2669e2f41'
+import { bookFromStudio } from './model-studio.js?v=12d2669e2f41'
 const $ = (id) => document.getElementById(id)
 const updateAtlas = studioOrigins($('origin-atlas'))
 const params = new URLSearchParams(location.search)
@@ -415,7 +415,7 @@ function renderStep() {
 }
 async function updateViewer() {
   try {
-    loadingViewer ??= import('./flight-viewer.js?v=9b28ac5f5814')
+    loadingViewer ??= import('./flight-viewer.js?v=12d2669e2f41')
       .then(({ mountFlightViewer }) => mountFlightViewer($('three')))
       .catch((error) => {
         loadingViewer = undefined

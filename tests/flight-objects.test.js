@@ -6,6 +6,7 @@ import { readFile } from 'node:fs/promises'
 import { createHash } from 'node:crypto'
 import test from 'node:test'
 import { PDFDocument, PDFName, decodePDFRawStream } from 'pdf-lib'
+import { getDocument } from 'pdfjs-dist/legacy/build/pdf.mjs'
 import { flightObjects, objectLocales, objectPapers } from '../apps/editor/assets/objects/activities.js'
 
 const editor = new URL('../apps/editor/', import.meta.url)
@@ -60,8 +61,29 @@ test('selected activities survive sharing and are printed with their original ar
   assert.deepEqual(bookPlan({...settings, activities: []}).activityPages, [])
   const plan = bookPlan(settings)
   assert.deepEqual(plan.activityPages, [{id:'tandem', number:9}, {id:'samara', number:10}])
-  const pdf = await PDFDocument.load(await createBook(settings, {loadAsset:path=>readFile(new URL(path, editor))}))
+  const bytes = await createBook(settings, {loadAsset:path=>readFile(new URL(path, editor))})
+  const pdf = await PDFDocument.load(bytes)
   assert.equal(pdf.getPageCount(), plan.pageCount)
+  const readable = await getDocument({data: new Uint8Array(bytes), verbosity: 0}).promise
+  try {
+    const index = (await (await readable.getPage(3)).getTextContent()).items
+    const activities = flightObjects(settings.lang).activities
+    for (const { id, number } of plan.activityPages) {
+      const title = activities.find(activity => activity.id === id).title
+      const label = index.find(item => item.str === title)
+      assert.ok(label, `Printed index names ${title}`)
+      assert.ok(index.some(item => item.str === String(number) && item.transform[5] === label.transform[5]),
+        `Printed index puts page ${number} on the same line as ${title}`)
+      const content = await (await readable.getPage(number)).getTextContent()
+      const lines = content.items.map(item => item.str.trim())
+      assert.doesNotMatch(lines.join(' '), /Actividad [1-3] de 3/i)
+      const folios = lines.filter(line => /^\d+\s*\/\s*\d+$/.test(line))
+      assert.deepEqual(folios, [`${String(number).padStart(2, '0')} / ${pdf.getPageCount()}`])
+      if (id === 'samara') assert.doesNotMatch(lines.join(' '), /página\s+2\b/i)
+    }
+  } finally {
+    await readable.destroy()
+  }
   const names = pdf.catalog.lookup(PDFName.of('Names')).lookup(PDFName.of('EmbeddedFiles')).lookup(PDFName.of('Names'))
   assert.equal(names.size(), 4)
   for (let i = 0; i < names.size(); i += 2) {
