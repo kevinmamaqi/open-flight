@@ -2,6 +2,8 @@
 
 Make a paper glider with a child or a classroom, then change one fold and see where it lands. The free workshop runs in your browser. You can save a butterfly design on your device, download its editable source, or start with plain paper and a folding guide. [Open the workshop](https://openflight.design/?lang=en) · [По-русски](README.ru.md) · [Español](README.es.md)
 
+If you saved a design or a book draft before the move to openflight.design, use the same browser to open it on the previous site. You can also reach it from the workshop footer. [Open the previous workshop](https://kevinmamaqi.github.io/open-flight/?previous=1)
+
 Fold a ring, drop a maple spinner or build the two-wing-pair glider from a 1918 book. The flying objects workshop includes a three-page packet in each paper size, editable SVGs and a register of the source designs. [Flying objects](https://openflight.design/flight-objects?lang=en) · [Source and reuse register](guides/unusual-flyer-sources.md)
 
 Print both Monarchs on the same 120 g/m² paper and record five alternating launches per build. The trial opens on the log. Page 2 lists the clips, and page 3 points to each pattern. An agent can request the same book with `openflight_render_family_book` or `POST /v1/books/render` using `sheets: ["monarch-k1", "monarch-k2"]` in `settings`. [Open the K1/K2 trial](https://openflight.design/book?lang=en&p=4#m=monarch-k1,monarch-k2&paper=a4) · [Print A4 PDF](https://openflight.design/trials/monarch-k1-k2-A4-en.pdf) · [Print US Letter PDF](https://openflight.design/trials/monarch-k1-k2-US_LETTER-en.pdf)

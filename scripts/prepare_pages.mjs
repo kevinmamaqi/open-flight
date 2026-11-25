@@ -13,8 +13,7 @@ for (const entry of readdirSync(source, {withFileTypes: true})) {
   if (entry.name.startsWith('.') || (entry.isDirectory() && aliases.includes(entry.name))) continue
   cpSync(join(source, entry.name), join(output, entry.name), {recursive: true})
 }
-const redirects = ['https://www.openflight.design/* https://openflight.design/:splat 301',
-  ...aliases.map(name => '/' + name + '/ /' + name + ' 301')]
+const redirects = aliases.map(name => '/' + name + '/ /' + name + ' 301')
 writeFileSync(join(output, '_redirects'), redirects.join('\n') + '\n')
 // This is a multi-page workshop. Missing patterns should return an HTTP 404.
 writeFileSync(join(output, '404.html'), `<!doctype html>

@@ -2,6 +2,8 @@
 
 Elige un planeador de papel, cambia un doblez y observa dónde aterriza. El taller es gratuito y funciona en el navegador. Está pensado para niñas y niños de 5 a 12 años, sus familias y sus docentes. Puedes guardar tus diseños en el dispositivo y descargar hojas para imprimir y guías ilustradas. [Abrir el taller en español](https://openflight.design/es) · [English](README.md) · [По-русски](README.ru.md)
 
+Si guardaste un diseño o un borrador del libro antes del cambio a openflight.design, puedes recuperarlo en el taller anterior desde el mismo navegador. También encontrarás el enlace al pie del taller. [Abrir el taller anterior](https://kevinmamaqi.github.io/open-flight/es.html?previous=1)
+
 Pliega un anillo, deja caer una semilla de papel o monta un planeador de dos pares de alas inspirado en un libro de 1918. El taller incluye tres hojas para imprimir, dibujos SVG editables y los créditos de cada actividad. [Objetos voladores](https://openflight.design/flight-objects?lang=es) · [Fuentes y permisos (en inglés)](guides/unusual-flyer-sources.md)
 
 Imprime las dos monarcas en el mismo papel de 120 g/m². Alterna cinco lanzamientos con cada modelo y anota todos los resultados. La prueba se abre en el diario. La página 2 indica los clips y la 3 indica dónde está cada plantilla. [Abrir la prueba K1/K2](https://openflight.design/book?lang=es&p=4#m=monarch-k1,monarch-k2&paper=a4) · [PDF en A4](https://openflight.design/trials/monarch-k1-k2-A4-es.pdf) · [PDF en Carta](https://openflight.design/trials/monarch-k1-k2-US_LETTER-es.pdf)
