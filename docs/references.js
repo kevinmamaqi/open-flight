@@ -1,6 +1,6 @@
-import { currentLocale, localizedLinks } from './atlas-nav.js?v=51d4970dfb40'
-import { studioLink } from './atlas-guide.js?v=51d4970dfb40'
-import { planeCatalog } from './assets/planes/catalog.js?v=51d4970dfb40'
+import { currentLocale, localizedLinks } from './atlas-nav.js?v=3b57e65abbf7'
+import { studioLink } from './atlas-guide.js?v=3b57e65abbf7'
+import { planeCatalog } from './assets/planes/catalog.js?v=3b57e65abbf7'
 const $ = (id) => document.getElementById(id)
 const lang = currentLocale()
 const ru = lang === 'ru'

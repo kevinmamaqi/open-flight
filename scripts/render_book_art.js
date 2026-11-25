@@ -69,7 +69,7 @@ function drawnEdges(ctx, rendered) {
 }
 
 let renderer
-function renderScene(scene, camera, style, world) {
+function renderScene(scene, camera, style, world, transparent) {
   renderer ??= new THREE.WebGLRenderer({ alpha: true, antialias: true, preserveDrawingBuffer: true })
   renderer.setSize(width * supersample, height * supersample, false)
   renderer.setClearColor(0x000000, 0)
@@ -77,13 +77,13 @@ function renderScene(scene, camera, style, world) {
   const output = canvas(width, height)
   const ctx = output.getContext('2d')
   ctx.imageSmoothingQuality = 'high'
-  background(ctx, style, world, camera)
+  if (!transparent) background(ctx, style, world, camera)
   if (style === 'illustrated') drawnEdges(ctx, renderer.domElement)
   ctx.drawImage(renderer.domElement, 0, 0, width, height)
-  return output.toDataURL('image/jpeg', 0.9)
+  return output.toDataURL(transparent ? 'image/webp' : 'image/jpeg', 0.9)
 }
 
-export async function renderBookArt(entry, model, styles) {
+export async function renderBookArt(entry, model, styles, transparent = false) {
   const { world } = model
   const result = {}
   for (const style of styles) {
@@ -93,7 +93,7 @@ export async function renderBookArt(entry, model, styles) {
     const camera = makeCamera(world, eye)
     const texture = await textureFor(model, style)
     const scene = makeScene(world, style, eye, texture)
-    result[style] = renderScene(scene, camera, style, world)
+    result[style] = renderScene(scene, camera, style, world, transparent)
     scene.traverse((object) => {
       object.geometry?.dispose()
       object.material?.dispose()

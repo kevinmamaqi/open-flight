@@ -1,13 +1,13 @@
-import { appearanceArtPath } from './model-appearance.js?v=51d4970dfb40'
-import { publicPath } from './site-navigation.js?v=51d4970dfb40'
-import { flightObjects } from './assets/objects/activities.js?v=51d4970dfb40'
-import { ru, es } from './atlas-copy.js?v=51d4970dfb40'
-import { currentLocale, homeURL, languageInPath, localizedLinks } from './atlas-nav.js?v=51d4970dfb40'
-import { fieldModel, studioLink, foldedLink } from './atlas-guide.js?v=51d4970dfb40'
-import { sheetCatalog, sheetIdFor, sheetPath } from './family-sheets.js?v=51d4970dfb40'
-import { bookURL, monarchTrialSheets, normalizeBook } from './book-model.js?v=51d4970dfb40'
-import { recordBookEvent } from './book-metrics.js?v=51d4970dfb40'
-import { previousHome, workshopHome } from './assets/workshop-address.js?v=51d4970dfb40'
+import { specimenPath } from './model-appearance.js?v=3b57e65abbf7'
+import { publicPath } from './site-navigation.js?v=3b57e65abbf7'
+import { flightObjects } from './assets/objects/activities.js?v=3b57e65abbf7'
+import { ru, es } from './atlas-copy.js?v=3b57e65abbf7'
+import { currentLocale, homeURL, languageInPath, localizedLinks } from './atlas-nav.js?v=3b57e65abbf7'
+import { fieldModel, studioLink, foldedLink } from './atlas-guide.js?v=3b57e65abbf7'
+import { sheetCatalog, sheetIdFor, sheetPath } from './family-sheets.js?v=3b57e65abbf7'
+import { bookURL, monarchTrialSheets, normalizeBook } from './book-model.js?v=3b57e65abbf7'
+import { recordBookEvent } from './book-metrics.js?v=3b57e65abbf7'
+import { previousHome, workshopHome } from './assets/workshop-address.js?v=3b57e65abbf7'
 
 const assetVersion = new URL(import.meta.url).search
 const fragment = new URLSearchParams(location.hash.slice(1))
@@ -123,7 +123,7 @@ function display() {
     ? './' + lab.packets.A4 + assetVersion + '#page=' + activity.page
     : './' + sheetPath(sheetIdFor(m.id), 'A4', lang) + assetVersion
   $('specimen-sheet').textContent = activity ? t('Open the activity (A4 PDF)', 'Ver la actividad (PDF A4)', 'Открыть задание (PDF, A4)') : patternLabel
-  $('specimen').src = './' + appearanceArtPath(activity ? m.id : sheetIdFor(m.id))
+  $('specimen').src = './' + specimenPath(m.id)
   $('specimen').alt = t('Open design ', 'Abrir el diseño ', 'Открыть модель ') + name
   $('hero-link').href = $('specimen-name').href = './' + publicPath(({butterfly:'butterflies',airplane:'airplanes',object:'flying-objects'})[m.family]+'/'+m.id,lang)
   $('specimen-name').textContent = name + ' ↗'

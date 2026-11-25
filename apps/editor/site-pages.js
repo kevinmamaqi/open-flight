@@ -1,7 +1,7 @@
+import { fieldPanels } from './model-field-panels.js'
 import { workbenchMarkup } from './model-workbench.js'
-import { appearanceArtPath } from './model-appearance.js'
+import { specimenPath } from './model-appearance.js'
 import { planeCatalog } from './assets/planes/catalog.js'
-import { objectCopy } from './flight-objects-copy.js'
 import { designIds, fieldModel, studioLink, words } from './atlas-guide.js'
 import { flightObjects } from './assets/objects/activities.js'
 import { workshopHome } from './assets/workshop-address.js'
@@ -36,7 +36,7 @@ const products = {
     ),
   },
   butterflies: {
-    family: 'butterfly', image: appearanceArtPath('monarch-k2'), tool: 'costa',
+    family: 'butterfly', image: specimenPath('monarch'), tool: 'costa',
     description: w(
       'Cut and fold three paper butterfly gliders with printable patterns. Change a fold, check the balance with a paper clip, and record where each glider lands.',
       'Recorta y pliega tres planeadores con forma de mariposa. Cambia un pliegue, comprueba el equilibrio con un clip y apunta dónde aterriza cada uno.',
@@ -44,7 +44,7 @@ const products = {
     ),
   },
   airplanes: {
-    family: 'airplane', image: appearanceArtPath('boeing-747'), tool: 'planes',
+    family: 'airplane', image: specimenPath('boeing-747'), tool: 'planes',
     description: w(
       'Fold a paper airplane from a single rectangular sheet. Pick one of four models and follow its illustrated guide, with printable patterns in A4 and US Letter.',
       'Pliega un avión de papel con una sola hoja rectangular. Elige uno de cuatro modelos y sigue su guía ilustrada, con plantillas en A4 y Carta.',
@@ -52,7 +52,7 @@ const products = {
     ),
   },
   'flying-objects': {
-    family: 'object', image: appearanceArtPath('ring'), tool: 'flight-objects',
+    family: 'object', image: specimenPath('ring'), tool: 'flight-objects',
     description: w(
       'Make a ring glider, a maple spinner and a Williams tandem glider. Each activity gives you a build, two settings to compare and a way to record the result.',
       'Construye un planeador de anillo, una semilla giratoria y un planeador tándem Williams. Cada actividad incluye instrucciones, dos variantes y una forma de anotar el resultado.',
@@ -157,7 +157,7 @@ function modelCards(category, ids, lang, base) {
   return `<ul class="product-grid">${ids.map(id => {
     const model = fieldModel(id, lang)
     return `<li class="product-card panel">
-      ${photo(appearanceArtPath(model.family==='object' ? id : sheetIdFor(id)), base, true)}
+      ${photo(specimenPath(id), base, true)}
       <div class="product-card-copy"><h3>${link(base + publicPath(category + '/' + id, lang), nameOf(model))}</h3>
       <p>${e(model.technique)}</p></div>
     </li>`
@@ -177,24 +177,13 @@ function modelContent(model, lang, base, trialsBase) {
   }).join('')
   const trial = model.id === 'monarch'
     ? '<p>' + link(trialsBase + 'trials/monarch-k1-k2-A4-' + lang + '.pdf', t('paired'), 'text-link') + '</p>' : ''
-  const variants = butterfly ? `<section aria-labelledby="variants">
-    <h2 id="variants">${t('variants')}</h2>
+  const variants = butterfly ? `<details class="bench-downloads"><summary>${t('variants')}</summary>
     <h3>${link(base+studioLink(model.id,lang).slice(2),t('w1'),'text-link')}</h3><div class="actions">${files('w1')}</div>
     <h3>${link(base+'keel.html?species='+model.id+'&lang='+lang,w('Pinched spine','Pliegue central','Складной корпус')[lang]+' (K1)','text-link')}</h3><div class="actions">${files('k1')}</div>${trial}
-  </section>` : ''
-  const aircraft = planeCatalog.find(item=>item.model_id===model.id)
-  const materials = butterfly ? w('120 g/m² paper, scissors, a ruler and two 33 mm paper clips.', 'Papel de 120 g/m², tijeras, regla y dos clips de 33 mm.', 'Бумага 120 г/м², ножницы, линейка и две скрепки по 33 мм.')[lang] : model.materials
-  return `<div class="product-sections">
-    <section aria-labelledby="materials"><h2 id="materials">${t('materials')}</h2><p>${e(materials)}</p></section>
-    <section aria-labelledby="downloads"><h2 id="downloads">${t('downloads')}${butterfly ? ' (K2)' : ''}</h2>
-      <div class="actions">${files()}</div><p class="hint">${t('print')}</p></section>
-    <section aria-labelledby="experiment"><h2 id="experiment">${t('experiment')}</h2>
-      <p>${e(model.experiment)}</p>
-      ${activity ? '<p>' + link(activity.source.url, model.inspiration, 'text-link') + '</p>' : ''}
-    </section>
-    ${activity ? '<section><h2>'+objectCopy[lang].build+'</h2><ol>'+activity.steps.map(step=>'<li>'+e(step)+'</li>').join('')+'</ol><p>'+e(activity.recovery)+'</p></section>' : ''}
-    ${aircraft ? '<section><h2>'+e(aircraft.field.landmark[lang])+'</h2><p>'+e(aircraft.field.look[lang])+'</p><p>'+e(aircraft.field.finish[lang])+'</p></section>' : ''}${variants}
-  </div>`
+  </details>` : ''
+  return `<details class="bench-downloads"><summary>${t('downloads')}${butterfly ? ' (K2)' : ''}</summary>
+    <div class="actions">${files()}</div><p>${t('print')}</p></details>${variants}`
+
 }
 
 export function renderProduct(route, lang, assetKey = '', trialsBase = null) {
@@ -227,16 +216,26 @@ export function renderProduct(route, lang, assetKey = '', trialsBase = null) {
       const [a,v,b,n] = objectFacts[id]
       return metric(a[lang],v)+metric(b[lang],n)
     }
+    if (model.family === 'butterfly') {
+      const [, angle, tip] = model.settings
+      return metric(angle.label, angle.value+'°') + '<div><dt>'+e(tip.label)+'</dt><dd data-tip-height>'+tip.value+' mm</dd></div>'
+    }
     return model.settings.map(({label,value,unit})=>metric(label,value+' '+unit)).join('')
   }
-  const hero = `<section class="product-hero${image ? '' : ' product-hero-text'}"><div>
-    ${model ? '<p class="hint">' + e(model.family === 'airplane' ? model.name : model.technique) + '</p>' : ''}
+  const activity = model?.family === 'object' ? flightObjects(lang).activities.find(item=>item.id===id) : null
+  const hero = model ? workbenchMarkup(id,lang,base,{
+    title:label,
+    subtitle:model.family === 'butterfly' ? model.inspiration + ' · K2' : model.family === 'airplane' ? model.name : model.technique,
+    description:model.family === 'airplane' ? planeCatalog.find(p=>p.model_id===id).field.finish[lang] : model.family === 'butterfly' ? model.shape.split(/(?<=\.)\s/).slice(0,2).join(' ') : activity.question,
+    metrics:metrics(),
+    panels:fieldPanels(model,lang,base,next,activity),
+  }) : `<section class="product-hero${image ? '' : ' product-hero-text'}"><div>
     <h1>${e(label)}</h1><p class="lede">${e(desc)}</p>
-    ${model ? '<dl class="model-facts">'+metrics()+'</dl><a class="text-link" data-model-studio href="'+e(base+next)+'">'+w('Build instructions','Instrucciones de montaje','Инструкция по сборке')[lang]+' ↗</a>' : next ? link(base + next, (product.action ?? copy.open)[lang], 'button primary') : ''}
-  </div>${model ? workbenchMarkup(id, lang, base) : image ? photo(image, base) : ''}</section>`
+    ${next ? link(base + next, (product.action ?? copy.open)[lang], 'button primary') : ''}
+  </div>${image ? photo(image, base) : ''}</section>`
   let body = ''
   if (model) {
-    body = modelContent(model, lang, base, trialsBase ?? base) +
+    body = '<div class="edition-files">'+modelContent(model, lang, base, trialsBase ?? base)+'</div>' +
       `<section aria-labelledby="related"><h2 id="related">${copy.alternate[lang]}</h2>${modelCards(category, modelsByCategory[category].filter(other => other !== id), lang, base)}</section>`
   } else if (product.family) {
     body = `<section aria-labelledby="models"><h2 id="models">${copy.models[lang]}</h2>${modelCards(category, modelsByCategory[category], lang, base)}</section>`

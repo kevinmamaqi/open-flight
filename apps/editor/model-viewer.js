@@ -61,14 +61,14 @@ export function createViewer(container, id, lang, onProgress) {
     draw()
   }
   return {
-    async setModel(paint, paper, second) {
+    async setModel(paint, paper, second, span) {
       const current = ++version
       let model
       if (objectIds.includes(id)) model = objectModel(id, paint, second)
       else if (id.includes('-')) model = planeModel(id, paint, paper)
       else {
         const api = await import('./browser-workshop.js')
-        model = costaModel(api.makeK2({ species: id, appearance_id: paint, paper, locale: lang }), api)
+        model = costaModel(api.makeK2({ species: id, appearance_id: paint, span_mm: span, paper, locale: lang }), api)
       }
       const nextTexture = await textureFor(model, 'studio')
       if (version !== current) {

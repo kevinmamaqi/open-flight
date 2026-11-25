@@ -47,4 +47,4 @@
 }
 
 .object-print [hidden] { display: none; }
-#object-workbench { max-width: 48rem; margin: var(--space-4) auto; }
+#object-workbench { margin: var(--space-4); }

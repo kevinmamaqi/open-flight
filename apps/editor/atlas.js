@@ -1,4 +1,4 @@
-import { appearanceArtPath } from './model-appearance.js'
+import { specimenPath } from './model-appearance.js'
 import { publicPath } from './site-navigation.js'
 import { flightObjects } from './assets/objects/activities.js'
 import { ru, es } from './atlas-copy.js'
@@ -123,7 +123,7 @@ function display() {
     ? './' + lab.packets.A4 + assetVersion + '#page=' + activity.page
     : './' + sheetPath(sheetIdFor(m.id), 'A4', lang) + assetVersion
   $('specimen-sheet').textContent = activity ? t('Open the activity (A4 PDF)', 'Ver la actividad (PDF A4)', 'Открыть задание (PDF, A4)') : patternLabel
-  $('specimen').src = './' + appearanceArtPath(activity ? m.id : sheetIdFor(m.id))
+  $('specimen').src = './' + specimenPath(m.id)
   $('specimen').alt = t('Open design ', 'Abrir el diseño ', 'Открыть модель ') + name
   $('hero-link').href = $('specimen-name').href = './' + publicPath(({butterfly:'butterflies',airplane:'airplanes',object:'flying-objects'})[m.family]+'/'+m.id,lang)
   $('specimen-name').textContent = name + ' ↗'

@@ -784,6 +784,14 @@ export function k2Pdf(plan: K2Plan): Buffer {
 // SVG views for the workshop page and the book artwork.
 const svgPath = (l: Line) =>
   `<path d="M${l.points.map((p) => p.join(' ')).join(' L')}${l.closed ? ' Z' : ''}" fill="${l.fill ?? 'none'}" stroke="${l.stroke ?? 'none'}" stroke-width="${l.weight ?? 0}"${l.dash ? ` stroke-dasharray="${l.dash.join(' ')}"` : ''}/>`
+export function k2BuildSteps(plan: K2Plan) {
+  return words[plan.locale].steps.map((step, index) => ({
+    ...step,
+    diagram: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40 22" aria-hidden="true">' +
+      stepPicture(index, plan).map(svgPath).join('') + '</svg>',
+  }))
+}
+
 export function k2FinishedSvg(plan: K2Plan): string {
   const lines = k2Art(plan.outline, plan.appearance_id)
   const xs = plan.outline.top.map(([x]) => x),

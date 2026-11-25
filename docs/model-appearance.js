@@ -1,9 +1,9 @@
-import { butterflySwatches } from './assets/atlas/swatches.js?v=51d4970dfb40'
-import { planeCatalog, planeColors, liveries } from './assets/planes/catalog.js?v=51d4970dfb40'
-import { planeFlagCountry } from './assets/planes/country-markings.js?v=51d4970dfb40'
-import { sheetCatalog, sheetLocales } from './family-sheets.js?v=51d4970dfb40'
+import { butterflySwatches } from './assets/atlas/swatches.js?v=3b57e65abbf7'
+import { planeCatalog, planeColors, liveries } from './assets/planes/catalog.js?v=3b57e65abbf7'
+import { planeFlagCountry } from './assets/planes/country-markings.js?v=3b57e65abbf7'
+import { sheetCatalog, sheetLocales } from './family-sheets.js?v=3b57e65abbf7'
 
-import { objectIds, objectPalettes } from './assets/objects/appearance.js?v=51d4970dfb40'
+import { objectIds, objectPalettes } from './assets/objects/appearance.js?v=3b57e65abbf7'
 const labels = {
   field: { en:'Original colors', es:'Colores originales', ru:'Исходные цвета' },
   sunset: { en:'Sunset', es:'Atardecer', ru:'Закат' },
@@ -48,6 +48,13 @@ export function sheetAppearance(sheetId, appearance) {
   const id = appearance ?? defaultId
   if (!choices.some(choice => choice.id === id)) throw new RangeError('Unknown flyer appearance')
   return { ...entry, appearance: id, original: id === defaultId }
+}
+
+// Keep the field-table specimen separate from the angled studio photographs in the book.
+export function specimenPath(id, appearance) {
+  if (butterflySwatches[id]) return 'assets/atlas/' + id + '-k2-' + (appearance ?? 'natural') + '.svg'
+  const color = appearance ?? (objectIds.includes(id) ? 'field' : 'heritage')
+  return 'assets/viewer/' + id + '-' + color + '.webp'
 }
 
 export function appearanceArtPath(sheetId, style = 'studio', appearance) {

@@ -1,6 +1,6 @@
-import { objectPalettes, objectDrawing, coloredPacket } from './appearance.js?v=51d4970dfb40'
-import { tandem } from './tandem.js?v=51d4970dfb40'
-import { linkedFlyers } from './references.js?v=51d4970dfb40'
+import { objectPalettes, objectDrawing, coloredPacket } from './appearance.js?v=3b57e65abbf7'
+import { tandem } from './tandem.js?v=3b57e65abbf7'
+import { linkedFlyers } from './references.js?v=3b57e65abbf7'
 // Open Flight's original field cards. All paths are relative to the workshop root.
 const ringSource = 'https://www.jpl.nasa.gov/edu/resources/project/make-a-paper-glider/'
 const seedSource = 'https://www.grc.nasa.gov/www/k-12/TRC/Aeronautics/Maple_Seed.html'

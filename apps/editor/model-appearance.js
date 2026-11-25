@@ -50,6 +50,13 @@ export function sheetAppearance(sheetId, appearance) {
   return { ...entry, appearance: id, original: id === defaultId }
 }
 
+// Keep the field-table specimen separate from the angled studio photographs in the book.
+export function specimenPath(id, appearance) {
+  if (butterflySwatches[id]) return 'assets/atlas/' + id + '-k2-' + (appearance ?? 'natural') + '.svg'
+  const color = appearance ?? (objectIds.includes(id) ? 'field' : 'heritage')
+  return 'assets/viewer/' + id + '-' + color + '.webp'
+}
+
 export function appearanceArtPath(sheetId, style = 'studio', appearance) {
   if (!appearanceArtStyles.includes(style)) throw new RangeError('Unknown book artwork style')
   if (objectIds.includes(sheetId)) {

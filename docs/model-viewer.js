@@ -1,8 +1,8 @@
-import * as THREE from './assets/viewer/three.js?v=51d4970dfb40'
-import { objectModel } from './assets/objects/geometry.js?v=51d4970dfb40'
-import { objectIds } from './assets/objects/appearance.js?v=51d4970dfb40'
-import { planeModel, costaModel } from './model-geometry.js?v=51d4970dfb40'
-import { makeScene, textureFor } from './model-scene.js?v=51d4970dfb40'
+import * as THREE from './assets/viewer/three.js?v=3b57e65abbf7'
+import { objectModel } from './assets/objects/geometry.js?v=3b57e65abbf7'
+import { objectIds } from './assets/objects/appearance.js?v=3b57e65abbf7'
+import { planeModel, costaModel } from './model-geometry.js?v=3b57e65abbf7'
+import { makeScene, textureFor } from './model-scene.js?v=3b57e65abbf7'
 
 export function createViewer(container, id, lang, onProgress) {
   const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true })
@@ -61,14 +61,14 @@ export function createViewer(container, id, lang, onProgress) {
     draw()
   }
   return {
-    async setModel(paint, paper, second) {
+    async setModel(paint, paper, second, span) {
       const current = ++version
       let model
       if (objectIds.includes(id)) model = objectModel(id, paint, second)
       else if (id.includes('-')) model = planeModel(id, paint, paper)
       else {
-        const api = await import('./browser-workshop.js?v=51d4970dfb40')
-        model = costaModel(api.makeK2({ species: id, appearance_id: paint, paper, locale: lang }), api)
+        const api = await import('./browser-workshop.js?v=3b57e65abbf7')
+        model = costaModel(api.makeK2({ species: id, appearance_id: paint, span_mm: span, paper, locale: lang }), api)
       }
       const nextTexture = await textureFor(model, 'studio')
       if (version !== current) {
