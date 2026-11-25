@@ -1,7 +1,7 @@
-import { objects } from './assets/objects/activities.js?v=400f8dcd57db'
-import { appearanceChoices, appearanceArtPath, appearanceArtStyles } from './model-appearance.js?v=400f8dcd57db'
-import { paperSizes, sheetCatalog, sheetIdFor, sheetLocales } from './family-sheets.js?v=400f8dcd57db'
-import { sheetEdges } from './assets/print-faces.js?v=400f8dcd57db'
+import { objects } from './assets/objects/activities.js?v=9b28ac5f5814'
+import { appearanceChoices, appearanceArtPath, appearanceArtStyles } from './model-appearance.js?v=9b28ac5f5814'
+import { paperSizes, sheetCatalog, sheetIdFor, sheetLocales } from './family-sheets.js?v=9b28ac5f5814'
+import { sheetEdges } from './assets/print-faces.js?v=9b28ac5f5814'
 
 const entries = new Map(sheetCatalog.map(item => [item.id, item]))
 const titles = { en: 'Flight Book', es: 'Libro de vuelo', ru: 'Книга полётов' }

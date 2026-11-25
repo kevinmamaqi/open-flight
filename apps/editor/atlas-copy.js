@@ -38,7 +38,7 @@ export const ru = {
   intro:
     'Бесплатная мастерская для детей 5–12 лет и взрослых. Для самолёта или кольцеплана хватит листа бумаги. Для бабочки или крылатки понадобятся распечатка, ножницы и скрепка. Можно начать без регистрации.',
   choose: 'Выбрать модель',
-  allSheets: 'Скачать библиотеку версии 0.9.0 (ZIP) ↓',
+  allSheets: 'Скачать библиотеку версии 0.9.1 (ZIP) ↓',
   getSheets: 'Листы для печати',
   bench: 'На рабочем столе',
   collections: 'Коллекция',
@@ -121,7 +121,7 @@ export const es = {
   choose: 'Elegir un diseño',
   cutStart: 'Hacer una mariposa',
   foldStart: 'Plegar un avión',
-  allSheets: 'Descargar la biblioteca de la versión 0.9.0 (ZIP) ↓',
+  allSheets: 'Descargar la biblioteca de la versión 0.9.1 (ZIP) ↓',
   getSheets: 'Plantillas para imprimir',
   bench: 'En la mesa de trabajo',
   collections: 'La colección',

@@ -78,6 +78,7 @@ $('paper-size').addEventListener('change', () => {
   localizedLinks(lang)
 })
 choosePaper()
+$('activity').hidden = false
 localizedLinks(lang)
 $('more-intro').textContent = copy.moreIntro
 $('source-review').textContent = copy.review

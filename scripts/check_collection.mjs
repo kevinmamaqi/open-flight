@@ -8,6 +8,12 @@ import { bookPlan, readBookURL } from '../apps/editor/book-model.js'
 const base = new URL(process.argv[2] ?? 'http://127.0.0.1:4197/')
 const browser = await chromium.launch({ executablePath: process.env.CHROMIUM_PATH || undefined })
 try {
+  // A deep link must never offer the fallback ring actions before its module has loaded.
+  const loadingPage = await browser.newPage({ javaScriptEnabled: false })
+  await loadingPage.goto(new URL('flight-objects.html?model=samara&lang=en', base).href)
+  assert.equal(await loadingPage.locator('#activity-book').isVisible(), false)
+  assert.equal(await loadingPage.locator('#kit').isVisible(), true)
+  await loadingPage.close()
   for (const lang of ['en', 'es', 'ru']) {
     const lab = flightObjects(lang)
     const page = await browser.newPage({ locale: lang, viewport: { width: 375, height: 812 } })

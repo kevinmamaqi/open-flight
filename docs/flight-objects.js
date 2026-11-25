@@ -1,6 +1,6 @@
-import { currentLocale, homeURL, localizedLinks } from './atlas-nav.js?v=400f8dcd57db'
-import { flightObjects } from './assets/objects/activities.js?v=400f8dcd57db'
-import { objectCopy } from './flight-objects-copy.js?v=400f8dcd57db'
+import { currentLocale, homeURL, localizedLinks } from './atlas-nav.js?v=9b28ac5f5814'
+import { flightObjects } from './assets/objects/activities.js?v=9b28ac5f5814'
+import { objectCopy } from './flight-objects-copy.js?v=9b28ac5f5814'
 
 const $ = id => document.getElementById(id)
 const lang = currentLocale()
@@ -78,6 +78,7 @@ $('paper-size').addEventListener('change', () => {
   localizedLinks(lang)
 })
 choosePaper()
+$('activity').hidden = false
 localizedLinks(lang)
 $('more-intro').textContent = copy.moreIntro
 $('source-review').textContent = copy.review

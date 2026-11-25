@@ -1,6 +1,6 @@
-import { objects } from './assets/objects/activities.js?v=400f8dcd57db'
-import { bookPlan, bookURL, normalizeBook, starterModels } from './book-model.js?v=400f8dcd57db'
-import { sheetIdFor } from './family-sheets.js?v=400f8dcd57db'
+import { objects } from './assets/objects/activities.js?v=9b28ac5f5814'
+import { bookPlan, bookURL, normalizeBook, starterModels } from './book-model.js?v=9b28ac5f5814'
+import { sheetIdFor } from './family-sheets.js?v=9b28ac5f5814'
 
 const sheets = starterModels.map(model => sheetIdFor(model))
 
