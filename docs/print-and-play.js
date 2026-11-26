@@ -5,11 +5,11 @@
 // A design is a plate of the book (A1-A4, B1-B3, F1-F3, see book/catalog.js). Each plate
 // prints as its pattern page, any shared build page and one quick guide page that the
 // print export draws. Airplanes take 2 pages, butterflies 3 and flying objects 2.
-import { plates, plateById, plateFor, chapterById } from './book/catalog.js?v=efdc141e4945'
-import { bookURL, localePaper, readBookURL } from './book-model.js?v=efdc141e4945'
-import { objects, packetPath } from './assets/objects/activities.js?v=efdc141e4945'
-import { paperSizes, sheetCatalog, sheetIdFor, sheetLocales, sheetPath } from './family-sheets.js?v=efdc141e4945'
-import { workshopHome } from './assets/workshop-address.js?v=efdc141e4945'
+import { plates, plateById, plateFor, chapterById } from './book/catalog.js?v=cab232a23c6b'
+import { bookURL, localePaper, readBookURL } from './book-model.js?v=cab232a23c6b'
+import { objects, packetPath } from './assets/objects/activities.js?v=cab232a23c6b'
+import { paperSizes, sheetCatalog, sheetIdFor, sheetLocales, sheetPath } from './family-sheets.js?v=cab232a23c6b'
+import { workshopHome } from './assets/workshop-address.js?v=cab232a23c6b'
 
 export const maxDesigns = 3
 export const printPapers = Object.freeze([...paperSizes])

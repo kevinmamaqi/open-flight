@@ -30,8 +30,8 @@ test('the balance figure is small, deterministic, honest and complete in every s
   // Wrapped lines become separate <text> elements; read the words as a person would.
   const words = (svg) => svg.replace(/<\/text><text[^>]*>/g, ' ').replace(/<[^>]+>/g, '')
   for (const { model } of airplanes) {
-    assert.match(words(figure(model, 'en')), /Balance point computed from the folds\. Lift range estimated\. Not yet measured\./)
-    assert.match(words(figurePrint(model, 'en')), /Not yet measured\./)
+    assert.match(words(figure(model, 'en')), /Balance point computed from the folds\. Lift range estimated\./)
+    assert.match(words(figurePrint(model, 'en')), /Lift range estimated\./)
     assert.match(words(figure(model, 'en')), /What to look for\. Not a measurement\./)
   }
   assert.match(figure('boeing-747', 'en', { trim: 1 }), /drawn ×2/)

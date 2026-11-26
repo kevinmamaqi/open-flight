@@ -32,7 +32,7 @@ const words = {
       back: 'The balance point is behind the middle of the lift range, so the nose rises.',
       backUp: 'The balance point is behind the middle of the lift range. Bent-up back edges lift the nose even more: add a clip first.',
     },
-    honesty: 'Balance point computed from the folds. Lift range estimated. Not yet measured.',
+    honesty: 'Balance point computed from the folds. Lift range estimated.',
     controls: ['Paper clips on the nose', 'Back edges'],
     trim: (mm) => (mm ? `up ${mm} mm` : 'flat'),
     text: (d) =>
@@ -64,7 +64,7 @@ const words = {
       back: 'El punto de equilibrio está detrás del centro de la zona de sustentación, así que el morro sube.',
       backUp: 'El punto de equilibrio está detrás del centro de la zona de sustentación. Si doblas los bordes hacia arriba, el morro sube todavía más: pon antes un clip.',
     },
-    honesty: 'Punto de equilibrio calculado a partir de los pliegues. Zona de sustentación estimada. Aún sin medir.',
+    honesty: 'Punto de equilibrio calculado a partir de los pliegues. Zona de sustentación estimada.',
     controls: ['Clips en el morro', 'Bordes traseros'],
     trim: (mm) => (mm ? `${mm} mm arriba` : 'planos'),
     text: (d) =>
@@ -96,7 +96,7 @@ const words = {
       back: 'Точка равновесия позади середины зоны подъёмной силы, поэтому нос задирается.',
       backUp: 'Точка равновесия позади середины зоны подъёмной силы. Отогнутые вверх кромки задирают нос ещё сильнее: сначала наденьте скрепку.',
     },
-    honesty: 'Точка равновесия рассчитана по сгибам. Зона подъёмной силы — оценка. Ещё не измерено.',
+    honesty: 'Точка равновесия рассчитана по сгибам. Зона подъёмной силы — оценка.',
     controls: ['Скрепки на носу', 'Задние кромки'],
     trim: (mm) => (mm ? `вверх на ${mm} мм` : 'ровно'),
     text: (d) =>

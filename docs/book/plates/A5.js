@@ -1,7 +1,7 @@
 // Plate A5 · Needle, Open Flight's version of the Red Dart by Lazar Krstić. Content contract: ../README.md.
 // Numbers come from figures/airplane-balance.js (A4, cut border, 80 g/m²): estimates, not measurements.
 // Facts and sources: docs/research/unusual-flyer-sources.md. Spanish (tú) and Russian (вы) need a native read.
-import { references as shared } from './A-references.js?v=efdc141e4945'
+import { references as shared } from './A-references.js?v=cab232a23c6b'
 const w = (en, es, ru) => ({ en, es, ru })
 
 export default {

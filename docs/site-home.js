@@ -1,10 +1,10 @@
 // The home page is the book's cover and contents. Chapter 1, "One sheet",
 // opens it. The header comes from site-navigation.js at build time.
-import { appendix, book, chapterLabel, chapters, plates } from './book/catalog.js?v=efdc141e4945'
-import { fieldModel } from './atlas-guide.js?v=efdc141e4945'
-import { specimenPath } from './model-appearance.js?v=efdc141e4945'
-import { workshopHome } from './assets/workshop-address.js?v=efdc141e4945'
-import { escapeHtml as e, publicPath, siteFooter, siteLabels, siteLocales } from './site-navigation.js?v=efdc141e4945'
+import { appendix, book, chapterLabel, chapters, plates } from './book/catalog.js?v=cab232a23c6b'
+import { fieldModel } from './atlas-guide.js?v=cab232a23c6b'
+import { specimenPath } from './model-appearance.js?v=cab232a23c6b'
+import { workshopHome } from './assets/workshop-address.js?v=cab232a23c6b'
+import { escapeHtml as e, publicPath, siteFooter, siteLabels, siteLocales } from './site-navigation.js?v=cab232a23c6b'
 
 const w = (en, es, ru) => ({ en, es, ru })
 const copy = {
@@ -24,9 +24,9 @@ const copy = {
     w('Every flyer in this book starts as one sheet of paper. Fold it, launch it, then change one thing and launch it again. That is the whole method, and it works at the kitchen table and in a classroom.',
       'Cada modelo de este libro empieza siendo una hoja de papel. Plégala, lánzala, cambia una sola cosa y vuelve a lanzarla. Ese es todo el método, y funciona en la mesa de la cocina y en el aula.',
       'Каждая модель в этой книге начинается с одного листа бумаги. Сложите его, запустите, измените что-то одно и запустите снова. В этом весь метод, и он работает и на кухонном столе, и в классе.'),
-    w('We say what we know and what we don’t. Numbers marked “estimate” come from the geometry. “Not yet measured” means nobody has tested it yet. Your flights can change that.',
-      'Te contamos lo que sabemos y lo que no. Los números marcados como «estimación» salen de la geometría. «Aún sin medir» significa que nadie lo ha probado todavía. Tus vuelos pueden cambiarlo.',
-      'Мы говорим, что знаем и чего не знаем. Числа с пометкой «оценка» получены из геометрии. «Ещё не измерено» значит, что никто пока не проверял. Ваши полёты могут это изменить.'),
+    w('We say what we know and what we don’t. Numbers marked “estimate” come from the geometry. Tell us how yours fly.',
+      'Te contamos lo que sabemos y lo que no. Los números marcados como «estimación» salen de la geometría. Cuéntanos cómo vuelan los tuyos.',
+      'Мы говорим, что знаем и чего не знаем. Числа с пометкой «оценка» получены из геометрии. Расскажите, как летают ваши.'),
   ],
   together: [
     [w('Ages 5–7 · make it together', 'De 5 a 7 años · en compañía', '5–7 лет · делаем вместе'),

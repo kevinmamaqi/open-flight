@@ -1,10 +1,10 @@
-import { book, chapterById, chapterLabel, chapters, plateFor, plates } from './book/catalog.js?v=efdc141e4945'
-import { fieldModel } from './atlas-guide.js?v=efdc141e4945'
-import { specimenPath } from './model-appearance.js?v=efdc141e4945'
-import { workshopHome } from './assets/workshop-address.js?v=efdc141e4945'
-import { plateMarkup } from './plate.js?v=efdc141e4945'
-import { chapterBody as writtenChapter } from './book/render-chapter.js?v=efdc141e4945'
-import { breadcrumbs, escapeHtml as e, navHref, pageLabel, publicPath, siteFooter, siteHeader, siteLabels, siteLocales } from './site-navigation.js?v=efdc141e4945'
+import { book, chapterById, chapterLabel, chapters, plateFor, plates } from './book/catalog.js?v=cab232a23c6b'
+import { fieldModel } from './atlas-guide.js?v=cab232a23c6b'
+import { specimenPath } from './model-appearance.js?v=cab232a23c6b'
+import { workshopHome } from './assets/workshop-address.js?v=cab232a23c6b'
+import { plateMarkup } from './plate.js?v=cab232a23c6b'
+import { chapterBody as writtenChapter } from './book/render-chapter.js?v=cab232a23c6b'
+import { breadcrumbs, escapeHtml as e, navHref, pageLabel, publicPath, siteFooter, siteHeader, siteLabels, siteLocales } from './site-navigation.js?v=cab232a23c6b'
 
 const w = (en, es, ru) => ({ en, es, ru })
 const copy = {
@@ -38,9 +38,9 @@ const chapterIntros = {
     w('Real butterflies flap, twist and glide. A paper butterfly can only glide, so it must balance like a flying wing.',
       'Las mariposas de verdad aletean, se retuercen y planean. Una mariposa de papel solo puede planear, así que tiene que equilibrarse como un ala volante.',
       'Настоящие бабочки машут крыльями, изгибают их и планируют. Бумажная бабочка может только планировать, поэтому она должна балансировать, как летающее крыло.'),
-    w('These are experimental gliders, our second attempt. Build one, balance it on the dots and tell us how it flies.',
-      'Son planeadores experimentales, nuestro segundo intento. Construye uno, equilíbralo sobre los puntos y cuéntanos cómo vuela.',
-      'Это экспериментальные планёры, наша вторая попытка. Соберите один, уравновесьте его на точках и расскажите, как он летает.'),
+    w('Build one, balance it on the dots and tell us how it flies.',
+      'Construye uno, equilíbralo sobre los puntos y cuéntanos cómo vuela.',
+      'Соберите один, уравновесьте его на точках и расскажите, как он летает.'),
   ],
   'flying-objects': [
     w('Three classic experiments: a ring that flies like a shuttlecock, a seed that spins as it falls, and a two-winged glider from a 1918 book.',

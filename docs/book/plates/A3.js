@@ -2,7 +2,7 @@
 // Numbers come from figures/airplane-balance.js (A4, cut border, 80 g/m²): estimates, not measurements.
 // Spanish (tú) and Russian (вы) are drafts and need a native read before release.
 // Editor: replace the tail-strut source (currently general knowledge) with an Ilyushin or museum source before print.
-import { references as shared } from './A-references.js?v=efdc141e4945'
+import { references as shared } from './A-references.js?v=cab232a23c6b'
 const w = (en, es, ru) => ({ en, es, ru })
 
 export default {

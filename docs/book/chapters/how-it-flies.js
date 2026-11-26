@@ -687,7 +687,7 @@ const chapter = {
           },
           grownUps: [
             'Bending stiffness grows with the cube of thickness, while weight grows only in proportion to it. Our model uses typical office-paper stiffnesses, in gigapascals (GPa, a unit of stiffness), of 5–5.5 GPa along the grain and 2.1–2.5 GPa across it {{estimate}} [[k2-note]].',
-            'For a 172 mm paper butterfly with its wings along the grain, the model predicts a tip bend of about 19 mm on 80 g/m² paper and about 8 mm on 120 g/m² {{estimate}}. The trial that will test this has not been done yet {{not-yet-measured}}.',
+            'For a 172 mm paper butterfly with its wings along the grain, the model predicts a tip bend of about 19 mm on 80 g/m² paper and about 8 mm on 120 g/m² {{estimate}}.',
           ],
         },
         es: {
@@ -709,7 +709,7 @@ const chapter = {
           },
           grownUps: [
             'La rigidez a flexión crece con el cubo del grosor, mientras que el peso solo crece en proporción a él. Nuestro modelo usa módulos típicos de papel de oficina, en gigapascales (GPa, una unidad de rigidez), de 5–5,5 GPa a lo largo de la fibra y 2,1–2,5 GPa a lo ancho {{estimate}} [[k2-note]].',
-            'Para una mariposa de papel de 172 mm con las alas en la dirección de la fibra, el modelo predice una flexión en la punta de unos 19 mm en papel de 80 g/m² y unos 8 mm en 120 g/m² {{estimate}}. La prueba que lo comprobará aún no se ha hecho {{not-yet-measured}}.',
+            'Para una mariposa de papel de 172 mm con las alas en la dirección de la fibra, el modelo predice una flexión en la punta de unos 19 mm en papel de 80 g/m² y unos 8 mm en 120 g/m² {{estimate}}.',
           ],
         },
         ru: {
@@ -731,7 +731,7 @@ const chapter = {
           },
           grownUps: [
             'Жёсткость на изгиб растёт как куб толщины, а вес — лишь пропорционально ей. Наша модель берёт типичные модули офисной бумаги в гигапаскалях (ГПа — единица жёсткости): 5–5,5 ГПа вдоль волокон и 2,1–2,5 ГПа поперёк {{estimate}} [[k2-note]].',
-            'Для бумажной бабочки размером 172 мм с крыльями вдоль волокон модель предсказывает прогиб конца крыла около 19 мм на бумаге 80 г/м² и около 8 мм на 120 г/м² {{estimate}}. Испытание, которое это проверит, ещё не проведено {{not-yet-measured}}.',
+            'Для бумажной бабочки размером 172 мм с крыльями вдоль волокон модель предсказывает прогиб конца крыла около 19 мм на бумаге 80 г/м² и около 8 мм на 120 г/м² {{estimate}}.',
           ],
         },
       },
@@ -847,7 +847,7 @@ const chapter = {
           grownUps: [
             'Re = ρVL/μ = VL/ν: speed times size, divided by how sticky the air is. Here ν, the kinematic viscosity of air near 20 °C (how sticky air is for its weight), is about 1.5 × 10⁻⁵ m²/s, hence the 67,000 in the box [[nasa-reynolds]].',
             'Wang’s review of insect flight covers Reynolds numbers from 10 to 10⁴ [[wang-2005]]. The Nihon University tunnel test ran at Re = 1.23 × 10⁴, based on the glider’s mean chord, its average depth from front edge to back, of 35.1 mm at 5.11 m/s [[nihon-2017]].',
-            'Our bands assume glide speeds of 3–6 m/s and wing depths of 5–20 cm for paper planes, and 2.7 m/s with a depth of about 6 cm for the Monarch butterfly {{estimate}}. The airliner band assumes about 250 m/s, a wing 4–8 m deep and the thinner air of cruise altitude {{estimate}}. None of the paper speeds has been measured yet {{not-yet-measured}}.',
+            'Our bands assume glide speeds of 3–6 m/s and wing depths of 5–20 cm for paper planes, and 2.7 m/s with a depth of about 6 cm for the Monarch butterfly {{estimate}}. The airliner band assumes about 250 m/s, a wing 4–8 m deep and the thinner air of cruise altitude {{estimate}}.',
           ],
         },
         es: {
@@ -873,7 +873,7 @@ const chapter = {
           grownUps: [
             'Re = ρVL/μ = VL/ν: velocidad por tamaño, dividido entre lo pegajoso que es el aire. Aquí ν, la viscosidad cinemática del aire a unos 20 °C (lo pegajoso que es el aire para lo que pesa), es de unos 1,5 × 10⁻⁵ m²/s; de ahí el 67 000 del recuadro [[nasa-reynolds]].',
             'La revisión de Wang sobre el vuelo de los insectos abarca números de Reynolds de 10 a 10⁴ [[wang-2005]]. La prueba en el túnel de la Universidad Nihon se hizo a Re = 1,23 × 10⁴, con la cuerda media del planeador (su anchura media de delante a atrás), 35,1 mm, a 5,11 m/s [[nihon-2017]].',
-            'Nuestras bandas suponen velocidades de planeo de 3–6 m/s y alas de 5–20 cm de profundidad para los aviones de papel, y 2,7 m/s con unos 6 cm de profundidad para la mariposa Monarch {{estimate}}. La banda del avión de línea supone unos 250 m/s, un ala de 4–8 m de profundidad y el aire más tenue de la altitud de crucero {{estimate}}. Aún no se ha medido ninguna velocidad en papel {{not-yet-measured}}.',
+            'Nuestras bandas suponen velocidades de planeo de 3–6 m/s y alas de 5–20 cm de profundidad para los aviones de papel, y 2,7 m/s con unos 6 cm de profundidad para la mariposa Monarch {{estimate}}. La banda del avión de línea supone unos 250 m/s, un ala de 4–8 m de profundidad y el aire más tenue de la altitud de crucero {{estimate}}.',
           ],
         },
         ru: {
@@ -899,7 +899,7 @@ const chapter = {
           grownUps: [
             'Re = ρVL/μ = VL/ν: скорость, умноженная на размер и делённая на «липкость» воздуха. Здесь ν — кинематическая вязкость воздуха при 20 °C (насколько воздух «липкий» относительно своей массы), около 1,5 × 10⁻⁵ м²/с; отсюда 67 000 в рамке [[nasa-reynolds]].',
             'Обзор Wang о полёте насекомых охватывает числа Рейнольдса от 10 до 10⁴ [[wang-2005]]. Испытание в трубе Университета Нихон шло при Re = 1,23 × 10⁴ по средней хорде планера (средней ширине крыла от передней кромки до задней) 35,1 мм при 5,11 м/с [[nihon-2017]].',
-            'Наши полосы предполагают скорость планирования 3–6 м/с и глубину крыла 5–20 см для бумажных самолётов и 2,7 м/с при глубине около 6 см для бабочки Monarch {{estimate}}. Полоса лайнера предполагает около 250 м/с, крыло глубиной 4–8 м и разреженный воздух крейсерской высоты {{estimate}}. Ни одна из скоростей бумажных моделей ещё не измерена {{not-yet-measured}}.',
+            'Наши полосы предполагают скорость планирования 3–6 м/с и глубину крыла 5–20 см для бумажных самолётов и 2,7 м/с при глубине около 6 см для бабочки Monarch {{estimate}}. Полоса лайнера предполагает около 250 м/с, крыло глубиной 4–8 м и разреженный воздух крейсерской высоты {{estimate}}.',
           ],
         },
       },

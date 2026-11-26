@@ -1,16 +1,16 @@
 // Brings a plate to life: colors and paper update the picture and the print
 // link, figure controls redraw the "How it flies" figure, and the fold diagrams
 // follow the paper size. Everything works as plain links without this script.
-import { appearanceChoices, specimenPath } from './model-appearance.js?v=efdc141e4945'
-import { flightObjects } from './assets/objects/activities.js?v=efdc141e4945'
-import { coloredPacket, objectIds } from './assets/objects/appearance.js?v=efdc141e4945'
-import { sheetIdFor, sheetPath } from './family-sheets.js?v=efdc141e4945'
-import { plateWords } from './plate-words.js?v=efdc141e4945'
+import { appearanceChoices, specimenPath } from './model-appearance.js?v=cab232a23c6b'
+import { flightObjects } from './assets/objects/activities.js?v=cab232a23c6b'
+import { coloredPacket, objectIds } from './assets/objects/appearance.js?v=cab232a23c6b'
+import { sheetIdFor, sheetPath } from './family-sheets.js?v=cab232a23c6b'
+import { plateWords } from './plate-words.js?v=cab232a23c6b'
 
 const figureModules = {
-  airplane: () => import('./book/figures/airplane.js?v=efdc141e4945'),
-  butterfly: () => import('./book/figures/butterfly.js?v=efdc141e4945'),
-  object: () => import('./book/figures/object.js?v=efdc141e4945'),
+  airplane: () => import('./book/figures/airplane.js?v=cab232a23c6b'),
+  butterfly: () => import('./book/figures/butterfly.js?v=cab232a23c6b'),
+  object: () => import('./book/figures/object.js?v=cab232a23c6b'),
 }
 
 // A CAD-style view gizmo: an orbit ring and three named axes that follow the
@@ -182,7 +182,7 @@ function mountTurntable(root, model, lang, settings) {
   async function load() {
     const { paint, paper } = settings()
     try {
-      opening ??= import('./model-viewer.js?v=efdc141e4945').then(({ createViewer }) => createViewer(slot, model, lang, () => {}))
+      opening ??= import('./model-viewer.js?v=cab232a23c6b').then(({ createViewer }) => createViewer(slot, model, lang, () => {}))
       viewer = await opening
       await viewer.setModel(paint, paper)
       if (!shown) gizmo?.show()
@@ -262,7 +262,7 @@ export function mountPlate(root) {
   async function syncSteps() {
     if (family !== 'airplane' || lessonPaper === paper.value) return
     const requested = paper.value
-    const [{ makePlane }, { foldSvg }] = await Promise.all([import('./assets/planes/core.js?v=efdc141e4945'), import('./assets/planes/guide.js?v=efdc141e4945')])
+    const [{ makePlane }, { foldSvg }] = await Promise.all([import('./assets/planes/core.js?v=cab232a23c6b'), import('./assets/planes/guide.js?v=cab232a23c6b')])
     if (paper.value !== requested) return
     const plan = makePlane({ model_id: model, paper: requested }, lang)
     for (const [i, item] of root.querySelectorAll('.plate-steps li').entries()) {
@@ -310,7 +310,7 @@ export function mountPlate(root) {
     event.preventDefault()
     status.textContent = plateWords.preparing[lang]
     try {
-      const { loadAppearanceSheet } = await import('./appearance-sheet-browser.js?v=efdc141e4945')
+      const { loadAppearanceSheet } = await import('./appearance-sheet-browser.js?v=cab232a23c6b')
       const bytes = await loadAppearanceSheet(sheet, paper.value, lang, paint)
       const href = URL.createObjectURL(new Blob([bytes], { type: 'application/pdf' }))
       const a = document.createElement('a')

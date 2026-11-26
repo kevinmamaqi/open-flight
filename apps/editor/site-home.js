@@ -24,9 +24,9 @@ const copy = {
     w('Every flyer in this book starts as one sheet of paper. Fold it, launch it, then change one thing and launch it again. That is the whole method, and it works at the kitchen table and in a classroom.',
       'Cada modelo de este libro empieza siendo una hoja de papel. Plégala, lánzala, cambia una sola cosa y vuelve a lanzarla. Ese es todo el método, y funciona en la mesa de la cocina y en el aula.',
       'Каждая модель в этой книге начинается с одного листа бумаги. Сложите его, запустите, измените что-то одно и запустите снова. В этом весь метод, и он работает и на кухонном столе, и в классе.'),
-    w('We say what we know and what we don’t. Numbers marked “estimate” come from the geometry. “Not yet measured” means nobody has tested it yet. Your flights can change that.',
-      'Te contamos lo que sabemos y lo que no. Los números marcados como «estimación» salen de la geometría. «Aún sin medir» significa que nadie lo ha probado todavía. Tus vuelos pueden cambiarlo.',
-      'Мы говорим, что знаем и чего не знаем. Числа с пометкой «оценка» получены из геометрии. «Ещё не измерено» значит, что никто пока не проверял. Ваши полёты могут это изменить.'),
+    w('We say what we know and what we don’t. Numbers marked “estimate” come from the geometry. Tell us how yours fly.',
+      'Te contamos lo que sabemos y lo que no. Los números marcados como «estimación» salen de la geometría. Cuéntanos cómo vuelan los tuyos.',
+      'Мы говорим, что знаем и чего не знаем. Числа с пометкой «оценка» получены из геометрии. Расскажите, как летают ваши.'),
   ],
   together: [
     [w('Ages 5–7 · make it together', 'De 5 a 7 años · en compañía', '5–7 лет · делаем вместе'),

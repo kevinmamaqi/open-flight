@@ -1,4 +1,4 @@
-import { circuitWords } from './flight-circuit-copy.js?v=efdc141e4945'
+import { circuitWords } from './flight-circuit-copy.js?v=cab232a23c6b'
 
 const radians = Math.PI / 180
 const clamp = (value, min, max) => Math.min(max, Math.max(min, value))

@@ -326,7 +326,7 @@ const chapter = {
             steps: ['Move the line back 50 cm.', 'Launch five more.', 'Bend the back edge of the butterfly up 1 mm and launch again.'],
             lookFor: 'Does a longer glide make the landing harder to place?',
           },
-          grownUps: ['The butterflies in this book are experimental and untested, and a score here is play, not a flight result [[k2-note]]. Launch gently and keep the target clear of furniture and people.'],
+          grownUps: ['A score here is play, not a flight result [[k2-note]]. Launch gently and keep the target clear of furniture and people.'],
         },
         es: {
           title: 'Zona de aterrizaje',
@@ -351,7 +351,7 @@ const chapter = {
             steps: ['Retrasa la línea 50 cm.', 'Lanza otras cinco.', 'Dobla 1 mm hacia arriba el borde trasero de la mariposa y lanza de nuevo.'],
             lookFor: '¿Un planeo más largo hace más difícil acertar el aterrizaje?',
           },
-          grownUps: ['Las mariposas de este libro son experimentales y están sin probar, y una puntuación aquí es juego, no un resultado de vuelo [[k2-note]]. Lanza con suavidad y mantén la diana lejos de muebles y personas.'],
+          grownUps: ['Una puntuación aquí es juego, no un resultado de vuelo [[k2-note]]. Lanza con suavidad y mantén la diana lejos de muebles y personas.'],
         },
         ru: {
           title: 'Посадочная зона',
@@ -376,7 +376,7 @@ const chapter = {
             steps: ['Отодвиньте линию на 50 см.', 'Запустите ещё пять.', 'Загните заднюю кромку бабочки вверх на 1 мм и запустите снова.'],
             lookFor: 'Труднее ли попасть при более длинном планировании?',
           },
-          grownUps: ['Бабочки в этой книге экспериментальные и не испытаны, и счёт здесь — игра, а не результат полёта [[k2-note]]. Запускайте мягко и держите мишень вдали от мебели и людей.'],
+          grownUps: ['Счёт здесь — игра, а не результат полёта [[k2-note]]. Запускайте мягко и держите мишень вдали от мебели и людей.'],
         },
       },
     },

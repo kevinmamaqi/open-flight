@@ -38,9 +38,9 @@ const chapterIntros = {
     w('Real butterflies flap, twist and glide. A paper butterfly can only glide, so it must balance like a flying wing.',
       'Las mariposas de verdad aletean, se retuercen y planean. Una mariposa de papel solo puede planear, así que tiene que equilibrarse como un ala volante.',
       'Настоящие бабочки машут крыльями, изгибают их и планируют. Бумажная бабочка может только планировать, поэтому она должна балансировать, как летающее крыло.'),
-    w('These are experimental gliders, our second attempt. Build one, balance it on the dots and tell us how it flies.',
-      'Son planeadores experimentales, nuestro segundo intento. Construye uno, equilíbralo sobre los puntos y cuéntanos cómo vuela.',
-      'Это экспериментальные планёры, наша вторая попытка. Соберите один, уравновесьте его на точках и расскажите, как он летает.'),
+    w('Build one, balance it on the dots and tell us how it flies.',
+      'Construye uno, equilíbralo sobre los puntos y cuéntanos cómo vuela.',
+      'Соберите один, уравновесьте его на точках и расскажите, как он летает.'),
   ],
   'flying-objects': [
     w('Three classic experiments: a ring that flies like a shuttlecock, a seed that spins as it falls, and a two-winged glider from a 1918 book.',

@@ -230,7 +230,7 @@ function sectionBody(section, t, lang, chapter, base) {
     parts.push(`<h3>${say(ui.steps, lang)}</h3>${list(t.steps, lang, chapter, 'ol', 'chapter-steps')}`)
     parts.push(`<h3>${say(ui.record, lang)}</h3>${recordSheet(t.record, lang)}`)
     parts.push(`<p><strong>${say(ui.look, lang)}:</strong> ${inline(t.lookFor, lang, chapter)}</p>`)
-    parts.push(`<p class="chapter-known"><strong>${say(ui.known, lang)}:</strong> ${inline(t.knownSoFar, lang, chapter)}</p>`)
+    if (t.knownSoFar) parts.push(`<p class="chapter-known"><strong>${say(ui.known, lang)}:</strong> ${inline(t.knownSoFar, lang, chapter)}</p>`)
     parts.push(`<p class="chapter-safety"><strong>${say(ui.safety, lang)}:</strong> ${e(t.safety)}</p>`)
     return parts.join('')
   }

@@ -60,9 +60,9 @@ export const chapters = [
     n: 5, id: 'butterflies', route: 'butterflies', family: 'butterfly', plates: ['B1', 'B2', 'B3'],
     title: w('Butterflies', 'Mariposas', 'Бабочки'),
     standfirst: w(
-      'Three experimental gliders. Cut, fold, clip and trim, then tell us how they flew.',
-      'Tres planeadores experimentales. Recorta, pliega, pon los clips y ajusta. Luego cuéntanos cómo volaron.',
-      'Три экспериментальных планёра. Вырежьте, сложите, наденьте скрепки и настройте, а потом расскажите, как они летали.',
+      'Three paper gliders. Cut, fold, clip and trim, then tell us how they flew.',
+      'Tres planeadores de papel. Recorta, pliega, pon los clips y ajusta. Luego cuéntanos cómo volaron.',
+      'Три бумажных планёра. Вырежьте, сложите, наденьте скрепки и настройте, а потом расскажите, как они летали.',
     ),
   },
   {
@@ -124,12 +124,12 @@ export const appendix = [
 ]
 
 const evidence = {
-  fold: w('Open Flight fold · not yet measured', 'Pliegue de Open Flight · aún sin medir', 'Сгиб Open Flight · ещё не измерен'),
-  traditional: w('Traditional dart · our version not yet measured', 'Dardo tradicional · nuestra versión aún sin medir', 'Традиционный дротик · наша версия ещё не измерена'),
-  experimental: w('Experimental glider · awaiting flight test', 'Planeador experimental · pendiente de prueba de vuelo', 'Экспериментальный планёр · ждёт лётных испытаний'),
-  classic: w('Classic design · our version not yet measured', 'Diseño clásico · nuestra versión aún sin medir', 'Классическая модель · наша версия ещё не измерена'),
-  historic: w('From a 1918 book · our redraw not yet measured', 'De un libro de 1918 · nuestro redibujo aún sin medir', 'Из книги 1918 года · наша перерисовка ещё не измерена'),
-  record: w('Based on a record design · our version not yet measured', 'Basado en un diseño récord · nuestra versión aún sin medir', 'По мотивам рекордной модели · наша версия ещё не измерена'),
+  fold: w('Open Flight fold', 'Pliegue de Open Flight', 'Сгиб Open Flight'),
+  traditional: w('Traditional dart', 'Dardo tradicional', 'Традиционный дротик'),
+  experimental: w('Paper glider', 'Planeador de papel', 'Бумажный планёр'),
+  classic: w('Classic design', 'Diseño clásico', 'Классическая модель'),
+  historic: w('From a 1918 book', 'De un libro de 1918', 'Из книги 1918 года'),
+  record: w('Based on a record design', 'Basado en un diseño récord', 'По мотивам рекордной модели'),
 }
 
 /**
@@ -182,18 +182,18 @@ export const plates = [
   },
   {
     id: 'B1', model: 'monarch', chapter: 'butterflies', evidence: evidence.experimental,
-    lineage: w('An experimental paper glider with a monarch’s wings', 'Planeador experimental de papel con alas de monarca', 'Экспериментальный бумажный планёр с крыльями монарха'),
-    kind: w('Experimental glider · smooth push', 'Planeador experimental · empuje suave', 'Экспериментальный планёр · плавный толчок'),
+    lineage: w('A paper glider with a monarch’s wings', 'Planeador de papel con alas de monarca', 'Бумажный планёр с крыльями монарха'),
+    kind: w('Glider · smooth push', 'Planeador · empuje suave', 'Планёр · плавный толчок'),
   },
   {
     id: 'B2', model: 'morpho', chapter: 'butterflies', evidence: evidence.experimental,
-    lineage: w('An experimental paper glider with a blue morpho’s wings', 'Planeador experimental de papel con alas de morfo azul', 'Экспериментальный бумажный планёр с крыльями голубой морфо'),
-    kind: w('Experimental glider · smooth push', 'Planeador experimental · empuje suave', 'Экспериментальный планёр · плавный толчок'),
+    lineage: w('A paper glider with a blue morpho’s wings', 'Planeador de papel con alas de morfo azul', 'Бумажный планёр с крыльями голубой морфо'),
+    kind: w('Glider · smooth push', 'Planeador · empuje suave', 'Планёр · плавный толчок'),
   },
   {
     id: 'B3', model: 'swallowtail', chapter: 'butterflies', evidence: evidence.experimental,
-    lineage: w('An experimental paper glider with a swallowtail’s wings', 'Planeador experimental de papel con alas de macaón', 'Экспериментальный бумажный планёр с крыльями махаона'),
-    kind: w('Experimental glider · smooth push', 'Planeador experimental · empuje suave', 'Экспериментальный планёр · плавный толчок'),
+    lineage: w('A paper glider with a swallowtail’s wings', 'Planeador de papel con alas de macaón', 'Бумажный планёр с крыльями махаона'),
+    kind: w('Glider · smooth push', 'Planeador · empuje suave', 'Планёр · плавный толчок'),
   },
   {
     id: 'F1', model: 'ring', chapter: 'flying-objects', evidence: evidence.classic,

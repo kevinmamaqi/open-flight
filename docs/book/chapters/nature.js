@@ -892,8 +892,8 @@ const chapter = {
           title: 'Your paper flyers',
           lead: 'Three models in this book borrow an idea from this chapter.',
           body: [
-            'The paper maple seed, plate F2, spins as it falls, like the seed in the first section. It is a classic design, and our version is {{not-yet-measured}}.',
-            'The butterflies, plates B1 to B3, are experimental gliders with a monarch’s, a morpho’s and a swallowtail’s wings. They glide; they do not flap. They are {{concept}} until a recorded flight test says otherwise [[k2-note]].',
+            'The paper maple seed, plate F2, spins as it falls, like the seed in the first section. It is a classic design.',
+            'The butterflies, plates B1 to B3, are paper gliders with a monarch’s, a morpho’s and a swallowtail’s wings. They glide; they do not flap. They are {{concept}} until a recorded flight test says otherwise [[k2-note]].',
             'The ring glider, plate F1, has no animal twin that we can source. It is here because it shows that a wing does not have to be flat.',
           ],
           tryIt: {
@@ -912,8 +912,8 @@ const chapter = {
           title: 'Tus voladores de papel',
           lead: 'Tres modelos de este libro toman una idea de este capítulo.',
           body: [
-            'La semilla de arce de papel, lámina F2, gira al caer, como la semilla de la primera sección. Es un diseño clásico y nuestra versión está {{not-yet-measured}}.',
-            'Las mariposas, láminas B1 a B3, son planeadores experimentales con alas de monarca, de morfo y de macaón. Planean; no aletean. Son {{concept}} hasta que una prueba de vuelo registrada diga otra cosa [[k2-note]].',
+            'La semilla de arce de papel, lámina F2, gira al caer, como la semilla de la primera sección. Es un diseño clásico.',
+            'Las mariposas, láminas B1 a B3, son planeadores de papel con alas de monarca, de morfo y de macaón. Planean; no aletean. Son {{concept}} hasta que una prueba de vuelo registrada diga otra cosa [[k2-note]].',
             'El planeador de anillo, lámina F1, no tiene un gemelo animal que podamos documentar. Está aquí porque muestra que un ala no tiene por qué ser plana.',
           ],
           tryIt: {
@@ -932,8 +932,8 @@ const chapter = {
           title: 'Ваши бумажные летуны',
           lead: 'Три модели этой книги заимствуют идею из этой главы.',
           body: [
-            'Бумажная крылатка клёна, таблица F2, вращается при падении, как семя из первого раздела. Это классическая модель, и наша версия {{not-yet-measured}}.',
-            'Бабочки, таблицы B1–B3, — экспериментальные планёры с крыльями монарха, морфо и махаона. Они планируют, а не машут. Это {{concept}}, пока записанное лётное испытание не скажет иначе [[k2-note]].',
+            'Бумажная крылатка клёна, таблица F2, вращается при падении, как семя из первого раздела. Это классическая модель.',
+            'Бабочки, таблицы B1–B3, — бумажные планёры с крыльями монарха, морфо и махаона. Они планируют, а не машут. Это {{concept}}, пока записанное лётное испытание не скажет иначе [[k2-note]].',
             'У кольцевого планёра, таблица F1, нет животного двойника, которого мы могли бы подтвердить источником. Он здесь потому, что показывает: крыло не обязано быть плоским.',
           ],
           tryIt: {
