@@ -1,6 +1,6 @@
 // Plate F2, Maple spinner (after Gregory Vogt's NASA Glenn activity). Spanish and Russian
 // need a native read.
-import { objectData } from '../figures/object-data.js?v=827c6a6b1e8f'
+import { objectData } from '../figures/object-data.js?v=48cc97ad30d5'
 
 const w = (en, es, ru) => ({ en, es, ru })
 const s = objectData.samara

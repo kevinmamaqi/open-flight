@@ -1,6 +1,6 @@
 # Open Flight · Taller de vuelo en papel
 
-Los diez modelos tienen selector de colores, vista 3D giratoria, ilustración del vuelo y plantilla para imprimir. Los libros nuevos incluyen las mariposas K2 de cabeza alargada. El anillo, la semilla o el tándem pueden aparecer en la portada. [Explora los modelos](https://openflight.design/es/designs/)
+Los catorce modelos (tres mariposas, ocho aviones y tres objetos voladores) tienen selector de colores, vista 3D giratoria, ilustración del vuelo y plantilla para imprimir. Las mariposas usan ahora el pliegue dardo K3: alas inclinadas hacia atrás, borde delantero doble y cuerpo plegado. Cuatro de los aviones son versiones de Open Flight de aviones de campeonato y de récord, con el nombre de su diseñador original. El anillo, la semilla o el tándem pueden aparecer en la portada. [Explora los modelos](https://openflight.design/es/designs/)
 
 Elige un planeador de papel, cambia un doblez y observa dónde aterriza. El taller es gratuito y funciona en el navegador. Está pensado para niñas y niños de 5 a 12 años, sus familias y sus docentes. Puedes guardar tus diseños en el dispositivo y descargar hojas para imprimir y guías ilustradas. [Abrir el taller en español](https://openflight.design/es) · [English](README.md) · [По-русски](README.ru.md)
 
@@ -24,7 +24,7 @@ En el taller de mariposas puedes cambiar entre dos construcciones. El laboratori
 | Una mariposa original monarca, morfo azul o cola de golondrina (macaón) | Una hoja con la plantilla impresa, tijeras y un clip pequeño de puntas redondeadas | El ancho de las alas, los colores y las dos aletas de cola. Sigue los dibujos para recortar y doblar. Lanza y compara dónde toca el suelo. |
 | Un avión inspirado en el Boeing 747, el Douglas DC-3, el Tupolev Tu-144 o el Ilyushin Il-62 | Una hoja entera A4 o tamaño carta | La profundidad del cuerpo, los dobleces en los extremos de las alas y los colores. Sigue los dibujos paso a paso. Puedes doblarlo sin impresora. |
 
-Imprime al 100 % (tamaño real) y comprueba con una regla la línea de **50 mm** de cada hoja. La trayectoria en 3D y el circuito de tres puertas son ilustraciones de lo que podría pasar. Comprueba tus ideas con lanzamientos suaves, a nivel y en un espacio despejado. [78 PDF y actividades sin conexión](docs/library/) · [Actividad familiar en español](guides/paper-flight-lesson.es.md) · [Fuentes y créditos](https://openflight.design/references?lang=es) · [Versión 0.9.3](https://github.com/kevinmamaqi/open-flight/releases/tag/v0.9.3)
+Imprime al 100 % (tamaño real) y comprueba con una regla la línea de **50 mm** de cada hoja. La trayectoria en 3D y el circuito de tres puertas son ilustraciones de lo que podría pasar. Comprueba tus ideas con lanzamientos suaves, a nivel y en un espacio despejado. [120 PDF y actividades sin conexión](docs/library/) · [Actividad familiar en español](guides/paper-flight-lesson.es.md) · [Fuentes y créditos](https://openflight.design/references?lang=es) · [Versión 0.9.3](https://github.com/kevinmamaqi/open-flight/releases/tag/v0.9.3)
 
 ## Usa el taller en tu equipo
 

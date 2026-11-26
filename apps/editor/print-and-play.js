@@ -60,12 +60,13 @@ export function readySetFor(selection) {
     set.plates.every((id, index) => id === ids[index])) ?? null
 }
 
-/** A plate ID ("a1"), a design model ("boeing-747", "ring") or a K2 sheet ID ("monarch-k2"). */
+/** A plate ID ("a1"), a design model ("boeing-747", "ring") or a butterfly sheet ID ("monarch-k3"; an
+ * older "monarch-k2" link opens the same plate, which now prints K3). */
 export function resolvePlate(value) {
   if (typeof value !== 'string') throw new RangeError('Choose a design by plate ID or model.')
   const key = value.trim()
   const found = plateById(key.toUpperCase()) ?? plateFor(key) ??
-    plateFor(sheetCatalog.find(entry => entry.id === key && entry.family === 'butterfly' && entry.construction === 'k2')?.model)
+    plateFor(sheetCatalog.find(entry => entry.id === key && entry.family === 'butterfly' && ['k2', 'k3'].includes(entry.construction))?.model)
   if (!found) throw new RangeError('Unknown design: ' + key.slice(0, 40))
   return found
 }
@@ -129,7 +130,7 @@ export function pagePlan(plateId, { paper = 'A4', lang = 'en', edge = 'cut' } = 
       : { type: 'library', path: sheetPath(sheetId, paper, lang), index: 0 }
     return [{ role: 'pattern', plate: plate.id, source: pattern }, { role: 'guide', plate: plate.id }]
   }
-  // K2: the cut sheet, then the shared build, balance and trim page (bookPages [0, 2]).
+  // K3: the cut sheet, then the build, balance and trim page (bookPages [0, 2]).
   const [pattern, build] = entry.bookPages
   const path = sheetPath(sheetId, paper, lang)
   return [
@@ -183,7 +184,7 @@ export function designURL(plateId, lang = 'en') {
 export const shortURL = (plateId, lang = 'en') => designURL(plateId, lang).replace(/^https:\/\//, '')
 
 // ---- The URL hash, shared with the booklet builder ----------------------------------------
-// #m=monarch-k2,boeing-747&activities=ring&paper=letter  (book-model.js bookURL / readBookURL)
+// #m=monarch-k3,boeing-747&activities=ring&paper=letter  (book-model.js bookURL / readBookURL)
 function bookParts(ids) {
   const sheets = [], activities = []
   for (const id of ids) {
@@ -210,7 +211,7 @@ export function readSelection(address, languages = []) {
   const ids = []
   for (const id of partial.sheets ?? []) {
     const entry = sheetCatalog.find(item => item.id === id)
-    if (entry && (entry.family === 'airplane' || entry.construction === 'k2')) ids.push(resolvePlate(entry.model).id)
+    if (entry && (entry.family === 'airplane' || ['k2', 'k3'].includes(entry.construction))) ids.push(resolvePlate(entry.model).id)
   }
   for (const id of partial.activities ?? []) ids.push(resolvePlate(id).id)
   return {

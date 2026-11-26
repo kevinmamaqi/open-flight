@@ -1,5 +1,6 @@
-// K2 costa glider worktable: choose a species, span, colors and paper, read the balance
-// estimate and download the three-page sheet. Everything is drawn in the browser.
+// Butterfly lab for K3, the dart butterfly: choose a species, span, colors and paper, read the
+// balance estimate and download the three-page sheet. Everything is drawn in the browser.
+// The page keeps its /costa address so links to the earlier K2 lab still open it.
 import { currentLocale, localizedLinks } from './atlas-nav.js'
 import * as api from './browser-workshop.js'
 import { sheetName } from './family-sheets.js'
@@ -9,12 +10,12 @@ import { bookFromStudio } from './model-studio.js'
 const languages = ['en', 'es', 'ru']
 const copy = {
   skip: ['Skip to the butterfly', 'Ir a la mariposa', 'К бабочке'],
-  eyebrow: ['Folded butterfly · K2', 'Mariposa plegada · K2', 'Складная бабочка · K2'],
-  title: ['Costa butterfly glider', 'Mariposa planeadora con costa', 'Бабочка-планер с жилкой'],
+  eyebrow: ['Folded butterfly · K3', 'Mariposa plegada · K3', 'Складная бабочка · K3'],
+  title: ['Dart butterfly', 'Mariposa dardo', 'Бабочка-дротик'],
   intro: [
-    'Swept-back forewings, a stiff folded front edge and a longer head for two paper clips. It balances before it flies.',
-    'Alas delanteras inclinadas hacia atrás, un borde delantero doblado y rígido y una cabeza más larga para dos clips. Se equilibra antes de volar.',
-    'Передние крылья отведены назад, передний край подогнут и жёсткий, а длинная голова держит две скрепки. Сначала баланс, потом полёт.',
+    'Wings swept back like a paper dart, a doubled front edge, and a folded body with a head that holds two paper clips. It balances before it flies.',
+    'Alas hacia atrás como un dardo de papel, un borde delantero doble y un cuerpo plegado con una cabeza que sujeta dos clips. Se equilibra antes de volar.',
+    'Крылья отведены назад, как у бумажного дротика, передняя кромка двойная, а сложенный корпус с головой держит две скрепки. Сначала баланс, потом полёт.',
   ],
   species: ['Butterfly', 'Mariposa', 'Бабочка'],
   span: ['Finished wingspan', 'Envergadura final', 'Размах крыльев'],
@@ -32,14 +33,14 @@ const copy = {
   clipsFact: ['Clips', 'Clips', 'Скрепки'],
   clipsValue: ['Two 33 mm paper clips', 'Dos clips de 33 mm', 'Две скрепки по 33 мм'],
   balanceFact: ['Balance point', 'Punto de equilibrio', 'Точка баланса'],
-  behindNose: ['mm behind the nose', 'mm detrás de la punta', 'мм от носа'],
+  behindNose: ['mm behind the head', 'mm detrás de la cabeza', 'мм за головой'],
   tipFact: ['Wingtip height', 'Altura de las puntas', 'Высота кончиков'],
   aboveBody: ['mm above the body', 'mm sobre el cuerpo', 'мм над корпусом'],
   speedFact: ['Glide speed', 'Velocidad de planeo', 'Скорость планирования'],
   estimate: [
-    'Calculated for 120 g/m² paper and two clips. Measure your own balance point before launch.',
-    'Cálculos para papel de 120 g/m² y dos clips. Mide el punto de equilibrio antes del lanzamiento.',
-    'Расчёт для бумаги 120 г/м² и двух скрепок. Перед запуском найди точку равновесия.',
+    'Model estimates for 120 g/m² paper and two clips. No K3 flight has been recorded yet. Measure your own balance point before launch.',
+    'Estimaciones del modelo para papel de 120 g/m² y dos clips. Aún no hay vuelos de K3 registrados. Mide el punto de equilibrio antes del lanzamiento.',
+    'Оценки модели для бумаги 120 г/м² и двух скрепок. Полёты K3 ещё не записаны. Перед запуском найди точку равновесия.',
   ],
   sheetTitle: ['Printed sheet', 'Hoja impresa', 'Лист для печати'],
   sheetHelp: [
@@ -59,10 +60,10 @@ function initialState() {
   const state = { species: 'monarch', paper: 'A4' }
   if (species.includes(params.get('species'))) state.species = params.get('species')
   if (['A4', 'US_LETTER'].includes(params.get('paper'))) state.paper = params.get('paper')
-  const choices = appearanceChoices(state.species + '-k2', locale)
+  const choices = appearanceChoices(state.species + '-k3', locale)
   state.appearance_id = choices.some((c) => c.id === params.get('colors')) ? params.get('colors') : choices[0].id
   const span = Number(params.get('span'))
-  const { minimum, maximum, step } = api.k2SpanRange
+  const { minimum, maximum, step } = api.k3SpanRange
   if (Number.isInteger(span) && span >= minimum && span <= maximum && (span - minimum) % step === 0) state.span_mm = span
   return state
 }
@@ -84,18 +85,18 @@ function syncAddress() {
 function renderControls() {
   const select = $('species')
   select.replaceChildren(
-    ...species.map((id) => new Option(sheetName(id + '-k2', locale), id, false, id === plan.species)),
+    ...species.map((id) => new Option(sheetName(id + '-k3', locale), id, false, id === plan.species)),
   )
   const colors = $('colors')
   colors.replaceChildren(
-    ...appearanceChoices(plan.species + '-k2', locale).map(
+    ...appearanceChoices(plan.species + '-k3', locale).map(
       (c) => new Option(c.label, c.id, false, c.id === plan.appearance_id),
     ),
   )
   const span = $('span')
-  const { minimum, maximum, step } = api.k2SpanRange
+  const { minimum, maximum, step } = api.k3SpanRange
   Object.assign(span, { min: minimum, max: maximum, step, value: plan.span_mm })
-  $('span-value').textContent = plan.span_mm + ' mm'
+  $('span-value').textContent = plan.span_mm + (locale === 'ru' ? ' мм' : ' mm')
   $('paper').value = plan.paper
   $('paper').options[1].textContent = tr('letter')
 }
@@ -123,13 +124,13 @@ function renderFacts() {
 }
 
 function render() {
-  plan = api.makeK2({ ...state, locale })
+  plan = api.makeK3({ ...state, locale })
   renderControls()
   // Both SVGs come from the generator in this repository, not from user input.
-  $('finished').innerHTML = api.k2FinishedSvg(plan)
-  $('sheet').innerHTML = api.k2PageSvg(plan, 0)
+  $('finished').innerHTML = api.k3FinishedSvg(plan)
+  $('sheet').innerHTML = api.k3PageSvg(plan, 0)
   $('finished-caption').textContent = tr('caption')
-  $('book').href = bookFromStudio(plan.species + '-k2', plan.appearance_id, locale, plan.paper)
+  $('book').href = bookFromStudio(plan.species + '-k3', plan.appearance_id, locale, plan.paper)
   renderFacts()
   syncAddress()
 }
@@ -141,7 +142,7 @@ localizedLinks(locale)
 $('controls').addEventListener('input', (event) => {
   const { name, value } = event.target
   if (name === 'species') {
-    state = { ...state, species: value, appearance_id: appearanceChoices(value + '-k2', locale)[0].id }
+    state = { ...state, species: value, appearance_id: appearanceChoices(value + '-k3', locale)[0].id }
   } else if (name === 'span') state.span_mm = Number(value)
   else if (name === 'colors') state.appearance_id = value
   else if (name === 'paper') state.paper = value
@@ -153,10 +154,10 @@ $('download').addEventListener('click', async () => {
   $('status').textContent = tr('preparing')
   try {
     await api.prepareFoldedPdf()
-    const blob = new Blob([api.k2Pdf(plan)], { type: 'application/pdf' })
+    const blob = new Blob([api.k3Pdf(plan)], { type: 'application/pdf' })
     const link = document.createElement('a')
     link.href = URL.createObjectURL(blob)
-    link.download = `${plan.species}-k2-${plan.paper}-${locale}.pdf`
+    link.download = `${plan.species}-k3-${plan.paper}-${locale}.pdf`
     link.click()
     setTimeout(() => URL.revokeObjectURL(link.href), 30_000)
     $('status').textContent = tr('ready')

@@ -1,7 +1,7 @@
-import { coloredPacket, objectIds } from "./assets/objects/appearance.js?v=827c6a6b1e8f";
-import { flightObjects } from "./assets/objects/activities.js?v=827c6a6b1e8f";
-import { currentLocale, homeURL, localizedLinks } from "./atlas-nav.js?v=827c6a6b1e8f";
-import { recordBookEvent } from "./book-metrics.js?v=827c6a6b1e8f";
+import { coloredPacket, objectIds } from "./assets/objects/appearance.js?v=48cc97ad30d5";
+import { flightObjects } from "./assets/objects/activities.js?v=48cc97ad30d5";
+import { currentLocale, homeURL, localizedLinks } from "./atlas-nav.js?v=48cc97ad30d5";
+import { recordBookEvent } from "./book-metrics.js?v=48cc97ad30d5";
 import {
   bookFilename,
   bookPlan,
@@ -13,24 +13,24 @@ import {
   normalizeBook,
   pilotLimit,
   readBookURL,
-} from "./book-model.js?v=827c6a6b1e8f";
+} from "./book-model.js?v=48cc97ad30d5";
 import {
   loadBookServices,
   recoverBookCheckout,
   supportChoices,
-} from "./book-support.js?v=827c6a6b1e8f";
-import { estimateBookBytes } from "./book-size.js?v=827c6a6b1e8f";
-import { mountBookReader } from "./book-reader.js?v=827c6a6b1e8f";
-import { applyStudioColors, studioForBookSheet } from "./model-studio.js?v=827c6a6b1e8f";
-import { mountModelMap } from "./model-map.js?v=827c6a6b1e8f";
-import { appearanceArtPath, appearanceChoices } from "./model-appearance.js?v=827c6a6b1e8f";
-import { builderCopy } from "./book-ui-copy.js?v=827c6a6b1e8f";
+} from "./book-support.js?v=48cc97ad30d5";
+import { estimateBookBytes } from "./book-size.js?v=48cc97ad30d5";
+import { mountBookReader } from "./book-reader.js?v=48cc97ad30d5";
+import { applyStudioColors, studioForBookSheet } from "./model-studio.js?v=48cc97ad30d5";
+import { mountModelMap } from "./model-map.js?v=48cc97ad30d5";
+import { appearanceArtPath, appearanceChoices } from "./model-appearance.js?v=48cc97ad30d5";
+import { builderCopy } from "./book-ui-copy.js?v=48cc97ad30d5";
 import {
   sheetCatalog,
   sheetIdFor,
   sheetName,
   sheetPath,
-} from "./family-sheets.js?v=827c6a6b1e8f";
+} from "./family-sheets.js?v=48cc97ad30d5";
 
 const sheetVersion = new URL(import.meta.url).search;
 const byId = (id) => document.getElementById(id);
@@ -115,17 +115,12 @@ try {
   state = normalizeBook(defaults);
 }
 state.cover = savedCover === state.cover ? savedCover : "";
-const firstButterfly = state.sheets.find(
-  (id) => entries.get(id).family === "butterfly",
-);
-const initialFold =
-  entries.get(firstButterfly)?.construction ||
-  (["w1", "k1", "k2"].includes(preferences.construction)
-    ? preferences.construction
-    : "k2");
+// New choices use K3. A book that already holds a retired fold keeps it until the reader swaps it.
+const initialFold = "k3";
 const folds = new Map();
 const studioSheet = new URLSearchParams(location.hash.slice(1)).get("flyer");
 const studioEntry = (studioChanges.sheets || studioChanges.activities) && entries.get(studioSheet);
+// A link from an older studio page keeps its fold selected for that model.
 if (studioEntry?.family === "butterfly")
   folds.set(studioEntry.model, studioEntry.construction);
 let activeModel =
@@ -222,8 +217,8 @@ function namedSheet(id) {
   const { family, construction } = entries.get(id);
   if (family !== "butterfly") return name;
   const t = copy();
-  const fold = { k1: t.folded, w1: t.tabs, k2: t.costa }[construction];
-  return `${name} · ${fold} (${construction.toUpperCase()})`;
+  const fold = { k1: t.folded, w1: t.tabs, k2: t.costa, k3: t.dart }[construction];
+  return construction === "k3" ? `${name} · ${fold}` : `${name} · ${fold} (${construction.toUpperCase()})`;
 }
 
 function syncFlyer() {
@@ -246,15 +241,25 @@ function syncFlyer() {
   const onCover = (state.coverModel ?? state.sheets[0]) === id;
   byId("flyer-name").textContent = name;
   const planeTools = state.edge === "cut" ? t.planeCutTools : t.planeTools;
-  const butterflyTools = construction === "k2" ? t.costaTools : t.butterflyTools;
+  const butterflyTools = construction === "k3" ? t.dartTools : construction === "k2" ? t.costaTools : t.butterflyTools;
   byId("flyer-tools").textContent = family === "object" ? flightObjects(state.lang).activities.find(item=>item.id===id).materials : family === "butterfly" ? butterflyTools : planeTools;
   picture(byId("flyer-image"), id, "studio");
   byId("flyer-studio").href = studioForBookSheet(state, id);
-  if (family === "butterfly") {
-    picture(byId("spine-example"), sheetIdFor(activeModel, "k1"), "studio", true);
-    picture(byId("costa-example"), sheetIdFor(activeModel, "k2"), "studio", true);
+  // Only K3 is offered. A retired fold this book already holds stays visible so the reader can
+  // see it and swap it for K3.
+  const heldFolds = new Set(editions.map((sheet) => entries.get(sheet).construction));
+  for (const input of document.querySelectorAll('input[name="construction"]')) {
+    const shown = input.value === "k3" || heldFolds.has(input.value);
+    input.closest("label").hidden = !shown;
+    const hint = byId(input.getAttribute("aria-describedby"));
+    if (hint) hint.hidden = !shown;
   }
-  byId("construction").hidden = family !== "butterfly";
+  if (family === "butterfly") {
+    picture(byId("dart-example"), sheetIdFor(activeModel, "k3"), "studio", true);
+    if (heldFolds.has("k1")) picture(byId("spine-example"), sheetIdFor(activeModel, "k1"), "studio", true);
+    if (heldFolds.has("k2")) picture(byId("costa-example"), sheetIdFor(activeModel, "k2"), "studio", true);
+  }
+  byId("construction").hidden = family !== "butterfly" || ![...heldFolds].some((fold) => fold !== "k3");
   byId("mixed-builds").hidden =
     new Set(
       state.sheets
@@ -763,8 +768,8 @@ function readyPDF(book) {
   const key = JSON.stringify(book);
   if (activePDF?.key === key) return activePDF.promise;
   const promise = Promise.all([
-    import("./book-engine.js?v=827c6a6b1e8f"),
-    import("./assets/planes/vendor/jspdf.js?v=827c6a6b1e8f"),
+    import("./book-engine.js?v=48cc97ad30d5"),
+    import("./assets/planes/vendor/jspdf.js?v=48cc97ad30d5"),
   ]).then(async ([{ createBook }]) => {
     const data = await createBook(book, { loadAsset });
     return new File([data], bookFilename(book), { type: "application/pdf" });

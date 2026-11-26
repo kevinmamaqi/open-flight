@@ -34,7 +34,7 @@ test('the service returns the plan and the same bytes as the website for the sam
   assert.equal(plan.page_count, 7)
   assert.equal(plan.filename, 'open-flight-print-and-play-B1-A1-F1-letter-es.pdf')
   assert.equal(plan.static_path, 'print/sets/first-flight-letter-es.pdf')
-  assert.match(plan.booklet_hash, /^#m=monarch-k2,boeing-747&activities=ring/)
+  assert.match(plan.booklet_hash, /^#m=monarch-k3,boeing-747&activities=ring/)
   assert.deepEqual(plan.designs[0].pages.map((page: any) => page.role), ['pattern', 'build', 'guide'])
   const parts: Buffer[] = []
   let offset: number | null = 0, digest = ''

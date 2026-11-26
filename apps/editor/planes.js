@@ -148,6 +148,43 @@ const words = {
   savedAt: ['Saved', 'Сохранено', 'Guardado'],
   mm: ['mm', 'мм', 'mm'],
   airplane: ['Paper airplane studio', 'Мастерская бумажных самолётов', 'Taller de aviones de papel'],
+  // Record and championship planes are other people's designs, flown in a final or a record.
+  recordFieldTitle: ['From the record flight to paper', 'От рекордного полёта к бумаге', 'Del vuelo récord al papel'],
+  recordFieldIntro: [
+    'Find the feature that made this design win, then fold it yourself.',
+    'Найдите деталь, благодаря которой эта модель победила, и сложите её сами.',
+    'Busca el detalle que hizo ganar a este diseño y dóblalo tú.',
+  ],
+  recordReference: ['Tutorial and sources', 'Видеоурок и источники', 'Tutorial y fuentes'],
+  recordTips: ['Fin height', 'Высота килей', 'Altura de las aletas'],
+  recordTipHint: [
+    'The fins stand up along the outside edges.',
+    'Кили поднимаются вдоль внешних кромок.',
+    'Las aletas se levantan en los bordes exteriores.',
+  ],
+  recordKeelHint: [
+    'A deeper body leaves less paper in each wing. The original measurement is the default.',
+    'Чем глубже корпус, тем уже крыло. По умолчанию стоит размер оригинала.',
+    'Cuanto más profundo es el cuerpo, más estrechas son las alas. El valor inicial es el del original.',
+  ],
+}
+const keelRange = (model) => model.keel_range ?? [12, 28]
+const tipsRange = (model) => model.winglet_range ?? [0, 12]
+// Swap the copy keys that differ for record planes, so translate() keeps them in step.
+function copyFor(plan) {
+  const record = !!plan.designer
+  for (const [plain, special] of [
+    ['fieldTitle', 'recordFieldTitle'],
+    ['fieldIntro', 'recordFieldIntro'],
+    ['reference', 'recordReference'],
+    ['tips', 'recordTips'],
+    ['tipHint', 'recordTipHint'],
+    ['keelHint', 'recordKeelHint'],
+  ])
+    document.querySelectorAll('[data-copy="' + plain + '"],[data-copy="' + special + '"]').forEach((el) => {
+      el.dataset.copy = record ? special : plain
+      el.textContent = tr(el.dataset.copy)
+    })
 }
 import { flightPhysics,physicsTitle } from './atlas-physics.js'
 import { currentLocale, languageSwitch, localizedLinks } from './atlas-nav.js'
@@ -171,9 +208,9 @@ const selectInitial = () => {
   if (Object.hasOwn(sheetSizes, paper)) source.paper = paper
   if (sheetEdges.includes(edge)) source.edge = edge
   if (liveries.includes(livery)) source.livery = livery
-  for (const [key, field, lo, hi] of [
-    ['keel', 'keel_mm', 12, 28],
-    ['tips', 'winglet_mm', 0, 12],
+  for (const [key, field, [lo, hi]] of [
+    ['keel', 'keel_mm', keelRange(model)],
+    ['tips', 'winglet_mm', tipsRange(model)],
   ]) {
     const raw = params.get(key)
     if (raw !== null && /^\d+$/.test(raw) && Number(raw) >= lo && Number(raw) <= hi)
@@ -331,14 +368,25 @@ function renderPlan() {
     'douglas-dc3': '#d4e6c7',
     'tupolev-tu144': '#e6dbf1',
     'ilyushin-il62': '#d3e7eb',
+    'red-dart': '#f5ddd5',
+    'shaheen-shin': '#d8ecdc',
+    'crescent-boomerang': '#dfe3f6',
+    'sky-king': '#f6dfe3',
   }[plan.model_id]
+  const model = planeCatalog.find((m) => m.model_id === plan.model_id)
+  ;[$('keel').min, $('keel').max] = keelRange(model).map(String)
+  ;[$('tips').min, $('tips').max] = tipsRange(model).map(String)
+  // A design without fins has nothing to adjust at the tips.
+  const noTips = tipsRange(model)[1] === 0
+  for (const el of [document.querySelector('label[for="tips"]'), $('tips'), $('tips').nextElementSibling]) if (el) el.hidden = noTips
+  copyFor(plan)
   document.documentElement.style.setProperty('--plate', plate)
   document.title = plan.name + ' · ' + tr('airplane') + ' · Open Flight'
   $('name').textContent = plan.name
   $('character').textContent = plan.character
   $('plane-physics').querySelector('summary').textContent=physicsTitle(locale)
   $('plane-physics').querySelector('p').textContent=flightPhysics(plan.model_id,locale)
-  $('inspiration').textContent = tr('inspiration') + ' ' + plan.inspiration
+  $('inspiration').textContent = (plan.designer ? '' : tr('inspiration') + ' ') + plan.inspiration
   $('format').textContent = paperName(plan.paper)
   $('sample-number').textContent = 'OF / ' + plan.code
   $('aircraft').innerHTML = planeSpecimen(plan)
@@ -359,10 +407,10 @@ function renderPlan() {
   $('keel').setAttribute('aria-valuetext', $('keel-value').value)
   $('tips').setAttribute('aria-valuetext', $('tips-value').value)
   $('reference-name').textContent = plan.inspiration
-  $('history').textContent = plan.history
+  $('history').textContent = plan.history + (plan.rights ? ' ' + plan.rights : '')
   $('reference').textContent = plan.reference.label + ' ↗'
   $('reference').href = plan.reference.url
-  $('trial').textContent = tr('launch') + ' ' + plan.experiment
+  $('trial').textContent = (plan.launch ?? tr('launch')) + ' ' + plan.experiment
   $('share-fallback').hidden = true
   syncAddress()
   renderField()

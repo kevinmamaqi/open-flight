@@ -7,7 +7,7 @@ import { sheetCatalog } from '../apps/editor/family-sheets.js'
 import { appearanceArtPath, appearanceArtStyles, appearanceChoices, specimenPath } from '../apps/editor/model-appearance.js'
 import { objectModel } from '../apps/editor/assets/objects/geometry.js'
 import { objectIds } from '../apps/editor/assets/objects/appearance.js'
-import { costaModel, planeModel } from '../apps/editor/model-geometry.js'
+import { costaModel, dartModel, planeModel } from '../apps/editor/model-geometry.js'
 import { makeWorld } from '../apps/editor/flight-geometry.js'
 import {
   foldedGeometry,
@@ -15,6 +15,7 @@ import {
   makeFoldedButterfly,
 } from '../packages/folded-butterfly/index.ts'
 import { k2Flat, k2Preview, makeK2 } from '../packages/folded-butterfly/k2-sheet.ts'
+import { k3Faces, k3Preview, k3PreviewBox, makeK3 } from '../packages/folded-butterfly/k3-sheet.ts'
 
 function keel(model, appearance) {
   const plan = makeFoldedButterfly({ species: model, appearance_id: appearance })
@@ -66,6 +67,7 @@ function keel(model, appearance) {
 function modelFor(entry, appearance) {
   if (entry.construction === 'k1') return keel(entry.model, appearance)
   if (entry.family === 'object') return objectModel(entry.model, appearance)
+  if (entry.construction === 'k3') return dartModel(makeK3({ species: entry.model, appearance_id: appearance }), { makeK3, k3Faces, k3Preview, k3PreviewBox })
   if (entry.construction === 'k2') return costaModel(makeK2({ species: entry.model, appearance_id: appearance }), { makeK2, k2Flat, k2Preview })
   if (entry.construction === 'w1') {
     const world = makeWorld({

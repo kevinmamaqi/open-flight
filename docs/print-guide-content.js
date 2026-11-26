@@ -2,11 +2,11 @@
 // the print export lays it out (packages/print-export/quick-guide.js).
 // Nothing here is a flight or a measurement. Launch and trim lines come from
 // book/flight-notes.js, with its note that they are not yet tested on this design.
-import { resolvePlate, shortURL, designURL } from './print-and-play.js?v=827c6a6b1e8f'
-import { flightNoteLabels, flightNotesFor } from './book/flight-notes.js?v=827c6a6b1e8f'
-import { baselines } from './assets/atlas/baselines.js?v=827c6a6b1e8f'
-import { planeCatalog } from './assets/planes/catalog.js?v=827c6a6b1e8f'
-import { objects } from './assets/objects/activities.js?v=827c6a6b1e8f'
+import { resolvePlate, shortURL, designURL } from './print-and-play.js?v=48cc97ad30d5'
+import { flightNoteLabels, flightNotesFor } from './book/flight-notes.js?v=48cc97ad30d5'
+import { baselines } from './assets/atlas/baselines.js?v=48cc97ad30d5'
+import { planeCatalog } from './assets/planes/catalog.js?v=48cc97ad30d5'
+import { objects } from './assets/objects/activities.js?v=48cc97ad30d5'
 
 const w = (en, es, ru) => ({ en, es, ru })
 
@@ -19,14 +19,20 @@ export const guideCopy = {
     'Arte y texto CC BY-SA 4.0 · Geometría CERN-OHL-W-2.0 · openflight.design',
     'Рисунки и текст CC BY-SA 4.0 · Геометрия CERN-OHL-W-2.0 · openflight.design',
   ),
+  // A record plane's folds are derived from its credited original, so they carry no Open Flight licence.
+  recordLicence: w(
+    'Art and text CC BY-SA 4.0 · Folds derived from the original · openflight.design',
+    'Arte y texto CC BY-SA 4.0 · Dobleces derivados del original · openflight.design',
+    'Рисунки и текст CC BY-SA 4.0 · Сгибы по оригинальной модели · openflight.design',
+  ),
 }
 
-// Tools come from the sheets' own text: the K2 sheet (paper, clips, scoring pen), the airplane
+// Tools come from the sheets' own text: the K3 sheet (paper, clips, scoring pen, glue stick), the airplane
 // sheets (scissors for the cut border) and the activity cards (objects).
 const butterflyTools = w(
-  '120 g/m² paper, scissors and two 33 mm paper clips. A ruler and an empty ballpoint pen for the folds.',
-  'Papel de 120 g/m², tijeras y dos clips de 33 mm. Una regla y un bolígrafo sin tinta para los dobleces.',
-  'Бумага 120 г/м², ножницы и две скрепки по 33 мм. Линейка и шариковая ручка без чернил для сгибов.',
+  '120 g/m² paper, scissors and two 33 mm paper clips. A ruler and an empty ballpoint pen for the folds, a glue stick for the front edges.',
+  'Papel de 120 g/m², tijeras y dos clips de 33 mm. Una regla y un bolígrafo sin tinta para los dobleces, pegamento de barra para los bordes delanteros.',
+  'Бумага 120 г/м², ножницы и две скрепки по 33 мм. Линейка и шариковая ручка без чернил для сгибов, клей-карандаш для передних кромок.',
 )
 const airplaneTools = {
   cut: w('One sheet of paper and scissors. A paper clip for trimming.',
@@ -78,6 +84,6 @@ export function quickGuideContent(plateId, lang, { edge = 'cut' } = {}) {
     scan: guideCopy.scan[lang],
     url: designURL(plate.id, lang),
     shortUrl: shortURL(plate.id, lang),
-    licence: guideCopy.licence[lang],
+    licence: (planeCatalog.find(plane => plane.model_id === plate.model)?.record ? guideCopy.recordLicence : guideCopy.licence)[lang],
   }
 }

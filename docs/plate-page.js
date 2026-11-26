@@ -1,16 +1,16 @@
 // Brings a plate to life: colors and paper update the picture and the print
 // link, figure controls redraw the "How it flies" figure, and the fold diagrams
 // follow the paper size. Everything works as plain links without this script.
-import { appearanceChoices, specimenPath } from './model-appearance.js?v=827c6a6b1e8f'
-import { flightObjects } from './assets/objects/activities.js?v=827c6a6b1e8f'
-import { coloredPacket, objectIds } from './assets/objects/appearance.js?v=827c6a6b1e8f'
-import { sheetIdFor, sheetPath } from './family-sheets.js?v=827c6a6b1e8f'
-import { plateWords } from './plate-words.js?v=827c6a6b1e8f'
+import { appearanceChoices, specimenPath } from './model-appearance.js?v=48cc97ad30d5'
+import { flightObjects } from './assets/objects/activities.js?v=48cc97ad30d5'
+import { coloredPacket, objectIds } from './assets/objects/appearance.js?v=48cc97ad30d5'
+import { sheetIdFor, sheetPath } from './family-sheets.js?v=48cc97ad30d5'
+import { plateWords } from './plate-words.js?v=48cc97ad30d5'
 
 const figureModules = {
-  airplane: () => import('./book/figures/airplane.js?v=827c6a6b1e8f'),
-  butterfly: () => import('./book/figures/butterfly.js?v=827c6a6b1e8f'),
-  object: () => import('./book/figures/object.js?v=827c6a6b1e8f'),
+  airplane: () => import('./book/figures/airplane.js?v=48cc97ad30d5'),
+  butterfly: () => import('./book/figures/butterfly.js?v=48cc97ad30d5'),
+  object: () => import('./book/figures/object.js?v=48cc97ad30d5'),
 }
 
 export function mountPlate(root) {
@@ -30,7 +30,7 @@ export function mountPlate(root) {
   async function syncSteps() {
     if (family !== 'airplane' || lessonPaper === paper.value) return
     const requested = paper.value
-    const [{ makePlane }, { foldSvg }] = await Promise.all([import('./assets/planes/core.js?v=827c6a6b1e8f'), import('./assets/planes/guide.js?v=827c6a6b1e8f')])
+    const [{ makePlane }, { foldSvg }] = await Promise.all([import('./assets/planes/core.js?v=48cc97ad30d5'), import('./assets/planes/guide.js?v=48cc97ad30d5')])
     if (paper.value !== requested) return
     const plan = makePlane({ model_id: model, paper: requested }, lang)
     for (const [i, item] of root.querySelectorAll('.plate-steps li').entries()) {
@@ -77,7 +77,7 @@ export function mountPlate(root) {
     event.preventDefault()
     status.textContent = plateWords.preparing[lang]
     try {
-      const { loadAppearanceSheet } = await import('./appearance-sheet-browser.js?v=827c6a6b1e8f')
+      const { loadAppearanceSheet } = await import('./appearance-sheet-browser.js?v=48cc97ad30d5')
       const bytes = await loadAppearanceSheet(sheet, paper.value, lang, paint)
       const href = URL.createObjectURL(new Blob([bytes], { type: 'application/pdf' }))
       const a = document.createElement('a')

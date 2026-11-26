@@ -1,7 +1,7 @@
-import { aircraftPortrait } from './field-portraits.js?v=827c6a6b1e8f'
-import { esc, svgParts, specimenScene } from './drawing.js?v=827c6a6b1e8f'
-import { planeCredits, creditText } from './credits.js?v=827c6a6b1e8f'
-import { color } from '../brand/tokens.js?v=827c6a6b1e8f'
+import { aircraftPortrait } from './field-portraits.js?v=48cc97ad30d5'
+import { esc, svgParts, specimenScene } from './drawing.js?v=48cc97ad30d5'
+import { planeCredits, creditText, creditLinks } from './credits.js?v=48cc97ad30d5'
+import { color } from '../brand/tokens.js?v=48cc97ad30d5'
 // Faces of the sheet, told apart by lightness: white front, pale reverse, shaded moving flap.
 const ink = color.diagramInk,
   printed = color.diagramFront,
@@ -145,7 +145,13 @@ export function foldScene(plan, step) {
       if ((a[0] - x) * (b[0] - x) <= 0 && Math.abs(a[0] - b[0]) > 0.001)
         crossings.push(a[1] + ((x - a[0]) / (b[0] - a[0])) * (b[1] - a[1]))
     }
-    if (crossings.length)
+    if (plan.root) {
+      // A slanted root: from the nose end of the body to the tail.
+      const [p, q] = plan.root,
+        top = Math.min(...closed.outline.map((v) => v[1])),
+        at = (y) => [p[0] + ((y - p[1]) * (q[0] - p[0])) / (q[1] - p[1]), y]
+      parts.push(line([map(at(Math.max(top, p[1]))), map(at(Math.max(...closed.outline.map((v) => v[1]))))], ink, 1.7, [4, 2.3]))
+    } else if (crossings.length)
       parts.push(line([map([x, Math.min(...crossings)]), map([x, height])], ink, 1.7, [4, 2.3]))
     addArrow(parts, map([spine * 0.45, height * 0.72]), map([spine + 18, height * 0.72]))
     parts.push(
@@ -163,11 +169,9 @@ export function foldScene(plan, step) {
       text(
         [91, 185],
         plan.keel_mm +
-          {
-            en: ' mm from spine',
-            ru: ' мм от сгиба',
-            es: ' mm desde el centro',
-          }[plan.locale],
+          (plan.root
+            ? { en: ' mm from spine at the tail', ru: ' мм от сгиба у хвоста', es: ' mm desde el centro en la cola' }
+            : { en: ' mm from spine', ru: ' мм от сгиба', es: ' mm desde el centro' })[plan.locale],
         10,
         ink,
         'middle',
@@ -186,11 +190,12 @@ export function foldScene(plan, step) {
     parts.push(
       text(
         [194, 18],
-        {
-          en: 'Match the height of both tips',
-          ru: 'Высота законцовок должна совпадать',
-          es: 'Iguala la altura de los extremos',
-        }[plan.locale],
+        plan.tipsHeading ??
+          {
+            en: 'Match the height of both tips',
+            ru: 'Высота законцовок должна совпадать',
+            es: 'Iguala la altura de los extremos',
+          }[plan.locale],
         12,
         ink,
         'middle',
@@ -199,7 +204,17 @@ export function foldScene(plan, step) {
     return [...parts, ...rearSection(plan, true)]
   }
   parts.push(
-    text([98, 17], { en: 'FOLD', ru: 'СЛОЖИТЕ', es: 'DOBLA' }[plan.locale], 10, ink, 'middle'),
+    text(
+      [98, 17],
+      ({
+        turn: { en: 'TURN OVER', ru: 'ПЕРЕВЕРНИТЕ', es: 'DA LA VUELTA' },
+        open: { en: 'OPEN', ru: 'РАСКРОЙТЕ', es: 'ABRE' },
+        shape: { en: 'SHAPE', ru: 'ПРИДАЙТЕ ФОРМУ', es: 'DA FORMA' },
+      }[frame.view] ?? { en: 'FOLD', ru: 'СЛОЖИТЕ', es: 'DOBLA' })[plan.locale],
+      10,
+      ink,
+      'middle',
+    ),
     text(
       [291, 17],
       frame.reopen
@@ -239,7 +254,7 @@ export function foldSvg(plan, step) {
   )
 }
 export function planeGuide(plan) {
-  const credit = creditText(plan.locale)
+  const credit = creditText(plan.locale, plan)
   const t = (en, ruText, es) => ({ en, ru: ruText, es })[plan.locale]
   const { field } = plan
   const tiles = plan.steps
@@ -291,17 +306,20 @@ export function planeGuide(plan) {
     esc(t('Try a flight', 'Пробный полёт', 'Prueba de vuelo')) +
     '</h2><p>' +
     esc(
-      t(
-        'Hold the body near the front and launch gently and level into clear space.',
-        'Возьмитесь за корпус ближе к носу. Мягко запустите самолёт горизонтально в свободное пространство.',
-        'Sujeta el cuerpo cerca de la punta y lanza suavemente, a nivel y hacia un espacio despejado.',
-      ),
+      plan.launch ??
+        t(
+          'Hold the body near the front and launch gently and level into clear space.',
+          'Возьмитесь за корпус ближе к носу. Мягко запустите самолёт горизонтально в свободное пространство.',
+          'Sujeta el cuerpo cerca de la punta y lanza suavemente, a nivel y hacia un espacio despejado.',
+        ),
     ) +
     '</p><p>' +
     esc(plan.experiment) +
     '</p><p>' +
     esc(plan.history) +
-    '</p><div class="field"><img width="470" height="210" src="' +
+    '</p>' +
+    (plan.rights ? '<p><small>' + esc(plan.rights) + '</small></p>' : '') +
+    '<div class="field"><img width="470" height="210" src="' +
     aircraftPortrait(plan.model_id) +
     '" alt="' +
     esc(field.variant + ' · ' + field.landmark) +
@@ -320,7 +338,7 @@ export function planeGuide(plan) {
     '</p></div></div><p><small>' +
     esc(credit.creator) +
     ' · <a href="' +
-    planeCredits.geometry.url +
+    creditLinks(plan).geometry +
     '">' +
     esc(credit.geometry) +
     '</a> · <a href="' +

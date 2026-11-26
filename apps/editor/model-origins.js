@@ -228,6 +228,111 @@ const origins = {
       source(tr('Tupolev · Aircraft history', 'Túpolev · Historia del avión', 'Туполев · История самолёта'), 'https://www.aviationunion.ru/upload/iblock/9e0/ljt40oomk4qwdv1zp8zwdjzlq3ji0jga/PAO-Tupolev-na-sayt.pdf'),
     ],
   },
+
+  // Record and championship planes: the original design, who flew it and where it won.
+  'red-dart': {
+    kind: 'airplane', record: true, country: 'RS',
+    model: tr('Red Dart · Lazar Krstić', 'Red Dart · Lazar Krstić', 'Red Dart · Лазар Крстич'),
+    date: tr('14 May 2022 · distance, 61.11 m', '14 de mayo de 2022 · distancia, 61,11 m', '14 мая 2022 · дальность, 61,11 м'),
+    story: tr(
+      'Lazar Krstić from Serbia threw his dart 61.11 m to win the distance final of Red Bull Paper Wings at Hangar-7 in Salzburg. He had come second in 2019 and refined the plane and his throw.',
+      'Lazar Krstić, de Serbia, lanzó su dardo 61,11 m y ganó la final de distancia de Red Bull Paper Wings en el Hangar-7 de Salzburgo. En 2019 había quedado segundo y luego mejoró el avión y su lanzamiento.',
+      'Лазар Крстич из Сербии бросил свой дротик на 61,11 м и выиграл финал Red Bull Paper Wings на дальность в «Ангаре-7» в Зальцбурге. В 2019 году он был вторым, а потом доработал самолёт и бросок.',
+    ),
+    discovery: tr(
+      'Almost the whole sheet becomes body. Squeeze the needle’s nose to feel how many layers are wrapped there.',
+      'Casi toda la hoja se convierte en cuerpo. Aprieta la punta de la aguja para notar cuántas capas hay envueltas.',
+      'Почти весь лист превращается в корпус. Сожми нос «Иглы» и почувствуй, сколько там слоёв.',
+    ),
+    people: [person(tr('Lazar Krstić', 'Lazar Krstić', 'Лазар Крстич'), tr('Designed and threw the plane', 'Diseñó y lanzó el avión', 'Придумал и бросил самолёт'))],
+    locations: [
+      location('hangar-7', 'record', 47.79, 13.0, tr('World Final', 'Final mundial', 'Мировой финал'),
+        tr('Hangar-7, Salzburg, Austria', 'Hangar-7, Salzburgo, Austria', '«Ангар-7», Зальцбург, Австрия')),
+    ],
+    sources: [
+      source(tr('Red Bull · World Final 2022 results', 'Red Bull · Resultados de la final de 2022', 'Red Bull · Итоги финала 2022'), 'https://www.redbull.com/us-en/red-bull-paper-wings-world-final-results'),
+      source(tr('Guinness World Records · Farthest throw at the championship', 'Guinness World Records · Lanzamiento más largo del campeonato', 'Guinness World Records · Самый дальний бросок чемпионата'), 'https://www.guinnessworldrecords.com/world-records/729614-farthest-throw-at-the-red-bull-paper-plane-championship'),
+      source(tr('Foldable Flight · Red Dart tutorial', 'Foldable Flight · Tutorial del Red Dart', 'Foldable Flight · Видеоурок Red Dart'), 'https://www.youtube.com/watch?v=4D6HZRaVFF8'),
+    ],
+  },
+  'shaheen-shin': {
+    kind: 'airplane', record: true, country: 'KR',
+    model: tr('Shaheen Shin · Shin Moo Joon', 'Shaheen Shin · Shin Moo Joon', 'Shaheen Shin · Шин Му Джун'),
+    date: tr('May 2022 · airtime, 14.86 s', 'mayo de 2022 · tiempo de vuelo, 14,86 s', 'май 2022 · время полёта, 14,86 с'),
+    story: tr(
+      'Rana Muhammad Usman Saeed from Pakistan won the airtime final of Red Bull Paper Wings with a square glider: 14.86 s. Foldable Flight credits the design to Shin Moo Joon, inspired by Ken Blackburn’s glider.',
+      'Rana Muhammad Usman Saeed, de Pakistán, ganó la final de tiempo de vuelo de Red Bull Paper Wings con un planeador cuadrado: 14,86 s. Foldable Flight atribuye el diseño a Shin Moo Joon, inspirado en el planeador de Ken Blackburn.',
+      'Рана Мухаммад Усман Саид из Пакистана выиграл финал Red Bull Paper Wings на время полёта с квадратным планёром: 14,86 с. Foldable Flight называет автором модели Шин Му Джуна, вдохновлённого планёром Кена Блэкберна.',
+    ),
+    discovery: tr(
+      'An airtime plane must climb straight on a hard throw, then glide slowly. Feel the rolled bar that does the first job.',
+      'Un avión de tiempo de vuelo debe subir recto con un lanzamiento fuerte y luego planear despacio. Toca la barra enrollada que se encarga de lo primero.',
+      'Самолёт на время полёта должен ровно взлететь после сильного броска, а потом медленно планировать. Нащупай скатанный валик: он отвечает за первое.',
+    ),
+    people: [
+      person(tr('Shin Moo Joon', 'Shin Moo Joon', 'Шин Му Джун'), tr('Credited with the design by the tutorial', 'Autor del diseño según el tutorial', 'Автор модели по данным видеоурока')),
+      person(tr('Rana Muhammad Usman Saeed', 'Rana Muhammad Usman Saeed', 'Рана Мухаммад Усман Саид'), tr('Won the airtime final with it', 'Ganó con él la final de tiempo de vuelo', 'Выиграл с ней финал на время полёта')),
+    ],
+    locations: [
+      location('hangar-7', 'record', 47.79, 13.0, tr('World Final', 'Final mundial', 'Мировой финал'),
+        tr('Hangar-7, Salzburg, Austria', 'Hangar-7, Salzburgo, Austria', '«Ангар-7», Зальцбург, Австрия')),
+    ],
+    sources: [
+      source(tr('Red Bull · World Final 2022 results', 'Red Bull · Resultados de la final de 2022', 'Red Bull · Итоги финала 2022'), 'https://www.redbull.com/us-en/red-bull-paper-wings-world-final-results'),
+      source(tr('Guinness World Records · Longest time aloft at the championship', 'Guinness World Records · Más tiempo en el aire en el campeonato', 'Guinness World Records · Дольше всех в воздухе на чемпионате'), 'https://www.guinnessworldrecords.com/world-records/729617-longest-time-aloft-at-the-red-bull-paper-wings-championship'),
+      source(tr('Foldable Flight · Shaheen Shin tutorial', 'Foldable Flight · Tutorial del Shaheen Shin', 'Foldable Flight · Видеоурок Shaheen Shin'), 'https://www.youtube.com/watch?v=lIBeQDtJLf4'),
+    ],
+  },
+  'crescent-boomerang': {
+    kind: 'airplane', record: true, country: 'KR',
+    model: tr('Crescent Boomerang · Seunghoon Lee', 'Crescent Boomerang · Seunghoon Lee', 'Crescent Boomerang · Сынхун Ли'),
+    date: tr('14 May 2022 · aerobatics, 46 points', '14 de mayo de 2022 · acrobacias, 46 puntos', '14 мая 2022 · аэробатика, 46 баллов'),
+    story: tr(
+      'Seunghoon Lee, a science teacher from South Korea, won the aerobatics final of Red Bull Paper Wings with a one-minute show. This boomerang flew back to his hand. No designer is named; his channel WePlay published the same fold in 2018.',
+      'Seunghoon Lee, profesor de ciencias de Corea del Sur, ganó la final de acrobacias de Red Bull Paper Wings con una actuación de un minuto. Este bumerán volvía a su mano. No consta quién lo diseñó; su canal WePlay publicó el mismo plegado en 2018.',
+      'Сынхун Ли, учитель естествознания из Южной Кореи, выиграл финал Red Bull Paper Wings по аэробатике с минутным номером. Этот бумеранг возвращался ему в руку. Автор модели не указан; канал Ли WePlay показал тот же сгиб в 2018 году.',
+    ),
+    discovery: tr(
+      'Thrown on its side, its lift points into a circle. Bend the back edges up and the circle gets smaller.',
+      'Lanzado de lado, su sustentación apunta hacia el centro de un círculo. Levanta los bordes de atrás y el círculo se hace más pequeño.',
+      'Если бросить модель на боку, подъёмная сила направлена внутрь круга. Отогни задние кромки вверх, и круг станет меньше.',
+    ),
+    people: [person(tr('Seunghoon Lee', 'Seunghoon Lee', 'Сынхун Ли'), tr('Flew it in the winning routine', 'Lo lanzó en la actuación ganadora', 'Запускал её в победном номере'))],
+    locations: [
+      location('hangar-7', 'record', 47.79, 13.0, tr('World Final', 'Final mundial', 'Мировой финал'),
+        tr('Hangar-7, Salzburg, Austria', 'Hangar-7, Salzburgo, Austria', '«Ангар-7», Зальцбург, Австрия')),
+    ],
+    sources: [
+      source(tr('Red Bull · World Final 2022 results', 'Red Bull · Resultados de la final de 2022', 'Red Bull · Итоги финала 2022'), 'https://www.redbull.com/int-en/red-bull-paper-wings-world-final-results'),
+      source(tr('WePlay · Boomerang plane (2018)', 'WePlay · Avión bumerán (2018)', 'WePlay · Самолёт-бумеранг (2018)'), 'https://www.youtube.com/watch?v=qP8FrPScgos'),
+      source(tr('Foldable Flight · Crescent Boomerang tutorial', 'Foldable Flight · Tutorial del Crescent Boomerang', 'Foldable Flight · Видеоурок Crescent Boomerang'), 'https://www.youtube.com/watch?v=PAp6CToFr3Y'),
+    ],
+  },
+  'sky-king': {
+    kind: 'airplane', record: true, country: 'JP',
+    model: tr('Sky King · Takuo Toda', 'Sky King · Takuo Toda', 'Sky King · Такуо Тода'),
+    date: tr('2009 · time-aloft record, 27.9 s', '2009 · récord de tiempo en el aire, 27,9 s', '2009 · рекорд времени полёта, 27,9 с'),
+    story: tr(
+      'Takuo Toda folds his planes from one uncut sheet. In 2009 a modified Sky King stayed up for 27.9 s and took the Guinness record; in 2010 his newer Zero Fighter reached 29.2 s.',
+      'Takuo Toda pliega sus aviones con una sola hoja sin cortes. En 2009 un Sky King modificado se mantuvo 27,9 s en el aire y logró el récord Guinness; en 2010 su Zero Fighter, más nuevo, llegó a 29,2 s.',
+      'Такуо Тода складывает самолёты из одного неразрезанного листа. В 2009 году доработанный Sky King продержался в воздухе 27,9 с и установил рекорд Guinness; в 2010 году его новая модель Zero Fighter продержалась 29,2 с.',
+    ),
+    discovery: tr(
+      'The squashed nose stacks layers at the front, so the plane survives a hard throw and still glides.',
+      'La punta aplastada acumula capas delante, así que el avión aguanta un lanzamiento fuerte y aun así planea.',
+      'Расплющенный нос собирает слои спереди: самолёт выдерживает сильный бросок и всё равно планирует.',
+    ),
+    people: [person(tr('Takuo Toda', 'Takuo Toda', 'Такуо Тода'), tr('Designed the Sky King and set the 2009 and 2010 records', 'Diseñó el Sky King y logró los récords de 2009 y 2010', 'Придумал Sky King и установил рекорды 2009 и 2010 годов'))],
+    locations: [
+      location('japan', 'design', 36.2, 138.25, tr('Designer’s country', 'País del diseñador', 'Страна автора'),
+        tr('Japan', 'Japón', 'Япония')),
+    ],
+    sources: [
+      source(tr('WIRED · Takuo Toda folds the Sky King (2009)', 'WIRED · Takuo Toda pliega el Sky King (2009)', 'WIRED · Такуо Тода складывает Sky King (2009)'), 'https://www.youtube.com/watch?v=c1fXWVhd6dU'),
+      source(tr('TIME · Best Inventions of 2009', 'TIME · Mejores inventos de 2009', 'TIME · Лучшие изобретения 2009 года'), 'https://content.time.com/time/specials/packages/article/0,28804,1934027_1934003_1933991,00.html'),
+      source(tr('Guinness World Records · Longest time flying a paper aircraft', 'Guinness World Records · Más tiempo de vuelo de un avión de papel', 'Guinness World Records · Самый долгий полёт бумажного самолёта'), 'https://www.guinnessworldrecords.com/world-records/longest-time-flying-a-paper-aircraft.html'),
+    ],
+  },
 };
 
 const pilots = {

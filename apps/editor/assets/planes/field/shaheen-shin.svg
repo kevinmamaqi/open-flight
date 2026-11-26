@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 470 210" role="img">
+<title>Shaheen Shin</title>
+<metadata>Original Open Flight illustration · CC BY-SA 4.0 · https://creativecommons.org/licenses/by-sa/4.0/ · Paper plane design credited to Shin Moo Joon</metadata>
+<rect width="470" height="210" fill="#d8ecdc"/>
+<circle cx="84" cy="58" r="38" fill="#fff"/><circle cx="84" cy="58" r="38" fill="#d8ecdc" opacity=".5"/>
+<path fill="#fff" opacity=".5" d="M10 170q100-22 210-2t240-4v5q-150 22-240 4T10 177z"/>
+<path fill="#1f7a4d" opacity=".12" d="M14 194q210-22 442-2v18H14z"/>
+<path fill="none" stroke="#24577a" stroke-width="3" stroke-dasharray="4 8" stroke-linecap="round" d="M60 196q30-160 150-150 90 8 160 70"/>
+<g stroke="#183b2b" stroke-width="2.2" stroke-linejoin="round">
+<path fill="#f3f0dc" d="M178 96l118-26 92 34-118 30z"/>
+<path fill="#1f7a4d" d="M178 96l118-26 10 8-118 27z"/>
+<path fill="#e3a83a" stroke="none" d="M205 104l90-21 16 6-90 21zM228 117l90-21 12 5-90 21z"/>
+<path fill="#24577a" d="M270 134l118-30 2 22-114 28z"/>
+<path fill="#e9f3ea" d="M176 96l-6 22 18 6 0-22z"/>
+<path fill="#2f8a5c" d="M382 104l10-26 4 28z"/>
+</g>
+</svg>

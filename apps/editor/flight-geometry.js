@@ -21,6 +21,10 @@ const planeColors = {
   'douglas-dc3': ['#d6eeec', '#df963b', '#255f66'],
   'tupolev-tu144': ['#ffe8dd', '#dc5847', '#394974'],
   'ilyushin-il62': ['#dfedff', '#4a83bd', '#c44b45'],
+  'red-dart': ['#fbe9e4', '#c8312b', '#1d2f4f'],
+  'shaheen-shin': ['#e5f3e8', '#1f7a4d', '#24577a'],
+  'crescent-boomerang': ['#e9ecfa', '#3b4fb8', '#f29c38'],
+  'sky-king': ['#fbe8ec', '#d33d5b', '#2b6cb0'],
 }
 
 export function rotate(point, a, b, angle) {
@@ -215,6 +219,20 @@ function butterfly(world, state, pose, foldedForFlight = false) {
 }
 
 // Clip only for rendering a rigid panel. Slabs meet on the same fold in the intact sheet.
+// Keep the part of a polygon on the same side of line a–b as the point keep.
+function clipLine(polygon, a, b, keep) {
+  const side = (p) => (b[0] - a[0]) * (p[1] - a[1]) - (b[1] - a[1]) * (p[0] - a[0])
+  const sign = Math.sign(side(keep))
+  const result = []
+  polygon.forEach((p, index) => {
+    const q = polygon[(index + 1) % polygon.length],
+      dp = sign * side(p),
+      dq = sign * side(q)
+    if (dp >= -0.00001) result.push(p)
+    if ((dp > 0 && dq < 0) || (dp < 0 && dq > 0)) result.push([mix(p[0], q[0], dp / (dp - dq)), mix(p[1], q[1], dp / (dp - dq))])
+  })
+  return result
+}
 function clipX(polygon, x, sign) {
   const result = []
   polygon.forEach((a, index) => {
@@ -274,15 +292,21 @@ function plane(world, state, pose, foldedForFlight) {
   // Source polygons remain flat only for triangulation. The displayed points rotate rigidly in 3D.
   if ((foldedForFlight || d.kind === 'wings' || d.kind === 'tips') && d.stockOutline?.length) {
     const mid = d.width / 2,
-      keel = d.keel_mm,
       tips = d.winglet_mm
+    // A slanted root (record planes): the body is shallow at the nose and deeper at the tail.
+    const root = d.root
+    const keelAt = root
+      ? (y) => mid - (root[0][0] + ((y - root[0][1]) * (root[1][0] - root[0][0])) / (root[1][1] - root[0][1]))
+      : () => d.keel_mm
+    const keel = d.keel_mm
     const centeredZ = foldedForFlight
       ? (Math.min(...d.stockOutline.map((v) => v[1])) + Math.max(...d.stockOutline.map((v) => v[1]))) / 2
       : d.height / 2
     const wingStep = !foldedForFlight && d.kind === 'wings'
     const finish = foldedForFlight ? 1 : wingStep ? 0 : pose
-    const maxWing = mid - keel - tips
     const shapePoint = ([x, z], level, side) => {
+      const keel = keelAt(z),
+        maxWing = mid - keel - tips
       const dist = Math.abs(x - mid),
         wing = Math.max(0, dist - keel)
       const opening = wingStep ? clamp((pose - (side < 0 ? 0 : 0.46)) / 0.54, 0, 1) : 1
@@ -301,14 +325,27 @@ function plane(world, state, pose, foldedForFlight) {
     // the centre keel and upright tips connected and preserves the stepped nose and paper edges.
     const stocks = d.before?.length ? d.before : [{ face: 'front', polygon: d.stockOutline, z: 0 }]
     const stops = [0, tips, mid - keel, mid, mid + keel, d.width - tips, d.width]
+    const vertical = (x) => [[x, 0], [x, 1]]
+    const rootRight = root?.map(([x, y]) => [d.width - x, y])
+    const inner = root ? [mid, (root[0][1] + root[1][1]) / 2] : null
+    // The six strips between the hinges: tip, wing, body on each side.
+    const strip = (polygon, i) => {
+      if (!root) return clipX(clipX(polygon, stops[i - 1], 1), stops[i], -1)
+      if (i === 1) return clipLine(polygon, ...vertical(tips), [-1, 0])
+      if (i === 2) return clipLine(clipLine(polygon, ...vertical(tips), [mid, 0]), ...root, [-1, inner[1]])
+      if (i === 3) return clipLine(clipLine(polygon, ...root, inner), ...vertical(mid), [-1, 0])
+      if (i === 4) return clipLine(clipLine(polygon, ...rootRight, inner), ...vertical(mid), [d.width + 1, 0])
+      if (i === 5) return clipLine(clipLine(polygon, ...vertical(d.width - tips), [mid, 0]), ...rootRight, [d.width + 1, inner[1]])
+      return clipLine(polygon, ...vertical(d.width - tips), [d.width + 1, 0])
+    }
     for (const layer of stocks) {
       for (let i = 1; i < stops.length; i++) {
         const lo = stops[i - 1],
           hi = stops[i]
-        if (hi - lo < 0.001) continue
-        const poly = clipX(clipX(layer.polygon, lo, 1), hi, -1)
+        if (hi - lo < 0.001 && (!root || i === 1 || i === 6)) continue
+        const poly = strip(layer.polygon, i)
         if (poly.length < 3) continue
-        const side = hi <= mid ? -1 : 1,
+        const side = i <= 3 ? -1 : 1,
           level = layer.z ?? 0
         panel(
           poly,

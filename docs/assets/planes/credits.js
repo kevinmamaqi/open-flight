@@ -10,15 +10,32 @@ export const planeCredits = {
   },
   url: 'https://openflight.design/references',
 }
-export function creditText(locale) {
+// A record plane is Open Flight's version of someone else's fold. The original and its designer are
+// credited first, and the fold line links to the tutorial the sequence was reconstructed from.
+export function creditText(locale, plan) {
   const t = (en, ru, es) => ({ en, ru, es })[locale]
+  const designer = plan?.designer?.[locale]
   return {
-    creator: t('© Open Flight contributors', '© Авторы Open Flight', '© Colaboradores de Open Flight'),
-    geometry: t('Geometry', 'Конструкция', 'Geometría') + ' · ' + planeCredits.geometry.name,
+    creator: designer
+      ? t('Original: ', 'Оригинал: ', 'Original: ') + plan.original + ' · ' + designer
+      : t('© Open Flight contributors', '© Авторы Open Flight', '© Colaboradores de Open Flight'),
+    geometry: designer
+      ? t('Folds derived from the original', 'Сгибы по оригинальной модели', 'Dobleces derivados del original')
+      : t('Geometry', 'Конструкция', 'Geometría') + ' · ' + planeCredits.geometry.name,
     artwork:
-      t('Art and lessons', 'Рисунки и уроки', 'Ilustraciones y lecciones') +
+      (designer
+        ? t('Diagrams and lessons © Open Flight', 'Схемы и уроки © Open Flight', 'Esquemas y lecciones © Open Flight')
+        : t('Art and lessons', 'Рисунки и уроки', 'Ilustraciones y lecciones')) +
       ' · ' +
       planeCredits.artwork.name,
     credits: planeCredits.url.replace('https://', ''),
+  }
+}
+/** Where each credit line links. */
+export function creditLinks(plan) {
+  return {
+    geometry: plan?.designer ? plan.reference.url : planeCredits.geometry.url,
+    artwork: planeCredits.artwork.url,
+    credits: planeCredits.url,
   }
 }

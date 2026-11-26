@@ -30,6 +30,9 @@ const chapterIntros = {
     w('Upper Deck and Prairie Skipper are built to glide slowly, Tailwind to fly straight and steady, and Delta Comet is the classic dart. None has a recorded test flight yet: each plate says what to expect and what to try.',
       'Dos pisos y Planeador de la pradera están hechos para planear despacio, Viento de cola para volar recto y estable, y Cometa delta es el dardo clásico. Ninguno tiene todavía un vuelo de prueba registrado: cada lámina dice qué esperar y qué probar.',
       '«Две палубы» и «Луговой планёр» созданы для медленного планирования, «Попутный ветер» — для ровного прямого полёта, а «Дельта-комета» — классический дротик. Ни у одного пока нет записанного испытательного полёта: на каждой таблице сказано, чего ожидать и что попробовать.'),
+    w('Four more are Open Flight’s versions of record and championship planes: Needle after the Red Dart, Sky Raft after the Shaheen Shin, Homecoming after the Crescent Boomerang and Snub Nose after the Sky King. Each plate names the original, its designer and its record, and explains why it flies.',
+      'Otros cuatro son versiones de Open Flight de aviones de récord y de campeonato: Aguja, basado en el Red Dart; Balsa del cielo, en el Shaheen Shin; Regreso, en el Crescent Boomerang, y Nariz chata, en el Sky King. Cada lámina nombra el original, a su autor y su récord, y explica por qué vuela.',
+      'Ещё четыре — версии Open Flight рекордных и чемпионских самолётов: «Игла» по мотивам Red Dart, «Небесный плот» — Shaheen Shin, «Возвращение» — Crescent Boomerang и «Курносик» — Sky King. На каждой таблице названы оригинал, его автор и рекорд и объяснено, почему модель летает.'),
   ],
   butterflies: [
     w('Real butterflies flap, twist and glide. A paper butterfly can only glide, so it must balance like a flying wing.',

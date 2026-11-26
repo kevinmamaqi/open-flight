@@ -1,6 +1,6 @@
-import { makePlane } from './assets/planes/core.js?v=827c6a6b1e8f'
-import { stripes } from './assets/planes/drawing.js?v=827c6a6b1e8f'
-import { makeWorld } from './flight-geometry.js?v=827c6a6b1e8f'
+import { makePlane } from './assets/planes/core.js?v=48cc97ad30d5'
+import { stripes } from './assets/planes/drawing.js?v=48cc97ad30d5'
+import { makeWorld } from './flight-geometry.js?v=48cc97ad30d5'
 
 // K2: the same folded body under swept forewings, with the clips in the longer head.
 export function costaModel(plan, api) {
@@ -67,6 +67,25 @@ export function costaModel(plan, api) {
     world: { faces, lines: [{ points: clip }, { points: clip.map(([x, y, z]) => [-x, y, z + 1]) }] },
     svg,
     inkSvg,
+  }
+}
+
+// K3: swept wings above a tapered keel, the clips pushed onto the head. Faces come from the
+// printed geometry (k3Faces), textured with the flat sheet.
+export function dartModel(plan, api) {
+  const { k3Faces, k3Preview, k3PreviewBox, makeK3 } = api
+  const box = k3PreviewBox(plan)
+  const { faces, clips } = k3Faces(plan)
+  const uv = ([x, y]) => [0.5 + x / box.width, 1 - (y - box.top + 3) / box.height]
+  const sized = (svg) =>
+    svg.replace('<svg ', `<svg width="${Math.round(box.width * 7)}" height="${Math.round(box.height * 7)}" `)
+  return {
+    world: {
+      faces: faces.map((face) => ({ flat: face.flat, points: face.points, uv: face.flat.map(uv), image: 'keel' })),
+      lines: clips.map((points) => ({ points })),
+    },
+    svg: sized(k3Preview(plan)),
+    inkSvg: sized(k3Preview(makeK3({ species: plan.species, span_mm: plan.span_mm, appearance_id: 'coloring' }))),
   }
 }
 

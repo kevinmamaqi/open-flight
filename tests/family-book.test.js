@@ -239,6 +239,19 @@ test("the airplane edge choice is explicit, shareable and changes only airplane 
     assert.equal(cut[number - 1], uncut[number - 1], `butterfly page ${number} is unchanged`);
 });
 
+test("a K3 butterfly enters the book on its landscape sheet with its own guide", async () => {
+  for (const paper of ["A4", "US_LETTER"]) {
+    const book = normalizeBook({ sheets: ["swallowtail-k3"], paper });
+    const plan = bookPlan(book);
+    assert.deepEqual(plan.entries[0].pages.map(({ index }) => index), [0, 2]);
+    const document = await PDFDocument.load(await createBook(book, { loadAsset }), { updateMetadata: false });
+    const sheet = document.getPage(plan.entries[0].pages[0].number - 1);
+    const [long, short] = paper === "A4" ? [297, 210] : [279.4, 215.9];
+    assert.ok(Math.abs(sheet.getWidth() - (long * 72) / 25.4) < 0.1, "landscape sheet");
+    assert.ok(Math.abs(sheet.getHeight() - (short * 72) / 25.4) < 0.1);
+  }
+});
+
 test("a K2 butterfly enters the book on its landscape sheet with its own guide", async () => {
   const book = normalizeBook({ sheets: ["monarch-k2"], paper: "A4" });
   const plan = bookPlan(book);

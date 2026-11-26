@@ -3,11 +3,19 @@ import {
   makePlane, planeGuide, planePdf, planeSource, planeSvg,
   type PlaneLocale, type PlaneOptions,
 } from '../planes/index.ts'
+import { invalid } from './contracts.ts'
 
 export type PlaneOutput = 'plan' | 'guide' | 'svg' | 'pdf' | 'source_json'
 
 export function airplanePlan(settings: PlaneOptions, locale: PlaneLocale = 'en', format: PlaneOutput = 'plan') {
-  const plan = makePlane(settings, locale)
+  // The schema allows the widest range of any model; each model's own range is checked here.
+  let plan
+  try {
+    plan = makePlane(settings, locale)
+  } catch (error) {
+    if (error instanceof RangeError) throw invalid(error.message)
+    throw error
+  }
   const formats = {
     plan: { mime: 'application/json', render: () => JSON.stringify(plan) },
     guide: { mime: 'text/html', render: () => planeGuide(plan) },

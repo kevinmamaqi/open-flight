@@ -47,19 +47,19 @@ test('paper follows the locale and file names carry ids, paper and language', ()
 test('the hash round-trips through the booklet reader and the booklet link always has m=', () => {
   const selection = { plates: ['B1', 'A1', 'F1'], paper: 'US_LETTER', lang: 'es', edge: 'cut' }
   const hash = selectionHash(selection)
-  assert.equal(hash, '#m=monarch-k2,boeing-747&activities=ring&paper=letter')
-  assert.deepEqual(readBookURL('https://openflight.design/book' + hash), { sheets: ['monarch-k2', 'boeing-747'], activities: ['ring'], paper: 'US_LETTER' })
+  assert.equal(hash, '#m=monarch-k3,boeing-747&activities=ring&paper=letter')
+  assert.deepEqual(readBookURL('https://openflight.design/book' + hash), { sheets: ['monarch-k3', 'boeing-747'], activities: ['ring'], paper: 'US_LETTER' })
   assert.deepEqual(readSelection(hash, ['en']).plates, ['B1', 'A1', 'F1'])
   assert.deepEqual(readSelection('#m=monarch-k1,boeing-747&paper=a4').plates, ['A1'])
   assert.deepEqual(readSelection('#m=a,b,c&activities=nope').plates, [])
-  assert.match(bookletLink(selection), /^book\.html\?lang=es#m=monarch-k2,boeing-747&/)
+  assert.match(bookletLink(selection), /^book\.html\?lang=es#m=monarch-k3,boeing-747&/)
   assert.match(bookletLink({ plates: ['F1'], paper: 'A4', lang: 'en' }), /#m=&/)
   assert.match(bookletLink({ plates: [], paper: 'A4', lang: 'ru' }), /#m=&paper=a4$/)
 })
 
 test('page plan: airplanes 2 pages, butterflies 3, objects 2; every design has a guide last', () => {
   const counts = Object.fromEntries(designIds.map(id => [id, pagePlan(id).length]))
-  assert.deepEqual(counts, { A1: 2, A2: 2, A3: 2, A4: 2, B1: 3, B2: 3, B3: 3, F1: 2, F2: 2, F3: 2 })
+  assert.deepEqual(counts, { A1: 2, A2: 2, A3: 2, A4: 2, A5: 2, A6: 2, A7: 2, A8: 2, B1: 3, B2: 3, B3: 3, F1: 2, F2: 2, F3: 2 })
   for (const id of designIds) assert.equal(pagePlan(id).at(-1).role, 'guide')
   assert.deepEqual(pagePlan('B1', { paper: 'A4', lang: 'es' }).map(p => p.source?.index ?? null), [0, 2, null])
   assert.equal(pagePlan('F2')[0].source.index, 1)
@@ -87,15 +87,15 @@ async function textOf(bytes) {
   return pages
 }
 
-test('static build: 60 singles and 18 sets with plate IDs in the text, sane sizes, three pages', { timeout: 120000 }, async t => {
+test('static build: 84 singles and 18 sets with plate IDs in the text, sane sizes, three pages', { timeout: 120000 }, async t => {
   const out = mkdtempSync(join(tmpdir(), 'print-and-play-'))
   t.after(() => rmSync(out, { recursive: true }))
   await buildPrintAndPlay(out)
   const singles = readdirSync(join(out, 'print/singles')), sets = readdirSync(join(out, 'print/sets'))
-  assert.equal(singles.length, 60)
+  assert.equal(singles.length, 84)
   assert.equal(sets.length, 18)
   const manifest = JSON.parse(readFileSync(join(out, 'print/manifest.json'), 'utf8'))
-  assert.equal(Object.keys(manifest.files).length, 78)
+  assert.equal(Object.keys(manifest.files).length, 102)
   const expectedPages = { A: 2, B: 3, F: 2 }
   for (const name of singles) {
     const bytes = readFileSync(join(out, 'print/singles', name))
@@ -107,7 +107,8 @@ test('static build: 60 singles and 18 sets with plate IDs in the text, sane size
       const pages = await textOf(readFileSync(join(out, `print/singles/${id}-a4-${lang}.pdf`)))
       assert.equal(pages.length, expectedPages[id[0]])
       assert.ok(pages.every(text => text.includes(id)), id + ' on every page')
-      assert.ok(pages.at(-1).includes('CC BY-SA 4.0') && pages.at(-1).includes('CERN-OHL-W-2.0'))
+      // Record planes credit their original instead of an Open Flight geometry licence.
+      assert.ok(pages.at(-1).includes('CC BY-SA 4.0') && (/^A[5-8]$/.test(id) || pages.at(-1).includes('CERN-OHL-W-2.0')))
     }
   }
   const sizeLimit = 1.2 * 1024 * 1024

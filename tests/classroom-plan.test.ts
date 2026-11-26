@@ -13,15 +13,15 @@ test('the classroom manifest matches the browser copy plan for the Starter 3 ink
   assert.deepEqual(result.classroom, plan)
   assert.deepEqual(result.settings, settings)
   assert.equal(result.page_count, 16)
-  assert.deepEqual(result.settings.sheets, ['monarch-k2', 'boeing-747', 'morpho-k2'])
+  assert.deepEqual(result.settings.sheets, ['monarch-k3', 'boeing-747', 'morpho-k3'])
   assert.equal(result.settings.style, 'ink')
   assert.equal(plan.teams, 11)
   assert.equal(plan.total_sheets, 100)
   assert.deepEqual(plan.rows, [
     { kind: 'scale_check', pages: [2], copies: 1 },
-    { kind: 'model', sheet_id: 'monarch-k2', pages: [6, 7], copies: 11 },
+    { kind: 'model', sheet_id: 'monarch-k3', pages: [6, 7], copies: 11 },
     { kind: 'model', sheet_id: 'boeing-747', pages: [8, 9, 10, 11], copies: 11 },
-    { kind: 'model', sheet_id: 'morpho-k2', pages: [12, 13], copies: 11 },
+    { kind: 'model', sheet_id: 'morpho-k3', pages: [12, 13], copies: 11 },
     { kind: 'flight_log', pages: [4], copies: 11 },
   ])
   assert.deepEqual(plan.optional_pages, [1, 3, 5, 14, 15, 16])

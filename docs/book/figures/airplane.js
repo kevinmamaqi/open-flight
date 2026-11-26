@@ -2,9 +2,9 @@
 // It is drawn from numbers computed from each design's folds (airplane-balance.js), so it differs
 // from design to design. Pure and deterministic: the same input always gives the same bytes.
 // Spanish and Russian labels need a native read before release (Russian uses вы).
-import { color, print } from '../../assets/brand/tokens.js?v=827c6a6b1e8f'
-import { planeCatalog } from '../../assets/planes/catalog.js?v=827c6a6b1e8f'
-import { airplaneBalance } from './airplane-balance.js?v=827c6a6b1e8f'
+import { color, print } from '../../assets/brand/tokens.js?v=48cc97ad30d5'
+import { planeCatalog } from '../../assets/planes/catalog.js?v=48cc97ad30d5'
+import { airplaneBalance } from './airplane-balance.js?v=48cc97ad30d5'
 
 const languages = ['en', 'es', 'ru']
 const paths = ['dives', 'glides', 'swoops']
@@ -198,8 +198,9 @@ function sideView(d, w, s, o) {
   const keel = d.body.map(([v, t]) => `${n1(X(v))} ${n1(y + t * k)}`).reverse()
   out.push(`<path d="M${n1(X(0))} ${n1(y)}H${n1(X(L))}L${keel.join('L')}Z" fill="${color.surface}" fill-opacity=".7" stroke="${ink}" stroke-width="${n1(0.75 * u)}"/>`)
   out.push(text(X(0) - 2 * u, y + 3 * u, w.nose, f * 0.85, ` text-anchor="end" fill="${color.textMuted}"`))
-  // Paper layers along the spine, exaggerated: each layer is drawn 1.3 units thick.
-  const t = 1.3 * u
+  // Paper layers along the spine, exaggerated: each layer is drawn 1.3 units thick, thinner when a
+  // wrapped body (the Needle) would otherwise stack them into the lift label.
+  const t = Math.min(1.3, 15 / Math.max(...d.layers.map((r) => r[2]))) * u
   let stack = `M${n1(X(0))} ${n1(y)}`
   for (const [, to, count] of d.layers) stack += `V${n1(y - count * t)}H${n1(X(to))}`
   out.push(`<path d="${stack}V${n1(y)}Z" fill="${ink}" fill-opacity=".8"/>`)

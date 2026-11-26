@@ -1,6 +1,6 @@
-import { appearanceArtPath } from './model-appearance.js?v=827c6a6b1e8f'
-import { coverSizes, measuredSizes } from './book-size-data.js?v=827c6a6b1e8f'
-import { sheetCatalog } from './family-sheets.js?v=827c6a6b1e8f'
+import { appearanceArtPath } from './model-appearance.js?v=48cc97ad30d5'
+import { coverSizes, measuredSizes } from './book-size-data.js?v=48cc97ad30d5'
+import { sheetCatalog } from './family-sheets.js?v=48cc97ad30d5'
 
 const sheetsById = new Map(sheetCatalog.map(entry => [entry.id,entry]))
 

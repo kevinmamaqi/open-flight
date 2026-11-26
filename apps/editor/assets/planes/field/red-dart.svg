@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 470 210" role="img">
+<title>Red Dart</title>
+<metadata>Original Open Flight illustration · CC BY-SA 4.0 · https://creativecommons.org/licenses/by-sa/4.0/ · Paper plane design by Lazar Krstić</metadata>
+<rect width="470" height="210" fill="#f5ddd5"/>
+<circle cx="392" cy="62" r="40" fill="#fff"/><circle cx="392" cy="62" r="40" fill="#f5ddd5" opacity=".5"/>
+<path fill="#fff" opacity=".5" d="M10 168q90-22 200-2t250-4v5q-150 22-250 4T10 175z"/>
+<path fill="#8e1f1f" opacity=".12" d="M14 192q210-22 442-2v20H14z"/>
+<g fill="none" stroke="#a63a21" stroke-width="2.4" stroke-linecap="round" opacity=".55">
+<path d="M300 92h120M318 106h96M330 120h70"/>
+</g>
+<g stroke="#4a1d18" stroke-width="2.2" stroke-linejoin="round">
+<path fill="#f4e6d8" d="M40 108l250-20 4 13-4 13z"/>
+<path fill="#c8312b" d="M40 108l250-7v13z"/>
+<path fill="#e9b43a" stroke="none" d="M120 104.4l22-.7 18 1.9-22 .8zM190 102.2l26-.8 20 2.4-26 .9zM255 100.2l24-.6 11 1.6-24 .7z"/>
+<path fill="#1d2f4f" d="M150 112l140 2-2 16z"/>
+<path fill="#f4e6d8" d="M150 104l140-14 2 9z"/>
+</g>
+<path fill="none" stroke="#4a1d18" stroke-width="2.4" d="M290 88l4 13-4 13"/>
+</svg>

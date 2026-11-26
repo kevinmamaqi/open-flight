@@ -10,7 +10,7 @@ const browser = await chromium.launch({
     process.env.CHROMIUM_PATH || process.env.OPENFLIGHT_CHROME || undefined,
 });
 const bookURL = (query = "") => new URL(`book.html${query}`, base);
-const starter = ["monarch-k2", "boeing-747", "morpho-k2"];
+const starter = ["monarch-k3", "boeing-747", "morpho-k3"];
 const readOrder = (page) =>
   page
     .locator("#order li")
@@ -93,12 +93,12 @@ try {
   assert.equal(response.status(), 200);
   await page.waitForFunction(() => document.documentElement.lang === "es");
   assert.equal(await page.locator("h1").textContent(), "Libro de vuelo");
-  assert.equal(await page.locator("#designs [data-edit]").count(), 10);
+  assert.equal(await page.locator("#designs [data-edit]").count(), 14);
   assert.equal(await page.locator("[data-preset]").count(), 0);
   assert.equal(await page.locator("#pilot-input").inputValue(), "Lucía");
   assert.match(
     await page.locator("#book-summary").textContent(),
-    /^37 páginas · 37 hojas$/,
+    /^67 páginas · 67 hojas$/,
   );
   assert.equal(
     await page.locator("#book-cover").getAttribute("data-paper"),
@@ -126,7 +126,7 @@ try {
     .locator("#cover-canvas")
     .waitFor({ state: "visible", timeout: 40_000 });
   assert.equal(await poster.isVisible(), false);
-  assert.equal(await page.locator("#reader-stack figure").count(), 36);
+  assert.equal(await page.locator("#reader-stack figure").count(), 66);
   assert.equal(await visibleCanvas(page, 30).count(), 0);
   if (process.env.BOOK_MOBILE_SCREENSHOT)
     await page.screenshot({ path: process.env.BOOK_MOBILE_SCREENSHOT });
@@ -142,7 +142,7 @@ try {
     await pageSurface(page, 6)
       .locator('a[href^="./library"]')
       .getAttribute("href"),
-    /monarch-k2-US_LETTER-es\.pdf(?:\?v=[0-9a-f]+)?#page=1$/,
+    /monarch-k3-US_LETTER-es\.pdf(?:\?v=[0-9a-f]+)?#page=1$/,
   );
   await pageSurface(page, 7).evaluate((figure) => figure.scrollIntoView());
   await page.waitForFunction(
@@ -157,13 +157,9 @@ try {
       .getAttribute("data-edit"),
     "monarch",
   );
-  assert.ok(await page.locator("#construction").isVisible());
-  assert.equal(await page.locator("#construction .fold-options img").count(), 3);
+  // A K3-only book offers no fold choice: K3 is the only butterfly fold.
+  assert.equal(await page.locator("#construction").isVisible(), false);
   assert.equal(await page.locator("#edge-choice .fold-options img").count(), 2);
-  assert.match(
-    await page.locator("#tabs-hint").textContent(),
-    /pestañas traseras/,
-  );
   const originalOrder = await readOrder(page);
   await page.locator(".history-panel > summary").click();
   await page
@@ -194,10 +190,10 @@ try {
   assert.deepEqual(await readOrder(page), originalOrder);
   assert.equal(
     await page.locator("#book-cover").getAttribute("data-model"),
-    "morpho-k2",
+    "morpho-k3",
   );
   await page.locator("#include-model").click();
-  assert.ok(!(await readOrder(page)).includes("morpho-k2"));
+  assert.ok(!(await readOrder(page)).includes("morpho-k3"));
   assert.equal(await page.locator("#cover-model").isDisabled(), true);
   await page.locator("#include-model").click();
   assert.deepEqual(await readOrder(page), originalOrder);
@@ -207,7 +203,7 @@ try {
   await page.locator('#book-cover[aria-busy="false"]').waitFor();
   const oldCanvas = await coverImage(page);
   const pattern = page
-    .locator('.reader-page:has(a[href^="./library/morpho-k2-"])')
+    .locator('.reader-page:has(a[href^="./library/morpho-k3-"])')
     .first();
   const patternCanvas = pattern.locator("canvas");
   const patternImage = () => patternCanvas.evaluate((node) => node.toDataURL());
@@ -223,7 +219,7 @@ try {
   );
   assert.match(
     await page.locator("#flyer-image").getAttribute("src"),
-    /morpho-k2-carnival-studio\.jpg$/,
+    /morpho-k3-carnival-studio\.jpg$/,
   );
   await page.locator('.intro a[href="#reader"]').click();
   await page.locator('#book-cover[aria-busy="false"]').waitFor();
@@ -255,7 +251,7 @@ try {
   assert.equal(url.searchParams.has("pilot"), false);
   const saved = new URLSearchParams(url.hash.slice(1));
   assert.equal(saved.get("pilot"), "Patrulla del aire");
-  assert.equal(saved.get("hero"), "morpho-k2");
+  assert.equal(saved.get("hero"), "morpho-k3");
   assert.ok(saved.get("a")?.includes("carnival"));
 
   const output = await download(page);
@@ -263,7 +259,7 @@ try {
   const printed = await PDFDocument.load(output.bytes);
   assert.equal(printed.getTitle(), "Alas de fin de semana");
   assert.equal(printed.getPage(0).getWidth(), 612);
-  assert.equal(printed.getPageCount(), 37);
+  assert.equal(printed.getPageCount(), 67);
 
   await page.goto(bookURL().href);
   assert.equal(await page.locator("h1").textContent(), "Книга полётов");
@@ -282,7 +278,7 @@ try {
   assert.equal(await page.locator("#reader-select").inputValue(), "9");
   assert.equal(
     await page.locator("#book-cover").getAttribute("data-model"),
-    "morpho-k2",
+    "morpho-k3",
   );
   assert.equal(
     await page
@@ -431,18 +427,23 @@ try {
     "swallowtail-k1",
   ]);
   assert.equal(await reopened.locator("#mixed-builds").isVisible(), true);
+  // A retired fold the book holds stays listed beside K3; W1 left the book, so only K1 and K3 show.
+  assert.equal(
+    await reopened.locator('label:has(input[name="construction"][value="w1"])').isVisible(),
+    false,
+  );
   await reopened
-    .locator('label:has(input[name="construction"][value="w1"])')
+    .locator('label:has(input[name="construction"][value="k3"])')
     .click();
   assert.deepEqual(await readOrder(reopened), [
-    "monarch",
+    "monarch-k3",
     "boeing-747",
     "morpho",
     "swallowtail-k1",
   ]);
   assert.equal(
     await reopened.locator("#book-cover").getAttribute("data-model"),
-    "monarch",
+    "monarch-k3",
   );
   await reopened.locator('label:has(input[name="style"][value="ink"])').click();
   assert.equal(

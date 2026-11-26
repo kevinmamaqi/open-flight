@@ -4,6 +4,7 @@ import { makePlane, planePdf } from '../planes/index.ts'
 import { makeFoldedButterfly, foldedPdf } from '../folded-butterfly/index.ts'
 import { classicComparisonPdf } from '../product-core/folded-butterflies.ts'
 import { makeK2, k2Pdf } from '../folded-butterfly/k2-sheet.ts'
+import { makeK3, k3Pdf } from '../folded-butterfly/k3-sheet.ts'
 
 // Library PDFs carry original colors and, for airplanes, the cut border. Anything else is drawn.
 export async function loadAppearanceSheet(sheetId, paper, lang, appearance, loadAsset, edge = 'cut') {
@@ -14,6 +15,8 @@ export async function loadAppearanceSheet(sheetId, paper, lang, appearance, load
   if (airplane) {
     return planePdf(makePlane({ model_id: sheet.model, paper, livery: sheet.appearance, edge }, lang))
   }
+  if (sheet.construction === 'k3')
+    return k3Pdf(makeK3({ species: sheet.model, paper, appearance_id: sheet.appearance, locale: lang }))
   if (sheet.construction === 'k2')
     return k2Pdf(makeK2({ species: sheet.model, paper, appearance_id: sheet.appearance, locale: lang }))
   const plan = makeFoldedButterfly({ species: sheet.model, paper, appearance_id: sheet.appearance }, lang)

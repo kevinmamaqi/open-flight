@@ -6,6 +6,7 @@
       "family": "butterfly",
       "construction": "k1",
       "pages": 3,
+      "retired": true,
       "bookPages": [
         0,
         2
@@ -21,6 +22,7 @@
       "family": "butterfly",
       "construction": "k1",
       "pages": 3,
+      "retired": true,
       "bookPages": [
         0,
         2
@@ -36,6 +38,7 @@
       "family": "butterfly",
       "construction": "k1",
       "pages": 3,
+      "retired": true,
       "bookPages": [
         0,
         2
@@ -51,6 +54,7 @@
       "family": "butterfly",
       "construction": "w1",
       "pages": 1,
+      "retired": true,
       "sharedGuide": null
     },
     {
@@ -59,6 +63,7 @@
       "family": "butterfly",
       "construction": "w1",
       "pages": 1,
+      "retired": true,
       "sharedGuide": null
     },
     {
@@ -67,6 +72,7 @@
       "family": "butterfly",
       "construction": "w1",
       "pages": 1,
+      "retired": true,
       "sharedGuide": null
     },
     {
@@ -126,6 +132,72 @@
       "sharedGuide": null
     },
     {
+      "id": "red-dart",
+      "model": "red-dart",
+      "family": "airplane",
+      "construction": "whole-sheet",
+      "pages": 7,
+      "bookPages": [
+        0,
+        2,
+        3,
+        4,
+        5,
+        6
+      ],
+      "sharedGuide": null
+    },
+    {
+      "id": "shaheen-shin",
+      "model": "shaheen-shin",
+      "family": "airplane",
+      "construction": "whole-sheet",
+      "pages": 8,
+      "bookPages": [
+        0,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ],
+      "sharedGuide": null
+    },
+    {
+      "id": "crescent-boomerang",
+      "model": "crescent-boomerang",
+      "family": "airplane",
+      "construction": "whole-sheet",
+      "pages": 7,
+      "bookPages": [
+        0,
+        2,
+        3,
+        4,
+        5,
+        6
+      ],
+      "sharedGuide": null
+    },
+    {
+      "id": "sky-king",
+      "model": "sky-king",
+      "family": "airplane",
+      "construction": "whole-sheet",
+      "pages": 8,
+      "bookPages": [
+        0,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ],
+      "sharedGuide": null
+    },
+    {
       "id": "monarch-k2",
       "model": "monarch",
       "family": "butterfly",
@@ -135,7 +207,8 @@
         0,
         2
       ],
-      "sharedGuide": null
+      "sharedGuide": null,
+      "retired": true
     },
     {
       "id": "morpho-k2",
@@ -147,13 +220,51 @@
         0,
         2
       ],
-      "sharedGuide": null
+      "sharedGuide": null,
+      "retired": true
     },
     {
       "id": "swallowtail-k2",
       "model": "swallowtail",
       "family": "butterfly",
       "construction": "k2",
+      "pages": 3,
+      "bookPages": [
+        0,
+        2
+      ],
+      "sharedGuide": null,
+      "retired": true
+    },
+    {
+      "id": "monarch-k3",
+      "model": "monarch",
+      "family": "butterfly",
+      "construction": "k3",
+      "pages": 3,
+      "bookPages": [
+        0,
+        2
+      ],
+      "sharedGuide": null
+    },
+    {
+      "id": "morpho-k3",
+      "model": "morpho",
+      "family": "butterfly",
+      "construction": "k3",
+      "pages": 3,
+      "bookPages": [
+        0,
+        2
+      ],
+      "sharedGuide": null
+    },
+    {
+      "id": "swallowtail-k3",
+      "model": "swallowtail",
+      "family": "butterfly",
+      "construction": "k3",
       "pages": 3,
       "bookPages": [
         0,

@@ -1,8 +1,8 @@
-import { butterflySwatches } from './assets/atlas/swatches.js?v=827c6a6b1e8f'
-import { planeCatalog, planeColors, liveries, planeFinish } from './assets/planes/catalog.js?v=827c6a6b1e8f'
-import { sheetCatalog, sheetLocales } from './family-sheets.js?v=827c6a6b1e8f'
+import { butterflySwatches } from './assets/atlas/swatches.js?v=48cc97ad30d5'
+import { planeCatalog, planeColors, liveries, planeFinish } from './assets/planes/catalog.js?v=48cc97ad30d5'
+import { sheetCatalog, sheetLocales } from './family-sheets.js?v=48cc97ad30d5'
 
-import { objectIds, objectPalettes } from './assets/objects/appearance.js?v=827c6a6b1e8f'
+import { objectIds, objectPalettes } from './assets/objects/appearance.js?v=48cc97ad30d5'
 const labels = {
   field: { en:'Original colors', es:'Colores originales', ru:'Исходные цвета' },
   sunset: { en:'Sunset', es:'Atardecer', ru:'Закат' },
@@ -49,7 +49,7 @@ export function sheetAppearance(sheetId, appearance) {
 
 // Keep the field-table specimen separate from the angled studio photographs in the book.
 export function specimenPath(id, appearance) {
-  if (butterflySwatches[id]) return 'assets/atlas/' + id + '-k2-' + (appearance ?? 'natural') + '.svg'
+  if (butterflySwatches[id]) return 'assets/atlas/' + id + '-k3-' + (appearance ?? 'natural') + '.svg'
   const color = appearance ?? (objectIds.includes(id) ? 'field' : 'heritage')
   return 'assets/viewer/' + id + '-' + color + '.webp'
 }

@@ -65,7 +65,8 @@ try {
     const [download] = await Promise.all([page.waitForEvent('download'), pdfLink.click()])
     const printable = (await readFile(await download.path())).toString('latin1')
     assert.match(printable, /%PDF-/)
-    assert.equal([...printable.matchAll(/\/Type\s*\/Page\b/g)].length, 2)
+    // Cut sheet, its back face for double-sided printing, and the fold guide.
+    assert.equal([...printable.matchAll(/\/Type\s*\/Page\b/g)].length, 3)
     await choose('#jump-guide')
     const advanced = await page.locator('#folded-edition').getAttribute('href')
     await page.goto(new URL(advanced, base).href)

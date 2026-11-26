@@ -1,4 +1,4 @@
-import { diagrams, instructions } from './assets/atlas/k2-lessons.js'
+import { diagrams, instructions } from './assets/atlas/k3-lessons.js'
 import { makePlane } from './assets/planes/core.js'
 import { foldSvg } from './assets/planes/guide.js'
 import { modelOrigin } from './model-origins.js'

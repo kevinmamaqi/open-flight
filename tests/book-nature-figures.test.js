@@ -43,8 +43,8 @@ test('figures are deterministic, under 10 KB, labelled as estimates, with matchi
         assert.ok(Buffer.byteLength(printed) < 10000)
       }
   assert.match(butterfly.figure('monarch', 'en'), /not been measured yet/)
-  assert.match(butterfly.figureText('monarch', 'en'), /41 mm behind the nose.*46 mm/)
-  assert.match(butterfly.figureText('morpho', 'en'), /static margin of 10%/)
+  assert.match(butterfly.figureText('monarch', 'en'), /34 mm behind the nose.*39 mm/)
+  assert.match(butterfly.figureText('morpho', 'en'), /static margin of 16%/)
   assert.deepEqual(butterfly.figureControls('monarch', 'en'), [])
   assert.notEqual(object.figure('samara', 'en', { clip: 'B' }), object.figure('samara', 'en'))
   assert.match(object.figureText('tandem', 'en', { clip: 'off' }), /sinks/)

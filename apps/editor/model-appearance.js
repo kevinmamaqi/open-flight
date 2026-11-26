@@ -49,7 +49,7 @@ export function sheetAppearance(sheetId, appearance) {
 
 // Keep the field-table specimen separate from the angled studio photographs in the book.
 export function specimenPath(id, appearance) {
-  if (butterflySwatches[id]) return 'assets/atlas/' + id + '-k2-' + (appearance ?? 'natural') + '.svg'
+  if (butterflySwatches[id]) return 'assets/atlas/' + id + '-k3-' + (appearance ?? 'natural') + '.svg'
   const color = appearance ?? (objectIds.includes(id) ? 'field' : 'heritage')
   return 'assets/viewer/' + id + '-' + color + '.webp'
 }

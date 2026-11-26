@@ -1,4 +1,5 @@
 import {modelOrigin, originModelIds, pilotStories} from './model-origins.js';
+import {planeCatalog} from './assets/planes/catalog.js';
 
 // Offset the labels to keep their touch targets readable. Lines lead to the sites.
 const labelPositions = {
@@ -11,6 +12,11 @@ const labelPositions = {
   'ilyushin-il62': [[69, 16], [65, 11]],
   'tupolev-tu144': [[65, 46], [59, 35]],
   'yuri-gagarin': [[88, 38], [79, 23]],
+  // Three 2022 champions share Hangar-7 in Salzburg; the Sky King marks Japan.
+  'red-dart': [[44, 31], [41, 29]],
+  'shaheen-shin': [[57, 31], [57, 29]],
+  'crescent-boomerang': [[50, 38], [48, 40]],
+  'sky-king': [[94, 27], [90, 17]],
 };
 
 const labels = {
@@ -20,6 +26,7 @@ const labels = {
     list: 'Choose from the list',
     butterflies: 'Butterflies',
     airplanes: 'Civil airplanes',
+    records: 'Record paper planes',
     pilots: 'Pilot stories',
     sources: 'Sources',
     locations: 'Places on the map',
@@ -41,6 +48,7 @@ const labels = {
     list: 'Elegir en la lista',
     butterflies: 'Mariposas',
     airplanes: 'Aviones civiles',
+    records: 'Aviones de papel de récord',
     pilots: 'Historias de pilotos',
     sources: 'Fuentes',
     locations: 'Lugares en el mapa',
@@ -62,6 +70,7 @@ const labels = {
     list: 'Выбрать из списка',
     butterflies: 'Бабочки',
     airplanes: 'Пассажирские самолёты',
+    records: 'Рекордные бумажные самолёты',
     pilots: 'Истории лётчиков',
     sources: 'Источники',
     locations: 'Места на карте',
@@ -170,6 +179,7 @@ export function mountModelMap(element, {model, lang = 'en', onSelect} = {}) {
     'douglas-dc3': 'DC-3',
     'ilyushin-il62': t.il62,
     'tupolev-tu144': t.tu144,
+    ...Object.fromEntries(planeCatalog.filter(plane => plane.record).map(plane => [plane.model_id, plane.name[lang] ?? plane.name.en])),
     'yuri-gagarin': t.gagarin,
     'john-glenn': t.glenn,
   };
@@ -208,14 +218,15 @@ export function mountModelMap(element, {model, lang = 'en', onSelect} = {}) {
     markers.set(record.id, ties);
   }
 
-  const groups = [['butterfly', t.butterflies], ['airplane', t.airplanes], ['pilot', t.pilots]];
+  const groups = [['butterfly', t.butterflies], ['airplane', t.airplanes], ['record', t.records], ['pilot', t.pilots]];
+  const groupOf = record => (record.kind === 'airplane' && record.record ? 'record' : record.kind);
   for (const [kind, label] of groups) {
     const group = node('div', 'of-model-map__list-group');
     group.setAttribute('role', 'group');
     group.setAttribute('aria-label', label);
     group.append(node('p', 'of-model-map__group-title', label));
     const list = node('ul', 'of-model-map__options');
-    for (const record of records.filter(record => record.kind === kind)) {
+    for (const record of records.filter(record => groupOf(record) === kind)) {
       const item = node('li');
       item.append(button('of-model-map__option', record.id, record.model));
       list.append(item);

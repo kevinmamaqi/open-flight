@@ -15,6 +15,7 @@ import { fileURLToPath, pathToFileURL } from 'node:url'
 import { renderSpread } from '../packages/one-sheet/templates.js'
 import { words } from '../packages/one-sheet/content.js'
 import { planeCatalog } from '../apps/editor/assets/planes/catalog.js'
+import { plates } from '../apps/editor/book/catalog.js'
 import { makePlane } from '../apps/editor/assets/planes/core.js'
 import { planeSvg } from '../apps/editor/assets/planes/drawing.js'
 import { lineStyle } from '../apps/editor/assets/brand/print.js'
@@ -68,7 +69,7 @@ function contextFor(lang) {
     lang, plan, extras, qr, legendLine, scaleBar, planeDrawings,
     asset,
     plateName: (id) => {
-      const model = { A1: 'boeing-747', A2: 'douglas-dc3', A3: 'ilyushin-il62', A4: 'tupolev-tu144' }[id]
+      const model = plates.find((plate) => plate.id === id)?.model
       const p = planeCatalog.find((c) => c.model_id === model)
       return p ? p.name[lang] : id
     },

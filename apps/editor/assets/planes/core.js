@@ -1,5 +1,6 @@
-import { planeCatalog, sheetSizes, liveries, revision, revisions, trimMm, sheetEdges, planeColors, referenceForLocale, planeFinish } from './catalog.js'
-import { applyFolds, openSheet, outlineOf, publicPanels, wingShape, dedupeCreases } from './geometry.js'
+import { planeCatalog, sheetSizes, liveries, revision, revisions, trimMm, sheetEdges, planeColors, referenceForLocale, planeFinish, recordRights } from './catalog.js'
+import { applyFolds, openSheet, outlineOf, publicPanels, wingShape, slantedWingShape, clipPanels, dedupeCreases } from './geometry.js'
+import { recordBuilders } from './records.js'
 export { planeCatalog, sheetSizes, liveries, revision, revisions, trimMm, sheetEdges } from './catalog.js'
 
 function whole(value, min, max, fallback, label) {
@@ -19,16 +20,23 @@ export function makePlane(input, locale = 'en') {
     livery = input.livery ?? 'heritage'
   if (!Object.hasOwn(sheetSizes, paper)) throw new RangeError('Unknown plane paper')
   if (!liveries.includes(livery)) throw new RangeError('Unknown plane livery')
-  const keel = whole(input.keel_mm, 12, 28, model.keel_mm, 'keel_mm')
-  const tips = whole(input.winglet_mm, 0, 12, model.winglet_mm, 'winglet_mm')
+  const [keelMin, keelMax] = model.keel_range ?? [12, 28],
+    [tipsMin, tipsMax] = model.winglet_range ?? [0, 12]
+  const keel = whole(input.keel_mm, keelMin, keelMax, model.keel_mm, 'keel_mm')
+  const tips = whole(input.winglet_mm, tipsMin, tipsMax, model.winglet_mm, 'winglet_mm')
   const edge = input.edge ?? (rev === '1' ? 'whole' : 'cut')
   if (!sheetEdges.includes(edge)) throw new RangeError('Unknown plane sheet edge')
   if (rev === '1' && edge !== 'whole') throw new RangeError('Revision 1 folds the whole sheet')
   const [pageW, pageH] = sheetSizes[paper]
-  const trim = edge === 'cut' ? trimMm : 0
+  // A design tied to one paper shape (the Needle is an A4 design) folds a cut-out sheet of that
+  // shape on other paper: the thick border is printed even for the whole-sheet choice, centred
+  // across the page and trimMm from the top and bottom.
+  const ratio = model.sheet_ratio
+  const reshape = rev !== '1' && !!ratio && (pageH - 2 * trimMm) / (pageW - 2 * trimMm) < ratio - 0.01
+  const trim = edge === 'cut' || reshape ? trimMm : 0
   // Fold geometry uses the sheet the builder actually folds: the cut-out sheet in revision 2.
-  const w = Math.round((pageW - 2 * trim) * 1000) / 1000,
-    h = Math.round((pageH - 2 * trim) * 1000) / 1000,
+  const h = Math.round((pageH - 2 * trim) * 1000) / 1000,
+    w = Math.round((reshape ? h / ratio : pageW - 2 * trim) * 1000) / 1000,
     c = w / 2
   const t = (en, ru, es) => ({ en, ru, es })[locale]
   const mm = (n) =>
@@ -95,7 +103,8 @@ export function makePlane(input, locale = 'en') {
       wingPolygon: [],
     }
     steps.push({ index: idx, title, instruction, frame })
-    recorded.push(...result.creases)
+    // lines: false keeps these creases off the printed template (folds through a wrapped body).
+    recorded.push(...(options.lines === false ? result.creases.map((crease) => ({ ...crease, print: false })) : result.creases))
     layers = after
     return frame
   }
@@ -106,7 +115,9 @@ export function makePlane(input, locale = 'en') {
         'Recorta la hoja por el borde grueso. ',
       )
     : ''
-  add(
+  // Record planes fold their own way to the open stock, then share the body, wing and tip folds.
+  const record = model.record ? recordBuilders[model.model_id]({ w, h, keel, tips, t, mm }) : null
+  if (!record) add(
     t('Find the centre', 'Наметьте середину', 'Marca el centro'),
     cutFirst + t(
       'Print side up. Put the short edge at the top. Bring the two long edges together, press the middle crease, then open the sheet again.',
@@ -126,7 +137,15 @@ export function makePlane(input, locale = 'en') {
     'Загните оба верхних угла внутрь. Совместите короткие верхние кромки со средней линией. Прижмите косые сгибы.',
     'Dobla las dos esquinas de arriba hacia dentro. Alinea los bordes cortos con el doblez del centro y marca las dos diagonales.',
   )
-  if (model.model_id === 'boeing-747') {
+  if (record) {
+    for (const s of record.folder.steps) {
+      Object.assign(s.frame, { keel_mm: keel, winglet_mm: tips, dihedral_deg: 8, wingPolygon: [] })
+      steps.push(s)
+    }
+    recorded.push(...record.folder.creases)
+    layers = record.open ?? record.stock
+    if (cutFirst) steps[0].instruction = cutFirst + steps[0].instruction
+  } else if (model.model_id === 'boeing-747') {
     add(cornerTitle, cornerText, shoulders(c, 0, c))
     const step = 34,
       pleat = 51
@@ -217,20 +236,36 @@ export function makePlane(input, locale = 'en') {
       shoulders(c, 18, 160),
     )
   }
-  const stock = layers
+  const stock = record ? record.stock : layers
+  // A design whose body is wrapped from many layers prints no body, wing or tip lines: each fold
+  // runs through every layer and would leave dozens of unrelated lines on the flat sheet.
+  const bodyLines = record?.bodyLines === false ? { lines: false } : {}
   const close = add(
-    t('Close the body', 'Сложите корпус', 'Cierra el cuerpo'),
-    t(
-      'Keep the folded details face up. Fold the right half away from you, behind the left, along the centre line. The folded details will be on the outside.',
-      'Положите лист складками вверх. Отогните правую половину от себя под левую по средней линии. Носовые складки окажутся снаружи.',
-      'Deja los dobleces hacia arriba. Dobla la mitad derecha por debajo de la izquierda siguiendo la línea del centro. Los dobleces de la punta quedan por fuera.',
-    ),
-    [{ ...opsX(c, 'spine', 'mountain'), under: true }],
+    record?.close.title ?? t('Close the body', 'Сложите корпус', 'Cierra el cuerpo'),
+    record?.close.instruction ??
+      t(
+        'Keep the folded details face up. Fold the right half away from you, behind the left, along the centre line. The folded details will be on the outside.',
+        'Положите лист складками вверх. Отогните правую половину от себя под левую по средней линии. Носовые складки окажутся снаружи.',
+        'Deja los dobleces hacia arriba. Dobla la mitad derecha por debajo de la izquierda siguiendo la línea del centro. Los dobleces de la punta quedan por fuera.',
+      ),
+    [record?.closeKind === 'valley' ? opsX(c, 'spine', 'valley') : { ...opsX(c, 'spine', 'mountain'), under: true }],
+    bodyLines,
   )
+  const bodyFrames = [close]
+  for (const extra of record?.extras ?? []) {
+    const frame = add(extra.title, extra.instruction, extra.ops, bodyLines)
+    if (extra.view) frame.view = extra.view
+    bodyFrames.push(frame)
+  }
+  // A slanted wing root (deeper at the tail) runs between two points on the left half of the stock.
+  const root = record?.root ?? null
+  const mirror = (line) => line.map(([x, y]) => [w - x, y])
+  // Paper wrapped round the body last is drawn as body, not wing.
+  const shown = record?.wingWithin ? clipPanels(stock, record.wingWithin) : stock
   const rootStep = steps.length
   const wings = add(
-    t('Fold one wing, then match its twin', 'Сложите крылья по очереди', 'Dobla un ala y luego la otra'),
-    t(
+    record?.wings.title ?? t('Fold one wing, then match its twin', 'Сложите крылья по очереди', 'Dobla un ala y luego la otra'),
+    record?.wings.instruction ?? t(
       'Hold the closed body with the centre edge on your right. Fold only the upper wing outward on the line ' +
         mm(keel) +
         ' mm from that edge. Turn the model over and fold the other wing to match. From behind, the wings make a T with the body hanging below.',
@@ -241,17 +276,26 @@ export function makePlane(input, locale = 'en') {
         mm(keel) +
         ' mm de ese borde. Dale la vuelta y repite con la otra ala. Desde la cola, las alas y el cuerpo dibujan una T.',
     ),
-    [opsX(c - keel, 'wing', 'mountain'), opsX(c + keel, 'wing', 'mountain')],
-    { reopen: true, independent: true, base: stock, kind: 'wings' },
+    root
+      ? [
+          { line: root, toward: [0, h], tag: 'wing', kind: 'mountain' },
+          { line: mirror(root), toward: [w, h], tag: 'wing', kind: 'mountain' },
+        ]
+      : [opsX(c - keel, 'wing', 'mountain'), opsX(c + keel, 'wing', 'mountain')],
+    { reopen: true, independent: true, base: shown, kind: 'wings', ...bodyLines },
   )
   wings.moves.forEach((m) => {
     m.angle_deg = 90
   })
   const finish = add(
-    tips
+    record
+      ? record.tips.title
+      : tips
       ? t('Raise the wing tips', 'Поднимите законцовки', 'Levanta los extremos de las alas')
       : t('Open the wings', 'Раскройте крылья', 'Abre las alas'),
-    tips
+    record
+      ? record.tips.instruction
+      : tips
       ? t(
           'Lift each wingtip about 10 mm above the body fold. Turn up the outer ' +
             mm(tips) +
@@ -269,15 +313,16 @@ export function makePlane(input, locale = 'en') {
           'Levanta cada punta del ala unos 10 mm por encima del pliegue del cuerpo. Deja planos los bordes exteriores. Mira desde la cola y comprueba que los dos extremos queden a la misma altura.',
         ),
     tips ? [opsX(tips, 'tip'), opsX(w - tips, 'tip')] : [],
-    { base: stock, reopen: true, independent: true, kind: 'tips' },
+    { base: shown, reopen: true, independent: true, kind: 'tips', ...bodyLines },
   )
   finish.moves.forEach((m) => {
     m.angle_deg = 90
   })
-  const wing = wingShape(outlineOf(stock), w, keel, tips)
-  for (const frame of [close, wings, finish]) {
+  const wing = root ? slantedWingShape(outlineOf(shown), w, root, tips) : wingShape(outlineOf(shown), w, keel, tips)
+  for (const frame of [...bodyFrames, wings, finish]) {
     frame.wingPolygon = wing
-    frame.stockOutline = outlineOf(stock)
+    frame.stockOutline = outlineOf(shown)
+    if (root) frame.root = root
   }
   const source = {
     format: 'open-flight-plane',
@@ -313,13 +358,17 @@ export function makePlane(input, locale = 'en') {
     page: { width_mm: pageW, height_mm: pageH },
     edge,
     trim_mm: trim,
+    ...(reshape ? { offset_mm: [Math.round(((pageW - w) / 2) * 1000) / 1000, trim] } : {}),
     colors: planeColors(model, livery),
     motif: model.motif,
     code: model.code,
     steps,
     creases: dedupeCreases(recorded),
     rootStep,
-    stockOutline: outlineOf(stock),
+    ...(root ? { root } : {}),
+    ...(record ? { designer: model.designer, original: model.original, launch: model.launch[locale], rights: recordRights[locale] } : {}),
+    ...(record?.tips.heading ? { tipsHeading: record.tips.heading } : {}),
+    stockOutline: outlineOf(shown),
     wingPolygon: wing,
     stockPanels: stock.map(({ face, vertices }) => ({
       face,

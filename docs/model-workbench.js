@@ -1,13 +1,13 @@
-import { specimenPath, appearanceChoices } from './model-appearance.js?v=827c6a6b1e8f'
-import { bookFromStudio, studioForBookSheet } from './model-studio.js?v=827c6a6b1e8f'
-import { sheetIdFor, sheetPath } from './family-sheets.js?v=827c6a6b1e8f'
-import { flightObjects } from './assets/objects/activities.js?v=827c6a6b1e8f'
-import { objectIds, coloredPacket } from './assets/objects/appearance.js?v=827c6a6b1e8f'
-import { escapeHtml as e } from './site-navigation.js?v=827c6a6b1e8f'
+import { specimenPath, appearanceChoices } from './model-appearance.js?v=48cc97ad30d5'
+import { bookFromStudio, studioForBookSheet } from './model-studio.js?v=48cc97ad30d5'
+import { sheetIdFor, sheetPath } from './family-sheets.js?v=48cc97ad30d5'
+import { flightObjects } from './assets/objects/activities.js?v=48cc97ad30d5'
+import { objectIds, coloredPacket } from './assets/objects/appearance.js?v=48cc97ad30d5'
+import { escapeHtml as e } from './site-navigation.js?v=48cc97ad30d5'
 
-import { sketchMarkup, mountSketch } from './model-sketch.js?v=827c6a6b1e8f'
-import { studioOrigins } from './studio-origins.js?v=827c6a6b1e8f'
-import { k2Facts } from './assets/atlas/k2-facts.js?v=827c6a6b1e8f'
+import { sketchMarkup, mountSketch } from './model-sketch.js?v=48cc97ad30d5'
+import { studioOrigins } from './studio-origins.js?v=48cc97ad30d5'
+import { k3Facts, k3SpanRange } from './assets/atlas/k3-facts.js?v=48cc97ad30d5'
 
 const benchLabels = {
   en: ['Model', 'Flight path', 'Customize', 'Wingspan', 'Book uses the standard span', 'Build settings'],
@@ -129,7 +129,7 @@ export function workbenchMarkup(id, lang, base, details = {}) {
   const art = base + specimenPath(id)
   const icon = (name) =>
     '<svg class="bench-icon" aria-hidden="true"><use href="' + base + 'editor-art.svg#' + name + '"/></svg>'
-  const facts = k2Facts[id]
+  const facts = k3Facts[id]
   return `<div class="model-workbench" data-model-workbench="${e(id)}" data-base="${e(base)}">
     <section class="bench-panel specimen-panel">
       <div class="specimen-head"><div><${heading}>${e(title)}</${heading}>${details.subtitle ? '<p class="specimen-subtitle">' + e(details.subtitle) + '</p>' : ''}</div>
@@ -146,7 +146,7 @@ export function workbenchMarkup(id, lang, base, details = {}) {
     </section>
     <section class="bench-panel controls-panel"><h2>${icon('sliders')}${b[2]}</h2>
     <fieldset class="model-palette"><legend>${t[0]}</legend><div class="paint-grid">${choices.map(({ id, label, colors }, i) => `<button type="button" data-paint="${e(id)}" aria-pressed="${i === 0}"><span class="palette-chip" aria-hidden="true" style="background:linear-gradient(120deg,${colors[0]} 48%,${colors[1]} 48% 76%,${colors[2]} 76%)"></span>${e(label)}</button>`).join('')}</div></fieldset>
-    ${facts ? '<label class="bench-span" for="model-span">' + b[3] + '<output for="model-span">' + facts.span + ' mm</output></label><input id="model-span" class="span-range" type="range" min="148" max="184" step="2" value="' + facts.span + '">' : ''}
+    ${facts ? '<label class="bench-span" for="model-span">' + b[3] + '<output for="model-span">' + facts.span + ' mm</output></label><input id="model-span" class="span-range" type="range" min="' + k3SpanRange.minimum + '" max="' + k3SpanRange.maximum + '" step="' + k3SpanRange.step + '" value="' + facts.span + '">' : ''}
     ${details.metrics ? '<dl class="model-facts">' + details.metrics + '</dl>' : ''}
     <div class="model-tools">${setting ? `<label>${t[17]}<select class="setting"><option value="0">${t[setting]}</option><option value="1">${t[setting + 1]}</option></select></label>` : ''}
     <label>${t[2]}<select class="size"><option>A4</option><option value="US_LETTER">${lang === 'es' ? 'Carta' : 'US Letter'}</option></select></label></div>
@@ -178,7 +178,7 @@ export function mountWorkbench(root) {
   if (params.get('paper') === 'US_LETTER') paper.value = 'US_LETTER'
   if (setting && params.get('setting') === '1') setting.value = '1'
   const span = $('.span-range')
-  const facts = k2Facts[id]
+  const facts = k3Facts[id]
   if (span) {
     const value = Number(params.get('span'))
     if (
@@ -224,8 +224,8 @@ export function mountWorkbench(root) {
     if (!steps.length || !id.includes('-') || lessonPaper === paper.value) return
     const requested = paper.value
     const [{ makePlane }, { foldSvg }] = await Promise.all([
-      import('./assets/planes/core.js?v=827c6a6b1e8f'),
-      import('./assets/planes/guide.js?v=827c6a6b1e8f'),
+      import('./assets/planes/core.js?v=48cc97ad30d5'),
+      import('./assets/planes/guide.js?v=48cc97ad30d5'),
     ])
     if (paper.value !== requested) return
     const plan = makePlane({ model_id: id, paper: requested }, lang)
@@ -269,7 +269,7 @@ export function mountWorkbench(root) {
     const version = ++revision
     mode = 'orbit'
     try {
-      opening ??= import('./model-viewer.js?v=827c6a6b1e8f').then(({ createViewer }) =>
+      opening ??= import('./model-viewer.js?v=48cc97ad30d5').then(({ createViewer }) =>
         createViewer($('.model-canvas'), id, lang, (fraction, active) => {
           slider.value = Math.round(fraction * 100)
           playing(active)
@@ -294,10 +294,10 @@ export function mountWorkbench(root) {
     const version = ++posterRevision
     let url = base + specimenPath(id, paint)
     if (customSpan()) {
-      const api = await import('./browser-workshop.js?v=827c6a6b1e8f')
+      const api = await import('./browser-workshop.js?v=48cc97ad30d5')
       if (version !== posterRevision) return
-      const plan = api.makeK2({ species: id, appearance_id: paint, span_mm: +span.value })
-      url = 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(api.k2FinishedSvg(plan))
+      const plan = api.makeK3({ species: id, appearance_id: paint, span_mm: +span.value })
+      url = 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(api.k3FinishedSvg(plan))
     }
     $('.model-poster').src = url
     $('.course-flyer').setAttribute('href', url)
@@ -317,8 +317,12 @@ export function mountWorkbench(root) {
       $('.book-span').hidden = !customSpan()
       const tip = $('[data-tip-height]')
       if (tip)
-        tip.textContent = Math.round((+span.value / 2) * Math.sin((facts.angle * Math.PI) / 180)) + ' mm'
-      $('.model-poster').style.setProperty('--span-scale', +span.value / 184)
+      {
+        // The tip height is the keel depth under the tip plus the rise from the wing V.
+        const rise = (s) => (s / 2) * Math.sin((facts.angle * Math.PI) / 180)
+        tip.textContent = Math.round(facts.tip - rise(facts.span) + rise(+span.value)) + ' mm'
+      }
+      $('.model-poster').style.setProperty('--span-scale', +span.value / k3SpanRange.maximum)
     }
     if (activity && $('.lesson-pattern'))
       $('.lesson-pattern').src = base + activity.appearances.find((a) => a.id === paint).drawing
@@ -369,13 +373,13 @@ export function mountWorkbench(root) {
     event.preventDefault()
     status.textContent = t[15]
     try {
-      const { loadAppearanceSheet } = await import('./appearance-sheet-browser.js?v=827c6a6b1e8f')
+      const { loadAppearanceSheet } = await import('./appearance-sheet-browser.js?v=48cc97ad30d5')
       const name =
         [sheet, paint, ...(customSpan() ? [span.value + 'mm'] : []), paper.value, lang].join('-') + '.pdf'
       let bytes
       if (customSpan()) {
-        const api = await import('./browser-workshop.js?v=827c6a6b1e8f')
-        const plan = api.makeK2({
+        const api = await import('./browser-workshop.js?v=48cc97ad30d5')
+        const plan = api.makeK3({
           species: id,
           span_mm: +span.value,
           appearance_id: paint,
@@ -383,7 +387,7 @@ export function mountWorkbench(root) {
           locale: lang,
         })
         await api.prepareFoldedPdf()
-        bytes = api.k2Pdf(plan)
+        bytes = api.k3Pdf(plan)
       } else bytes = await loadAppearanceSheet(sheet, paper.value, lang, paint)
       const url = URL.createObjectURL(new Blob([bytes], { type: 'application/pdf' })),
         a = document.createElement('a')

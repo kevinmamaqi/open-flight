@@ -14,7 +14,8 @@ export function studioForBookSheet(book, sheetId) {
   const color = book.appearances?.[entry.model] || appearanceChoices(entry.model, book.lang)[0].id
   if (entry.construction === 'k1')
     return foldedLink(entry.model, book.lang, { appearance_id: color, paper: book.paper })
-  if (entry.construction === 'k2')
+  // The butterfly lab draws K3. A retired K2 sheet opens the same species there.
+  if (entry.construction === 'k2' || entry.construction === 'k3')
     return './costa.html?' + new URLSearchParams({ lang: book.lang, species: entry.model, colors: color, paper: book.paper })
   const path = studioLink(entry.model, book.lang)
   const [address, hash] = path.split('#')

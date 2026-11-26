@@ -12,7 +12,7 @@
     "inner": 20,
     "outer": 16
   },
-  "pages": 266,
+  "pages": 290,
   "asOf": "2026-11-25",
   "note": "Fixed spreads: page numbers are identical in EN, ES and RU. Templates: OP opener, PL plate, SQ fold sequence, EX how it flies, LN lineage, PR profile, DA data, XP experiment, AP apparatus.",
   "sample": {
@@ -569,10 +569,142 @@
       "image": "Licensed archive photograph (to find)"
     },
     {
-      "id": "airplanes-trim",
+      "id": "plate-A5",
       "pages": [
         94,
         95
+      ],
+      "template": "PL",
+      "chapter": "airplanes",
+      "plate": "A5",
+      "image": "Specimen photograph at 1:1 (NEW)"
+    },
+    {
+      "id": "sequence-A5",
+      "pages": [
+        96,
+        97
+      ],
+      "template": "SQ",
+      "chapter": "airplanes",
+      "plate": "A5",
+      "image": "Redrawn steps and hands photographs (NEW)"
+    },
+    {
+      "id": "lineage-A5",
+      "pages": [
+        98,
+        99
+      ],
+      "template": "LN",
+      "chapter": "airplanes",
+      "plate": "A5",
+      "image": "Record photograph (to license) or Open Flight illustration"
+    },
+    {
+      "id": "plate-A6",
+      "pages": [
+        100,
+        101
+      ],
+      "template": "PL",
+      "chapter": "airplanes",
+      "plate": "A6",
+      "image": "Specimen photograph at 1:1 (NEW)"
+    },
+    {
+      "id": "sequence-A6",
+      "pages": [
+        102,
+        103
+      ],
+      "template": "SQ",
+      "chapter": "airplanes",
+      "plate": "A6",
+      "image": "Redrawn steps and hands photographs (NEW)"
+    },
+    {
+      "id": "lineage-A6",
+      "pages": [
+        104,
+        105
+      ],
+      "template": "LN",
+      "chapter": "airplanes",
+      "plate": "A6",
+      "image": "Record photograph (to license) or Open Flight illustration"
+    },
+    {
+      "id": "plate-A7",
+      "pages": [
+        106,
+        107
+      ],
+      "template": "PL",
+      "chapter": "airplanes",
+      "plate": "A7",
+      "image": "Specimen photograph at 1:1 (NEW)"
+    },
+    {
+      "id": "sequence-A7",
+      "pages": [
+        108,
+        109
+      ],
+      "template": "SQ",
+      "chapter": "airplanes",
+      "plate": "A7",
+      "image": "Redrawn steps and hands photographs (NEW)"
+    },
+    {
+      "id": "lineage-A7",
+      "pages": [
+        110,
+        111
+      ],
+      "template": "LN",
+      "chapter": "airplanes",
+      "plate": "A7",
+      "image": "Record photograph (to license) or Open Flight illustration"
+    },
+    {
+      "id": "plate-A8",
+      "pages": [
+        112,
+        113
+      ],
+      "template": "PL",
+      "chapter": "airplanes",
+      "plate": "A8",
+      "image": "Specimen photograph at 1:1 (NEW)"
+    },
+    {
+      "id": "sequence-A8",
+      "pages": [
+        114,
+        115
+      ],
+      "template": "SQ",
+      "chapter": "airplanes",
+      "plate": "A8",
+      "image": "Redrawn steps and hands photographs (NEW)"
+    },
+    {
+      "id": "lineage-A8",
+      "pages": [
+        116,
+        117
+      ],
+      "template": "LN",
+      "chapter": "airplanes",
+      "plate": "A8",
+      "image": "Record photograph (to license) or Open Flight illustration"
+    },
+    {
+      "id": "airplanes-trim",
+      "pages": [
+        118,
+        119
       ],
       "template": "EX",
       "chapter": "airplanes",
@@ -582,8 +714,8 @@
     {
       "id": "airplanes-compared",
       "pages": [
-        96,
-        97
+        120,
+        121
       ],
       "template": "DA",
       "chapter": "airplanes",
@@ -593,8 +725,8 @@
     {
       "id": "airplanes-experiment",
       "pages": [
-        98,
-        99
+        122,
+        123
       ],
       "template": "XP",
       "chapter": "airplanes",
@@ -609,15 +741,15 @@
       "title": null,
       "generated": true,
       "pages": [
-        100,
-        101
+        124,
+        125
       ]
     },
     {
       "id": "butterflies",
       "pages": [
-        102,
-        103
+        126,
+        127
       ],
       "template": "OP",
       "chapter": "butterflies",
@@ -627,8 +759,8 @@
     {
       "id": "butterfly-flies",
       "pages": [
-        104,
-        105
+        128,
+        129
       ],
       "template": "EX",
       "chapter": "butterflies",
@@ -638,8 +770,8 @@
     {
       "id": "butterfly-build-1",
       "pages": [
-        106,
-        107
+        130,
+        131
       ],
       "template": "SQ",
       "chapter": "butterflies",
@@ -649,8 +781,8 @@
     {
       "id": "butterfly-build-2",
       "pages": [
-        108,
-        109
+        132,
+        133
       ],
       "template": "SQ",
       "chapter": "butterflies",
@@ -660,8 +792,8 @@
     {
       "id": "plate-B1",
       "pages": [
-        110,
-        111
+        134,
+        135
       ],
       "template": "PL",
       "chapter": "butterflies",
@@ -671,8 +803,8 @@
     {
       "id": "field-notes-B1",
       "pages": [
-        112,
-        113
+        136,
+        137
       ],
       "template": "LN",
       "chapter": "butterflies",
@@ -682,8 +814,8 @@
     {
       "id": "plate-B2",
       "pages": [
-        114,
-        115
+        138,
+        139
       ],
       "template": "PL",
       "chapter": "butterflies",
@@ -693,8 +825,8 @@
     {
       "id": "field-notes-B2",
       "pages": [
-        116,
-        117
+        140,
+        141
       ],
       "template": "LN",
       "chapter": "butterflies",
@@ -704,8 +836,8 @@
     {
       "id": "plate-B3",
       "pages": [
-        118,
-        119
+        142,
+        143
       ],
       "template": "PL",
       "chapter": "butterflies",
@@ -715,8 +847,8 @@
     {
       "id": "field-notes-B3",
       "pages": [
-        120,
-        121
+        144,
+        145
       ],
       "template": "LN",
       "chapter": "butterflies",
@@ -724,14 +856,14 @@
       "image": "Species photograph (exists, licence to confirm)"
     },
     {
-      "id": "k1-to-k2",
+      "id": "k1-to-k3",
       "pages": [
-        122,
-        123
+        146,
+        147
       ],
       "template": "XP",
       "chapter": "butterflies",
-      "title": "From K1 to K2, a design story",
+      "title": "From K1 to K3, a design story",
       "image": "Trial photographs after PHYS-011 (NEW)"
     },
     {
@@ -742,15 +874,15 @@
       "title": null,
       "generated": true,
       "pages": [
-        124,
-        125
+        148,
+        149
       ]
     },
     {
       "id": "flying-objects",
       "pages": [
-        126,
-        127
+        150,
+        151
       ],
       "template": "OP",
       "chapter": "flying-objects",
@@ -760,8 +892,8 @@
     {
       "id": "plate-F1",
       "pages": [
-        128,
-        129
+        152,
+        153
       ],
       "template": "PL",
       "chapter": "flying-objects",
@@ -771,8 +903,8 @@
     {
       "id": "ring-flies",
       "pages": [
-        130,
-        131
+        154,
+        155
       ],
       "template": "EX",
       "chapter": "flying-objects",
@@ -782,8 +914,8 @@
     {
       "id": "plate-F2",
       "pages": [
-        132,
-        133
+        156,
+        157
       ],
       "template": "PL",
       "chapter": "flying-objects",
@@ -793,8 +925,8 @@
     {
       "id": "autorotation",
       "pages": [
-        134,
-        135
+        158,
+        159
       ],
       "template": "EX",
       "chapter": "flying-objects",
@@ -804,8 +936,8 @@
     {
       "id": "plate-F3",
       "pages": [
-        136,
-        137
+        160,
+        161
       ],
       "template": "PL",
       "chapter": "flying-objects",
@@ -815,8 +947,8 @@
     {
       "id": "williams-1918",
       "pages": [
-        138,
-        139
+        162,
+        163
       ],
       "template": "LN",
       "chapter": "flying-objects",
@@ -827,8 +959,8 @@
     {
       "id": "slowest",
       "pages": [
-        140,
-        141
+        164,
+        165
       ],
       "template": "XP",
       "chapter": "flying-objects",
@@ -843,8 +975,8 @@
       "title": null,
       "generated": true,
       "pages": [
-        142,
-        143
+        166,
+        167
       ]
     },
     {
@@ -855,8 +987,8 @@
       "photo": "biplanes",
       "generated": true,
       "pages": [
-        144,
-        145
+        168,
+        169
       ]
     },
     {
@@ -867,8 +999,8 @@
       "title": null,
       "generated": true,
       "pages": [
-        146,
-        147
+        170,
+        171
       ]
     },
     {
@@ -879,8 +1011,8 @@
       "title": null,
       "generated": true,
       "pages": [
-        148,
-        149
+        172,
+        173
       ]
     },
     {
@@ -891,8 +1023,8 @@
       "title": null,
       "generated": true,
       "pages": [
-        150,
-        151
+        174,
+        175
       ]
     },
     {
@@ -903,8 +1035,8 @@
       "title": null,
       "generated": true,
       "pages": [
-        152,
-        153
+        176,
+        177
       ]
     },
     {
@@ -915,8 +1047,8 @@
       "title": null,
       "generated": true,
       "pages": [
-        154,
-        155
+        178,
+        179
       ]
     },
     {
@@ -927,8 +1059,8 @@
       "title": null,
       "generated": true,
       "pages": [
-        156,
-        157
+        180,
+        181
       ]
     },
     {
@@ -939,8 +1071,8 @@
       "title": null,
       "generated": true,
       "pages": [
-        158,
-        159
+        182,
+        183
       ]
     },
     {
@@ -951,8 +1083,8 @@
       "title": null,
       "generated": true,
       "pages": [
-        160,
-        161
+        184,
+        185
       ]
     },
     {
@@ -963,8 +1095,8 @@
       "title": null,
       "generated": true,
       "pages": [
-        162,
-        163
+        186,
+        187
       ]
     },
     {
@@ -975,8 +1107,8 @@
       "title": null,
       "generated": true,
       "pages": [
-        164,
-        165
+        188,
+        189
       ]
     },
     {
@@ -987,8 +1119,8 @@
       "title": null,
       "generated": true,
       "pages": [
-        166,
-        167
+        190,
+        191
       ]
     },
     {
@@ -999,8 +1131,8 @@
       "title": null,
       "generated": true,
       "pages": [
-        168,
-        169
+        192,
+        193
       ]
     },
     {
@@ -1011,8 +1143,8 @@
       "title": null,
       "generated": true,
       "pages": [
-        170,
-        171
+        194,
+        195
       ]
     },
     {
@@ -1023,8 +1155,8 @@
       "title": null,
       "generated": true,
       "pages": [
-        172,
-        173
+        196,
+        197
       ]
     },
     {
@@ -1035,8 +1167,8 @@
       "photo": "dragon-over-earth",
       "generated": true,
       "pages": [
-        174,
-        175
+        198,
+        199
       ]
     },
     {
@@ -1047,8 +1179,8 @@
       "title": null,
       "generated": true,
       "pages": [
-        176,
-        177
+        200,
+        201
       ]
     },
     {
@@ -1059,8 +1191,8 @@
       "title": null,
       "generated": true,
       "pages": [
-        178,
-        179
+        202,
+        203
       ]
     },
     {
@@ -1071,8 +1203,8 @@
       "title": null,
       "generated": true,
       "pages": [
-        180,
-        181
+        204,
+        205
       ]
     },
     {
@@ -1083,8 +1215,8 @@
       "title": null,
       "generated": true,
       "pages": [
-        182,
-        183
+        206,
+        207
       ]
     },
     {
@@ -1095,8 +1227,8 @@
       "title": null,
       "generated": true,
       "pages": [
-        184,
-        185
+        208,
+        209
       ]
     },
     {
@@ -1107,8 +1239,8 @@
       "title": null,
       "generated": true,
       "pages": [
-        186,
-        187
+        210,
+        211
       ]
     },
     {
@@ -1119,8 +1251,8 @@
       "title": null,
       "generated": true,
       "pages": [
-        188,
-        189
+        212,
+        213
       ]
     },
     {
@@ -1131,8 +1263,8 @@
       "title": null,
       "generated": true,
       "pages": [
-        190,
-        191
+        214,
+        215
       ]
     },
     {
@@ -1143,8 +1275,8 @@
       "title": null,
       "generated": true,
       "pages": [
-        192,
-        193
+        216,
+        217
       ]
     },
     {
@@ -1155,8 +1287,8 @@
       "title": null,
       "generated": true,
       "pages": [
-        194,
-        195
+        218,
+        219
       ]
     },
     {
@@ -1167,8 +1299,8 @@
       "title": null,
       "generated": true,
       "pages": [
-        196,
-        197
+        220,
+        221
       ]
     },
     {
@@ -1179,8 +1311,8 @@
       "title": null,
       "generated": true,
       "pages": [
-        198,
-        199
+        222,
+        223
       ]
     },
     {
@@ -1191,8 +1323,8 @@
       "title": null,
       "generated": true,
       "pages": [
-        200,
-        201
+        224,
+        225
       ]
     },
     {
@@ -1203,8 +1335,8 @@
       "title": null,
       "generated": true,
       "pages": [
-        202,
-        203
+        226,
+        227
       ]
     },
     {
@@ -1215,15 +1347,15 @@
       "title": null,
       "generated": true,
       "pages": [
-        204,
-        205
+        228,
+        229
       ]
     },
     {
       "id": "contests",
       "pages": [
-        206,
-        207
+        230,
+        231
       ],
       "template": "OP",
       "chapter": "contests",
@@ -1233,8 +1365,8 @@
     {
       "id": "contests-what-counts",
       "pages": [
-        208,
-        209
+        232,
+        233
       ],
       "template": "EX",
       "chapter": "contests",
@@ -1243,8 +1375,8 @@
     {
       "id": "contests-records",
       "pages": [
-        210,
-        211
+        234,
+        235
       ],
       "template": "DA",
       "chapter": "contests",
@@ -1253,8 +1385,8 @@
     {
       "id": "contests-paper-wings",
       "pages": [
-        212,
-        213
+        236,
+        237
       ],
       "template": "EX",
       "chapter": "contests",
@@ -1263,8 +1395,8 @@
     {
       "id": "contests-collins",
       "pages": [
-        214,
-        215
+        238,
+        239
       ],
       "template": "PR",
       "chapter": "contests",
@@ -1273,8 +1405,8 @@
     {
       "id": "contests-record-team",
       "pages": [
-        216,
-        217
+        240,
+        241
       ],
       "template": "PR",
       "chapter": "contests",
@@ -1283,8 +1415,8 @@
     {
       "id": "contests-time-aloft",
       "pages": [
-        218,
-        219
+        242,
+        243
       ],
       "template": "PR",
       "chapter": "contests",
@@ -1293,8 +1425,8 @@
     {
       "id": "contests-around-the-world",
       "pages": [
-        220,
-        221
+        244,
+        245
       ],
       "template": "EX",
       "chapter": "contests",
@@ -1303,8 +1435,8 @@
     {
       "id": "contests-throwing",
       "pages": [
-        222,
-        223
+        246,
+        247
       ],
       "template": "EX",
       "chapter": "contests",
@@ -1313,8 +1445,8 @@
     {
       "id": "contests-your-contest",
       "pages": [
-        224,
-        225
+        248,
+        249
       ],
       "template": "XP",
       "chapter": "contests",
@@ -1328,15 +1460,15 @@
       "title": null,
       "generated": true,
       "pages": [
-        226,
-        227
+        250,
+        251
       ]
     },
     {
       "id": "experiments",
       "pages": [
-        228,
-        229
+        252,
+        253
       ],
       "template": "OP",
       "chapter": "experiments",
@@ -1346,8 +1478,8 @@
     {
       "id": "experiments-fair-test",
       "pages": [
-        230,
-        231
+        254,
+        255
       ],
       "template": "EX",
       "chapter": "experiments",
@@ -1357,8 +1489,8 @@
     {
       "id": "experiments-flight-log",
       "pages": [
-        232,
-        233
+        256,
+        257
       ],
       "template": "EX",
       "chapter": "experiments",
@@ -1368,8 +1500,8 @@
     {
       "id": "experiments-clip",
       "pages": [
-        234,
-        235
+        258,
+        259
       ],
       "template": "XP",
       "chapter": "experiments",
@@ -1379,8 +1511,8 @@
     {
       "id": "experiments-angle",
       "pages": [
-        236,
-        237
+        260,
+        261
       ],
       "template": "XP",
       "chapter": "experiments",
@@ -1390,8 +1522,8 @@
     {
       "id": "experiments-dihedral",
       "pages": [
-        238,
-        239
+        262,
+        263
       ],
       "template": "XP",
       "chapter": "experiments",
@@ -1401,8 +1533,8 @@
     {
       "id": "experiments-wing-area",
       "pages": [
-        240,
-        241
+        264,
+        265
       ],
       "template": "XP",
       "chapter": "experiments",
@@ -1412,8 +1544,8 @@
     {
       "id": "experiments-paper",
       "pages": [
-        242,
-        243
+        266,
+        267
       ],
       "template": "XP",
       "chapter": "experiments",
@@ -1423,8 +1555,8 @@
     {
       "id": "experiments-ring",
       "pages": [
-        244,
-        245
+        268,
+        269
       ],
       "template": "XP",
       "chapter": "experiments",
@@ -1434,8 +1566,8 @@
     {
       "id": "experiments-height",
       "pages": [
-        246,
-        247
+        270,
+        271
       ],
       "template": "XP",
       "chapter": "experiments",
@@ -1445,8 +1577,8 @@
     {
       "id": "experiments-stopwatch",
       "pages": [
-        248,
-        249
+        272,
+        273
       ],
       "template": "XP",
       "chapter": "experiments",
@@ -1456,8 +1588,8 @@
     {
       "id": "experiments-tunnel",
       "pages": [
-        250,
-        251
+        274,
+        275
       ],
       "template": "XP",
       "chapter": "experiments",
@@ -1467,8 +1599,8 @@
     {
       "id": "experiments-results",
       "pages": [
-        252,
-        253
+        276,
+        277
       ],
       "template": "DA",
       "chapter": "experiments",
@@ -1483,15 +1615,15 @@
       "title": null,
       "generated": true,
       "pages": [
-        254,
-        255
+        278,
+        279
       ]
     },
     {
       "id": "glossary",
       "pages": [
-        256,
-        257
+        280,
+        281
       ],
       "template": "AP",
       "chapter": null,
@@ -1501,8 +1633,8 @@
     {
       "id": "sources",
       "pages": [
-        258,
-        259
+        282,
+        283
       ],
       "template": "AP",
       "chapter": null,
@@ -1512,8 +1644,8 @@
     {
       "id": "index",
       "pages": [
-        260,
-        261
+        284,
+        285
       ],
       "template": "IX",
       "chapter": null,
@@ -1523,8 +1655,8 @@
     {
       "id": "print-and-play",
       "pages": [
-        262,
-        263
+        286,
+        287
       ],
       "template": "AP",
       "chapter": null,
@@ -1534,8 +1666,8 @@
     {
       "id": "credits",
       "pages": [
-        264,
-        265
+        288,
+        289
       ],
       "template": "AP",
       "chapter": null,
@@ -1545,7 +1677,7 @@
     {
       "id": "bookplate",
       "pages": [
-        266
+        290
       ],
       "template": "AP",
       "chapter": null,

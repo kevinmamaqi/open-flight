@@ -12,9 +12,11 @@ export async function loadAppearanceSheet(sheetId, paper, lang, appearance, load
   if (airplane) {
     return planeBrowserPdf(makePlane({ model_id: sheet.model, paper, livery: sheet.appearance, edge }, lang))
   }
-  const { makeFoldedButterfly, prepareFoldedPdf, foldedPdf, classicComparisonPdf, makeK2, k2Pdf } =
+  const { makeFoldedButterfly, prepareFoldedPdf, foldedPdf, classicComparisonPdf, makeK2, k2Pdf, makeK3, k3Pdf } =
     await import('./browser-workshop.js')
   await prepareFoldedPdf()
+  if (sheet.construction === 'k3')
+    return k3Pdf(makeK3({ species: sheet.model, paper, appearance_id: sheet.appearance, locale: lang }))
   if (sheet.construction === 'k2')
     return k2Pdf(makeK2({ species: sheet.model, paper, appearance_id: sheet.appearance, locale: lang }))
   const plan = makeFoldedButterfly({ species: sheet.model, paper, appearance_id: sheet.appearance }, lang)

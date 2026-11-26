@@ -1,4 +1,12 @@
-export type PlaneModelId = 'boeing-747' | 'douglas-dc3' | 'tupolev-tu144' | 'ilyushin-il62'
+export type PlaneModelId =
+  | 'boeing-747'
+  | 'douglas-dc3'
+  | 'tupolev-tu144'
+  | 'ilyushin-il62'
+  | 'red-dart'
+  | 'shaheen-shin'
+  | 'crescent-boomerang'
+  | 'sky-king'
 export type PlanePaper = 'A4' | 'US_LETTER'
 export type PlaneLivery = 'heritage' | 'festival' | 'pencil' | 'airshow'
 export type PlaneLocale = 'en' | 'ru' | 'es'
@@ -44,6 +52,16 @@ export interface CatalogPlane {
   reference: PlaneReference
   keel_mm: number
   winglet_mm: number
+  /** Allowed body depth and tip height, mm. Omitted: 12–28 and 0–12. */
+  keel_range?: [number, number]
+  winglet_range?: [number, number]
+  /** A record or championship design by someone else, folded with its own sequence. */
+  record?: boolean
+  designer?: Record<PlaneLocale, string>
+  /** How to throw it, when the shared gentle-launch advice does not fit. */
+  launch?: Record<PlaneLocale, string>
+  /** The original design's own name (record planes). */
+  original?: string
   code: string
   colors: [string, string, string]
   motif: string
@@ -79,6 +97,9 @@ export interface PlaneFrame {
   dihedral_deg: number
   wingPolygon: Point[]
   stockOutline?: Point[]
+  root?: [Point, Point]
+  /** A step that is not a fold: turning the model over, opening it, or shaping it by hand. */
+  view?: 'turn' | 'open' | 'shape'
 }
 export interface PlaneStep {
   index: number
@@ -100,6 +121,9 @@ export interface PlanePlan extends PlaneSource {
   page: { width_mm: number; height_mm: number }
   edge: PlaneEdge
   trim_mm: number
+  // Where the cut sheet sits on the page when it is not trim_mm in on every side: [left, top] in mm.
+  // Set only for a design printed on paper of another shape (the Needle on US Letter).
+  offset_mm?: [number, number]
   colors: [string, string, string]
   code: string
   motif: string
@@ -108,8 +132,19 @@ export interface PlanePlan extends PlaneSource {
     line: [Point, Point]
     step: number
     kind: 'mountain' | 'valley'
+    /** false: part of the crease pattern, but not printed on the template. */
+    print?: false
   }[]
   rootStep: number
+  /** Left wing root when it is not parallel to the centre line (record planes). */
+  root?: [Point, Point]
+  designer?: Record<PlaneLocale, string>
+  launch?: string
+  original?: string
+  /** Heading for the last step's rear view when it is not about the wing tips. */
+  tipsHeading?: string
+  /** What Open Flight made and what it took from the credited original. */
+  rights?: string
   stockOutline: Point[]
   wingPolygon: Point[]
   stockPanels: {

@@ -63,7 +63,7 @@ try {
       } else assert.match(await page.locator('.origin-panel > a').getAttribute('href'), /^https:/)
       if (lang !== 'en') continue
       if (family === 'butterflies') {
-        assert.match(await page.locator('.model-poster').getAttribute('src'), /-k2-[a-z]+\.svg$/)
+        assert.match(await page.locator('.model-poster').getAttribute('src'), /-k3-[a-z]+\.svg$/)
         await page.locator('.span-range').fill('180')
         await page.waitForFunction(() =>
           document.querySelector('.model-poster').src.startsWith('data:image/svg+xml'),

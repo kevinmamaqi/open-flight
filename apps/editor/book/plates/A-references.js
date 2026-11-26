@@ -1,4 +1,4 @@
-// Sources shared by the airplane plates A1–A4. Cite and link; never reproduce third-party diagrams.
+// Sources shared by the airplane plates A1–A8. Cite and link; never reproduce third-party diagrams.
 // Reuse status per evidence/2026-11-25-book-orientation/02-references.md §3.
 // Editor: confirm the Torres and Mueller DOI and the Polhamus NTRS record before print.
 const w = (en, es, ru) => ({ en, es, ru })

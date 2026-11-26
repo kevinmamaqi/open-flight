@@ -1,5 +1,5 @@
-import { compareModels, designIds, fieldModel } from './atlas-guide.js?v=827c6a6b1e8f'
-import { currentLocale, homeURL, localizedLinks } from './atlas-nav.js?v=827c6a6b1e8f'
+import { compareModels, designIds, fieldModel } from './atlas-guide.js?v=48cc97ad30d5'
+import { currentLocale, homeURL, localizedLinks } from './atlas-nav.js?v=48cc97ad30d5'
 const lang = currentLocale(),
   i = { en: 0, es: 1, ru: 2 }[lang]
 const t = (en, es, ru) => [en, es, ru][i],
@@ -50,6 +50,7 @@ const presets = [
   ['boeing-747', 'tupolev-tu144', t('Two airplanes', 'Dos aviones', 'Два самолёта')],
   ['ring', 'samara', t('Ring + spinner', 'Anillo y semilla', 'Кольцо и крылатка')],
   ['swallowtail', 'douglas-dc3', t('Butterfly + airplane', 'Mariposa y avión', 'Бабочка и самолёт')],
+  ['red-dart', 'shaheen-shin', t('Distance + airtime', 'Distancia y tiempo', 'Дальность и время')],
 ]
 for (const [a, b, name] of presets) {
   const button = el('button', name)
@@ -116,10 +117,6 @@ function card(model, index) {
     el('p', model.experiment),
     action,
   )
-  if(model.family==='butterfly'){
-    const choice=el('p'),link=el('a',t('Compare this tabbed build with a folded body ↗','Comparar estas aletas con el cuerpo plegado ↗','Сравнить эту модель с вариантом со складным корпусом ↗'),'text-link')
-    link.href='./keel.html?' + new URLSearchParams({ species: model.id, lang }) + '#comparison';choice.append(link);detail.append(choice)
-  }
   a.append(header, detail)
   return a
 }

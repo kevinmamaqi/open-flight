@@ -1,13 +1,13 @@
 import test from 'node:test'
 import assert from 'node:assert/strict'
 import { compareModels, designIds } from '../apps/editor/atlas-guide.js'
-import { makeK2 } from '../packages/folded-butterfly/k2-sheet.ts'
+import { makeK3 } from '../packages/folded-butterfly/k3-sheet.ts'
 import { planeCatalog } from '../packages/planes/index.ts'
 
 test('each language can compare any distinct pair using the released fold and clip dimensions', () => {
   const expected = Object.fromEntries([
     ...(['monarch','morpho','swallowtail'] as const).map(species=>{
-      const p = makeK2({species})
+      const p = makeK3({species})
       return [species,[p.span_mm,p.dihedral_deg,p.tip_height_mm]]
     }),
     ...['ring', 'samara', 'tandem'].map(id => [id, []]),

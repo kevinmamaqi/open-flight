@@ -34,6 +34,26 @@ const notes = {
     'Doblar las puntas hacia arriba cambia la superficie expuesta al aire lateral. Si una punta queda más doblada, los dos lados pueden recibir fuerzas distintas. Prueba primero con puntas iguales y observa el primer movimiento lateral.',
     'Загнутые законцовки меняют площадь, обращённую вбок. При разных загибах силы на двух сторонах могут отличаться. Сначала выровняй законцовки и отметь первое движение в сторону.',
   ],
+  'red-dart': [
+    'Almost all of the paper becomes body. With so little wing it carries several times more weight per square centimetre than the gliders, so it keeps the speed of a hard throw instead of climbing and slowing. The wraps stack paper at the nose, so it points along its path like an arrow.',
+    'Casi todo el papel se convierte en cuerpo. Con tan poca ala lleva varias veces más peso por centímetro cuadrado que los planeadores, así que conserva la velocidad de un lanzamiento fuerte en lugar de subir y frenarse. Las vueltas acumulan papel en la punta y lo hacen ir recto como una flecha.',
+    'Почти вся бумага уходит в корпус. Крыла так мало, что на каждый квадратный сантиметр приходится в несколько раз больше веса, чем у планёров: самолёт сохраняет скорость сильного броска, а не взмывает и тормозит. Обороты собирают бумагу у носа, и он летит прямо, как стрела.',
+  ],
+  'shaheen-shin': [
+    'The rolled bar puts weight at the front, so a hard throw sends it straight up instead of looping. At the top the short, wide wing glides slowly, and the tip fins act as its tail, keeping it pointed into the air.',
+    'La barra enrollada pone peso delante, así que un lanzamiento fuerte lo hace subir recto en lugar de dar una vuelta. Arriba, el ala corta y ancha planea despacio y las aletas de las puntas hacen de cola para mantenerlo de cara al aire.',
+    'Скатанный валик добавляет вес спереди, поэтому после сильного броска самолёт идёт прямо вверх, а не делает петлю. Наверху короткое широкое крыло медленно планирует, а кили на концах работают как хвост и держат его носом к потоку.',
+  ],
+  'crescent-boomerang': [
+    'Thrown with its wings vertical, all of its lift points sideways, so it flies round a circle. The size of the circle depends on its weight, its wing area and how hard the wing works, which the bent-up tail sets, not on how hard you throw.',
+    'Si lo lanzas con las alas en vertical, toda su sustentación apunta hacia un lado y vuela en círculo. El tamaño del círculo depende de su peso, de la superficie del ala y de cuánto trabaja el ala, que fija la cola levantada, no de la fuerza del lanzamiento.',
+    'Если бросить модель с вертикальными крыльями, вся подъёмная сила направлена вбок, и она летит по кругу. Размер круга зависит от веса, площади крыла и того, насколько сильно работает крыло — это задаёт поднятый хвост, а не сила броска.',
+  ],
+  'sky-king': [
+    'The squashed nose stacks layers at the front and survives hard launches. Swept edges and two fins at the back keep it pointed into the air, and curling the back edges up holds the nose up so it glides instead of diving.',
+    'La punta aplastada acumula capas delante y aguanta los lanzamientos fuertes. Los bordes en flecha y las dos aletas de atrás lo mantienen de cara al aire, y levantar los bordes de atrás sostiene la punta para que planee en vez de caer en picado.',
+    'Расплющенный нос собирает слои спереди и выдерживает сильные броски. Стреловидные кромки и два киля сзади держат самолёт носом к потоку, а поднятые задние кромки не дают носу опуститься, и он планирует, а не пикирует.',
+  ],
 }
 export function flightPhysics(model, locale = 'en') {
   return notes[model]?.[{ en: 0, es: 1, ru: 2 }[locale]] ?? ''

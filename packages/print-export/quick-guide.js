@@ -109,7 +109,8 @@ function layout(doc, content, plan, page, size, box, render) {
 
   // Fold steps as small diagrams (airplanes).
   if (plan) {
-    const columns = 4, gap = 3;
+    // Record planes have up to 13 steps: five or six to a row keeps them on one page.
+    const columns = plan.steps.length > 10 ? 6 : plan.steps.length > 8 ? 5 : 4, gap = 3;
     const cell = (width - gap * (columns - 1)) / columns;
     const scale = cell / 388;
     const picture = 198 * scale;
@@ -214,7 +215,7 @@ export function quickGuideDocument({ plate, paper = "A4", lang = "en", edge = "c
     if (bottom <= limit) { chosen = size; break; }
   }
   const fit = layout(doc, content, plan, page, chosen, 10, false);
-  if (fit.bottom > fit.limit) throw new Error("The quick guide for " + id + " does not fit the page.");
+  if (fit.bottom > fit.limit) throw new Error("The quick guide for " + id + " does not fit the page (" + (fit.bottom - fit.limit).toFixed(1) + " mm over).");
   // Plenty of room (butterflies and flying objects): larger boxes to write in.
   const box = fit.limit - fit.bottom > 40 ? 16 : 10;
   layout(doc, content, plan, page, chosen, box, true);

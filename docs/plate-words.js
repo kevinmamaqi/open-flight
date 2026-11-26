@@ -30,9 +30,9 @@ export const plateWords = {
   plates: w('Plates', 'Láminas', 'Таблицы'),
   earlier: w('Earlier folds', 'Pliegues anteriores', 'Ранние варианты'),
   earlierText: w(
-    'Our first two constructions stay available for comparison: rear wing tabs (W1) and a pinched spine (K1). In two early builds, K1’s wings bent and it glided poorly. That was an observation, not a recorded trial. K2, on this page, is our second attempt.',
-    'Nuestras dos primeras construcciones siguen disponibles para comparar: aletas traseras (W1) y lomo pinzado (K1). En dos montajes iniciales, las alas de K1 se doblaron y planeó mal. Fue una observación, no una prueba registrada. K2, en esta página, es nuestro segundo intento.',
-    'Первые два варианта остаются для сравнения: задние язычки (W1) и сжатый корпус (K1). В двух ранних сборках крылья K1 гнулись, и он плохо планировал. Это наблюдение, а не записанное испытание. K2 на этой странице — наша вторая попытка.',
+    'K3, on this page, is our fourth butterfly. The earlier folds were rear wing tabs (W1), a pinched spine (K1) and a folded front edge with the clips on a long head (K2). They did not fly well in the founder’s informal tries, so we no longer offer them; books and links that already use them still open. Those were observations, not recorded trials, and K3 has no recorded flight yet either.',
+    'K3, en esta página, es nuestra cuarta mariposa. Los pliegues anteriores fueron aletas traseras (W1), lomo pinzado (K1) y un borde delantero doblado con los clips en una cabeza larga (K2). No volaron bien en las pruebas informales del fundador, así que ya no los ofrecemos; los libros y enlaces que ya los usan se siguen abriendo. Fueron observaciones, no pruebas registradas, y K3 tampoco tiene aún vuelos registrados.',
+    'K3 на этой странице — наша четвёртая бабочка. Ранние варианты: задние язычки (W1), сжатый корпус (K1) и подогнутая передняя кромка со скрепками на длинной голове (K2). В неформальных пробах основателя они летали плохо, поэтому мы их больше не предлагаем; книги и ссылки, где они уже есть, по-прежнему открываются. Это были наблюдения, а не записанные испытания; записанных полётов K3 тоже пока нет.',
   ),
   w1: w('Rear tabs (W1)', 'Aletas traseras (W1)', 'Задние язычки (W1)'),
   k1: w('Pinched spine (K1)', 'Lomo pinzado (K1)', 'Сжатый корпус (K1)'),

@@ -48,7 +48,7 @@ export const chapters = [
     ),
   },
   {
-    n: 4, id: 'airplanes', route: 'airplanes', family: 'airplane', plates: ['A1', 'A2', 'A3', 'A4'],
+    n: 4, id: 'airplanes', route: 'airplanes', family: 'airplane', plates: ['A1', 'A2', 'A3', 'A4', 'A5', 'A6', 'A7', 'A8'],
     title: w('Airplanes', 'Aviones', 'Самолёты'),
     standfirst: w(
       'One sheet each. Four folds, each named after a real aircraft.',
@@ -129,6 +129,7 @@ const evidence = {
   experimental: w('Experimental glider · awaiting flight test', 'Planeador experimental · pendiente de prueba de vuelo', 'Экспериментальный планёр · ждёт лётных испытаний'),
   classic: w('Classic design · our version not yet measured', 'Diseño clásico · nuestra versión aún sin medir', 'Классическая модель · наша версия ещё не измерена'),
   historic: w('From a 1918 book · our redraw not yet measured', 'De un libro de 1918 · nuestro redibujo aún sin medir', 'Из книги 1918 года · наша перерисовка ещё не измерена'),
+  record: w('Based on a record design · our version not yet measured', 'Basado en un diseño récord · nuestra versión aún sin medir', 'По мотивам рекордной модели · наша версия ещё не измерена'),
 }
 
 /**
@@ -156,6 +157,28 @@ export const plates = [
     id: 'A4', model: 'tupolev-tu144', chapter: 'airplanes', evidence: evidence.traditional, category: 'distance',
     lineage: w('The classic paper dart, after the Tupolev Tu-144', 'El clásico dardo de papel, inspirado en el Tupolev Tu-144', 'Классический бумажный дротик по мотивам Ту-144'),
     kind: w('Dart · firm throw', 'Dardo · lanzamiento fuerte', 'Дротик · сильный бросок'),
+  },
+  // Open Flight versions of record and championship planes. The original and its designer are
+  // credited on every surface; see docs/research/unusual-flyer-sources.md.
+  {
+    id: 'A5', model: 'red-dart', chapter: 'airplanes', evidence: evidence.record, category: 'distance',
+    lineage: w('A wrapped distance dart, after the Red Dart by Lazar Krstić', 'Un dardo de distancia envuelto, basado en el Red Dart de Lazar Krstić', 'Обёрнутый дротик на дальность по мотивам Red Dart Лазара Крстича'),
+    kind: w('Distance dart · hard, level throw', 'Dardo de distancia · lanzamiento fuerte y a nivel', 'Дротик на дальность · сильный ровный бросок'),
+  },
+  {
+    id: 'A6', model: 'shaheen-shin', chapter: 'airplanes', evidence: evidence.record, category: 'airtime',
+    lineage: w('A square airtime glider, after the Shaheen Shin by Shin Moo Joon', 'Un planeador cuadrado de tiempo, basado en el Shaheen Shin de Shin Moo Joon', 'Квадратный планёр на время по мотивам Shaheen Shin Шин Му Джуна'),
+    kind: w('Airtime glider · steep throw', 'Planeador de tiempo · lanzamiento empinado', 'Планёр на время · крутой бросок'),
+  },
+  {
+    id: 'A7', model: 'crescent-boomerang', chapter: 'airplanes', evidence: evidence.record, category: 'accuracy',
+    lineage: w('A returning plane, after the Crescent Boomerang flown by Seunghoon Lee', 'Un avión que vuelve, basado en el Crescent Boomerang que lanzó Seunghoon Lee', 'Возвращающийся самолёт по мотивам Crescent Boomerang Сынхуна Ли'),
+    kind: w('Boomerang · sideways throw', 'Bumerán · lanzamiento de lado', 'Бумеранг · бросок вбок'),
+  },
+  {
+    id: 'A8', model: 'sky-king', chapter: 'airplanes', evidence: evidence.record, category: 'airtime',
+    lineage: w('A blunt-nosed glider, after the Sky King by Takuo Toda', 'Un planeador de punta roma, basado en el Sky King de Takuo Toda', 'Планёр с тупым носом по мотивам Sky King Такуо Тоды'),
+    kind: w('Glider · gentle or steep throw', 'Planeador · lanzamiento suave o empinado', 'Планёр · мягкий или крутой бросок'),
   },
   {
     id: 'B1', model: 'monarch', chapter: 'butterflies', evidence: evidence.experimental,

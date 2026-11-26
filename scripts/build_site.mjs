@@ -133,7 +133,7 @@ for (const path of [
   'studio.html',
   'planes.html',
   'flight-viewer.js', 'keel.js','keel-guide.js','library/monarch-k1-US_LETTER-es.pdf',
-  'costa.html', 'costa.js', 'library/monarch-k2-A4-ru.pdf', 'assets/print-faces.js',
+  'costa.html', 'costa.js', 'library/monarch-k2-A4-ru.pdf', 'library/monarch-k3-A4-ru.pdf', 'assets/print-faces.js',
   'browser-workshop.js',
   'references.html',
   'flight-objects.html', 'assets/objects/flight-lab-A4-en.pdf', 'assets/objects/CREDITS.md',

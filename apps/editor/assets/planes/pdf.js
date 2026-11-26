@@ -1,7 +1,7 @@
 import { aircraftPortrait } from './field-portraits.js'
 import { backScene, pageSize, sheetScene, specimenScene } from './drawing.js'
 import { foldScene } from './guide.js'
-import { planeCredits, creditText } from './credits.js'
+import { planeCredits, creditText, creditLinks } from './credits.js'
 import { atLeastLine, atLeastText, fontNotice as printFontNotice, ink, muted, registerFonts, textMm, useFont } from '../brand/print.js'
 
 // Shared with the one-page quick guide (packages/print-export/quick-guide.js).
@@ -53,7 +53,7 @@ export function planePdfBytes(plan, JsPDF, fonts) {
   const [w, h] = pageSize(plan)
   const ru = plan.locale === 'ru',
     t = (en, ruText, es) => ({ en, ru: ruText, es })[plan.locale]
-  const credit = creditText(plan.locale)
+  const credit = creditText(plan.locale, plan)
   const doc = new JsPDF({
     orientation: 'portrait',
     unit: 'mm',
@@ -67,7 +67,7 @@ export function planePdfBytes(plan, JsPDF, fonts) {
   doc.viewerPreferences({ PrintScaling: 'None', Duplex: 'DuplexFlipLongEdge' })
   doc.setProperties({
     title: plan.name + ' · Open Flight',
-    author: planeCredits.creator,
+    author: plan.designer ? plan.designer.en + ' (design); ' + planeCredits.creator + ' (diagrams)' : planeCredits.creator,
     subject:
       t(
         'Whole-sheet paper airplane and illustrated fold guide',
@@ -76,6 +76,7 @@ export function planePdfBytes(plan, JsPDF, fonts) {
       ) +
       '. ' +
       [credit.creator, credit.geometry, credit.artwork, planeCredits.url].join('. ') +
+      (plan.rights ? '\n' + plan.rights : '') +
       '\n' +
       printFontNotice,
     keywords: ['Open Flight', credit.geometry, credit.artwork].join(', '),
@@ -104,11 +105,12 @@ export function planePdfBytes(plan, JsPDF, fonts) {
     draw(doc, specimenScene(plan), [12, y + 4], (w * 0.36) / 420)
     write(t('Flight notebook', 'Лётный дневник', 'Cuaderno de vuelo'), x, y + 8, 14, ink, 'display')
     block(
-      t(
-        'Hold the body near the front. Launch gently and level into clear space.',
-        'Возьмитесь за корпус ближе к носу. Мягко запустите самолёт горизонтально в свободное пространство.',
-        'Sujeta el cuerpo cerca de la punta. Lanza suavemente, a nivel y hacia un espacio despejado.',
-      ) +
+      (plan.launch ??
+        t(
+          'Hold the body near the front. Launch gently and level into clear space.',
+          'Возьмитесь за корпус ближе к носу. Мягко запустите самолёт горизонтально в свободное пространство.',
+          'Sujeta el cuerpo cerca de la punta. Lanza suavemente, a nivel y hacia un espacio despejado.',
+        )) +
         ' ' +
         plan.experiment,
       x,
@@ -154,12 +156,21 @@ export function planePdfBytes(plan, JsPDF, fonts) {
     doc.setFontSize(9)
     doc.setTextColor(muted)
     doc.textWithLink(credit.geometry, 12, y + 135, {
-      url: planeCredits.geometry.url,
+      url: creditLinks(plan).geometry,
     })
     doc.textWithLink(credit.artwork, w * 0.5, y + 135, {
       url: planeCredits.artwork.url,
     })
     doc.textWithLink(credit.credits, 12, y + 140, { url: planeCredits.url })
+    // A record plane names its original and says what Open Flight made.
+    if (plan.rights) {
+      write(t('Where it comes from', 'Откуда эта модель', 'De dónde viene'), 12, y + 150, 11, ink, 'bold')
+      block(plan.history, 12, y + 157, w - 24, 9)
+      useFont(doc, 'text')
+      doc.setFontSize(9)
+      doc.setTextColor(muted)
+      doc.text(doc.splitTextToSize(plan.rights, w - 24), 12, y + 192, { lineHeightFactor: 1.38 })
+    }
   }
   const perPage = 3,
     count = Math.ceil(plan.steps.length / perPage)
@@ -224,7 +235,8 @@ export function planePdfBytes(plan, JsPDF, fonts) {
       draw(doc, foldScene(plan, step), [8, y + 14], picture)
       block(step.instruction, x, y + 22, w - x - 14, 9.3)
     })
-    if (panels.length === 1) notebook(62 + lane)
+    // A record plane's notebook carries its history and credits, so it always gets its own page.
+    if (panels.length === 1 && !plan.rights) notebook(62 + lane)
     const footer = t(
       'White: printed side  ·  Pale: reverse  ·  Shaded: flap that moves  ·  Dashes: crease',
       'Белое: печать  ·  Светлое: оборот  ·  Тёмное: клапан  ·  Пунктир: сгиб',
@@ -233,7 +245,7 @@ export function planePdfBytes(plan, JsPDF, fonts) {
     write(footer, 12, h - 13, 9, muted)
     write('Open Flight  ·  ' + plan.code + '  ·  r' + plan.revision, 12, h - 8, 9, muted)
   }
-  if (plan.steps.length % perPage !== 1) {
+  if (plan.rights || plan.steps.length % perPage !== 1) {
     doc.addPage([w, h], 'portrait')
     write('Open Flight  ·  ' + plan.name, 12, 15, 10, muted, 'display')
     notebook(30)

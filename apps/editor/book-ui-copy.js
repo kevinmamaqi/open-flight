@@ -17,6 +17,10 @@ export const builderCopy = {
       "Pinch the crease down the middle to make a stiff spine you can hold.",
     tabsHint:
       "Bend the small tabs at the back of the wings up or down to adjust the glide.",
+    dart: "Dart butterfly (K3)",
+    dartHint:
+      "Swept wings, a folded body and a head with two clips. Use 120 g/m² paper. Earlier folds stay in books that already use them.",
+    dartTools: "Scissors, two 33 mm clips, ruler, empty ballpoint pen and glue stick",
     costa: "Costa glider",
     costaHint:
       "A stiff folded front edge, a longer head for two clips and a balance check. Use 120 g/m² paper.",
@@ -131,6 +135,10 @@ export const builderCopy = {
       "Aprieta el pliegue del centro para formar un nervio firme por donde sujetar la mariposa.",
     tabsHint:
       "Dobla un poco hacia arriba o hacia abajo las pestañas traseras de las alas para ajustar el planeo.",
+    dart: "Mariposa dardo (K3)",
+    dartHint:
+      "Alas hacia atrás, cuerpo plegado y cabeza con dos clips. Usa papel de 120 g/m². Los pliegues anteriores siguen en los libros que ya los usan.",
+    dartTools: "Tijeras, dos clips de 33 mm, regla, bolígrafo sin tinta y pegamento de barra",
     costa: "Planeador con costa",
     costaHint:
       "Borde delantero doblado y rígido, cabeza más larga para dos clips y prueba de equilibrio. Usa papel de 120 g/m².",
@@ -245,6 +253,10 @@ export const builderCopy = {
       "Сожми сгиб посередине, чтобы получилось жёсткое ребро, за которое удобно держать бабочку.",
     tabsHint:
       "Чуть подними или опусти маленькие язычки на заднем крае крыльев, чтобы изменить планирование.",
+    dart: "Бабочка-дротик (K3)",
+    dartHint:
+      "Отведённые назад крылья, сложенный корпус и голова с двумя скрепками. Бумага 120 г/м². Ранние варианты остаются в книгах, где они уже есть.",
+    dartTools: "Ножницы, две скрепки по 33 мм, линейка, пустая шариковая ручка и клей-карандаш",
     costa: "Планер с жилкой",
     costaHint:
       "Жёсткий подогнутый передний край, длинная голова для двух скрепок и проверка баланса. Нужна бумага 120 г/м².",

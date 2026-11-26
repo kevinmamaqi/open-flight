@@ -159,8 +159,24 @@
                     <input
                       type="radio"
                       name="construction"
-                      value="k1"
+                      value="k3"
                       checked
+                      aria-describedby="dart-hint"
+                    />
+                    <span
+                      ><img
+                        id="dart-example"
+                        alt=""
+                        width="288"
+                        height="180"
+                      /><strong data-book="dart">Dart butterfly (K3)</strong></span
+                    >
+                  </label>
+                  <label data-retired>
+                    <input
+                      type="radio"
+                      name="construction"
+                      value="k1"
                       aria-describedby="spine-hint"
                     />
                     <span
@@ -172,7 +188,7 @@
                       /><strong data-book="folded">Pinched spine</strong></span
                     >
                   </label>
-                  <label>
+                  <label data-retired>
                     <input
                       type="radio"
                       name="construction"
@@ -188,7 +204,7 @@
                       /><strong data-book="tabs">Rear wing tabs</strong></span
                     >
                   </label>
-                  <label>
+                  <label data-retired>
                     <input
                       type="radio"
                       name="construction"
@@ -205,14 +221,17 @@
                     >
                   </label>
                 </div>
-                <p id="spine-hint" class="hint" data-book="spineHint">
+                <p id="dart-hint" class="hint" data-book="dartHint">
+                  Swept wings, a folded body and a head with two clips. Use 120 g/m² paper. Earlier folds stay in books that already use them.
+                </p>
+                <p id="spine-hint" class="hint" data-book="spineHint" data-retired>
                   Pinch the center crease to make a stiff spine to hold.
                 </p>
-                <p id="tabs-hint" class="hint" data-book="tabsHint">
+                <p id="tabs-hint" class="hint" data-book="tabsHint" data-retired>
                   Bend the small tabs at the back of the wings up or down to
                   adjust the glide.
                 </p>
-                <p id="costa-hint" class="hint" data-book="costaHint">
+                <p id="costa-hint" class="hint" data-book="costaHint" data-retired>
                   A stiff folded front edge, a longer head for two clips and a balance check. Use 120 g/m² paper.
                 </p>
                 <p id="mixed-builds" class="hint" data-book="mixed" hidden>

@@ -21,16 +21,32 @@
    "bytes": 87048,
    "pages": 2
   },
+  "singles/A5-a4-en.pdf": {
+   "bytes": 88864,
+   "pages": 2
+  },
+  "singles/A6-a4-en.pdf": {
+   "bytes": 96578,
+   "pages": 2
+  },
+  "singles/A7-a4-en.pdf": {
+   "bytes": 89611,
+   "pages": 2
+  },
+  "singles/A8-a4-en.pdf": {
+   "bytes": 91717,
+   "pages": 2
+  },
   "singles/B1-a4-en.pdf": {
-   "bytes": 207542,
+   "bytes": 446250,
    "pages": 3
   },
   "singles/B2-a4-en.pdf": {
-   "bytes": 216086,
+   "bytes": 469770,
    "pages": 3
   },
   "singles/B3-a4-en.pdf": {
-   "bytes": 206426,
+   "bytes": 422247,
    "pages": 3
   },
   "singles/F1-a4-en.pdf": {
@@ -46,7 +62,7 @@
    "pages": 2
   },
   "sets/first-flight-a4-en.pdf": {
-   "bytes": 573893,
+   "bytes": 812601,
    "pages": 7
   },
   "sets/no-scissors-a4-en.pdf": {
@@ -73,16 +89,32 @@
    "bytes": 88286,
    "pages": 2
   },
+  "singles/A5-a4-es.pdf": {
+   "bytes": 89069,
+   "pages": 2
+  },
+  "singles/A6-a4-es.pdf": {
+   "bytes": 98170,
+   "pages": 2
+  },
+  "singles/A7-a4-es.pdf": {
+   "bytes": 90154,
+   "pages": 2
+  },
+  "singles/A8-a4-es.pdf": {
+   "bytes": 93469,
+   "pages": 2
+  },
   "singles/B1-a4-es.pdf": {
-   "bytes": 209217,
+   "bytes": 447982,
    "pages": 3
   },
   "singles/B2-a4-es.pdf": {
-   "bytes": 218281,
+   "bytes": 471714,
    "pages": 3
   },
   "singles/B3-a4-es.pdf": {
-   "bytes": 207335,
+   "bytes": 423212,
    "pages": 3
   },
   "singles/F1-a4-es.pdf": {
@@ -98,7 +130,7 @@
    "pages": 2
   },
   "sets/first-flight-a4-es.pdf": {
-   "bytes": 578186,
+   "bytes": 816951,
    "pages": 7
   },
   "sets/no-scissors-a4-es.pdf": {
@@ -125,16 +157,32 @@
    "bytes": 96648,
    "pages": 2
   },
+  "singles/A5-a4-ru.pdf": {
+   "bytes": 97947,
+   "pages": 2
+  },
+  "singles/A6-a4-ru.pdf": {
+   "bytes": 106918,
+   "pages": 2
+  },
+  "singles/A7-a4-ru.pdf": {
+   "bytes": 100172,
+   "pages": 2
+  },
+  "singles/A8-a4-ru.pdf": {
+   "bytes": 101492,
+   "pages": 2
+  },
   "singles/B1-a4-ru.pdf": {
-   "bytes": 215319,
+   "bytes": 454625,
    "pages": 3
   },
   "singles/B2-a4-ru.pdf": {
-   "bytes": 224597,
+   "bytes": 478613,
    "pages": 3
   },
   "singles/B3-a4-ru.pdf": {
-   "bytes": 213066,
+   "bytes": 429517,
    "pages": 3
   },
   "singles/F1-a4-ru.pdf": {
@@ -150,7 +198,7 @@
    "pages": 2
   },
   "sets/first-flight-a4-ru.pdf": {
-   "bytes": 601281,
+   "bytes": 840587,
    "pages": 7
   },
   "sets/no-scissors-a4-ru.pdf": {
@@ -177,16 +225,32 @@
    "bytes": 86992,
    "pages": 2
   },
+  "singles/A5-letter-en.pdf": {
+   "bytes": 89136,
+   "pages": 2
+  },
+  "singles/A6-letter-en.pdf": {
+   "bytes": 96649,
+   "pages": 2
+  },
+  "singles/A7-letter-en.pdf": {
+   "bytes": 89606,
+   "pages": 2
+  },
+  "singles/A8-letter-en.pdf": {
+   "bytes": 91836,
+   "pages": 2
+  },
   "singles/B1-letter-en.pdf": {
-   "bytes": 207512,
+   "bytes": 445114,
    "pages": 3
   },
   "singles/B2-letter-en.pdf": {
-   "bytes": 216073,
+   "bytes": 468280,
    "pages": 3
   },
   "singles/B3-letter-en.pdf": {
-   "bytes": 206405,
+   "bytes": 420619,
    "pages": 3
   },
   "singles/F1-letter-en.pdf": {
@@ -202,7 +266,7 @@
    "pages": 2
   },
   "sets/first-flight-letter-en.pdf": {
-   "bytes": 573743,
+   "bytes": 811345,
    "pages": 7
   },
   "sets/no-scissors-letter-en.pdf": {
@@ -229,16 +293,32 @@
    "bytes": 88244,
    "pages": 2
   },
+  "singles/A5-letter-es.pdf": {
+   "bytes": 89298,
+   "pages": 2
+  },
+  "singles/A6-letter-es.pdf": {
+   "bytes": 98165,
+   "pages": 2
+  },
+  "singles/A7-letter-es.pdf": {
+   "bytes": 90154,
+   "pages": 2
+  },
+  "singles/A8-letter-es.pdf": {
+   "bytes": 93571,
+   "pages": 2
+  },
   "singles/B1-letter-es.pdf": {
-   "bytes": 209223,
+   "bytes": 446850,
    "pages": 3
   },
   "singles/B2-letter-es.pdf": {
-   "bytes": 218281,
+   "bytes": 470216,
    "pages": 3
   },
   "singles/B3-letter-es.pdf": {
-   "bytes": 207303,
+   "bytes": 421557,
    "pages": 3
   },
   "singles/F1-letter-es.pdf": {
@@ -254,7 +334,7 @@
    "pages": 2
   },
   "sets/first-flight-letter-es.pdf": {
-   "bytes": 578041,
+   "bytes": 815668,
    "pages": 7
   },
   "sets/no-scissors-letter-es.pdf": {
@@ -281,16 +361,32 @@
    "bytes": 96659,
    "pages": 2
   },
+  "singles/A5-letter-ru.pdf": {
+   "bytes": 98288,
+   "pages": 2
+  },
+  "singles/A6-letter-ru.pdf": {
+   "bytes": 107091,
+   "pages": 2
+  },
+  "singles/A7-letter-ru.pdf": {
+   "bytes": 100297,
+   "pages": 2
+  },
+  "singles/A8-letter-ru.pdf": {
+   "bytes": 101689,
+   "pages": 2
+  },
   "singles/B1-letter-ru.pdf": {
-   "bytes": 215296,
+   "bytes": 453502,
    "pages": 3
   },
   "singles/B2-letter-ru.pdf": {
-   "bytes": 224570,
+   "bytes": 477126,
    "pages": 3
   },
   "singles/B3-letter-ru.pdf": {
-   "bytes": 213039,
+   "bytes": 427857,
    "pages": 3
   },
   "singles/F1-letter-ru.pdf": {
@@ -306,7 +402,7 @@
    "pages": 2
   },
   "sets/first-flight-letter-ru.pdf": {
-   "bytes": 601203,
+   "bytes": 839409,
    "pages": 7
   },
   "sets/no-scissors-letter-ru.pdf": {

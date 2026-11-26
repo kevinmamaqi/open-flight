@@ -1,7 +1,7 @@
 import * as THREE from './assets/viewer/three.js'
 import { objectModel } from './assets/objects/geometry.js'
 import { objectIds } from './assets/objects/appearance.js'
-import { planeModel, costaModel } from './model-geometry.js'
+import { planeModel, dartModel } from './model-geometry.js'
 import { makeScene, textureFor } from './model-scene.js'
 
 export function createViewer(container, id, lang, onProgress) {
@@ -68,7 +68,7 @@ export function createViewer(container, id, lang, onProgress) {
       else if (id.includes('-')) model = planeModel(id, paint, paper)
       else {
         const api = await import('./browser-workshop.js')
-        model = costaModel(api.makeK2({ species: id, appearance_id: paint, span_mm: span, paper, locale: lang }), api)
+        model = dartModel(api.makeK3({ species: id, appearance_id: paint, span_mm: span, paper, locale: lang }), api)
       }
       const nextTexture = await textureFor(model, 'studio')
       if (version !== current) {

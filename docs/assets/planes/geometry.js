@@ -162,3 +162,49 @@ export function dedupeCreases(creases) {
     return true
   })
 }
+
+// --- Slanted wing roots (record planes) ------------------------------------------------------
+// A root crease that is not parallel to the centre, given by two points on the left half of the
+// open stock. keelAt(y) is the body depth at that station: the distance from the centre to the root.
+export function keelAt(root, width, y) {
+  const [[x0, y0], [x1, y1]] = root
+  return width / 2 - (x0 + ((y - y0) * (x1 - x0)) / (y1 - y0))
+}
+const sideOf = (line, p) => cross(line[0], line[1], p)
+/** Keep the part of an outline on the same side of a line as `inside`. */
+export function cropToLine(points, line, inside) {
+  const sign = Math.sign(sideOf(line, inside))
+  return clip(
+    points.map((p) => ({ p, o: p })),
+    line,
+    sign,
+  ).map((v) => v.p)
+}
+/** Clip layered panels to a convex outline (both in table coordinates). */
+export function clipPanels(panels, within) {
+  const inside = within.reduce((a, p) => [a[0] + p[0] / within.length, a[1] + p[1] / within.length], [0, 0])
+  return panels
+    .map((panel) => {
+      let vertices = panel.vertices
+      for (let i = 0; i < within.length && vertices.length; i++) {
+        const line = [within[i], within[(i + 1) % within.length]]
+        vertices = clip(vertices, line, Math.sign(sideOf(line, inside)))
+      }
+      return { ...panel, vertices }
+    })
+    .filter((panel) => panel.vertices.length >= 3)
+}
+/** Left wing planform with the body folded flat: the root sits on x = width / 2 at every station. */
+export function slantedWingShape(stockOutline, width, root, winglet) {
+  let wing = cropToLine(stockOutline, root, [0, (root[0][1] + root[1][1]) / 2])
+  if (winglet && wing.length)
+    wing = cropToLine(
+      wing,
+      [
+        [winglet, 0],
+        [winglet, 1],
+      ],
+      [width, 0],
+    )
+  return wing.map(([x, y]) => [x + keelAt(root, width, y), y])
+}

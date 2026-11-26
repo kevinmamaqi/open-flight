@@ -2,7 +2,7 @@
 // (B1-B3). A to-scale top view with a ruler from the nose, the clips, the balance target,
 // the estimated lift point and the margin between them, a faint mark for the first fold,
 // three side views (tail-heavy, balanced, nose-heavy) and the tab inset. Pure and
-// deterministic: numbers come from butterfly-data.js, generated from makeK2 by
+// deterministic: numbers come from butterfly-data.js, generated from makeK3 by
 // scripts/build_nature_figures.ts. Spanish and Russian need a native read.
 import { color, print } from '../../assets/brand/tokens.js'
 import { butterflyData } from './butterfly-data.js'
@@ -101,9 +101,10 @@ function draw(model, lang, printed) {
   if (!words.title[lang]) throw new RangeError('Unknown language ' + lang)
   const c = palette(printed)
   const id = 'b' + model.slice(0, 2) + model.length
-  const cx = W / 2, top = 62
+  const heading = wrap(words.title[lang], W - 16, 17, lang)
+  const cx = W / 2, top = 92 + 21 * (heading.length - 1) // room above the head for the antennae
   const at = mm => top + mm * K
-  const art = [], labels = [text(8, 26, words.title[lang], { size: 17, weight: 'bold' })]
+  const art = [], labels = [text(8, 26, heading, { size: 17, weight: 'bold' })]
 
   // Top view: light outline at true proportions, mirrored about the body centre line.
   const right = data.outline.map(([x, y]) => [cx + x * K, at(y)])
@@ -122,7 +123,8 @@ function draw(model, lang, printed) {
   for (let mm = 0; mm <= data.length_mm; mm += 10) {
     const half = mm % 20 ? 3 : 5
     ticks.push(`M${cx - half} ${n(at(mm))}H${cx + half}`)
-    if (!(mm % 20) && mm !== 40) labels.push(text(cx + 9, at(mm) + 5, mm ? String(mm) : '0 ' + words.ruler[lang], { fill: c.muted }))
+    // The zero label sits clear of the right antenna.
+    if (!(mm % 20) && mm !== 40) labels.push(text(cx + (mm ? 9 : 22), at(mm) + 5, mm ? String(mm) : '0 ' + words.ruler[lang], { fill: c.muted }))
   }
   art.push(`<path d="${ticks.join('')}" stroke="${c.ink}" stroke-width="1.2"/>`)
 
@@ -134,32 +136,38 @@ function draw(model, lang, printed) {
     `<circle cx="${cx}" cy="${n(yc)}" r="2.6" fill="${c.ink}"/>`, line([[cx - 7, yc], [cx - 16, at(5)]], c.ink, 1.2))
   labels.push(text(cx - 19, at(5) + 5, words.clips[lang], { anchor: 'end' }))
 
-  // Balance target, lift point, the margin between them and the first fold's ghost.
+  // Balance target, lift point, the margin between them and the first fold's ghost. The swept
+  // wings fill the width, so the labels sit in two columns under the top view with leaders.
   const target = data.dots_mm, lift = Math.round(data.lift_point_mm)
   const ghost = data.lift_point_mm + Math.abs(data.k1_static_margin) * data.mac_mm
   const [yt, yl, yg] = [at(target), at(data.lift_point_mm), at(ghost)]
-  const base = at(data.wing_root_mm) - 14
   art.push(`<use href="#${id}-t" transform="translate(${cx} ${n(yt)}) scale(1.1)"/>`,
     `<g fill="none" stroke="${c.change}" stroke-width="1.4" stroke-dasharray="2.5 1.5"><circle cx="${cx}" cy="${n(yg)}" r="4.4"/><circle cx="${cx}" cy="${n(yg)}" r="1.4"/></g>`,
     `<circle cx="${cx}" cy="${n(yl)}" r="4.5" fill="${c.paper}" stroke="${c.air}" stroke-width="1.8"/>`,
     line([[cx - 2.4, yl + 1.3], [cx, yl - 1.3], [cx + 2.4, yl + 1.3]], c.air, 1.6))
-  // Left, above the wing: where it should balance. Right, above the wing: the lift point.
-  const tl = wrap(words.target[lang] + ': ' + target + mm(lang), 160, FS, lang)
-  art.push(line([[cx - 5, yt - 4], [cx - 24, base + 4]], c.ink, 1.2))
-  labels.push(text(cx - 26, base - LEAD * (tl.length - 1), tl, { anchor: 'end', weight: 'bold' }))
-  const ll = wrap(words.lift[lang] + ': ' + lift + mm(lang), 150, FS, lang)
-  art.push(line([[cx + 4, yl - 4], [cx + 34, base + 4]], c.air, 1.2))
-  labels.push(text(cx + 36, base - LEAD * (ll.length - 1), ll, { fill: c.air, weight: 'bold' }))
-  // Right, over the wing: the margin. Left, over the wing: the first fold's ghost.
+  const column = 160, below = at(data.length_mm) + 30
+  const leftX = cx - 16, rightX = cx + 16
+  // Left: where it should balance, then the first fold's ghost.
+  const tl = wrap(words.target[lang] + ': ' + target + mm(lang), column, FS, lang)
+  art.push(line([[cx - 5, yt + 3], [leftX + 2, below - FS]], c.ink, 1.2))
+  labels.push(text(leftX, below, tl, { anchor: 'end', weight: 'bold' }))
+  const gy = below + LEAD * tl.length + 10
+  const gl = wrap(words.ghost[lang], column, FS, lang)
+  art.push(line([[cx - 4, yg + 3], [leftX + 2, gy - FS]], c.change, 1.2))
+  labels.push(text(leftX, gy, gl, { anchor: 'end', fill: c.change }))
+  // Right: the lift point, then the margin between it and the balance.
+  const ll = wrap(words.lift[lang] + ': ' + lift + mm(lang), column, FS, lang)
+  art.push(line([[cx + 4, yl + 3], [rightX - 2, below - FS]], c.air, 1.2))
+  labels.push(text(rightX, below, ll, { fill: c.air, weight: 'bold' }))
   const bx = cx + 10
+  const my = below + LEAD * ll.length + 10
   const [ahead, steady] = words.margin[lang].split(' = ')
-  art.push(line([[bx - 3, yt], [bx, yt], [bx, yl], [bx - 3, yl]], c.steady, 1.8), line([[bx, (yt + yl) / 2], [bx + 24, yl + 22]], c.steady, 1.2))
-  labels.push(text(bx + 27, yl + 28, [...wrap(lift - target + mm(lang) + ': ' + ahead, 150, FS, lang), '= ' + steady], { fill: c.steady, weight: 'bold' }))
-  art.push(line([[cx - 4, yg + 3], [cx - 24, yg + 22]], c.change, 1.2))
-  labels.push(text(cx - 26, yg + 28, wrap(words.ghost[lang], 160, FS, lang), { anchor: 'end', fill: c.change }))
+  const ml = [...wrap(lift - target + mm(lang) + ': ' + ahead, column, FS, lang), '= ' + steady]
+  art.push(line([[bx - 3, yt], [bx, yt], [bx, yl], [bx - 3, yl]], c.steady, 1.8), line([[bx, (yt + yl) / 2], [rightX + 8, my - FS]], c.steady, 1.2))
+  labels.push(text(rightX, my, ml, { fill: c.steady, weight: 'bold' }))
 
   // Three side views from a hand: where the balance sits decides the flight.
-  let y = at(data.length_mm) + 34
+  let y = Math.max(gy + LEAD * (gl.length - 1), my + LEAD * (ml.length - 1)) + 22
   const panel = 128
   const flights = [
     { path: 'M18 40Q44 4 68 20Q82 30 90 96', at: [68, 20, -30], balance: -7, lift: 3 },

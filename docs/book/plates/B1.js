@@ -1,5 +1,5 @@
 // Plate B1, Monarch. Spanish and Russian need a native read before release.
-import { butterflyFlight, butterflyGlance, butterflyReferences, w } from './B-shared.js?v=827c6a6b1e8f'
+import { butterflyFlight, butterflyGlance, butterflyReferences, w } from './B-shared.js?v=48cc97ad30d5'
 
 export default {
   id: 'B1', model: 'monarch',
@@ -20,14 +20,14 @@ export default {
       borrows: 'Наш бумажный монарх позаимствовал длинные передние крылья у путешественницы.' },
   },
   tryThis: {
-    en: { question: 'Does a bigger butterfly glide farther?', prediction: 'Which one lands farther: the 148 mm or the 184 mm monarch? Our model says the big one bends about twice as much at the tip.',
-      steps: ['Print two monarchs on the same paper: one at 148 mm and one at 184 mm.', 'Balance both on their dots.', 'Launch each five times from the same spot, with the same smooth push.', 'Mark every first touchdown, even the bad ones.'],
+    en: { question: 'Does a bigger butterfly glide farther?', prediction: 'Which one lands farther: the 150 mm or the 180 mm monarch? Our model says the big one bends about twice as much at the tip.',
+      steps: ['Print two monarchs on the same paper: one at 150 mm and one at 180 mm.', 'Balance both on their dots.', 'Launch each five times from the same spot, with the same smooth push.', 'Mark every first touchdown, even the bad ones.'],
       lookFor: 'Which marks cluster farther away, and whether the big wings flap or droop.' },
-    es: { question: '¿Una mariposa más grande planea más lejos?', prediction: '¿Cuál llega más lejos: la monarca de 148 mm o la de 184 mm? Nuestro modelo dice que la grande se dobla en la punta unas dos veces más.',
-      steps: ['Imprime dos monarcas en el mismo papel: una de 148 mm y otra de 184 mm.', 'Equilibra las dos sobre sus puntos.', 'Lanza cada una cinco veces desde el mismo sitio, con el mismo empujón suave.', 'Marca cada primer contacto con el suelo, también los malos.'],
+    es: { question: '¿Una mariposa más grande planea más lejos?', prediction: '¿Cuál llega más lejos: la monarca de 150 mm o la de 180 mm? Nuestro modelo dice que la grande se dobla en la punta unas dos veces más.',
+      steps: ['Imprime dos monarcas en el mismo papel: una de 150 mm y otra de 180 mm.', 'Equilibra las dos sobre sus puntos.', 'Lanza cada una cinco veces desde el mismo sitio, con el mismo empujón suave.', 'Marca cada primer contacto con el suelo, también los malos.'],
       lookFor: 'Qué marcas quedan más lejos y si las alas grandes aletean o se caen.' },
-    ru: { question: 'Большая бабочка планирует дальше?', prediction: 'Какая улетит дальше: монарх размахом 148 мм или 184 мм? По нашей модели кончики большой гнутся примерно вдвое сильнее.',
-      steps: ['Распечатайте двух монархов на одной бумаге: размахом 148 мм и 184 мм.', 'Уравновесьте обоих на точках.', 'Запустите каждого пять раз с одного места одинаковым плавным толчком.', 'Отмечайте каждое первое касание пола, даже неудачное.'],
+    ru: { question: 'Большая бабочка планирует дальше?', prediction: 'Какая улетит дальше: монарх размахом 150 мм или 180 мм? По нашей модели кончики большой гнутся примерно вдвое сильнее.',
+      steps: ['Распечатайте двух монархов на одной бумаге: размахом 150 мм и 180 мм.', 'Уравновесьте обоих на точках.', 'Запустите каждого пять раз с одного места одинаковым плавным толчком.', 'Отмечайте каждое первое касание пола, даже неудачное.'],
       lookFor: 'Чьи отметки ложатся дальше и не хлопают ли и не провисают ли большие крылья.' },
   },
   references: [

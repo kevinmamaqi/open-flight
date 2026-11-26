@@ -1,6 +1,6 @@
 export interface OriginLocation {
   id: string;
-  kind: 'first-flight' | 'design' | 'habitat' | 'wintering' | 'training' | 'spaceflight' | 'takeoff' | 'landing';
+  kind: 'first-flight' | 'design' | 'habitat' | 'wintering' | 'training' | 'spaceflight' | 'takeoff' | 'landing' | 'record';
   lat: number;
   lon: number;
   label: string;
@@ -25,7 +25,7 @@ interface OriginStory {
   locations: OriginLocation[];
   people: {name: string; role: string}[];
   sources: {label: string; url: string}[];
-  country?: 'US' | 'USSR';
+  country?: 'US' | 'USSR' | 'RS' | 'KR' | 'JP';
   era?: string;
 }
 
@@ -34,6 +34,8 @@ export interface ModelOrigin extends OriginStory {
   scientificName?: string;
   specimen?: string;
   firstFlight?: string;
+  /** A record or championship paper plane, credited to its original designer. */
+  record?: boolean;
   illustration?: OriginIllustration;
 }
 

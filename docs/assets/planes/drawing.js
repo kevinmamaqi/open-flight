@@ -1,6 +1,7 @@
-import { planeCredits, creditText } from './credits.js?v=827c6a6b1e8f'
-import { backFaceWords, backKind, printSafeMm } from '../print-faces.js?v=827c6a6b1e8f'
-import { atLeastText, calibration, calibrationShort, ink as paperInk, lineStyle, muted as paperMuted, textMm } from '../brand/print.js?v=827c6a6b1e8f'
+import { planeCredits, creditText, creditLinks } from './credits.js?v=48cc97ad30d5'
+import { backFaceWords, backKind, printSafeMm } from '../print-faces.js?v=48cc97ad30d5'
+import { keelAt } from './geometry.js?v=48cc97ad30d5'
+import { atLeastText, calibration, calibrationShort, ink as paperInk, lineStyle, muted as paperMuted, textMm } from '../brand/print.js?v=48cc97ad30d5'
 
 export const esc = (value) =>
   String(value).replace(
@@ -164,6 +165,27 @@ export function stripes(plan) {
     ribbon(0.7, 13, -31, b, 0.43)
     ribbon(0.84, 17, -33, a, 0.43)
     ribbon(0.93, 4, -33, c, 0.43)
+  } else if (plan.motif === 'darts') {
+    ribbon(0.3, 18, 70, a, 0.5)
+    ribbon(0.42, 6, 70, c, 0.5)
+    ribbon(0.6, 20, 50, b, 0.5)
+    ribbon(0.73, 6, 50, a, 0.5)
+    ribbon(0.86, 10, 30, c, 0.5)
+  } else if (plan.motif === 'bars') {
+    ribbon(0.66, 10, 0, a, 0.5)
+    ribbon(0.715, 4, 0, c, 0.5)
+    ribbon(0.79, 15, 12, b, 0.5)
+    ribbon(0.9, 6, 12, a, 0.5)
+  } else if (plan.motif === 'crescent') {
+    ribbon(0.52, 12, 44, a)
+    ribbon(0.6, 5, 34, c)
+    ribbon(0.72, 14, 20, b)
+    ribbon(0.85, 5, 9, a)
+  } else if (plan.motif === 'crown') {
+    ribbon(0.55, 14, -30, a, 0.45)
+    ribbon(0.63, 5, -30, c, 0.45)
+    ribbon(0.76, 16, -12, b, 0.45)
+    ribbon(0.88, 5, -6, a, 0.45)
   } else {
     ribbon(0.47, 6, 51, b)
     ribbon(0.6, 18, 43, a)
@@ -184,6 +206,14 @@ export function stripes(plan) {
       for (const y of [.55,.67,.79]) tile([[.025,y],[.13,y+.018],[.18,y+.054],[.11,y+.037]],c)
     } else if (plan.motif === 'chevrons') {
       for (const x of [.03,.11,.19]) tile([[x,.64],[x+.04,.58],[x+.013,.65],[x+.05,.68]],b)
+    } else if (plan.motif === 'darts') {
+      for (const y of [.5,.66,.8]) tile([[.3,y],[.44,y+.03],[.44,y+.045],[.3,y+.015]],c)
+    } else if (plan.motif === 'bars') {
+      for (const x of [.05,.16,.27,.38]) tile([[x,.84],[x+.06,.84],[x+.06,.87],[x,.87]],c)
+    } else if (plan.motif === 'crescent') {
+      for (const y of [.66,.79]) tile([[.06,y],[.2,y+.03],[.24,y+.05],[.1,y+.03]],c)
+    } else if (plan.motif === 'crown') {
+      for (const x of [.08,.18,.28]) tile([[x,.7],[x+.035,.66],[x+.07,.7],[x+.035,.73]],c)
     } else {
       for (const y of [.55,.72]) for (const dy of [0,.025])
         tile([[.018,y+dy],[.18,y+dy+.045],[.23,y+dy+.062],[.018,y+dy+.014]],c)
@@ -248,9 +278,12 @@ function cornerMarks(w, h, m = printSafeMm) {
 
 // Where a fold line reaches the paper edge, a small triangle on the safe line points at that spot.
 function edgeMarker(point, w, h, m) {
-  const [x, y] = point
   const near = (v, limit) => v <= m + 1e-6 || v >= limit - m - 1e-6
-  if (near(x, w) && near(y, h)) return null
+  if (near(point[0], w) && near(point[1], h)) return null
+  // Keep a marker close to a corner inside the printable strip.
+  const keep = (v, limit) => Math.min(limit - m - 1.1, Math.max(m + 1.1, v))
+  const x = near(point[1], h) ? keep(point[0], w) : point[0],
+    y = near(point[0], w) ? keep(point[1], h) : point[1]
   let tip, base
   if (y <= m) (tip = [x, m - 0.2]), (base = [[x - 1.1, m + 1.7], [x + 1.1, m + 1.7]])
   else if (y >= h - m) (tip = [x, h - m + 0.2]), (base = [[x - 1.1, h - m - 1.7], [x + 1.1, h - m - 1.7]])
@@ -270,6 +303,7 @@ function creaseScene(plan, back) {
   const parts = [],
     markers = new Map()
   for (const crease of plan.creases) {
+    if (crease.print === false) continue
     const [p, q] = crease.line.map(flip)
     const kind = creaseKey(crease.kind, back)
     const dash = creaseDash(kind)
@@ -343,7 +377,7 @@ function stepTargets(plan) {
     targets = []
   for (const s of plan.steps) {
     const list = plan.creases
-      .filter((c) => c.step === s.index)
+      .filter((c) => c.step === s.index && c.print !== false)
       .sort((a, b) => {
         const length = ({ line: [p, q] }) => Math.hypot(p[0] - q[0], p[1] - q[1])
         return length(b) - length(a)
@@ -397,8 +431,9 @@ function targetParts(targets, flip = (p) => p) {
 // Shift sheet coordinates onto the printed page. Revision 2 sits trim_mm inside the paper.
 function onPage(plan, parts) {
   const d = plan.trim_mm ?? 0
-  if (!d) return parts
-  const move = ([x, y]) => [x + d, y + d]
+  const [dx, dy] = plan.offset_mm ?? [d, d]
+  if (!dx && !dy) return parts
+  const move = ([x, y]) => [x + dx, y + dy]
   return parts.map((e) => ({
     ...e,
     ...(e.points ? { points: e.points.map(move) } : {}),
@@ -438,7 +473,7 @@ export function sheetScene(plan) {
     ...targetParts(stepTargets(plan)),
   ]
   const ink = guideInk
-  const credit = creditText(plan.locale)
+  const credit = creditText(plan.locale, plan)
   // Bottom band: the model's credits on the left, the 50 mm calibration line on the right.
   const scaleX = w - 82,
     scaleY = h - 21
@@ -463,7 +498,7 @@ export function sheetScene(plan) {
     label([22, h - 30.4], credit.creator, textMm.min, paperMuted),
     {
       ...label([22, h - 26.3], credit.geometry, textMm.min, paperMuted),
-      url: planeCredits.geometry.url,
+      url: creditLinks(plan).geometry,
     },
     {
       ...label([22, h - 22.2], credit.artwork, textMm.min, paperMuted),
@@ -506,7 +541,7 @@ export function planeBackSvg(plan) {
 }
 export function planeSvg(plan) {
   const [w, h] = pageSize(plan)
-  const credit = creditText(plan.locale)
+  const credit = creditText(plan.locale, plan)
   return (
     '<svg xmlns="http://www.w3.org/2000/svg" width="' +
     w +
@@ -532,7 +567,14 @@ export function planeSvg(plan) {
         es: plan.trim_mm
           ? 'Cara impresa. Recorta la hoja por el borde grueso, que está a ' + plan.trim_mm + ' mm del borde del papel. Las líneas de doblez llegan hasta ese borde. Dobla por las líneas discontinuas numeradas.'
           : 'Cara impresa. Imprime a tamaño real. Las guías quedan a 6 mm del borde, y las esquinas marcadas señalan las esquinas reales. Dobla por las líneas discontinuas numeradas.',
-      }[plan.locale],
+      }[plan.locale] +
+        (plan.offset_mm
+          ? {
+              en: ' The border gives the A4 shape this design needs, so it sits further in at the sides.',
+              ru: ' Рамка задаёт форму листа A4, нужную этой модели, поэтому по бокам она дальше от края.',
+              es: ' El borde da la forma A4 que necesita este modelo, por eso queda más adentro a los lados.',
+            }[plan.locale]
+          : ''),
     ) +
     ' ' +
     esc([credit.creator, credit.geometry, credit.artwork, credit.credits].join('. ')) +
@@ -541,7 +583,8 @@ export function planeSvg(plan) {
     esc(
       JSON.stringify({
         creator: planeCredits.creator,
-        originalGeometry: planeCredits.geometry,
+        ...(plan.designer ? { basedOn: plan.original, designer: plan.designer.en, rights: plan.rights } : {}),
+        originalGeometry: plan.designer ? { name: 'Derived from ' + plan.original, url: plan.reference.url } : planeCredits.geometry,
         originalArtworkAndLessons: planeCredits.artwork,
         credits: planeCredits.url,
         model: plan.model_id,
@@ -562,20 +605,49 @@ export function specimenScene(plan) {
   const outline = plan.stockOutline,
     parts = [],
     decals = stripes(plan)
+  // A slanted root (record planes) makes the body depth vary from nose to tail.
+  const depth = plan.root ? (y) => keelAt(plan.root, w, y) : () => k
   function project([x, y]) {
     const sign = Math.sign(x - c),
-      spread = Math.abs(x - c)
-    const root = Math.max(0, spread - k),
-      flat = Math.min(root, c - k - tip)
-    const z = spread < k ? spread - k : flat * 0.14 + root - flat
+      spread = Math.abs(x - c),
+      kk = depth(y)
+    const root = Math.max(0, spread - kk),
+      flat = Math.min(root, c - kk - tip)
+    const z = spread < kk ? spread - kk : flat * 0.14 + root - flat
     return [0.86 * sign * flat - 0.9 * y, 0.5 * sign * flat + 0.3 * y - 0.94 * z]
   }
   const boundaries = [0, tip, c - k, c, c + k, w - tip, w]
   const bases = ['#d3cbb7', '#f5eccc', '#b0a78c', '#afa889', '#fff8dd', '#ede1bd']
   const outlineInk = '#3d4b49'
+  const rootLeft = plan.root,
+    rootRight = plan.root?.map(([x, y]) => [w - x, y])
+  const cropAt = (points, a, b, keep) => {
+    const side = (p) => (b[0] - a[0]) * (p[1] - a[1]) - (b[1] - a[1]) * (p[0] - a[0])
+    const sign = Math.sign(side(keep))
+    const out = []
+    for (let i = 0; i < points.length; i++) {
+      const p = points[i],
+        q = points[(i + 1) % points.length],
+        dp = sign * side(p),
+        dq = sign * side(q)
+      if (dp >= -1e-7) out.push(p)
+      if (dp * dq < -1e-7) out.push([p[0] + ((q[0] - p[0]) * dp) / (dp - dq), p[1] + ((q[1] - p[1]) * dp) / (dp - dq)])
+    }
+    return out
+  }
+  const slantedRegion = (i) => {
+    const vertical = (x) => [[x, 0], [x, 1]]
+    const mid = [c, (rootLeft[0][1] + rootLeft[1][1]) / 2]
+    if (i === 0) return tip ? cropAt(outline, ...vertical(tip), [0, 0]) : []
+    if (i === 5) return tip ? cropAt(outline, ...vertical(w - tip), [w, 0]) : []
+    if (i === 1) return cropAt(cropAt(outline, ...vertical(tip), [w, 0]), ...rootLeft, [0, rootLeft[0][1]])
+    if (i === 4) return cropAt(cropAt(outline, ...vertical(w - tip), [0, 0]), ...rootRight, [w, rootRight[0][1]])
+    if (i === 2) return cropAt(cropAt(outline, ...rootLeft, mid), ...vertical(c), [0, 0])
+    return cropAt(cropAt(outline, ...rootRight, mid), ...vertical(c), [w, 0])
+  }
   for (let i = 0; i < boundaries.length - 1; i++) {
-    if (boundaries[i + 1] - boundaries[i] < 0.1) continue
-    const region = cropX(cropX(outline, boundaries[i], 1), boundaries[i + 1], -1)
+    if (!plan.root && boundaries[i + 1] - boundaries[i] < 0.1) continue
+    const region = plan.root ? slantedRegion(i) : cropX(cropX(outline, boundaries[i], 1), boundaries[i + 1], -1)
     if (region.length < 3) continue
     const mapped = region.map(project)
     parts.push(poly(mapped, bases[i], outlineInk, 0.9))

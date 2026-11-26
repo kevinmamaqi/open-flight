@@ -7,6 +7,7 @@ import { appearanceArtPath, appearanceArtStyles, appearanceChoices, appearanceCa
 import { makePlane, planePdf, planeSpecimen, planeSvg, sheetSizes } from '../packages/planes/index.ts'
 import { foldedPdf, makeFoldedButterfly } from '../packages/folded-butterfly/index.ts'
 import { k2Pdf, makeK2 } from '../packages/folded-butterfly/k2-sheet.ts'
+import { k3Pdf, makeK3 } from '../packages/folded-butterfly/k3-sheet.ts'
 import { classicComparisonPdf } from '../packages/product-core/folded-butterflies.ts'
 import { loadAppearanceSheet } from '../packages/print-export/appearance-sheet.js'
 
@@ -18,7 +19,7 @@ async function verifyPages(bytes, count, paper, landscape = false) {
   const document = await PDFDocument.load(bytes)
   assert.equal(document.getPageCount(), count)
   const [portraitWidth, portraitHeight] = sheetSizes[paper]
-  // The K2 butterfly sheet turns the same paper sideways so the wings run along the grain.
+  // The K2 and K3 butterfly sheets turn the same paper sideways so the wings run along the grain.
   const [width, height] = landscape ? [portraitHeight, portraitWidth] : [portraitWidth, portraitHeight]
   for (const page of document.getPages()) {
     assert.ok(Math.abs(page.getWidth() - width * mmToPt) < 0.01)
@@ -50,12 +51,14 @@ test('every appearance has localized labels and matching model art', async () =>
       }
     }
   }
-  assert.equal(paths.size, 117)
+  // 13 earlier sheets, three K3 butterflies and four record planes: each sheet × 4 appearances × 3 styles,
+  // less the shared ink art.
+  assert.equal(paths.size, 117 + 27 + 36)
   assert.equal(appearanceChoices('tupolev-tu144', 'ru').some(choice => /флаг/i.test(choice.label)), false)
   assert.throws(() => appearanceArtPath('monarch-k1', 'studio', 'flag'), RangeError)
 })
 
-test('the 78 original PDFs are read directly and colored sheets use the studio renderers', async () => {
+test('the 96 original PDFs are read directly and colored sheets use the studio renderers', async () => {
   for (const sheet of sheetCatalog) {
     for (const paper of paperSizes) {
       for (const lang of sheetLocales) {
@@ -73,8 +76,10 @@ test('the 78 original PDFs are read directly and colored sheets use the studio r
     const appearance = sheet.family === 'butterfly' ? 'carnival' : 'airshow'
     const colored = await loadAppearanceSheet(sheet.id, paper, lang, appearance, unexpectedAsset)
     assert.notDeepEqual(colored, await asset(sheetPath(sheet.id, paper, lang)))
-    await verifyPages(colored, sheet.pages, paper, sheet.construction === 'k2')
-    if (sheet.construction === 'k2') {
+    await verifyPages(colored, sheet.pages, paper, ['k2', 'k3'].includes(sheet.construction))
+    if (sheet.construction === 'k3') {
+      assert.deepEqual(colored, k3Pdf(makeK3({ species: sheet.model, paper, appearance_id: appearance, locale: lang })))
+    } else if (sheet.construction === 'k2') {
       assert.deepEqual(colored, k2Pdf(makeK2({ species: sheet.model, paper, appearance_id: appearance, locale: lang })))
     } else if (sheet.family === 'butterfly') {
       const plan = makeFoldedButterfly({ species: sheet.model, paper, appearance_id: appearance }, lang)

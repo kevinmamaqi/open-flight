@@ -1,8 +1,8 @@
-import { objectIds } from './assets/objects/appearance.js?v=827c6a6b1e8f'
-import { foldedLink, studioLink } from './atlas-guide.js?v=827c6a6b1e8f'
-import { defaultSheets } from './book-model.js?v=827c6a6b1e8f'
-import { sheetCatalog } from './family-sheets.js?v=827c6a6b1e8f'
-import { appearanceChoices } from './model-appearance.js?v=827c6a6b1e8f'
+import { objectIds } from './assets/objects/appearance.js?v=48cc97ad30d5'
+import { foldedLink, studioLink } from './atlas-guide.js?v=48cc97ad30d5'
+import { defaultSheets } from './book-model.js?v=48cc97ad30d5'
+import { sheetCatalog } from './family-sheets.js?v=48cc97ad30d5'
+import { appearanceChoices } from './model-appearance.js?v=48cc97ad30d5'
 
 const sheets = new Map(sheetCatalog.map(entry => [entry.id, entry]))
 
@@ -14,7 +14,8 @@ export function studioForBookSheet(book, sheetId) {
   const color = book.appearances?.[entry.model] || appearanceChoices(entry.model, book.lang)[0].id
   if (entry.construction === 'k1')
     return foldedLink(entry.model, book.lang, { appearance_id: color, paper: book.paper })
-  if (entry.construction === 'k2')
+  // The butterfly lab draws K3. A retired K2 sheet opens the same species there.
+  if (entry.construction === 'k2' || entry.construction === 'k3')
     return './costa.html?' + new URLSearchParams({ lang: book.lang, species: entry.model, colors: color, paper: book.paper })
   const path = studioLink(entry.model, book.lang)
   const [address, hash] = path.split('#')

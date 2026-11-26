@@ -9,6 +9,7 @@
 //   paper flex are ignored.
 // Every number here is an estimate. None is a measurement.
 import { makePlane } from '../../apps/editor/assets/planes/core.js'
+import { keelAt as keelDepth } from '../../apps/editor/assets/planes/geometry.js'
 import type { PlaneModelId, PlanePaper, PlanePlan, Point } from './types.ts'
 
 export const balanceMethod = Object.freeze({
@@ -21,8 +22,18 @@ export const balanceMethod = Object.freeze({
   lift_coefficients: [0.6, 0.3] as const,
   lattice: Object.freeze({ spanwise: 24, chordwise: 12 }),
 })
-// Plate order: A1 Upper Deck, A2 Prairie Skipper, A3 Tailwind, A4 Delta Comet.
-export const balanceModels: readonly PlaneModelId[] = ['boeing-747', 'douglas-dc3', 'ilyushin-il62', 'tupolev-tu144']
+// Plate order: A1 Upper Deck, A2 Prairie Skipper, A3 Tailwind, A4 Delta Comet, then the record planes
+// A5 Red Dart, A6 Shaheen Shin, A7 Crescent Boomerang, A8 Sky King.
+export const balanceModels: readonly PlaneModelId[] = [
+  'boeing-747',
+  'douglas-dc3',
+  'ilyushin-il62',
+  'tupolev-tu144',
+  'red-dart',
+  'shaheen-shin',
+  'crescent-boomerang',
+  'sky-king',
+]
 export const balancePapers: readonly PlanePaper[] = ['A4', 'US_LETTER']
 
 export function polygonArea(points: Point[]): number {
@@ -259,8 +270,11 @@ function layerRuns(plan: PlanePlan, nose: number, length: number): LayerRun[] {
 /** Body depth below the wing at each station: the smaller of the body fold and the folded half-width. */
 function bodyProfile(plan: PlanePlan, nose: number, length: number): Point[] {
   const outline = plan.stockOutline,
-    centre = plan.dimensions.width_mm / 2,
-    keel = plan.keel_mm
+    centre = plan.dimensions.width_mm / 2
+  // A slanted root (record planes) makes the body deeper toward the tail.
+  const root = plan.root
+  const keelAt = (y: number) => (root ? Math.max(0, keelDepth(root, plan.dimensions.width_mm, y)) : plan.keel_mm)
+  const keel = Math.max(...outline.map(([, y]) => keelAt(y)))
   const halfWidth = (y: number) => {
     const across = spanAt(outline, y, 1)
     return across ? centre - across[0] : 0
@@ -272,11 +286,12 @@ function bodyProfile(plan: PlanePlan, nose: number, length: number): Point[] {
       b = outline[(i + 1) % outline.length]
     const ha = centre - a[0],
       hb = centre - b[0]
-    if (a[1] !== b[1] && (ha - keel) * (hb - keel) < 0) ys.add(a[1] + ((keel - ha) / (hb - ha)) * (b[1] - a[1]))
+    if (!root && a[1] !== b[1] && (ha - keel) * (hb - keel) < 0) ys.add(a[1] + ((keel - ha) / (hb - ha)) * (b[1] - a[1]))
   }
+  if (root) for (let i = 0; i <= 40; i++) ys.add(nose + (i / 40) * length)
   const points: Point[] = [...ys]
     .sort((a, b) => a - b)
-    .map((y) => [round(y - nose), round(Math.max(0, Math.min(keel, halfWidth(y))))])
+    .map((y) => [round(y - nose), round(Math.max(0, Math.min(keelAt(y), halfWidth(y))))])
   // Keep only the corners.
   return points.filter((p, i) => {
     if (i === 0 || i === points.length - 1) return true
@@ -329,7 +344,10 @@ export function airplaneBalance(model_id: PlaneModelId, paper: PlanePaper = 'A4'
   }
   const mac = i2 / i1,
     macLE = i3 / i1
-  const lattice = vortexLattice(le, te, semi)
+  // A raked, pointed tip can give a few small negative circulations on the default lattice; a finer
+  // spanwise grid resolves it (the Crescent Boomerang on US Letter).
+  let lattice = vortexLattice(le, te, semi)
+  if (!lattice.consistent) lattice = vortexLattice(le, te, semi, 32)
   if (!lattice.consistent) throw new Error(model_id + ': the vortex lattice did not converge to one sign')
   const loading = (mass / 1000) * 9.81 / (S / 1e6)
   const speed = m.lift_coefficients.map((cl) => Math.sqrt((2 * loading) / (m.air_density * cl)))

@@ -85,9 +85,9 @@ const butterflyTrim = [
       'Mide las dos puntas con la tira: deben tener la misma altura. Después levanta las dos un poco.',
       'Проверьте полоской высоту обоих кончиков: она должна быть одинаковой. Затем немного поднимите оба.')),
   row(w('The wings flap or droop', 'Las alas aletean o se caen', 'Крылья хлопают или провисают'),
-    w('Use 120 g/m² paper with the wings along the long side. Try a smaller span.',
-      'Usa papel de 120 g/m² con las alas a lo largo del lado largo. Prueba una envergadura menor.',
-      'Возьмите бумагу 120 г/м², крылья вдоль длинной стороны листа. Попробуйте меньший размах.')),
+    w('Glue the tan front strips under the wings. Use 120 g/m² paper with the wings along the long side. Try a smaller span.',
+      'Pega con pegamento de barra las tiras beige bajo las alas. Usa papel de 120 g/m² con las alas a lo largo del lado largo. Prueba una envergadura menor.',
+      'Приклейте бежевые полоски под крыльями клеем-карандашом. Возьмите бумагу 120 г/м², крылья вдоль длинной стороны листа. Попробуйте меньший размах.')),
 ]
 
 export const flightNotes = {
@@ -153,6 +153,71 @@ export const flightNotes = {
           'Vuelve a marcar con fuerza el pliegue del cuerpo.',
           'Ещё раз сильно прогладьте сгиб корпуса.')),
       plane.left, plane.right, plane.roll,
+    ],
+  },
+  // Record planes: the launch that suits each design. Short, so the quick guide fits one page.
+  'red-dart': {
+    launch: w(
+      'Hold it near the back, a finger on the back edge. Throw hard and level, like a javelin, never towards anyone.',
+      'Sujétalo por detrás con un dedo en el borde trasero. Lánzalo fuerte y a nivel, como una jabalina, nunca hacia nadie.',
+      'Держите за хвост, палец на задней кромке. Бросайте сильно и ровно, как копьё, и никогда в людей.',
+    ),
+    trim: [
+      row(w('Curves away', 'Se desvía', 'Уходит в сторону'),
+        w('Make the two thin wings match. Press any loose wrap flat.',
+          'Iguala las dos alas finas. Aprieta las vueltas sueltas.',
+          'Выровняйте оба крыла. Прижмите отставшие обороты.')),
+      plane.dive, plane.roll,
+    ],
+  },
+  'shaheen-shin': {
+    launch: w(
+      'Start with gentle throws at about 45°. Once it glides well, throw harder and steeper.',
+      'Empieza con lanzamientos suaves a unos 45°. Cuando planee bien, lánzalo más fuerte y más alto.',
+      'Начните с мягких бросков под 45°. Когда планирует хорошо, бросайте сильнее и круче.',
+    ),
+    trim: [
+      row(w('Dives after the climb', 'Cae tras subir', 'Пикирует после подъёма'),
+        w('Curl the back edge up 1 mm, then 2 mm. Stand the fins straight.',
+          'Levanta el borde trasero 1 mm, luego 2 mm. Endereza las aletas.',
+          'Подогните заднюю кромку на 1–2 мм. Поставьте кили ровно.')),
+      plane.left, plane.right,
+    ],
+  },
+  'crescent-boomerang': {
+    launch: w(
+      'Hold it with the wings vertical. Turn your body and release it sideways at chest height.',
+      'Sujétalo con las alas en vertical. Gira el cuerpo y suéltalo de lado a la altura del pecho.',
+      'Держите модель крыльями вертикально. Повернитесь и отпустите её вбок на уровне груди.',
+    ),
+    trim: [
+      row(w('Does not come back', 'No vuelve', 'Не возвращается'),
+        w('Bend both back edges up. More bend, smaller circle.',
+          'Levanta los dos bordes traseros. Más curva, círculo más pequeño.',
+          'Отогните обе задние кромки. Сильнее изгиб — меньше круг.')),
+      row(w('Dives into the floor', 'Se clava en el suelo', 'Врезается в пол'),
+        w('Flatten the wings, then bend the back edges up a little more.',
+          'Aplana las alas y levanta un poco más los bordes traseros.',
+          'Выпрямите крылья и чуть сильнее отогните задние кромки.')),
+      plane.roll,
+    ],
+  },
+  'sky-king': {
+    launch: w(
+      'Practise with a gentle, level push. For time, throw hard nearly straight up.',
+      'Practica con un empujón suave y a nivel. Para buscar tiempo, lánzalo fuerte casi en vertical.',
+      'Тренируйтесь мягким ровным запуском. На время бросайте сильно почти вертикально.',
+    ),
+    trim: [
+      row(w('Dives', 'Cae en picado', 'Пикирует'),
+        w('Curl both back edges up a little.',
+          'Levanta un poco los dos bordes traseros.',
+          'Чуть подогните обе задние кромки вверх.')),
+      row(w('Climbs, stalls and drops', 'Sube, se frena y cae', 'Задирает нос и падает'),
+        w('Flatten the back edges a little.',
+          'Aplana un poco los bordes traseros.',
+          'Немного выпрямите задние кромки.')),
+      plane.left, plane.right,
     ],
   },
   monarch: { launch: butterflyLaunch, trim: butterflyTrim },

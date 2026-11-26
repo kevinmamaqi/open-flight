@@ -3,7 +3,7 @@ import { mkdtempSync, rmSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 import test from 'node:test'
-import { makePlane, planeGuide, planePdf, planeSource, planeSvg } from '../packages/planes/index.ts'
+import { makePlane, planeCatalog, planeGuide, planePdf, planeSource, planeSvg } from '../packages/planes/index.ts'
 import { Fault } from '../packages/product-core/contracts.ts'
 import { Workspace } from '../packages/product-core/workspace.ts'
 
@@ -19,7 +19,7 @@ test('read-only airplane settings round-trip, reproduce the chosen outputs and l
   )
   const before = countRecords()
   const catalog = workspace.call('listAirplanes')
-  assert.equal(catalog.items.length, 4)
+  assert.equal(catalog.items.length, planeCatalog.length)
   for (const model of catalog.items) {
     const baseline = workspace.call('planAirplane', { settings: { model_id: model.model_id }, output: 'source_json' })
     const source = JSON.parse(baseline.output.content)
@@ -28,7 +28,8 @@ test('read-only airplane settings round-trip, reproduce the chosen outputs and l
     assert.equal(source.winglet_mm, model.winglet_mm)
     assert.equal(source.paper, 'A4')
     assert.equal(source.livery, 'heritage')
-    const settings = { ...source, paper: 'US_LETTER', keel_mm: 28, winglet_mm: 0, livery: 'pencil' }
+    // The deepest body and the flattest tips each model allows.
+    const settings = { ...source, paper: 'US_LETTER', keel_mm: (model.keel_range ?? [12, 28])[1], winglet_mm: (model.winglet_range ?? [0, 12])[0], livery: 'pencil' }
     const plan = makePlane(settings, 'ru')
     const expected = {
       plan: JSON.stringify(plan), guide: planeGuide(plan), svg: planeSvg(plan),
@@ -45,6 +46,8 @@ test('read-only airplane settings round-trip, reproduce the chosen outputs and l
     { model_id: 'unknown' }, { model_id: 'boeing-747', keel_mm: 12.5 },
     { model_id: 'boeing-747', winglet_mm: 13 }, { model_id: 'boeing-747', revision: 'future' },
     { model_id: 'boeing-747', custom_fold: 10 },
+    // A record plane keeps its own range: the Needle has no fins.
+    { model_id: 'red-dart', winglet_mm: 4 }, { model_id: 'sky-king', keel_mm: 28 },
   ]
   for (const settings of badSettings) {
     assert.throws(() => workspace.call('planAirplane', { settings }),

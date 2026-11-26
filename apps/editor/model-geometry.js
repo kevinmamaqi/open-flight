@@ -70,6 +70,25 @@ export function costaModel(plan, api) {
   }
 }
 
+// K3: swept wings above a tapered keel, the clips pushed onto the head. Faces come from the
+// printed geometry (k3Faces), textured with the flat sheet.
+export function dartModel(plan, api) {
+  const { k3Faces, k3Preview, k3PreviewBox, makeK3 } = api
+  const box = k3PreviewBox(plan)
+  const { faces, clips } = k3Faces(plan)
+  const uv = ([x, y]) => [0.5 + x / box.width, 1 - (y - box.top + 3) / box.height]
+  const sized = (svg) =>
+    svg.replace('<svg ', `<svg width="${Math.round(box.width * 7)}" height="${Math.round(box.height * 7)}" `)
+  return {
+    world: {
+      faces: faces.map((face) => ({ flat: face.flat, points: face.points, uv: face.flat.map(uv), image: 'keel' })),
+      lines: clips.map((points) => ({ points })),
+    },
+    svg: sized(k3Preview(plan)),
+    inkSvg: sized(k3Preview(makeK3({ species: plan.species, span_mm: plan.span_mm, appearance_id: 'coloring' }))),
+  }
+}
+
 export function planeModel(id, appearance, paper = 'A4') {
   const plan = makePlane({ model_id: id, livery: appearance, paper })
   const frame = plan.steps.at(-1).frame

@@ -1,6 +1,6 @@
 # Open Flight
 
-All ten models have a color picker, a rotatable 3D view, an illustrated flight and a printable pattern. New Flight Books feature the long-headed K2 butterflies. The ring, spinner and tandem can each appear on the cover. [Explore the models](https://openflight.design/designs/)
+All fourteen models (three butterflies, eight airplanes and three flying objects) have a color picker, a rotatable 3D view, an illustrated flight and a printable pattern. The butterflies now use the K3 dart fold: swept wings, a doubled front edge and a folded body. The ring, spinner and tandem can each appear on the cover. [Explore the models](https://openflight.design/designs/)
 
 Make a paper glider with a child or a classroom, then change one fold and see where it lands. The free workshop runs in your browser. You can save a butterfly design on your device, download its editable source, or start with plain paper and a folding guide. [Open the workshop](https://openflight.design/?lang=en) · [По-русски](README.ru.md) · [Español](README.es.md)
 
@@ -24,7 +24,7 @@ The butterfly studio offers tabbed wings and a folded body on the same worktable
 | Original tabbed Monarch, blue morpho or swallowtail | A printed sheet, scissors and a small blunt paper clip | Wingspan, colors and two independent back tabs. Follow the cut outline, raise the wings and compare the landing marks. |
 | A Boeing 747, Douglas DC-3, Tupolev Tu-144 or Ilyushin Il-62 inspired airplane | One whole sheet of A4 or US Letter paper | Choose a body fold, wingtip height and livery. Follow the illustrated stages. A printer is optional. |
 
-The three butterflies draw on photographs of real species. The four airplane patterns are original interpretations of civil aircraft, with illustrated guides linking a full-size feature to the paper fold. The 3D flight view and three-gate circuit illustrate predictions you can compare with an actual launch. Each starter sheet includes a calibration ruler. Print at actual size and measure the 50 mm line on every sheet. [Field references](https://openflight.design/references?lang=en) · [78 PDF editions and three offline lessons](docs/library/) · [Family lesson](guides/paper-flight-lesson.md) · [Version 0.9.3](https://github.com/kevinmamaqi/open-flight/releases/tag/v0.9.3)
+The three butterflies draw on photographs of real species. Four airplane patterns are original interpretations of civil aircraft, with illustrated guides linking a full-size feature to the paper fold. Four more are Open Flight versions of championship and record planes, each crediting its original designer. The 3D flight view and three-gate circuit illustrate predictions you can compare with an actual launch. Each starter sheet includes a calibration ruler. Print at actual size and measure the 50 mm line on every sheet. [Field references](https://openflight.design/references?lang=en) · [120 PDF editions and three offline lessons](docs/library/) · [Family lesson](guides/paper-flight-lesson.md) · [Version 0.9.3](https://github.com/kevinmamaqi/open-flight/releases/tag/v0.9.3)
 
 [![The Open Flight paper workshop with an orange Monarch on the worktable](apps/editor/assets/atlas/workshop-preview-en.png)](https://openflight.design/)
 

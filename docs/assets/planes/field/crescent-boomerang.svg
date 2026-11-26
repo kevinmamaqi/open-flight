@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 470 210" role="img">
+<title>Crescent Boomerang</title>
+<metadata>Original Open Flight illustration · CC BY-SA 4.0 · https://creativecommons.org/licenses/by-sa/4.0/ · Paper plane design: designer not established</metadata>
+<rect width="470" height="210" fill="#dfe3f6"/>
+<circle cx="396" cy="56" r="36" fill="#fff"/><circle cx="396" cy="56" r="36" fill="#dfe3f6" opacity=".5"/>
+<path fill="#3b4fb8" opacity=".1" d="M14 194q210-22 442-2v18H14z"/>
+<ellipse cx="236" cy="112" rx="168" ry="62" fill="none" stroke="#f29c38" stroke-width="3" stroke-dasharray="5 9" stroke-linecap="round"/>
+<path fill="#f29c38" d="M392 136l14-10-4 17z"/>
+<g stroke="#1c2459" stroke-width="2.2" stroke-linejoin="round">
+<path fill="#eef0fb" d="M70 140l12-46 52 6-30 46z"/>
+<path fill="#3b4fb8" d="M70 140l38-8 26-32z"/>
+<path fill="#2aa198" d="M104 146l-4-22 30-2z"/>
+<path fill="#f29c38" stroke="none" d="M84 113l26 2-6 7-24-1z"/>
+</g>
+<g stroke="#3d2f22" stroke-width="2.2" stroke-linejoin="round" fill="#f1d3b6">
+<path d="M300 158q20-14 40-10l18 12-10 10-26-6-18 8z"/>
+<path fill="none" d="M318 150l4-10m10 10 4-12m10 14 4-10"/>
+</g>
+</svg>

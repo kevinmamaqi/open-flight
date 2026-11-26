@@ -174,7 +174,7 @@ function frontMatter(book, plan, regular, bold, display, art, artPaths, originAr
   image(book.coverModel, left + 3, heroTop, heroWidth);
   const heroBottom = heroTop + (heroWidth * 5) / 8;
   doc.setFillColor(wash).rect(left + 3, heroBottom, heroWidth, 12, "F");
-  const heroLabel = sheetName(book.coverModel, lang) + (book.coverModel.endsWith('-k2') ? '  ·  K2' : '');
+  const heroLabel = sheetName(book.coverModel, lang) + (/-k[23]$/.test(book.coverModel) ? '  ·  ' + book.coverModel.slice(-2).toUpperCase() : '');
   text(heroLabel, left + 6, heroBottom + 8, 14, { weight: "display" });
   const fleet = [...sheets, ...(book.activities ?? [])].filter(id => id !== book.coverModel);
   const rows = Math.ceil(fleet.length / 5);

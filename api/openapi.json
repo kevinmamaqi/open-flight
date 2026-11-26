@@ -2310,6 +2310,99 @@
         }
       }
     },
+    "/v1/butterflies/dart/plan": {
+      "post": {
+        "operationId": "planDartButterfly",
+        "summary": "Build the K3 dart butterfly",
+        "description": "Render the K3 dart butterfly, the current folded butterfly: swept wings, a head with antennae and a tapered folded body. Return the build plan with model estimates, the cut sheet SVG, the finished top-view SVG, or the three-page PDF (cut sheet, back face, guide). PDF content is base64. Every number is a model estimate; no K3 flight has been recorded.",
+        "x-contract-status": "implemented_local_experimental",
+        "x-required-scopes": [
+          "openflight:designs:read"
+        ],
+        "x-mcp-access": "tool",
+        "x-success-schema": "DartButterflyResult",
+        "x-mutation": false,
+        "parameters": [],
+        "security": [
+          {
+            "UserToken": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Build the K3 dart butterfly",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DartButterflyResult"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Authentication required",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Insufficient scope or access",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Rate or quota limit",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Unexpected failure",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        },
+        "x-mcp-tool": "openflight_plan_dart_butterfly",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DartButterflyRequest"
+              }
+            }
+          }
+        }
+      }
+    },
     "/v1/books/render": {
       "post": {
         "operationId": "renderFamilyBook",
@@ -3603,11 +3696,12 @@
                 "renderFamilyBook",
                 "printAndPlay",
                 "getMotorLab",
-                "getFlightObjects"
+                "getFlightObjects",
+                "planDartButterfly"
               ]
             },
             "uniqueItems": true,
-            "maxItems": 25
+            "maxItems": 26
           },
           "transports": {
             "type": "array",
@@ -4125,7 +4219,11 @@
           "boeing-747",
           "douglas-dc3",
           "tupolev-tu144",
-          "ilyushin-il62"
+          "ilyushin-il62",
+          "red-dart",
+          "shaheen-shin",
+          "crescent-boomerang",
+          "sky-king"
         ]
       },
       "AirplanePaper": {
@@ -4190,15 +4288,15 @@
           },
           "keel_mm": {
             "type": "integer",
-            "minimum": 12,
-            "maximum": 28,
-            "description": "Body keel depth from the center fold, in millimetres."
+            "minimum": 8,
+            "maximum": 30,
+            "description": "Body keel depth from the center fold, in millimetres. Each model allows its own range (keel_range in the catalog; 12–28 by default)."
           },
           "winglet_mm": {
             "type": "integer",
             "minimum": 0,
-            "maximum": 12,
-            "description": "Upturned wingtip width in millimetres. Zero leaves the tips flat."
+            "maximum": 20,
+            "description": "Upturned wingtip or fin width in millimetres. Zero leaves the tips flat. Each model allows its own range (winglet_range in the catalog; 0–12 by default)."
           },
           "livery": {
             "$ref": "#/components/schemas/AirplaneLivery"
@@ -4236,15 +4334,15 @@
           },
           "keel_mm": {
             "type": "integer",
-            "minimum": 12,
-            "maximum": 28,
-            "description": "Body keel depth from the center fold, in millimetres."
+            "minimum": 8,
+            "maximum": 30,
+            "description": "Body keel depth from the center fold, in millimetres. Each model allows its own range (keel_range in the catalog; 12–28 by default)."
           },
           "winglet_mm": {
             "type": "integer",
             "minimum": 0,
-            "maximum": 12,
-            "description": "Upturned wingtip width in millimetres. Zero leaves the tips flat."
+            "maximum": 20,
+            "description": "Upturned wingtip or fin width in millimetres. Zero leaves the tips flat. Each model allows its own range (winglet_range in the catalog; 0–12 by default)."
           },
           "livery": {
             "$ref": "#/components/schemas/AirplaneLivery"
@@ -4324,15 +4422,15 @@
           },
           "keel_mm": {
             "type": "integer",
-            "minimum": 12,
-            "maximum": 28,
-            "description": "Body keel depth from the center fold, in millimetres."
+            "minimum": 8,
+            "maximum": 30,
+            "description": "Body keel depth from the center fold, in millimetres. Each model allows its own range (keel_range in the catalog; 12–28 by default)."
           },
           "winglet_mm": {
             "type": "integer",
             "minimum": 0,
-            "maximum": 12,
-            "description": "Upturned wingtip width in millimetres. Zero leaves the tips flat."
+            "maximum": 20,
+            "description": "Upturned wingtip or fin width in millimetres. Zero leaves the tips flat. Each model allows its own range (winglet_range in the catalog; 0–12 by default)."
           },
           "code": {
             "type": "string"
@@ -4351,6 +4449,38 @@
           },
           "field": {
             "$ref": "#/components/schemas/AirplaneCatalogField"
+          },
+          "keel_range": {
+            "type": "array",
+            "items": {
+              "type": "integer"
+            },
+            "minItems": 2,
+            "maxItems": 2,
+            "description": "Allowed keel_mm for this model, [minimum, maximum]. Omitted: 12–28."
+          },
+          "winglet_range": {
+            "type": "array",
+            "items": {
+              "type": "integer"
+            },
+            "minItems": 2,
+            "maxItems": 2,
+            "description": "Allowed winglet_mm for this model, [minimum, maximum]. Omitted: 0–12."
+          },
+          "record": {
+            "type": "boolean",
+            "description": "An Open Flight version of a record or championship plane by another designer."
+          },
+          "original": {
+            "type": "string",
+            "description": "The original design's own name, for a record plane."
+          },
+          "designer": {
+            "$ref": "#/components/schemas/AirplaneTranslatedText"
+          },
+          "launch": {
+            "$ref": "#/components/schemas/AirplaneTranslatedText"
           }
         },
         "required": [
@@ -5719,7 +5849,10 @@
                 "ilyushin-il62",
                 "monarch-k2",
                 "morpho-k2",
-                "swallowtail-k2"
+                "swallowtail-k2",
+                "monarch-k3",
+                "morpho-k3",
+                "swallowtail-k3"
               ]
             },
             "uniqueItems": true,
@@ -5752,6 +5885,9 @@
               "monarch-k2",
               "morpho-k2",
               "swallowtail-k2",
+              "monarch-k3",
+              "morpho-k3",
+              "swallowtail-k3",
               "ring",
               "samara",
               "tandem"
@@ -5963,7 +6099,10 @@
                     "ilyushin-il62",
                     "monarch-k2",
                     "morpho-k2",
-                    "swallowtail-k2"
+                    "swallowtail-k2",
+                    "monarch-k3",
+                    "morpho-k3",
+                    "swallowtail-k3"
                   ]
                 },
                 "uniqueItems": true,
@@ -5996,6 +6135,9 @@
                   "monarch-k2",
                   "morpho-k2",
                   "swallowtail-k2",
+                  "monarch-k3",
+                  "morpho-k3",
+                  "swallowtail-k3",
                   "ring",
                   "samara",
                   "tandem"
@@ -6132,7 +6274,10 @@
                     "ilyushin-il62",
                     "monarch-k2",
                     "morpho-k2",
-                    "swallowtail-k2"
+                    "swallowtail-k2",
+                    "monarch-k3",
+                    "morpho-k3",
+                    "swallowtail-k3"
                   ]
                 },
                 "path": {
@@ -6255,7 +6400,10 @@
                     "ilyushin-il62",
                     "monarch-k2",
                     "morpho-k2",
-                    "swallowtail-k2"
+                    "swallowtail-k2",
+                    "monarch-k3",
+                    "morpho-k3",
+                    "swallowtail-k3"
                   ]
                 },
                 "field_note": {
@@ -6516,7 +6664,10 @@
                         "ilyushin-il62",
                         "monarch-k2",
                         "morpho-k2",
-                        "swallowtail-k2"
+                        "swallowtail-k2",
+                        "monarch-k3",
+                        "morpho-k3",
+                        "swallowtail-k3"
                       ]
                     },
                     "pages": {
@@ -7262,6 +7413,269 @@
           "designs",
           "static_path",
           "booklet_hash"
+        ]
+      },
+      "DartButterflySettings": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "species": {
+            "$ref": "#/components/schemas/SpeciesId"
+          },
+          "span_mm": {
+            "type": "integer",
+            "minimum": 150,
+            "maximum": 180,
+            "multipleOf": 2
+          },
+          "appearance_id": {
+            "type": "string",
+            "enum": [
+              "natural",
+              "carnival",
+              "twilight",
+              "coloring"
+            ]
+          },
+          "paper": {
+            "$ref": "#/components/schemas/AirplanePaper"
+          }
+        },
+        "required": []
+      },
+      "DartButterflyOutputFormat": {
+        "type": "string",
+        "enum": [
+          "plan",
+          "svg",
+          "finished_svg",
+          "pdf"
+        ]
+      },
+      "DartButterflyRequest": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "settings": {
+            "$ref": "#/components/schemas/DartButterflySettings"
+          },
+          "locale": {
+            "$ref": "#/components/schemas/AirplaneLocale",
+            "default": "en"
+          },
+          "output": {
+            "$ref": "#/components/schemas/DartButterflyOutputFormat",
+            "default": "plan"
+          }
+        },
+        "required": []
+      },
+      "DartButterflyArtifact": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "format": {
+            "$ref": "#/components/schemas/DartButterflyOutputFormat"
+          },
+          "media_type": {
+            "type": "string",
+            "enum": [
+              "image/svg+xml",
+              "application/pdf",
+              "application/json"
+            ]
+          },
+          "encoding": {
+            "type": "string",
+            "enum": [
+              "utf8",
+              "base64"
+            ]
+          },
+          "byte_length": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "sha256": {
+            "$ref": "#/components/schemas/Sha256"
+          },
+          "content": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "required": [
+          "format",
+          "media_type",
+          "encoding",
+          "byte_length",
+          "sha256",
+          "content"
+        ],
+        "oneOf": [
+          {
+            "properties": {
+              "format": {
+                "const": "plan"
+              },
+              "media_type": {
+                "const": "application/json"
+              },
+              "encoding": {
+                "const": "utf8"
+              }
+            }
+          },
+          {
+            "properties": {
+              "format": {
+                "enum": [
+                  "svg",
+                  "finished_svg"
+                ]
+              },
+              "media_type": {
+                "const": "image/svg+xml"
+              },
+              "encoding": {
+                "const": "utf8"
+              }
+            }
+          },
+          {
+            "properties": {
+              "format": {
+                "const": "pdf"
+              },
+              "media_type": {
+                "const": "application/pdf"
+              },
+              "encoding": {
+                "const": "base64"
+              }
+            }
+          }
+        ]
+      },
+      "DartButterflyResult": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "settings": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "species": {
+                "$ref": "#/components/schemas/SpeciesId"
+              },
+              "span_mm": {
+                "type": "integer",
+                "minimum": 150,
+                "maximum": 180,
+                "multipleOf": 2
+              },
+              "appearance_id": {
+                "type": "string",
+                "enum": [
+                  "natural",
+                  "carnival",
+                  "twilight",
+                  "coloring"
+                ]
+              },
+              "paper": {
+                "$ref": "#/components/schemas/AirplanePaper"
+              }
+            },
+            "required": [
+              "species",
+              "span_mm",
+              "appearance_id",
+              "paper"
+            ]
+          },
+          "revision": {
+            "const": "k3"
+          },
+          "design_revision": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{10}$"
+          },
+          "locale": {
+            "$ref": "#/components/schemas/AirplaneLocale"
+          },
+          "evidence_state": {
+            "const": "concept"
+          },
+          "estimate": {
+            "type": "object",
+            "description": "First-order model estimates for 120 g/m² paper; no K3 flight has been recorded.",
+            "additionalProperties": false,
+            "properties": {
+              "span_mm": {
+                "type": "number"
+              },
+              "sweep_deg": {
+                "type": "number"
+              },
+              "area_cm2": {
+                "type": "number"
+              },
+              "keel_depth_mm": {
+                "type": "number"
+              },
+              "keel_tail_mm": {
+                "type": "number"
+              },
+              "dihedral_deg": {
+                "type": "number"
+              },
+              "tip_height_mm": {
+                "type": "number"
+              },
+              "balance_from_head_mm": {
+                "type": "number"
+              },
+              "paper_g": {
+                "type": "number"
+              },
+              "static_margin_two_clips": {
+                "type": "number"
+              },
+              "static_margin_one_clip": {
+                "type": "number"
+              },
+              "glide_speed_m_s": {
+                "type": "number"
+              }
+            },
+            "required": [
+              "span_mm",
+              "sweep_deg",
+              "area_cm2",
+              "keel_depth_mm",
+              "keel_tail_mm",
+              "dihedral_deg",
+              "tip_height_mm",
+              "balance_from_head_mm",
+              "paper_g",
+              "static_margin_two_clips",
+              "static_margin_one_clip",
+              "glide_speed_m_s"
+            ]
+          },
+          "output": {
+            "$ref": "#/components/schemas/DartButterflyArtifact"
+          }
+        },
+        "required": [
+          "settings",
+          "revision",
+          "design_revision",
+          "locale",
+          "evidence_state",
+          "estimate",
+          "output"
         ]
       }
     }

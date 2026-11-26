@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 470 210" role="img">
+<title>Sky King</title>
+<metadata>Original Open Flight illustration · CC BY-SA 4.0 · https://creativecommons.org/licenses/by-sa/4.0/ · Paper plane design by Takuo Toda</metadata>
+<rect width="470" height="210" fill="#f6dfe3"/>
+<circle cx="380" cy="60" r="42" fill="#fff"/><circle cx="380" cy="60" r="42" fill="#f6dfe3" opacity=".5"/>
+<path fill="#fff" opacity=".5" d="M10 166q90-22 210-2t240-4v5q-150 22-240 4T10 173z"/>
+<path fill="#7c2338" opacity=".1" d="M14 194q210-22 442-2v18H14z"/>
+<path fill="none" stroke="#2b6cb0" stroke-width="3" stroke-dasharray="4 8" stroke-linecap="round" d="M40 40q60 10 110 50"/>
+<g stroke="#3a1420" stroke-width="2.2" stroke-linejoin="round">
+<path fill="#fbeef0" d="M150 96l12-10 170 44-60 30z"/>
+<path fill="#d33d5b" d="M150 96l12-10 30 8-28 16z"/>
+<path fill="#f2b134" stroke="none" d="M200 104l60 14-10 6-58-13zM236 126l60 10-12 8-56-10z"/>
+<path fill="#2b6cb0" d="M272 160l60-30 8-26-4 36z"/>
+<path fill="#e7c1c9" d="M300 146l26-12 6-34-6 30z"/>
+<path fill="#fff6f7" d="M150 96l-4 14 18 4 -2-14z"/>
+</g>
+</svg>

@@ -1,4 +1,4 @@
-import { k2Facts } from './assets/atlas/k2-facts.js'
+import { k3Facts } from './assets/atlas/k3-facts.js'
 import { appearanceArtPath } from './model-appearance.js'
 import { objects } from './assets/objects/activities.js'
 import { flightPhysics } from './atlas-physics.js'
@@ -29,9 +29,9 @@ const copy = {
   butterfly: w('Cut and fold', 'Recortar y plegar', 'Вырезать и сложить'),
   plane: w('Fold a whole sheet', 'Plegar una hoja entera', 'Сложить целый лист'),
   butterflyTools: w(
-    '120 g/m² paper, scissors, ruler and two 33 mm clips',
-    'Papel de 120 g/m², tijeras, regla y dos clips de 33 mm',
-    'Бумага 120 г/м², ножницы, линейка и две скрепки по 33 мм',
+    '120 g/m² paper, scissors, ruler, two 33 mm clips and a glue stick',
+    'Papel de 120 g/m², tijeras, regla, dos clips de 33 mm y pegamento de barra',
+    'Бумага 120 г/м², ножницы, линейка, две скрепки по 33 мм и клей-карандаш',
   ),
   planeTools: w(
     'One rectangular sheet and a ruler. You can start with plain paper.',
@@ -84,11 +84,11 @@ export function fieldModel(id, locale = 'en') {
       materials: t(copy.butterflyTools),
       shape: t(shapes[id]) + ' ' + flightPhysics(id, locale),
       experiment: t(copy.wingTrial),
-      image: './' + appearanceArtPath(id+'-k2'),
+      image: './' + appearanceArtPath(id+'-k3'),
       settings: metrics([
-        ['span', k2Facts[id].span, 'mm'],
-        ['rootAngle', b.rootAngle, '°'],
-        ['tip', k2Facts[id].tip, 'mm'],
+        ['span', k3Facts[id].span, 'mm'],
+        ['rootAngle', k3Facts[id].angle, '°'],
+        ['tip', k3Facts[id].tip, 'mm'],
       ]),
       studio: './costa.html?' + new URLSearchParams({species:id,lang:locale}),
     }

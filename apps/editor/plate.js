@@ -1,7 +1,7 @@
 // A design page is a plate of the book: what it is, how to print it, how it
 // flies, how to make, launch and trim it, why it exists and one experiment.
 // Rendered at build time; plate-page.js adds colours, paper and figure controls.
-import { diagrams, instructions } from './assets/atlas/k2-lessons.js'
+import { diagrams, instructions } from './assets/atlas/k3-lessons.js'
 import { makePlane } from './assets/planes/core.js'
 import { foldSvg } from './assets/planes/guide.js'
 import { flightObjects } from './assets/objects/activities.js'
@@ -13,7 +13,7 @@ import { sheetIdFor, sheetPath } from './family-sheets.js'
 import { appearanceChoices, specimenPath } from './model-appearance.js'
 import { modelOrigin } from './model-origins.js'
 import { escapeHtml as e, publicPath } from './site-navigation.js'
-import { k2Facts } from './assets/atlas/k2-facts.js'
+import { k3Facts } from './assets/atlas/k3-facts.js'
 import { plateWords } from './plate-words.js'
 
 export { plateWords }
@@ -47,7 +47,7 @@ function glanceRows(model, lang, content) {
     return content.glance.map(row => ({ label: row.label[lang], value: row.value[lang], state: row.state }))
   const field = fieldModel(model, lang)
   const rows = [{ label: t('tools', lang), value: field.materials }]
-  if (k2Facts[model]) rows.push({ label: t('span', lang), value: k2Facts[model].span + ' mm' })
+  if (k3Facts[model]) rows.push({ label: t('span', lang), value: k3Facts[model].span + ' mm' })
   for (const setting of field.settings.slice(0, 2)) rows.push({ label: setting.label, value: setting.value + ' ' + setting.unit })
   return rows
 }
@@ -123,12 +123,8 @@ function grownUpsBlock(model, lang, base, content) {
   const paragraphs = flies?.grownUps ?? []
   const lab = family === 'airplane' ? base + studioLink(model, lang).slice(2)
     : family === 'butterfly' ? base + 'costa.html?' + new URLSearchParams({ species: model, lang }) : null
-  const earlier = family === 'butterfly' ? `<h3>${t('earlier', lang)}</h3><p>${t('earlierText', lang)}</p>
-    <ul class="plate-links">
-      <li><a class="text-link" href="${e(base + studioLink(model, lang).slice(2))}">${t('w1', lang)}</a></li>
-      <li><a class="text-link" href="${e(base + 'keel.html?' + new URLSearchParams({ species: model, lang }))}">${t('k1', lang)}</a></li>
-      ${model === 'monarch' ? '<li><a class="text-link" href="' + base + 'trials/monarch-k1-k2-A4-' + lang + '.pdf">' + t('trial', lang) + '</a></li>' : ''}
-    </ul>` : ''
+  // The retired folds are history now: named here, no longer offered as builds.
+  const earlier = family === 'butterfly' ? `<h3>${t('earlier', lang)}</h3><p>${t('earlierText', lang)}</p>` : ''
   const references = content?.references ?? []
   return `<details class="plate-section plate-grownups">
     <summary><h2>${t('grownUps', lang)}</h2></summary>

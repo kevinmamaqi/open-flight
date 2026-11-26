@@ -5,7 +5,7 @@ import { flightCircuit, simulateFlight } from '../../apps/editor/flight-model.js
 import { planeCatalog, sheetSizes, liveries, sheetEdges, revision as planeRevision } from '../planes/index.ts'
 import { motorLab, renderFamilyBook } from './family-publications.ts'
 import { printAndPlay } from './print-and-play.ts'
-import { foldedButterflyPlan } from './folded-butterflies.ts'
+import { dartButterflyPlan, foldedButterflyPlan } from './folded-butterflies.ts'
 import { airplanePlan } from './airplanes.ts'
 import { DatabaseSync } from 'node:sqlite'
 import { mkdirSync } from 'node:fs'
@@ -239,6 +239,8 @@ export class Workspace {
         return { revision: planeRevision, papers: Object.keys(sheetSizes), edges: sheetEdges, liveries, items: planeCatalog }
       case 'planFoldedButterfly':
         return foldedButterflyPlan(a.settings, a.locale, a.output)
+      case 'planDartButterfly':
+        return dartButterflyPlan(a.settings, a.locale, a.output)
       case 'planAirplane':
         return airplanePlan(a.settings, a.locale, a.output)
       case 'getCapabilities':
