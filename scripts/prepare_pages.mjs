@@ -9,9 +9,16 @@ if (output === source || !['index.html', 'book.html', 'library', 'trials'].every
   throw new Error('Run against the published workshop directory and choose a separate output.')
 const aliases = ['book', 'classroom', 'motor', 'planes', 'studio']
 mkdirSync(output, {recursive: true})
+// Drop only each alias's index.html stub. A directory such as book/ also holds the book's
+// JavaScript modules (catalog.js, content.js, ...), which every page imports.
 for (const entry of readdirSync(source, {withFileTypes: true})) {
-  if (entry.name.startsWith('.') || (entry.isDirectory() && aliases.includes(entry.name))) continue
-  cpSync(join(source, entry.name), join(output, entry.name), {recursive: true})
+  if (entry.name.startsWith('.')) continue
+  const alias = entry.isDirectory() && aliases.includes(entry.name)
+  if (alias && readdirSync(join(source, entry.name)).every(name => name === 'index.html')) continue
+  cpSync(join(source, entry.name), join(output, entry.name), {
+    recursive: true,
+    filter: path => !(alias && path === join(source, entry.name, 'index.html')),
+  })
 }
 const redirects = aliases.map(name => '/' + name + '/ /' + name + ' 301')
 writeFileSync(join(output, '_redirects'), redirects.join('\n') + '\n')
