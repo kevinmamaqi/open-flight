@@ -25,7 +25,6 @@ function designCard(plate, lang, base) {
       <span class="design-name">${e(name)}</span>
       <span class="design-meta">${e(plate.kind[lang])}</span>
       <span class="design-meta">${e(pages)} · ${e(toolWords(plate, lang))}</span>
-      <span class="design-meta design-evidence">${e(plate.evidence[lang])}</span>
       <span class="design-state"><span aria-hidden="true">✓ </span>${printCopy.selected[lang]}</span>
     </button></li>`
 }

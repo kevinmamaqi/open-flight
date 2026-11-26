@@ -85,6 +85,166 @@
   object-fit: contain;
   filter: drop-shadow(0 var(--space-2) var(--space-2) color-mix(in srgb, var(--color-text) 15%, transparent));
 }
+/* The 3D model takes the poster's place once it has drawn. */
+.plate-specimen {
+  position: relative;
+}
+.plate-specimen[data-turntable='ready'] .plate-poster {
+  display: none;
+}
+.plate-model {
+  width: 100%;
+  border-radius: var(--radius-sm);
+  cursor: grab;
+  touch-action: pan-y;
+  user-select: none;
+}
+.plate-model[hidden] {
+  display: none;
+}
+.plate-model.is-dragging {
+  cursor: grabbing;
+}
+.plate-model:focus-visible {
+  outline: var(--line-focus) solid var(--color-focus);
+  outline-offset: var(--space-1);
+}
+.plate-model canvas {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 900 / 560;
+}
+/* The view gizmo: an orbit ring with Front, Top and Side, top right. */
+.plate-gizmo {
+  position: absolute;
+  inset-inline-end: var(--space-2);
+  inset-block-start: var(--space-2);
+  line-height: 0;
+  touch-action: none;
+  user-select: none;
+  cursor: grab;
+}
+.plate-gizmo.is-dragging {
+  cursor: grabbing;
+}
+.plate-gizmo[hidden] {
+  display: none;
+}
+.plate-gizmo svg {
+  display: block;
+  overflow: visible;
+}
+.gizmo-disc {
+  fill: color-mix(in srgb, var(--color-surface) 78%, transparent);
+  stroke: var(--color-rule);
+  stroke-width: 1;
+}
+.gizmo-ring {
+  fill: none;
+  stroke: var(--color-text-muted);
+  stroke-width: 1.25;
+  stroke-dasharray: 3 3;
+}
+.gizmo-axis {
+  stroke-width: 2;
+  stroke-linecap: round;
+}
+.gizmo-axis.gizmo-front,
+.gizmo-label.gizmo-front .gizmo-pill {
+  stroke: var(--color-brand-kite);
+  fill: var(--color-brand-kite);
+}
+.gizmo-axis.gizmo-top,
+.gizmo-label.gizmo-top .gizmo-pill {
+  stroke: var(--color-selected);
+  fill: var(--color-selected);
+}
+.gizmo-axis.gizmo-side,
+.gizmo-label.gizmo-side .gizmo-pill {
+  stroke: var(--color-brand-ink);
+  fill: var(--color-brand-ink);
+}
+.gizmo-label text {
+  fill: var(--color-selected-text);
+  font-family: var(--font-text);
+  font-size: var(--text-xs);
+  font-weight: var(--weight-bold);
+  pointer-events: none;
+}
+.gizmo-hit {
+  fill: transparent;
+}
+.gizmo-label,
+.gizmo-home {
+  cursor: pointer;
+}
+.gizmo-label.is-behind,
+.gizmo-axis.is-behind {
+  opacity: 0.4;
+}
+.gizmo-dot {
+  fill: var(--color-surface);
+  stroke: var(--color-text);
+  stroke-width: 2;
+}
+.gizmo-home:hover .gizmo-dot {
+  fill: var(--color-text);
+}
+.gizmo-label:hover .gizmo-pill {
+  filter: brightness(1.15);
+}
+.gizmo-label:focus-visible,
+.gizmo-home:focus-visible {
+  outline: var(--line-focus) solid var(--color-focus);
+  outline-offset: var(--space-1);
+}
+.plate-turn-hint {
+  position: absolute;
+  inset-inline-end: var(--space-3);
+  inset-block-end: var(--space-3);
+  padding: var(--space-1) var(--space-3);
+  border: var(--line-hair) solid var(--color-rule);
+  border-radius: var(--radius-round);
+  background: var(--color-surface);
+  color: var(--color-text-muted);
+  font-size: var(--text-sm);
+  pointer-events: none;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+.plate-turn-hint[hidden] {
+  display: none;
+}
+
+/* "At a glance" folds away under the print card. */
+.plate-glance-box summary {
+  cursor: pointer;
+  list-style: none;
+}
+.plate-glance-box summary::-webkit-details-marker {
+  display: none;
+}
+.plate-glance-box summary .plate-panel-title {
+  flex: 1;
+  display: flex;
+  gap: var(--space-3);
+  justify-content: space-between;
+  align-items: center;
+}
+.plate-glance-box summary .plate-panel-title::after {
+  content: '+';
+  font-weight: var(--weight-bold);
+  color: var(--color-text-muted);
+}
+.plate-glance-box[open] summary .plate-panel-title::after {
+  content: '−';
+}
+.plate-glance-box .plate-glance {
+  margin-top: var(--space-2);
+}
+
 .plate-print {
   display: grid;
   gap: var(--space-4);

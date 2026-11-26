@@ -133,7 +133,7 @@ function plateCard(plate, lang, base) {
     <span class="plate-card-art stage-grid"><img src="${base}${e(specimenPath(plate.model))}" alt="" loading="lazy" decoding="async"></span>
     <span class="plate-card-copy"><small>${plate.id}</small><strong>${e(model.name)}</strong>
     <span>${e(plate.lineage[lang])}</span>
-    <span class="plate-badges"><span class="chip">${e(plate.kind[lang])}</span><span class="chip chip-evidence">${e(plate.evidence[lang])}</span></span></span>
+    <span class="plate-badges"><span class="chip">${e(plate.kind[lang])}</span></span></span>
   </a></li>`
 }
 

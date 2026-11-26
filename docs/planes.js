@@ -1,9 +1,9 @@
-import { foldArtwork, showFoldStep } from './fold-lesson.js?v=48cc97ad30d5'
-import { makePlane, planeCatalog, planeSource, sheetSizes, liveries, sheetEdges, revision } from './assets/planes/core.js?v=48cc97ad30d5'
-import { planeSvg, planeSpecimen, esc, stripes } from './assets/planes/drawing.js?v=48cc97ad30d5'
-import { foldSvg, planeGuide } from './assets/planes/guide.js?v=48cc97ad30d5'
-import { planeBrowserPdf } from './assets/planes/print.js?v=48cc97ad30d5'
-import { appearanceChoices } from './model-appearance.js?v=48cc97ad30d5'
+import { foldArtwork, showFoldStep } from './fold-lesson.js?v=efdc141e4945'
+import { makePlane, planeCatalog, planeSource, sheetSizes, liveries, sheetEdges, revision } from './assets/planes/core.js?v=efdc141e4945'
+import { planeSvg, planeSpecimen, esc, stripes } from './assets/planes/drawing.js?v=efdc141e4945'
+import { foldSvg, planeGuide } from './assets/planes/guide.js?v=efdc141e4945'
+import { planeBrowserPdf } from './assets/planes/print.js?v=efdc141e4945'
+import { appearanceChoices } from './model-appearance.js?v=efdc141e4945'
 
 const words = {
   fieldTitle: ['From aircraft to paper', 'От самолёта к бумаге', 'Del avión real al papel'],
@@ -186,10 +186,10 @@ function copyFor(plan) {
       el.textContent = tr(el.dataset.copy)
     })
 }
-import { flightPhysics,physicsTitle } from './atlas-physics.js?v=48cc97ad30d5'
-import { currentLocale, languageSwitch, localizedLinks } from './atlas-nav.js?v=48cc97ad30d5'
-import { studioOrigins, bookColorAction } from './studio-origins.js?v=48cc97ad30d5'
-import { bookFromStudio } from './model-studio.js?v=48cc97ad30d5'
+import { flightPhysics,physicsTitle } from './atlas-physics.js?v=efdc141e4945'
+import { currentLocale, languageSwitch, localizedLinks } from './atlas-nav.js?v=efdc141e4945'
+import { studioOrigins, bookColorAction } from './studio-origins.js?v=efdc141e4945'
+import { bookFromStudio } from './model-studio.js?v=efdc141e4945'
 const $ = (id) => document.getElementById(id)
 const updateAtlas = studioOrigins($('origin-atlas'))
 const params = new URLSearchParams(location.search)
@@ -457,7 +457,7 @@ function renderStep() {
 }
 async function updateViewer() {
   try {
-    loadingViewer ??= import('./flight-viewer.js?v=48cc97ad30d5')
+    loadingViewer ??= import('./flight-viewer.js?v=efdc141e4945')
       .then(({ mountFlightViewer }) => mountFlightViewer($('three')))
       .catch((error) => {
         loadingViewer = undefined

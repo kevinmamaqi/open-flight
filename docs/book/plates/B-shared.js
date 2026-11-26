@@ -1,7 +1,7 @@
 // Blocks shared by the three butterfly plates (B1-B3). Numbers come from the same
 // generated module as the figure, so the plate and the figure cannot disagree.
 // Spanish (tú) and Russian (вы, «язычки» for the tabs) need a native read before release.
-import { butterflyData } from '../figures/butterfly-data.js?v=48cc97ad30d5'
+import { butterflyData } from '../figures/butterfly-data.js?v=efdc141e4945'
 
 export const w = (en, es, ru) => ({ en, es, ru })
 const dec = v => w(v.toFixed(1), v.toFixed(1).replace('.', ','), v.toFixed(1).replace('.', ','))

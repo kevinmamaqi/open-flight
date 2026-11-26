@@ -2,9 +2,9 @@
 // It is drawn from numbers computed from each design's folds (airplane-balance.js), so it differs
 // from design to design. Pure and deterministic: the same input always gives the same bytes.
 // Spanish and Russian labels need a native read before release (Russian uses вы).
-import { color, print } from '../../assets/brand/tokens.js?v=48cc97ad30d5'
-import { planeCatalog } from '../../assets/planes/catalog.js?v=48cc97ad30d5'
-import { airplaneBalance } from './airplane-balance.js?v=48cc97ad30d5'
+import { color, print } from '../../assets/brand/tokens.js?v=efdc141e4945'
+import { planeCatalog } from '../../assets/planes/catalog.js?v=efdc141e4945'
+import { airplaneBalance } from './airplane-balance.js?v=efdc141e4945'
 
 const languages = ['en', 'es', 'ru']
 const paths = ['dives', 'glides', 'swoops']

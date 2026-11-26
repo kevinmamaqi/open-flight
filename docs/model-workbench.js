@@ -1,13 +1,13 @@
-import { specimenPath, appearanceChoices } from './model-appearance.js?v=48cc97ad30d5'
-import { bookFromStudio, studioForBookSheet } from './model-studio.js?v=48cc97ad30d5'
-import { sheetIdFor, sheetPath } from './family-sheets.js?v=48cc97ad30d5'
-import { flightObjects } from './assets/objects/activities.js?v=48cc97ad30d5'
-import { objectIds, coloredPacket } from './assets/objects/appearance.js?v=48cc97ad30d5'
-import { escapeHtml as e } from './site-navigation.js?v=48cc97ad30d5'
+import { specimenPath, appearanceChoices } from './model-appearance.js?v=efdc141e4945'
+import { bookFromStudio, studioForBookSheet } from './model-studio.js?v=efdc141e4945'
+import { sheetIdFor, sheetPath } from './family-sheets.js?v=efdc141e4945'
+import { flightObjects } from './assets/objects/activities.js?v=efdc141e4945'
+import { objectIds, coloredPacket } from './assets/objects/appearance.js?v=efdc141e4945'
+import { escapeHtml as e } from './site-navigation.js?v=efdc141e4945'
 
-import { sketchMarkup, mountSketch } from './model-sketch.js?v=48cc97ad30d5'
-import { studioOrigins } from './studio-origins.js?v=48cc97ad30d5'
-import { k3Facts, k3SpanRange } from './assets/atlas/k3-facts.js?v=48cc97ad30d5'
+import { sketchMarkup, mountSketch } from './model-sketch.js?v=efdc141e4945'
+import { studioOrigins } from './studio-origins.js?v=efdc141e4945'
+import { k3Facts, k3SpanRange } from './assets/atlas/k3-facts.js?v=efdc141e4945'
 
 const benchLabels = {
   en: ['Model', 'Flight path', 'Customize', 'Wingspan', 'Book uses the standard span', 'Build settings'],
@@ -224,8 +224,8 @@ export function mountWorkbench(root) {
     if (!steps.length || !id.includes('-') || lessonPaper === paper.value) return
     const requested = paper.value
     const [{ makePlane }, { foldSvg }] = await Promise.all([
-      import('./assets/planes/core.js?v=48cc97ad30d5'),
-      import('./assets/planes/guide.js?v=48cc97ad30d5'),
+      import('./assets/planes/core.js?v=efdc141e4945'),
+      import('./assets/planes/guide.js?v=efdc141e4945'),
     ])
     if (paper.value !== requested) return
     const plan = makePlane({ model_id: id, paper: requested }, lang)
@@ -269,7 +269,7 @@ export function mountWorkbench(root) {
     const version = ++revision
     mode = 'orbit'
     try {
-      opening ??= import('./model-viewer.js?v=48cc97ad30d5').then(({ createViewer }) =>
+      opening ??= import('./model-viewer.js?v=efdc141e4945').then(({ createViewer }) =>
         createViewer($('.model-canvas'), id, lang, (fraction, active) => {
           slider.value = Math.round(fraction * 100)
           playing(active)
@@ -294,7 +294,7 @@ export function mountWorkbench(root) {
     const version = ++posterRevision
     let url = base + specimenPath(id, paint)
     if (customSpan()) {
-      const api = await import('./browser-workshop.js?v=48cc97ad30d5')
+      const api = await import('./browser-workshop.js?v=efdc141e4945')
       if (version !== posterRevision) return
       const plan = api.makeK3({ species: id, appearance_id: paint, span_mm: +span.value })
       url = 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(api.k3FinishedSvg(plan))
@@ -373,12 +373,12 @@ export function mountWorkbench(root) {
     event.preventDefault()
     status.textContent = t[15]
     try {
-      const { loadAppearanceSheet } = await import('./appearance-sheet-browser.js?v=48cc97ad30d5')
+      const { loadAppearanceSheet } = await import('./appearance-sheet-browser.js?v=efdc141e4945')
       const name =
         [sheet, paint, ...(customSpan() ? [span.value + 'mm'] : []), paper.value, lang].join('-') + '.pdf'
       let bytes
       if (customSpan()) {
-        const api = await import('./browser-workshop.js?v=48cc97ad30d5')
+        const api = await import('./browser-workshop.js?v=efdc141e4945')
         const plan = api.makeK3({
           species: id,
           span_mm: +span.value,

@@ -1,10 +1,10 @@
-import { book, chapterById, chapterLabel, chapters, plateFor, plates } from './book/catalog.js?v=48cc97ad30d5'
-import { fieldModel } from './atlas-guide.js?v=48cc97ad30d5'
-import { specimenPath } from './model-appearance.js?v=48cc97ad30d5'
-import { workshopHome } from './assets/workshop-address.js?v=48cc97ad30d5'
-import { plateMarkup } from './plate.js?v=48cc97ad30d5'
-import { chapterBody as writtenChapter } from './book/render-chapter.js?v=48cc97ad30d5'
-import { breadcrumbs, escapeHtml as e, navHref, pageLabel, publicPath, siteFooter, siteHeader, siteLabels, siteLocales } from './site-navigation.js?v=48cc97ad30d5'
+import { book, chapterById, chapterLabel, chapters, plateFor, plates } from './book/catalog.js?v=efdc141e4945'
+import { fieldModel } from './atlas-guide.js?v=efdc141e4945'
+import { specimenPath } from './model-appearance.js?v=efdc141e4945'
+import { workshopHome } from './assets/workshop-address.js?v=efdc141e4945'
+import { plateMarkup } from './plate.js?v=efdc141e4945'
+import { chapterBody as writtenChapter } from './book/render-chapter.js?v=efdc141e4945'
+import { breadcrumbs, escapeHtml as e, navHref, pageLabel, publicPath, siteFooter, siteHeader, siteLabels, siteLocales } from './site-navigation.js?v=efdc141e4945'
 
 const w = (en, es, ru) => ({ en, es, ru })
 const copy = {
@@ -133,7 +133,7 @@ function plateCard(plate, lang, base) {
     <span class="plate-card-art stage-grid"><img src="${base}${e(specimenPath(plate.model))}" alt="" loading="lazy" decoding="async"></span>
     <span class="plate-card-copy"><small>${plate.id}</small><strong>${e(model.name)}</strong>
     <span>${e(plate.lineage[lang])}</span>
-    <span class="plate-badges"><span class="chip">${e(plate.kind[lang])}</span><span class="chip chip-evidence">${e(plate.evidence[lang])}</span></span></span>
+    <span class="plate-badges"><span class="chip">${e(plate.kind[lang])}</span></span></span>
   </a></li>`
 }
 

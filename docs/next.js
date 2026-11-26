@@ -1,5 +1,5 @@
-import { motorRoadmap } from './atlas-roadmap.js?v=48cc97ad30d5'
-import { currentLocale, homeURL, localizedLinks } from './atlas-nav.js?v=48cc97ad30d5'
+import { motorRoadmap } from './atlas-roadmap.js?v=efdc141e4945'
+import { currentLocale, homeURL, localizedLinks } from './atlas-nav.js?v=efdc141e4945'
 const lang = currentLocale(),
   i = { en: 0, es: 1, ru: 2 }[lang],
   t = (...v) => v[i],

@@ -42,9 +42,17 @@ function steps(model, lang) {
   return objectActivity(model, lang).steps.map(action => ({ action }))
 }
 
+// The website shows design facts without testing-status labels: rows that only
+// say nothing is recorded yet are left out, and "untested" endings are trimmed.
+// The book and PDFs keep their evidence labels.
+const untested = /untested|sin probar|не испытан/i
+const plainValue = value => value.split(' · ').filter(part => !untested.test(part)).join(' · ')
+
 function glanceRows(model, lang, content) {
   if (content?.glance?.length)
-    return content.glance.map(row => ({ label: row.label[lang], value: row.value[lang], state: row.state }))
+    return content.glance
+      .filter(row => row.state !== 'not-yet-measured')
+      .map(row => ({ label: row.label[lang], value: plainValue(row.value[lang]) }))
   const field = fieldModel(model, lang)
   const rows = [{ label: t('tools', lang), value: field.materials }]
   if (k3Facts[model]) rows.push({ label: t('span', lang), value: k3Facts[model].span + ' mm' })
@@ -156,11 +164,11 @@ export function plateMarkup(model, lang, base) {
     <p class="eyebrow">${t('plate', lang)} ${plate.id} · <a href="${e(base + publicPath(chapter.route, lang))}">${t('chapter', lang)} ${chapter.n}</a></p>
     <h1>${e(title)}</h1>
     <p class="plate-lineage">${e(plate.lineage[lang])}</p>
-    <p class="plate-badges"><span class="chip">${e(plate.kind[lang])}</span><span class="chip chip-evidence">${e(plate.evidence[lang])}</span></p>
+    <p class="plate-badges"><span class="chip">${e(plate.kind[lang])}</span></p>
     <a class="button primary plate-quick-print" data-print href="${e(print)}">${t('print', lang)}</a>
   </header>
   <div class="plate-hero">
-    <figure class="plate-specimen stage-grid"><img class="plate-poster" src="${e(base + specimenPath(model))}" alt="${e(title)}" fetchpriority="high"></figure>
+    <figure class="plate-specimen stage-grid"><img class="plate-poster" src="${e(base + specimenPath(model))}" alt="${e(title)}" fetchpriority="high"><div class="plate-model" data-plate-model hidden tabindex="0" aria-label="${e(title)} · ${t('turnLabel', lang)}"></div><div class="plate-gizmo" data-gizmo hidden></div><span class="plate-turn-hint" aria-hidden="true" hidden><svg viewBox="0 0 24 24" width="18" height="18"><ellipse cx="12" cy="12" rx="9" ry="4" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M17.5 6.6l3 1.6-2.4 2.3" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>${t('turn', lang)}</span></figure>
     <section class="plate-print panel" aria-label="${t('print', lang)}">
       ${choices.length > 1 ? `<fieldset class="model-palette"><legend>${t('colors', lang)}</legend><div class="paint-grid">${choices.map(({ id, label, colors }, i) => `<button type="button" data-paint="${e(id)}" aria-pressed="${i === 0}"><span class="palette-chip" aria-hidden="true" style="background:linear-gradient(120deg,${colors[0]} 48%,${colors[1]} 48% 76%,${colors[2]} 76%)"></span>${e(label)}</button>`).join('')}</div></fieldset>` : ''}
       <label class="plate-paper">${t('paper', lang)}<select class="size"><option value="A4">A4</option><option value="US_LETTER">${t('letter', lang)}</option></select></label>
@@ -168,8 +176,10 @@ export function plateMarkup(model, lang, base) {
       <p class="print-reminder" data-print-reminder></p>
       <p class="plate-add"><a class="text-link" data-add-print href="${e(base + publicPath('print', lang) + '#add=' + plate.id)}">+ ${t('add', lang)}</a></p>
       <span class="stage-status" role="status"></span>
-      <h2 class="plate-panel-title">${t('glance', lang)}</h2>
-      <dl class="plate-glance">${glanceRows(model, lang, content).map(row => '<div><dt>' + e(row.label) + '</dt><dd>' + e(row.value) + evidenceChip(row.state, lang) + '</dd></div>').join('')}</dl>
+      <details class="plate-glance-box">
+        <summary><h2 class="plate-panel-title">${t('glance', lang)}</h2></summary>
+        <dl class="plate-glance">${glanceRows(model, lang, content).map(row => '<div><dt>' + e(row.label) + '</dt><dd>' + e(row.value) + '</dd></div>').join('')}</dl>
+      </details>
     </section>
   </div>
   <section class="plate-section plate-flight" aria-labelledby="flight-title">

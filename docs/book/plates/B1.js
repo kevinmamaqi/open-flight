@@ -1,5 +1,5 @@
 // Plate B1, Monarch. Spanish and Russian need a native read before release.
-import { butterflyFlight, butterflyGlance, butterflyReferences, w } from './B-shared.js?v=48cc97ad30d5'
+import { butterflyFlight, butterflyGlance, butterflyReferences, w } from './B-shared.js?v=efdc141e4945'
 
 export default {
   id: 'B1', model: 'monarch',
