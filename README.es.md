@@ -1,39 +1,35 @@
-# Open Flight · Taller de vuelo en papel
+# Open Flight
 
-Los catorce modelos (tres mariposas, ocho aviones y tres objetos voladores) tienen selector de colores, vista 3D giratoria, ilustración del vuelo y plantilla para imprimir. Las mariposas usan ahora el pliegue dardo K3: alas inclinadas hacia atrás, borde delantero doble y cuerpo plegado. Cuatro de los aviones son versiones de Open Flight de aviones de campeonato y de récord, con el nombre de su diseñador original. El anillo, la semilla o el tándem pueden aparecer en la portada. [Explora los modelos](https://openflight.design/es/designs/)
+*Una hoja* es un libro sobre el vuelo en papel, y [openflight.design](https://openflight.design/es) es su edición digital gratuita. Está pensado para lectores de 8 a 12 años y para las personas adultas que construyen con ellos. Está disponible en español, [inglés](README.md) y [ruso](README.ru.md).
 
-Elige un planeador de papel, cambia un doblez y observa dónde aterriza. El taller es gratuito y funciona en el navegador. Está pensado para niñas y niños de 5 a 12 años, sus familias y sus docentes. Puedes guardar tus diseños en el dispositivo y descargar hojas para imprimir y guías ilustradas. [Abrir el taller en español](https://openflight.design/es) · [English](README.md) · [По-русски](README.ru.md)
+Catorce modelos parten de una sola hoja de papel:
 
-Si guardaste un diseño o un borrador del libro antes del cambio a openflight.design, puedes recuperarlo en el taller anterior desde el mismo navegador. También encontrarás el enlace al pie del taller. [Abrir el taller anterior](https://kevinmamaqi.github.io/open-flight/es.html?previous=1)
+- Ocho aviones. Cuatro llevan el nombre de aviones reales y cuatro son versiones Open Flight de aviones de papel de récord, con el crédito de sus diseñadores.
+- Tres mariposas de papel.
+- Un anillo planeador, un helicóptero de arce y un planeador de dos alas de un libro de 1918.
 
-Pliega un anillo, deja caer una semilla de papel o monta un planeador de dos pares de alas inspirado en un libro de 1918. El taller incluye tres hojas para imprimir, dibujos SVG editables y los créditos de cada actividad. [Objetos voladores](https://openflight.design/flight-objects?lang=es) · [Fuentes y permisos (en inglés)](guides/unusual-flyer-sources.md)
+Cada uno tiene una hoja imprimible, una guía ilustrada, una vista en 3D y una página que explica cómo vuela. Dóblalo, lánzalo, cambia una cosa y vuelve a lanzarlo.
 
-Imprime las dos monarcas en el mismo papel de 120 g/m². Alterna cinco lanzamientos con cada modelo y anota todos los resultados. La prueba se abre en el diario. La página 2 indica los clips y la 3 indica dónde está cada plantilla. [Abrir la prueba K1/K2](https://openflight.design/book?lang=es&p=4#m=monarch-k1,monarch-k2&paper=a4) · [PDF en A4](https://openflight.design/trials/monarch-k1-k2-A4-es.pdf) · [PDF en Carta](https://openflight.design/trials/monarch-k1-k2-US_LETTER-es.pdf)
+[Lee el libro](https://openflight.design/es) · [Imprime y vuela](https://openflight.design/es/print/) · [Para docentes](https://openflight.design/es/teachers/) · [La edición impresa](https://openflight.design/es/flight-book/) · [Contacto](https://openflight.design/es/contact/)
 
-Elige las actividades que quieras para tu Libro de vuelo o imprime las tres para cada equipo de clase. El kit contiene los patrones editables de los modelos experimentales. [Descargar el kit de objetos voladores](https://github.com/kevinmamaqi/open-flight/releases/download/v0.9.3/open-flight-flying-objects.zip)
+Imprime a tamaño real (100 %) y mide la línea de 50 mm de cada hoja. Las cifras de rendimiento salen de la geometría y se marcan como estimaciones hasta que un vuelo registrado las sustituya.
 
-Hojea el Libro de vuelo. Elige un modelo para probar sus colores y decide si quieres ponerlo en la portada o incluir su plantilla. El mapa interactivo muestra dónde vive una mariposa o dónde voló por primera vez un avión. Las fichas imprimibles citan museos e instituciones de historia natural e incluyen relatos de Yuri Gagarin y John Glenn. Elige A4 o Carta, mide el tramo de 50 mm de la página 2 e imprime las plantillas a tamaño real. [Abrir el Libro de vuelo](https://openflight.design/book?lang=es) · [Fuentes y fotografías del atlas](guides/flight-book-origins.md) · [Ilustraciones y tipografías](guides/flight-book-art.md)
+## Condiciones
 
-La guía gratuita para el aula calcula páginas y copias para cada equipo. El ejemplo inicial reúne a 30 estudiantes en parejas. Imprime la guía, comparte el PDF del libro desde el móvil si aparece esa opción o envía a la copistería el PDF junto con las instrucciones de impresión. Imprime por una cara al 100 % y comprueba la línea de 50 mm antes de hacer las copias. [Guía para el aula y la copistería](https://openflight.design/classroom?lang=es)
+Desde el 27 de noviembre de 2026, los textos, ilustraciones, lecciones, traducciones y hojas imprimibles de Open Flight son © Open Flight. Se pueden leer, imprimir y copiar gratis para uso personal, familiar y en el aula, y se reservan los demás derechos. Las versiones publicadas antes de esa fecha siguen disponibles bajo CC BY-SA 4.0 para quien las recibió. El software es Apache-2.0 y la geometría editable es CERN-OHL-W-2.0. Las fotografías y las fuentes de terceros conservan sus propias condiciones. [Licencias y créditos](NOTICES.md)
 
-En el taller de mariposas puedes cambiar entre dos construcciones. El laboratorio de motores incluye las referencias originales, los archivos para las primeras pruebas eléctricas y una montura de papel. [Taller de mariposas](https://openflight.design/studio?lang=es) · [Laboratorio de motores](https://openflight.design/motor?lang=es)
+Para edición, traducción o uso en escuelas y museos, escribe a [hello@openflight.design](mailto:hello@openflight.design).
 
-| Qué puedes hacer | Qué necesitas | Qué puedes cambiar |
-| --- | --- | --- |
-| Mariposa con cuerpo plegado | Una plantilla K1, tijeras, regla y un clip pequeño | Junta las puntas, pliega el cuerpo de dos capas y apoya las alas en la mesa. Elige la envergadura y los colores. [Construir K1](https://openflight.design/studio?construction=k1&species=monarch&lang=es) |
-| Una mariposa original monarca, morfo azul o cola de golondrina (macaón) | Una hoja con la plantilla impresa, tijeras y un clip pequeño de puntas redondeadas | El ancho de las alas, los colores y las dos aletas de cola. Sigue los dibujos para recortar y doblar. Lanza y compara dónde toca el suelo. |
-| Un avión inspirado en el Boeing 747, el Douglas DC-3, el Tupolev Tu-144 o el Ilyushin Il-62 | Una hoja entera A4 o tamaño carta | La profundidad del cuerpo, los dobleces en los extremos de las alas y los colores. Sigue los dibujos paso a paso. Puedes doblarlo sin impresora. |
+## Úsalo en tu equipo
 
-Imprime al 100 % (tamaño real) y comprueba con una regla la línea de **50 mm** de cada hoja. La trayectoria en 3D y el circuito de tres puertas son ilustraciones de lo que podría pasar. Comprueba tus ideas con lanzamientos suaves, a nivel y en un espacio despejado. [120 PDF y actividades sin conexión](docs/library/) · [Actividad familiar en español](guides/paper-flight-lesson.es.md) · [Fuentes y créditos](https://openflight.design/references?lang=es) · [Versión 0.9.3](https://github.com/kevinmamaqi/open-flight/releases/tag/v0.9.3)
+La carpeta `docs/` contiene la web lista para servir:
 
-## Usa el taller en tu equipo
+```sh
+python3 -m http.server 8000 --directory docs
+```
 
-El sitio listo para abrir está en `docs/`. Desde la raíz del repositorio, ejecuta `python3 -m http.server 8000 --directory docs` y abre `http://localhost:8000/es.html` en tu navegador. El ZIP del taller completo incluye el Libro de vuelo y la guía para el aula. Descomprímelo, ejecuta `python3 -m http.server 8000` en la carpeta extraída y abre `http://localhost:8000/book.html?lang=es` o `http://localhost:8000/classroom.html?lang=es`. Los PDF y las actividades HTML independientes se abren directamente. [Descargar el taller y la biblioteca](https://github.com/kevinmamaqi/open-flight/releases/tag/v0.9.3)
+Para compilar desde el código, instala Bun 1.4.2 y ejecuta `bun install --frozen-lockfile --ignore-scripts` y `bun run build:site`. Antes de proponer un cambio, ejecuta `bun run test` y `bun run typecheck`.
 
-Para usar el editor local con historial de revisiones compartido por HTTP y MCP, instala Bun 1.4.2 y Node 24, ejecuta `bun install --frozen-lockfile --ignore-scripts` y luego `bun run editor --workspace ./local/studio --port 4180`. La terminal muestra la ruta de un archivo de inicio privado. Ábrelo para conectar el editor al espacio de trabajo. [Rutas HTTP](api/openapi.json) · [Herramientas MCP](api/mcp-tools.json) · [Ejemplo de integración](examples/agent-client/journey.ts)
+## Cuéntanos cómo voló
 
-## Edita o comparte una observación
-
-Las curvas y medidas de las mariposas están en `packages/geometry`. Los diseños de aviones de una hoja entera están en `apps/editor/assets/planes`. Ejecuta `bun run test` y `bun run typecheck` para comprobar los cambios. `bun run build:site` vuelve a generar el motor del navegador, los archivos para imprimir y el sitio estático. [Geometría de las alas](packages/geometry/) · [Cuerpo plegado y plantillas](packages/folded-butterfly/) · [Modelos de aviones](apps/editor/assets/planes/) · [Licencias y créditos](NOTICES.md)
-
-Si acompañas a una familia o un grupo, puedes contarnos cómo fue un lanzamiento o qué doblez costó entender. Basta con indicar el modelo, el papel, el ajuste y lo que pasó. Omite nombres, fotos y datos de contacto de menores. [Compartir una observación](https://github.com/kevinmamaqi/open-flight/issues/new?template=flight-report.yml)
+Las personas adultas pueden [enviar una nota de vuelo](https://github.com/kevinmamaqi/open-flight/issues/new?template=flight-report.yml) con el modelo, el papel, el ajuste y lo que pasó. No hacen falta nombres, caras ni datos de contacto de menores.

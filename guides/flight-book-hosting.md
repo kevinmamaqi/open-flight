@@ -34,3 +34,7 @@ The public config endpoint exposes only the eligible origin, enabled public link
 ## Verify and disable
 
 Run `bun test tests/flight-book-services.test.js` for local fixture verification, including the SQLite schema. Check the deployed config on the eligible origin and a preview origin. Check free download with every optional binding absent, then check the configured amounts and Stripe return only after authorization for the relevant environment. Removing the links disables paid options. Removing `FLIGHT_BOOK_METRICS` stops new counter writes.
+
+## Contact form
+
+`/contact/` posts JSON to the Pages Function `functions/api/contact.js`, which accepts same-origin requests up to 8 KB. The function forwards them through the `CONTACT` service binding to a separate Worker. That Worker has a `send_email` binding fixed to one destination address, and it runs the validation, a hidden trap field, a minimum fill time and a per-visitor rate limit. The Worker has no public route. Without the binding the form answers that it is unavailable, and the page still shows hello@openflight.design, which Email Routing forwards to the maintainer.

@@ -1,41 +1,37 @@
 # Open Flight
 
-All fourteen models (three butterflies, eight airplanes and three flying objects) have a color picker, a rotatable 3D view, an illustrated flight and a printable pattern. The butterflies now use the K3 dart fold: swept wings, a doubled front edge and a folded body. The ring, spinner and tandem can each appear on the cover. [Explore the models](https://openflight.design/designs/)
+*One Sheet* is a book about paper flight, and [openflight.design](https://openflight.design/) is its free web edition. It is written for readers aged 8 to 12 and the adults who build with them. It is available in English, [Spanish](README.es.md) and [Russian](README.ru.md).
 
-Make a paper glider with a child or a classroom, then change one fold and see where it lands. The free workshop runs in your browser. You can save a butterfly design on your device, download its editable source, or start with plain paper and a folding guide. [Open the workshop](https://openflight.design/?lang=en) · [По-русски](README.ru.md) · [Español](README.es.md)
+Fourteen flyers each start from one sheet of paper:
 
-If you saved a design or a book draft before the move to openflight.design, use the same browser to open it on the previous site. You can also reach it from the workshop footer. [Open the previous workshop](https://kevinmamaqi.github.io/open-flight/?previous=1)
+- Eight airplanes. Four are named after real aircraft and four are Open Flight versions of record-setting paper planes, credited to their designers.
+- Three paper butterflies.
+- A ring glider, a maple spinner and a two-winged glider from a 1918 book.
 
-Fold a ring, drop a maple spinner or build the two-wing-pair glider from a 1918 book. The flying objects workshop includes a three-page packet in each paper size, editable SVGs and a register of the source designs. [Flying objects](https://openflight.design/flight-objects?lang=en) · [Source and reuse register](guides/unusual-flyer-sources.md)
+Each has a printable sheet, an illustrated guide, a 3D view and a page that explains how it flies. Fold one, launch it, change one thing and launch again.
 
-Print both Monarchs on the same 120 g/m² paper and record five alternating launches per build. The trial opens on the log. Page 2 lists the clips, and page 3 points to each pattern. An agent can request the same book with `openflight_render_family_book` or `POST /v1/books/render` using `sheets: ["monarch-k1", "monarch-k2"]` in `settings`. [Open the K1/K2 trial](https://openflight.design/book?lang=en&p=4#m=monarch-k1,monarch-k2&paper=a4) · [Print A4 PDF](https://openflight.design/trials/monarch-k1-k2-A4-en.pdf) · [Print US Letter PDF](https://openflight.design/trials/monarch-k1-k2-US_LETTER-en.pdf)
+[Read the book](https://openflight.design/) · [Print & Play](https://openflight.design/print/) · [For teachers](https://openflight.design/teachers/) · [The printed edition](https://openflight.design/flight-book/) · [Contact](https://openflight.design/contact/)
 
-Choose any of the three activities for your Flight Book or print all three for each classroom team. The kit includes editable patterns for the experimental builds. [Download the flying objects kit](https://github.com/kevinmamaqi/open-flight/releases/download/v0.9.3/open-flight-flying-objects.zip)
+Print at actual size (100%) and measure the 50 mm line on each sheet. Performance figures come from the geometry and are marked as estimates until a recorded flight replaces them.
 
-Read a Flight Book page by page. Pick a flyer to try new colors, then choose whether to feature it on the cover or include its pattern. The interactive world map shows where a real butterfly lives or where an aircraft first flew. The printed field notes credit museums and wildlife institutions and include stories of Yuri Gagarin and John Glenn. Choose A4 or US Letter, measure the 50 mm line on page 2 and print the patterns at actual size. [Open the Flight Book](https://openflight.design/book?lang=en) · [Atlas sources and photo credits](guides/flight-book-origins.md) · [Artwork and font credits](guides/flight-book-art.md)
+## Terms
 
-The free classroom guide calculates copies and page ranges for teams starting with 30 learners in pairs. Print the guide, share the book PDF from your phone where supported, or send it with the copyable instructions to a print shop. Print one-sided at actual size (100%) and check the 50 mm line in the book before making the class copies. [Classroom and print shop](https://openflight.design/classroom?lang=en)
+From 27 November 2026, Open Flight's text, illustrations, lessons, translations and printable sheets are © Open Flight. They are free to read, print and copy for personal, family and classroom use, and all other rights are reserved. Versions released before that date stay available under CC BY-SA 4.0 to anyone who received them. The software is Apache-2.0 and the editable aircraft geometry is CERN-OHL-W-2.0. Photographs and third-party sources keep their own terms. [Licenses and credits](NOTICES.md)
 
-The butterfly studio offers tabbed wings and a folded body on the same worktable. The motor lab includes references, open bench files and an unpowered printable mount. [Butterfly studio](https://openflight.design/studio?lang=en) · [Motor lab](https://openflight.design/motor?lang=en)
-
-| Make | Start with | What to change |
-| --- | --- | --- |
-| Folded-body Monarch, blue morpho or swallowtail | A color or low-ink K1 sheet, a ruler, scissors and a small rounded clip | Match the wingtips, pinch the double body and open the wings on a table. Change the span and palette. [Build K1](https://openflight.design/studio?construction=k1&species=monarch&lang=en) |
-| Original tabbed Monarch, blue morpho or swallowtail | A printed sheet, scissors and a small blunt paper clip | Wingspan, colors and two independent back tabs. Follow the cut outline, raise the wings and compare the landing marks. |
-| A Boeing 747, Douglas DC-3, Tupolev Tu-144 or Ilyushin Il-62 inspired airplane | One whole sheet of A4 or US Letter paper | Choose a body fold, wingtip height and livery. Follow the illustrated stages. A printer is optional. |
-
-The three butterflies draw on photographs of real species. Four airplane patterns are original interpretations of civil aircraft, with illustrated guides linking a full-size feature to the paper fold. Four more are Open Flight versions of championship and record planes, each crediting its original designer. The 3D flight view and three-gate circuit illustrate predictions you can compare with an actual launch. Each starter sheet includes a calibration ruler. Print at actual size and measure the 50 mm line on every sheet. [Field references](https://openflight.design/references?lang=en) · [120 PDF editions and three offline lessons](docs/library/) · [Family lesson](guides/paper-flight-lesson.md) · [Version 0.9.3](https://github.com/kevinmamaqi/open-flight/releases/tag/v0.9.3)
-
-[![The Open Flight paper workshop with an orange Monarch on the worktable](apps/editor/assets/atlas/workshop-preview-en.png)](https://openflight.design/)
+For publishing, translation, school or museum use, write to [hello@openflight.design](mailto:hello@openflight.design).
 
 ## Run it yourself
 
-The `docs/` folder contains the ready-to-serve site. From this repository run `python3 -m http.server 8000 --directory docs`, then visit `http://localhost:8000`. Artwork, fonts, fold instructions and 3D assets are served with the site. The complete workshop ZIP includes the book builder and classroom guide. Unzip it, run `python3 -m http.server 8000` in the extracted directory, then open `http://localhost:8000/book.html?lang=en` or `http://localhost:8000/classroom.html?lang=en`. Downloaded PDFs and standalone lessons open directly. [Workshop and print-library downloads](https://github.com/kevinmamaqi/open-flight/releases/tag/v0.9.3)
+The `docs/` folder is the ready-to-serve site:
 
-For the local workspace with revision history shared across HTTP and MCP, install Bun 1.4.2 and Node 24, run `bun install --frozen-lockfile --ignore-scripts`, then `bun run editor --workspace ./local/studio --port 4180`. The terminal reports the path to a private launch file. Open it to connect the studio to that workspace. For command-line clients see the public contracts and integration example. [HTTP routes](api/openapi.json) · [MCP tools](api/mcp-tools.json) · [Integration example](examples/agent-client/journey.ts)
+```sh
+python3 -m http.server 8000 --directory docs
+```
 
-## Edit or contribute
+To build from source, install Bun 1.4.2, then run `bun install --frozen-lockfile --ignore-scripts` and `bun run build:site`. Run `bun run test` and `bun run typecheck` before proposing a change. The local studio with HTTP and MCP access starts with `bun run editor --workspace ./local/studio --port 4180`. [HTTP routes](api/openapi.json) · [MCP tools](api/mcp-tools.json) · [Integration example](examples/agent-client/journey.ts)
 
-The butterfly curves, colors and measurements live in `packages/geometry`. The whole-sheet airplane models live in `apps/editor/assets/planes`. Run `bun run test` and `bun run typecheck` to check your changes. `bun run build:site` regenerates the browser engine, starter sheets and static site. [Wing geometry](packages/geometry/) · [Folded body and print generator](packages/folded-butterfly/) · [Airplane models](apps/editor/assets/planes/) · [Terms and credits](NOTICES.md)
+## Tell us how it flew
 
-Grown-ups can send a short flight observation or identify a confusing fold. Include the model, paper size, setting and what happened. Children’s names, faces and contact details are unnecessary. A powered version is a research direction. The current designs are hand-launched. [Send a flight note](https://github.com/kevinmamaqi/open-flight/issues/new?template=flight-report.yml) · [Powered roadmap](https://openflight.design/references?lang=en#powered)
+Grown-ups can [send a flight note](https://github.com/kevinmamaqi/open-flight/issues/new?template=flight-report.yml) with the model, paper, setting and what happened. Children's names, faces and contact details are not needed.
+
+Saved designs from before the move to openflight.design open on the [previous workshop](https://kevinmamaqi.github.io/open-flight/?previous=1) in the same browser.
