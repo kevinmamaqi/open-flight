@@ -1,11 +1,11 @@
 // Butterfly lab for K3, the dart butterfly: choose a species, span, colors and paper, read the
 // balance estimate and download the three-page sheet. Everything is drawn in the browser.
 // The page keeps its /costa address so links to the earlier K2 lab still open it.
-import { currentLocale, localizedLinks } from './atlas-nav.js?v=27dc78b6a91f'
-import * as api from './browser-workshop.js?v=27dc78b6a91f'
-import { sheetName } from './family-sheets.js?v=27dc78b6a91f'
-import { appearanceChoices } from './model-appearance.js?v=27dc78b6a91f'
-import { bookFromStudio } from './model-studio.js?v=27dc78b6a91f'
+import { currentLocale, localizedLinks } from './atlas-nav.js?v=71e84a390ddb'
+import * as api from './browser-workshop.js?v=71e84a390ddb'
+import { sheetName } from './family-sheets.js?v=71e84a390ddb'
+import { appearanceChoices } from './model-appearance.js?v=71e84a390ddb'
+import { bookFromStudio } from './model-studio.js?v=71e84a390ddb'
 
 const languages = ['en', 'es', 'ru']
 const copy = {

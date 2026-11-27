@@ -1,7 +1,7 @@
-import { sheetPath } from './family-sheets.js?v=27dc78b6a91f'
-import { sheetAppearance } from './model-appearance.js?v=27dc78b6a91f'
-import { makePlane } from './assets/planes/core.js?v=27dc78b6a91f'
-import { planeBrowserPdf } from './assets/planes/print.js?v=27dc78b6a91f'
+import { sheetPath } from './family-sheets.js?v=71e84a390ddb'
+import { sheetAppearance } from './model-appearance.js?v=71e84a390ddb'
+import { makePlane } from './assets/planes/core.js?v=71e84a390ddb'
+import { planeBrowserPdf } from './assets/planes/print.js?v=71e84a390ddb'
 
 // Library PDFs carry original colors and, for airplanes, the cut border. Anything else is drawn.
 export async function loadAppearanceSheet(sheetId, paper, lang, appearance, loadAsset, edge = 'cut') {
@@ -13,7 +13,7 @@ export async function loadAppearanceSheet(sheetId, paper, lang, appearance, load
     return planeBrowserPdf(makePlane({ model_id: sheet.model, paper, livery: sheet.appearance, edge }, lang))
   }
   const { makeFoldedButterfly, prepareFoldedPdf, foldedPdf, classicComparisonPdf, makeK2, k2Pdf, makeK3, k3Pdf } =
-    await import('./browser-workshop.js?v=27dc78b6a91f')
+    await import('./browser-workshop.js?v=71e84a390ddb')
   await prepareFoldedPdf()
   if (sheet.construction === 'k3')
     return k3Pdf(makeK3({ species: sheet.model, paper, appearance_id: sheet.appearance, locale: lang }))

@@ -1,7 +1,7 @@
-import { planeCredits, creditText, creditLinks } from './credits.js?v=27dc78b6a91f'
-import { backFaceWords, backKind, printSafeMm } from '../print-faces.js?v=27dc78b6a91f'
-import { keelAt } from './geometry.js?v=27dc78b6a91f'
-import { atLeastText, calibration, calibrationShort, ink as paperInk, lineStyle, muted as paperMuted, textMm } from '../brand/print.js?v=27dc78b6a91f'
+import { planeCredits, creditText, creditLinks } from './credits.js?v=71e84a390ddb'
+import { backFaceWords, backKind, printSafeMm } from '../print-faces.js?v=71e84a390ddb'
+import { keelAt } from './geometry.js?v=71e84a390ddb'
+import { atLeastText, calibration, calibrationShort, ink as paperInk, lineStyle, muted as paperMuted, textMm } from '../brand/print.js?v=71e84a390ddb'
 
 export const esc = (value) =>
   String(value).replace(

@@ -1,7 +1,7 @@
 // Plate B3, Old World swallowtail. Spanish uses «macaón» throughout. Spanish and Russian
 // need a native read before release.
-import { butterflyData } from '../figures/butterfly-data.js?v=27dc78b6a91f'
-import { butterflyFlight, butterflyGlance, butterflyReferences, w } from './B-shared.js?v=27dc78b6a91f'
+import { butterflyData } from '../figures/butterfly-data.js?v=71e84a390ddb'
+import { butterflyFlight, butterflyGlance, butterflyReferences, w } from './B-shared.js?v=71e84a390ddb'
 
 const ar = model => butterflyData[model].aspect_ratio.toFixed(1)
 const arEs = model => ar(model).replace('.', ',')

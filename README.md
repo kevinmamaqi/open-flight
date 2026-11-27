@@ -18,7 +18,7 @@ Print at actual size (100%) and measure the 50 mm line on each sheet. Performanc
 
 From 27 November 2026, Open Flight's text, illustrations, lessons, translations and printable sheets are © Open Flight. They are free to read, print and copy for personal, family and classroom use, and all other rights are reserved. Versions released before that date stay available under CC BY-SA 4.0 to anyone who received them. The software is Apache-2.0 and the editable aircraft geometry is CERN-OHL-W-2.0. Photographs and third-party sources keep their own terms. [Licenses and credits](NOTICES.md)
 
-For publishing, translation, school or museum use, write to [hello@openflight.design](mailto:hello@openflight.design).
+For publishing, translation, school or museum use, use the [contact form](https://openflight.design/contact/).
 
 ## Run it yourself
 

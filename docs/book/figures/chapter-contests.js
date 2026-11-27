@@ -2,8 +2,8 @@
 // chapters/contests.js. records-distance is 696 units wide at 4 units per metre, so
 // placed 174 mm wide in the book it is exactly 1:1000 (1 mm on the page = 1 m).
 // The "as of" date is drawn inside each figure.
-import { records } from '../chapters/contests.js?v=27dc78b6a91f'
-import { blue, frame, ink, kite, line, muted, n, text } from './chapter-kit.js?v=27dc78b6a91f'
+import { records } from '../chapters/contests.js?v=71e84a390ddb'
+import { blue, frame, ink, kite, line, muted, n, text } from './chapter-kit.js?v=71e84a390ddb'
 
 const w = (en, es, ru) => ({ en, es, ru })
 const words = {

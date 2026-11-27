@@ -18,7 +18,7 @@ Imprime a tamaño real (100 %) y mide la línea de 50 mm de cada hoja. Las cifra
 
 Desde el 27 de noviembre de 2026, los textos, ilustraciones, lecciones, traducciones y hojas imprimibles de Open Flight son © Open Flight. Se pueden leer, imprimir y copiar gratis para uso personal, familiar y en el aula, y se reservan los demás derechos. Las versiones publicadas antes de esa fecha siguen disponibles bajo CC BY-SA 4.0 para quien las recibió. El software es Apache-2.0 y la geometría editable es CERN-OHL-W-2.0. Las fotografías y las fuentes de terceros conservan sus propias condiciones. [Licencias y créditos](NOTICES.md)
 
-Para edición, traducción o uso en escuelas y museos, escribe a [hello@openflight.design](mailto:hello@openflight.design).
+Para edición, traducción o uso en escuelas y museos, usa el [formulario de contacto](https://openflight.design/es/contact/).
 
 ## Úsalo en tu equipo
 

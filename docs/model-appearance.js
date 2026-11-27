@@ -1,8 +1,8 @@
-import { butterflySwatches } from './assets/atlas/swatches.js?v=27dc78b6a91f'
-import { planeCatalog, planeColors, liveries, planeFinish } from './assets/planes/catalog.js?v=27dc78b6a91f'
-import { sheetCatalog, sheetLocales } from './family-sheets.js?v=27dc78b6a91f'
+import { butterflySwatches } from './assets/atlas/swatches.js?v=71e84a390ddb'
+import { planeCatalog, planeColors, liveries, planeFinish } from './assets/planes/catalog.js?v=71e84a390ddb'
+import { sheetCatalog, sheetLocales } from './family-sheets.js?v=71e84a390ddb'
 
-import { objectIds, objectPalettes } from './assets/objects/appearance.js?v=27dc78b6a91f'
+import { objectIds, objectPalettes } from './assets/objects/appearance.js?v=71e84a390ddb'
 const labels = {
   field: { en:'Original colors', es:'Colores originales', ru:'Исходные цвета' },
   sunset: { en:'Sunset', es:'Atardecer', ru:'Закат' },

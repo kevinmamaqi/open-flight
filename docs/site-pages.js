@@ -1,10 +1,10 @@
-import { book, chapterById, chapterLabel, chapters, plateFor, plates } from './book/catalog.js?v=27dc78b6a91f'
-import { fieldModel } from './atlas-guide.js?v=27dc78b6a91f'
-import { specimenPath } from './model-appearance.js?v=27dc78b6a91f'
-import { workshopHome } from './assets/workshop-address.js?v=27dc78b6a91f'
-import { plateMarkup } from './plate.js?v=27dc78b6a91f'
-import { chapterBody as writtenChapter } from './book/render-chapter.js?v=27dc78b6a91f'
-import { breadcrumbs, escapeHtml as e, navHref, pageLabel, publicPath, siteFooter, siteHeader, siteLabels, siteLocales } from './site-navigation.js?v=27dc78b6a91f'
+import { book, chapterById, chapterLabel, chapters, plateFor, plates } from './book/catalog.js?v=71e84a390ddb'
+import { fieldModel } from './atlas-guide.js?v=71e84a390ddb'
+import { specimenPath } from './model-appearance.js?v=71e84a390ddb'
+import { workshopHome } from './assets/workshop-address.js?v=71e84a390ddb'
+import { plateMarkup } from './plate.js?v=71e84a390ddb'
+import { chapterBody as writtenChapter } from './book/render-chapter.js?v=71e84a390ddb'
+import { breadcrumbs, escapeHtml as e, navHref, pageLabel, publicPath, siteFooter, siteHeader, siteLabels, siteLocales } from './site-navigation.js?v=71e84a390ddb'
 
 const w = (en, es, ru) => ({ en, es, ru })
 const copy = {
@@ -241,7 +241,7 @@ function bookBody(lang, base) {
     <li>${link(base + 'assets/book/samples/flight-book-A4-' + lang + '.pdf', t('booklet'), 'text-link')}</li></ul></section>`
 }
 
-export const contactAddress = 'hello@openflight.design'
+export const turnstileSiteKey = '0x4AAAAAAGVrVw0qrpjwgAtL'
 
 const contactWords = {
   title: w('Contact', 'Contacto', 'Контакты'),
@@ -250,7 +250,6 @@ const contactWords = {
     'Editoriales, docentes, museos, prensa o un vuelo que quieras contarnos: escribe aquí y te responderá Kevin, que hace Open Flight.',
     'Издательства, учителя, музеи, пресса или полёт, о котором хочется рассказать: напишите здесь, и вам ответит Кевин, автор Open Flight.',
   ),
-  direct: w('Or email', 'O escribe a', 'Или напишите на'),
   name: w('Your name', 'Tu nombre', 'Ваше имя'),
   email: w('Your email', 'Tu correo', 'Ваш email'),
   organisation: w('Organisation (optional)', 'Organización (opcional)', 'Организация (необязательно)'),
@@ -268,20 +267,19 @@ const contactWords = {
   sending: w('Sending…', 'Enviando…', 'Отправляем…'),
   sent: w('Thank you. Your message is on its way, and the reply will come to the email you gave.', 'Gracias. Tu mensaje está en camino y la respuesta llegará al correo que has indicado.', 'Спасибо. Сообщение отправлено, ответ придёт на указанный email.'),
   invalid: w('Please add your name, a valid email and a message of at least a few words.', 'Añade tu nombre, un correo válido y un mensaje de al menos unas palabras.', 'Укажите имя, правильный email и сообщение хотя бы из нескольких слов.'),
-  failed: w('The message could not be sent. Please email', 'No se ha podido enviar el mensaje. Escribe a', 'Сообщение не отправилось. Напишите, пожалуйста, на'),
+  failed: w('The message could not be sent. Please try again in a few minutes.', 'No se ha podido enviar el mensaje. Inténtalo de nuevo dentro de unos minutos.', 'Сообщение не отправилось. Попробуйте ещё раз через несколько минут.'),
+  challenge: w('Please complete the check above the Send button, then send again.', 'Completa la verificación encima del botón Enviar y vuelve a enviar.', 'Пройдите проверку над кнопкой «Отправить» и отправьте ещё раз.'),
   kids: w('Children: please ask a grown-up to write for you. No names or photos of children are needed.', 'Niños y niñas: pedid a una persona adulta que escriba por vosotros. No hacen falta nombres ni fotos de menores.', 'Дети, попросите взрослого написать за вас. Имена и фото детей не нужны.'),
-  privacy: w('Your name, email and message are used only to reply to you. They are delivered by email through Cloudflare and are not stored on this site or shared.', 'Tu nombre, correo y mensaje solo se usan para responderte. Se entregan por correo electrónico a través de Cloudflare y no se guardan en esta web ni se comparten.', 'Имя, email и сообщение используются только для ответа вам. Они доставляются по почте через Cloudflare, не хранятся на сайте и никому не передаются.'),
+  privacy: w('Your name, email and message are used only to reply to you. They are delivered by email through Cloudflare and are not stored on this site or shared. Cloudflare Turnstile checks that a person is sending the form.', 'Tu nombre, correo y mensaje solo se usan para responderte. Se entregan por correo electrónico a través de Cloudflare y no se guardan en esta web ni se comparten. Cloudflare Turnstile comprueba que el formulario lo envía una persona.', 'Имя, email и сообщение используются только для ответа вам. Они доставляются по почте через Cloudflare, не хранятся на сайте и никому не передаются. Cloudflare Turnstile проверяет, что форму отправляет человек.'),
 }
 
 function contactBody(lang, base) {
   const t = key => contactWords[key][lang]
-  const mail = `<a class="text-link" href="mailto:${contactAddress}">${contactAddress}</a>`
   const field = (id, label, input) => `<p class="contact-field"><label class="form-label" for="contact-${id}">${e(label)}</label>${input}</p>`
   return `<section class="product-hero product-hero-text"><div>
-    <h1>${e(t('title'))}</h1><p class="lede">${e(t('lede'))}</p>
-    <p>${e(t('direct'))} ${mail}</p></div></section>
+    <h1>${e(t('title'))}</h1><p class="lede">${e(t('lede'))}</p></div></section>
   <form class="contact-form panel" id="contact-form" method="post" action="/api/contact" lang="${lang}" novalidate
-    data-sending="${e(t('sending'))}" data-sent="${e(t('sent'))}" data-invalid="${e(t('invalid'))}" data-failed="${e(t('failed'))}" data-address="${contactAddress}">
+    data-sending="${e(t('sending'))}" data-sent="${e(t('sent'))}" data-invalid="${e(t('invalid'))}" data-failed="${e(t('failed'))}" data-challenge="${e(t('challenge'))}">
     <input type="hidden" name="lang" value="${lang}">
     <p class="contact-trap" aria-hidden="true"><label>Website <input name="website" tabindex="-1" autocomplete="off"></label></p>
     ${field('name', t('name'), '<input id="contact-name" name="name" autocomplete="name" maxlength="120" required>')}
@@ -289,6 +287,8 @@ function contactBody(lang, base) {
     ${field('organisation', t('organisation'), '<input id="contact-organisation" name="organisation" autocomplete="organization" maxlength="160">')}
     ${field('topic', t('topic'), '<select id="contact-topic" name="topic">' + contactWords.topics.map(([value, label]) => `<option value="${value}">${e(label[lang])}</option>`).join('') + '</select>')}
     ${field('message', t('message'), '<textarea id="contact-message" name="message" rows="8" maxlength="5000" required></textarea>')}
+    <div class="cf-turnstile" data-sitekey="${turnstileSiteKey}" data-language="${lang}" data-theme="light" data-size="flexible"></div>
+    <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
     <p class="hint">${e(t('kids'))}</p>
     <p class="hint">${e(t('privacy'))}</p>
     <p><button class="button primary" type="submit">${e(t('send'))}</button></p>

@@ -3,8 +3,8 @@
 // dashed line = path or air, red = the one thing you change. Pure and deterministic;
 // geometry comes from object-data.js (scripts/build_nature_figures.ts). Spanish and
 // Russian need a native read.
-import { color, print } from '../../assets/brand/tokens.js?v=27dc78b6a91f'
-import { objectData } from './object-data.js?v=27dc78b6a91f'
+import { color, print } from '../../assets/brand/tokens.js?v=71e84a390ddb'
+import { objectData } from './object-data.js?v=71e84a390ddb'
 
 const w = (en, es, ru) => ({ en, es, ru })
 const words = {

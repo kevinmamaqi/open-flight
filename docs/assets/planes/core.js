@@ -1,7 +1,7 @@
-import { planeCatalog, sheetSizes, liveries, revision, revisions, trimMm, sheetEdges, planeColors, referenceForLocale, planeFinish, recordRights } from './catalog.js?v=27dc78b6a91f'
-import { applyFolds, openSheet, outlineOf, publicPanels, wingShape, slantedWingShape, clipPanels, dedupeCreases } from './geometry.js?v=27dc78b6a91f'
-import { recordBuilders } from './records.js?v=27dc78b6a91f'
-export { planeCatalog, sheetSizes, liveries, revision, revisions, trimMm, sheetEdges } from './catalog.js?v=27dc78b6a91f'
+import { planeCatalog, sheetSizes, liveries, revision, revisions, trimMm, sheetEdges, planeColors, referenceForLocale, planeFinish, recordRights } from './catalog.js?v=71e84a390ddb'
+import { applyFolds, openSheet, outlineOf, publicPanels, wingShape, slantedWingShape, clipPanels, dedupeCreases } from './geometry.js?v=71e84a390ddb'
+import { recordBuilders } from './records.js?v=71e84a390ddb'
+export { planeCatalog, sheetSizes, liveries, revision, revisions, trimMm, sheetEdges } from './catalog.js?v=71e84a390ddb'
 
 function whole(value, min, max, fallback, label) {
   if (value === undefined) return fallback
