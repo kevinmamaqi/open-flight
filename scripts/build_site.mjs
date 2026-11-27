@@ -148,6 +148,11 @@ for (const path of [
 }
 if (process.argv.includes('--cloudflare')) {
   cpSync(join(root, 'public-release/flight-book-routes.json'), join(out, '_routes.json'))
+} else {
+  // The production Pages project uses the published site folder as its root, so its Functions
+  // directory is <site>/functions. Only the self-contained contact function ships there.
+  mkdirSync(join(out, 'functions/api'), { recursive: true })
+  cpSync(join(root, 'functions/api/contact.js'), join(out, 'functions/api/contact.js'))
 }
 // Print & Play (apps/editor/print.html): static PDFs under print/ and the /print/, /es/print/ and /ru/print/ pages.
 await (await import('./build_print_and_play.mjs')).buildPrintAndPlay(out, { assetKey })

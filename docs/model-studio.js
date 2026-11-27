@@ -1,8 +1,8 @@
-import { objectIds } from './assets/objects/appearance.js?v=c8c7ae41db63'
-import { foldedLink, studioLink } from './atlas-guide.js?v=c8c7ae41db63'
-import { defaultSheets } from './book-model.js?v=c8c7ae41db63'
-import { sheetCatalog } from './family-sheets.js?v=c8c7ae41db63'
-import { appearanceChoices } from './model-appearance.js?v=c8c7ae41db63'
+import { objectIds } from './assets/objects/appearance.js?v=27dc78b6a91f'
+import { foldedLink, studioLink } from './atlas-guide.js?v=27dc78b6a91f'
+import { defaultSheets } from './book-model.js?v=27dc78b6a91f'
+import { sheetCatalog } from './family-sheets.js?v=27dc78b6a91f'
+import { appearanceChoices } from './model-appearance.js?v=27dc78b6a91f'
 
 const sheets = new Map(sheetCatalog.map(entry => [entry.id, entry]))
 

@@ -1,8 +1,8 @@
-import * as THREE from './assets/viewer/three.js?v=c8c7ae41db63'
-import { objectModel } from './assets/objects/geometry.js?v=c8c7ae41db63'
-import { objectIds } from './assets/objects/appearance.js?v=c8c7ae41db63'
-import { planeModel, dartModel } from './model-geometry.js?v=c8c7ae41db63'
-import { makeScene, textureFor } from './model-scene.js?v=c8c7ae41db63'
+import * as THREE from './assets/viewer/three.js?v=27dc78b6a91f'
+import { objectModel } from './assets/objects/geometry.js?v=27dc78b6a91f'
+import { objectIds } from './assets/objects/appearance.js?v=27dc78b6a91f'
+import { planeModel, dartModel } from './model-geometry.js?v=27dc78b6a91f'
+import { makeScene, textureFor } from './model-scene.js?v=27dc78b6a91f'
 
 export function createViewer(container, id, lang, onProgress) {
   const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true })
@@ -67,7 +67,7 @@ export function createViewer(container, id, lang, onProgress) {
       if (objectIds.includes(id)) model = objectModel(id, paint, second)
       else if (id.includes('-')) model = planeModel(id, paint, paper)
       else {
-        const api = await import('./browser-workshop.js?v=c8c7ae41db63')
+        const api = await import('./browser-workshop.js?v=27dc78b6a91f')
         model = dartModel(api.makeK3({ species: id, appearance_id: paint, span_mm: span, paper, locale: lang }), api)
       }
       const nextTexture = await textureFor(model, 'studio')

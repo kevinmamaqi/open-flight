@@ -1,7 +1,7 @@
-import { objects } from './assets/objects/activities.js?v=c8c7ae41db63'
-import { baselines } from './assets/atlas/baselines.js?v=c8c7ae41db63'
-import { planeCatalog, sheetSizes } from './assets/planes/catalog.js?v=c8c7ae41db63'
-import { makePlane } from './assets/planes/core.js?v=c8c7ae41db63'
+import { objects } from './assets/objects/activities.js?v=27dc78b6a91f'
+import { baselines } from './assets/atlas/baselines.js?v=27dc78b6a91f'
+import { planeCatalog, sheetSizes } from './assets/planes/catalog.js?v=27dc78b6a91f'
+import { makePlane } from './assets/planes/core.js?v=27dc78b6a91f'
 
 export const sheetLocales = Object.freeze(['en', 'es', 'ru'])
 export const paperSizes = Object.freeze(Object.keys(sheetSizes))
