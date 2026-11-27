@@ -1,8 +1,10 @@
-import { butterflySwatches } from './assets/atlas/swatches.js?v=60abccfc0f99'
-import { planeCatalog, planeColors, liveries, planeFinish } from './assets/planes/catalog.js?v=60abccfc0f99'
-import { currentConstruction, sheetCatalog, sheetLocales } from './family-sheets.js?v=60abccfc0f99'
+import { butterflySwatches, k3DesignSwatches } from './assets/atlas/swatches.js?v=2807f4a798d5'
+import { planeCatalog, planeColors, liveries, planeFinish } from './assets/planes/catalog.js?v=2807f4a798d5'
+import { currentConstruction, sheetCatalog, sheetLocales } from './family-sheets.js?v=2807f4a798d5'
 
-import { objectIds, objectPalettes } from './assets/objects/appearance.js?v=60abccfc0f99'
+import { objectIds, objectPalettes } from './assets/objects/appearance.js?v=2807f4a798d5'
+export { k3DesignSwatches }
+
 const labels = {
   field: { en:'Original colors', es:'Colores originales', ru:'Исходные цвета' },
   sunset: { en:'Sunset', es:'Atardecer', ru:'Закат' },
@@ -40,15 +42,6 @@ export function appearanceChoices(modelId, lang = 'en') {
     }))
   }
   throw new RangeError('Unknown flyer appearance')
-}
-
-// Designs only the K3 dart butterfly offers (packages/folded-butterfly/k3-designs.ts): wing base, light
-// and ink. tests/k3-designs.test.ts keeps these in step with the print palettes. They follow the shared
-// choices for K3 sheets and for the bare species IDs, which mean the current K3 butterfly.
-export const k3DesignSwatches = {
-  monarch: { modernista: ['#F57A14', '#FFB21E', '#16285C'] },
-  morpho: { modernista: ['#1E6FD6', '#25C1C4', '#0F1F4A'] },
-  swallowtail: { modernista: ['#FFC928', '#FFE066', '#173A3A'] },
 }
 
 /** The colour choices of the K3 studio for one species: the shared ones, then the K3-only designs. */

@@ -1,7 +1,7 @@
 // Figure for Chapter 7 · A short history of flight: the chapter's dates on one axis, drawn
 // like a plan with a numbered schedule below. From 1780 the scale is linear (2 units per
 // year); the two oldest dates sit before an axis break. Dates come from chapters/history.js.
-import { blue, dim, frame, ink, kite, line, muted, n, sheet, text, titleBlock } from './chapter-kit.js?v=60abccfc0f99'
+import { blue, dim, frame, ink, kite, line, muted, n, sheet, text, titleBlock } from './chapter-kit.js?v=2807f4a798d5'
 
 const w = (en, es, ru) => ({ en, es, ru })
 const say = (item, lang) => item[lang] ?? item.en

@@ -16,12 +16,15 @@
 // Every number in this file is a first-order model estimate. No K3 flight has been recorded yet.
 
 import { rounded, type Line, type Point } from '../geometry/butterfly.ts'
+import { insidePolygon, polygonArea } from '../geometry/polygon.ts'
 import type { Species, WorkshopModel } from '../geometry/workshop-models.ts'
 import { toPaper, trimGeometry, wingArt, wingShape } from '../geometry/workshop-art.ts'
 import { estimateFlight, k2Model, k2Poses, papers, type Paper } from './k2-airframe.ts'
 import type { Mosaic } from './k3-mosaic.ts'
 import { k3DesignMosaics, k3DesignPalettes } from './k3-designs.ts'
 import { invertRigid, mosaicWing } from './k3-mosaic.ts'
+
+export { insidePolygon, polygonArea }
 
 export type K3Pose = {
   // Scale of the species wings before posing: the span they would have laid flat, mm.
@@ -151,32 +154,6 @@ function segmentHit(p: Point, p2: Point, q: Point, q2: Point): { t: number; u: n
   const t = (qp[0] * s[1] - qp[1] * s[0]) / den
   const u = (qp[0] * r[1] - qp[1] * r[0]) / den
   return t >= 0 && t <= 1 && u >= 0 && u <= 1 ? { t, u } : null
-}
-
-export function insidePolygon([x, y]: Point, poly: Point[]): boolean {
-  let inside = false
-  for (let i = 0, j = poly.length - 1; i < poly.length; j = i++) {
-    const [xi, yi] = poly[i],
-      [xj, yj] = poly[j]
-    if (yi > y !== yj > y && x < ((xj - xi) * (y - yi)) / (yj - yi) + xi) inside = !inside
-  }
-  return inside
-}
-
-export function polygonArea(poly: Point[]) {
-  let a = 0,
-    cx = 0,
-    cy = 0
-  for (let i = 0; i < poly.length; i++) {
-    const [x1, y1] = poly[i],
-      [x2, y2] = poly[(i + 1) % poly.length]
-    const c = x1 * y2 - x2 * y1
-    a += c
-    cx += (x1 + x2) * c
-    cy += (y1 + y2) * c
-  }
-  a /= 2
-  return { area: Math.abs(a), cx: cx / (6 * a), cy: cy / (6 * a) }
 }
 
 // ---------------------------------------------------------------------------------------

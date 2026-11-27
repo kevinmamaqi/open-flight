@@ -1,4 +1,4 @@
-import * as THREE from './assets/viewer/three.js?v=60abccfc0f99'
+import * as THREE from './assets/viewer/three.js?v=2807f4a798d5'
 
 // The site’s minimized Three build exposes the shared vector type through its camera.
 const Vector3 = new THREE.OrthographicCamera().position.constructor

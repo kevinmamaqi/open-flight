@@ -7,12 +7,17 @@ import { createBook } from '../packages/print-export/family-book.js'
 import { workshopHome as domain } from '../apps/editor/assets/workshop-address.js'
 import { createHash } from 'node:crypto'
 import { readFile } from 'node:fs/promises'
-import { cpSync, existsSync, mkdirSync, readdirSync, readFileSync, writeFileSync } from 'node:fs'
+import { cpSync, existsSync, mkdirSync, readdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs'
 import { join, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
 const root = fileURLToPath(new URL('../', import.meta.url)),
   editor = join(root, 'apps/editor')
 const out = resolve(root, process.argv[2] ?? 'dist/site')
+// These release directories contain generated files only. Keep explicit destinations
+// such as the public checkout's docs directory, which also holds source documentation.
+if (['dist/site', 'dist/cloudflare-input'].some(path => out === resolve(root, path))) {
+  rmSync(out, { recursive: true, force: true })
+}
 mkdirSync(out, { recursive: true })
 const replaceText = (value) => ({ element: (el) => el.setInnerContent(value) })
 // Pages caches files independently. Link each release's HTML and ES module graph

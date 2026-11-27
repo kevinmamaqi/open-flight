@@ -1,8 +1,8 @@
-import { objects } from './assets/objects/activities.js?v=60abccfc0f99'
-import { appearanceChoices, appearanceArtPath, appearanceArtStyles } from './model-appearance.js?v=60abccfc0f99'
-import { paperSizes, sheetCatalog, sheetIdFor, sheetLocales } from './family-sheets.js?v=60abccfc0f99'
-import { sheetEdges } from './assets/print-faces.js?v=60abccfc0f99'
-import { workshopHome } from './assets/workshop-address.js?v=60abccfc0f99'
+import { objects } from './assets/objects/activities.js?v=2807f4a798d5'
+import { appearanceChoices, appearanceArtPath, appearanceArtStyles } from './model-appearance.js?v=2807f4a798d5'
+import { paperSizes, sheetCatalog, sheetIdFor, sheetLocales } from './family-sheets.js?v=2807f4a798d5'
+import { sheetEdges } from './assets/print-faces.js?v=2807f4a798d5'
+import { workshopHome } from './assets/workshop-address.js?v=2807f4a798d5'
 
 export const monarchTrialSheets = Object.freeze(['monarch-k1', 'monarch-k2'])
 

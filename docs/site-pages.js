@@ -1,10 +1,10 @@
-import { book, chapterById, chapterLabel, chapters, plateFor, plates } from './book/catalog.js?v=60abccfc0f99'
-import { fieldModel } from './atlas-guide.js?v=60abccfc0f99'
-import { specimenPath } from './model-appearance.js?v=60abccfc0f99'
-import { workshopHome } from './assets/workshop-address.js?v=60abccfc0f99'
-import { plateMarkup } from './plate.js?v=60abccfc0f99'
-import { chapterBody as writtenChapter } from './book/render-chapter.js?v=60abccfc0f99'
-import { breadcrumbs, escapeHtml as e, navHref, pageLabel, publicPath, siteFooter, siteHeader, siteLabels, siteLocales } from './site-navigation.js?v=60abccfc0f99'
+import { book, chapterById, chapterLabel, chapters, plateFor, plates } from './book/catalog.js?v=2807f4a798d5'
+import { fieldModel } from './atlas-guide.js?v=2807f4a798d5'
+import { specimenPath } from './model-appearance.js?v=2807f4a798d5'
+import { workshopHome } from './assets/workshop-address.js?v=2807f4a798d5'
+import { plateMarkup } from './plate.js?v=2807f4a798d5'
+import { chapterBody as writtenChapter } from './book/render-chapter.js?v=2807f4a798d5'
+import { breadcrumbs, escapeHtml as e, navHref, pageLabel, publicPath, siteFooter, siteHeader, siteLabels, siteLocales } from './site-navigation.js?v=2807f4a798d5'
 
 const w = (en, es, ru) => ({ en, es, ru })
 const copy = {

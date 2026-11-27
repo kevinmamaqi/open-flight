@@ -7,6 +7,10 @@
 // can be drawn on whichever layers it crosses, and the crease pattern comes out in sheet
 // coordinates. Non-flat moves (reverse folds, tucks) are modelled by the flat result they leave.
 
+import { cross } from '../../geometry/polygon.ts'
+
+export { cross }
+
 export type P = [number, number]
 export type Vertex = { p: P; o: P }
 export type Face = 'front' | 'back'
@@ -34,7 +38,6 @@ const add = (a: P, b: P): P => [a[0] + b[0], a[1] + b[1]]
 const mul = (a: P, k: number): P => [a[0] * k, a[1] * k]
 const dot = (a: P, b: P) => a[0] * b[0] + a[1] * b[1]
 const len = (a: P) => Math.hypot(a[0], a[1])
-export const cross = (a: P, b: P, p: P) => (b[0] - a[0]) * (p[1] - a[1]) - (b[1] - a[1]) * (p[0] - a[0])
 const lerp = (a: P, b: P, t: number): P => [a[0] + (b[0] - a[0]) * t, a[1] + (b[1] - a[1]) * t]
 export const area = (pts: P[]) => Math.abs(pts.reduce((s, a, i) => s + a[0] * pts[(i + 1) % pts.length][1] - a[1] * pts[(i + 1) % pts.length][0], 0) / 2)
 export function centroid(pts: P[]): P {

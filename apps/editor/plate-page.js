@@ -227,13 +227,16 @@ function mountTurntable(root, model, lang, settings) {
     if (event.button !== 0) return
     stopOrbit()
     slot.setPointerCapture(event.pointerId)
-    // A second finger pinches (viewer-zoom.js); it does not start a turn.
-    if (zoom.pinching()) { drag = null; return }
-    drag ={ x: event.clientX, y: event.clientY, touch: event.pointerType === 'touch' }
+    if (zoom.pointerDown(event)) {
+      drag = null
+      slot.classList.remove('is-dragging')
+      return
+    }
+    drag = { id: event.pointerId, x: event.clientX, y: event.clientY, touch: event.pointerType === 'touch' }
     slot.classList.add('is-dragging')
   })
   slot.addEventListener('pointermove', event => {
-    if (zoom.pinching() || !drag) return
+    if (zoom.pointerMove(event) || drag?.id !== event.pointerId) return
     const dx = event.clientX - drag.x, dy = event.clientY - drag.y
     drag.x = event.clientX
     drag.y = event.clientY
@@ -241,9 +244,15 @@ function mountTurntable(root, model, lang, settings) {
     // drag down and its top tips towards you.
     turn(dx * 0.5, drag.touch ? 0 : dy * 0.4)
   })
-  const end = () => { drag = null; slot.classList.remove('is-dragging') }
+  const end = event => {
+    zoom.pointerEnd(event)
+    if (drag?.id !== event.pointerId) return
+    drag = null
+    slot.classList.remove('is-dragging')
+  }
   slot.addEventListener('pointerup', end)
   slot.addEventListener('pointercancel', end)
+  slot.addEventListener('lostpointercapture', end)
   slot.addEventListener('focus', stopOrbit)
   slot.addEventListener('keydown', event => {
     const step = { ArrowLeft: [-10, 0], ArrowRight: [10, 0], ArrowUp: [0, -8], ArrowDown: [0, 8] }[event.key]

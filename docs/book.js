@@ -1,7 +1,7 @@
-import { coloredPacket, objectIds } from "./assets/objects/appearance.js?v=60abccfc0f99";
-import { flightObjects } from "./assets/objects/activities.js?v=60abccfc0f99";
-import { currentLocale, homeURL, localizedLinks } from "./atlas-nav.js?v=60abccfc0f99";
-import { recordBookEvent } from "./book-metrics.js?v=60abccfc0f99";
+import { coloredPacket, objectIds } from "./assets/objects/appearance.js?v=2807f4a798d5";
+import { flightObjects } from "./assets/objects/activities.js?v=2807f4a798d5";
+import { currentLocale, homeURL, localizedLinks } from "./atlas-nav.js?v=2807f4a798d5";
+import { recordBookEvent } from "./book-metrics.js?v=2807f4a798d5";
 import {
   bookFilename,
   bookPlan,
@@ -13,24 +13,24 @@ import {
   normalizeBook,
   pilotLimit,
   readBookURL,
-} from "./book-model.js?v=60abccfc0f99";
+} from "./book-model.js?v=2807f4a798d5";
 import {
   loadBookServices,
   recoverBookCheckout,
   supportChoices,
-} from "./book-support.js?v=60abccfc0f99";
-import { estimateBookBytes } from "./book-size.js?v=60abccfc0f99";
-import { mountBookReader } from "./book-reader.js?v=60abccfc0f99";
-import { applyStudioColors, studioForBookSheet } from "./model-studio.js?v=60abccfc0f99";
-import { mountModelMap } from "./model-map.js?v=60abccfc0f99";
-import { appearanceArtPath, appearanceChoices } from "./model-appearance.js?v=60abccfc0f99";
-import { builderCopy } from "./book-ui-copy.js?v=60abccfc0f99";
+} from "./book-support.js?v=2807f4a798d5";
+import { estimateBookBytes } from "./book-size.js?v=2807f4a798d5";
+import { mountBookReader } from "./book-reader.js?v=2807f4a798d5";
+import { applyStudioColors, studioForBookSheet } from "./model-studio.js?v=2807f4a798d5";
+import { mountModelMap } from "./model-map.js?v=2807f4a798d5";
+import { appearanceArtPath, appearanceChoices } from "./model-appearance.js?v=2807f4a798d5";
+import { builderCopy } from "./book-ui-copy.js?v=2807f4a798d5";
 import {
   sheetCatalog,
   sheetIdFor,
   sheetName,
   sheetPath,
-} from "./family-sheets.js?v=60abccfc0f99";
+} from "./family-sheets.js?v=2807f4a798d5";
 
 const sheetVersion = new URL(import.meta.url).search;
 const byId = (id) => document.getElementById(id);
@@ -768,8 +768,8 @@ function readyPDF(book) {
   const key = JSON.stringify(book);
   if (activePDF?.key === key) return activePDF.promise;
   const promise = Promise.all([
-    import("./book-engine.js?v=60abccfc0f99"),
-    import("./assets/planes/vendor/jspdf.js?v=60abccfc0f99"),
+    import("./book-engine.js?v=2807f4a798d5"),
+    import("./assets/planes/vendor/jspdf.js?v=2807f4a798d5"),
   ]).then(async ([{ createBook }]) => {
     const data = await createBook(book, { loadAsset });
     return new File([data], bookFilename(book), { type: "application/pdf" });

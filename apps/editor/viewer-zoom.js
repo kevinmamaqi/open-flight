@@ -9,8 +9,8 @@ export const zoomWords = {
   zoomReset: w('Reset zoom', 'Restablecer zoom', 'Сбросить масштаб'),
   hint: w('Pinch, Ctrl and scroll, or + and − to zoom.', 'Pellizca, usa Ctrl y la rueda, o + y − para acercar.', 'Сведите пальцы, Ctrl и колесо или + и −, чтобы приблизить.'),
 }
-export const ZOOM_MIN = 0.6
-export const ZOOM_MAX = 4
+const ZOOM_MIN = 0.6
+const ZOOM_MAX = 4
 
 const escape = (s) => String(s).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' })[c])
 const icon = (d) => `<svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="${d}" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>`
@@ -25,8 +25,8 @@ export function zoomMarkup(lang) {
 /**
  * Wire zoom to a viewer. `stage` is the element the model is drawn in (it takes pinch, wheel and
  * keys); `box` is the `zoomMarkup` element; `viewer()` returns the current viewer or null;
- * `onUse()` runs at every zoom gesture (to stop an idle orbit or hide a hint). The caller's own
- * drag handler should skip turning while `pinching()` is true.
+ * `onUse()` runs at every zoom gesture (to stop an idle orbit or hide a hint). The caller
+ * forwards stage pointer events. `pointerDown` and `pointerMove` return true during a pinch.
  */
 export function mountZoom({ stage, box, viewer, onUse = () => {} }) {
   let level = 1
@@ -50,18 +50,26 @@ export function mountZoom({ stage, box, viewer, onUse = () => {} }) {
   const pointers = new Map()
   let pinch = null
   const spread = () => { const [a, b] = [...pointers.values()]; return Math.hypot(a.x - b.x, a.y - b.y) || 1 }
-  stage.addEventListener('pointerdown', (event) => {
+  const pointerDown = (event) => {
+    if (event.button !== 0) return false
     pointers.set(event.pointerId, { x: event.clientX, y: event.clientY })
-    if (pointers.size === 2) { pinch = { spread: spread(), level }; onUse() }
-  })
-  stage.addEventListener('pointermove', (event) => {
-    if (!pointers.has(event.pointerId)) return
-    pointers.set(event.pointerId, { x: event.clientX, y: event.clientY })
-    if (pinch && pointers.size === 2) set(pinch.level * (spread() / pinch.spread))
-  })
-  const lift = (event) => { pointers.delete(event.pointerId); if (pointers.size < 2) pinch = null }
-  stage.addEventListener('pointerup', lift)
-  stage.addEventListener('pointercancel', lift)
+    if (pointers.size === 2) {
+      pinch = { spread: spread(), level }
+      onUse()
+    }
+    return pinch !== null
+  }
+  const pointerMove = (event) => {
+    if (pointers.has(event.pointerId)) {
+      pointers.set(event.pointerId, { x: event.clientX, y: event.clientY })
+      if (pinch && pointers.size === 2) set(pinch.level * (spread() / pinch.spread))
+    }
+    return pinch !== null
+  }
+  const pointerEnd = (event) => {
+    pointers.delete(event.pointerId)
+    if (pointers.size < 2) pinch = null
+  }
   // A trackpad pinch arrives as a wheel event with ctrlKey set; a plain wheel scrolls the page.
   stage.addEventListener('wheel', (event) => {
     if (!event.ctrlKey && !event.metaKey) return
@@ -77,7 +85,8 @@ export function mountZoom({ stage, box, viewer, onUse = () => {} }) {
     /** Show the buttons and apply the current zoom to a (new) viewer. */
     show() { if (box) box.hidden = false; viewer()?.zoom?.(level) },
     hide() { if (box) box.hidden = true },
-    pinching: () => pinch !== null,
-    get level() { return level },
+    pointerDown,
+    pointerMove,
+    pointerEnd,
   }
 }

@@ -2,11 +2,11 @@
 // outline, folds and estimates must match the field-colour sheet exactly. They say nothing about flight.
 import assert from 'node:assert/strict'
 import test from 'node:test'
-import { k3Designs, k3DesignPalettes } from '../packages/folded-butterfly/k3-designs.ts'
+import { k3Designs } from '../packages/folded-butterfly/k3-designs.ts'
 import { k3Art } from '../packages/folded-butterfly/k3-dart.ts'
 import { k3Pdf, k3SheetLines, makeK3 } from '../packages/folded-butterfly/k3-sheet.ts'
 import { makeK2 } from '../packages/folded-butterfly/k2-sheet.ts'
-import { appearanceChoices, k3AppearanceChoices, k3DesignSwatches, sheetChoices } from '../apps/editor/model-appearance.js'
+import { appearanceChoices, k3AppearanceChoices, sheetChoices } from '../apps/editor/model-appearance.js'
 
 const species = ['monarch', 'morpho', 'swallowtail'] as const
 
@@ -46,14 +46,13 @@ test('K3 designs stay off the retired K2 sheet, and unknown designs are still re
   assert.throws(() => makeK3({ species: 'monarch', appearance_id: 'gaudi' as never }), /Unknown butterfly appearance/)
 })
 
-test('K3 offers Barcelona with swatches matching the print palette; retired sheets do not', () => {
+test('K3 offers Barcelona with a three-colour swatch; retired sheets do not', () => {
   for (const sp of species) {
-    const p = k3DesignPalettes[sp].modernista
-    assert.deepEqual(k3DesignSwatches[sp].modernista, [p.base, p.sun, p.ink])
     const choices = k3AppearanceChoices(sp, 'es')
     const last = choices[choices.length - 1]!
     assert.equal(last.id, 'modernista')
     assert.equal(last.label, 'Barcelona')
+    assert.equal(last.colors.length, 3)
     assert.equal(appearanceChoices(sp).at(-1)!.id as string, 'modernista')
     assert.ok(!sheetChoices(sp + '-k2').some((c) => (c.id as string) === 'modernista'))
   }

@@ -67,3 +67,26 @@ export const butterflySwatches = {
     ]
   }
 }
+export const k3DesignSwatches = {
+  "monarch": {
+    "modernista": [
+      "#F57A14",
+      "#FFB21E",
+      "#16285C"
+    ]
+  },
+  "morpho": {
+    "modernista": [
+      "#1E6FD6",
+      "#25C1C4",
+      "#0F1F4A"
+    ]
+  },
+  "swallowtail": {
+    "modernista": [
+      "#FFC928",
+      "#FFE066",
+      "#173A3A"
+    ]
+  }
+}

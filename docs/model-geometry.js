@@ -1,6 +1,6 @@
-import { makePlane } from './assets/planes/core.js?v=60abccfc0f99'
-import { stripes } from './assets/planes/drawing.js?v=60abccfc0f99'
-import { makeWorld } from './flight-geometry.js?v=60abccfc0f99'
+import { makePlane } from './assets/planes/core.js?v=2807f4a798d5'
+import { stripes } from './assets/planes/drawing.js?v=2807f4a798d5'
+import { makeWorld } from './flight-geometry.js?v=2807f4a798d5'
 
 // K2: the same folded body under swept forewings, with the clips in the longer head.
 export function costaModel(plan, api) {

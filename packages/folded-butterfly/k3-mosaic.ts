@@ -5,6 +5,7 @@
 // "found" pieces in an accent colour. Deterministic for a given seed. Colour only: the caller keeps
 // the cut outline, folds and markings.
 import type { Line, Point } from '../geometry/butterfly.ts'
+import { clipPolygon, cross, insidePolygon, polygonArea } from '../geometry/polygon.ts'
 
 export type Mosaic = { grout: string; accents: string[]; piece_mm: number; gap_mm: number; accent_share: number }
 
@@ -14,43 +15,10 @@ function rng(seed: number) {
 }
 const r3 = (v: number) => Math.round(v * 1000) / 1000
 
-function inside([x, y]: Point, poly: Point[]) {
-  let hit = false
-  for (let i = 0, j = poly.length - 1; i < poly.length; j = i++) {
-    const [xi, yi] = poly[i], [xj, yj] = poly[j]
-    if (yi > y !== yj > y && x < ((xj - xi) * (y - yi)) / (yj - yi) + xi) hit = !hit
-  }
-  return hit
-}
-const cross = (a: Point, b: Point, c: Point) => (b[0] - a[0]) * (c[1] - a[1]) - (b[1] - a[1]) * (c[0] - a[0])
 function convex(poly: Point[]) {
   const s = poly.map((_, i) => Math.sign(cross(poly[i], poly[(i + 1) % poly.length], poly[(i + 2) % poly.length])))
   return s.every((v) => v >= 0) || s.every((v) => v <= 0)
 }
-/** Sutherland–Hodgman: any subject polygon clipped by a convex polygon. */
-function clip(subject: Point[], by: Point[]): Point[] {
-  const dir = Math.sign(by.reduce((a, p, i) => a + cross([0, 0], p, by[(i + 1) % by.length]), 0)) || 1
-  let out = subject
-  for (let i = 0; i < by.length && out.length; i++) {
-    const a = by[i], b = by[(i + 1) % by.length]
-    const keep = (p: Point) => dir * cross(a, b, p) >= 0
-    const cut = (p: Point, q: Point): Point => {
-      const t = cross(a, b, p) / (cross(a, b, p) - cross(a, b, q))
-      return [p[0] + t * (q[0] - p[0]), p[1] + t * (q[1] - p[1])]
-    }
-    const input = out
-    out = []
-    for (let k = 0; k < input.length; k++) {
-      const p = input[k], q = input[(k + 1) % input.length]
-      if (keep(q)) { if (!keep(p)) out.push(cut(p, q)); out.push(q) } else if (keep(p)) out.push(cut(p, q))
-    }
-  }
-  return out
-}
-function area(poly: Point[]) {
-  return Math.abs(poly.reduce((a, p, i) => a + cross([0, 0], p, poly[(i + 1) % poly.length]), 0)) / 2
-}
-
 /** The inverse of a rigid transform (rotation and translation), found from three images. */
 export function invertRigid(f: (p: Point) => Point): (q: Point) => Point {
   const t = f([0, 0]), ex = f([1, 0]), ey = f([0, 1])
@@ -112,12 +80,12 @@ export function mosaicWing(id: string, outline: Point[], toRaw: (q: Point) => Po
   }
   const out: Line[] = []
   for (const cell of cells) {
-    const piece = clip(outline, cell)
-    if (piece.length < 3 || area(piece) < 0.6) continue
+    const piece = clipPolygon(outline, cell)
+    if (piece.length < 3 || polygonArea(piece).area < 0.6) continue
     const c: Point = [piece.reduce((a, p) => a + p[0], 0) / piece.length, piece.reduce((a, p) => a + p[1], 0) / piece.length]
     const raw = toRaw(c)
     let colour = fallback
-    for (const layer of layers) if (layer.fill && inside(raw, layer.points)) colour = layer.fill
+    for (const layer of layers) if (layer.fill && insidePolygon(raw, layer.points)) colour = layer.fill
     colour = r() < m.accent_share ? m.accents[Math.floor(r() * m.accents.length)] : glaze(colour, r)
     // Pull every corner towards the centre so the grout shows between pieces.
     const shrunk = piece.map(([x, y]): Point => {

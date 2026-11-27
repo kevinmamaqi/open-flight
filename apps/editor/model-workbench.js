@@ -195,7 +195,13 @@ export function mountWorkbench(root) {
     posterRevision = 0
   const customSpan = () => span && +span.value !== facts.span
   // The shared zoom component (viewer-zoom.js), shown while the 3D model is on screen.
-  const zoom = mountZoom({ stage: $('.model-canvas'), box: $('[data-zoom]'), viewer: () => viewer })
+  const stage = $('.model-canvas')
+  const zoom = mountZoom({ stage, box: $('[data-zoom]'), viewer: () => viewer })
+  stage.addEventListener('pointerdown', zoom.pointerDown)
+  stage.addEventListener('pointermove', zoom.pointerMove)
+  stage.addEventListener('pointerup', zoom.pointerEnd)
+  stage.addEventListener('pointercancel', zoom.pointerEnd)
+  stage.addEventListener('lostpointercapture', zoom.pointerEnd)
   const markMode = (next) => {
     mode = next
     if (next === 'orbit') zoom.show()
