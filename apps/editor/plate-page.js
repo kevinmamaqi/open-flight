@@ -6,6 +6,7 @@ import { flightObjects } from './assets/objects/activities.js'
 import { coloredPacket, objectIds } from './assets/objects/appearance.js'
 import { sheetIdFor, sheetPath } from './family-sheets.js'
 import { plateWords } from './plate-words.js'
+import { mountZoom } from './viewer-zoom.js'
 
 const figureModules = {
   airplane: () => import('./book/figures/airplane.js'),
@@ -134,6 +135,13 @@ function mountTurntable(root, model, lang, settings) {
     viewer?.view(yaw, pitch)
     gizmo?.draw(yaw, pitch)
   }
+  // Zoom is the shared viewer component (viewer-zoom.js), the same on every model page.
+  const zoom = mountZoom({
+    stage: slot,
+    box: root.querySelector('[data-zoom]'),
+    viewer: () => viewer,
+    onUse: () => { stopOrbit(); if (hint) hint.hidden = true },
+  })
   // A short glide to a named view; instant for people who ask for reduced motion.
   let glide = 0
   function snap(toYaw, toPitch) {
@@ -186,6 +194,7 @@ function mountTurntable(root, model, lang, settings) {
       viewer = await opening
       await viewer.setModel(paint, paper)
       if (!shown) gizmo?.show()
+      zoom.show()
       view()
       if (!shown) {
         shown = true
@@ -217,12 +226,14 @@ function mountTurntable(root, model, lang, settings) {
   slot.addEventListener('pointerdown', event => {
     if (event.button !== 0) return
     stopOrbit()
-    drag ={ x: event.clientX, y: event.clientY, touch: event.pointerType === 'touch' }
     slot.setPointerCapture(event.pointerId)
+    // A second finger pinches (viewer-zoom.js); it does not start a turn.
+    if (zoom.pinching()) { drag = null; return }
+    drag ={ x: event.clientX, y: event.clientY, touch: event.pointerType === 'touch' }
     slot.classList.add('is-dragging')
   })
   slot.addEventListener('pointermove', event => {
-    if (!drag) return
+    if (zoom.pinching() || !drag) return
     const dx = event.clientX - drag.x, dy = event.clientY - drag.y
     drag.x = event.clientX
     drag.y = event.clientY

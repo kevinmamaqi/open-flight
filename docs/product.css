@@ -225,6 +225,8 @@
   height: 100%;
   position: absolute;
   inset: 0;
+  /* Vertical swipes scroll the page; two fingers pinch to zoom (viewer-zoom.js). */
+  touch-action: pan-y;
   object-fit: contain;
   display: block;
 }

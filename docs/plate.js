@@ -1,20 +1,21 @@
 // A design page is a plate of the book: what it is, how to print it, how it
 // flies, how to make, launch and trim it, why it exists and one experiment.
 // Rendered at build time; plate-page.js adds colours, paper and figure controls.
-import { diagrams, instructions } from './assets/atlas/k3-lessons.js?v=eb901ca27c79'
-import { makePlane } from './assets/planes/core.js?v=eb901ca27c79'
-import { foldSvg } from './assets/planes/guide.js?v=eb901ca27c79'
-import { flightObjects } from './assets/objects/activities.js?v=eb901ca27c79'
-import { fieldModel, studioLink } from './atlas-guide.js?v=eb901ca27c79'
-import { chapterById, plateFor, plateNeighbours } from './book/catalog.js?v=eb901ca27c79'
-import { flightNoteLabels, flightNotesFor } from './book/flight-notes.js?v=eb901ca27c79'
-import { plateContent, plateFigure } from './book/content.js?v=eb901ca27c79'
-import { sheetIdFor, sheetPath } from './family-sheets.js?v=eb901ca27c79'
-import { appearanceChoices, specimenPath } from './model-appearance.js?v=eb901ca27c79'
-import { modelOrigin } from './model-origins.js?v=eb901ca27c79'
-import { escapeHtml as e, publicPath } from './site-navigation.js?v=eb901ca27c79'
-import { k3Facts } from './assets/atlas/k3-facts.js?v=eb901ca27c79'
-import { plateWords } from './plate-words.js?v=eb901ca27c79'
+import { zoomMarkup, zoomWords } from './viewer-zoom.js?v=60abccfc0f99'
+import { diagrams, instructions } from './assets/atlas/k3-lessons.js?v=60abccfc0f99'
+import { makePlane } from './assets/planes/core.js?v=60abccfc0f99'
+import { foldSvg } from './assets/planes/guide.js?v=60abccfc0f99'
+import { flightObjects } from './assets/objects/activities.js?v=60abccfc0f99'
+import { fieldModel, studioLink } from './atlas-guide.js?v=60abccfc0f99'
+import { chapterById, plateFor, plateNeighbours } from './book/catalog.js?v=60abccfc0f99'
+import { flightNoteLabels, flightNotesFor } from './book/flight-notes.js?v=60abccfc0f99'
+import { plateContent, plateFigure } from './book/content.js?v=60abccfc0f99'
+import { sheetIdFor, sheetPath } from './family-sheets.js?v=60abccfc0f99'
+import { appearanceChoices, specimenPath } from './model-appearance.js?v=60abccfc0f99'
+import { modelOrigin } from './model-origins.js?v=60abccfc0f99'
+import { escapeHtml as e, publicPath } from './site-navigation.js?v=60abccfc0f99'
+import { k3Facts } from './assets/atlas/k3-facts.js?v=60abccfc0f99'
+import { plateWords } from './plate-words.js?v=60abccfc0f99'
 
 export { plateWords }
 
@@ -168,7 +169,7 @@ export function plateMarkup(model, lang, base) {
     <a class="button primary plate-quick-print" data-print href="${e(print)}">${t('print', lang)}</a>
   </header>
   <div class="plate-hero">
-    <figure class="plate-specimen stage-grid"><img class="plate-poster" src="${e(base + specimenPath(model))}" alt="${e(title)}" fetchpriority="high"><div class="plate-model" data-plate-model hidden tabindex="0" aria-label="${e(title)} · ${t('turnLabel', lang)}"></div><div class="plate-gizmo" data-gizmo hidden></div><span class="plate-turn-hint" aria-hidden="true" hidden><svg viewBox="0 0 24 24" width="18" height="18"><ellipse cx="12" cy="12" rx="9" ry="4" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M17.5 6.6l3 1.6-2.4 2.3" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>${t('turn', lang)}</span></figure>
+    <figure class="plate-specimen stage-grid"><img class="plate-poster" src="${e(base + specimenPath(model))}" alt="${e(title)}" fetchpriority="high"><div class="plate-model" data-plate-model hidden tabindex="0" aria-label="${e(title)} · ${t('turnLabel', lang)} ${e(zoomWords.hint[lang])}"></div><div class="plate-gizmo" data-gizmo hidden></div>${zoomMarkup(lang)}<span class="plate-turn-hint" aria-hidden="true" hidden><svg viewBox="0 0 24 24" width="18" height="18"><ellipse cx="12" cy="12" rx="9" ry="4" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M17.5 6.6l3 1.6-2.4 2.3" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>${t('turn', lang)}</span></figure>
     <section class="plate-print panel" aria-label="${t('print', lang)}">
       ${choices.length > 1 ? `<fieldset class="model-palette"><legend>${t('colors', lang)}</legend><div class="paint-grid">${choices.map(({ id, label, colors }, i) => `<button type="button" data-paint="${e(id)}" aria-pressed="${i === 0}"><span class="palette-chip" aria-hidden="true" style="background:linear-gradient(120deg,${colors[0]} 48%,${colors[1]} 48% 76%,${colors[2]} 76%)"></span>${e(label)}</button>`).join('')}</div></fieldset>` : ''}
       <label class="plate-paper">${t('paper', lang)}<select class="size"><option value="A4">A4</option><option value="US_LETTER">${t('letter', lang)}</option></select></label>

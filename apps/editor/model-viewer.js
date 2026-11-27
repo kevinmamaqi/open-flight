@@ -18,7 +18,8 @@ export function createViewer(container, id, lang, onProgress) {
     version = 0,
     frame = 0,
     fraction = 0,
-    radius = 1
+    radius = 1,
+    zoom = 1
   let yaw = 32,
     pitch = 36
   function release() {
@@ -100,6 +101,9 @@ export function createViewer(container, id, lang, onProgress) {
         1,
         1200,
       )
+      // A new model keeps the zoom the reader chose.
+      camera.zoom = zoom
+      camera.updateProjectionMatrix()
       seek(0)
     },
     view(azimuth, elevation) {
@@ -108,6 +112,14 @@ export function createViewer(container, id, lang, onProgress) {
       draw()
     },
     seek,
+    /** Orthographic zoom about the model's middle: 1 fits the model, larger is closer. */
+    zoom(level) {
+      zoom = level
+      if (!camera) return
+      camera.zoom = level
+      camera.updateProjectionMatrix()
+      draw()
+    },
     toggle() {
       if (frame) {
         stop()

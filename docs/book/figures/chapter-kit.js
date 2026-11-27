@@ -3,7 +3,7 @@
 // tokens; meaning is carried by line style and words, so every figure reads in grayscale.
 // Figures are 560 units wide (records: 696) and text is never below 16 units, so a figure
 // placed 111 mm wide or more in the book keeps every label at 9 pt or larger.
-import { color } from '../../assets/brand/tokens.js?v=eb901ca27c79'
+import { color } from '../../assets/brand/tokens.js?v=60abccfc0f99'
 
 export const ink = color.diagramInk
 export const muted = color.textMuted

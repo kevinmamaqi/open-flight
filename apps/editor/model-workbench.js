@@ -1,3 +1,4 @@
+import { mountZoom, zoomMarkup, zoomWords } from './viewer-zoom.js'
 import { specimenPath, appearanceChoices } from './model-appearance.js'
 import { bookFromStudio, studioForBookSheet } from './model-studio.js'
 import { sheetIdFor, sheetPath } from './family-sheets.js'
@@ -135,7 +136,7 @@ export function workbenchMarkup(id, lang, base, details = {}) {
       <div class="specimen-head"><div><${heading}>${e(title)}</${heading}>${details.subtitle ? '<p class="specimen-subtitle">' + e(details.subtitle) + '</p>' : ''}</div>
       <div class="segmented specimen-modes" role="group" aria-label="${t[12]}">
         <button class="specimen-mode" aria-pressed="true">${icon('wings')}${b[0]}</button><button class="path-mode" aria-pressed="false">${icon('flight')}${b[1]}</button></div></div>
-      <div class="model-stage stage-grid" data-family="${facts ? 'butterfly' : object ? 'object' : 'airplane'}"><img class="model-poster" src="${e(art)}" alt="${e(title)}" fetchpriority="high"><div class="model-canvas" hidden></div>
+      <div class="model-stage stage-grid" data-family="${facts ? 'butterfly' : object ? 'object' : 'airplane'}"><img class="model-poster" src="${e(art)}" alt="${e(title)}" fetchpriority="high"><div class="model-canvas" hidden tabindex="0" aria-label="${e(title)} · 3D. ${e(zoomWords.hint[lang])}"></div>${zoomMarkup(lang)}
       ${sketchMarkup(id, lang, e(art))}</div>
       <div class="stage-actions"><button type="button" class="button secondary explore">${icon('angles')}${t[1]}</button>
       <span class="specimen-scale">${facts ? '<span data-stage-span>' + facts.span + ' mm</span>' : ''}</span></div>
@@ -193,8 +194,12 @@ export function mountWorkbench(root) {
     stopSketch,
     posterRevision = 0
   const customSpan = () => span && +span.value !== facts.span
+  // The shared zoom component (viewer-zoom.js), shown while the 3D model is on screen.
+  const zoom = mountZoom({ stage: $('.model-canvas'), box: $('[data-zoom]'), viewer: () => viewer })
   const markMode = (next) => {
     mode = next
+    if (next === 'orbit') zoom.show()
+    else zoom.hide()
     $('.model-poster').hidden = next !== 'specimen'
     $('.model-canvas').hidden = next !== 'orbit'
     $('.orbit-controls').hidden = next !== 'orbit'

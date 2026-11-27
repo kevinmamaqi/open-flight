@@ -22,3 +22,4 @@ export const k3Facts = {
     "balance": 33
   }
 }
+export const k3SpanRange = {"minimum":150,"maximum":180,"step":2}

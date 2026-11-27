@@ -1,14 +1,14 @@
 // /print/: choose one to three designs, then get one PDF.
 // One design, and the three ready sets, are static files from the build. Two or three designs
 // are those singles joined here with pdf-lib, which loads only when a second design is chosen.
-import { breadcrumbs, navHref, siteHeader, siteLabels, siteLocales } from './site-navigation.js?v=eb901ca27c79'
-import { printFooterHtml, printPageHtml } from './print-page.js?v=eb901ca27c79'
-import { counted, printCopy, printName } from './print-copy.js?v=eb901ca27c79'
-import { designName } from './print-guide-content.js?v=eb901ca27c79'
+import { breadcrumbs, navHref, siteHeader, siteLabels, siteLocales } from './site-navigation.js?v=60abccfc0f99'
+import { printFooterHtml, printPageHtml } from './print-page.js?v=60abccfc0f99'
+import { counted, printCopy, printName } from './print-copy.js?v=60abccfc0f99'
+import { designName } from './print-guide-content.js?v=60abccfc0f99'
 import {
   bookletLink, defaultPaper, formatBytes, maxDesigns, pageCount, printFilename, readSelection,
   readySetById, readySetFor, resolvePlate, selectionHash, setPath, singlePath, staticPath, toggleDesign,
-} from './print-and-play.js?v=eb901ca27c79'
+} from './print-and-play.js?v=60abccfc0f99'
 
 const storageKey = 'open-flight-print'
 const $ = (id) => document.getElementById(id)
@@ -130,7 +130,7 @@ async function prepareMerge() {
   if (merged.has(snapshot)) return merged.get(snapshot)
   const ids = [...state.plates], { paper } = state
   const [library, ...singles] = await Promise.all([
-    engine ??= import('./print-merge-engine.js?v=eb901ca27c79'),
+    engine ??= import('./print-merge-engine.js?v=60abccfc0f99'),
     ...ids.map((id) => fetchBytes(singlePath(id, paper, lang))),
   ])
   const bytes = await library.mergePdfs(singles, { title: library.setTitle(ids), lang })

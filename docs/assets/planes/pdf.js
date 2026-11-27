@@ -1,8 +1,8 @@
-import { aircraftPortrait } from './field-portraits.js?v=eb901ca27c79'
-import { backScene, pageSize, sheetScene, specimenScene } from './drawing.js?v=eb901ca27c79'
-import { foldScene } from './guide.js?v=eb901ca27c79'
-import { planeCredits, creditText, creditLinks } from './credits.js?v=eb901ca27c79'
-import { atLeastLine, atLeastText, fontNotice as printFontNotice, ink, muted, registerFonts, textMm, useFont } from '../brand/print.js?v=eb901ca27c79'
+import { aircraftPortrait } from './field-portraits.js?v=60abccfc0f99'
+import { backScene, pageSize, sheetScene, specimenScene } from './drawing.js?v=60abccfc0f99'
+import { foldScene } from './guide.js?v=60abccfc0f99'
+import { planeCredits, creditText, creditLinks } from './credits.js?v=60abccfc0f99'
+import { atLeastLine, atLeastText, fontNotice as printFontNotice, ink, muted, registerFonts, textMm, useFont } from '../brand/print.js?v=60abccfc0f99'
 
 // Shared with the one-page quick guide (packages/print-export/quick-guide.js).
 export function draw(doc, parts, offset = [0, 0], scale = 1) {

@@ -2,7 +2,7 @@
 // Earth as two pairs of columns (air density, gravity). Drawn like an architect's sheet with
 // dimension lines and a title block. Values come from chapters/space.js (NASA Mars fact sheet,
 // NASA Glenn); the density is an estimate and the figure says so inside the drawing.
-import { arrow, frame, gliderSide, ink, kite, line, muted, n, text, titleBlock } from './chapter-kit.js?v=eb901ca27c79'
+import { arrow, frame, gliderSide, ink, kite, line, muted, n, text, titleBlock } from './chapter-kit.js?v=60abccfc0f99'
 
 const w = (en, es, ru) => ({ en, es, ru })
 const say = (item, lang) => item[lang] ?? item.en

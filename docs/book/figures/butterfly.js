@@ -4,8 +4,8 @@
 // three side views (tail-heavy, balanced, nose-heavy) and the tab inset. Pure and
 // deterministic: numbers come from butterfly-data.js, generated from makeK3 by
 // scripts/build_nature_figures.ts. Spanish and Russian need a native read.
-import { color, print } from '../../assets/brand/tokens.js?v=eb901ca27c79'
-import { butterflyData } from './butterfly-data.js?v=eb901ca27c79'
+import { color, print } from '../../assets/brand/tokens.js?v=60abccfc0f99'
+import { butterflyData } from './butterfly-data.js?v=60abccfc0f99'
 
 const w = (en, es, ru) => ({ en, es, ru })
 const names = {

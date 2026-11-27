@@ -1,8 +1,8 @@
-import * as THREE from './assets/viewer/three.js?v=eb901ca27c79'
-import { objectModel } from './assets/objects/geometry.js?v=eb901ca27c79'
-import { objectIds } from './assets/objects/appearance.js?v=eb901ca27c79'
-import { planeModel, dartModel } from './model-geometry.js?v=eb901ca27c79'
-import { makeScene, textureFor } from './model-scene.js?v=eb901ca27c79'
+import * as THREE from './assets/viewer/three.js?v=60abccfc0f99'
+import { objectModel } from './assets/objects/geometry.js?v=60abccfc0f99'
+import { objectIds } from './assets/objects/appearance.js?v=60abccfc0f99'
+import { planeModel, dartModel } from './model-geometry.js?v=60abccfc0f99'
+import { makeScene, textureFor } from './model-scene.js?v=60abccfc0f99'
 
 export function createViewer(container, id, lang, onProgress) {
   const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true })
@@ -18,7 +18,8 @@ export function createViewer(container, id, lang, onProgress) {
     version = 0,
     frame = 0,
     fraction = 0,
-    radius = 1
+    radius = 1,
+    zoom = 1
   let yaw = 32,
     pitch = 36
   function release() {
@@ -67,7 +68,7 @@ export function createViewer(container, id, lang, onProgress) {
       if (objectIds.includes(id)) model = objectModel(id, paint, second)
       else if (id.includes('-')) model = planeModel(id, paint, paper)
       else {
-        const api = await import('./browser-workshop.js?v=eb901ca27c79')
+        const api = await import('./browser-workshop.js?v=60abccfc0f99')
         model = dartModel(api.makeK3({ species: id, appearance_id: paint, span_mm: span, paper, locale: lang }), api)
       }
       const nextTexture = await textureFor(model, 'studio')
@@ -100,6 +101,9 @@ export function createViewer(container, id, lang, onProgress) {
         1,
         1200,
       )
+      // A new model keeps the zoom the reader chose.
+      camera.zoom = zoom
+      camera.updateProjectionMatrix()
       seek(0)
     },
     view(azimuth, elevation) {
@@ -108,6 +112,14 @@ export function createViewer(container, id, lang, onProgress) {
       draw()
     },
     seek,
+    /** Orthographic zoom about the model's middle: 1 fits the model, larger is closer. */
+    zoom(level) {
+      zoom = level
+      if (!camera) return
+      camera.zoom = level
+      camera.updateProjectionMatrix()
+      draw()
+    },
     toggle() {
       if (frame) {
         stop()

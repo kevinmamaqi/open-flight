@@ -1,5 +1,5 @@
-import { breadcrumbs, navHref, navigationLinks, siteHeader, siteLabels, siteLocales, toolTrail } from './site-navigation.js?v=eb901ca27c79'
-import { movedPage, previousHome, workshopHome } from './assets/workshop-address.js?v=eb901ca27c79'
+import { breadcrumbs, navHref, navigationLinks, siteHeader, siteLabels, siteLocales, toolTrail } from './site-navigation.js?v=60abccfc0f99'
+import { movedPage, previousHome, workshopHome } from './assets/workshop-address.js?v=60abccfc0f99'
 
 if (location.href.startsWith(previousHome)) {
   let keepPrevious = new URLSearchParams(location.search).get('previous') === '1'

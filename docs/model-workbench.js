@@ -1,13 +1,14 @@
-import { specimenPath, appearanceChoices } from './model-appearance.js?v=eb901ca27c79'
-import { bookFromStudio, studioForBookSheet } from './model-studio.js?v=eb901ca27c79'
-import { sheetIdFor, sheetPath } from './family-sheets.js?v=eb901ca27c79'
-import { flightObjects } from './assets/objects/activities.js?v=eb901ca27c79'
-import { objectIds, coloredPacket } from './assets/objects/appearance.js?v=eb901ca27c79'
-import { escapeHtml as e } from './site-navigation.js?v=eb901ca27c79'
+import { mountZoom, zoomMarkup, zoomWords } from './viewer-zoom.js?v=60abccfc0f99'
+import { specimenPath, appearanceChoices } from './model-appearance.js?v=60abccfc0f99'
+import { bookFromStudio, studioForBookSheet } from './model-studio.js?v=60abccfc0f99'
+import { sheetIdFor, sheetPath } from './family-sheets.js?v=60abccfc0f99'
+import { flightObjects } from './assets/objects/activities.js?v=60abccfc0f99'
+import { objectIds, coloredPacket } from './assets/objects/appearance.js?v=60abccfc0f99'
+import { escapeHtml as e } from './site-navigation.js?v=60abccfc0f99'
 
-import { sketchMarkup, mountSketch } from './model-sketch.js?v=eb901ca27c79'
-import { studioOrigins } from './studio-origins.js?v=eb901ca27c79'
-import { k3Facts, k3SpanRange } from './assets/atlas/k3-facts.js?v=eb901ca27c79'
+import { sketchMarkup, mountSketch } from './model-sketch.js?v=60abccfc0f99'
+import { studioOrigins } from './studio-origins.js?v=60abccfc0f99'
+import { k3Facts, k3SpanRange } from './assets/atlas/k3-facts.js?v=60abccfc0f99'
 
 const benchLabels = {
   en: ['Model', 'Flight path', 'Customize', 'Wingspan', 'Book uses the standard span', 'Build settings'],
@@ -135,7 +136,7 @@ export function workbenchMarkup(id, lang, base, details = {}) {
       <div class="specimen-head"><div><${heading}>${e(title)}</${heading}>${details.subtitle ? '<p class="specimen-subtitle">' + e(details.subtitle) + '</p>' : ''}</div>
       <div class="segmented specimen-modes" role="group" aria-label="${t[12]}">
         <button class="specimen-mode" aria-pressed="true">${icon('wings')}${b[0]}</button><button class="path-mode" aria-pressed="false">${icon('flight')}${b[1]}</button></div></div>
-      <div class="model-stage stage-grid" data-family="${facts ? 'butterfly' : object ? 'object' : 'airplane'}"><img class="model-poster" src="${e(art)}" alt="${e(title)}" fetchpriority="high"><div class="model-canvas" hidden></div>
+      <div class="model-stage stage-grid" data-family="${facts ? 'butterfly' : object ? 'object' : 'airplane'}"><img class="model-poster" src="${e(art)}" alt="${e(title)}" fetchpriority="high"><div class="model-canvas" hidden tabindex="0" aria-label="${e(title)} · 3D. ${e(zoomWords.hint[lang])}"></div>${zoomMarkup(lang)}
       ${sketchMarkup(id, lang, e(art))}</div>
       <div class="stage-actions"><button type="button" class="button secondary explore">${icon('angles')}${t[1]}</button>
       <span class="specimen-scale">${facts ? '<span data-stage-span>' + facts.span + ' mm</span>' : ''}</span></div>
@@ -193,8 +194,12 @@ export function mountWorkbench(root) {
     stopSketch,
     posterRevision = 0
   const customSpan = () => span && +span.value !== facts.span
+  // The shared zoom component (viewer-zoom.js), shown while the 3D model is on screen.
+  const zoom = mountZoom({ stage: $('.model-canvas'), box: $('[data-zoom]'), viewer: () => viewer })
   const markMode = (next) => {
     mode = next
+    if (next === 'orbit') zoom.show()
+    else zoom.hide()
     $('.model-poster').hidden = next !== 'specimen'
     $('.model-canvas').hidden = next !== 'orbit'
     $('.orbit-controls').hidden = next !== 'orbit'
@@ -224,8 +229,8 @@ export function mountWorkbench(root) {
     if (!steps.length || !id.includes('-') || lessonPaper === paper.value) return
     const requested = paper.value
     const [{ makePlane }, { foldSvg }] = await Promise.all([
-      import('./assets/planes/core.js?v=eb901ca27c79'),
-      import('./assets/planes/guide.js?v=eb901ca27c79'),
+      import('./assets/planes/core.js?v=60abccfc0f99'),
+      import('./assets/planes/guide.js?v=60abccfc0f99'),
     ])
     if (paper.value !== requested) return
     const plan = makePlane({ model_id: id, paper: requested }, lang)
@@ -269,7 +274,7 @@ export function mountWorkbench(root) {
     const version = ++revision
     mode = 'orbit'
     try {
-      opening ??= import('./model-viewer.js?v=eb901ca27c79').then(({ createViewer }) =>
+      opening ??= import('./model-viewer.js?v=60abccfc0f99').then(({ createViewer }) =>
         createViewer($('.model-canvas'), id, lang, (fraction, active) => {
           slider.value = Math.round(fraction * 100)
           playing(active)
@@ -294,7 +299,7 @@ export function mountWorkbench(root) {
     const version = ++posterRevision
     let url = base + specimenPath(id, paint)
     if (customSpan()) {
-      const api = await import('./browser-workshop.js?v=eb901ca27c79')
+      const api = await import('./browser-workshop.js?v=60abccfc0f99')
       if (version !== posterRevision) return
       const plan = api.makeK3({ species: id, appearance_id: paint, span_mm: +span.value })
       url = 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(api.k3FinishedSvg(plan))
@@ -373,12 +378,12 @@ export function mountWorkbench(root) {
     event.preventDefault()
     status.textContent = t[15]
     try {
-      const { loadAppearanceSheet } = await import('./appearance-sheet-browser.js?v=eb901ca27c79')
+      const { loadAppearanceSheet } = await import('./appearance-sheet-browser.js?v=60abccfc0f99')
       const name =
         [sheet, paint, ...(customSpan() ? [span.value + 'mm'] : []), paper.value, lang].join('-') + '.pdf'
       let bytes
       if (customSpan()) {
-        const api = await import('./browser-workshop.js?v=eb901ca27c79')
+        const api = await import('./browser-workshop.js?v=60abccfc0f99')
         const plan = api.makeK3({
           species: id,
           span_mm: +span.value,
