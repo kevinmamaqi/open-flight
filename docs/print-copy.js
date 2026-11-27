@@ -1,7 +1,7 @@
 // Words on the Print & Play page, in English, Spanish and Russian.
 // Short sentences, no exclamation marks. Spanish uses tú; Russian uses вы.
 // Spanish and Russian need a native read before release.
-import { appendix } from './book/catalog.js?v=cab232a23c6b'
+import { appendix } from './book/catalog.js?v=4b14e3f58ca0'
 
 const w = (en, es, ru) => ({ en, es, ru })
 

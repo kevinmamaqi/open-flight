@@ -1,7 +1,7 @@
 // Figures for Chapter 2 · How flight works. Contract as in book/README.md, keyed by
 // figure id instead of model: figure(id, lang), figureControls(id, lang), figureText(id, lang).
 // Diagrams, not to scale. The Reynolds bands are estimates and say so inside the figure.
-import { arrow, balanceMark, blue, frame, gliderSide, grid, ink, kite, line, muted, n, pale, poly, rotate, sheet, text } from './chapter-kit.js?v=cab232a23c6b'
+import { arrow, balanceMark, blue, frame, gliderSide, grid, ink, kite, line, muted, n, pale, poly, rotate, sheet, text } from './chapter-kit.js?v=4b14e3f58ca0'
 
 const w = (en, es, ru) => ({ en, es, ru })
 const words = {

@@ -1,9 +1,9 @@
-import { mountWorkbench, workbenchMarkup } from './model-workbench.js?v=cab232a23c6b'
-import { objectDrawing, coloredPacket } from './assets/objects/appearance.js?v=cab232a23c6b'
-import { bookFromStudio } from './model-studio.js?v=cab232a23c6b'
-import { currentLocale, localizedLinks } from './atlas-nav.js?v=cab232a23c6b'
-import { flightObjects } from './assets/objects/activities.js?v=cab232a23c6b'
-import { objectCopy } from './flight-objects-copy.js?v=cab232a23c6b'
+import { mountWorkbench, workbenchMarkup } from './model-workbench.js?v=4b14e3f58ca0'
+import { objectDrawing, coloredPacket } from './assets/objects/appearance.js?v=4b14e3f58ca0'
+import { bookFromStudio } from './model-studio.js?v=4b14e3f58ca0'
+import { currentLocale, localizedLinks } from './atlas-nav.js?v=4b14e3f58ca0'
+import { flightObjects } from './assets/objects/activities.js?v=4b14e3f58ca0'
+import { objectCopy } from './flight-objects-copy.js?v=4b14e3f58ca0'
 
 const $ = id => document.getElementById(id)
 const lang = currentLocale()

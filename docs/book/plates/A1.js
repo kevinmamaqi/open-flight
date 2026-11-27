@@ -2,7 +2,7 @@
 // Numbers come from figures/airplane-balance.js (A4, cut border, 80 g/m²): estimates, not measurements.
 // Spanish (tú) and Russian (вы) are drafts and need a native read before release.
 // Editor: check the cargo-nose sentence against a Museum of Flight or Boeing source before print.
-import { references as shared } from './A-references.js?v=cab232a23c6b'
+import { references as shared } from './A-references.js?v=4b14e3f58ca0'
 const w = (en, es, ru) => ({ en, es, ru })
 
 export default {

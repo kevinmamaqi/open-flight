@@ -1,4 +1,4 @@
-import { objectPalettes, objectDrawing } from './appearance.js?v=cab232a23c6b'
+import { objectPalettes, objectDrawing } from './appearance.js?v=4b14e3f58ca0'
 
 // Coordinates are millimetres. The ring uses an illustrative opening, which the builder measures after tucking.
 export function objectModel(id, appearance = 'field', second = false) {

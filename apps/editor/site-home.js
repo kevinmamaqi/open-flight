@@ -46,9 +46,9 @@ const copy = {
     'Calcula las copias para tu clase, imprime una hoja de prueba justa y organizad juntos una competición.',
     'Рассчитайте тираж для класса, распечатайте лист честного опыта и устройте соревнование вместе.'),
   teachersAction: w('Plan a class', 'Planifica una clase', 'Спланировать урок'),
-  bookText: w('We are preparing One Sheet as a printed book: about 160 sewn pages, at a size that also prints at home on A4 and US Letter. The chapters on this site are its free web edition.',
-    'Estamos preparando Una hoja como libro impreso: unas 160 páginas cosidas, con un tamaño que también se imprime en casa en A4 y Carta. Los capítulos de esta web son su edición digital gratuita.',
-    'Мы готовим «Один лист» как печатную книгу: около 160 страниц в шитом переплёте, в формате, который можно напечатать дома на A4 и US Letter. Главы на этом сайте — её бесплатное веб-издание.'),
+  bookText: w('We are preparing One Sheet as a printed book for readers aged 8 to 12: seven chapters to make, fly and change, and an annex with every model, 128 pages in the current proof. Its patterns print at 100% on A4 and US Letter. The chapters on this site are its free web edition.',
+    'Estamos preparando Una hoja como libro impreso para lectores de 8 a 12 años: siete capítulos para construir, volar y cambiar, y un anexo con todos los modelos, 128 páginas en la prueba actual. Sus plantillas se imprimen al 100 % en A4 y Carta. Los capítulos de esta web son su edición digital gratuita.',
+    'Мы готовим «Один лист» как печатную книгу для читателей 8–12 лет: семь глав, где модели собирают, запускают и улучшают, и приложение со всеми моделями — 128 страниц в текущей вёрстке. Шаблоны печатаются в масштабе 100% на A4 и US Letter. Главы на этом сайте — её бесплатное веб-издание.'),
   bookAction: w('About the book', 'Sobre el libro', 'О книге'),
 }
 const ogLocale = { en: 'en_US', es: 'es_ES', ru: 'ru_RU' }

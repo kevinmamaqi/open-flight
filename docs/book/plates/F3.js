@@ -1,6 +1,6 @@
 // Plate F3, Williams tandem glider (Archibald Williams, Things To Make, 1918, Model B).
 // Quotations are from the public-domain text. Spanish and Russian need a native read.
-import { objectData } from '../figures/object-data.js?v=cab232a23c6b'
+import { objectData } from '../figures/object-data.js?v=4b14e3f58ca0'
 
 const w = (en, es, ru) => ({ en, es, ru })
 const t = objectData.tandem

@@ -9,9 +9,9 @@ export const book = {
   title: w('One Sheet', 'Una hoja', 'Один лист'),
   subtitle: w('A field notebook of paper flight', 'Un cuaderno de campo del vuelo en papel', 'Полевой блокнот бумажного полёта'),
   promise: w(
-    'Ten flying things, each from one sheet of paper. How to make them, how they fly and where their ideas come from. Free to read and print.',
-    'Diez cosas que vuelan, cada una de una sola hoja de papel. Cómo hacerlas, cómo vuelan y de dónde vienen sus ideas. Gratis para leer e imprimir.',
-    'Десять летающих моделей, каждая из одного листа бумаги. Как их сделать, как они летают и откуда взялась их идея. Читать и печатать бесплатно.',
+    'Fourteen flying things, each from one sheet of paper: eight airplanes, three butterflies and three flying objects. How to make them, how they fly and where their ideas come from. Free to read and print.',
+    'Catorce cosas que vuelan, cada una de una sola hoja de papel: ocho aviones, tres mariposas y tres objetos voladores. Cómo hacerlas, cómo vuelan y de dónde vienen sus ideas. Gratis para leer e imprimir.',
+    'Четырнадцать летающих моделей, каждая из одного листа бумаги: восемь самолётов, три бабочки и три летающих предмета. Как их сделать, как они летают и откуда взялась их идея. Читать и печатать бесплатно.',
   ),
 }
 
@@ -51,9 +51,9 @@ export const chapters = [
     n: 4, id: 'airplanes', route: 'airplanes', family: 'airplane', plates: ['A1', 'A2', 'A3', 'A4', 'A5', 'A6', 'A7', 'A8'],
     title: w('Airplanes', 'Aviones', 'Самолёты'),
     standfirst: w(
-      'One sheet each. Four folds, each named after a real aircraft.',
-      'Una hoja cada uno. Cuatro pliegues, cada uno con el nombre de un avión real.',
-      'Один лист на каждый. Четыре сгиба, у каждого есть настоящий прототип.',
+      'One sheet each. Four folds named after real aircraft, and four Open Flight versions of record-setting paper planes.',
+      'Una hoja cada uno. Cuatro pliegues con el nombre de aviones reales y cuatro versiones Open Flight de aviones de papel de récord.',
+      'Один лист на каждый. Четыре сгиба с настоящими прототипами и четыре версии Open Flight рекордных бумажных самолётов.',
     ),
   },
   {

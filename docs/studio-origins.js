@@ -10,7 +10,7 @@ export function studioOrigins(details) {
   let current, mounted, loading
   async function display() {
     if (!details.open || !current) return
-    loading ??= import('./model-map.js?v=cab232a23c6b').catch(error => { loading = undefined; throw error })
+    loading ??= import('./model-map.js?v=4b14e3f58ca0').catch(error => { loading = undefined; throw error })
     const { mountModelMap } = await loading
     if (!details.open) return
     if (mounted?.lang === current.lang) {

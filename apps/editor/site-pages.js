@@ -162,14 +162,37 @@ function chapterBody(chapter, lang, base) {
 const bookWords = {
   status: w('The book · in preparation', 'El libro · en preparación', 'Книга · готовится'),
   read: w('Read the free web edition', 'Lee la edición digital gratuita', 'Читать бесплатное веб-издание'),
-  inside: w('What will be inside', 'Qué habrá dentro', 'Что будет внутри'),
+  inside: w('Inside the printed edition', 'Dentro de la edición impresa', 'Внутри печатного издания'),
+  subtitle: w('Make it fly, find out why', 'Hazla volar, descubre por qué', 'Запустите лист и узнайте, почему он летит'),
+  printedChapters: [
+    w('Fold it and let go', 'Dóblalo y suéltalo', 'Сложите и отпустите'),
+    w('What changed the flight?', '¿Qué cambió el vuelo?', 'Что изменило полёт?'),
+    w('Make a wing into a ring', 'Convierte un ala en un anillo', 'Сверните крыло в кольцо'),
+    w('Make something that falls slowly', 'Haz algo que caiga despacio', 'Сделайте то, что падает медленно'),
+    w('Give a glider a butterfly’s shape', 'Dale a un planeador forma de mariposa', 'Планер в форме бабочки'),
+    w('Run a fair flight test', 'Haz una prueba de vuelo justa', 'Проведите честное лётное испытание'),
+    w('Design a better flyer for your room', 'Diseña un mejor modelo volador para tu habitación', 'Придумайте лучшую модель для своей комнаты'),
+  ],
+  insideNote: w(
+    'Chapters 1 to 5 each start with something to make: a plain-paper dart, a ring, a maple spinner and a paper butterfly. You fly it, read what happened, change one thing and fly it again. Chapters 6 and 7 use what you made. An annex gives all fourteen models a page of their own. The longer chapters on nature, history, space and contests stay in the free web edition.',
+    'Los capítulos 1 a 5 empiezan con algo que construir: un dardo de papel normal, un anillo, un helicóptero de arce y una mariposa de papel. Lo vuelas, lees lo que pasó, cambias una cosa y vuelves a volarlo. Los capítulos 6 y 7 usan lo que has construido. Un anexo dedica una página a cada uno de los catorce modelos. Los capítulos más largos sobre naturaleza, historia, espacio y concursos siguen en la edición digital gratuita.',
+    'Главы 1–5 начинаются с того, что нужно сделать: дротик из обычного листа, кольцо, кленовую крылатку и бумажную бабочку. Вы запускаете модель, разбираете, что произошло, меняете одну деталь и запускаете снова. Главы 6 и 7 работают с тем, что вы сделали. В приложении у каждой из четырнадцати моделей своя страница. Длинные главы о природе, истории, космосе и соревнованиях остаются в бесплатном веб-издании.',
+  ),
+  annex: w('Annex: every model, A1–A8, B1–B3 and F1–F3', 'Anexo: todos los modelos, A1–A8, B1–B3 y F1–F3', 'Приложение: все модели, A1–A8, B1–B3 и F1–F3'),
   edition: w('The edition', 'La edición', 'Издание'),
   facts: [
     [w('Format', 'Formato', 'Формат'), w('210 × 279 mm. It also prints at 100% on A4 and US Letter.', '210 × 279 mm. También se imprime al 100 % en A4 y Carta.', '210 × 279 мм. Печатается в масштабе 100% на A4 и US Letter.')],
-    [w('Pages', 'Páginas', 'Страницы'), w('About 160, sewn', 'Unas 160, cosidas', 'Около 160, шитый переплёт')],
-    [w('Languages', 'Idiomas', 'Языки'), w('English, Spanish and Russian', 'Inglés, español y ruso', 'Английский, испанский и русский')],
-    [w('Status', 'Estado', 'Статус'), w('Being written. Chapters appear on this site as they are finished.', 'En redacción. Los capítulos aparecen en esta web a medida que se terminan.', 'Пишется. Главы появляются на сайте по мере готовности.')],
+    [w('Pages', 'Páginas', 'Страницы'), w('128 in the current proof, sewn binding planned. The final extent is set with the publisher.', '128 en la prueba actual, con encuadernación cosida prevista. La extensión final se decide con la editorial.', '128 в текущей вёрстке, планируется шитый переплёт. Окончательный объём определяется вместе с издательством.')],
+    [w('Reader', 'Lectores', 'Читатели'), w('Written for ages 8 to 12 reading on their own. Younger children build with a helper, and adults go deeper.', 'Pensado para niños y niñas de 8 a 12 años que leen solos. Los más pequeños construyen con ayuda y los adultos profundizan.', 'Для детей 8–12 лет, которые читают сами. Младшие собирают модели со взрослым, а взрослые узнают больше.')],
+    [w('Languages', 'Idiomas', 'Языки'), w('English, Spanish and Russian. The Spanish and Russian texts are drafts awaiting a native-speaker review.', 'Inglés, español y ruso. Los textos en español y ruso son borradores pendientes de revisión por hablantes nativos.', 'Английский, испанский и русский. Испанский и русский тексты — черновики, их ещё проверят носители языка.')],
+    [w('Status', 'Estado', 'Статус'), w('The English manuscript and layout are complete. Flight tests, family and classroom trials and photography come next.', 'El manuscrito y la maquetación en inglés están terminados. Ahora siguen las pruebas de vuelo, las pruebas con familias y en el aula, y las fotografías.', 'Рукопись и вёрстка на английском готовы. Дальше — лётные испытания, проверка в семьях и классах и фотосъёмка.')],
+    [w('Rights', 'Derechos', 'Права'), w('Everything already published on this site keeps its open license. Terms for the printed edition are agreed with its publisher.', 'Todo lo ya publicado en esta web mantiene su licencia abierta. Las condiciones de la edición impresa se acuerdan con su editorial.', 'Всё, что уже опубликовано на сайте, остаётся под открытой лицензией. Условия печатного издания согласуются с издательством.')],
   ],
+  partners: w(
+    'We are looking for a publishing partner for the printed edition, starting with Spanish, and for schools, museums and makers who want to test it.',
+    'Buscamos una editorial para la edición impresa, empezando por la edición en español, y escuelas, museos y makers que quieran probarla.',
+    'Мы ищем издательство для печатного издания, начиная с испанского, а также школы, музеи и мейкеров, готовых его испытать.',
+  ),
   honest: w(
     'Every design in the book will be built, flown and photographed before the book is printed. Until then, each plate says which numbers are estimates.',
     'Cada modelo del libro se construirá, se volará y se fotografiará antes de imprimirlo. Hasta entonces, cada lámina indica qué números son estimaciones.',
@@ -182,7 +205,7 @@ const bookWords = {
     'Всё, что в книге можно сложить, уже сегодня можно бесплатно распечатать.',
   ),
   look: w('Look inside', 'Echa un vistazo', 'Заглянуть внутрь'),
-  lookNote: w('Pages from the preview edition, in English. Photographs from Pixabay; drawings from the printable geometry.', 'Páginas de la edición de avance, en inglés. Fotografías de Pixabay; dibujos a partir de la geometría imprimible.', 'Страницы пробного выпуска на английском. Фотографии с Pixabay; рисунки построены по геометрии шаблонов.'),
+  lookNote: w('Pages from an earlier preview of the web edition, in English. Photographs from Pixabay; drawings from the printable geometry.', 'Páginas de una vista previa anterior de la edición digital, en inglés. Fotografías de Pixabay; dibujos a partir de la geometría imprimible.', 'Страницы раннего пробного выпуска веб-издания на английском. Фотографии с Pixabay; рисунки построены по геометрии шаблонов.'),
   booklet: w('Download the complete family booklet (A4 PDF)', 'Descarga el cuadernillo familiar completo (PDF A4)', 'Скачать полный семейный буклет (PDF A4)'),
 }
 
@@ -190,7 +213,7 @@ function bookBody(lang, base) {
   const t = key => bookWords[key][lang]
   return `<section class="product-hero">
     <div><p class="eyebrow">${t('status')}</p><h1>${e(book.title[lang])}</h1>
-      <p class="plate-lineage">${e(book.subtitle[lang])}</p>
+      <p class="plate-lineage">${e(t('subtitle'))}</p>
       <p class="lede">${e(book.promise[lang])}</p>
       ${link(base + publicPath('home', lang) + '#contents', t('read'), 'button primary')}</div>
     <div class="product-art book-cover-art"><img src="${base}assets/book/preview/cover.webp" alt="${e(book.title[lang])}" decoding="async"></div>
@@ -198,10 +221,12 @@ function bookBody(lang, base) {
   <section class="book-look" aria-labelledby="look-title"><h2 id="look-title">${t('look')}</h2><p class="hint">${t('lookNote')}</p>
     <ol class="look-inside">${['toc', 'nature', 'nature-insects', 'game-spot-the-trim', 'plate-A1', 'history-timeline', 'space', 'contests-records', 'index'].map(id => `<li><a href="${base}assets/book/preview/${id}.webp"><img src="${base}assets/book/preview/${id}.webp" alt="" loading="lazy" decoding="async"></a></li>`).join('')}</ol></section>
   <section class="book-inside" aria-labelledby="inside-title"><h2 id="inside-title">${t('inside')}</h2>
-    <ol class="book-chapters">${chapters.map(chapter => `<li><span class="contents-number">${chapter.n}</span><div><strong>${chapter.route ? link(base + publicPath(chapter.route, lang), chapter.title[lang]) : e(chapter.title[lang])}</strong><p>${e(chapter.standfirst[lang])}</p></div></li>`).join('')}</ol></section>
+    <p>${e(t('insideNote'))}</p>
+    <ol class="book-chapters">${bookWords.printedChapters.map((title, i) => `<li><span class="contents-number">${i + 1}</span><div><strong>${e(title[lang])}</strong></div></li>`).join('')}<li><span class="contents-number">A</span><div><strong>${e(t('annex'))}</strong></div></li></ol></section>
   <section class="book-edition" aria-labelledby="edition-title"><h2 id="edition-title">${t('edition')}</h2>
     <dl class="plate-glance">${bookWords.facts.map(([label, value]) => '<div><dt>' + e(label[lang]) + '</dt><dd>' + e(value[lang]) + '</dd></div>').join('')}</dl>
-    <p>${t('honest')}</p></section>
+    <p>${t('honest')}</p>
+    <p>${e(t('partners'))}</p></section>
   <section class="book-now" aria-labelledby="now-title"><h2 id="now-title">${t('now')}</h2><p>${t('nowText')}</p>
     <ul class="plate-links"><li>${link(base + publicPath('print', lang), copy.print[lang], 'text-link')}</li>
     <li>${link(base + navHref('book', lang, '').replace(/^\.?\//, ''), siteLabels.book[lang], 'text-link')}</li>

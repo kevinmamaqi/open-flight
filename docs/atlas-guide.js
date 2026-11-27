@@ -1,9 +1,9 @@
-import { k3Facts } from './assets/atlas/k3-facts.js?v=cab232a23c6b'
-import { appearanceArtPath } from './model-appearance.js?v=cab232a23c6b'
-import { objects } from './assets/objects/activities.js?v=cab232a23c6b'
-import { flightPhysics } from './atlas-physics.js?v=cab232a23c6b'
-import { baselines } from './assets/atlas/baselines.js?v=cab232a23c6b'
-import { planeCatalog } from './assets/planes/catalog.js?v=cab232a23c6b'
+import { k3Facts } from './assets/atlas/k3-facts.js?v=4b14e3f58ca0'
+import { appearanceArtPath } from './model-appearance.js?v=4b14e3f58ca0'
+import { objects } from './assets/objects/activities.js?v=4b14e3f58ca0'
+import { flightPhysics } from './atlas-physics.js?v=4b14e3f58ca0'
+import { baselines } from './assets/atlas/baselines.js?v=4b14e3f58ca0'
+import { planeCatalog } from './assets/planes/catalog.js?v=4b14e3f58ca0'
 
 export const languages = ['en', 'es', 'ru']
 export const words = (en, es, ru) => ({ en, es, ru })
