@@ -6,4 +6,4 @@ Predict which clip setting will put the first landing closer to the flower. Alte
 
 Compare gate passes out of five and the spread of landing errors at each setting. What would you keep the same for the next builder?
 
-Original Open Flight game, first trial pending. CC BY-SA 4.0.
+Original Open Flight game, first trial pending. © Open Flight. Free to read, print and copy for personal, family and classroom use; all other rights reserved.

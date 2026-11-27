@@ -6,4 +6,4 @@ Predice en cuál de las dos posiciones del clip aterrizarás más cerca de la fl
 
 Compara cuántas veces de cinco pasa por la puerta y cómo se reparten las distancias a la flor. ¿Qué mantendrías igual para la próxima persona?
 
-Juego original de Open Flight, pendiente de primera prueba. CC BY-SA 4.0.
+Juego original de Open Flight, pendiente de primera prueba. © Open Flight. Se puede leer, imprimir y copiar gratis para uso personal, familiar y en el aula; reservados los demás derechos.

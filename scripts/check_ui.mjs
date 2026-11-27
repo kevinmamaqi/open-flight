@@ -22,7 +22,7 @@ const tools = [
   ['objects', 'flight-objects.html'],
 ]
 
-const products = ['designs', 'flight-book', 'teachers', 'motor-lab', 'butterflies/monarch', 'airplanes/tupolev-tu144', 'flying-objects/ring']
+const products = ['designs', 'flight-book', 'contact', 'teachers', 'motor-lab', 'butterflies/monarch', 'airplanes/tupolev-tu144', 'flying-objects/ring']
   .map(route => [route, Object.fromEntries(langs.map(lang => [lang, publicPath(route, lang)]))])
 const pages = args.includes('--products-only') ? products : [...tools, ...products]
 

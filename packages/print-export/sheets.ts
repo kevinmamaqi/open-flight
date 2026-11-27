@@ -94,7 +94,7 @@ export function pdf(drawing: Drawing & { locale?: Locale }, extraPages: Drawing[
     title: 'Open Flight - Butterfly Glider',
     author: 'Open Flight contributors',
     subject:
-      'Original design: CERN-OHL-W-2.0. Artwork: CC BY-SA 4.0. ' + fontNotice,
+      'Original design: CERN-OHL-W-2.0. Artwork and text: © Open Flight, free for personal and classroom use; all other rights reserved. ' + fontNotice,
   })
   registerFonts(doc, printFonts())
   doc.viewerPreferences({ PrintScaling: 'None' })

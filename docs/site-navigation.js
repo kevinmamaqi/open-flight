@@ -1,4 +1,4 @@
-import { appendix, chapterLabel, chapters } from './book/catalog.js?v=4b14e3f58ca0'
+import { appendix, chapterLabel, chapters } from './book/catalog.js?v=c8c7ae41db63'
 
 export const siteLocales = ['en', 'es', 'ru']
 const words = (en, es, ru) => ({ en, es, ru })
@@ -12,6 +12,7 @@ export const siteLabels = {
   printShort: words('Print & Play', 'Imprime y vuela', 'Печать'),
   'flight-book': words('The book', 'El libro', 'Книга'),
   teachers: words('For teachers', 'Para docentes', 'Для учителей'),
+  contact: words('Contact', 'Contacto', 'Контакты'),
   'how-it-flies': chapter('how-it-flies').title,
   airplanes: chapter('airplanes').title,
   butterflies: chapter('butterflies').title,
@@ -41,7 +42,7 @@ export const siteLabels = {
   language: words('Language', 'Idioma', 'Язык'),
   breadcrumb: words('Breadcrumb', 'Ruta de navegación', 'Путь к странице'),
   skip: words('Skip to content', 'Ir al contenido', 'Перейти к содержанию'),
-  footer: words('Free to print. Open source. No account.', 'Gratis para imprimir. Código abierto. Sin cuenta.', 'Печать бесплатно. Открытый код. Без регистрации.'),
+  footer: words('Free to read and print at home and in class. No account.', 'Gratis para leer e imprimir en casa y en el aula. Sin cuenta.', 'Бесплатно читать и печатать дома и в классе. Без регистрации.'),
   source: words('Source code', 'Código fuente', 'Исходный код'),
   feedback: words('Share a flight observation', 'Comparte una observación de vuelo', 'Поделиться наблюдением'),
 }
@@ -56,7 +57,7 @@ const toolParents = {
 const chapterRoutes = ['how-it-flies', 'nature', 'airplanes', 'butterflies', 'flying-objects', 'history', 'space', 'contests', 'experiments']
 const languages = { en: 'English', es: 'Español', ru: 'Русский' }
 const primary = ['print', 'teachers', 'flight-book']
-const menuMore = ['print', 'flight-book', 'teachers', 'references', 'motor-lab']
+const menuMore = ['print', 'flight-book', 'teachers', 'references', 'motor-lab', 'contact']
 
 export const escapeHtml = (value) => String(value).replace(/[&<>"']/g, c =>
   ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c],
@@ -146,6 +147,7 @@ export function siteFooter(lang, base = './') {
     link(navHref('flight-book', lang, base), siteLabels['flight-book'][lang]) +
     link(navHref('teachers', lang, base), siteLabels.teachers[lang]) +
     link(navHref('references', lang, base), siteLabels.references[lang]) +
+    link(navHref('contact', lang, base), siteLabels.contact[lang]) +
     link(repository, siteLabels.source[lang] + ' ↗') +
     link(repository + '/issues/new?template=flight-report.yml', siteLabels.feedback[lang] + ' ↗')
 }

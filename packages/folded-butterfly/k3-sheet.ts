@@ -500,7 +500,7 @@ const boxed = (lines: Line[], x: number, y: number, w: number, h: number): Line[
 // ---------------------------------------------------------------------------------------
 // Pages.
 
-const footer = 'Open Flight  /  CERN-OHL-W-2.0  /  CC BY-SA 4.0  /  K3'
+const footer = 'Open Flight  /  CERN-OHL-W-2.0  /  © Open Flight · personal and classroom use  /  K3'
 
 // Two crosses at the same physical spots on both faces of a double-sided print.
 function registrationCrosses(width: number, back: boolean): Line[] {
@@ -787,7 +787,7 @@ function writePdf(pages: Drawing[], plan: K3Plan, title: string): Buffer {
   doc.setCreationDate("D:20000101000000+00'00'")
   doc.setFileId(sha256(JSON.stringify(pages)).slice(0, 32))
   doc.setLanguage(plan.locale)
-  doc.setProperties({ title, author: 'Open Flight contributors', subject: 'Original design: CERN-OHL-W-2.0. Artwork: CC BY-SA 4.0. ' + fontNotice })
+  doc.setProperties({ title, author: 'Open Flight contributors', subject: 'Original design: CERN-OHL-W-2.0. Artwork and text: © Open Flight, free for personal and classroom use; all other rights reserved. ' + fontNotice })
   registerFonts(doc, printFonts())
   doc.viewerPreferences({ PrintScaling: 'None' })
   for (const [index, pg] of pages.entries()) {

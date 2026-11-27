@@ -20,7 +20,7 @@ const sp = {
     'Tu mano da al planeador la velocidad inicial. Al pasar el aire por las alas aparecen la sustentación y la resistencia. La gravedad tira hacia abajo. El papel, los pliegues y cómo lo sueltes cambian el aterrizaje.',
   road: 'Después de los planeos repetidos investigaremos un módulo desmontable de control por móvil. El cuaderno de próximos pasos muestra qué puede probar una familia y qué deben verificar los adultos.',
   licenses:
-    'El código se comparte bajo Apache 2.0, los diseños originales con CERN-OHL-W-2.0 y el material artístico y didáctico original con CC BY-SA 4.0. Cada fotografía conserva su autoría y enlaza a su publicación original.',
+    'El código se comparte bajo Apache 2.0 y la geometría editable con CERN-OHL-W-2.0. Textos, ilustraciones, lecciones y hojas imprimibles: © Open Flight. Se puede leer, imprimir y copiar gratis para uso personal, familiar y en el aula; reservados los demás derechos. Lo publicado antes del 27 de noviembre de 2026 bajo CC BY-SA 4.0 conserva esa licencia. Cada fotografía conserva su autoría y enlaza a su publicación original.',
   notices: 'Licencias y créditos ↗',
 }
 const extra = {
@@ -70,8 +70,8 @@ const labels = {
     'Сегодня можно сложить и настроить семь безмоторных планеров. Сначала мы хотим выяснить, какие сгибы дают повторяемый результат у разных людей. Затем планируем вместе со взрослыми исследовать влияние съёмного мотора на баланс. POWERUP 4.0 служит коммерческим примером для этой работы.',
   ],
   licenses: [
-    'Open Flight contributors share the software under Apache 2.0, the original paper designs under CERN-OHL-W-2.0, and the original art and lessons under CC BY-SA 4.0. Each field photograph links to its photographer and original publication.',
-    'Код Open Flight доступен по Apache 2.0, оригинальные модели — по CERN-OHL-W-2.0, рисунки и учебные материалы — по CC BY-SA 4.0. Для каждой фотографии указаны автор и исходная публикация.',
+    'The software is shared under Apache 2.0 and the editable geometry under CERN-OHL-W-2.0. Text, illustrations, lessons and printable sheets: © Open Flight. Free to read, print and copy for personal, family and classroom use; all other rights reserved. Material published before 27 November 2026 under CC BY-SA 4.0 keeps that license. Each field photograph links to its photographer and original publication.',
+    'Код доступен по Apache 2.0, редактируемая геометрия — по CERN-OHL-W-2.0. Тексты, рисунки, занятия и листы для печати: © Open Flight. Можно бесплатно читать, печатать и копировать для личного, семейного и учебного использования; остальные права защищены. Материалы, опубликованные до 27 ноября 2026 года под CC BY-SA 4.0, сохраняют эту лицензию. Для каждой фотографии указаны автор и исходная публикация.',
   ],
   notices: ['Licenses & credits ↗', 'Лицензии и авторы ↗'],
 }

@@ -1,13 +1,13 @@
 // The markup of /print/: ready sets, design cards grouped by chapter and the sticky bar.
 // Pure: the static build writes it into the three language pages, and print.js draws it
 // itself when a page arrives without it (the development server).
-import { chapters, chapterLabel, plates } from './book/catalog.js?v=4b14e3f58ca0'
-import { designName } from './print-guide-content.js?v=4b14e3f58ca0'
-import { counted, printCopy, printName } from './print-copy.js?v=4b14e3f58ca0'
-import { pageCount, pagesPerDesign, readySets, toolsFor } from './print-and-play.js?v=4b14e3f58ca0'
-import { specimenPath } from './model-appearance.js?v=4b14e3f58ca0'
-import { objects } from './assets/objects/activities.js?v=4b14e3f58ca0'
-import { escapeHtml as e, navHref, siteLabels } from './site-navigation.js?v=4b14e3f58ca0'
+import { chapters, chapterLabel, plates } from './book/catalog.js?v=c8c7ae41db63'
+import { designName } from './print-guide-content.js?v=c8c7ae41db63'
+import { counted, printCopy, printName } from './print-copy.js?v=c8c7ae41db63'
+import { pageCount, pagesPerDesign, readySets, toolsFor } from './print-and-play.js?v=c8c7ae41db63'
+import { specimenPath } from './model-appearance.js?v=c8c7ae41db63'
+import { objects } from './assets/objects/activities.js?v=c8c7ae41db63'
+import { escapeHtml as e, navHref, siteLabels } from './site-navigation.js?v=c8c7ae41db63'
 
 const thumbnail = (plate) => plate.chapter === 'airplanes' ? 'assets/planes/' + plate.model + '.svg'
   : plate.chapter === 'butterflies' ? specimenPath(plate.model)

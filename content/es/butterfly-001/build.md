@@ -11,4 +11,4 @@ Usa la hoja con el identificador, la revisión y el hash de tu diseño. Estas in
 
 Anota masa, altura de lanzamiento y distancias cuando las hayas medido. Guarda juntos la hoja impresa, el hash del diseño y el registro.
 
-Texto didáctico original de Open Flight. CC BY-SA 4.0.
+Texto didáctico original de Open Flight. © Open Flight. Se puede leer, imprimir y copiar gratis para uso personal, familiar y en el aula; reservados los demás derechos.

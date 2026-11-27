@@ -67,7 +67,7 @@ export function finishDocument(doc, { title, lang }) {
   doc.setTitle(title)
   doc.setAuthor('Open Flight')
   doc.setCreator('Open Flight')
-  doc.setSubject('Print & Play · CC BY-SA 4.0 art and text · CERN-OHL-W-2.0 geometry · openflight.design')
+  doc.setSubject('Print & Play · art and text © Open Flight · personal and classroom use · CERN-OHL-W-2.0 geometry · openflight.design')
   doc.setLanguage(lang)
   doc.setCreationDate(fixedDate)
   doc.setModificationDate(fixedDate)

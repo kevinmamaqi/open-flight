@@ -1,6 +1,6 @@
 # Paper flight viewer assets
 
-The twelve WebP textures are rasterizations of the Open Flight workshop artwork in natural, carnival, twilight and coloring palettes. The companion mesh data in `flight-butterflies.js` uses the exact same outer contours, root creases, tab hinges and slits as the printable design. The artwork carries CC BY-SA 4.0. The original paper airframes carry CERN-OHL-W-2.0. Regenerate both from the repository root with Node 24+ and ImageMagick 7.
+The twelve WebP textures are rasterizations of the Open Flight workshop artwork in natural, carnival, twilight and coloring palettes. The companion mesh data in `flight-butterflies.js` uses the exact same outer contours, root creases, tab hinges and slits as the printable design. The artwork is © Open Flight, free for personal and classroom use; all other rights reserved. The original paper airframes carry CERN-OHL-W-2.0. Regenerate both from the repository root with Node 24+ and ImageMagick 7.
 
 ```sh
 node scripts/generate_flight_assets.ts

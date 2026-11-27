@@ -1,6 +1,6 @@
 # Flying objects credits
 
-The three printable activities include original Open Flight instructions and translations under [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/). The ring diagram and original artwork use the same license. Open Flight contributors license the editable cut patterns under [CERN-OHL-W-2.0](https://spdx.org/licenses/CERN-OHL-W-2.0.html). The embedded fonts, Open Flight Text (a renamed subset of SIL's Andika) and Alegreya, use the [SIL Open Font License 1.1](https://openfontlicense.org/open-font-license-official-text/).
+The three printable activities include original Open Flight instructions and translations, © Open Flight, free for personal, family and classroom use with all other rights reserved. The ring diagram and original artwork use the same terms. Open Flight contributors license the editable cut patterns under [CERN-OHL-W-2.0](https://spdx.org/licenses/CERN-OHL-W-2.0.html). The embedded fonts, Open Flight Text (a renamed subset of SIL's Andika) and Alegreya, use the [SIL Open Font License 1.1](https://openfontlicense.org/open-font-license-official-text/).
 
 | Build | Source and contribution |
 | --- | --- |

@@ -68,7 +68,7 @@ for (const route of routes) {
       assert.ok(sitemapEntries.get(canonical).includes(`hreflang="${locale}" href="${href}"`), canonical)
     if (route !== 'home' && route !== 'print') {
       // Every page loads the navigation script; a plate adds its own.
-      assert.equal(got.externalScripts, route.includes('/') ? 2 : 1, canonical + ' unexpected script count')
+      assert.equal(got.externalScripts, route.includes('/') || route === 'contact' ? 2 : 1, canonical + ' unexpected script count')
       if (route.includes('/')) {
         assert.ok(document.includes('data-plate-page=') && document.includes('plate-page.js'), canonical)
         assert.ok(got.resources.some(path=>path.includes('.pdf')), canonical+' needs a printable fallback')

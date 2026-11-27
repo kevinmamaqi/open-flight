@@ -1,8 +1,8 @@
-import { diagrams, instructions } from './assets/atlas/k3-lessons.js?v=4b14e3f58ca0'
-import { makePlane } from './assets/planes/core.js?v=4b14e3f58ca0'
-import { foldSvg } from './assets/planes/guide.js?v=4b14e3f58ca0'
-import { modelOrigin } from './model-origins.js?v=4b14e3f58ca0'
-import { escapeHtml as e } from './site-navigation.js?v=4b14e3f58ca0'
+import { diagrams, instructions } from './assets/atlas/k3-lessons.js?v=c8c7ae41db63'
+import { makePlane } from './assets/planes/core.js?v=c8c7ae41db63'
+import { foldSvg } from './assets/planes/guide.js?v=c8c7ae41db63'
+import { modelOrigin } from './model-origins.js?v=c8c7ae41db63'
+import { escapeHtml as e } from './site-navigation.js?v=c8c7ae41db63'
 
 const words = {
   en: [

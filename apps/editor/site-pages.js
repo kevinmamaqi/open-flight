@@ -51,11 +51,18 @@ const chapterIntros = {
 
 const products = {
   designs: { redirect: true },
+  contact: {
+    description: w(
+      'Write to Open Flight: publishers, schools, museums, press and anyone with a flight to report.',
+      'Escribe a Open Flight: editoriales, escuelas, museos, prensa y cualquiera que quiera contarnos un vuelo.',
+      'Напишите Open Flight: издательства, школы, музеи, пресса и все, кто хочет рассказать о полёте.',
+    ),
+  },
   'flight-book': {
     description: w(
-      'The printed edition of One Sheet: its chapters, format and status. Everything in it that you can fold is free to print today.',
-      'La edición impresa de Una hoja: sus capítulos, formato y estado. Todo lo que se puede plegar ya se puede imprimir gratis.',
-      'Печатное издание книги «Один лист»: главы, формат и состояние работы. Всё, что в ней можно сложить, уже сейчас можно бесплатно распечатать.',
+      'The printed edition of One Sheet: its chapters, format and status. Every model in it can already be printed free at home or in class.',
+      'La edición impresa de Una hoja: sus capítulos, formato y estado. Todos sus modelos ya se pueden imprimir gratis en casa o en el aula.',
+      'Печатное издание книги «Один лист»: главы, формат и состояние работы. Все модели из неё уже можно бесплатно распечатать дома или в классе.',
     ),
   },
   teachers: {
@@ -186,8 +193,9 @@ const bookWords = {
     [w('Reader', 'Lectores', 'Читатели'), w('Written for ages 8 to 12 reading on their own. Younger children build with a helper, and adults go deeper.', 'Pensado para niños y niñas de 8 a 12 años que leen solos. Los más pequeños construyen con ayuda y los adultos profundizan.', 'Для детей 8–12 лет, которые читают сами. Младшие собирают модели со взрослым, а взрослые узнают больше.')],
     [w('Languages', 'Idiomas', 'Языки'), w('English, Spanish and Russian. The Spanish and Russian texts are drafts awaiting a native-speaker review.', 'Inglés, español y ruso. Los textos en español y ruso son borradores pendientes de revisión por hablantes nativos.', 'Английский, испанский и русский. Испанский и русский тексты — черновики, их ещё проверят носители языка.')],
     [w('Status', 'Estado', 'Статус'), w('The English manuscript and layout are complete. Flight tests, family and classroom trials and photography come next.', 'El manuscrito y la maquetación en inglés están terminados. Ahora siguen las pruebas de vuelo, las pruebas con familias y en el aula, y las fotografías.', 'Рукопись и вёрстка на английском готовы. Дальше — лётные испытания, проверка в семьях и классах и фотосъёмка.')],
-    [w('Rights', 'Derechos', 'Права'), w('Everything already published on this site keeps its open license. Terms for the printed edition are agreed with its publisher.', 'Todo lo ya publicado en esta web mantiene su licencia abierta. Las condiciones de la edición impresa se acuerdan con su editorial.', 'Всё, что уже опубликовано на сайте, остаётся под открытой лицензией. Условия печатного издания согласуются с издательством.')],
+    [w('Rights', 'Derechos', 'Права'), w('© Open Flight. The web edition is free to read and print at home and in class. Rights in the printed edition, its new material and its translations are available to license.', '© Open Flight. La edición digital se puede leer e imprimir gratis en casa y en el aula. Los derechos de la edición impresa, de su material nuevo y de sus traducciones están disponibles para licenciar.', '© Open Flight. Веб-издание можно бесплатно читать и печатать дома и в классе. Права на печатное издание, его новые материалы и переводы доступны для лицензирования.')],
   ],
+  write: w('Write to us →', 'Escríbenos →', 'Написать нам →'),
   partners: w(
     'We are looking for a publishing partner for the printed edition, starting with Spanish, and for schools, museums and makers who want to test it.',
     'Buscamos una editorial para la edición impresa, empezando por la edición en español, y escuelas, museos y makers que quieran probarla.',
@@ -200,9 +208,9 @@ const bookWords = {
   ),
   now: w('Print & Play now', 'Imprime y vuela ya', 'Печатайте и запускайте уже сейчас'),
   nowText: w(
-    'Everything in the book that you can fold is free to print today.',
-    'Todo lo que se puede plegar del libro ya se puede imprimir gratis.',
-    'Всё, что в книге можно сложить, уже сегодня можно бесплатно распечатать.',
+    'Every model in the book can already be printed free at home or in class.',
+    'Todos los modelos del libro ya se pueden imprimir gratis en casa o en el aula.',
+    'Все модели из книги уже можно бесплатно распечатать дома или в классе.',
   ),
   look: w('Look inside', 'Echa un vistazo', 'Заглянуть внутрь'),
   lookNote: w('Pages from an earlier preview of the web edition, in English. Photographs from Pixabay; drawings from the printable geometry.', 'Páginas de una vista previa anterior de la edición digital, en inglés. Fotografías de Pixabay; dibujos a partir de la geometría imprimible.', 'Страницы раннего пробного выпуска веб-издания на английском. Фотографии с Pixabay; рисунки построены по геометрии шаблонов.'),
@@ -226,11 +234,66 @@ function bookBody(lang, base) {
   <section class="book-edition" aria-labelledby="edition-title"><h2 id="edition-title">${t('edition')}</h2>
     <dl class="plate-glance">${bookWords.facts.map(([label, value]) => '<div><dt>' + e(label[lang]) + '</dt><dd>' + e(value[lang]) + '</dd></div>').join('')}</dl>
     <p>${t('honest')}</p>
-    <p>${e(t('partners'))}</p></section>
+    <p>${e(t('partners'))} ${link(base + publicPath('contact', lang), t('write'), 'text-link')}</p></section>
   <section class="book-now" aria-labelledby="now-title"><h2 id="now-title">${t('now')}</h2><p>${t('nowText')}</p>
     <ul class="plate-links"><li>${link(base + publicPath('print', lang), copy.print[lang], 'text-link')}</li>
     <li>${link(base + navHref('book', lang, '').replace(/^\.?\//, ''), siteLabels.book[lang], 'text-link')}</li>
     <li>${link(base + 'assets/book/samples/flight-book-A4-' + lang + '.pdf', t('booklet'), 'text-link')}</li></ul></section>`
+}
+
+export const contactAddress = 'hello@openflight.design'
+
+const contactWords = {
+  title: w('Contact', 'Contacto', 'Контакты'),
+  lede: w(
+    'Publishers, teachers, museums, press, or a flight you want to tell us about: write here and Kevin, who makes Open Flight, will answer.',
+    'Editoriales, docentes, museos, prensa o un vuelo que quieras contarnos: escribe aquí y te responderá Kevin, que hace Open Flight.',
+    'Издательства, учителя, музеи, пресса или полёт, о котором хочется рассказать: напишите здесь, и вам ответит Кевин, автор Open Flight.',
+  ),
+  direct: w('Or email', 'O escribe a', 'Или напишите на'),
+  name: w('Your name', 'Tu nombre', 'Ваше имя'),
+  email: w('Your email', 'Tu correo', 'Ваш email'),
+  organisation: w('Organisation (optional)', 'Organización (opcional)', 'Организация (необязательно)'),
+  topic: w('About', 'Tema', 'Тема'),
+  topics: [
+    ['publishing', w('Publishing the book', 'Publicar el libro', 'Издание книги')],
+    ['school', w('A school or classroom', 'Una escuela o un aula', 'Школа или класс')],
+    ['museum', w('A museum or science centre', 'Un museo o centro de ciencia', 'Музей или научный центр')],
+    ['press', w('Press', 'Prensa', 'Пресса')],
+    ['flight', w('How a model flew', 'Cómo voló un modelo', 'Как летала модель')],
+    ['other', w('Something else', 'Otra cosa', 'Другое')],
+  ],
+  message: w('Message', 'Mensaje', 'Сообщение'),
+  send: w('Send', 'Enviar', 'Отправить'),
+  sending: w('Sending…', 'Enviando…', 'Отправляем…'),
+  sent: w('Thank you. Your message is on its way, and the reply will come to the email you gave.', 'Gracias. Tu mensaje está en camino y la respuesta llegará al correo que has indicado.', 'Спасибо. Сообщение отправлено, ответ придёт на указанный email.'),
+  invalid: w('Please add your name, a valid email and a message of at least a few words.', 'Añade tu nombre, un correo válido y un mensaje de al menos unas palabras.', 'Укажите имя, правильный email и сообщение хотя бы из нескольких слов.'),
+  failed: w('The message could not be sent. Please email', 'No se ha podido enviar el mensaje. Escribe a', 'Сообщение не отправилось. Напишите, пожалуйста, на'),
+  kids: w('Children: please ask a grown-up to write for you. No names or photos of children are needed.', 'Niños y niñas: pedid a una persona adulta que escriba por vosotros. No hacen falta nombres ni fotos de menores.', 'Дети, попросите взрослого написать за вас. Имена и фото детей не нужны.'),
+  privacy: w('Your name, email and message are used only to reply to you. They are delivered by email through Cloudflare and are not stored on this site or shared.', 'Tu nombre, correo y mensaje solo se usan para responderte. Se entregan por correo electrónico a través de Cloudflare y no se guardan en esta web ni se comparten.', 'Имя, email и сообщение используются только для ответа вам. Они доставляются по почте через Cloudflare, не хранятся на сайте и никому не передаются.'),
+}
+
+function contactBody(lang, base) {
+  const t = key => contactWords[key][lang]
+  const mail = `<a class="text-link" href="mailto:${contactAddress}">${contactAddress}</a>`
+  const field = (id, label, input) => `<p class="contact-field"><label class="form-label" for="contact-${id}">${e(label)}</label>${input}</p>`
+  return `<section class="product-hero product-hero-text"><div>
+    <h1>${e(t('title'))}</h1><p class="lede">${e(t('lede'))}</p>
+    <p>${e(t('direct'))} ${mail}</p></div></section>
+  <form class="contact-form panel" id="contact-form" method="post" action="/api/contact" lang="${lang}" novalidate
+    data-sending="${e(t('sending'))}" data-sent="${e(t('sent'))}" data-invalid="${e(t('invalid'))}" data-failed="${e(t('failed'))}" data-address="${contactAddress}">
+    <input type="hidden" name="lang" value="${lang}">
+    <p class="contact-trap" aria-hidden="true"><label>Website <input name="website" tabindex="-1" autocomplete="off"></label></p>
+    ${field('name', t('name'), '<input id="contact-name" name="name" autocomplete="name" maxlength="120" required>')}
+    ${field('email', t('email'), '<input id="contact-email" name="email" type="email" autocomplete="email" maxlength="200" required>')}
+    ${field('organisation', t('organisation'), '<input id="contact-organisation" name="organisation" autocomplete="organization" maxlength="160">')}
+    ${field('topic', t('topic'), '<select id="contact-topic" name="topic">' + contactWords.topics.map(([value, label]) => `<option value="${value}">${e(label[lang])}</option>`).join('') + '</select>')}
+    ${field('message', t('message'), '<textarea id="contact-message" name="message" rows="8" maxlength="5000" required></textarea>')}
+    <p class="hint">${e(t('kids'))}</p>
+    <p class="hint">${e(t('privacy'))}</p>
+    <p><button class="button primary" type="submit">${e(t('send'))}</button></p>
+    <p class="contact-status" role="status" aria-live="polite"></p>
+  </form>`
 }
 
 function productBody(route, lang, base) {
@@ -288,6 +351,12 @@ export function renderProduct(route, lang, assetKey = '') {
     description = chapter.standfirst[lang]
     body = chapterBody(chapter, lang, base)
     styles = ['product.css', 'plate.css']
+  } else if (route === 'contact') {
+    trail.push({ label: siteLabels.contact[lang], route })
+    title = siteLabels.contact[lang] + ' · Open Flight'
+    description = products.contact.description[lang]
+    body = contactBody(lang, base)
+    script = 'contact-page.js'
   } else if (route === 'flight-book') {
     trail.push({ label: siteLabels['flight-book'][lang], route })
     title = book.title[lang] + ' · ' + book.subtitle[lang] + ' · Open Flight'

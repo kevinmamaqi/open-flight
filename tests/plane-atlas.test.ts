@@ -192,7 +192,7 @@ test('recipes have different real outlines, crease sets, printable source and li
     // A record plane links its fold credit to the tutorial of the original it is derived from.
     for (const url of [
       plan.designer ? plan.reference.url : 'https://spdx.org/licenses/CERN-OHL-W-2.0.html',
-      'https://creativecommons.org/licenses/by-sa/4.0/',
+      'https://openflight.design/references.html#licenses',
       'https://openflight.design/references',
     ]) {
       assert.ok(svg.includes('href="' + url + '"'))

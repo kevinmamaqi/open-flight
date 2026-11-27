@@ -11,4 +11,4 @@ Use the sheet with your design ID, revision and source hash. These instructions 
 
 Record masses, release height and distances only when measured. Keep the print sheet, source hash and trial log together.
 
-Original Open Flight learning text. CC BY-SA 4.0.
+Original Open Flight learning text. © Open Flight. Free to read, print and copy for personal, family and classroom use; all other rights reserved.

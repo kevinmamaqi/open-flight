@@ -1,5 +1,5 @@
 {
   "version": 1,
-  "include": ["/assets/book/services.json", "/api/flight-book/event", "/api/flight-book/confirm"],
+  "include": ["/assets/book/services.json", "/api/flight-book/event", "/api/flight-book/confirm", "/api/contact"],
   "exclude": []
 }

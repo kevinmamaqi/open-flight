@@ -1,8 +1,8 @@
-import { flightObjects } from './assets/objects/activities.js?v=4b14e3f58ca0'
-import { currentLocale, localizedLinks } from './atlas-nav.js?v=4b14e3f58ca0'
-import { bookFilename, localePaper } from './book-model.js?v=4b14e3f58ca0'
-import { classroomPlan } from './classroom-plan.js?v=4b14e3f58ca0'
-import { sheetName } from './family-sheets.js?v=4b14e3f58ca0'
+import { flightObjects } from './assets/objects/activities.js?v=c8c7ae41db63'
+import { currentLocale, localizedLinks } from './atlas-nav.js?v=c8c7ae41db63'
+import { bookFilename, localePaper } from './book-model.js?v=c8c7ae41db63'
+import { classroomPlan } from './classroom-plan.js?v=c8c7ae41db63'
+import { sheetName } from './family-sheets.js?v=c8c7ae41db63'
 
 const translations = {
   en: {
@@ -57,7 +57,7 @@ const translations = {
     proof: 'Usa el tamaño de papel indicado, escala real o 100 %, una página del PDF por hoja y solo por una cara. Desactiva Ajustar a página. Imprime primero la página 2 y comprueba con una regla que la línea mide 50 mm.',
     copyShop: 'Copiar instrucciones de impresión',
     selectNote: 'Instrucciones de impresión',
-    credits: 'Actividad e ilustraciones originales de colaboradores de Open Flight, bajo CC BY-SA 4.0. La geometría editable y el software tienen licencias propias.',
+    credits: 'Actividad e ilustraciones originales: © Open Flight. Se puede leer, imprimir y copiar gratis para uso personal, familiar y en el aula; reservados los demás derechos. La geometría editable y el software tienen licencias propias.',
     notices: 'Licencias y créditos',
     proofPage: 'Comprobación de escala (imprime primero)',
     logPage: 'Registro de vuelo',
@@ -105,7 +105,7 @@ const translations = {
     proof: 'Выберите нужный формат бумаги, масштаб 100 %, одну страницу PDF на лист и одностороннюю печать. Отключите подгонку под лист. Сначала распечатайте страницу 2 и проверьте линейкой, что отрезок равен 50 мм.',
     copyShop: 'Скопировать указания для печати',
     selectNote: 'Указания для печати',
-    credits: 'Занятие и оригинальные иллюстрации созданы участниками Open Flight и доступны по лицензии CC BY-SA 4.0. У редактируемых чертежей и ПО свои лицензии.',
+    credits: 'Занятие и оригинальные иллюстрации: © Open Flight. Можно бесплатно читать, печатать и копировать для личного, семейного и учебного использования; остальные права защищены. У редактируемых чертежей и ПО свои лицензии.',
     notices: 'Лицензии и авторство',
     proofPage: 'Проверка масштаба (печатайте первой)',
     logPage: 'Лётный журнал',

@@ -2,11 +2,11 @@
 // the print export lays it out (packages/print-export/quick-guide.js).
 // Nothing here is a flight or a measurement. Launch and trim lines come from
 // book/flight-notes.js, with its note that they are not yet tested on this design.
-import { resolvePlate, shortURL, designURL } from './print-and-play.js?v=4b14e3f58ca0'
-import { flightNoteLabels, flightNotesFor } from './book/flight-notes.js?v=4b14e3f58ca0'
-import { baselines } from './assets/atlas/baselines.js?v=4b14e3f58ca0'
-import { planeCatalog } from './assets/planes/catalog.js?v=4b14e3f58ca0'
-import { objects } from './assets/objects/activities.js?v=4b14e3f58ca0'
+import { resolvePlate, shortURL, designURL } from './print-and-play.js?v=c8c7ae41db63'
+import { flightNoteLabels, flightNotesFor } from './book/flight-notes.js?v=c8c7ae41db63'
+import { baselines } from './assets/atlas/baselines.js?v=c8c7ae41db63'
+import { planeCatalog } from './assets/planes/catalog.js?v=c8c7ae41db63'
+import { objects } from './assets/objects/activities.js?v=c8c7ae41db63'
 
 const w = (en, es, ru) => ({ en, es, ru })
 
@@ -15,15 +15,15 @@ export const guideCopy = {
   tally: w('Mark five landings:', 'Marca cinco aterrizajes:', 'Отметьте пять посадок:'),
   scan: w('Step pictures and more', 'Imágenes de los pasos y más', 'Картинки шагов и многое другое'),
   licence: w(
-    'Art and text CC BY-SA 4.0 · Geometry CERN-OHL-W-2.0 · openflight.design',
-    'Arte y texto CC BY-SA 4.0 · Geometría CERN-OHL-W-2.0 · openflight.design',
-    'Рисунки и текст CC BY-SA 4.0 · Геометрия CERN-OHL-W-2.0 · openflight.design',
+    'Art and text © Open Flight · personal and classroom use · Geometry CERN-OHL-W-2.0 · openflight.design',
+    'Arte y texto © Open Flight · uso personal y en el aula · Geometría CERN-OHL-W-2.0 · openflight.design',
+    'Рисунки и текст © Open Flight · личное и учебное использование · Геометрия CERN-OHL-W-2.0 · openflight.design',
   ),
   // A record plane's folds are derived from its credited original, so they carry no Open Flight licence.
   recordLicence: w(
-    'Art and text CC BY-SA 4.0 · Folds derived from the original · openflight.design',
-    'Arte y texto CC BY-SA 4.0 · Dobleces derivados del original · openflight.design',
-    'Рисунки и текст CC BY-SA 4.0 · Сгибы по оригинальной модели · openflight.design',
+    'Art and text © Open Flight · personal and classroom use · Folds derived from the original · openflight.design',
+    'Arte y texto © Open Flight · uso personal y en el aula · Dobleces derivados del original · openflight.design',
+    'Рисунки и текст © Open Flight · личное и учебное использование · Сгибы по оригинальной модели · openflight.design',
   ),
 }
 

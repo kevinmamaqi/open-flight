@@ -15,15 +15,15 @@ export const guideCopy = {
   tally: w('Mark five landings:', 'Marca cinco aterrizajes:', 'Отметьте пять посадок:'),
   scan: w('Step pictures and more', 'Imágenes de los pasos y más', 'Картинки шагов и многое другое'),
   licence: w(
-    'Art and text CC BY-SA 4.0 · Geometry CERN-OHL-W-2.0 · openflight.design',
-    'Arte y texto CC BY-SA 4.0 · Geometría CERN-OHL-W-2.0 · openflight.design',
-    'Рисунки и текст CC BY-SA 4.0 · Геометрия CERN-OHL-W-2.0 · openflight.design',
+    'Art and text © Open Flight · personal and classroom use · Geometry CERN-OHL-W-2.0 · openflight.design',
+    'Arte y texto © Open Flight · uso personal y en el aula · Geometría CERN-OHL-W-2.0 · openflight.design',
+    'Рисунки и текст © Open Flight · личное и учебное использование · Геометрия CERN-OHL-W-2.0 · openflight.design',
   ),
   // A record plane's folds are derived from its credited original, so they carry no Open Flight licence.
   recordLicence: w(
-    'Art and text CC BY-SA 4.0 · Folds derived from the original · openflight.design',
-    'Arte y texto CC BY-SA 4.0 · Dobleces derivados del original · openflight.design',
-    'Рисунки и текст CC BY-SA 4.0 · Сгибы по оригинальной модели · openflight.design',
+    'Art and text © Open Flight · personal and classroom use · Folds derived from the original · openflight.design',
+    'Arte y texto © Open Flight · uso personal y en el aula · Dobleces derivados del original · openflight.design',
+    'Рисунки и текст © Open Flight · личное и учебное использование · Сгибы по оригинальной модели · openflight.design',
   ),
 }
 

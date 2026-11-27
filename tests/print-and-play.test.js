@@ -108,7 +108,7 @@ test('static build: 84 singles and 18 sets with plate IDs in the text, sane size
       assert.equal(pages.length, expectedPages[id[0]])
       assert.ok(pages.every(text => text.includes(id)), id + ' on every page')
       // Record planes credit their original instead of an Open Flight geometry licence.
-      assert.ok(pages.at(-1).includes('CC BY-SA 4.0') && (/^A[5-8]$/.test(id) || pages.at(-1).includes('CERN-OHL-W-2.0')))
+      assert.ok(pages.at(-1).includes('© Open Flight') && (/^A[5-8]$/.test(id) || pages.at(-1).includes('CERN-OHL-W-2.0')))
     }
   }
   const sizeLimit = 1.2 * 1024 * 1024

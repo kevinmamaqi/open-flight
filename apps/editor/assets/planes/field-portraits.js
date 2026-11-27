@@ -1,4 +1,4 @@
-// Printable thumbnails of the original field/*.svg illustrations (CC BY-SA 4.0).
+// Printable thumbnails of the original field/*.svg illustrations (© Open Flight, free for personal and classroom use; all other rights reserved).
 // Rasterize with magick -font Helvetica MSVG:source.svg -resize 470x210 -strip -quality 84 jpeg:-.
 // Node and the browser use these same bytes for self-contained PDF and HTML exports.
 const portraits = {

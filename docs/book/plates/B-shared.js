@@ -1,7 +1,7 @@
 // Blocks shared by the three butterfly plates (B1-B3). Numbers come from the same
 // generated module as the figure, so the plate and the figure cannot disagree.
 // Spanish (tú) and Russian (вы, «язычки» for the tabs) need a native read before release.
-import { butterflyData } from '../figures/butterfly-data.js?v=4b14e3f58ca0'
+import { butterflyData } from '../figures/butterfly-data.js?v=c8c7ae41db63'
 
 export const w = (en, es, ru) => ({ en, es, ru })
 const dec = v => w(v.toFixed(1), v.toFixed(1).replace('.', ','), v.toFixed(1).replace('.', ','))
@@ -76,9 +76,9 @@ export function butterflyFlight(model) {
 /** Sources every butterfly plate cites for the flight physics and the K3 model. */
 export const butterflyReferences = [
   { label: 'Open Flight, K3 dart butterfly: design and model (docs/research/butterfly-k3-dart.md)', url: 'https://github.com/kevinmamaqi/open-flight/blob/main/docs/research/butterfly-k3-dart.md',
-    note: w('Our current fold, its estimates and limits. CC BY-SA 4.0.', 'Nuestro pliegue actual, sus estimaciones y límites. CC BY-SA 4.0.', 'Наш текущий вариант, его оценки и ограничения. CC BY-SA 4.0.') },
+    note: w('Our current fold, its estimates and limits.', 'Nuestro pliegue actual, sus estimaciones y límites.', 'Наш текущий вариант, его оценки и ограничения.') },
   { label: 'Open Flight, K2 butterfly airframe: the earlier fold and the flight model (docs/research/butterfly-k2-airframe.md)', url: 'https://github.com/kevinmamaqi/open-flight/blob/main/docs/research/butterfly-k2-airframe.md',
-    note: w('Our model and its limits. CC BY-SA 4.0.', 'Nuestro modelo y sus límites. CC BY-SA 4.0.', 'Наша модель и её ограничения. CC BY-SA 4.0.') },
+    note: w('Our model and its limits.', 'Nuestro modelo y sus límites.', 'Наша модель и её ограничения.') },
   { label: 'NASA Glenn Research Center, Beginner’s Guide to Aeronautics', url: 'https://www1.grc.nasa.gov/beginners-guide-to-aeronautics/learn-about-aerodynamics/',
     note: w('Lift, balance and stability. US government text: paraphrased, linked.', 'Sustentación, equilibrio y estabilidad. Texto del gobierno de EE. UU.: parafraseado y enlazado.', 'Подъёмная сила, равновесие, устойчивость. Текст правительства США: пересказ со ссылкой.') },
   { label: 'Li, Goodwill, Wang & Ristroph (2022). Centre of mass location, flight modes, stability and dynamic modelling of gliders. J. Fluid Mech. 937, A6. doi:10.1017/jfm.2022.89', url: 'https://doi.org/10.1017/jfm.2022.89',

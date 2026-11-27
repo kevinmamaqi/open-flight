@@ -19,7 +19,7 @@ const minPt = print.text.min;
 const margin = 12;
 const fontLicense = "https://openfontlicense.org/open-font-license-official-text/";
 const geometryLicense = "https://spdx.org/licenses/CERN-OHL-W-2.0.html";
-const worksheetLicense = "https://creativecommons.org/licenses/by-sa/4.0/";
+const worksheetLicense = "https://openflight.design/references.html#licenses";
 const fontNotice = printFontNotice;
 
 const copy = {
@@ -207,7 +207,7 @@ function drawPage(doc, labels, activity, illustration, pageWidth, pageHeight, lo
   }
   linkedText(doc, referenceText, activity.source.url, margin, pageHeight - 17);
   doc.text(labels.editable, editableX, pageHeight - 17);
-  const credits = [[`${labels.worksheet} · CC BY-SA 4.0`, worksheetLicense]];
+  const credits = [[`${labels.worksheet} · © Open Flight`, worksheetLicense]];
   if (activity.sheet !== "whole-rectangle") {
     credits.push([`${labels.geometry} · CERN-OHL-W-2.0`, geometryLicense]);
   }
@@ -252,7 +252,7 @@ for (const locale of objectLocales) {
       title: labels.lab,
       author: "Open Flight contributors",
       creator: "Open Flight",
-      subject: "Open Flight geometry: CERN-OHL-W-2.0. Open Flight guides and illustrations: CC BY-SA 4.0. Embedded font notice:\n" + fontNotice,
+      subject: "Open Flight geometry: CERN-OHL-W-2.0. Open Flight guides and illustrations: © Open Flight, free for personal and classroom use; all other rights reserved. Embedded font notice:\n" + fontNotice,
     });
     doc.setLanguage(locale);
     for (const { file, family, style, data } of fonts) {

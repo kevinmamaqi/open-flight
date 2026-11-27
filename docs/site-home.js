@@ -1,10 +1,10 @@
 // The home page is the book's cover and contents. Chapter 1, "One sheet",
 // opens it. The header comes from site-navigation.js at build time.
-import { appendix, book, chapterLabel, chapters, plates } from './book/catalog.js?v=4b14e3f58ca0'
-import { fieldModel } from './atlas-guide.js?v=4b14e3f58ca0'
-import { specimenPath } from './model-appearance.js?v=4b14e3f58ca0'
-import { workshopHome } from './assets/workshop-address.js?v=4b14e3f58ca0'
-import { escapeHtml as e, publicPath, siteFooter, siteLabels, siteLocales } from './site-navigation.js?v=4b14e3f58ca0'
+import { appendix, book, chapterLabel, chapters, plates } from './book/catalog.js?v=c8c7ae41db63'
+import { fieldModel } from './atlas-guide.js?v=c8c7ae41db63'
+import { specimenPath } from './model-appearance.js?v=c8c7ae41db63'
+import { workshopHome } from './assets/workshop-address.js?v=c8c7ae41db63'
+import { escapeHtml as e, publicPath, siteFooter, siteLabels, siteLocales } from './site-navigation.js?v=c8c7ae41db63'
 
 const w = (en, es, ru) => ({ en, es, ru })
 const copy = {

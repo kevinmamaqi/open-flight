@@ -155,7 +155,7 @@ export const flightBookCopy = {
     signature: "Signature",
     reopen: "Scan to reopen this edition",
     credits:
-      "Art and guides · CC BY-SA 4.0   |   Aircraft patterns · CERN-OHL-W-2.0",
+      "Art and guides · © Open Flight · personal and classroom use   |   Aircraft patterns · CERN-OHL-W-2.0",
     tools: {
       butterfly: "Paper, scissors, clip",
       airplane: "Whole sheet of paper",
@@ -203,7 +203,7 @@ export const flightBookCopy = {
       "Por construir un modelo de papel, poner a prueba una predicción y registrar un aterrizaje.",
     signature: "Firma",
     reopen: "Escanea para volver a abrir esta edición",
-    credits: "Arte y guías · CC BY-SA 4.0   |   Plantillas · CERN-OHL-W-2.0",
+    credits: "Arte y guías · © Open Flight · uso personal y en el aula   |   Plantillas · CERN-OHL-W-2.0",
     tools: {
       butterfly: "Papel, tijeras, clip",
       airplane: "Hoja entera de papel",
@@ -251,7 +251,7 @@ export const flightBookCopy = {
     signature: "Подпись",
     reopen: "Отсканируй, чтобы снова открыть это издание",
     credits:
-      "Рисунки и инструкции · CC BY-SA 4.0   |   Выкройки · CERN-OHL-W-2.0",
+      "Рисунки и инструкции · © Open Flight · личное и учебное использование   |   Выкройки · CERN-OHL-W-2.0",
     tools: {
       butterfly: "Бумага, ножницы, скрепка",
       airplane: "Целый лист бумаги",
