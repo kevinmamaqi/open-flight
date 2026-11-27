@@ -1,6 +1,8 @@
 import { objects } from '../apps/editor/assets/objects/activities.js'
 import { readFile, stat, writeFile } from 'node:fs/promises'
-import { appearanceArtPath, appearanceArtStyles, appearanceChoices } from '../apps/editor/model-appearance.js'
+import { appearanceArtPath, appearanceArtStyles, appearanceChoices, sheetChoices } from '../apps/editor/model-appearance.js'
+// A sheet's own colours: retired butterfly sheets do not take the K3-only designs.
+const choicesFor = (id) => sheetCatalog.some(entry => entry.id === id) ? sheetChoices(id) : appearanceChoices(id)
 import { paperSizes, sheetCatalog, sheetLocales } from '../apps/editor/family-sheets.js'
 import { createBook } from '../packages/print-export/family-book.js'
 
@@ -12,7 +14,7 @@ function loadAsset(path) {
 }
 const coverSizes = {}
 for (const {id,model} of [...sheetCatalog, ...objects.map(({id})=>({id,model:id}))]) {
-  for (const {id:color} of appearanceChoices(model)) for (const style of appearanceArtStyles) {
+  for (const {id:color} of choicesFor(id)) for (const style of appearanceArtStyles) {
     const path = appearanceArtPath(id,style,color)
     coverSizes[path] ??= (await stat(new URL(path,editor))).size
   }
@@ -28,7 +30,7 @@ for (const lang of sheetLocales) {
     const singles = {}, colored = {}, duplicateNotes = {}
     for (const {id,model} of sheetCatalog) {
       singles[id] = await measure([id])
-      for (const {id:color} of appearanceChoices(model).slice(1)) {
+      for (const {id:color} of choicesFor(id).slice(1)) {
         const key = id + '/' + color
         colored[key] = await measure([id],{[model]:color}) - singles[id]
       }

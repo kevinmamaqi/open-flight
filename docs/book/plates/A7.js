@@ -2,7 +2,7 @@
 // Numbers come from figures/airplane-balance.js (A4, cut border, 80 g/m²): estimates, not measurements.
 // Circle radius r = 2m / (ρ·S·CL) with ρ = 1.2 kg/m³ and CL 0.6–1.0.
 // Facts and sources: docs/research/unusual-flyer-sources.md. Spanish (tú) and Russian (вы) need a native read.
-import { references as shared } from './A-references.js?v=71e84a390ddb'
+import { references as shared } from './A-references.js?v=eb901ca27c79'
 const w = (en, es, ru) => ({ en, es, ru })
 
 export default {

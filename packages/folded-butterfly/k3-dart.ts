@@ -19,6 +19,9 @@ import { rounded, type Line, type Point } from '../geometry/butterfly.ts'
 import type { Species, WorkshopModel } from '../geometry/workshop-models.ts'
 import { toPaper, trimGeometry, wingArt, wingShape } from '../geometry/workshop-art.ts'
 import { estimateFlight, k2Model, k2Poses, papers, type Paper } from './k2-airframe.ts'
+import type { Mosaic } from './k3-mosaic.ts'
+import { k3DesignMosaics, k3DesignPalettes } from './k3-designs.ts'
+import { invertRigid, mosaicWing } from './k3-mosaic.ts'
 
 export type K3Pose = {
   // Scale of the species wings before posing: the span they would have laid flat, mm.
@@ -213,7 +216,9 @@ export function k3Geometry(species: Species = 'monarch', pose: K3Pose = k3Poses[
   if (!pose) throw new Error('Unknown butterfly species')
   const S = pose.base_span_mm
   // Start from the K2 model with no swing and no head shift: species outline with a straight costa.
-  const model = k2Model(species, { ...k2Poses[species], sweep_deg: 0, head_mm: 0, span_mm: S })
+  const k2 = k2Model(species, { ...k2Poses[species], sweep_deg: 0, head_mm: 0, span_mm: S })
+  // K3-only designs (k3-designs.ts) join the species palettes; the outline and markings are shared.
+  const model = { ...k2, palettes: { ...k2.palettes, ...k3DesignPalettes[species] } } as WorkshopModel
   const g = model.geometry
   const shape = wingShape(model)
   const P = (p: Point) => toPaper(p, S)
@@ -569,6 +574,8 @@ export function k3Art(geo: K3Geometry, appearance = 'natural'): Line[] {
       return round([side * p[0], p[1]])
     }),
   })
+  const mosaic = (k3DesignMosaics[geo.species] as Record<string, Mosaic | undefined>)[appearance]
+  if (mosaic) return mosaicArt(geo, appearance, raw, c, mosaic, out, move)
   for (const side of [-1, 1]) {
     const prefix = side < 0 ? 'left-' : 'right-'
     for (const line of raw.filter((l) => l.id.startsWith(prefix + 'hind-'))) out.push(move(line, side, geo.hindTransform))
@@ -582,6 +589,45 @@ export function k3Art(geo: K3Geometry, appearance = 'natural'): Line[] {
     })
     for (const line of raw.filter((l) => l.id.startsWith(prefix + 'fore-'))) out.push(move(line, side, geo.foreTransform))
   }
+  out.push(...k3BodyArt(geo, appearance, model, c, inkOnly))
+  return out
+}
+
+// Layers the mosaic replaces: the soft painted ground and its scale textures. Their colours are
+// what the tesserae sample; the markings drawn over them (veins, spots, bars, eyespots) stay.
+const groundLayer = /-(ground|amber-scale-layer-\d+|structural-blue-\d+|butter-scales-\d+)$/
+const textureLayer = /-(pollen-glint|dusting|scale)-\d+-\d+$|-vein-sheen-\d+$/
+
+function mosaicArt(geo: K3Geometry, appearance: string, raw: Line[], c: WorkshopModel['palettes']['natural'], m: Mosaic, out: Line[], move: (l: Line, side: number, f: (p: Point) => Point) => Line): Line[] {
+  const model = geo.model
+  const seed = [...(geo.species + appearance)].reduce((a, ch) => (a * 31 + ch.charCodeAt(0)) >>> 0, 11)
+  const wing = (part: 'hind' | 'fore', outline: Point[], f: (p: Point) => Point) => {
+    const own = raw.filter((l) => l.id.startsWith('right-' + part + '-'))
+    const layers = own.filter((l) => groundLayer.test(l.id) && l.closed && l.fill)
+    const tesserae = mosaicWing('right-' + part, outline, invertRigid(f), layers, c.ink, m, seed + (part === 'fore' ? 7 : 3))
+    const marks = (side: number) => raw.filter((l) => l.id.startsWith((side < 0 ? 'left-' : 'right-') + part + '-') && !groundLayer.test(l.id) && !textureLayer.test(l.id))
+    return { tesserae, marks }
+  }
+  const hind = wing('hind', geo.hind, geo.hindTransform)
+  const fore = wing('fore', geo.fore, geo.foreTransform)
+  const mirror = (l: Line, side: number): Line => (side > 0 ? l : { ...l, id: l.id.replace(/^right-/, 'left-'), points: l.points.map(([x, y]) => round([-x, y])) })
+  for (const side of [-1, 1]) {
+    const prefix = side < 0 ? 'left-' : 'right-'
+    // Grout bed under each wing, so the gaps read as pale grout rather than the ink silhouette.
+    out.push({ id: prefix + 'hind-grout', points: geo.hind.map(([x, y]) => round([side * x, y])), closed: true, fill: m.grout })
+    for (const t of hind.tesserae) out.push(mirror(t, side))
+    for (const line of hind.marks(side)) out.push(move(line, side, geo.hindTransform))
+    out.push({ id: prefix + 'fore-underlay', points: geo.fore.map(([x, y]) => round([side * x, y])), closed: true, fill: m.grout })
+    for (const t of fore.tesserae) out.push(mirror(t, side))
+    for (const line of fore.marks(side)) out.push(move(line, side, geo.foreTransform))
+  }
+  out.push(...k3BodyArt(geo, appearance, model, c, false))
+  return out
+}
+
+function k3BodyArt(geo: K3Geometry, appearance: string, model: WorkshopModel, c: WorkshopModel['palettes']['natural'], inkOnly: boolean): Line[] {
+  const S = geo.pose.base_span_mm
+  const out: Line[] = []
   // Body: reuse the species body art, moved so the head sits at the K3 head and the abdomen
   // reaches the K3 tail. The species antennae are replaced by the cut antennae.
   const g = model.geometry

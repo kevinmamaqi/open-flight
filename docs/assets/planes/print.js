@@ -1,5 +1,5 @@
-import { planePdfBytes } from './pdf.js?v=71e84a390ddb'
-import { fontFiles } from '../brand/print.js?v=71e84a390ddb'
+import { planePdfBytes } from './pdf.js?v=eb901ca27c79'
+import { fontFiles } from '../brand/print.js?v=eb901ca27c79'
 
 let pdfLibrary, typeface
 

@@ -4,7 +4,7 @@ import { join } from 'node:path'
 import { pathToFileURL } from 'node:url'
 import { chromium } from 'playwright-core'
 import { sheetCatalog } from '../apps/editor/family-sheets.js'
-import { appearanceArtPath, appearanceArtStyles, appearanceChoices, specimenPath } from '../apps/editor/model-appearance.js'
+import { appearanceArtPath, appearanceArtStyles, appearanceChoices, sheetChoices, specimenPath } from '../apps/editor/model-appearance.js'
 import { objectModel } from '../apps/editor/assets/objects/geometry.js'
 import { objectIds } from '../apps/editor/assets/objects/appearance.js'
 import { costaModel, dartModel, planeModel } from '../apps/editor/model-geometry.js'
@@ -112,7 +112,7 @@ try {
   for (const entry of [...sheetCatalog, ...objectIds.map(id=>({id, model:id, family:'object', construction:'object'}))]) {
     if (specimens && entry.family === 'butterfly') continue
     if (only && entry.construction !== only && entry.id !== only) continue
-    for (const [index, { id: appearance }] of appearanceChoices(entry.model).entries()) {
+    for (const [index, { id: appearance }] of sheetChoices(entry.id).entries()) {
       if (process.env.OPENFLIGHT_PALETTE && appearance !== process.env.OPENFLIGHT_PALETTE) continue
       const model = modelFor(entry, appearance)
       const styles = appearanceArtStyles.filter((style) =>

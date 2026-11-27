@@ -1,20 +1,20 @@
 // A design page is a plate of the book: what it is, how to print it, how it
 // flies, how to make, launch and trim it, why it exists and one experiment.
 // Rendered at build time; plate-page.js adds colours, paper and figure controls.
-import { diagrams, instructions } from './assets/atlas/k3-lessons.js?v=71e84a390ddb'
-import { makePlane } from './assets/planes/core.js?v=71e84a390ddb'
-import { foldSvg } from './assets/planes/guide.js?v=71e84a390ddb'
-import { flightObjects } from './assets/objects/activities.js?v=71e84a390ddb'
-import { fieldModel, studioLink } from './atlas-guide.js?v=71e84a390ddb'
-import { chapterById, plateFor, plateNeighbours } from './book/catalog.js?v=71e84a390ddb'
-import { flightNoteLabels, flightNotesFor } from './book/flight-notes.js?v=71e84a390ddb'
-import { plateContent, plateFigure } from './book/content.js?v=71e84a390ddb'
-import { sheetIdFor, sheetPath } from './family-sheets.js?v=71e84a390ddb'
-import { appearanceChoices, specimenPath } from './model-appearance.js?v=71e84a390ddb'
-import { modelOrigin } from './model-origins.js?v=71e84a390ddb'
-import { escapeHtml as e, publicPath } from './site-navigation.js?v=71e84a390ddb'
-import { k3Facts } from './assets/atlas/k3-facts.js?v=71e84a390ddb'
-import { plateWords } from './plate-words.js?v=71e84a390ddb'
+import { diagrams, instructions } from './assets/atlas/k3-lessons.js?v=eb901ca27c79'
+import { makePlane } from './assets/planes/core.js?v=eb901ca27c79'
+import { foldSvg } from './assets/planes/guide.js?v=eb901ca27c79'
+import { flightObjects } from './assets/objects/activities.js?v=eb901ca27c79'
+import { fieldModel, studioLink } from './atlas-guide.js?v=eb901ca27c79'
+import { chapterById, plateFor, plateNeighbours } from './book/catalog.js?v=eb901ca27c79'
+import { flightNoteLabels, flightNotesFor } from './book/flight-notes.js?v=eb901ca27c79'
+import { plateContent, plateFigure } from './book/content.js?v=eb901ca27c79'
+import { sheetIdFor, sheetPath } from './family-sheets.js?v=eb901ca27c79'
+import { appearanceChoices, specimenPath } from './model-appearance.js?v=eb901ca27c79'
+import { modelOrigin } from './model-origins.js?v=eb901ca27c79'
+import { escapeHtml as e, publicPath } from './site-navigation.js?v=eb901ca27c79'
+import { k3Facts } from './assets/atlas/k3-facts.js?v=eb901ca27c79'
+import { plateWords } from './plate-words.js?v=eb901ca27c79'
 
 export { plateWords }
 

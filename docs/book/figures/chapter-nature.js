@@ -2,7 +2,7 @@
 // figure(id, lang), figureControls(id, lang), figureText(id, lang). Drawn like an architect's
 // sheet: plan views, a dimension line and a title block. Dates are approximate and sourced in
 // chapters/nature.js; the figures say so inside the drawing.
-import { blue, dim, frame, ink, kite, line, muted, n, pale, poly, text, titleBlock } from './chapter-kit.js?v=71e84a390ddb'
+import { blue, dim, frame, ink, kite, line, muted, n, pale, poly, text, titleBlock } from './chapter-kit.js?v=eb901ca27c79'
 
 const w = (en, es, ru) => ({ en, es, ru })
 const say = (item, lang) => item[lang] ?? item.en

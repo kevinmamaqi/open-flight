@@ -1,4 +1,4 @@
-import { originCountryName } from './heritage.js?v=71e84a390ddb'
+import { originCountryName } from './heritage.js?v=eb901ca27c79'
 
 const local = (en, ru, es) => ({ en, ru, es })
 
@@ -487,7 +487,7 @@ export const sheetSizes = { A4: [210, 297], US_LETTER: [215.9, 279.4] }
 export const liveries = ['heritage', 'festival', 'pencil', 'airshow']
 // Revision 1 always folds the whole sheet. Revision 2 adds the sheet edge choice: 'cut' prints a
 // thick border trimMm inside the paper and folds the cut-out sheet; 'whole' folds the full paper.
-export { trimMm, sheetEdges } from '../print-faces.js?v=71e84a390ddb'
+export { trimMm, sheetEdges } from '../print-faces.js?v=eb901ca27c79'
 export const revision = '2'
 export const revisions = ['1', '2']
 export function planeColors(model, livery) {

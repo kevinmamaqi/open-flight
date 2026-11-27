@@ -1,22 +1,22 @@
-import { photoCredit, photoFor, photoPath } from './photos.js?v=71e84a390ddb'
+import { photoCredit, photoFor, photoPath } from './photos.js?v=eb901ca27c79'
 // Web rendering of a book chapter: chapterBody(chapterId, lang, base) returns an HTML
 // fragment (no <head>, no site header) for /how-it-flies/, /contests/ and /experiments/.
 // The book pipeline (packages/one-sheet) reuses inline(), chip(), boxes and tables from here,
 // so the web edition and the book set the same words. Styles: apps/editor/chapter.css.
-import { chapterById } from './catalog.js?v=71e84a390ddb'
-import howItFlies from './chapters/how-it-flies.js?v=71e84a390ddb'
-import contests, { records } from './chapters/contests.js?v=71e84a390ddb'
-import experiments from './chapters/experiments.js?v=71e84a390ddb'
-import nature from './chapters/nature.js?v=71e84a390ddb'
-import * as figuresNature from './figures/chapter-nature.js?v=71e84a390ddb'
-import history from './chapters/history.js?v=71e84a390ddb'
-import * as figuresHistory from './figures/chapter-history.js?v=71e84a390ddb'
-import space from './chapters/space.js?v=71e84a390ddb'
-import * as figuresSpace from './figures/chapter-space.js?v=71e84a390ddb'
-import games from './chapters/games.js?v=71e84a390ddb'
-import * as figuresHow from './figures/chapter-how-it-flies.js?v=71e84a390ddb'
-import * as figuresContests from './figures/chapter-contests.js?v=71e84a390ddb'
-import * as figuresExperiments from './figures/chapter-experiments.js?v=71e84a390ddb'
+import { chapterById } from './catalog.js?v=eb901ca27c79'
+import howItFlies from './chapters/how-it-flies.js?v=eb901ca27c79'
+import contests, { records } from './chapters/contests.js?v=eb901ca27c79'
+import experiments from './chapters/experiments.js?v=eb901ca27c79'
+import nature from './chapters/nature.js?v=eb901ca27c79'
+import * as figuresNature from './figures/chapter-nature.js?v=eb901ca27c79'
+import history from './chapters/history.js?v=eb901ca27c79'
+import * as figuresHistory from './figures/chapter-history.js?v=eb901ca27c79'
+import space from './chapters/space.js?v=eb901ca27c79'
+import * as figuresSpace from './figures/chapter-space.js?v=eb901ca27c79'
+import games from './chapters/games.js?v=eb901ca27c79'
+import * as figuresHow from './figures/chapter-how-it-flies.js?v=eb901ca27c79'
+import * as figuresContests from './figures/chapter-contests.js?v=eb901ca27c79'
+import * as figuresExperiments from './figures/chapter-experiments.js?v=eb901ca27c79'
 
 const w = (en, es, ru) => ({ en, es, ru })
 export const chapterModules = { 'how-it-flies': howItFlies, nature, history, space, games, contests, experiments }

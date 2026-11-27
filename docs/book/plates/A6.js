@@ -1,7 +1,7 @@
 // Plate A6 · Sky Raft, Open Flight's version of the Shaheen Shin credited to Shin Moo Joon. Content contract: ../README.md.
 // Numbers come from figures/airplane-balance.js (A4, cut border, 80 g/m²): estimates, not measurements.
 // Facts and sources: docs/research/unusual-flyer-sources.md. Spanish (tú) and Russian (вы) need a native read.
-import { references as shared } from './A-references.js?v=71e84a390ddb'
+import { references as shared } from './A-references.js?v=eb901ca27c79'
 const w = (en, es, ru) => ({ en, es, ru })
 
 export default {

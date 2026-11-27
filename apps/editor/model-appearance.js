@@ -1,6 +1,6 @@
 import { butterflySwatches } from './assets/atlas/swatches.js'
 import { planeCatalog, planeColors, liveries, planeFinish } from './assets/planes/catalog.js'
-import { sheetCatalog, sheetLocales } from './family-sheets.js'
+import { currentConstruction, sheetCatalog, sheetLocales } from './family-sheets.js'
 
 import { objectIds, objectPalettes } from './assets/objects/appearance.js'
 const labels = {
@@ -15,6 +15,7 @@ const labels = {
   heritage: { en: 'Heritage stripes', es: 'Franjas clásicas', ru: 'Классические полосы' },
   festival: { en: 'Festival colors', es: 'Colores vivos', ru: 'Праздничные цвета' },
   pencil: { en: 'Graphite', es: 'Grafito', ru: 'Графит' },
+  modernista: { en: 'Barcelona', es: 'Barcelona', ru: 'Барселона' },
 }
 const entries = new Map(sheetCatalog.map(item => [item.id, item]))
 export const appearanceArtStyles = Object.freeze(['studio', 'illustrated', 'ink'])
@@ -26,7 +27,11 @@ export function appearanceChoices(modelId, lang = 'en') {
   const plane = planeCatalog.find(entry => entry.model_id === model)
   const swatches = butterflySwatches[model]
   if (swatches) {
-    return Object.entries(swatches).map(([id, colors]) => ({ id, label: labels[id][lang], colors: [...colors] }))
+    const shared = Object.entries(swatches).map(([id, colors]) => ({ id, label: labels[id][lang], colors: [...colors] }))
+    // A bare species ID is the current butterfly, K3; retired K1, K2 and W1 sheets keep the shared colours.
+    const k3 = modelId.endsWith('-k3') || (modelId === model && currentConstruction === 'k3')
+    const extra = k3 ? Object.entries(k3DesignSwatches[model] ?? {}).map(([id, colors]) => ({ id, label: labels[id][lang], colors: [...colors] })) : []
+    return [...shared, ...extra]
   }
   if (plane) {
     return liveries.map(id => ({
@@ -37,10 +42,32 @@ export function appearanceChoices(modelId, lang = 'en') {
   throw new RangeError('Unknown flyer appearance')
 }
 
+// Designs only the K3 dart butterfly offers (packages/folded-butterfly/k3-designs.ts): wing base, light
+// and ink. tests/k3-designs.test.ts keeps these in step with the print palettes. They follow the shared
+// choices for K3 sheets and for the bare species IDs, which mean the current K3 butterfly.
+export const k3DesignSwatches = {
+  monarch: { modernista: ['#F57A14', '#FFB21E', '#16285C'] },
+  morpho: { modernista: ['#1E6FD6', '#25C1C4', '#0F1F4A'] },
+  swallowtail: { modernista: ['#FFC928', '#FFE066', '#173A3A'] },
+}
+
+/** The colour choices of the K3 studio for one species: the shared ones, then the K3-only designs. */
+export function k3AppearanceChoices(species, lang = 'en') {
+  return appearanceChoices(species + '-k3', lang)
+}
+
+/** The colours one printable sheet can be drawn in: a retired butterfly sheet has no K3-only design. */
+export function sheetChoices(sheetId, lang = 'en') {
+  const entry = entries.get(sheetId)
+  if (!entry) throw new RangeError('Unknown flyer sheet')
+  return appearanceChoices(sheetId, lang)
+    .filter(choice => entry.family !== 'butterfly' || entry.construction === 'k3' || !Object.hasOwn(k3DesignSwatches[entry.model] ?? {}, choice.id))
+}
+
 export function sheetAppearance(sheetId, appearance) {
   const entry = entries.get(sheetId)
   if (!entry) throw new RangeError('Unknown flyer sheet')
-  const choices = appearanceChoices(entry.model)
+  const choices = sheetChoices(sheetId)
   const defaultId = choices[0].id
   const id = appearance ?? defaultId
   if (!choices.some(choice => choice.id === id)) throw new RangeError('Unknown flyer appearance')

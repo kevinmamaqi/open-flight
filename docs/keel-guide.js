@@ -1,4 +1,4 @@
-import { color, dash } from './assets/brand/tokens.js?v=71e84a390ddb';
+import { color, dash } from './assets/brand/tokens.js?v=eb901ca27c79';
 const ids = ['cut', 'center', 'wings', 'table', 'clip', 'launch'];
 const copy = {
   en: [

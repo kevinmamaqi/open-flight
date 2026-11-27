@@ -3,7 +3,7 @@ import {createCanvas, loadImage} from '@napi-rs/canvas'
 import {getDocument} from 'pdfjs-dist/legacy/build/pdf.mjs'
 import {createBook} from '../packages/print-export/family-book.js'
 import {sheetLocales, sheetCatalog} from '../apps/editor/family-sheets.js'
-import {appearanceArtPath, appearanceArtStyles, appearanceChoices} from '../apps/editor/model-appearance.js'
+import {appearanceArtPath, appearanceArtStyles, appearanceChoices, sheetChoices} from '../apps/editor/model-appearance.js'
 
 import { objectIds } from '../apps/editor/assets/objects/appearance.js'
 
@@ -13,7 +13,7 @@ await mkdir(new URL('assets/book/thumbs/',editor),{recursive:true})
 const thumbnail = createCanvas(192,120)
 const artwork = new Set()
 for (const {id,model} of [...sheetCatalog, ...objectIds.map(id => ({ id, model:id }))]) {
-  for (const choice of appearanceChoices(model)) {
+  for (const choice of (objectIds.includes(id) ? appearanceChoices(id) : sheetChoices(id))) {
     for (const style of appearanceArtStyles) artwork.add(appearanceArtPath(id,style,choice.id))
   }
 }

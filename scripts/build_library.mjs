@@ -15,6 +15,7 @@ import { makeFoldedButterfly, foldedPdf } from "../packages/folded-butterfly/ind
 import { makePlane, planePdf, planeCatalog } from "../packages/planes/index.ts";
 import { makeK2, k2Pdf, k2FinishedSvg, k2BuildSteps } from "../packages/folded-butterfly/k2-sheet.ts";
 import { makeK3, k3Pdf, k3FinishedSvg, k3BuildSteps, k3SpanRange } from "../packages/folded-butterfly/k3-sheet.ts";
+import { k3Designs } from "../packages/folded-butterfly/k3-designs.ts";
 import { calibrationHtml, documentCss } from "../apps/editor/assets/brand/print.js";
 
 const root = fileURLToPath(new URL("../", import.meta.url));
@@ -41,6 +42,10 @@ for (const model of workshopModels) {
   for (const { appearance_id } of model.appearances) {
     const plan = makeK2({ species: model.species, appearance_id })
     writeFileSync(join(editor, 'assets/atlas', model.species + '-k2-' + appearance_id + '.svg'), k2FinishedSvg(plan))
+    writeFileSync(join(editor, 'assets/atlas', model.species + '-k3-' + appearance_id + '.svg'), k3FinishedSvg(makeK3({ species: model.species, appearance_id })))
+  }
+  // K3-only designs (k3-designs.ts) have a K3 poster only.
+  for (const appearance_id of k3Designs) {
     writeFileSync(join(editor, 'assets/atlas', model.species + '-k3-' + appearance_id + '.svg'), k3FinishedSvg(makeK3({ species: model.species, appearance_id })))
   }
 }

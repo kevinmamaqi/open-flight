@@ -29,11 +29,12 @@ import {
   type K3Geometry,
 } from './k3-dart.ts'
 import { makeK2 } from './k2-sheet.ts'
+import type { K3Design } from './k3-designs.ts'
 import { papers } from './k2-airframe.ts'
 
 export type K3Paper = 'A4' | 'US_LETTER'
 export type K3Locale = 'en' | 'es' | 'ru'
-export type K3Appearance = 'natural' | 'carnival' | 'twilight' | 'coloring'
+export type K3Appearance = 'natural' | 'carnival' | 'twilight' | 'coloring' | K3Design
 export type K3Settings = {
   species?: Species
   span_mm?: number

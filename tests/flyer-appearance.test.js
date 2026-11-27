@@ -3,7 +3,7 @@ import { readFile } from 'node:fs/promises'
 import test from 'node:test'
 import { PDFDocument } from 'pdf-lib'
 import { sheetCatalog, sheetLocales, sheetPath, paperSizes } from '../apps/editor/family-sheets.js'
-import { appearanceArtPath, appearanceArtStyles, appearanceChoices, appearanceCaption } from '../apps/editor/model-appearance.js'
+import { appearanceArtPath, appearanceArtStyles, appearanceChoices, appearanceCaption, sheetChoices } from '../apps/editor/model-appearance.js'
 import { makePlane, planePdf, planeSpecimen, planeSvg, sheetSizes } from '../packages/planes/index.ts'
 import { foldedPdf, makeFoldedButterfly } from '../packages/folded-butterfly/index.ts'
 import { k2Pdf, makeK2 } from '../packages/folded-butterfly/k2-sheet.ts'
@@ -30,12 +30,13 @@ async function verifyPages(bytes, count, paper, landscape = false) {
 test('every appearance has localized labels and matching model art', async () => {
   const paths = new Set()
   for (const sheet of sheetCatalog) {
-    const choices = appearanceChoices(sheet.model)
+    const choices = sheetChoices(sheet.id)
+    // K3, the current butterfly, also offers the K3-only Barcelona design; retired sheets do not.
     assert.deepEqual(choices.map(choice => choice.id), sheet.family === 'butterfly'
-      ? ['natural', 'carnival', 'twilight', 'coloring']
+      ? ['natural', 'carnival', 'twilight', 'coloring', ...(sheet.construction === 'k3' ? ['modernista'] : [])]
       : ['heritage', 'festival', 'pencil', 'airshow'])
     for (const lang of sheetLocales) {
-      for (const { label, colors } of appearanceChoices(sheet.model, lang)) {
+      for (const { label, colors } of sheetChoices(sheet.id, lang)) {
         assert.ok(label)
         assert.ok(colors.every(color => /^#[0-9a-f]{6}$/i.test(color)))
       }
@@ -52,8 +53,10 @@ test('every appearance has localized labels and matching model art', async () =>
     }
   }
   // 13 earlier sheets, three K3 butterflies and four record planes: each sheet × 4 appearances × 3 styles,
-  // less the shared ink art.
-  assert.equal(paths.size, 117 + 27 + 36)
+  // less the shared ink art; then Barcelona on the three K3 butterflies (studio and illustrated).
+  assert.equal(paths.size, 117 + 27 + 36 + 6)
+  assert.equal(appearanceChoices('monarch').at(-1).id, 'modernista')
+  assert.throws(() => appearanceArtPath('monarch-k2', 'studio', 'modernista'), RangeError)
   assert.equal(appearanceChoices('tupolev-tu144', 'ru').some(choice => /флаг/i.test(choice.label)), false)
   assert.throws(() => appearanceArtPath('monarch-k1', 'studio', 'flag'), RangeError)
 })
