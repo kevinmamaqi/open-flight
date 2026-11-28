@@ -129,6 +129,27 @@ writeFileSync(join(out, 'sitemap.xml'),
   sitemap.join('\n') + '\n</urlset>\n',
 )
 writeFileSync(join(out, 'robots.txt'), 'User-agent: *\nAllow: /\nSitemap: ' + domain + 'sitemap.xml\n')
+writeFileSync(join(out, 'llms.txt'), `# Open Flight
+
+> A free field guide to making, flying and improving paper models. The public lessons and printables are available in English, Spanish and Russian.
+
+## Read and print
+
+- [English book and activities](${domain})
+- [Spanish book and activities](${domain}es.html)
+- [Russian book and activities](${domain}ru.html)
+- [Sitemap](${domain}sitemap.xml): Localized chapter and model URLs.
+- [Print manifest](${domain}print/manifest.json): PDF paths relative to /print/, organized by model or set, paper size and language.
+
+## Use a local agent
+
+- [Source and setup](https://github.com/kevinmamaqi/open-flight#run-it-yourself): Run the local studio for HTTP access or the local MCP server over stdio.
+- [HTTP contract](https://github.com/kevinmamaqi/open-flight/blob/main/api/openapi.json)
+- [MCP tool catalog](https://github.com/kevinmamaqi/open-flight/blob/main/api/mcp-tools.json)
+- [Licenses and credits](https://github.com/kevinmamaqi/open-flight/blob/main/NOTICES.md)
+
+Use each activity’s evidence labels when describing its performance. A model estimate or digital export does not establish an observed flight.
+`)
 for (const path of [
   'index.html',
   'tokens.css', 'system.css', 'site.webmanifest', 'assets/brand/logo.svg', 'assets/brand/favicon.ico', 'assets/fonts/OpenFlightText-Regular.woff2',

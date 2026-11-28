@@ -1,5 +1,5 @@
 // Plate F1, Ring glider (NASA/JPL classroom design). Spanish and Russian need a native read.
-import { objectData } from '../figures/object-data.js?v=2807f4a798d5'
+import { objectData } from '../figures/object-data.js?v=7988ca7cb2ce'
 
 const w = (en, es, ru) => ({ en, es, ru })
 const r = objectData.ring.letter

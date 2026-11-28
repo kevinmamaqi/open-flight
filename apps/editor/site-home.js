@@ -101,6 +101,7 @@ export function renderHome(lang) {
   <title>${e(title)}</title>
   <meta name="description" content="${e(book.promise[lang])}">
   <link rel="canonical" href="${canonical}">
+  <link rel="alternate" type="text/plain" title="Open Flight agent guide" href="${workshopHome}llms.txt">
   ${siteLocales.map(locale => `<link rel="alternate" hreflang="${locale}" href="${workshopHome + publicPath('home', locale)}">`).join('\n  ')}
   <link rel="alternate" hreflang="x-default" href="${workshopHome}">
   <meta property="og:type" content="website">

@@ -2,11 +2,11 @@
 // the print export lays it out (packages/print-export/quick-guide.js).
 // Nothing here is a flight or a measurement. Launch and trim lines come from
 // book/flight-notes.js, with its note that they are not yet tested on this design.
-import { resolvePlate, shortURL, designURL } from './print-and-play.js?v=2807f4a798d5'
-import { flightNoteLabels, flightNotesFor } from './book/flight-notes.js?v=2807f4a798d5'
-import { baselines } from './assets/atlas/baselines.js?v=2807f4a798d5'
-import { planeCatalog } from './assets/planes/catalog.js?v=2807f4a798d5'
-import { objects } from './assets/objects/activities.js?v=2807f4a798d5'
+import { resolvePlate, shortURL, designURL } from './print-and-play.js?v=7988ca7cb2ce'
+import { flightNoteLabels, flightNotesFor } from './book/flight-notes.js?v=7988ca7cb2ce'
+import { baselines } from './assets/atlas/baselines.js?v=7988ca7cb2ce'
+import { planeCatalog } from './assets/planes/catalog.js?v=7988ca7cb2ce'
+import { objects } from './assets/objects/activities.js?v=7988ca7cb2ce'
 
 const w = (en, es, ru) => ({ en, es, ru })
 

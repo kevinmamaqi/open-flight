@@ -9,6 +9,9 @@ import { publicPath, siteLocales } from '../apps/editor/site-navigation.js'
 const output = resolve(process.argv[2] ?? 'dist/site')
 const sitemap = readFileSync(join(output, 'sitemap.xml'), 'utf8')
 assert.match(readFileSync(join(output, 'robots.txt'), 'utf8'), /^Sitemap: https:\/\/openflight\.design\/sitemap\.xml$/m)
+const agentGuide = readFileSync(join(output, 'llms.txt'), 'utf8')
+assert.match(agentGuide, /^# Open Flight$/m)
+assert.ok(agentGuide.includes(workshopHome + 'print/manifest.json'))
 const titles = new Set()
 const descriptions = new Set()
 // Print & Play pages are written by scripts/build_print_and_play.mjs.
@@ -29,6 +32,8 @@ function checkLocalResource(path, canonical, product) {
     assert.ok(url.hash === '#main' || ids.has(decodeURIComponent(url.hash.slice(1))), `${canonical} links to a missing anchor ${url.hash}`)
 }
 let ids = new Set()
+for (const [, href] of agentGuide.matchAll(/\]\((https?:\/\/[^)]+)\)/g))
+  checkLocalResource(href, workshopHome, false)
 
 for (const route of routes) {
   for (const lang of siteLocales) {
@@ -44,6 +49,7 @@ for (const route of routes) {
       .on('meta[name=robots]', { element: el => { got.robots = el.getAttribute('content') } })
       .on('link[rel=canonical]', { element: el => { got.canonical = el.getAttribute('href') } })
       .on('link[rel=alternate][hreflang]', { element: el => { got.alternates[el.getAttribute('hreflang')] = el.getAttribute('href') } })
+      .on('link[rel=alternate][type="text/plain"]', { element: el => { got.agentGuide = el.getAttribute('href') } })
       .on('main h1', { element: () => { got.headings++ } })
       .on('.mast .workshop-menu a', { element: () => { got.menu++ } })
       .on('.breadcrumbs li[aria-current=page]', { element: () => { got.crumbs++ } })
@@ -63,6 +69,7 @@ for (const route of routes) {
     descriptions.add(got.description)
     titles.add(got.title)
     assert.deepEqual(got.alternates, Object.fromEntries(languageAlternates(route)), canonical)
+    if (route === 'home') assert.equal(got.agentGuide, workshopHome + 'llms.txt', canonical)
     assert.ok(sitemapEntries.has(canonical), canonical + ' is missing from the sitemap')
     for (const [locale, href] of languageAlternates(route))
       assert.ok(sitemapEntries.get(canonical).includes(`hreflang="${locale}" href="${href}"`), canonical)

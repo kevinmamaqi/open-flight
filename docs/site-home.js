@@ -1,10 +1,10 @@
 // The home page is the book's cover and contents. Chapter 1, "One sheet",
 // opens it. The header comes from site-navigation.js at build time.
-import { appendix, book, chapterLabel, chapters, plates } from './book/catalog.js?v=2807f4a798d5'
-import { fieldModel } from './atlas-guide.js?v=2807f4a798d5'
-import { specimenPath } from './model-appearance.js?v=2807f4a798d5'
-import { workshopHome } from './assets/workshop-address.js?v=2807f4a798d5'
-import { escapeHtml as e, publicPath, siteFooter, siteLabels, siteLocales } from './site-navigation.js?v=2807f4a798d5'
+import { appendix, book, chapterLabel, chapters, plates } from './book/catalog.js?v=7988ca7cb2ce'
+import { fieldModel } from './atlas-guide.js?v=7988ca7cb2ce'
+import { specimenPath } from './model-appearance.js?v=7988ca7cb2ce'
+import { workshopHome } from './assets/workshop-address.js?v=7988ca7cb2ce'
+import { escapeHtml as e, publicPath, siteFooter, siteLabels, siteLocales } from './site-navigation.js?v=7988ca7cb2ce'
 
 const w = (en, es, ru) => ({ en, es, ru })
 const copy = {
@@ -101,6 +101,7 @@ export function renderHome(lang) {
   <title>${e(title)}</title>
   <meta name="description" content="${e(book.promise[lang])}">
   <link rel="canonical" href="${canonical}">
+  <link rel="alternate" type="text/plain" title="Open Flight agent guide" href="${workshopHome}llms.txt">
   ${siteLocales.map(locale => `<link rel="alternate" hreflang="${locale}" href="${workshopHome + publicPath('home', locale)}">`).join('\n  ')}
   <link rel="alternate" hreflang="x-default" href="${workshopHome}">
   <meta property="og:type" content="website">

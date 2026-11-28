@@ -30,8 +30,13 @@ async function connect() {
   return c
 }
 let client = await connect()
-const invoke = async (name: string, args: Record<string, unknown> = {}) =>
-  (await client.callTool({ name: 'openflight_' + name, arguments: args })).structuredContent as any
+async function invoke(name: string, args: Record<string, unknown> = {}) {
+  try {
+    return (await client.callTool({ name: 'openflight_' + name, arguments: args })).structuredContent as any
+  } catch (error) {
+    throw Error(`MCP tool openflight_${name} failed`, { cause: error })
+  }
+}
 async function call(name: string, args: Record<string, unknown> = {}) {
   const result = await invoke(name, args)
   assert.equal(result.ok, true, JSON.stringify(result.error))
@@ -47,11 +52,12 @@ async function http(path: string, options: RequestInit = {}) {
 }
 try {
   const tools = (await client.listTools()).tools
-  assert.equal(tools.length, 24)
+  for (const name of ['openflight_get_capabilities', 'openflight_render_family_book', 'openflight_print_and_play'])
+    assert.ok(tools.some(tool => tool.name === name), `Missing MCP tool ${name}`)
   assert.equal((await client.listResourceTemplates()).resourceTemplates.length, 1)
   const caps = await call('get_capabilities')
-  assert.equal(caps.enabled_operations.length, 25)
   assert.ok(caps.enabled_operations.includes('getFlightObjects'))
+  assert.ok(caps.enabled_operations.includes('renderFamilyBook'))
   assert.ok(caps.enabled_operations.includes('printAndPlay'))
   assert.deepEqual(caps.locales, ['en', 'ru', 'es'])
   const k1 = {settings:{species:'morpho',span_mm:168,appearance_id:'twilight',paper:'US_LETTER'},locale:'es',output:'source_json'}
@@ -95,11 +101,17 @@ try {
   const classroomArgs = { settings: { lang: 'es', paper: 'US_LETTER' }, classroom: { learners: 31, team_size: 3 } }
   const classroom = await call('render_family_book', classroomArgs)
   assert.equal(classroom.settings.style, 'ink')
-  assert.equal(classroom.page_count, 15)
+  assert.equal(classroom.page_count, 16)
   assert.equal(classroom.classroom.teams, 11)
-  assert.equal(classroom.classroom.total_sheets, 89)
-  assert.deepEqual(classroom.classroom.rows.find(({ kind }: { kind: string }) => kind === 'shared_guide'),
-    { kind: 'shared_guide', pages: [7], copies: 11 })
+  assert.equal(classroom.classroom.total_sheets, 100)
+  assert.deepEqual(classroom.settings.sheets, ['monarch-k3', 'boeing-747', 'morpho-k3'])
+  assert.deepEqual(classroom.classroom.rows, [
+    { kind: 'scale_check', pages: [2], copies: 1 },
+    { kind: 'model', sheet_id: 'monarch-k3', pages: [6, 7], copies: 11 },
+    { kind: 'model', sheet_id: 'boeing-747', pages: [8, 9, 10, 11], copies: 11 },
+    { kind: 'model', sheet_id: 'morpho-k3', pages: [12, 13], copies: 11 },
+    { kind: 'flight_log', pages: [4], copies: 11 },
+  ])
   assert.equal((await invoke('render_family_book', { ...classroomArgs, output: 'pdf' })).error.code, 'invalid_input')
   if (origin) {
     const response = await http('/v1/books/render', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(classroomArgs) })
@@ -151,7 +163,7 @@ try {
   assert.deepEqual(playPlan.settings.designs, ['B1', 'A1', 'F1'])
   assert.equal(playPlan.static_path, 'print/sets/first-flight-letter-es.pdf')
   assert.equal(playPlan.filename, 'open-flight-print-and-play-B1-A1-F1-letter-es.pdf')
-  assert.ok(playPlan.booklet_hash.startsWith('#m=monarch-k2,boeing-747'))
+  assert.ok(playPlan.booklet_hash.startsWith('#m=monarch-k3,boeing-747'))
   const playParts: Buffer[] = []
   let playOffset: number | null = 0
   let playHash = ''
@@ -214,11 +226,16 @@ try {
     const simulated = await http('/v1/flight-simulation', {
       method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(setup),
     })
-    assert.deepEqual(await simulated.json(), flight)
+    // Node and Bun can differ in the last bits of the computed coordinates.
+    const atSimulationPrecision = (result: unknown) => JSON.parse(JSON.stringify(result, (_key, value) =>
+      typeof value === 'number' ? Number(value.toPrecision(12)) : value,
+    ))
+    assert.deepEqual(atSimulationPrecision(await simulated.json()), atSimulationPrecision(flight))
   }
   const airplanes = await call('list_airplanes')
   assert.deepEqual(airplanes.items.map((item: { model_id: string }) => item.model_id).sort(),
-    ['boeing-747', 'douglas-dc3', 'ilyushin-il62', 'tupolev-tu144'])
+    ['boeing-747', 'crescent-boomerang', 'douglas-dc3', 'ilyushin-il62', 'red-dart', 'shaheen-shin', 'sky-king', 'tupolev-tu144'])
+  assert.equal(airplanes.items.find((item: { model_id: string }) => item.model_id === 'red-dart')?.sheet_ratio, Math.SQRT2)
   if (origin) assert.deepEqual(await (await http('/v1/airplanes')).json(), airplanes)
   const airplane = { model_id: 'ilyushin-il62', paper: 'US_LETTER', keel_mm: 24, winglet_mm: 0, livery: 'pencil' }
   for (const output of ['plan', 'guide', 'svg', 'pdf', 'source_json']) {

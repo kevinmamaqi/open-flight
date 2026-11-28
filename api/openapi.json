@@ -1664,7 +1664,7 @@
     "/v1/airplanes": {
       "get": {
         "operationId": "listAirplanes",
-        "summary": "List the four whole-sheet paper airplanes",
+        "summary": "List the whole-sheet paper airplanes",
         "description": "Read the English, Spanish and Russian paper-airplane catalog, real aircraft references, per-model defaults, paper formats and liveries.",
         "x-contract-status": "implemented_local_experimental",
         "x-required-scopes": [
@@ -4467,6 +4467,11 @@
             "minItems": 2,
             "maxItems": 2,
             "description": "Allowed winglet_mm for this model, [minimum, maximum]. Omitted: 0–12."
+          },
+          "sheet_ratio": {
+            "type": "number",
+            "exclusiveMinimum": 0,
+            "description": "Target long-side to short-side ratio for the folding rectangle when the design uses a fixed proportion."
           },
           "record": {
             "type": "boolean",

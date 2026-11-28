@@ -5259,6 +5259,11 @@
                           "maxItems": 2,
                           "description": "Allowed winglet_mm for this model, [minimum, maximum]. Omitted: 0–12."
                         },
+                        "sheet_ratio": {
+                          "type": "number",
+                          "exclusiveMinimum": 0,
+                          "description": "Target long-side to short-side ratio for the folding rectangle when the design uses a fixed proportion."
+                        },
                         "record": {
                           "type": "boolean",
                           "description": "An Open Flight version of a record or championship plane by another designer."

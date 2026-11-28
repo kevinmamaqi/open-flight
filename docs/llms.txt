@@ -1,0 +1,20 @@
+# Open Flight
+
+> A free field guide to making, flying and improving paper models. The public lessons and printables are available in English, Spanish and Russian.
+
+## Read and print
+
+- [English book and activities](https://openflight.design/)
+- [Spanish book and activities](https://openflight.design/es.html)
+- [Russian book and activities](https://openflight.design/ru.html)
+- [Sitemap](https://openflight.design/sitemap.xml): Localized chapter and model URLs.
+- [Print manifest](https://openflight.design/print/manifest.json): PDF paths relative to /print/, organized by model or set, paper size and language.
+
+## Use a local agent
+
+- [Source and setup](https://github.com/kevinmamaqi/open-flight#run-it-yourself): Run the local studio for HTTP access or the local MCP server over stdio.
+- [HTTP contract](https://github.com/kevinmamaqi/open-flight/blob/main/api/openapi.json)
+- [MCP tool catalog](https://github.com/kevinmamaqi/open-flight/blob/main/api/mcp-tools.json)
+- [Licenses and credits](https://github.com/kevinmamaqi/open-flight/blob/main/NOTICES.md)
+
+Use each activity’s evidence labels when describing its performance. A model estimate or digital export does not establish an observed flight.

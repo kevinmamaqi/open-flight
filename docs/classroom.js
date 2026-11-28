@@ -1,8 +1,8 @@
-import { flightObjects } from './assets/objects/activities.js?v=2807f4a798d5'
-import { currentLocale, localizedLinks } from './atlas-nav.js?v=2807f4a798d5'
-import { bookFilename, localePaper } from './book-model.js?v=2807f4a798d5'
-import { classroomPlan } from './classroom-plan.js?v=2807f4a798d5'
-import { sheetName } from './family-sheets.js?v=2807f4a798d5'
+import { flightObjects } from './assets/objects/activities.js?v=7988ca7cb2ce'
+import { currentLocale, localizedLinks } from './atlas-nav.js?v=7988ca7cb2ce'
+import { bookFilename, localePaper } from './book-model.js?v=7988ca7cb2ce'
+import { classroomPlan } from './classroom-plan.js?v=7988ca7cb2ce'
+import { sheetName } from './family-sheets.js?v=7988ca7cb2ce'
 
 const translations = {
   en: {

@@ -2,7 +2,7 @@
 // Numbers come from figures/airplane-balance.js (A4, cut border, 80 g/m²): estimates, not measurements.
 // Spanish (tú) and Russian (вы) are drafts and need a native read before release.
 // Editor: source the near-vertical airtime launch before adding it to print.
-import { references as shared } from './A-references.js?v=2807f4a798d5'
+import { references as shared } from './A-references.js?v=7988ca7cb2ce'
 const w = (en, es, ru) => ({ en, es, ru })
 
 export default {

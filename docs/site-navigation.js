@@ -1,4 +1,4 @@
-import { appendix, chapterLabel, chapters } from './book/catalog.js?v=2807f4a798d5'
+import { appendix, chapterLabel, chapters } from './book/catalog.js?v=7988ca7cb2ce'
 
 export const siteLocales = ['en', 'es', 'ru']
 const words = (en, es, ru) => ({ en, es, ru })

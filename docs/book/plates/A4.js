@@ -4,7 +4,7 @@
 // 80 g/m²): estimates, not measurements. Records belong to the contests chapter, not here.
 // Spanish (tú) and Russian (вы) are drafts and need a native read before release.
 // Editor: replace the general source for the Tu-144 elevons and canards with a primary source before print.
-import { references as shared } from './A-references.js?v=2807f4a798d5'
+import { references as shared } from './A-references.js?v=7988ca7cb2ce'
 const w = (en, es, ru) => ({ en, es, ru })
 
 export default {

@@ -1,5 +1,5 @@
-import {modelOrigin, originModelIds, pilotStories} from './model-origins.js?v=2807f4a798d5';
-import {planeCatalog} from './assets/planes/catalog.js?v=2807f4a798d5';
+import {modelOrigin, originModelIds, pilotStories} from './model-origins.js?v=7988ca7cb2ce';
+import {planeCatalog} from './assets/planes/catalog.js?v=7988ca7cb2ce';
 
 // Offset the labels to keep their touch targets readable. Lines lead to the sites.
 const labelPositions = {

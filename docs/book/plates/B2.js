@@ -1,5 +1,5 @@
 // Plate B2, Blue morpho. Spanish and Russian need a native read before release.
-import { butterflyFlight, butterflyGlance, butterflyReferences, w } from './B-shared.js?v=2807f4a798d5'
+import { butterflyFlight, butterflyGlance, butterflyReferences, w } from './B-shared.js?v=7988ca7cb2ce'
 
 export default {
   id: 'B2', model: 'morpho',

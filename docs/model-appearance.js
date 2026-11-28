@@ -1,8 +1,8 @@
-import { butterflySwatches, k3DesignSwatches } from './assets/atlas/swatches.js?v=2807f4a798d5'
-import { planeCatalog, planeColors, liveries, planeFinish } from './assets/planes/catalog.js?v=2807f4a798d5'
-import { currentConstruction, sheetCatalog, sheetLocales } from './family-sheets.js?v=2807f4a798d5'
+import { butterflySwatches, k3DesignSwatches } from './assets/atlas/swatches.js?v=7988ca7cb2ce'
+import { planeCatalog, planeColors, liveries, planeFinish } from './assets/planes/catalog.js?v=7988ca7cb2ce'
+import { currentConstruction, sheetCatalog, sheetLocales } from './family-sheets.js?v=7988ca7cb2ce'
 
-import { objectIds, objectPalettes } from './assets/objects/appearance.js?v=2807f4a798d5'
+import { objectIds, objectPalettes } from './assets/objects/appearance.js?v=7988ca7cb2ce'
 export { k3DesignSwatches }
 
 const labels = {

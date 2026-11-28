@@ -1,6 +1,6 @@
 // Figures for Chapter 7 · The flight lab. Both are diagrams of the method: the marks are
 // placed by a fixed pattern, not taken from launches, and each figure says so inside it.
-import { blue, frame, ink, kite, line, muted, poly, text } from './chapter-kit.js?v=2807f4a798d5'
+import { blue, frame, ink, kite, line, muted, poly, text } from './chapter-kit.js?v=7988ca7cb2ce'
 
 const w = (en, es, ru) => ({ en, es, ru })
 const words = {
